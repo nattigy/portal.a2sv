@@ -129,21 +129,79 @@ describe('GroupController', () => {
 
     describe('update', () => {
       describe('when given existing group id', () => {
-        it('should update the group', async () => {});
+        it('should update the group', async () => {
+          const groupId: string = '1';
+          const groupBody: any = {
+            group_size: 200,
+            status: 'active',
+          };
+          const expectedGroup: any = {
+            id: groupId,
+            createdAt: '2022-07-11T11:27:53.364Z',
+            updatedAt: '2022-07-11T12:02:10.917Z',
+            region_id: 1,
+            group_name: 'G33',
+            group_size: 200,
+            status: 'active',
+          };
+          jest
+            .spyOn(service, 'update')
+            .mockImplementation((groupId) => expectedGroup);
+
+          const group = await controller.update(groupId, groupBody);
+          expect(group).toEqual(expectedGroup);
+        });
       });
 
       describe('otherwise', () => {
-        it('should throw an exception', async () => {});
+        it('should throw an exception', async () => {
+          const groupId = '1';
+          jest.spyOn(service, 'update').mockImplementation((groupId) => {
+            throw new HttpException(
+              `Group #${groupId} not found`,
+              HttpStatus.NOT_FOUND,
+            );
+          });
+
+          try {
+            await controller.update(groupId, {});
+          } catch (e) {
+            expect(e).toBeInstanceOf(HttpException);
+            expect(e.message).toEqual(`Group #${groupId} not found`);
+          }
+        });
       });
     });
 
     describe('remove', () => {
       describe('when given existing group id', () => {
-        it('should remove the group', async () => {});
+        it('should remove the group', async () => {
+          const groupId = '1';
+          const expectedOutput = { message: 'successfully deleted' };
+          jest
+            .spyOn(service, 'remove')
+            .mockImplementation((groupId): any => expectedOutput);
+
+          expect(await controller.remove(groupId)).toEqual(expectedOutput);
+        });
       });
 
       describe('otherwise', () => {
-        it('should throw an exception', async () => {});
+        it('should throw an exception', async () => {
+          const groupId = '1';
+          jest.spyOn(service, 'remove').mockImplementation((groupId): any => {
+            throw new HttpException(
+              `Group #${groupId} not found`,
+              HttpStatus.NOT_FOUND,
+            );
+          });
+          try {
+            await controller.remove(groupId);
+          } catch (e) {
+            expect(e).toBeInstanceOf(HttpException);
+            expect(e.message).toEqual(`Group #${groupId} not found`);
+          }
+        });
       });
     });
   });
