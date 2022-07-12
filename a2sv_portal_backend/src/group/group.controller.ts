@@ -49,7 +49,7 @@ export class GroupController {
   }
 
   @Delete(':id')
-  @ApiOkResponse({ status: 200, type: GroupEntity })
+  @ApiOkResponse({ status: 200, type: Object })
   async remove(@Param('id') id: string) {
     const deleted = await this.groupService.remove(id);
     return { message: 'successfully deleted' };
