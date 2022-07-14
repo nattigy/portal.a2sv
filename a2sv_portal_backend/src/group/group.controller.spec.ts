@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaModule } from '../prisma/prisma.module';
-import { PrismaService } from '../prisma/prisma.service';
 import { GroupEntity } from './entities/group.entity';
 import { GroupController } from './group.controller';
 import { GroupService } from './group.service';
@@ -14,7 +13,7 @@ describe('GroupController', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [PrismaModule],
       controllers: [GroupController],
-      providers: [GroupService, PrismaService],
+      providers: [GroupService],
     }).compile();
 
     controller = module.get<GroupController>(GroupController);

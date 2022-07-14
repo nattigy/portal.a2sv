@@ -39,7 +39,6 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
           message: m2005,
         });
         break;
-<<<<<<< HEAD
       case 'P2021':
         // The table {table} does not exist in the current database.
         const s2021 = HttpStatus.NOT_FOUND;
@@ -47,7 +46,8 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         response.status(s2021).json({
           statusCode: s2021,
           message: m2021,
-=======
+        });
+        break;
       case 'P2025':
         // The value {field_value} stored in the database for the field {field_name} is invalid for the field's type
         const s2025 = HttpStatus.NOT_FOUND;
@@ -56,7 +56,6 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         response.status(s2025).json({
           statusCode: s2025,
           message: m2025,
->>>>>>> main
         });
         break;
       case 'P2003':
