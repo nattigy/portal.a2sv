@@ -13,7 +13,6 @@ export class PrismaService
 {
   constructor() {
     super();
-    console.log('WAS at PRISMA');
   }
   async onModuleInit() {
     await this.$connect();

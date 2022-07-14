@@ -34,7 +34,10 @@ export class GroupService {
     }
   }
 
-  remove(id: number) {
-    return this.prisma.group.delete({ where: { id: +id } });
+  async remove(id: string) {
+    const existingGroup = this.findOne(id);
+    if (existingGroup) {
+      return await this.prisma.group.delete({ where: { id: +id } });
+    }
   }
 }
