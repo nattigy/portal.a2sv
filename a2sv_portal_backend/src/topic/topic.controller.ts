@@ -43,7 +43,7 @@ export class TopicController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.topicService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return new TopicEntity(await this.topicService.remove(+id));
   }
 }

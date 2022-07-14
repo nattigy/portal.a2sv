@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateTopicDto } from './dto/create-topic.dto';
 import { UpdateTopicDto } from './dto/update-topic.dto';
 
@@ -37,8 +37,7 @@ export class TopicService {
   remove(id: number) {
     const existingTopic = this.findOne(id);
     if (existingTopic) {
-      this.prisma.topic.delete({ where: { id: +id } });
-      return { message: 'Successfully Deleted Topic' };
+      return this.prisma.topic.delete({ where: { id: +id } });
     }
   }
 }

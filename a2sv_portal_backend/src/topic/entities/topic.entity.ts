@@ -12,9 +12,6 @@ export class TopicEntity implements Topic {
   updatedAt: Date;
 
   @ApiProperty()
-  season_id: number;
-
-  @ApiProperty()
   topic_name: string;
 
   constructor(partial: Partial<TopicEntity>) {

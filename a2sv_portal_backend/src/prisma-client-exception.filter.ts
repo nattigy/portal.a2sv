@@ -26,7 +26,7 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         const m2015 = exception.message.replace(/\n/g, '');
         response.status(s2015).json({
           statusCode: s2015,
-          message: message,
+          message: m2015,
         });
         break;
       case 'P2001':
@@ -35,7 +35,16 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         const m2005 = exception.message.replace(/\n/g, '');
         response.status(s2005).json({
           statusCode: s2005,
-          message: message,
+          message: m2005,
+        });
+        break;
+      case 'P2021':
+        // The table {table} does not exist in the current database.
+        const s2021 = HttpStatus.NOT_FOUND;
+        const m2021 = exception.message.replace(/\n/g, '');
+        response.status(s2021).json({
+          statusCode: s2021,
+          message: m2021,
         });
         break;
       // TODO catch other error codes (e.g. 'P2000' or 'P2025')
@@ -44,8 +53,8 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         console.log('Error Code: ', exception.code);
         response.status(500).json({
           statusCode: 500,
-          message: exception.code
-        })
+          message: exception.code,
+        });
         super.catch(exception, host);
         break;
     }
