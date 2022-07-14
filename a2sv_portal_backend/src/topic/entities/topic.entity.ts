@@ -12,7 +12,7 @@ export class TopicEntity implements Topic {
   updatedAt: Date;
 
   @ApiProperty()
-  seaon_id: number;
+  season_id: number;
 
   @ApiProperty()
   topic_name: string;

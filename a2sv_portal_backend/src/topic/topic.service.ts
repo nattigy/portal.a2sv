@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateTopicDto } from './dto/create-topic.dto';
 import { UpdateTopicDto } from './dto/update-topic.dto';
 
 @Injectable()
 export class TopicService {
+  constructor(private prisma: PrismaService) {}
+
   create(createTopicDto: CreateTopicDto) {
     return 'This action adds a new topic';
   }
