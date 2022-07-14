@@ -9,6 +9,7 @@ import databaseconfig from './config/databaseconfig';
 import { GroupController } from './group/group.controller';
 import { GroupService } from './group/group.service';
 import { GroupModule } from './group/group.module';
+import { TopicModule } from './topic/topic.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { GroupModule } from './group/group.module';
     AuthModule,
     UsersModule,
     PrismaModule,
+    TopicModule,
   ],
   controllers: [AppController],
   providers: [AppService],
