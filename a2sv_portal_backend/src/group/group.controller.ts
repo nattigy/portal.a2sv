@@ -18,10 +18,6 @@ import { GroupEntity } from './entities/group.entity';
 export class GroupController {
   constructor(private readonly groupService: GroupService) {}
 
-  @Get('g')
-  async groups(){
-    return 'groups';
-  }  
   @Post()
   @ApiResponse({ status: 201, type: GroupEntity })
   async create(@Body() createGroupDto: CreateGroupDto) {
@@ -42,16 +38,20 @@ export class GroupController {
   }
 
   @Patch(':id')
+  @ApiOkResponse({ type: GroupEntity })
   async update(
     @Param('id') id: string,
     @Body() updateGroupDto: UpdateGroupDto,
   ) {
-    return new GroupEntity(await this.groupService.update(id.toString(), updateGroupDto));
+    return new GroupEntity(
+      await this.groupService.update(id.toString(), updateGroupDto),
+    );
   }
 
   @Delete(':id')
-  @ApiOkResponse({ status: 200, type: GroupEntity })
+  @ApiOkResponse({ status: 200, type: Object })
   async remove(@Param('id') id: string) {
-    return new GroupEntity(await this.groupService.remove(+id));
+    const deleted = await this.groupService.remove(id);
+    return { message: 'successfully deleted' };
   }
 }
