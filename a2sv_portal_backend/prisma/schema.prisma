@@ -81,8 +81,7 @@ model Season{
   season_name String
   start_date DateTime
   end_date DateTime
-
-  Topic Topic[]
+  
   Topics GroupOnTopicOnSeason[]
 }
 
@@ -94,7 +93,5 @@ model Topic{
   updatedAt  DateTime @updatedAt
 
   topic_name String
-  season     Season         @relation(fields: [season_id], references: [id])
-  season_id  Int
   Groups GroupOnTopicOnSeason[]
 }
