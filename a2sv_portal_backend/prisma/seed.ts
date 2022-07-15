@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { groups } from './groups';
 import { regions } from './regions';
+import { topics } from './topics';
 
 const prisma = new PrismaClient();
 async function main() {
@@ -12,6 +13,12 @@ async function main() {
   //         password:'qwert'
   //     }
   // )
+
+  for (let topic of topics) {
+    await prisma.topic.create({
+      data: topic,
+    });
+  }
 
   for (let region of regions) {
     await prisma.region.create({

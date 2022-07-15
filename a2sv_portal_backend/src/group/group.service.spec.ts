@@ -148,12 +148,12 @@ describe('GroupService', () => {
     describe('when group with id exists', () => {
       it('should remove group', async () => {
         const groupId = '1';
-        const expectedValue = 'Successfully Deleted Group';
+        const expectedValue = {};
 
         prismaService.group.findUnique.mockReturnValue({});
         prismaService.group.delete.mockResolvedValue({});
-        const removed = service.remove(groupId);
-        expect('Successfully Deleted Group').toEqual(expectedValue);
+        const removed = await service.remove(groupId);
+        expect(removed).toEqual(expectedValue);
       });
     });
 
