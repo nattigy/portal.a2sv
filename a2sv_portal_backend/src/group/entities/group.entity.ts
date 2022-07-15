@@ -1,4 +1,4 @@
-import { Group, Prisma } from '@prisma/client';
+import { Group } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 
@@ -27,4 +27,7 @@ export class GroupEntity implements Group {
   constructor(partial: Partial<GroupEntity>) {
     Object.assign(this, partial);
   }
+
+  @ApiProperty()
+  parentId: number;
 }

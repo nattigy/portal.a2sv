@@ -24,6 +24,20 @@ export class GroupController {
     return new GroupEntity(await this.groupService.create(createGroupDto));
   }
 
+  @Get('batches')
+  @ApiOkResponse({ type: GroupEntity, isArray: true })
+  async findAllBatches() {
+    const groups = await this.groupService.findAllBatches();
+    return groups.map((group) => new GroupEntity(group));
+  }
+
+  @Get('batches/:id')
+  @ApiOkResponse({ status: 200, type: GroupEntity })
+  async findAllInBatches(@Param('id') id: string) {
+    const groups = await this.groupService.findAllInBatches(id);
+    return groups.map((group) => new GroupEntity(group));
+  }
+
   @Get()
   @ApiOkResponse({ status: 200, type: GroupEntity, isArray: true })
   async findAll() {

@@ -7,8 +7,17 @@ import { UpdateGroupDto } from './dto/update-group.dto';
 @Injectable()
 export class GroupService {
   constructor(private prisma: PrismaService) {}
+
   create(createGroupDto: CreateGroupDto) {
     return this.prisma.group.create({ data: createGroupDto });
+  }
+
+  findAllBatches() {
+    return this.prisma.group.findMany({ where: { parentId: null } });
+  }
+
+  findAllInBatches(id: string) {
+    return this.prisma.group.findMany({ where: { parentId: +id } });
   }
 
   findAll() {
