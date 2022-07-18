@@ -59,7 +59,7 @@ describe('GroupService', () => {
     describe('when called', () => {
       it('should display all groups', async () => {
         const expectedGroups = [{}, {}];
-        const batchId = '1';
+        const batchId = 1;
         prismaService.group.findMany.mockReturnValue(expectedGroups);
 
         const groups = await service.findAllInBatches(batchId);
@@ -71,7 +71,7 @@ describe('GroupService', () => {
   describe('findOne', () => {
     describe('when group with ID exists', () => {
       it('should return the group object', async () => {
-        const groupId: string = '1';
+        const groupId: number = 1;
         const expectedGroup = {};
 
         prismaService.group.findUnique.mockReturnValue(expectedGroup);
@@ -82,7 +82,7 @@ describe('GroupService', () => {
 
     describe('otherwise', () => {
       it('should throw the HttpException with code 404', async () => {
-        const groupId = '1';
+        const groupId = 1;
 
         prismaService.group.findUnique.mockReturnValue(undefined);
 
@@ -100,7 +100,7 @@ describe('GroupService', () => {
   describe('update', () => {
     describe('when group with id exsit', () => {
       it('should update the group', async () => {
-        const groupId: string = '1';
+        const groupId: number = 1;
         const expectedGroup = {
           id: groupId,
           createdAt: '2022-07-11T11:27:53.364Z',
@@ -127,7 +127,7 @@ describe('GroupService', () => {
 
     describe('otherwise', () => {
       it('should throw an HttpException with 404 status code', async () => {
-        const groupId = '1';
+        const groupId = 1;
 
         prismaService.group.findUnique.mockReturnValue(undefined);
 
@@ -199,7 +199,7 @@ describe('GroupService', () => {
   describe('remove', () => {
     describe('when group with id exists', () => {
       it('should remove group', async () => {
-        const groupId = '1';
+        const groupId = 1;
         const expectedValue = {};
 
         prismaService.group.findUnique.mockReturnValue({});
@@ -211,7 +211,7 @@ describe('GroupService', () => {
 
     describe('otherwise', () => {
       it('should throw HttpException with 404 status code', async () => {
-        const groupId = '1';
+        const groupId = 1;
 
         prismaService.group.findUnique.mockReturnValue({});
         prismaService.group.delete.mockResolvedValue({});

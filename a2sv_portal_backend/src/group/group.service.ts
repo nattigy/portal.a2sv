@@ -16,7 +16,7 @@ export class GroupService {
     return this.prisma.group.findMany({ where: { parentId: null } });
   }
 
-  findAllInBatches(id: string) {
+  findAllInBatches(id: number) {
     return this.prisma.group.findMany({ where: { parentId: +id } });
   }
 
@@ -24,7 +24,7 @@ export class GroupService {
     return this.prisma.group.findMany({});
   }
 
-  findOne(id: string) {
+  findOne(id: number) {
     const group = this.prisma.group.findUnique({ where: { id: +id } });
     if (!group) {
       throw new HttpException(`Group #${id} not found`, HttpStatus.NOT_FOUND);
@@ -33,7 +33,7 @@ export class GroupService {
     return group;
   }
 
-  update(id: string, updateGroupDto: UpdateGroupDto) {
+  update(id: number, updateGroupDto: UpdateGroupDto) {
     const existingGroup = this.findOne(id);
     if (existingGroup) {
       return this.prisma.group.update({
@@ -43,7 +43,7 @@ export class GroupService {
     }
   }
 
-  async remove(id: string) {
+  async remove(id: number) {
     const existingGroup = this.findOne(id);
     if (existingGroup) {
       return await this.prisma.group.delete({ where: { id: +id } });

@@ -110,57 +110,57 @@ describe('GroupController', () => {
       });
     });
 
-        describe('findAllInBatches', () => {
-          describe('when called', () => {
-            it('should return an array of groups', async () => {
-              const expectedValues: any = [
-                {
-                  id: 1,
-                  createdAt: '2022-07-11T11:27:53.364Z',
-                  updatedAt: '2022-07-11T12:02:10.917Z',
-                  region_id: 1,
-                  group_name: 'G33',
-                  group_size: 9,
-                  parentId: 1,
-                  status: 'active',
-                },
-                {
-                  id: 2,
-                  createdAt: '2022-07-11T11:27:53.364Z',
-                  updatedAt: '2022-07-11T12:02:10.917Z',
-                  region_id: 1,
-                  parentId: 1,
-                  group_name: 'G32',
-                  group_size: 19,
-                  status: 'active',
-                },
-                {
-                  id: 3,
-                  createdAt: '2022-07-11T11:27:53.364Z',
-                  updatedAt: '2022-07-11T12:02:10.917Z',
-                  region_id: 1,
-                  parentId: 1,
-                  group_name: 'G30',
-                  group_size: 9,
-                  status: 'active',
-                },
-              ];
-              const batchId = '1';
-              jest
-                .spyOn(service, 'findAllInBatches')
-                .mockImplementation(() => expectedValues);
+    describe('findAllInBatches', () => {
+      describe('when called', () => {
+        it('should return an array of groups', async () => {
+          const expectedValues: any = [
+            {
+              id: 1,
+              createdAt: '2022-07-11T11:27:53.364Z',
+              updatedAt: '2022-07-11T12:02:10.917Z',
+              region_id: 1,
+              group_name: 'G33',
+              group_size: 9,
+              parentId: 1,
+              status: 'active',
+            },
+            {
+              id: 2,
+              createdAt: '2022-07-11T11:27:53.364Z',
+              updatedAt: '2022-07-11T12:02:10.917Z',
+              region_id: 1,
+              parentId: 1,
+              group_name: 'G32',
+              group_size: 19,
+              status: 'active',
+            },
+            {
+              id: 3,
+              createdAt: '2022-07-11T11:27:53.364Z',
+              updatedAt: '2022-07-11T12:02:10.917Z',
+              region_id: 1,
+              parentId: 1,
+              group_name: 'G30',
+              group_size: 9,
+              status: 'active',
+            },
+          ];
+          const batchId = 1;
+          jest
+            .spyOn(service, 'findAllInBatches')
+            .mockImplementation(() => expectedValues);
 
-              expect(await controller.findAllInBatches(batchId)).toEqual(
-                expectedValues,
-              );
-            });
-          });
+          expect(await controller.findAllInBatches(batchId)).toEqual(
+            expectedValues,
+          );
         });
+      });
+    });
 
     describe('findOne', () => {
       describe('when called with existing group ID', () => {
         it('should return GroupEntity', async () => {
-          const groupId = '1';
+          const groupId = 1;
           const expectedValue: any = {
             id: 1,
             createdAt: '2022-07-11T11:27:53.364Z',
@@ -180,7 +180,7 @@ describe('GroupController', () => {
 
       describe('otherwise', () => {
         it('should send error', async () => {
-          const groupId = '1';
+          const groupId = 1;
           jest.spyOn(service, 'findOne').mockImplementation((groupId): any => {
             throw new HttpException(
               `Group #${groupId} not found`,
@@ -220,7 +220,7 @@ describe('GroupController', () => {
     describe('update', () => {
       describe('when given existing group id', () => {
         it('should update the group', async () => {
-          const groupId: string = '1';
+          const groupId: number = 1;
           const groupBody: any = {
             group_size: 200,
             status: 'active',
@@ -245,7 +245,7 @@ describe('GroupController', () => {
 
       describe('otherwise', () => {
         it('should throw an exception', async () => {
-          const groupId = '1';
+          const groupId = 1;
           jest.spyOn(service, 'update').mockImplementation((groupId) => {
             throw new HttpException(
               `Group #${groupId} not found`,
@@ -266,7 +266,7 @@ describe('GroupController', () => {
     describe('remove', () => {
       describe('when given existing group id', () => {
         it('should remove the group', async () => {
-          const groupId = '1';
+          const groupId = 1;
           const expectedOutput = { message: 'successfully deleted' };
           jest
             .spyOn(service, 'remove')
@@ -278,7 +278,7 @@ describe('GroupController', () => {
 
       describe('otherwise', () => {
         it('should throw an exception', async () => {
-          const groupId = '1';
+          const groupId = 1;
           jest.spyOn(service, 'remove').mockImplementation((groupId): any => {
             throw new HttpException(
               `Group #${groupId} not found`,
