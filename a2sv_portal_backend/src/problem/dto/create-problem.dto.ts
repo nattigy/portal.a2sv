@@ -5,25 +5,25 @@ export class CreateProblemDto {
   @IsNotEmpty()
   @IsString()
   @ApiProperty()
-  problem_title: String;
+  problem_title: string;
 
   @IsNotEmpty()
   @IsString()
   @ApiProperty()
-  platform: String;
+  platform: string;
 
   @IsNotEmpty()
   @IsString()
   @ApiProperty()
-  link: String;
+  link: string;
 
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
-  difficulty: String;
+  difficulty: string;
 
   @IsString()
   @IsEmpty()
   @ApiProperty()
-  type: String;
+  type: string;
 }

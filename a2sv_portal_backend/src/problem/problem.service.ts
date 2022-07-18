@@ -1,26 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProblemDto } from './dto/create-problem.dto';
 import { UpdateProblemDto } from './dto/update-problem.dto';
 
 @Injectable()
 export class ProblemService {
+  constructor(private readonly prismaService: PrismaService) {}
+
   create(createProblemDto: CreateProblemDto) {
-    return 'This action adds a new problem';
+    return this.prismaService.problem.create({ data: createProblemDto });
   }
 
   findAll() {
-    return `This action returns all problem`;
+    return this.prismaService.problem.findMany({});
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} problem`;
+    const problem = this.prismaService.problem.findUnique({
+      where: { id: id },
+    });
+    if (!problem) {
+      throw new NotFoundException(`Problem #${id} not found`);
+    }
+
+    return problem;
   }
 
   update(id: number, updateProblemDto: UpdateProblemDto) {
-    return `This action updates a #${id} problem`;
+    const existingProblem = this.findOne(id);
+    if (existingProblem) {
+      return this.prismaService.problem.update({
+        where: { id: id },
+        data: UpdateProblemDto,
+      });
+    }
   }
 
   remove(id: number) {
-    return `This action removes a #${id} problem`;
+    const exisitingProblem = this.findOne(id);
+    if (exisitingProblem) {
+      return this.prismaService.problem.delete({ where: { id: id } });
+    }
   }
 }

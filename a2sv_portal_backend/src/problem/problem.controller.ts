@@ -1,34 +1,60 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { ProblemService } from './problem.service';
 import { CreateProblemDto } from './dto/create-problem.dto';
 import { UpdateProblemDto } from './dto/update-problem.dto';
+import { ProblemEntity } from './entities/problem.entity';
+import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('problem')
+@ApiTags('Problem')
 export class ProblemController {
   constructor(private readonly problemService: ProblemService) {}
 
   @Post()
-  create(@Body() createProblemDto: CreateProblemDto) {
-    return this.problemService.create(createProblemDto);
+  @ApiResponse({ status: 201, type: ProblemEntity })
+  async create(@Body() createProblemDto: CreateProblemDto) {
+    return new ProblemEntity(
+      await this.problemService.create(createProblemDto),
+    );
   }
 
   @Get()
-  findAll() {
-    return this.problemService.findAll();
+  @ApiResponse({ type: ProblemEntity, isArray: true })
+  async findAll() {
+    const problems = await this.problemService.findAll();
+    return problems.map((problem) => new ProblemEntity(problem));
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.problemService.findOne(+id);
+  @ApiResponse({ type: ProblemEntity, isArray: true })
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return new ProblemEntity(await this.problemService.findOne(+id));
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProblemDto: UpdateProblemDto) {
-    return this.problemService.update(+id, updateProblemDto);
+  @ApiResponse({ type: ProblemEntity, isArray: true })
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateProblemDto: UpdateProblemDto,
+  ) {
+    return new ProblemEntity(
+      await this.problemService.update(+id, updateProblemDto),
+    );
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.problemService.remove(+id);
+  @ApiOkResponse({ status: 200, type: Object })
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    const deleted = await this.problemService.remove(+id);
+    return { message: 'successfully deleted' };
   }
 }
