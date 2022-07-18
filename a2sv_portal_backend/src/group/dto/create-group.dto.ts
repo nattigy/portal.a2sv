@@ -3,6 +3,7 @@ import {
   IsInt,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
@@ -22,6 +23,11 @@ export class CreateGroupDto {
   @IsNumber()
   @ApiProperty()
   group_size: number;
+
+  @IsOptional()
+  @IsInt()
+  @ApiProperty()
+  parentId: number;
 
   @IsNotEmpty()
   @IsString()

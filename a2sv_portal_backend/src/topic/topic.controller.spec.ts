@@ -49,7 +49,7 @@ describe('TopicController', () => {
     describe('findOne', () => {
       describe('when called with existing Topic ID', () => {
         it('should return TopicEntity', async () => {
-          const topicId = '1';
+          const topicId = 1;
           const expectedValue: any = {
             id: 1,
             createdAt: '2022-07-11T11:27:53.364Z',
@@ -67,7 +67,7 @@ describe('TopicController', () => {
 
       describe('otherwise', () => {
         it('should send error', async () => {
-          const topicId = '1';
+          const topicId = 1;
           jest.spyOn(service, 'findOne').mockImplementation((topicId) => {
             throw new HttpException(
               `Topic #${topicId} not found`,
@@ -105,7 +105,7 @@ describe('TopicController', () => {
     describe('update', () => {
       describe('when given existing topic id', () => {
         it('should update the topic', async () => {
-          const topicId: string = '1';
+          const topicId: number = 1;
           const topicBody: any = {
             topic_name: 'topic changed',
           };
@@ -127,7 +127,7 @@ describe('TopicController', () => {
 
         describe('otherwise', () => {
           it('should throw an exception', async () => {
-            const topicId = '1';
+            const topicId = 1;
             jest.spyOn(service, 'update').mockImplementation((topicId) => {
               throw new HttpException(
                 `Topic #${topicId} not found`,
@@ -149,7 +149,7 @@ describe('TopicController', () => {
     describe('remove', () => {
       describe('when given existing topic id', () => {
         it('should remove the Topic', async () => {
-          const topicId = '1';
+          const topicId = 1;
           const expectedOutput: any = { message: 'successfully deleted' };
           jest
             .spyOn(service, 'remove')
@@ -161,7 +161,7 @@ describe('TopicController', () => {
 
       describe('otherwise', () => {
         it('should throw an exception', async () => {
-          const topicId = '1';
+          const topicId = 1;
           jest.spyOn(service, 'remove').mockImplementation((topicId) => {
             throw new HttpException(
               `Topic #${topicId} not found`,

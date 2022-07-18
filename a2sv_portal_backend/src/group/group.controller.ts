@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { GroupService } from './group.service';
 import { CreateGroupDto } from './dto/create-group.dto';
@@ -24,6 +25,20 @@ export class GroupController {
     return new GroupEntity(await this.groupService.create(createGroupDto));
   }
 
+  @Get('batches')
+  @ApiOkResponse({ type: GroupEntity, isArray: true })
+  async findAllBatches() {
+    const groups = await this.groupService.findAllBatches();
+    return groups.map((group) => new GroupEntity(group));
+  }
+
+  @Get('batches/:id')
+  @ApiOkResponse({ status: 200, type: GroupEntity })
+  async findAllInBatches(@Param('id', ParseIntPipe) id: number) {
+    const groups = await this.groupService.findAllInBatches(id);
+    return groups.map((group) => new GroupEntity(group));
+  }
+
   @Get()
   @ApiOkResponse({ status: 200, type: GroupEntity, isArray: true })
   async findAll() {
@@ -33,24 +48,22 @@ export class GroupController {
 
   @Get(':id')
   @ApiOkResponse({ status: 200, type: GroupEntity })
-  async findOne(@Param('id') id: string) {
-    return new GroupEntity(await this.groupService.findOne(id.toString()));
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return new GroupEntity(await this.groupService.findOne(id));
   }
 
   @Patch(':id')
   @ApiOkResponse({ type: GroupEntity })
   async update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateGroupDto: UpdateGroupDto,
   ) {
-    return new GroupEntity(
-      await this.groupService.update(id.toString(), updateGroupDto),
-    );
+    return new GroupEntity(await this.groupService.update(id, updateGroupDto));
   }
 
   @Delete(':id')
   @ApiOkResponse({ status: 200, type: Object })
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id', ParseIntPipe) id: number) {
     const deleted = await this.groupService.remove(id);
     return { message: 'successfully deleted' };
   }

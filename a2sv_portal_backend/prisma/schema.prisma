@@ -41,7 +41,9 @@ model Group {
   group_name String
   group_size Int
   members    UsersOnGroup[] 
-  topics GroupOnTopicOnSeason[]
+  subgroups Group[] @relation("subgroups")
+  parent Group? @relation("subgroups", fields: [parentId], references: [id])
+  parentId Int? @map("groupId")
   status     String
 }
 
@@ -56,42 +58,10 @@ model UsersOnGroup {
   @@id([groupId, userId])
 }
 
-model GroupOnTopicOnSeason{
-  group      Group    @relation(fields: [groupId], references: [id])
-  groupId    Int
-
-  topic Topic @relation(fields: [topicId], references: [id])
-  topicId Int
-
-  season Season @relation(fields: [seasonId], references: [id])
-  seasonId Int
-
-  assignedAt DateTime @default(now())
-  assignedBy String
-
-  @@id([groupId, topicId, seasonId])
-
-}
-
-model Season{
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  season_name String
-  start_date DateTime
-  end_date DateTime
-  
-  Topics GroupOnTopicOnSeason[]
-}
-
-
-
 model Topic{
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
   topic_name String
-  Groups GroupOnTopicOnSeason[]
 }

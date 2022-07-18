@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { TopicService } from './topic.service';
 import { CreateTopicDto } from './dto/create-topic.dto';
@@ -30,20 +31,20 @@ export class TopicController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id', ParseIntPipe) id: number) {
     return new TopicEntity(await this.topicService.findOne(+id));
   }
 
   @Patch(':id')
   async update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateTopicDto: UpdateTopicDto,
   ) {
     return new TopicEntity(await this.topicService.update(+id, updateTopicDto));
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id', ParseIntPipe) id: number) {
     const deleted = new TopicEntity(await this.topicService.remove(+id));
     return { message: 'successfully deleted' };
   }
