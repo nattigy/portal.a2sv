@@ -60,7 +60,10 @@ describe('GroupController', () => {
             .spyOn(service, 'findAll')
             .mockImplementation(() => expectedValues);
 
-          expect(await controller.findAll()).toEqual(expectedValues);
+          expect(await controller.findAll({
+            limit: 0,
+            offset: 0
+          })).toEqual(expectedValues);
         });
       });
     });
@@ -104,7 +107,10 @@ describe('GroupController', () => {
             .spyOn(service, 'findAllBatches')
             .mockImplementation(() => expectedValues);
 
-          expect(await controller.findAllBatches()).toEqual(expectedValues);
+          expect(await controller.findAllBatches({
+            limit: 0,
+            offset: 0
+          })).toEqual(expectedValues);
         });
       });
     });

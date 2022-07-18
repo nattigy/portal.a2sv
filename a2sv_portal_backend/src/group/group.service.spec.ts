@@ -32,7 +32,10 @@ describe('GroupService', () => {
         const expectedGroups = [{}, {}];
         prismaService.group.findMany.mockReturnValue(expectedGroups);
 
-        const groups = await service.findAll();
+        const groups = await service.findAll({
+          limit: 0,
+          offset: 0
+        });
         expect(groups).toEqual(expectedGroups);
       });
     });
@@ -44,7 +47,10 @@ describe('GroupService', () => {
         const expectedGroups = [{}, {}];
         prismaService.group.findMany.mockReturnValue(expectedGroups);
 
-        const groups = await service.findAllBatches();
+        const groups = await service.findAllBatches({
+          limit: 0,
+          offset: 0
+        });
         expect(groups).toEqual(expectedGroups);
       });
     });

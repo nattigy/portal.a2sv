@@ -1,4 +1,4 @@
-import { IsEmpty, IsEnum, IsNotEmpty, IsString, IsUrl } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, IsUrl } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { TYPE } from '../enum/problem.type.enum';
 import { Difficulty } from '../enum/problem.difficulty.enum';

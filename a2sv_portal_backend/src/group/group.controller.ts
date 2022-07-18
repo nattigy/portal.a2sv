@@ -14,7 +14,7 @@ import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { ApiTags, ApiResponse, ApiOkResponse } from '@nestjs/swagger';
 import { GroupEntity } from './entities/group.entity';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 @Controller('group')
 @ApiTags('Group')

@@ -32,7 +32,10 @@ describe('ProblemService', () => {
         const expectedProblems = [{}, {}];
         prismaService.problem.findMany.mockReturnValue(expectedProblems);
 
-        const problems = await service.findAll();
+        const problems = await service.findAll({
+          limit: 0,
+          offset: 0
+        });
         expect(problems).toEqual(expectedProblems);
       });
     });
@@ -41,7 +44,7 @@ describe('ProblemService', () => {
   describe('findOne', () => {
     describe('when problem with ID exists', () => {
       it('should return the problem object', async () => {
-        const problemId: number = 1;
+        const problemId = 1;
         const expectedProblem = {};
 
         prismaService.problem.findUnique.mockReturnValue(expectedProblem);
@@ -141,7 +144,7 @@ describe('ProblemService', () => {
     describe('when problem with id exists', () => {
       it('should remove problem', async () => {
         const problemId = 1;
-        const expectedValue = {data:'data'};
+        const expectedValue = { data: 'data' };
 
         prismaService.problem.findUnique.mockReturnValue(expectedValue);
         prismaService.problem.delete.mockReturnValue(expectedValue);

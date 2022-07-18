@@ -37,7 +37,12 @@ describe('ProblemController', () => {
         ];
 
         jest.spyOn(service, 'findAll').mockImplementation(() => expectedValues);
-        expect(await controller.findAll()).toEqual(expectedValues);
+        expect(
+          await controller.findAll({
+            limit: 0,
+            offset: 0,
+          }),
+        ).toEqual(expectedValues);
       });
     });
 
@@ -58,9 +63,9 @@ describe('ProblemController', () => {
 
           jest
             .spyOn(service, 'findOne')
-            .mockImplementation((problemId) => expectedValue);
+            .mockImplementation(() => expectedValue);
 
-          expect(await controller.findOne(problemId));
+          expect(await controller.findOne(problemId)).toEqual(expectedValue);
         });
       });
 
@@ -95,8 +100,16 @@ describe('ProblemController', () => {
             type: 'type',
           };
 
+          const body: any = {
+            problem_title: 'title',
+            platform: 'platform',
+            link: 'link',
+            difficulty: 'difficulty',
+            type: 'type',
+          };
+
           jest.spyOn(service, 'create').mockImplementation(() => expectedValue);
-          expect(await controller.create(expectedValue)).toEqual(expectedValue);
+          expect(await controller.create(body)).toEqual(expectedValue);
         });
       });
     });
@@ -120,9 +133,7 @@ describe('ProblemController', () => {
             type: 'type',
           };
 
-          jest
-            .spyOn(service, 'update')
-            .mockImplementation((problemId) => expectedValue);
+          jest.spyOn(service, 'update').mockImplementation(() => expectedValue);
 
           const problem = await controller.update(problemId, problemBody);
           expect(problem).toEqual(expectedValue);
@@ -153,7 +164,7 @@ describe('ProblemController', () => {
           const expectedOutput: any = { message: 'successfully deleted' };
           jest
             .spyOn(service, 'remove')
-            .mockImplementation((problemId) => expectedOutput);
+            .mockImplementation(() => expectedOutput);
 
           expect(await controller.remove(problemId)).toEqual(expectedOutput);
         });

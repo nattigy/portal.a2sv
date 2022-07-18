@@ -11,19 +11,19 @@ export class ProblemEntity {
   updatedAt: Date;
 
   @ApiProperty()
-  problem_title: String;
+  problem_title: string;
 
   @ApiProperty()
-  platform: String;
+  platform: string;
 
   @ApiProperty()
-  link: String;
+  link: string;
 
   @ApiProperty()
-  difficulty: String;
+  difficulty: string;
 
   @ApiProperty()
-  type: String;
+  type: string;
 
   constructor(partial: Partial<ProblemEntity>) {
     Object.assign(this, partial);

@@ -32,7 +32,10 @@ describe('TopicService', () => {
         const expectedTopics = [{}, {}];
         prismaService.topic.findMany.mockReturnValue(expectedTopics);
 
-        const topics = await service.findAll();
+        const topics = await service.findAll({
+          limit: 0,
+          offset: 0
+        });
         expect(topics).toEqual(expectedTopics);
       });
     });

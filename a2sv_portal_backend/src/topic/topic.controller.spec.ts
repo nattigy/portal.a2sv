@@ -42,7 +42,10 @@ describe('TopicController', () => {
 
         jest.spyOn(service, 'findAll').mockImplementation(() => expectedValues);
 
-        expect(await controller.findAll()).toEqual(expectedValues);
+        expect(await controller.findAll({
+          limit: 0,
+          offset: 0
+        })).toEqual(expectedValues);
       });
     });
 

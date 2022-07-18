@@ -33,6 +33,6 @@ export class CreateGroupDto {
   @IsNotEmpty()
   @IsString()
   @IsEnum(Status)
-  @ApiProperty({enum:Object.values(Status)})
+  @ApiProperty({ enum: Object.values(Status) })
   status: string;
 }

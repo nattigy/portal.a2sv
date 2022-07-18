@@ -4,6 +4,6 @@ import { ProblemController } from './problem.controller';
 
 @Module({
   controllers: [ProblemController],
-  providers: [ProblemService]
+  providers: [ProblemService],
 })
 export class ProblemModule {}

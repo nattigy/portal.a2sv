@@ -1,4 +1,4 @@
 export enum TYPE {
-  CONTEST="contest",
-  NONCONTEST="noncontest",
+  CONTEST = 'contest',
+  NONCONTEST = 'noncontest',
 }

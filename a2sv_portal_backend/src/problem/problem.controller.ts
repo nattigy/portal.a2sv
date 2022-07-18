@@ -14,7 +14,7 @@ import { CreateProblemDto } from './dto/create-problem.dto';
 import { UpdateProblemDto } from './dto/update-problem.dto';
 import { ProblemEntity } from './entities/problem.entity';
 import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 @Controller('problem')
 @ApiTags('Problem')
@@ -31,7 +31,7 @@ export class ProblemController {
 
   @Get()
   @ApiResponse({ type: ProblemEntity, isArray: true })
-  async findAll(@Query() paginationQuery : PaginationQueryDto) {
+  async findAll(@Query() paginationQuery: PaginationQueryDto) {
     const problems = await this.problemService.findAll(paginationQuery);
     return problems.map((problem) => new ProblemEntity(problem));
   }
@@ -39,7 +39,7 @@ export class ProblemController {
   @Get(':id')
   @ApiResponse({ type: ProblemEntity, isArray: true })
   async findOne(@Param('id', ParseIntPipe) id: number) {
-    return new ProblemEntity(await this.problemService.findOne(+id));
+    return new ProblemEntity(await this.problemService.findOne(id));
   }
 
   @Patch(':id')
@@ -49,14 +49,14 @@ export class ProblemController {
     @Body() updateProblemDto: UpdateProblemDto,
   ) {
     return new ProblemEntity(
-      await this.problemService.update(+id, updateProblemDto),
+      await this.problemService.update(id, updateProblemDto),
     );
   }
 
   @Delete(':id')
   @ApiOkResponse({ status: 200, type: Object })
   async remove(@Param('id', ParseIntPipe) id: number) {
-    const deleted = await this.problemService.remove(+id);
+    await this.problemService.remove(id);
     return { message: 'successfully deleted' };
   }
 }
