@@ -45,7 +45,7 @@ export class TopicController {
 
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
-    const deleted = new TopicEntity(await this.topicService.remove(+id));
+    await this.topicService.remove(+id);
     return { message: 'successfully deleted' };
   }
 }

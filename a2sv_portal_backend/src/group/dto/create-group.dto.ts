@@ -1,5 +1,4 @@
 import {
-  IsArray,
   IsInt,
   IsNotEmpty,
   IsNumber,

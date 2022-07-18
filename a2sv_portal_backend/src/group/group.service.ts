@@ -1,6 +1,5 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { isInt } from '../utils';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 
@@ -27,7 +26,7 @@ export class GroupService {
   findOne(id: number) {
     const group = this.prisma.group.findUnique({ where: { id: +id } });
     if (!group) {
-      throw new HttpException(`Group #${id} not found`, HttpStatus.NOT_FOUND);
+      throw new NotFoundException(`Group #${id} not found`);
     }
 
     return group;

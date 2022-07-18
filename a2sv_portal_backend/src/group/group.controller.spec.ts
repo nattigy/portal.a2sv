@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaModule } from '../prisma/prisma.module';
-import { GroupEntity } from './entities/group.entity';
 import { GroupController } from './group.controller';
 import { GroupService } from './group.service';
 
@@ -172,7 +171,7 @@ describe('GroupController', () => {
           };
           jest
             .spyOn(service, 'findOne')
-            .mockImplementation((groupId) => expectedValue);
+            .mockImplementation(() => expectedValue);
 
           expect(await controller.findOne(groupId)).toEqual(expectedValue);
         });
@@ -220,7 +219,7 @@ describe('GroupController', () => {
     describe('update', () => {
       describe('when given existing group id', () => {
         it('should update the group', async () => {
-          const groupId: number = 1;
+          const groupId = 1;
           const groupBody: any = {
             group_size: 200,
             status: 'active',
@@ -234,9 +233,7 @@ describe('GroupController', () => {
             group_size: 200,
             status: 'active',
           };
-          jest
-            .spyOn(service, 'update')
-            .mockImplementation((groupId) => expectedGroup);
+          jest.spyOn(service, 'update').mockImplementation(() => expectedGroup);
 
           const group = await controller.update(groupId, groupBody);
           expect(group).toEqual(expectedGroup);
@@ -270,7 +267,7 @@ describe('GroupController', () => {
           const expectedOutput = { message: 'successfully deleted' };
           jest
             .spyOn(service, 'remove')
-            .mockImplementation((groupId): any => expectedOutput);
+            .mockImplementation((): any => expectedOutput);
 
           expect(await controller.remove(groupId)).toEqual(expectedOutput);
         });

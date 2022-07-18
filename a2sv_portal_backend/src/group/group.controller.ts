@@ -64,7 +64,7 @@ export class GroupController {
   @Delete(':id')
   @ApiOkResponse({ status: 200, type: Object })
   async remove(@Param('id', ParseIntPipe) id: number) {
-    const deleted = await this.groupService.remove(id);
+    await this.groupService.remove(id);
     return { message: 'successfully deleted' };
   }
 }
