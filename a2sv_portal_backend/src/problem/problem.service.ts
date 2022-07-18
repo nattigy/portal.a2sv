@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateProblemDto } from './dto/create-problem.dto';
 import { UpdateProblemDto } from './dto/update-problem.dto';
 
@@ -31,9 +31,10 @@ export class ProblemService {
     if (existingProblem) {
       return this.prismaService.problem.update({
         where: { id: id },
-        data: UpdateProblemDto,
+        data: updateProblemDto,
       });
     }
+
   }
 
   remove(id: number) {
