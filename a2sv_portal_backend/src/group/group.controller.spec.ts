@@ -220,7 +220,7 @@ describe('GroupController', () => {
     describe('update', () => {
       describe('when given existing group id', () => {
         it('should update the group', async () => {
-          const groupId: number = 1;
+          const groupId = 1;
           const groupBody: any = {
             group_size: 200,
             status: 'active',
