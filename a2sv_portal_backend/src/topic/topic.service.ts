@@ -1,4 +1,5 @@
 import { NotFoundException, HttpStatus, Injectable } from '@nestjs/common';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTopicDto } from './dto/create-topic.dto';
 import { UpdateTopicDto } from './dto/update-topic.dto';
@@ -11,8 +12,12 @@ export class TopicService {
     return this.prisma.topic.create({ data: createTopicDto });
   }
 
-  findAll() {
-    return this.prisma.topic.findMany({});
+  findAll(paginationQuery: PaginationQueryDto) {
+    const { limit, offset } = paginationQuery;
+    return this.prisma.topic.findMany({
+      skip: offset,
+      take: limit,
+    });
   }
 
   findOne(id: number) {
@@ -25,19 +30,16 @@ export class TopicService {
   }
 
   update(id: number, updateTopicDto: UpdateTopicDto) {
-    const existingTopic = this.findOne(id);
-    if (existingTopic) {
-      return this.prisma.topic.update({
-        where: { id: +id },
-        data: updateTopicDto,
-      });
-    }
+    this.findOne(id);
+
+    return this.prisma.topic.update({
+      where: { id: +id },
+      data: updateTopicDto,
+    });
   }
 
   remove(id: number) {
-    const existingTopic = this.findOne(id);
-    if (existingTopic) {
-      return this.prisma.topic.delete({ where: { id: +id } });
-    }
+    this.findOne(id);
+    return this.prisma.topic.delete({ where: { id: +id } });
   }
 }

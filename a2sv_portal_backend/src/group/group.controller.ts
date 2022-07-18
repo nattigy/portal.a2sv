@@ -7,12 +7,14 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { GroupService } from './group.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { ApiTags, ApiResponse, ApiOkResponse } from '@nestjs/swagger';
 import { GroupEntity } from './entities/group.entity';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
 @Controller('group')
 @ApiTags('Group')
@@ -27,8 +29,8 @@ export class GroupController {
 
   @Get('batches')
   @ApiOkResponse({ type: GroupEntity, isArray: true })
-  async findAllBatches() {
-    const groups = await this.groupService.findAllBatches();
+  async findAllBatches(@Query() paginationQuery: PaginationQueryDto) {
+    const groups = await this.groupService.findAllBatches(paginationQuery);
     return groups.map((group) => new GroupEntity(group));
   }
 
@@ -41,8 +43,8 @@ export class GroupController {
 
   @Get()
   @ApiOkResponse({ status: 200, type: GroupEntity, isArray: true })
-  async findAll() {
-    const groups = await this.groupService.findAll();
+  async findAll(@Query() paginationQuery: PaginationQueryDto) {
+    const groups = await this.groupService.findAll(paginationQuery);
     return groups.map((group) => new GroupEntity(group));
   }
 

@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateProblemDto } from './dto/create-problem.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { UpdateProblemDto } from './dto/update-problem.dto';
 
 @Injectable()
@@ -11,8 +12,12 @@ export class ProblemService {
     return this.prismaService.problem.create({ data: createProblemDto });
   }
 
-  findAll() {
-    return this.prismaService.problem.findMany({});
+  findAll(paginationQuery: PaginationQueryDto) {
+    const { limit, offset } = paginationQuery;
+    return this.prismaService.problem.findMany({
+      skip: offset,
+      take: limit,
+    });
   }
 
   findOne(id: number) {
@@ -27,20 +32,17 @@ export class ProblemService {
   }
 
   update(id: number, updateProblemDto: UpdateProblemDto) {
-    const existingProblem = this.findOne(id);
-    if (existingProblem) {
-      return this.prismaService.problem.update({
-        where: { id: id },
-        data: updateProblemDto,
-      });
-    }
+    this.findOne(id);
 
+    return this.prismaService.problem.update({
+      where: { id: id },
+      data: updateProblemDto,
+    });
   }
 
   remove(id: number) {
-    const exisitingProblem = this.findOne(id);
-    if (exisitingProblem) {
-      return this.prismaService.problem.delete({ where: { id: id } });
-    }
+    this.findOne(id);
+
+    return this.prismaService.problem.delete({ where: { id: id } });
   }
 }

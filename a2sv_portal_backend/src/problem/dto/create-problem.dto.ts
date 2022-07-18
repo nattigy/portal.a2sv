@@ -1,5 +1,8 @@
-import { IsEmpty, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmpty, IsEnum, IsNotEmpty, IsString, IsUrl } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { TYPE } from '../enum/problem.type.enum';
+import { Difficulty } from '../enum/problem.difficulty.enum';
+import { Platform } from '../enum/problem.platform.enum';
 
 export class CreateProblemDto {
   @IsNotEmpty()
@@ -9,21 +12,25 @@ export class CreateProblemDto {
 
   @IsNotEmpty()
   @IsString()
-  @ApiProperty()
+  @IsEnum(Platform)
+  @ApiProperty({ enum: Object.values(Platform) })
   platform: string;
 
   @IsNotEmpty()
   @IsString()
+  @IsUrl()
   @ApiProperty()
   link: string;
 
   @IsString()
   @IsNotEmpty()
-  @ApiProperty()
+  @IsEnum(Difficulty)
+  @ApiProperty({ enum: Object.values(Difficulty) })
   difficulty: string;
 
   @IsString()
-  @IsEmpty()
-  @ApiProperty()
+  @IsNotEmpty()
+  @IsEnum(TYPE)
+  @ApiProperty({ enum: Object.values(TYPE) })
   type: string;
 }

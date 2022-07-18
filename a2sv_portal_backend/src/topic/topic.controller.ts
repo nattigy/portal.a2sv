@@ -7,12 +7,14 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { TopicService } from './topic.service';
 import { CreateTopicDto } from './dto/create-topic.dto';
 import { UpdateTopicDto } from './dto/update-topic.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { TopicEntity } from './entities/topic.entity';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
 @Controller('topic')
 @ApiTags('Topic')
@@ -25,8 +27,8 @@ export class TopicController {
   }
 
   @Get()
-  async findAll() {
-    const topics = await this.topicService.findAll();
+  async findAll(@Query() paginationQuery: PaginationQueryDto) {
+    const topics = await this.topicService.findAll(paginationQuery);
     return topics.map((topic) => new TopicEntity(topic));
   }
 

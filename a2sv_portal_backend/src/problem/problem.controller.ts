@@ -7,12 +7,14 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { ProblemService } from './problem.service';
 import { CreateProblemDto } from './dto/create-problem.dto';
 import { UpdateProblemDto } from './dto/update-problem.dto';
 import { ProblemEntity } from './entities/problem.entity';
 import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
 @Controller('problem')
 @ApiTags('Problem')
@@ -29,8 +31,8 @@ export class ProblemController {
 
   @Get()
   @ApiResponse({ type: ProblemEntity, isArray: true })
-  async findAll() {
-    const problems = await this.problemService.findAll();
+  async findAll(@Query() paginationQuery : PaginationQueryDto) {
+    const problems = await this.problemService.findAll(paginationQuery);
     return problems.map((problem) => new ProblemEntity(problem));
   }
 

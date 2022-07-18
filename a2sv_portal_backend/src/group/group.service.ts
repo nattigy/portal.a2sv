@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
@@ -11,16 +12,25 @@ export class GroupService {
     return this.prisma.group.create({ data: createGroupDto });
   }
 
-  findAllBatches() {
-    return this.prisma.group.findMany({ where: { parentId: null } });
+  findAllBatches(paginationQuery: PaginationQueryDto) {
+    const { limit, offset } = paginationQuery;
+    return this.prisma.group.findMany({
+      where: { parentId: null },
+      skip: offset,
+      take: limit,
+    });
   }
 
   findAllInBatches(id: number) {
     return this.prisma.group.findMany({ where: { parentId: +id } });
   }
 
-  findAll() {
-    return this.prisma.group.findMany({});
+  findAll(paginationQuery: PaginationQueryDto) {
+    const { limit, offset } = paginationQuery;
+    return this.prisma.group.findMany({
+      skip: offset,
+      take: limit,
+    });
   }
 
   findOne(id: number) {
@@ -33,19 +43,17 @@ export class GroupService {
   }
 
   update(id: number, updateGroupDto: UpdateGroupDto) {
-    const existingGroup = this.findOne(id);
-    if (existingGroup) {
-      return this.prisma.group.update({
-        where: { id: +id },
-        data: updateGroupDto,
-      });
-    }
+    this.findOne(id);
+
+    return this.prisma.group.update({
+      where: { id: +id },
+      data: updateGroupDto,
+    });
   }
 
   async remove(id: number) {
-    const existingGroup = this.findOne(id);
-    if (existingGroup) {
-      return await this.prisma.group.delete({ where: { id: +id } });
-    }
+    this.findOne(id);
+
+    return await this.prisma.group.delete({ where: { id: +id } });
   }
 }
