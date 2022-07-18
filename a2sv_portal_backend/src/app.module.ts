@@ -16,7 +16,7 @@ import { TopicModule } from './topic/topic.module';
     ConfigModule.forRoot({
       load: [databaseconfig],
       isGlobal: true,
-      envFilePath: '../.env'
+      envFilePath: '../.env',
     }),
     GroupModule,
     AuthModule,

@@ -11,7 +11,6 @@ export class AuthController {
   }
   @Post('signup')
   async signup(@Body() dto: AuthDto) {
-    console.log(dto);
     return await this.authService.signup(dto);
   }
 }

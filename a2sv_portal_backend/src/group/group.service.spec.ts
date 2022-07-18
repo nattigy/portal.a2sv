@@ -71,7 +71,7 @@ describe('GroupService', () => {
   describe('findOne', () => {
     describe('when group with ID exists', () => {
       it('should return the group object', async () => {
-        const groupId: number = 1;
+        const groupId = 1;
         const expectedGroup = {};
 
         prismaService.group.findUnique.mockReturnValue(expectedGroup);
@@ -100,7 +100,7 @@ describe('GroupService', () => {
   describe('update', () => {
     describe('when group with id exsit', () => {
       it('should update the group', async () => {
-        const groupId: number = 1;
+        const groupId = 1;
         const expectedGroup = {
           id: groupId,
           createdAt: '2022-07-11T11:27:53.364Z',

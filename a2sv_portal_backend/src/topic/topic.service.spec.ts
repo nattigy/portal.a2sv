@@ -41,7 +41,7 @@ describe('TopicService', () => {
   describe('findOne', () => {
     describe('when topic with ID exists', () => {
       it('should return the topic object', async () => {
-        const topicId: number = 1;
+        const topicId = 1;
         const expectedTopic = {};
 
         prismaService.topic.findUnique.mockReturnValue(expectedTopic);

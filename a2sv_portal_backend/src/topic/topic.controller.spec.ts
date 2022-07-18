@@ -105,7 +105,7 @@ describe('TopicController', () => {
     describe('update', () => {
       describe('when given existing topic id', () => {
         it('should update the topic', async () => {
-          const topicId: number = 1;
+          const topicId = 1;
           const topicBody: any = {
             topic_name: 'topic changed',
           };
