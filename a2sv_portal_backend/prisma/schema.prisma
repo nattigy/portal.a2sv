@@ -75,5 +75,4 @@ model Problem{
   platform String
   link String
   difficulty String
-  type String
 }

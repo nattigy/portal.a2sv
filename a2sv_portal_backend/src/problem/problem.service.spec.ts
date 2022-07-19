@@ -34,7 +34,7 @@ describe('ProblemService', () => {
 
         const problems = await service.findAll({
           limit: 0,
-          offset: 0
+          offset: 0,
         });
         expect(problems).toEqual(expectedProblems);
       });
@@ -80,7 +80,6 @@ describe('ProblemService', () => {
           platform: 'platform',
           link: 'link',
           difficulty: 'difficulty',
-          type: 'type',
         };
 
         prismaService.problem.update.mockReturnValue(expectedProblem);
@@ -121,7 +120,6 @@ describe('ProblemService', () => {
           platform: 'platform',
           link: 'link',
           difficulty: 'difficulty',
-          type: 'type',
         };
 
         prismaService.problem.create.mockReturnValue(expectedProblem);
@@ -131,7 +129,6 @@ describe('ProblemService', () => {
           platform: 'platform',
           link: 'link',
           difficulty: 'difficulty',
-          type: 'type',
         };
 
         const problem = await service.create(data);

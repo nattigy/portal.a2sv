@@ -22,9 +22,6 @@ export class ProblemEntity {
   @ApiProperty()
   difficulty: string;
 
-  @ApiProperty()
-  type: string;
-
   constructor(partial: Partial<ProblemEntity>) {
     Object.assign(this, partial);
   }

@@ -32,7 +32,6 @@ describe('ProblemController', () => {
             platform: 'platform',
             link: 'link',
             difficulty: 'difficulty',
-            type: 'type',
           }),
         ];
 
@@ -58,7 +57,6 @@ describe('ProblemController', () => {
             platform: 'platform',
             link: 'link',
             difficulty: 'difficulty',
-            type: 'type',
           };
 
           jest
@@ -97,7 +95,6 @@ describe('ProblemController', () => {
             platform: 'platform',
             link: 'link',
             difficulty: 'difficulty',
-            type: 'type',
           };
 
           const body: any = {
@@ -105,7 +102,6 @@ describe('ProblemController', () => {
             platform: 'platform',
             link: 'link',
             difficulty: 'difficulty',
-            type: 'type',
           };
 
           jest.spyOn(service, 'create').mockImplementation(() => expectedValue);
@@ -130,7 +126,6 @@ describe('ProblemController', () => {
             platform: 'platform',
             link: 'link',
             difficulty: 'difficulty',
-            type: 'type',
           };
 
           jest.spyOn(service, 'update').mockImplementation(() => expectedValue);
