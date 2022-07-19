@@ -10,6 +10,7 @@ import { GroupController } from './group/group.controller';
 import { GroupService } from './group/group.service';
 import { GroupModule } from './group/group.module';
 import { TopicModule } from './topic/topic.module';
+import { ProblemStatusModule } from './problem_status/problem_status.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { TopicModule } from './topic/topic.module';
     UsersModule,
     PrismaModule,
     TopicModule,
+    ProblemStatusModule,
   ],
   controllers: [AppController],
   providers: [AppService],
