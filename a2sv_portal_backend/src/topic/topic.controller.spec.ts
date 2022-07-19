@@ -42,7 +42,10 @@ describe('TopicController', () => {
 
         jest.spyOn(service, 'findAll').mockImplementation(() => expectedValues);
 
-        expect(await controller.findAll()).toEqual(expectedValues);
+        expect(await controller.findAll({
+          limit: 0,
+          offset: 0
+        })).toEqual(expectedValues);
       });
     });
 
@@ -59,7 +62,7 @@ describe('TopicController', () => {
 
           jest
             .spyOn(service, 'findOne')
-            .mockImplementation((topicId) => expectedValue);
+            .mockImplementation(() => expectedValue);
 
           expect(await controller.findOne(topicId)).toEqual(expectedValue);
         });
@@ -117,9 +120,7 @@ describe('TopicController', () => {
             topic_name: 'topic changed',
           };
 
-          jest
-            .spyOn(service, 'update')
-            .mockImplementation((topicId) => expectedTopic);
+          jest.spyOn(service, 'update').mockImplementation(() => expectedTopic);
 
           const topic = await controller.update(topicId, topicBody);
           expect(topic).toEqual(expectedTopic);
@@ -153,7 +154,7 @@ describe('TopicController', () => {
           const expectedOutput: any = { message: 'successfully deleted' };
           jest
             .spyOn(service, 'remove')
-            .mockImplementation((topicId) => expectedOutput);
+            .mockImplementation(() => expectedOutput);
 
           expect(await controller.remove(topicId)).toEqual(expectedOutput);
         });

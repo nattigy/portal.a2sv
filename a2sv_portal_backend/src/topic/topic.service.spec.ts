@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TopicService } from './topic.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { prismaMock } from '../singleton';
-import { HttpException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 import { UpdateTopicDto } from './dto/update-topic.dto';
 import { CreateTopicDto } from './dto/create-topic.dto';
 
@@ -32,7 +32,10 @@ describe('TopicService', () => {
         const expectedTopics = [{}, {}];
         prismaService.topic.findMany.mockReturnValue(expectedTopics);
 
-        const topics = await service.findAll();
+        const topics = await service.findAll({
+          limit: 0,
+          offset: 0
+        });
         expect(topics).toEqual(expectedTopics);
       });
     });
@@ -51,14 +54,14 @@ describe('TopicService', () => {
     });
 
     describe('otherwise', () => {
-      it('should throw the HttpException with code 404', async () => {
+      it('should throw the NotFoundException with code 404', async () => {
         const topicId = 1;
         prismaService.topic.findUnique.mockReturnValue(undefined);
 
         try {
           await service.findOne(topicId);
         } catch (err) {
-          expect(err).toBeInstanceOf(HttpException);
+          expect(err).toBeInstanceOf(NotFoundException);
           expect(err.message).toEqual(`Topic #${topicId} not found`);
           expect(err.status).toEqual(404);
         }
@@ -89,7 +92,7 @@ describe('TopicService', () => {
     });
 
     describe('otherwise', () => {
-      it('should throw an HttpException with 404 status code', async () => {
+      it('should throw an NotFoundException with 404 status code', async () => {
         const topicId = 1;
 
         prismaService.topic.findUnique.mockReturnValue(undefined);
@@ -97,7 +100,7 @@ describe('TopicService', () => {
         try {
           await service.update(topicId, {});
         } catch (err) {
-          expect(err).toBeInstanceOf(HttpException);
+          expect(err).toBeInstanceOf(NotFoundException);
           expect(err.message).toEqual(`Topic #${topicId} not found`);
           expect(err.status).toEqual(404);
         }
@@ -141,7 +144,7 @@ describe('TopicService', () => {
     });
 
     describe('otherwise', () => {
-      it('should throw HttpException with 404 status code', async () => {
+      it('should throw NotFoundException with 404 status code', async () => {
         const topicId = 1;
         prismaService.topic.findUnique.mockReturnValue({});
         prismaService.topic.delete.mockResolvedValue({});
@@ -149,7 +152,7 @@ describe('TopicService', () => {
         try {
           await service.remove(topicId);
         } catch (err) {
-          expect(err).toBeInstanceOf(HttpException);
+          expect(err).toBeInstanceOf(NotFoundException);
           expect(err).toEqual(`Topic #${topicId} not found`);
           expect(err).toEqual(404);
         }
