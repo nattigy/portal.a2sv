@@ -19,13 +19,14 @@ model User {
   email    String
   password String
 
-  Groups UsersOnGroup[]
+  Groups        UsersOnGroup[]
+  ProblemStatus ProblemStatus[]
 }
 
 model Region {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 
   region_name String
   Group       Group[]
@@ -34,16 +35,16 @@ model Region {
 model Group {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 
   region     Region         @relation(fields: [region_id], references: [id])
   region_id  Int
   group_name String
   group_size Int
-  members    UsersOnGroup[] 
-  subgroups Group[] @relation("subgroups")
-  parent Group? @relation("subgroups", fields: [parentId], references: [id])
-  parentId Int? @map("groupId")
+  members    UsersOnGroup[]
+  subgroups  Group[]        @relation("subgroups")
+  parent     Group?         @relation("subgroups", fields: [parentId], references: [id])
+  parentId   Int?           @map("groupId")
   status     String
 }
 
@@ -58,10 +59,42 @@ model UsersOnGroup {
   @@id([groupId, userId])
 }
 
-model Topic{
-  id Int @id @default(autoincrement())
+model Topic {
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 
   topic_name String
+}
+
+model Problem {
+  id            Int             @id @default(autoincrement())
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  problem_title String
+  platform      String
+  link          String
+  difficulty    String
+  type          String
+  ProblemStatus ProblemStatus[]
+}
+
+model ProblemStatus {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User @relation(fields: [user_id], references: [id])
+  user_id Int
+
+  problem    Problem @relation(fields: [problem_id], references: [id])
+  problem_id Int
+
+  status String
+  github_link String
+  number_of_tries Int
+  time_taken Int
+  date DateTime
+  type String
+  solution_code String
 }
