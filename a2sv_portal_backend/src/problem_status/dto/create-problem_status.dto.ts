@@ -50,10 +50,10 @@ export class CreateProblemStatusDto {
   @IsNotEmpty()
   @IsString()
   @ApiProperty()
-  type: string;
+  language_code: string;
 
   @IsNotEmpty()
   @IsString()
   @ApiProperty()
-  solution_code: String;
+  solution_code: string;
 }

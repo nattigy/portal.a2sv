@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ProblemStatus {
+export class ProblemStatusEntity {
   @ApiProperty()
   id: number;
 
@@ -26,14 +26,18 @@ export class ProblemStatus {
   number_of_tries: number;
 
   @ApiProperty()
-  time_taken: string;
+  time_taken: number;
 
   @ApiProperty()
   date: Date;
 
   @ApiProperty()
-  type: string;
+  language_code: string;
 
   @ApiProperty()
   solution_code: string;
+
+  constructor(partial: Partial<ProblemStatusEntity>) {
+    Object.assign(this, partial);
+  }
 }

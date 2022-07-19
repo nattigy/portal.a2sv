@@ -75,7 +75,6 @@ model Problem {
   platform      String
   link          String
   difficulty    String
-  type          String
   ProblemStatus ProblemStatus[]
 }
 
@@ -95,6 +94,6 @@ model ProblemStatus {
   number_of_tries Int
   time_taken Int
   date DateTime
-  type String
+  language_code String
   solution_code String
 }
