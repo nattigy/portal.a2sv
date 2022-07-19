@@ -74,7 +74,7 @@ model Problem {
   problem_title String
   platform      String
   link          String
-  difficulty    String
+  difficulty    Difficulty
   ProblemStatus ProblemStatus[]
 }
 
@@ -96,4 +96,10 @@ model ProblemStatus {
   date DateTime
   language_code String
   solution_code String
+}
+
+enum Difficulty{
+  Hard
+  Medium
+  Easy
 }
