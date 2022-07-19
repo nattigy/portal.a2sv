@@ -79,7 +79,7 @@ describe('ProblemService', () => {
           problem_title: 'title',
           platform: 'platform',
           link: 'link',
-          difficulty: 'difficulty',
+          difficulty: 'Hard',
         };
 
         prismaService.problem.update.mockReturnValue(expectedProblem);
@@ -119,7 +119,7 @@ describe('ProblemService', () => {
           problem_title: 'title',
           platform: 'platform',
           link: 'link',
-          difficulty: 'difficulty',
+          difficulty: 'Hard',
         };
 
         prismaService.problem.create.mockReturnValue(expectedProblem);
@@ -128,7 +128,7 @@ describe('ProblemService', () => {
           problem_title: 'title',
           platform: 'platform',
           link: 'link',
-          difficulty: 'difficulty',
+          difficulty: 'Hard',
         };
 
         const problem = await service.create(data);

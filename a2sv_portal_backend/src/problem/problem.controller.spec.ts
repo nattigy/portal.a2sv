@@ -31,7 +31,7 @@ describe('ProblemController', () => {
             problem_title: 'title',
             platform: 'platform',
             link: 'link',
-            difficulty: 'difficulty',
+            difficulty: 'Hard',
           }),
         ];
 
@@ -56,7 +56,7 @@ describe('ProblemController', () => {
             problem_title: 'title',
             platform: 'platform',
             link: 'link',
-            difficulty: 'difficulty',
+            difficulty: 'Hard',
           };
 
           jest
@@ -94,14 +94,14 @@ describe('ProblemController', () => {
             problem_title: 'title',
             platform: 'platform',
             link: 'link',
-            difficulty: 'difficulty',
+            difficulty: 'Hard',
           };
 
           const body: any = {
             problem_title: 'title',
             platform: 'platform',
             link: 'link',
-            difficulty: 'difficulty',
+            difficulty: 'Hard',
           };
 
           jest.spyOn(service, 'create').mockImplementation(() => expectedValue);
@@ -125,7 +125,7 @@ describe('ProblemController', () => {
             problem_title: 'title',
             platform: 'platform',
             link: 'link',
-            difficulty: 'difficulty',
+            difficulty: 'Hard',
           };
 
           jest.spyOn(service, 'update').mockImplementation(() => expectedValue);
