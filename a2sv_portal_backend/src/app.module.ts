@@ -9,6 +9,7 @@ import databaseconfig from './config/databaseconfig';
 import { GroupModule } from './group/group.module';
 import { TopicModule } from './topic/topic.module';
 import { ProblemModule } from './problem/problem.module';
+import { TopicProblemModule } from './topic_problem/topic_problem.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ProblemModule } from './problem/problem.module';
     PrismaModule,
     TopicModule,
     ProblemModule,
+    TopicProblemModule
   ],
   controllers: [AppController],
   providers: [AppService],

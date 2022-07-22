@@ -7,40 +7,39 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { TopicProblemService } from './topic_problem.service';
 import { CreateTopicProblemDto } from './dto/create-topic_problem.dto';
-import { UpdateTopicProblemDto } from './dto/update-topic_problem.dto';
+import { RemoveTopicProblemDto } from './dto/remove-topic_problem.dto';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('topic-problem')
+@ApiTags('topic-problem')
 export class TopicProblemController {
   constructor(private readonly topicProblemService: TopicProblemService) {}
 
   @Post()
-  create(@Body() createTopicProblemDto: CreateTopicProblemDto) {
-    return this.topicProblemService.create(createTopicProblemDto);
+  @ApiOkResponse()
+  addProblemToTopic(@Body() createTopicProblemDto: CreateTopicProblemDto) {
+    return this.topicProblemService.addProblemToTopic(createTopicProblemDto);
   }
 
-  @Get()
-  findAll() {
-    return this.topicProblemService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.topicProblemService.findOne(id);
-  }
-
-  @Patch(':id')
-  update(
+  @Get('problems/:id')
+  @ApiOkResponse()
+  getAllProblemsByTopic(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateTopicProblemDto: UpdateTopicProblemDto,
+    @Query() paginationQuery: PaginationQueryDto,
   ) {
-    return this.topicProblemService.update(id, updateTopicProblemDto);
+    return this.topicProblemService.getAllProblemsByTopic(id, paginationQuery);
   }
 
-  @Delete(':id', ParseIntPipe)
-  remove(@Param('id') id: number) {
-    return this.topicProblemService.remove(id);
+  @Delete()
+  @ApiOkResponse()
+  removeProblemFromTopic(@Body() removeTopicProblemDto: RemoveTopicProblemDto) {
+    this.topicProblemService.removeProblemFromtopic(removeTopicProblemDto);
+
+    return { message: 'successfully deleted' };
   }
 }

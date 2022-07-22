@@ -1,19 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsInt, IsNotEmpty } from 'class-validator';
 
-export class CreateTopicProblemDto {
+export class RemoveTopicProblemDto {
   @IsNotEmpty()
   @IsInt()
   @ApiProperty()
-  topicId: number;
+  topic_id: number;
 
   @IsNotEmpty()
   @IsInt()
   @ApiProperty()
-  problemId: number;
-
-  @IsNotEmpty()
-  @IsInt()
-  @ApiProperty()
-  assignedBy: number;
+  problem_id: number;
 }

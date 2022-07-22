@@ -1,26 +1,57 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateTopicProblemDto } from './dto/create-topic_problem.dto';
-import { UpdateTopicProblemDto } from './dto/update-topic_problem.dto';
+import { RemoveTopicProblemDto } from './dto/remove-topic_problem.dto';
 
 @Injectable()
 export class TopicProblemService {
-  create(createTopicProblemDto: CreateTopicProblemDto) {
-    return 'This action adds a new topicProblem';
+  constructor(private prismaService: PrismaService) {}
+
+  async getAllProblemsByTopic(id: number, paginationQuery: PaginationQueryDto) {
+    const { limit, offset } = paginationQuery;
+    const results = await this.prismaService.problemOnTopic.findMany({
+      where: { topicId: id },
+      include: { problem: { include: { ProblemOnTopic: true } } },
+      skip: offset,
+      take: limit,
+    });
+
+    const problems = results.map((result) => {
+      const { ProblemOnTopic, ...problem } = result.problem;
+      return problem;
+    });
+    return problems;
   }
 
-  findAll() {
-    return `This action returns all topicProblem`;
+  async findOne(topicId: number, problemId: number) {
+    const problemOnTopic = await this.prismaService.problemOnTopic.findMany({
+      where: { topicId: topicId, problemId: problemId },
+    });
+    if (problemOnTopic.length == 0) {
+      throw new NotFoundException(
+        `Topic #${topicId} and Problem #${problemId} not found`,
+      );
+    }
+
+    return problemOnTopic;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} topicProblem`;
+  addProblemToTopic(createTopicProblemDto: CreateTopicProblemDto) {
+    return this.prismaService.problemOnTopic.create({
+      data: createTopicProblemDto,
+    });
   }
 
-  update(id: number, updateTopicProblemDto: UpdateTopicProblemDto) {
-    return `This action updates a #${id} topicProblem`;
-  }
+  async removeProblemFromtopic(removeTopicProblemDto: RemoveTopicProblemDto) {
+    const { topic_id, problem_id } = removeTopicProblemDto;
+    await this.findOne(topic_id, problem_id);
 
-  remove(id: number) {
-    return `This action removes a #${id} topicProblem`;
+    return this.prismaService.problemOnTopic.deleteMany({
+      where: {
+        topicId: topic_id,
+        problemId: problem_id,
+      },
+    });
   }
 }
