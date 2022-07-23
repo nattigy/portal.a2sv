@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateTopicProblemDto } from './dto/create-topic_problem.dto';
 import { RemoveTopicProblemDto } from './dto/remove-topic_problem.dto';
 
@@ -9,6 +9,7 @@ export class TopicProblemService {
   constructor(private prismaService: PrismaService) {}
 
   async getAllProblemsByTopic(id: number, paginationQuery: PaginationQueryDto) {
+    await this.findOne(id, undefined);
     const { limit, offset } = paginationQuery;
     const results = await this.prismaService.problemOnTopic.findMany({
       where: { topicId: id },
