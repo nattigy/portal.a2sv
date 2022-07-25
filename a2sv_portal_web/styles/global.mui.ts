@@ -1,6 +1,6 @@
-import { createTheme } from '@mui/material'
+import { createTheme, ThemeOptions } from '@mui/material'
 
-const GlobalTheme = createTheme({
+const GlobalTheme: ThemeOptions = createTheme({
   palette: {
     primary: {
       main: '#2766B5',
@@ -13,9 +13,22 @@ const GlobalTheme = createTheme({
       primary: '#000',
       secondary: '#000',
     },
+    
   },
   typography: {
-    fontFamily: 'Poppins',
+    fontFamily: [
+      'Poppins',
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
     body1: {
       fontSize: 14,
     },
