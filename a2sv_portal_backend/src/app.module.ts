@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import databaseconfig from './config/databaseconfig';
 import { GroupModule } from './group/group.module';
 import { TopicModule } from './topic/topic.module';
+import { ProblemStatusModule } from './problem_status/problem_status.module';
 import { ProblemModule } from './problem/problem.module';
 
 @Module({
@@ -22,6 +23,7 @@ import { ProblemModule } from './problem/problem.module';
     UsersModule,
     PrismaModule,
     TopicModule,
+    ProblemStatusModule,
     ProblemModule,
   ],
   controllers: [AppController],

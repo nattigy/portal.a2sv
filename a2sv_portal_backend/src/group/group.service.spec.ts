@@ -34,7 +34,7 @@ describe('GroupService', () => {
 
         const groups = await service.findAll({
           limit: 0,
-          offset: 0
+          offset: 0,
         });
         expect(groups).toEqual(expectedGroups);
       });
@@ -49,7 +49,7 @@ describe('GroupService', () => {
 
         const groups = await service.findAllBatches({
           limit: 0,
-          offset: 0
+          offset: 0,
         });
         expect(groups).toEqual(expectedGroups);
       });

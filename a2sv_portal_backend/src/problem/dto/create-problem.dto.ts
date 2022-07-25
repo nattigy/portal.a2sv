@@ -2,7 +2,7 @@ import { IsEnum, IsNotEmpty, IsString, IsUrl } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 // import { Difficulty } from '../enum/problem.difficulty.enum';
 import { Platform } from '../enum/problem.platform.enum';
-import { Difficulty } from '@prisma/client'
+import { Difficulty } from '@prisma/client';
 
 export class CreateProblemDto {
   @IsNotEmpty()
