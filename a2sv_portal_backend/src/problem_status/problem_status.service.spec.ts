@@ -1,6 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import exp from 'constants';
 import { PrismaService } from '../prisma/prisma.service';
 import { prismaMock } from '../singleton';
 import { CreateProblemStatusDto } from './dto/create-problem_status.dto';

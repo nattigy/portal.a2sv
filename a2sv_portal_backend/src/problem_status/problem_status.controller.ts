@@ -13,7 +13,6 @@ import { ProblemStatusService } from './problem_status.service';
 import { CreateProblemStatusDto } from './dto/create-problem_status.dto';
 import { UpdateProblemStatusDto } from './dto/update-problem_status.dto';
 import { ProblemStatusEntity } from './entities/problem_status.entity';
-import { PrismaService } from 'src/prisma/prisma.service';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller('problem-status')

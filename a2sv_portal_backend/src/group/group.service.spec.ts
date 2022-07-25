@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  HttpException,
-  HttpStatus,
-  NotFoundException,
-} from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaService } from '../prisma/prisma.service';
 import { prismaMock } from '../singleton';
@@ -37,7 +32,10 @@ describe('GroupService', () => {
         const expectedGroups = [{}, {}];
         prismaService.group.findMany.mockReturnValue(expectedGroups);
 
-        const groups = await service.findAll();
+        const groups = await service.findAll({
+          limit: 0,
+          offset: 0,
+        });
         expect(groups).toEqual(expectedGroups);
       });
     });
@@ -49,7 +47,10 @@ describe('GroupService', () => {
         const expectedGroups = [{}, {}];
         prismaService.group.findMany.mockReturnValue(expectedGroups);
 
-        const groups = await service.findAllBatches();
+        const groups = await service.findAllBatches({
+          limit: 0,
+          offset: 0,
+        });
         expect(groups).toEqual(expectedGroups);
       });
     });
@@ -81,7 +82,7 @@ describe('GroupService', () => {
     });
 
     describe('otherwise', () => {
-      it('should throw the HttpException with code 404', async () => {
+      it('should throw the NotFoundException with code 404', async () => {
         const groupId = 1;
 
         prismaService.group.findUnique.mockReturnValue(undefined);
@@ -89,7 +90,7 @@ describe('GroupService', () => {
         try {
           await service.findOne(groupId);
         } catch (err) {
-          expect(err).toBeInstanceOf(HttpException);
+          expect(err).toBeInstanceOf(NotFoundException);
           expect(err.message).toEqual(`Group #${groupId} not found`);
           expect(err.status).toEqual(404);
         }
@@ -126,7 +127,7 @@ describe('GroupService', () => {
     });
 
     describe('otherwise', () => {
-      it('should throw an HttpException with 404 status code', async () => {
+      it('should throw an NotFoundException with 404 status code', async () => {
         const groupId = 1;
 
         prismaService.group.findUnique.mockReturnValue(undefined);
@@ -134,7 +135,7 @@ describe('GroupService', () => {
         try {
           await service.update(groupId, {});
         } catch (err) {
-          expect(err).toBeInstanceOf(HttpException);
+          expect(err).toBeInstanceOf(NotFoundException);
           expect(err.message).toEqual(`Group #${groupId} not found`);
           expect(err.status).toEqual(404);
         }
@@ -210,7 +211,7 @@ describe('GroupService', () => {
     });
 
     describe('otherwise', () => {
-      it('should throw HttpException with 404 status code', async () => {
+      it('should throw NotFoundException with 404 status code', async () => {
         const groupId = 1;
 
         prismaService.group.findUnique.mockReturnValue({});
@@ -219,7 +220,7 @@ describe('GroupService', () => {
         try {
           await service.remove(groupId);
         } catch (err) {
-          expect(err).toBeInstanceOf(HttpException);
+          expect(err).toBeInstanceOf(NotFoundException);
           expect(err.message).toEqual(`Group #${groupId} not found`);
           expect(err.status).toEqual(404);
         }

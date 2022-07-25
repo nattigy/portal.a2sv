@@ -1,6 +1,5 @@
 import { Group } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
 
 export class GroupEntity implements Group {
   @ApiProperty()

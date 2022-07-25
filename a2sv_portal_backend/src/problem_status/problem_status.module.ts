@@ -4,6 +4,6 @@ import { ProblemStatusController } from './problem_status.controller';
 
 @Module({
   controllers: [ProblemStatusController],
-  providers: [ProblemStatusService]
+  providers: [ProblemStatusService],
 })
 export class ProblemStatusModule {}

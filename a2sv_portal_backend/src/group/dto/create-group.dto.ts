@@ -1,5 +1,5 @@
 import {
-  IsArray,
+  IsEnum,
   IsInt,
   IsNotEmpty,
   IsNumber,
@@ -7,6 +7,7 @@ import {
   IsString,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Status } from '../enum/group.status.enum';
 
 export class CreateGroupDto {
   @IsNotEmpty()
@@ -31,6 +32,7 @@ export class CreateGroupDto {
 
   @IsNotEmpty()
   @IsString()
-  @ApiProperty()
-  status: string; // active, inactive, removed
+  @IsEnum(Status)
+  @ApiProperty({ enum: Object.values(Status) })
+  status: string;
 }

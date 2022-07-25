@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaModule } from '../prisma/prisma.module';
-import { GroupEntity } from './entities/group.entity';
 import { GroupController } from './group.controller';
 import { GroupService } from './group.service';
 
@@ -61,7 +60,12 @@ describe('GroupController', () => {
             .spyOn(service, 'findAll')
             .mockImplementation(() => expectedValues);
 
-          expect(await controller.findAll()).toEqual(expectedValues);
+          expect(
+            await controller.findAll({
+              limit: 0,
+              offset: 0,
+            }),
+          ).toEqual(expectedValues);
         });
       });
     });
@@ -105,7 +109,12 @@ describe('GroupController', () => {
             .spyOn(service, 'findAllBatches')
             .mockImplementation(() => expectedValues);
 
-          expect(await controller.findAllBatches()).toEqual(expectedValues);
+          expect(
+            await controller.findAllBatches({
+              limit: 0,
+              offset: 0,
+            }),
+          ).toEqual(expectedValues);
         });
       });
     });
@@ -172,7 +181,7 @@ describe('GroupController', () => {
           };
           jest
             .spyOn(service, 'findOne')
-            .mockImplementation((groupId) => expectedValue);
+            .mockImplementation(() => expectedValue);
 
           expect(await controller.findOne(groupId)).toEqual(expectedValue);
         });
@@ -234,9 +243,7 @@ describe('GroupController', () => {
             group_size: 200,
             status: 'active',
           };
-          jest
-            .spyOn(service, 'update')
-            .mockImplementation((groupId) => expectedGroup);
+          jest.spyOn(service, 'update').mockImplementation(() => expectedGroup);
 
           const group = await controller.update(groupId, groupBody);
           expect(group).toEqual(expectedGroup);
@@ -270,7 +277,7 @@ describe('GroupController', () => {
           const expectedOutput = { message: 'successfully deleted' };
           jest
             .spyOn(service, 'remove')
-            .mockImplementation((groupId): any => expectedOutput);
+            .mockImplementation((): any => expectedOutput);
 
           expect(await controller.remove(groupId)).toEqual(expectedOutput);
         });

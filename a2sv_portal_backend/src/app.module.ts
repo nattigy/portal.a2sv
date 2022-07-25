@@ -6,11 +6,10 @@ import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import databaseconfig from './config/databaseconfig';
-import { GroupController } from './group/group.controller';
-import { GroupService } from './group/group.service';
 import { GroupModule } from './group/group.module';
 import { TopicModule } from './topic/topic.module';
 import { ProblemStatusModule } from './problem_status/problem_status.module';
+import { ProblemModule } from './problem/problem.module';
 
 @Module({
   imports: [
@@ -25,6 +24,7 @@ import { ProblemStatusModule } from './problem_status/problem_status.module';
     PrismaModule,
     TopicModule,
     ProblemStatusModule,
+    ProblemModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -88,7 +88,9 @@ describe('ProblemStatusController', () => {
             await controller.findOne(problemId);
           } catch (err) {
             expect(err).toBeInstanceOf(NotFoundException);
-            expect(err.message).toEqual(`ProblemStatus #${problemId} not found`);
+            expect(err.message).toEqual(
+              `ProblemStatus #${problemId} not found`,
+            );
           }
         });
       });
@@ -131,11 +133,6 @@ describe('ProblemStatusController', () => {
     describe('update', () => {
       describe('when given existing problemstatus id', () => {
         it('should update the problem', async () => {
-          const problemId = 1;
-          const problemBody: any = {
-            status: 'solved',
-          };
-
           const expectedValue: any = {
             id: 0,
             user_id: 0,
@@ -166,7 +163,9 @@ describe('ProblemStatusController', () => {
             await controller.update(problemId, {});
           } catch (err) {
             expect(err).toBeInstanceOf(NotFoundException);
-            expect(err.message).toEqual(`ProblemStatus #${problemId} not found`);
+            expect(err.message).toEqual(
+              `ProblemStatus #${problemId} not found`,
+            );
           }
         });
       });
@@ -198,7 +197,9 @@ describe('ProblemStatusController', () => {
             await controller.remove(problemId);
           } catch (err) {
             expect(err).toBeInstanceOf(NotFoundException);
-            expect(err.message).toEqual(`ProblemStatus #${problemId} not found`);
+            expect(err.message).toEqual(
+              `ProblemStatus #${problemId} not found`,
+            );
           }
         });
       });
