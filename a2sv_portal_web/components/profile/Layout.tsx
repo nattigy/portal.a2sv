@@ -4,6 +4,7 @@ import { WithChildren } from '../../types/common';
 import CustomAppbar from '../common/Appbar';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import ProfileCard from './ProfileCard';
 
 interface LayoutProps extends WithChildren {
 
@@ -159,7 +160,7 @@ export default function ProfileLayout({ children }: LayoutProps) {
                 }}
                 sx={{
                     border: "none",
-                    display: { xs: 'block', sm: 'none' },
+                    display: { xs: 'block', md: 'none' },
                     '& .MuiDrawer-paper': {
                         boxSizing: 'border-box',
                         width: drawerWidth,
@@ -174,7 +175,7 @@ export default function ProfileLayout({ children }: LayoutProps) {
             <Drawer
                 variant="permanent"
                 sx={{
-                    display: { xs: 'none', sm: 'block' },
+                    display: { xs: 'none', md: 'block' },
                     '& .MuiPaper-root': { mt: "94px" },
                     '& .MuiDrawer-paper': {
                         boxSizing: 'border-box',
@@ -188,11 +189,19 @@ export default function ProfileLayout({ children }: LayoutProps) {
             </Drawer>
             <Box component="main"
                 sx={{
-                    marginLeft: { xs: "none", sm: `${drawerWidth}px` },
+                    marginLeft: { xs: "none", md: `${drawerWidth}px` },
                     position: "relative",
                     flexGrow: 1,
-                    p: 3
+                    px: {
+                        xs: 1,
+                        sm: 2,
+                        md: 3,
+                    }
                 }}>
+                <Box sx={{}}>
+                    <ProfileCard />
+                </Box>
+
                 {children}
             </Box>
         </Box>

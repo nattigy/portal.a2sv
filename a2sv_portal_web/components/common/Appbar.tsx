@@ -56,7 +56,7 @@ const CustomAppbar = (props: Props) => {
                 position="sticky"
                 color="transparent"
                 elevation={0}
-                sx={{ padding: { xs: "15px 5px", sm: "10px 15px", lg: "15px 20px" }, height: { xs: "150px", sm: "90px" }, }}
+                sx={{ padding: { xs: "15px 5px", sm: "10px 15px", lg: "15px 20px" }, height: { xs: "120px", md: "90px" }, }}
             >
                 <Toolbar
                     disableGutters
@@ -70,7 +70,7 @@ const CustomAppbar = (props: Props) => {
                     {/* Mobile navbar */}
                     <Box sx={{
                         width: "100%",
-                        display: { xs: "flex", flexDirection: "column", sm: "none" },
+                        display: { xs: "flex", flexDirection: "column", md: "none" },
                     }}>
                         <Box sx={{
                             padding: { xs: "0 15px", sm: "0 10px", lg: "0px" },
@@ -92,13 +92,13 @@ const CustomAppbar = (props: Props) => {
                                             aria-label="open drawer"
                                             edge="start"
                                             onClick={props.handleDrawerToggle}
-                                            sx={{ mr: 1, display: { sm: 'none' } }}
+                                            sx={{ mr: 1, display: { md: 'none' } }}
                                         >
                                             <MenuIcon />
                                         </IconButton>
                                     )
                                 }
-                                <Box sx={{ height: { xs: "40px", sm: "60px" } }}>
+                                <Box sx={{ height: { xs: "40px", md: "60px" } }}>
                                     <Link href="/" className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-button MuiTypography-colorPrimary">
                                         <img alt="Logo enterprise" width="100%" height="100%" src="/assets/imgs/logo.svg" className="" />
                                     </Link>
@@ -161,7 +161,6 @@ const CustomAppbar = (props: Props) => {
                                                     <ListItemText primary={"Logout"} />
                                                 </ListItemButton>
                                             </ListItem>
-
                                         </MenuItem>
                                     </MenuList>
                                 </Menu>
@@ -175,7 +174,6 @@ const CustomAppbar = (props: Props) => {
                         }}>
                             {pages.map((page) => {
                                 const isActive = router.pathname === page.link
-
                                 return (
                                     <Link
                                         href={page.link}
@@ -207,11 +205,11 @@ const CustomAppbar = (props: Props) => {
                     {/* Desktop navbar */}
                     <Box sx={{
                         width: "90%",
-                        display: { xs: "none", sm: "flex" }, flexDirection: {
-                            sm: "row"
+                        display: { xs: "none", md: "flex" }, flexDirection: {
+                            md: "row"
                         }, justifyContent: "space-between", alignItems: "center"
                     }}>
-                        <Box sx={{ display: "flex", xs: { flexGrow: 1, justifyContent: "space-between" }, sm: { flexGrow: 0 } }}>
+                        <Box sx={{ display: "flex", xs: { flexGrow: 1, justifyContent: "space-between" }, md: { flexGrow: 0 } }}>
                             {
                                 props.handleDrawerToggle && (
                                     <IconButton
@@ -219,13 +217,13 @@ const CustomAppbar = (props: Props) => {
                                         aria-label="open drawer"
                                         edge="start"
                                         onClick={props.handleDrawerToggle}
-                                        sx={{ mr: 2, display: { sm: 'none' } }}
+                                        sx={{ mr: 2, display: { md: 'none' } }}
                                     >
                                         <MenuIcon />
                                     </IconButton>
                                 )
                             }
-                            <Box sx={{ height: { xs: "40px", sm: "60px" } }}>
+                            <Box sx={{ height: { xs: "40px", md: "60px" } }}>
                                 <Link className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-button MuiTypography-colorPrimary" href="/">
                                     <img alt="Logo enterprise" width="100%" height="100%" src="/assets/imgs/logo.svg" className="" />
                                 </Link>
@@ -333,7 +331,6 @@ const CustomAppbar = (props: Props) => {
                                 <List
                                     sx={{
                                         padding: "10px 20px",
-
                                     }}
                                 >
                                     <MenuItem sx={{ padding: "0 10px" }} onClick={handleCloseUserMenu}>
