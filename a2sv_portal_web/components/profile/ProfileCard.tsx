@@ -12,10 +12,10 @@ function ProfileCard() {
             <Box
                 sx={{
                     width: "100%",
-                    height: {
-                        xs: "200px",
-                        sm: "220px",
-                        md: "250px",
+                    minHeight: {
+                        xs: "180px",
+                        sm: "200px",
+                        md: "220px",
                     },
                     backgroundColor: "primary.main",
                     borderRadius: "40px 0px 0px 0px",
@@ -28,7 +28,10 @@ function ProfileCard() {
                 <IconButton>
                     <CameraAlt sx={{
                         color: "whitesmoke",
-                        fontSize: "30px",
+                        fontSize: {
+                            xs: "25px",
+                            lg: "30px"
+                        },
                     }} />
                 </IconButton>
             </Box>
@@ -64,18 +67,22 @@ function ProfileCard() {
                     <Box
                         sx={{
                             width: {
-                                xs: "120px",
-                                md: "150px"
+                                xs: "100px",
+                                md: "120px"
                             },
                             height: {
-                                xs: "120px",
-                                md: "150px"
+                                xs: "100px",
+                                md: "120px"
                             },
                             position: "absolute",
                             top: "-50%",
                         }}
                     >
                         <Badge
+                            sx={{
+                                height: "100%",
+                                width: "100%",
+                            }}
                             overlap="circular"
                             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                             badgeContent={
