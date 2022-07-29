@@ -1,9 +1,10 @@
-import { Box, Typography, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SvgIcon } from '@mui/material';
+import { Box, Typography, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SvgIcon, Container } from '@mui/material';
 import React, { useState } from 'react'
 import { WithChildren } from '../../types/common';
 import CustomAppbar from '../common/Appbar';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import ProfileCard from './ProfileCard';
 
 interface LayoutProps extends WithChildren {
 
@@ -76,7 +77,27 @@ export default function ProfileLayout({ children }: LayoutProps) {
 
     const drawer = (
         <Box sx={{ borderRight: "1px solid #E3E2E2" }}>
-            <List sx={{ padding: "10px 20px", rowGap: { xs: "10px", sm: "20px" } }}>
+            <Box sx={{
+                px: 3,
+                py: 2,
+                display: "flex",
+                justifyContent: "start",
+            }}>
+                <Box sx={{
+                    height: { xs: "40px", md: "60px" }, display: {
+                        md: "none"
+                    }
+                }}>
+                    <Link href="/" className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-button MuiTypography-colorPrimary">
+                        <img alt="Logo enterprise" width="100%" height="100%" src="/assets/imgs/logo.svg" className="" />
+                    </Link>
+                </Box>
+            </Box>
+            <List sx={{ padding: {
+                xs: "5px 10px",
+                md: "5px 30px"
+
+            }, rowGap: { xs: "10px", sm: "15px" } }}>
                 {drawerItems.map((drawerItem, index) => {
                     const isActive = router.pathname === drawerItem.link
                     return (
@@ -85,17 +106,17 @@ export default function ProfileLayout({ children }: LayoutProps) {
                                 <ListItemButton sx={{
                                     display: "flex",
                                     alignItems: "center",
-                                    padding: { xs: "10px 0", sm: "20px 0" }
+                                    padding: { xs: "10px 0", sm: "5px 0" }
                                 }}  >
                                     <ListItemIcon sx={{
-                                        height: "100%",
+                                        height: "100% !important",
                                         display: "flex",
                                         alignItems: "center",
                                         justifyContent: "center"
                                     }}>
                                         <SvgIcon viewBox="0 0 32 32" sx={{
-                                            height: "29px",
-                                            width: "32px",
+                                            height: "24px",
+                                            width: "26px",
                                             color: isActive ? "primary.main" : "#E8E8E8",
                                         }}>
                                             {drawerItem.icon}
@@ -110,11 +131,11 @@ export default function ProfileLayout({ children }: LayoutProps) {
                                                 sx={
                                                     {
                                                         display: "inline-block",
-                                                        padding: "5px 0",
+                                                        padding: "2px 0",
                                                         borderRadius: "5px",
                                                         fontWeight: "bold",
                                                         letterSpacing: 2,
-                                                        fontSize: { xs: "16px", sm: "18px" },
+                                                        fontSize: { xs: "16px", lg: "18px" },
                                                         position: "relative",
                                                         "&::before": {
                                                             content: "''",
@@ -126,7 +147,6 @@ export default function ProfileLayout({ children }: LayoutProps) {
                                                             bottom: "0",
                                                             left: "0",
                                                             borderRadius: "5px",
-
                                                         }
                                                     }
                                                 }
@@ -146,7 +166,7 @@ export default function ProfileLayout({ children }: LayoutProps) {
     );
 
     return (
-        <Box>
+        <Box sx={{ position: "relative" }} >
             <CustomAppbar handleDrawerToggle={handleDrawerToggle} />
             <Drawer
                 // hideBackdrop
@@ -159,7 +179,7 @@ export default function ProfileLayout({ children }: LayoutProps) {
                 }}
                 sx={{
                     border: "none",
-                    display: { xs: 'block', sm: 'none' },
+                    display: { xs: 'block', md: 'none' },
                     '& .MuiDrawer-paper': {
                         boxSizing: 'border-box',
                         width: drawerWidth,
@@ -174,27 +194,44 @@ export default function ProfileLayout({ children }: LayoutProps) {
             <Drawer
                 variant="permanent"
                 sx={{
-                    display: { xs: 'none', sm: 'block' },
-                    '& .MuiPaper-root': { mt: "94px" },
+                    display: { xs: 'none', md: 'block' },
+                    '& .MuiPaper-root': {
+                        mt: {
+                            xs: "70px"
+                        }
+                    },
                     '& .MuiDrawer-paper': {
                         boxSizing: 'border-box',
                         width: drawerWidth,
                         border: "none"
                     },
+                    px: {
+                        xs: "0",
+
+                    }
                 }}
                 open
             >
                 {drawer}
             </Drawer>
-            <Box component="main"
+            <Container component="main"
                 sx={{
-                    marginLeft: { xs: "none", sm: `${drawerWidth}px` },
+                    marginLeft: { xs: "none", md: `${drawerWidth}px` },
                     position: "relative",
                     flexGrow: 1,
-                    p: 3
+                    px: {
+                        xs: 1,
+                        sm: 2,
+                        md: 3,
+                        lg: 4,
+                    }
                 }}>
+                <Box sx={{ my: 2 }}>
+                    <ProfileCard />
+                </Box>
+
                 {children}
-            </Box>
+            </Container>
         </Box>
     );
 }
