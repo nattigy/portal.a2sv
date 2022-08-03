@@ -223,6 +223,10 @@ const ProfileForm = () => {
                                 >
                                     {[
                                         {
+                                            value: "",
+                                            label: "Select"
+                                        },
+                                        {
                                             value: "ethiopia",
                                             label: "Ethiopia"
                                         }, {

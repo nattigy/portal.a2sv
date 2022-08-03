@@ -222,13 +222,13 @@ const CustomAppbar = (props: Props) => {
                                             <Avatar alt="Remy Sharp" src="https://mui.com/static/images/avatar/2.jpg" />
                                         </IconButton>
                                     </Tooltip>
-                                    <Menu
+                                    {/* <Menu
                                         sx={{
                                             mt: '45px',
                                             "& .MuiPaper-root": {
                                                 borderRadius: "0 0 20px 20px",
                                                 width: {
-                                                    xs: "250px"
+                                                    xs: "220px"
                                                 },
                                             }
                                         }}
@@ -248,14 +248,14 @@ const CustomAppbar = (props: Props) => {
                                     >
                                         <Box sx={{
                                             display: "flex",
-                                            padding: "10px",
+                                            padding: "5px",
                                             rowGap: "1px",
                                             flexDirection: "column",
                                             alignItems: "center"
                                         }}>
                                             <Tooltip title="Profile">
                                                 <>
-                                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: "5px 0" }}>
+                                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: "2px 0" }}>
                                                         <Avatar alt="Remy Sharp" src="https://mui.com/static/images/avatar/2.jpg" />
                                                     </IconButton>
                                                     <Typography variant="h5">John Doe</Typography>
@@ -301,7 +301,7 @@ const CustomAppbar = (props: Props) => {
 
                                             </MenuItem>
                                         </List>
-                                    </Menu>
+                                    </Menu> */}
 
                                 </Box>
                             </Stack>
@@ -426,7 +426,7 @@ const CustomAppbar = (props: Props) => {
                             spacing={2}
                         >
                             <Box>
-                                <IconButton sx={{ p: "10px", }}>
+                                <IconButton sx={{ p: "5px", }}>
                                     {
                                         hasUnread ? (
                                             <svg width="24" height="28" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -446,9 +446,7 @@ const CustomAppbar = (props: Props) => {
                                 </IconButton>
                             </Box>
 
-                            <Box
-
-                            >
+                            <Box >
                                 <Tooltip title="Open settings">
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                         <Avatar alt="Remy Sharp" src="https://mui.com/static/images/avatar/2.jpg" />
@@ -460,7 +458,7 @@ const CustomAppbar = (props: Props) => {
                                         "& .MuiPaper-root": {
                                             borderRadius: "0 0 20px 20px",
                                             width: {
-                                                xs: "250px"
+                                                xs: "220px"
                                             },
                                         }
                                     }}
@@ -480,17 +478,17 @@ const CustomAppbar = (props: Props) => {
                                 >
                                     <Box sx={{
                                         display: "flex",
-                                        padding: "10px",
+                                        padding: "5px",
                                         rowGap: "1px",
                                         flexDirection: "column",
                                         alignItems: "center"
                                     }}>
                                         <Tooltip title="Profile">
                                             <>
-                                                <IconButton onClick={handleOpenUserMenu} sx={{ p: "5px 0" }}>
+                                                <IconButton onClick={handleOpenUserMenu} sx={{ p: "2px 0" }}>
                                                     <Avatar alt="Remy Sharp" src="https://mui.com/static/images/avatar/2.jpg" />
                                                 </IconButton>
-                                                <Typography variant="h5">John Doe</Typography>
+                                                <Typography variant="h6">John Doe</Typography>
                                                 <Typography variant="subtitle1">@johndoe</Typography>
                                                 <Typography variant="subtitle2">Student G-31</Typography>
                                             </>
@@ -499,7 +497,7 @@ const CustomAppbar = (props: Props) => {
                                     <Divider />
                                     <List
                                         sx={{
-                                            padding: "10px 20px",
+                                            padding: "2px",
                                         }}
                                     >
                                         <MenuItem sx={{ padding: "0 10px" }} onClick={handleCloseUserMenu}>

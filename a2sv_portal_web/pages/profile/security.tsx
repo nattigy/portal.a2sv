@@ -1,10 +1,13 @@
 import React from 'react'
 import ProfileLayout from '../../components/profile/Layout'
+import SecurityForm from '../../components/profile/SecurityForm'
 
 
 const SecurityPage = () => {
     return (
-        <ProfileLayout>SecurityPage</ProfileLayout>
+        <ProfileLayout>
+            <SecurityForm />
+        </ProfileLayout>
     )
 }
 
