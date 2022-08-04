@@ -13,7 +13,6 @@ const GlobalTheme: ThemeOptions = createTheme({
       primary: '#000',
       secondary: '#000',
     },
-    
   },
   typography: {
     fontFamily: [
