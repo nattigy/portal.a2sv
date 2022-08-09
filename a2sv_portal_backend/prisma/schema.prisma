@@ -64,18 +64,33 @@ model Topic {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  topic_name String
+  topic_name     String
+  ProblemOnTopic ProblemOnTopic[]
 }
 
 model Problem {
-  id            Int             @id @default(autoincrement())
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  problem_title String
-  platform      String
-  link          String
-  difficulty    Difficulty
-  ProblemStatus ProblemStatus[]
+  id             Int              @id @default(autoincrement())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  problem_title  String
+  platform       String
+  link           String
+  difficulty     Difficulty
+  ProblemStatus  ProblemStatus[]
+  ProblemOnTopic ProblemOnTopic[]
+}
+
+model ProblemOnTopic {
+  topic   Topic @relation(fields: [topicId], references: [id])
+  topicId Int
+
+  problem   Problem @relation(fields: [problemId], references: [id])
+  problemId Int
+
+  assignedAt DateTime @default(now())
+  assignedBy Int
+
+  @@id([topicId, problemId])
 }
 
 model ProblemStatus {
@@ -89,16 +104,16 @@ model ProblemStatus {
   problem    Problem @relation(fields: [problem_id], references: [id])
   problem_id Int
 
-  status String
-  github_link String
+  status          String
+  github_link     String
   number_of_tries Int
-  time_taken Int
-  date DateTime
-  language_code String
-  solution_code String
+  time_taken      Int
+  date            DateTime
+  language_code   String
+  solution_code   String
 }
 
-enum Difficulty{
+enum Difficulty {
   Hard
   Medium
   Easy
