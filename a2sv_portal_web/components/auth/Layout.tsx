@@ -19,46 +19,46 @@ const Layout = (props: LayoutProps) => {
       <Grid
         item
         xs={12}
-        lg={6}
+        sm={6}
         sx={{
           bgcolor: 'primary.main',
-          display: 'flex',
+          display: { sm: 'flex', xs: 'none' },
           justifyContent: 'center',
           alignItems: 'center',
-          p: 2,
         }}
       >
         <Box>
           <Image src={'/assets/imgs/asset1.svg'} height={200} width={500} alt="asset1" />
           <Box
             sx={{
-              mt: 5,
-              width: 250,
-              textAlign: 'center',
-              mx: 'auto',
+              mt: 8,
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
             }}
           >
-            <Typography variant="h4" sx={{ color: 'secondary.main' }}>
+            <Typography variant="h5" sx={{ color: 'secondary.main' }}>
               Quick Access
             </Typography>
-            <Typography sx={{ color: 'secondary.main' }}>
-              Get the most of your work by using simple search
+            <Typography variant="caption" sx={{ color: 'secondary.main' }}>
+              Welcome A2SVians
             </Typography>
           </Box>
           <Box
             sx={{
               display: 'flex',
               justifyContent: 'center',
-              mt: 3,
+              mt: 10,
             }}
           >
-            <Rectangle color="secondary.main" padx={2} pady={1} margin={1} borderRadius={2} />
-            <Rectangle color="secondary.main" padx={1} pady={1} margin={1} borderRadius={2} />
-            <Rectangle color="secondary.main" padx={1} pady={1} margin={1} borderRadius={2} />
+            <Rectangle color="secondary.main" padx={1} pady={0.5} margin={0.5} borderRadius={2} />
+            <Rectangle color="secondary.main" padx={0.5} pady={0.5} margin={0.5} borderRadius={2} />
+            <Rectangle color="secondary.main" padx={0.5} pady={0.5} margin={0.5} borderRadius={2} />
           </Box>
         </Box>
       </Grid>
-      <Grid item xs={12} lg={6} sx={{ p: 1 }}>
+      <Grid item xs={12} sm={6} sx={{ p: 1 }}>
         <Box
           sx={{
             display: 'flex',
@@ -79,13 +79,13 @@ const Layout = (props: LayoutProps) => {
               }}
             >
               <MenuItem sx={{ color: 'text.primary' }} value={'Amh'}>
-                am
+                Am
               </MenuItem>
               <MenuItem sx={{ color: 'text.primary' }} value={'Eng'}>
-                en
+                En
               </MenuItem>
               <MenuItem sx={{ color: 'text.primary' }} value={'Arb'}>
-                ar
+                Ar
               </MenuItem>
             </Select>
           </FormControl>
@@ -96,19 +96,21 @@ const Layout = (props: LayoutProps) => {
             flexDirection: 'column',
             alignItems: 'center',
             maxHeight: '80vh',
-            minHeight: '45vh',
+            minHeight: '55vh',
             my: 3,
           }}
         >
-          <Box sx={{ display: 'flex', justifyContent: 'center', my: 3 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', my: 1 }}>
             <Image src={'/assets/imgs/logo.svg'} height={60} width={150} alt="asset1" />
           </Box>
           <Box
             sx={{
               display: 'flex',
               alignItems: 'center',
-              maxWidth: '50%',
-              height: '50vh',
+              maxWidth: { xs: '90%', md: '75%', lg: '50%' },
+              minHeight: '40vh',
+              maxHeight: '50vh',
+              mt: 8,
             }}
           >
             {props.children}

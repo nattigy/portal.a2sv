@@ -1,33 +1,20 @@
-import { TextField } from '@mui/material'
-import { useField } from 'formik'
+import { styled, TextField } from '@mui/material'
 
-const TextfieldWrapper = ({
-  name,
-  label,
-  type,
-  ...otherProps
-}: {
-  name: string
-  label: string
-  type?: string
-}) => {
-  const [field, mata] = useField(name)
+const CustomTextField = styled(TextField)({
+  '& .MuiOutlinedInput-root': {
+    borderRadius: '10px',
+    backgroundColor: '#EFF3F9',
+    '& fieldset': {},
+    '&:hover fieldset': {},
+    '&.Mui-focused fieldset': {
+      borderColor: 'none',
+    },
+  },
+  input: {
+    py: '10px',
+    color: 'black',
+    borderRadius: '20px',
+  },
+})
 
-  const textfieldProps = {
-    ...field,
-    label,
-    type,
-    fullWidth: true,
-    ...otherProps,
-    error: false,
-    helperText: '',
-  }
-  if (mata && mata.touched && mata.error) {
-    textfieldProps.error = true
-    textfieldProps.helperText = mata.error
-  }
-
-  return <TextField {...textfieldProps} />
-}
-
-export default TextfieldWrapper
+export default CustomTextField

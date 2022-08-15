@@ -1,6 +1,6 @@
 import { createTheme, ThemeOptions } from '@mui/material'
 
-const GlobalTheme: ThemeOptions = createTheme({
+const GlobalTheme = createTheme({
   palette: {
     primary: {
       main: '#2766B5',
@@ -10,8 +10,8 @@ const GlobalTheme: ThemeOptions = createTheme({
     },
     link: { main: '#2766B5' },
     text: {
-      primary: '#000',
-      secondary: '#000',
+      primary: '#656565',
+      secondary: '#656565',
     },
   },
   typography: {
@@ -29,7 +29,7 @@ const GlobalTheme: ThemeOptions = createTheme({
       '"Segoe UI Symbol"',
     ].join(','),
     body1: {
-      fontSize: 14,
+      fontSize: 12,
     },
   },
 })
