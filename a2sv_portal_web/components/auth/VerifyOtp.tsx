@@ -1,4 +1,4 @@
-import { Button, Grid, Typography, useTheme, useMediaQuery } from '@mui/material'
+import { Button, Grid, Typography, useTheme, useMediaQuery, Stack } from '@mui/material'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
