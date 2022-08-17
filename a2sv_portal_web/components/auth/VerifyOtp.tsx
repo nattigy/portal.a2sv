@@ -52,19 +52,14 @@ const VerifyOtp = () => {
             justifyContent: 'space-between',
           }}
           inputStyle={{
-<<<<<<< HEAD
             ...config,
-=======
             width: 50,
             height: 50,
->>>>>>> 84bb93a (feat(web): setup tailwindcss)
             borderRadius: '5px',
             border: 'none',
             fontSize: "20px",
             fontWeight: "bold",
             backgroundColor: '#DFDFDF',
-            fontWeight: 'bold',
-            fontSize: 16,
           }}
           focusStyle={{ border: 'none' }}
           hasErrored={otpError}
