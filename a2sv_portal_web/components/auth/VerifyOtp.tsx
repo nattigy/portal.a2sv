@@ -28,17 +28,20 @@ const VerifyOtp = () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Typography variant="h5">Forgot password</Typography>
+        <Typography variant="h5" sx={{ fontWeight: 600 }}>Forgot password</Typography>
       </Grid>
-      <Grid item xs={12}>
-        <Typography variant="caption">
-          Please enter the verification code sent to the email{' '}
-        </Typography>
-        <Typography sx={{ textAlign: 'center' }}>
-          <strong>user@example.com</strong>
-        </Typography>
+      <Grid item xs={12} >
+        <Stack direction="column" justifyContent="center">
+
+          <Typography sx={{ width: "100%", textAlign: 'center', }} variant="caption" align='center'>
+            Please enter the verification code sent to the email{' '}
+          </Typography>
+          <Typography sx={{ textAlign: 'center' }}>
+            <strong>user@example.com</strong>
+          </Typography>
+        </Stack>
       </Grid>
-      <Grid item xs={12}>
+      <Grid my={2} item xs={12}>
         <OtpInput
           value={otp}
           onChange={handleChange}
@@ -49,9 +52,16 @@ const VerifyOtp = () => {
             justifyContent: 'space-between',
           }}
           inputStyle={{
+<<<<<<< HEAD
             ...config,
+=======
+            width: 50,
+            height: 50,
+>>>>>>> 84bb93a (feat(web): setup tailwindcss)
             borderRadius: '5px',
             border: 'none',
+            fontSize: "20px",
+            fontWeight: "bold",
             backgroundColor: '#DFDFDF',
             fontWeight: 'bold',
             fontSize: 16,
@@ -68,12 +78,12 @@ const VerifyOtp = () => {
           <></>
         )}
       </Grid>
-      <Grid item xs={12}>
+      <Grid my={2} item xs={12}>
         <Button
           variant="contained"
           fullWidth
           onClick={handleSubmit}
-          sx={{ boxShadow: '10', borderRadius: 2 }}
+          sx={{ boxShadow: '10', borderRadius: 2, height: "50px" }}
         >
           Submit
         </Button>
