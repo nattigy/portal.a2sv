@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.a2sv_portal_mobile">
+    package="com.a2sv.org.a2sv_portal_mobile">
    <application
         android:label="a2sv_portal_mobile"
         android:name="${applicationName}"

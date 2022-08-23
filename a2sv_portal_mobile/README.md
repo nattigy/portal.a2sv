@@ -1,6 +1,6 @@
 # a2sv_portal_mobile
 
-A new Flutter project.
+A2SV internal tooling system
 
 ## Getting Started
 
