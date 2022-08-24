@@ -1,3 +1,3 @@
-import '../interfaces/users.interfaces.dart';
+import '../users.interfaces.dart';
 
 class UsersRepository extends IUsersService{}
