@@ -1,4 +1,7 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:graphql/client.dart';
+
+import '../local_storage.dart';
 
 final HttpLink _httpLink = HttpLink(
   'https://api.github.com/graphql',
@@ -6,10 +9,10 @@ final HttpLink _httpLink = HttpLink(
 
 final AuthLink authLink = AuthLink(
   getToken: () async {
-    // FlutterSecureStorage storage = LocalStorage().storage;
-    // var jwt = await storage.read(key: "jwt");
-    // if (jwt == null) return '';
-    return 'Bearer jwt';
+    FlutterSecureStorage storage = LocalStorage().storage;
+    var jwt = await storage.read(key: "jwt");
+    if (jwt == null) return '';
+    return 'Bearer $jwt';
   },
 );
 
