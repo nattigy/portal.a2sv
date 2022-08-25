@@ -1,1 +1,1 @@
-abstract class IStudentsService{}
+abstract class IStudentsService {}

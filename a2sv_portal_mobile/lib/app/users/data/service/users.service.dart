@@ -1,3 +1,3 @@
 import '../users.interfaces.dart';
 
-class UsersService extends IUsersService{}
+class UsersService extends IUsersService {}

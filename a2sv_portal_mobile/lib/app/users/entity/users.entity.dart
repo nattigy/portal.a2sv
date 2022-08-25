@@ -1,6 +1,12 @@
-class User {
-  final String id;
-  final String firstName;
+import 'package:equatable/equatable.dart';
 
-  User({required this.id, required this.firstName});
+class User extends Equatable {
+  const User(this.id);
+
+  final String id;
+
+  @override
+  List<Object> get props => [id];
+
+  static const empty = User('-');
 }
