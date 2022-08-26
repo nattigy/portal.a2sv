@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../utils/router_generator.dart';
 import 'auth/bloc/auth/auth.bloc.dart';
 import 'auth/data/auth.repository.dart';
 import 'auth/screens/login.page.dart';
 import 'home/home.page.dart';
-import 'home/splash.page.dart';
 
 class AppView extends StatefulWidget {
   const AppView({super.key});
@@ -22,6 +22,7 @@ class _AppViewState extends State<AppView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       navigatorKey: _navigatorKey,
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
@@ -46,7 +47,8 @@ class _AppViewState extends State<AppView> {
           child: child,
         );
       },
-      onGenerateRoute: (_) => SplashPage.route(),
+      initialRoute: 'splash',
+      onGenerateRoute: RouterGenerator.generateRoute,
     );
   }
 }

@@ -42,6 +42,7 @@ dependencies:
   flutter_bloc: ^8.1.1
   graphql_flutter: ^5.1.0
   formz: ^0.4.1
+  velocity_x: ^3.5.1
 
 dev_dependencies:
   flutter_test:
