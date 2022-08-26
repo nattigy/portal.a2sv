@@ -1,34 +1,19 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { PrismaModule } from './prisma/prisma.module';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
-import databaseconfig from './config/databaseconfig';
-import { GroupModule } from './group/group.module';
-import { TopicModule } from './topic/topic.module';
-import { ProblemStatusModule } from './problem_status/problem_status.module';
-import { ProblemModule } from './problem/problem.module';
-import { TopicProblemModule } from './topic_problem/topic_problem.module';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
+import { Module } from '@nestjs/common'
+import { GraphQLModule } from '@nestjs/graphql'
+import { join } from 'path'
+import { AppService } from './app.service'
+import { GroupsModule } from './groups/groups.module'
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      load: [databaseconfig],
-      isGlobal: true,
-      envFilePath: '../.env',
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      sortSchema: true,
     }),
-    GroupModule,
-    AuthModule,
-    UsersModule,
-    PrismaModule,
-    TopicModule,
-    ProblemStatusModule,
-    ProblemModule,
-    TopicProblemModule
+    GroupsModule,
   ],
-  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
