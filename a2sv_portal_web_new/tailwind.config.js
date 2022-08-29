@@ -15,10 +15,11 @@ module.exports = {
       },
       backgroundImage: {
         "hero-pattern": "url('/images/hero-pattern.svg')",
+        "login-pattern": "url('/images/login-pattern.svg')"
       },
       colors:{
         "primary":"#5956E9",
-      }
+      },
     },
   },
   plugins: [],
