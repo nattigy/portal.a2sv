@@ -5,6 +5,6 @@ class MainInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return TextField();
   }
 }
