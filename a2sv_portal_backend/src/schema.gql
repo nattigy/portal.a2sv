@@ -34,17 +34,21 @@ type Group {
 }
 
 type Mutation {
-  create(createGroupInput: CreateGroupInput!): Group
+  createGroup(createGroupInput: CreateGroupInput!): Group!
   createRole(data: CreateRoleInput!): Role!
   createUser(createUserInput: CreateUserInput!): User!
   deleteRole(id: Float!): Role!
   removeUser(id: Int!): User!
+  deleteGroup(id: Int!): Group!
+  deleteRole(id: Float!): Role!
+  updateGroup(id: Int!, updateGroupInput: UpdateGroupInput!): Group!
   updateRole(data: UpdateRoleInput!, id: Float!): Role!
   updateUser(updateUserInput: UpdateUserInput!): User!
 }
 
 type Query {
-  group(id: Int!): Group
+  group(id: Int!): Group!
+  groups: [Group!]!
   role(id: Float!): Role!
   roles: [Role!]!
   user(id: Int!): User!
@@ -59,9 +63,16 @@ type Role {
   updatedAt: DateTime
 }
 
+<<<<<<< HEAD
 enum Status {
   ACTIVE
   INACTIVE
+=======
+input UpdateGroupInput {
+  country: String
+  name: String
+  school: String
+>>>>>>> implement group model
 }
 
 input UpdateRoleInput {
