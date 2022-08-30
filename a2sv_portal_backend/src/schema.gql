@@ -2,10 +2,8 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-input CreateGroupInput {
-  country: String
+input CreateSeasonInput {
   name: String!
-  school: String
 }
 
 """
@@ -22,9 +20,16 @@ type Group {
 }
 
 type Mutation {
-  create(createGroupInput: CreateGroupInput!): Group
+  create(createSeasonInput: CreateSeasonInput!): Season
 }
 
 type Query {
   group(id: Int!): Group
+  season(id: Int!): Season!
+  seasons: [Season!]!
+}
+
+type Season {
+  id: ID!
+  name: String!
 }

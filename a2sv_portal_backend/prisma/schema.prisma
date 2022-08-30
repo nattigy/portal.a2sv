@@ -19,3 +19,9 @@ model Group {
   country   String?
   school    String?
 }
+model Season {
+  id        Int      @id @default(autoincrement())
+  name      String
+ 
+  
+}
