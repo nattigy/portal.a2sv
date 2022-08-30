@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 
+import '../../../widgets/buttons/main-button.dart';
+import '../../../widgets/inputs/main-input-field.dart';
 import '../../auth/bloc/login/login_bloc.dart';
 
 class LoginForm extends StatelessWidget {
@@ -29,6 +31,20 @@ class LoginForm extends StatelessWidget {
             _PasswordInput(),
             const Padding(padding: EdgeInsets.all(12)),
             _LoginButton(),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 10),
+            ),
+            MainInputField(
+              placeHolder: "User Name",
+              color: Color.fromRGBO(250, 251, 255, 1),
+              onChanged: (){},
+              // iconData: Icons.person,
+            ),
+            MainButton(
+              title: "Button",
+              color: Color.fromRGBO(89, 86, 233, 1),
+              function: (){},
+            ),
           ],
         ),
       ),
