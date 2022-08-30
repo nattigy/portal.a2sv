@@ -1,28 +1,28 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CreateSeasonInput } from './dto/create-season.input';
 import { UpdateSeasonInput } from './dto/update-season.input';
 import { Season } from '@prisma/client';
-
 @Injectable()
 export class SeasonService {
-    
     constructor(private readonly prismaService: PrismaService) { }
-    findAll() {
+    async getSeasons(): Promise<Season[]> {
         return this.prismaService.season.findMany()
     }
-    findOneById(id: number): Promise<Season> {
-        const season = this.prismaService.season.findUnique({ where: { id: id } })
+    async getSeasonById(id: number): Promise<Season> {
+        const season = await this.prismaService.season.findUnique({ where: { id: id } })
+        if (!season) {
+            throw new NotFoundException(`Season with id ${id} not found`)
+        }
         return season
     }
-    async create(season: CreateSeasonInput): Promise<Season> {
-        return await this.prismaService.season.create({ data: season })
+    async createSeason(createSeasonInput: CreateSeasonInput): Promise<Season> {
+        return await this.prismaService.season.create({ data: createSeasonInput })
     }
-    update(id: number, updateSeasonInput: UpdateSeasonInput) {
-        return this.prismaService.season.update({ where: { id }, data: { name:updateSeasonInput.name } })
+    async updateSeason(id: number, updateSeasonInput: UpdateSeasonInput): Promise<Season> {
+        return this.prismaService.season.update({ where: { id:id}, data: updateSeasonInput })
     }
-    remove(id: number) {
+    async deleteSeason(id: number): Promise<Season> {
         return this.prismaService.season.delete({ where: { id } })
     }
-
 }

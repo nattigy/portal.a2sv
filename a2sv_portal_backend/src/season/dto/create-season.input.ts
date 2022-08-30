@@ -1,8 +1,14 @@
-import { Field, InputType, Int } from '@nestjs/graphql'
+import { Field, GraphQLISODateTime, InputType} from '@nestjs/graphql'
 
 @InputType()
 export class CreateSeasonInput {
   @Field()
   name: string
+
+  @Field(() => GraphQLISODateTime)
+  startDate: Date;
+
+  @Field(() => GraphQLISODateTime)
+  endDate: Date;
  
 }

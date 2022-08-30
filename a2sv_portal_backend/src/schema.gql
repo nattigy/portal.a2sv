@@ -2,8 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-input CreateSeasonInput {
+input CreateGroupInput {
+  country: String
   name: String!
+  school: String
+}
+
+input CreateSeasonInput {
+  endDate: DateTime!
+  name: String!
+  startDate: DateTime!
 }
 
 """
@@ -20,7 +28,10 @@ type Group {
 }
 
 type Mutation {
-  create(createSeasonInput: CreateSeasonInput!): Season
+  create(createGroupInput: CreateGroupInput!): Group
+  createSeason(createSeasonInput: CreateSeasonInput!): Season!
+  deleteSeason(id: Int!): Season!
+  updateSeason(id: Int!, updateSeasonInput: UpdateSeasonInput!): Season!
 }
 
 type Query {
@@ -30,6 +41,16 @@ type Query {
 }
 
 type Season {
+  createdAt: DateTime
+  endDate: DateTime!
   id: ID!
   name: String!
+  startDate: DateTime!
+  updatedAt: DateTime
+}
+
+input UpdateSeasonInput {
+  endDate: DateTime
+  name: String
+  startDate: DateTime
 }
