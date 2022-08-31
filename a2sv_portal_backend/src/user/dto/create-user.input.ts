@@ -1,17 +1,14 @@
-import { InputType, Int, Field, registerEnumType } from '@nestjs/graphql';
-import { Status } from './Status';
+import { InputType, Int, Field, registerEnumType } from '@nestjs/graphql'
+import { Status } from '@prisma/client'
 @InputType()
 export class CreateUserInput {
   @Field({})
-  email : string;
+  email: string
 
   @Field({})
-  password: string;
-
-  @Field(type => Status)
-  status: Status
+  password: string
 }
 
 registerEnumType(Status, {
-  name: "Status"
+  name: 'Status',
 })

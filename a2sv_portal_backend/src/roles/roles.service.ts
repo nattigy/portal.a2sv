@@ -1,4 +1,4 @@
-import { PrismaService } from 'src/prisma.service'
+import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateRoleInput } from './dto/create-role.dto'
 import { UpdateRoleInput } from './dto/update-role.dto'
 import { Role } from '@prisma/client'
@@ -9,7 +9,13 @@ export class RolesService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async createRole(data: CreateRoleInput): Promise<Role> {
-    return await this.prismaService.role.create({ data })
+    const date = new Date();
+    return await this.prismaService.role.create({
+      data: {
+        ...data,
+        updatedAt: date.toISOString()
+      },
+    })
   }
 
   async getRoleById(id: number): Promise<Role> {

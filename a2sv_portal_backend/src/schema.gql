@@ -15,6 +15,11 @@ input CreateRoleInput {
   updatedAt: DateTime
 }
 
+input CreateUserInput {
+  email: String!
+  password: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -31,14 +36,19 @@ type Group {
 type Mutation {
   create(createGroupInput: CreateGroupInput!): Group
   createRole(data: CreateRoleInput!): Role!
+  createUser(createUserInput: CreateUserInput!): User!
   deleteRole(id: Float!): Role!
+  removeUser(id: Int!): User!
   updateRole(data: UpdateRoleInput!, id: Float!): Role!
+  updateUser(updateUserInput: UpdateUserInput!): User!
 }
 
 type Query {
   group(id: Int!): Group
   role(id: Float!): Role!
   roles: [Role!]!
+  user(id: Int!): User!
+  users(skip: Int, take: Int, where: WhereUserFilter): [User!]!
 }
 
 type Role {
@@ -49,9 +59,33 @@ type Role {
   updatedAt: DateTime
 }
 
+enum Status {
+  ACTIVE
+  INACTIVE
+}
+
 input UpdateRoleInput {
   createdAt: DateTime
   description: String
   name: String
   updatedAt: DateTime
+}
+
+input UpdateUserInput {
+  email: String
+  id: Int!
+  password: String
+}
+
+type User {
+  email: String!
+  id: ID!
+  role: Role!
+  roleId: ID!
+  status: Status!
+}
+
+input WhereUserFilter {
+  Status: String
+  email: String
 }

@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -21,10 +18,29 @@ model Group {
 }
 
 model Role {
-  id          Int     @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   name        String
   description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime
   users User[]
+}
+
+model Permission {
+  id          Int      @id @default(autoincrement())
+  action      String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime
+}
+
+model Season {
+  id        Int      @id @default(autoincrement())
+  name      String
+  startDate DateTime @default(now())
+  endDate   DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime
 }
 
 model User{
@@ -33,14 +49,18 @@ model User{
   roleId Int
   email String @unique
   password String
-  user_profile User_profile @relation(fields: [user_profileId], references: [id])
-  user_profileId Int @unique
+  userprofile User_profile?
   status Status
+    createdAt DateTime @default(now())
+  updatedAt DateTime
 }
 
 model User_profile {
   id          Int     @id @default(autoincrement())
-  user User?
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int @unique
+    createdAt DateTime @default(now())
+  updatedAt DateTime
 }
 
 enum Status{
