@@ -4,6 +4,7 @@ import { GraphQLModule } from '@nestjs/graphql'
 import { join } from 'path'
 import { AppService } from './app.service'
 import { GroupsModule } from './groups/groups.module'
+import { RolesModule } from './roles/roles.module'
 import { SeasonModule } from './season/season.module';
 
 @Module({
@@ -15,6 +16,8 @@ import { SeasonModule } from './season/season.module';
     }),
     GroupsModule,
     SeasonModule,
+    RolesModule,
+
   ],
   providers: [AppService],
 })
