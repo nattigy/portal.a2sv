@@ -25,6 +25,7 @@ class _AppViewState extends State<AppView> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: _navigatorKey,
+      theme: ThemeData(fontFamily: "Urbanist Regular"),
       builder: (context, child) {
       //  return PlatformsPage();
         return BlocListener<AuthenticationBloc, AuthenticationState>(
