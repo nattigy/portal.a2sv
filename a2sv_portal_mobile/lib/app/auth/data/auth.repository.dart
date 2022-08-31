@@ -4,7 +4,7 @@ import '../../users/data/users.repository.dart';
 import '../../users/entity/users.entity.dart';
 import '../dto/login.input.dart';
 
-enum AuthenticationStatus { unknown, authenticated, unauthenticated }
+enum AuthenticationStatus { unknown, authenticated, unauthenticated, firstUse }
 
 class AuthenticationRepository {
   final _controller = StreamController<AuthenticationStatus>();
@@ -14,21 +14,33 @@ class AuthenticationRepository {
 
   Stream<AuthenticationStatus> get status async* {
     bool token = await userRepository.hasToken();
-    if (token){
+    if (token) {
       yield AuthenticationStatus.authenticated;
-    } else{
-      yield AuthenticationStatus.unauthenticated;
+    } else {
+      bool onBoardScreenViewed =
+          await userRepository.checkOnboardScreenViewed();
+      if (onBoardScreenViewed) {
+        yield AuthenticationStatus.unauthenticated;
+      } else {
+        yield AuthenticationStatus.firstUse;
+      }
     }
     yield* _controller.stream;
+  }
+
+  Future<void> registerFirstTry() async {
+    _controller.add(AuthenticationStatus.unauthenticated);
+    await userRepository.setOnboardScreenToViewed();
   }
 
   Future<void> logIn({
     required String username,
     required String password,
   }) async {
-    LoginInput loginInput = LoginInput(phoneNumber: username, password: password);
+    LoginInput loginInput =
+        LoginInput(phoneNumber: username, password: password);
     User? user = await userRepository.login(loginInput);
-    if(user != null){
+    if (user != null) {
       _controller.add(AuthenticationStatus.authenticated);
     }
   }
