@@ -24,6 +24,7 @@ model Season {
   endDate   DateTime @default(now())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Topic Topic[]
 }
 
 model Permission {
@@ -40,4 +41,39 @@ model Role {
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime
+  User        User[]
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  roleId       Int
+  email        String        @unique
+  password     String
+  status       Status
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime
+  Role         Role          @relation(fields: [roleId], references: [id])
+  User_profile User_profile?
+}
+
+model User_profile {
+  id        Int      @id @default(autoincrement())
+  user_id   Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  User      User     @relation(fields: [user_id], references: [id])
+}
+
+model Topic{
+  id Int @id @default(autoincrement())  
+  seasonId Int @unique
+  name String
+  description String
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  Season Season @relation(fields: [seasonId], references: [id])
+}
+enum Status {
+  ACTIVE
+  INACTIVE
 }

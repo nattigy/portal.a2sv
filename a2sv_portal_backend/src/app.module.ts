@@ -6,6 +6,7 @@ import { AppService } from './app.service'
 import { GroupsModule } from './groups/groups.module'
 import { SeasonModule } from './season/season.module';
 import { RolesModule } from './roles/roles.module'
+import { TopicModule } from './topic/topic.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { RolesModule } from './roles/roles.module'
     GroupsModule,
     SeasonModule,
     RolesModule,
+    TopicModule,
   ],
   providers: [AppService],
 })
