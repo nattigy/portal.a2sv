@@ -6,13 +6,16 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:a2sv_portal_mobile/app/app.dart';
+import 'package:a2sv_portal_mobile/app/users/data/users.repository.dart';
+import 'package:a2sv_portal_mobile/config/graphql/client.dart';
+import 'package:a2sv_portal_mobile/config/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const App());
+    await tester.pumpWidget(App(userRepository: UserRepository(client: Client().connect, storage: LocalStorage().storage),));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

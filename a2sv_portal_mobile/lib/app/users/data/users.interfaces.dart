@@ -1,1 +1,1 @@
-abstract class IUsersService{}
+abstract class IUsersService {}
