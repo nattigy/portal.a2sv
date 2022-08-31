@@ -17,7 +17,7 @@ const Home: NextPage = () => {
             The Best Way
           </p>
           <p className="leading-snug md:text-6xl text-5xl font-bold ">
-            To Organize{" "}
+            to Organize{" "}
           </p>
           <p className="leading-snug md:text-6xl text-5xl font-bold ">
             Your Work{" "}

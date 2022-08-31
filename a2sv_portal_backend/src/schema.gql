@@ -8,10 +8,17 @@ input CreateGroupInput {
   school: String
 }
 
+
 input CreateSeasonInput {
   endDate: DateTime!
   name: String!
   startDate: DateTime!
+}
+input CreateRoleInput {
+  createdAt: DateTime
+  description: String
+  name: String!
+  updatedAt: DateTime
 }
 
 """
@@ -28,10 +35,15 @@ type Group {
 }
 
 type Mutation {
-  create(createGroupInput: CreateGroupInput!): Group
   createSeason(createSeasonInput: CreateSeasonInput!): Season!
   deleteSeason(id: Int!): Season!
   updateSeason(id: Int!, updateSeasonInput: UpdateSeasonInput!): Season!
+  createGroup(createGroupInput: CreateGroupInput!): Group!
+  createRole(data: CreateRoleInput!): Role!
+  deleteGroup(id: Int!): Group!
+  deleteRole(id: Float!): Role!
+  updateGroup(id: Int!, updateGroupInput: UpdateGroupInput!): Group!
+  updateRole(data: UpdateRoleInput!, id: Float!): Role!
 }
 
 type Query {
@@ -53,4 +65,32 @@ input UpdateSeasonInput {
   endDate: DateTime
   name: String
   startDate: DateTime
+}
+
+type Query {
+  group(id: Int!): Group!
+  groups: [Group!]!
+  role(id: Float!): Role!
+  roles: [Role!]!
+}
+
+type Role {
+  createdAt: DateTime
+  description: String
+  id: Int!
+  name: String!
+  updatedAt: DateTime
+}
+
+input UpdateGroupInput {
+  country: String
+  name: String
+  school: String
+}
+
+input UpdateRoleInput {
+  createdAt: DateTime
+  description: String
+  name: String
+  updatedAt: DateTime
 }

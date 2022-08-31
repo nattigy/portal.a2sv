@@ -1,24 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'home/home.page.dart';
+import 'app_view.dart';
+import 'auth/bloc/auth/auth.bloc.dart';
+import 'auth/data/auth.repository.dart';
+import 'users/data/users.repository.dart';
 
 class App extends StatefulWidget {
-  const App({Key? key}) : super(key: key);
+  const App({Key? key, required this.userRepository}) : super(key: key);
+
+  final UserRepository userRepository;
 
   @override
   State<App> createState() => _AppState();
 }
 
 class _AppState extends State<App> {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    final AuthenticationRepository authenticationRepository = AuthenticationRepository(userRepository: widget.userRepository);
+
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(value: authenticationRepository),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthenticationBloc>(
+            create: (context) => AuthenticationBloc(
+              authenticationRepository: authenticationRepository
+            ),
+            lazy: false,
+          ),
+        ],
+        child: const AppView(),
       ),
-      home: const HomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
