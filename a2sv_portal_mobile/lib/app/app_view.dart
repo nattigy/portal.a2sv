@@ -7,6 +7,7 @@ import 'auth/bloc/auth/auth.bloc.dart';
 import 'auth/data/auth.repository.dart';
 import 'auth/screens/login.page.dart';
 import 'home/home.page.dart';
+import 'onboarding/screens/onboard_screen.dart';
 
 class AppView extends StatefulWidget {
   const AppView({super.key});
@@ -40,6 +41,12 @@ class _AppViewState extends State<AppView> {
               case AuthenticationStatus.unauthenticated:
                 _navigator.pushAndRemoveUntil<void>(
                   LoginPage.route(),
+                  (route) => false,
+                );
+                break;
+              case AuthenticationStatus.firstUse:
+                _navigator.pushAndRemoveUntil<void>(
+                  OnBoardingPage.route(),
                   (route) => false,
                 );
                 break;
