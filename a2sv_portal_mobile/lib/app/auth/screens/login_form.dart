@@ -43,7 +43,7 @@ class LoginForm extends StatelessWidget {
             MainButton(
               title: "Button",
               color: Color.fromRGBO(89, 86, 233, 1),
-              function: (){},
+              onClick: (){},
             ),
           ],
         ),
