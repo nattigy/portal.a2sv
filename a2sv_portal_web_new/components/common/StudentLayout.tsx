@@ -60,14 +60,14 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                     className={clsx(
                       " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                       activePath.includes("/dashboard") &&
-                        "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                      "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                     )}
                   >
                     <svg
                       className={clsx(
                         "w-6 h-6 hover:text-white ",
                         activePath.includes("/dashboard") &&
-                          "fill-current text-indigo-700 "
+                        "fill-current text-indigo-700 "
                       )}
                       xmlns="http://www.w3.org/2000/svg"
                       aria-hidden="true"
@@ -83,14 +83,14 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                     className={clsx(
                       " flex items-center justify-center  p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                       activePath.includes("/education") &&
-                        "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                      "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                     )}
                   >
                     <svg
                       className={clsx(
                         "w-6 h-6 hover:text-white ",
                         activePath.includes("/education") &&
-                          "fill-current text-indigo-700"
+                        "fill-current text-indigo-700"
                       )}
                       viewBox="0 0 25 25"
                       fill="none"
@@ -109,7 +109,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                     className={clsx(
                       " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                       activePath.includes("/contests") &&
-                        "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                      "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                     )}
                   >
                     <svg
@@ -156,14 +156,14 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                     className={clsx(
                       " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 ",
                       activePath.includes("/personal-status") &&
-                        "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                      "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                     )}
                   >
                     <svg
                       className={clsx(
                         "w-6 h-6 hover:text-white ",
                         activePath.includes("/personal-status") &&
-                          "fill-current text-indigo-700"
+                        "fill-current text-indigo-700"
                       )}
                       viewBox="0 0 26 27"
                       fill="none"
@@ -182,7 +182,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                     className={clsx(
                       " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                       activePath.includes("/settings") &&
-                        "fill current bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700",
+                      "fill current bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700",
                       "hover:text-white "
                     )}
                   >
@@ -190,7 +190,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                       className={clsx(
                         "w-6 h-6 hover:text-white ",
                         activePath.includes("/settings") &&
-                          "fill-current text-indigo-700 ",
+                        "fill-current text-indigo-700 ",
                         "hover:text-white "
                       )}
                       viewBox="0 0 27 27"
