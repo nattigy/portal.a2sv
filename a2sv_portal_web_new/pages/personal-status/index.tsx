@@ -1,22 +1,16 @@
-import React, { ReactNode } from 'react'
-import StudentLayout from '../../components/common/StudentLayout'
-import UserRank from '../../components/personal-status/UserRank'
+import React, { ReactNode } from "react";
+import StudentLayout from "../../components/common/StudentLayout";
 
 const IndexPage = () => {
-    const Sidebar: React.FC = () => {
-        return (
-            // <h1>Personal Status Sidebar</h1>
-            <UserRank/>
-        )
-    }
+  const Sidebar: React.FC = () => {
+    return <h1>Personal Status Sidebar</h1>;
+  };
 
-    return (
-        <StudentLayout sidebar={<Sidebar />}>
-            <div>
-                Personal Status
-            </div>
-        </StudentLayout>
-    )
-}
+  return (
+    <StudentLayout sidebar={<Sidebar />}>
+      <div>Personal Status</div>
+    </StudentLayout>
+  );
+};
 
-export default IndexPage
+export default IndexPage;
