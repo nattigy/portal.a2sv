@@ -37,13 +37,13 @@ class LoginForm extends StatelessWidget {
             MainInputField(
               placeHolder: "User Name",
               color: Color.fromRGBO(250, 251, 255, 1),
-              onChanged: (){},
+              onChanged: () {},
               // iconData: Icons.person,
             ),
             MainButton(
               title: "Button",
               color: Color.fromRGBO(89, 86, 233, 1),
-              onClick: (){},
+              onClick: () {},
             ),
           ],
         ),

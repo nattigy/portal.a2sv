@@ -12,38 +12,38 @@ class PlatformsForm extends StatelessWidget {
       padding: const EdgeInsets.all(30.0),
       child: Column(
         children: [
-           SinglePlatform(
+          SinglePlatform(
             fieldTitle: "leetcode url",
             imageURL: "assets/images/leetcode.png",
             color: Color.fromARGB(255, 250, 236, 223),
-             onChange: (){},
+            onChange: () {},
           ),
           const SizedBox(
             height: 5,
           ),
-           SinglePlatform(
+          SinglePlatform(
             fieldTitle: "GeeksForGeeks url",
             imageURL: "assets/images/geeks.png",
             color: Color.fromARGB(255, 250, 236, 223),
-             onChange: (){},
+            onChange: () {},
           ),
           const SizedBox(
             height: 5,
           ),
-           SinglePlatform(
+          SinglePlatform(
             fieldTitle: "HackerRank url",
             imageURL: "assets/images/hacker.png",
             color: Color.fromARGB(255, 250, 236, 223),
-             onChange: (){},
+            onChange: () {},
           ),
           const SizedBox(
             height: 5,
           ),
-           SinglePlatform(
+          SinglePlatform(
             fieldTitle: "CodeForces url",
             imageURL: "assets/images/codeforces.png",
             color: Color.fromARGB(255, 250, 236, 223),
-             onChange: (){},
+            onChange: () {},
           ),
           Expanded(child: Container()),
           Align(

@@ -58,7 +58,7 @@ class UserRepository {
 
   Future<User?> getLocalUser() async {
     String? user = await storage.read(key: "user");
-    if(user != null){
+    if (user != null) {
       return User.fromJson(jsonDecode(user));
     }
     return null;
@@ -73,5 +73,15 @@ class UserRepository {
   Future<void> logout() async {
     await storage.delete(key: "jwt");
     await storage.delete(key: "user");
+  }
+
+  Future<bool> checkOnboardScreenViewed() async {
+    var checkOnboardViewed = await storage.read(key: "onboardViewed");
+    return checkOnboardViewed != null;
+  }
+
+  Future<bool> setOnboardScreenToViewed() async {
+    await storage.write(key: "onboardViewed", value: "seen");
+    return true;
   }
 }

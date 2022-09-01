@@ -12,41 +12,40 @@ class SocialsForm extends StatelessWidget {
       padding: const EdgeInsets.all(30.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children:  [
-           SinglePlatform(
+        children: [
+          SinglePlatform(
             fieldTitle: "Instagram handle",
             imageURL: "assets/images/insta.png",
             color: Color.fromARGB(255, 236, 228, 198),
-             onChange: (){},
+            onChange: () {},
           ),
           const SizedBox(
             height: 5,
           ),
-           SinglePlatform(
+          SinglePlatform(
             fieldTitle: "Telegram handle",
             imageURL: "assets/images/telegram.png",
             color: Color.fromARGB(255, 236, 228, 198),
-             onChange: (){},
+            onChange: () {},
           ),
           const SizedBox(
             height: 5,
           ),
-           SinglePlatform(
+          SinglePlatform(
             fieldTitle: "Twitter handle",
             imageURL: "assets/images/twitter.png",
             color: Color.fromARGB(255, 236, 228, 198),
-             onChange: (){},
+            onChange: () {},
           ),
           const SizedBox(
             height: 5,
           ),
-           SinglePlatform(
+          SinglePlatform(
             fieldTitle: "Linkedin handle",
             imageURL: "assets/images/linkedin.png",
             color: Color.fromARGB(255, 236, 228, 198),
-            onChange: (){},
+            onChange: () {},
           ),
-
           Expanded(child: Container()),
           Align(
             alignment: Alignment.bottomCenter,

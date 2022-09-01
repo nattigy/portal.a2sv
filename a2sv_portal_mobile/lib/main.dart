@@ -9,8 +9,8 @@ import 'config/local_storage.dart';
 Future<void> main() async {
   await initHiveForFlutter();
 
-  UserRepository userRepository = UserRepository(client: Client().connect, storage: LocalStorage().storage);
+  UserRepository userRepository =
+      UserRepository(client: Client().connect, storage: LocalStorage().storage);
 
   runApp(App(userRepository: userRepository));
 }
-
