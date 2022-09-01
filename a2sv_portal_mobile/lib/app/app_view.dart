@@ -29,7 +29,7 @@ class _AppViewState extends State<AppView> {
       navigatorKey: _navigatorKey,
       theme: ThemeData(fontFamily: "Urbanist Regular"),
       builder: (context, child) {
-      //  return PlatformsPage();
+       return PlatformsPage();
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             switch (state.status) {

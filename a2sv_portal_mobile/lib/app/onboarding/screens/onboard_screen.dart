@@ -84,7 +84,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       // height: 400,
       height: MediaQuery.of(context).size.height * 0.431,
       child: Image(
-        // image: AssetImage("assets/OnboardingPage${index + 1}.png"),
+        // image: AssetImage("assets/images/OnboardingPage${index + 1}.png"),
         image: AssetImage(screens[index].imgPath),
       ),
     );
