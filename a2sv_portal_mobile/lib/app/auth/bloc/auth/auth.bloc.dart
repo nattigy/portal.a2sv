@@ -49,6 +49,8 @@ class AuthenticationBloc
         );
       case AuthenticationStatus.unknown:
         return emit(const AuthenticationState.unknown());
+      case AuthenticationStatus.firstUse:
+        return emit(const AuthenticationState.firstUse());
     }
   }
 
