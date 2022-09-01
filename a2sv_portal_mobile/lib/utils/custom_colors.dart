@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomColors {
-  static Color? primaryColor = const Color(0xFF5956E9);
+  static Color primaryColor = const Color(0xFF5956E9);
   static Color? primaryLightColor = const Color(0xFFE5E9F5);
   static Color? greyUnselectedOnboardingSlider = const Color(0xFFD9D9D9);
   static Color? lightTextColor = const Color(0xFFA4A4A4);

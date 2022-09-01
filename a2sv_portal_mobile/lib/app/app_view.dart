@@ -8,6 +8,7 @@ import 'auth/bloc/auth/auth.bloc.dart';
 import 'auth/data/auth.repository.dart';
 import 'home/home.page.dart';
 import 'onboarding/screens/onboard_screen.dart';
+import 'students/screens/stats_detail_page.dart';
 
 class AppView extends StatefulWidget {
   const AppView({super.key});
@@ -33,16 +34,21 @@ class _AppViewState extends State<AppView> {
       builder: (context, child) {
         //  return PlatformsPage();
         //   return TopicDetailsPage();
-        return SingleUser();
+        // return StatsDetailPage();
+        // return SingleUser();
         // return OnBoardingPage();
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             switch (state.status) {
               case AuthenticationStatus.unauthenticated:
                 _navigator.pushAndRemoveUntil<void>(
-                  HomePage.route(),
+                 StatsDetailPage.route(),
                   (route) => false,
                 );
+                // _navigator.pushAndRemoveUntil<void>(
+                //   HomePage.route(),
+                //   (route) => false,
+                // );
                 break;
               // case AuthenticationStatus.unauthenticated:
               //   _navigator.pushAndRemoveUntil<void>(
@@ -52,9 +58,13 @@ class _AppViewState extends State<AppView> {
               //   break;
               case AuthenticationStatus.firstUse:
                 _navigator.pushAndRemoveUntil<void>(
-                  OnBoardingPage.route(),
-                  (route) => false,
+                  StatsDetailPage.route(),
+                      (route) => false,
                 );
+                // _navigator.pushAndRemoveUntil<void>(
+                //   OnBoardingPage.route(),
+                //   (route) => false,
+                // );
                 break;
               case AuthenticationStatus.unknown:
                 break;
