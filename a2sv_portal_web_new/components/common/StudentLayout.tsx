@@ -254,17 +254,15 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
         </div>
       </div>
 
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 min-h-screen max-h-screen overflow-y-auto">
         <main>
-          <div className="py-6">
-            <div className="px-4 mx-auto max-w-7xl sm:px-6 md:px-8">
-              {children}
-            </div>
+          <div className="bg-[#F6F6FC] p-4 mx-auto max-w-7xl  sm:px-6 md:px-8">
+            {children}
           </div>
         </main>
       </div>
       {sidebar && (
-        <div className="hidden bg-white shadow-lg px-2 py-5 drop-shadow-lg md:flex min-h-screen  flex-col w-1/5">
+        <div className="hidden bg-white shadow-lg px-5 py-10 drop-shadow-lg md:flex min-h-screen max-h-screen overflow-y-auto flex-col w-1/5">
           {sidebar}
         </div>
       )}
