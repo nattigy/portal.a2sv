@@ -1,4 +1,5 @@
 import 'package:a2sv_portal_mobile/app/students/screens/platforms.page.dart';
+import 'package:a2sv_portal_mobile/app/users/screens/widgets/single-user.component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,13 +41,13 @@ class _AppViewState extends State<AppView> {
                 break;
               case AuthenticationStatus.unauthenticated:
                 _navigator.pushAndRemoveUntil<void>(
-                  LoginPage.route(),
+                  SingleUser.route(),
                   (route) => false,
                 );
                 break;
               case AuthenticationStatus.firstUse:
                 _navigator.pushAndRemoveUntil<void>(
-                  OnBoardingPage.route(),
+                   SingleUser.route(),
                   (route) => false,
                 );
                 break;
