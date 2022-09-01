@@ -12,7 +12,10 @@ class ProfileCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Welcome"),
-            Text("Jon Doe", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),),
+            Text(
+              "Jon Doe",
+              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
+            ),
           ],
         ),
         CircleAvatar(),

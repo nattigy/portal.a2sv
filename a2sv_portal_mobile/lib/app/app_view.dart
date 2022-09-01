@@ -1,14 +1,11 @@
-import 'package:a2sv_portal_mobile/app/students/screens/platforms.page.dart';
-import 'package:a2sv_portal_mobile/utils/custom_colors.dart';
 import 'package:a2sv_portal_mobile/app/users/screens/widgets/single-user.component.dart';
-import 'package:a2sv_portal_mobile/app/students/screens/topic_details_page.dart';
+import 'package:a2sv_portal_mobile/utils/custom_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../utils/router_generator.dart';
 import 'auth/bloc/auth/auth.bloc.dart';
 import 'auth/data/auth.repository.dart';
-import 'auth/screens/login.page.dart';
 import 'home/home.page.dart';
 import 'onboarding/screens/onboard_screen.dart';
 
@@ -30,12 +27,12 @@ class _AppViewState extends State<AppView> {
       debugShowCheckedModeBanner: false,
       navigatorKey: _navigatorKey,
       theme: ThemeData(
-          fontFamily: "Urbanist Regular",
+        fontFamily: "Urbanist Regular",
         scaffoldBackgroundColor: CustomColors.scaffoldBackGroundColor,
       ),
       builder: (context, child) {
-      //  return PlatformsPage();
-      //   return TopicDetailsPage();
+        //  return PlatformsPage();
+        //   return TopicDetailsPage();
         return SingleUser();
         // return OnBoardingPage();
         return BlocListener<AuthenticationBloc, AuthenticationState>(

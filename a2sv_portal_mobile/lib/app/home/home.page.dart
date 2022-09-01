@@ -3,7 +3,6 @@ import 'package:a2sv_portal_mobile/app/topics_tab/topics_tab.dart';
 import 'package:a2sv_portal_mobile/utils/custom_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 import '../group_tab/group_tab.dart';
 import '../home_tab/home_tab.dart';
@@ -40,7 +39,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: _widgets[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
+          backgroundColor: Colors.white,
           // selectedIconTheme: IconThemeData(
           //   color: CustomColors.primaryColor,
           // ),

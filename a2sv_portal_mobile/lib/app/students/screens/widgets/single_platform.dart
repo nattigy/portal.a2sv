@@ -6,16 +6,24 @@ class SinglePlatform extends StatelessWidget {
   final String imageURL;
   final Color? color;
   final Function onChange;
-  const SinglePlatform({Key? key,required this.fieldTitle, required this.imageURL,this.color, required this.onChange}) : super(key: key);
+
+  const SinglePlatform(
+      {Key? key,
+      required this.fieldTitle,
+      required this.imageURL,
+      this.color,
+      required this.onChange})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(imageURL),
-       const  SizedBox(width: 20,),
+        const SizedBox(
+          width: 20,
+        ),
         Expanded(
           flex: 2,
           child: MainInputField(

@@ -8,7 +8,7 @@ class Questions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width ;
+    double width = MediaQuery.of(context).size.width;
     var style = TextStyle(fontWeight: FontWeight.w500);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -18,7 +18,6 @@ class Questions extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-
               SizedBox(
                 width: width * 0.1,
               ),
@@ -32,7 +31,6 @@ class Questions extends StatelessWidget {
                   child: Text("difficulty"),
                 ),
               ),
-            
               SizedBox(
                 width: width * 0.2,
                 child: const Center(
@@ -41,14 +39,17 @@ class Questions extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           const Question(
               title: "Min Cost ",
               tag: "Easy",
               platformurl: "assets/images/leetcode_icon.png",
               solved: true),
           const Question(
-              title: "Min Stack taking long words and beza is asking me if this is okay words and beza is asking me if this is okay",
+              title:
+                  "Min Stack taking long words and beza is asking me if this is okay words and beza is asking me if this is okay",
               tag: "Easy",
               platformurl: "assets/images/leetcode_icon.png",
               solved: false),

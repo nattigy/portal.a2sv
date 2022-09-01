@@ -10,5 +10,5 @@ class CustomColors {
   static Color? veryDarkTextColor = const Color(0xFF2E2E2E);
   static Color? veryLightTextColor = const Color(0xFFA8A8A8);
   static Color scaffoldBackGroundColor = const Color(0xFFFBFCFF);
-  static Color lightShadowColor = const Color.fromRGBO(0,0,0,0.05);
+  static Color lightShadowColor = const Color.fromRGBO(0, 0, 0, 0.05);
 }

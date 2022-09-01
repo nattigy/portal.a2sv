@@ -7,9 +7,9 @@ class CardTitleText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text, style: TextStyle(
-      fontWeight: FontWeight.w700,
-      fontSize: 20
-    ),);
+    return Text(
+      text,
+      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+    );
   }
 }

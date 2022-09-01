@@ -5,6 +5,10 @@ class ContestTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: Center(child: Text("Contest"),),);
+    return Container(
+      child: Center(
+        child: Text("Contest"),
+      ),
+    );
   }
 }

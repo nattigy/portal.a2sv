@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../widgets/cards/shadow_card.dart';
-import '../../../widgets/text_views/reminder_text_view.dart';
 import 'questions_ratio.dart';
 
 class ProblemsStatCard extends StatelessWidget {
@@ -19,8 +18,13 @@ class ProblemsStatCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Problems Solved",),
-                  Text("129", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),),
+                  Text(
+                    "Problems Solved",
+                  ),
+                  Text(
+                    "129",
+                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
+                  ),
                 ],
               ),
               Column(
@@ -35,9 +39,9 @@ class ProblemsStatCard extends StatelessWidget {
                         height: 10,
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.orange,
-                            borderRadius: BorderRadius.all(Radius.circular(10))
-                          ),
+                              color: Colors.orange,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
                         ),
                       ),
                     ],
@@ -53,8 +57,8 @@ class ProblemsStatCard extends StatelessWidget {
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.green,
-                              borderRadius: BorderRadius.all(Radius.circular(10))
-                          ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
                         ),
                       ),
                     ],
@@ -70,8 +74,8 @@ class ProblemsStatCard extends StatelessWidget {
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.red,
-                              borderRadius: BorderRadius.all(Radius.circular(10))
-                          ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
                         ),
                       ),
                     ],

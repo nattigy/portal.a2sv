@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 const Color light_text_color = Color(0xFFA4A4A4);
 const Color welcome_color = Color(0xFF585858);
 const Color progress_color = Color(0xFF5956E9);

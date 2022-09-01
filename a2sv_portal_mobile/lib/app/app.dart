@@ -18,7 +18,8 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    final AuthenticationRepository authenticationRepository = AuthenticationRepository(userRepository: widget.userRepository);
+    final AuthenticationRepository authenticationRepository =
+        AuthenticationRepository(userRepository: widget.userRepository);
 
     return MultiRepositoryProvider(
       providers: [
@@ -28,8 +29,7 @@ class _AppState extends State<App> {
         providers: [
           BlocProvider<AuthenticationBloc>(
             create: (context) => AuthenticationBloc(
-              authenticationRepository: authenticationRepository
-            ),
+                authenticationRepository: authenticationRepository),
             lazy: false,
           ),
         ],

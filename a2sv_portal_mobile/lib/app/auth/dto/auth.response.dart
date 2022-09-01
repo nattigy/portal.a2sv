@@ -8,8 +8,6 @@ class AuthResponse {
 
   factory AuthResponse.fromJson(Map<String, dynamic> data) {
     return AuthResponse(
-      accessToken: data['access_token'],
-      user: User.fromJson(data['user'])
-    );
+        accessToken: data['access_token'], user: User.fromJson(data['user']));
   }
 }

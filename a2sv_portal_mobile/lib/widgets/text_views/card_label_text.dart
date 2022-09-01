@@ -6,6 +6,9 @@ class CardLabelText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),);
+    return Text(
+      text,
+      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+    );
   }
 }

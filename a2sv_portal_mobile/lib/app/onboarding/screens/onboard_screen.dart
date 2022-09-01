@@ -1,9 +1,9 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../utils/custom_colors.dart';
 import '../../auth/data/auth.repository.dart';
 import '../../auth/screens/login.page.dart';
-import '../../../utils/custom_colors.dart';
 import '../models/onboard_data.dart';
 
 class OnBoardingPage extends StatefulWidget {

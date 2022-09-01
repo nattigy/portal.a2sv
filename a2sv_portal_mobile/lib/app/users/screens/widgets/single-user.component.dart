@@ -2,13 +2,11 @@ import 'dart:io';
 
 import 'package:a2sv_portal_mobile/app/users/screens/widgets/user_profile.dart';
 import 'package:a2sv_portal_mobile/utils/colors.dart';
-import 'package:a2sv_portal_mobile/widgets/buttons/drop_down_button.dart';
 import 'package:a2sv_portal_mobile/widgets/buttons/main-button.dart';
 import 'package:a2sv_portal_mobile/widgets/inputs/main-input-field.dart';
 import 'package:a2sv_portal_mobile/widgets/inputs/main-text-area.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
-
 import 'package:image_picker/image_picker.dart';
 
 class SingleUser extends StatefulWidget {

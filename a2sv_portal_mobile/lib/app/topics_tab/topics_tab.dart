@@ -32,7 +32,7 @@ class TopicsTab extends StatelessWidget {
                     "12 questions",
                     style: TextStyle(
                       fontWeight: FontWeight.w200,
-                        color: Colors.grey,
+                      color: Colors.grey,
                     ),
                   ),
                   SizedBox(height: 8),
@@ -52,13 +52,12 @@ class TopicsTab extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Icon(Icons.sticky_note_2_outlined, color: Colors.orangeAccent, size: 50),
+                      Icon(Icons.sticky_note_2_outlined,
+                          color: Colors.orangeAccent, size: 50),
                       Text(
                         "12 MB",
                         style: TextStyle(
-                          fontWeight: FontWeight.w100,
-                          color: Colors.grey
-                        ),
+                            fontWeight: FontWeight.w100, color: Colors.grey),
                       ),
                     ],
                   ),

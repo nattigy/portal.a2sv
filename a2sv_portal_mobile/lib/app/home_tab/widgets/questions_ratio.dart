@@ -30,7 +30,7 @@ class QuestionsRatio extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(3)),
-                      color: Colors.orange,
+                    color: Colors.orange,
                   ),
                 ),
               ),
@@ -43,7 +43,7 @@ class QuestionsRatio extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(3)),
-                      color: Colors.deepPurple,
+                    color: Colors.deepPurple,
                   ),
                 ),
               ),

@@ -4,8 +4,12 @@ class MainTextArea extends StatelessWidget {
   final String placeHolder;
   final Color? color;
   final Function onChanged;
+
   const MainTextArea(
-      {Key? key, required this.placeHolder, required this.color,required this.onChanged})
+      {Key? key,
+      required this.placeHolder,
+      required this.color,
+      required this.onChanged})
       : super(key: key);
 
   @override
@@ -20,13 +24,12 @@ class MainTextArea extends StatelessWidget {
       borderSide: BorderSide.none,
     );
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenwidth*0.01),
-      child: TextFormField(onChanged: (value) => onChanged(),
-       minLines: 3,
-       maxLines: 5,
+      padding: EdgeInsets.symmetric(horizontal: screenwidth * 0.01),
+      child: TextFormField(
+        onChanged: (value) => onChanged(),
+        minLines: 3,
+        maxLines: 5,
         decoration: InputDecoration(
-          
-          
           focusedBorder: customOutlineInputBorder,
           filled: true,
 
@@ -34,7 +37,8 @@ class MainTextArea extends StatelessWidget {
           focusColor: color,
           // fillColor: Color.fromRGBO(250, 251, 255, 1),
           border: customOutlineInputBorder,
-          hintStyle: const TextStyle(color: Color.fromRGBO(164, 164, 164, 1),fontSize: 12),
+          hintStyle: const TextStyle(
+              color: Color.fromRGBO(164, 164, 164, 1), fontSize: 12),
           hintText: placeHolder,
         ),
       ),

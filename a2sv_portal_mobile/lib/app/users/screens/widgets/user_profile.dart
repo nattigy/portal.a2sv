@@ -1,18 +1,16 @@
-import 'package:a2sv_portal_mobile/app/users/screens/widgets/single-user.component.dart';
+import 'dart:io';
+
 import 'package:a2sv_portal_mobile/utils/colors.dart';
 import 'package:a2sv_portal_mobile/widgets/buttons/drop_down_button.dart';
 import 'package:a2sv_portal_mobile/widgets/buttons/main-button.dart';
 import 'package:a2sv_portal_mobile/widgets/inputs/main-input-field.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
-
-import 'package:iconsax/iconsax.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({Key? key}) : super(key: key);
+
   // static const pageRoute = "/userprofile";
   static Route<void> route() {
     return MaterialPageRoute<void>(builder: (_) => const UserProfile());
@@ -23,12 +21,13 @@ class UserProfile extends StatefulWidget {
 
 class UserPage extends State with SingleTickerProviderStateMixin {
   final List<String> educationItems = ['Continuing', 'graduated'];
-  final List<String> workItems = ['comptetive', 'student','Employed'];
+  final List<String> workItems = ['comptetive', 'student', 'Employed'];
   String? selectedValue;
   String? selectedWorkValue;
   late AnimationController loadingController;
   File? _file;
   PlatformFile? _platformFile;
+
   selectFile() async {
     loadingController.value = 0;
     final file = await FilePicker.platform
@@ -99,8 +98,6 @@ class UserPage extends State with SingleTickerProviderStateMixin {
                   Container(
                       width: screenwidth * 0.55,
                       alignment: Alignment.topLeft,
-
-                      
                       child: LinearProgressIndicator(
                         backgroundColor: light_grey_color,
                         value: 0.6,
@@ -122,49 +119,35 @@ class UserPage extends State with SingleTickerProviderStateMixin {
               SizedBox(
                 height: screenheight * 0.03,
               ),
-             
-                 MainInputField(
-                    placeHolder: 'Education Institute',
-                    color: field_bg_color,
-                    iconData: Icons.school,
-                    onChanged: () {}),
-              
+              MainInputField(
+                  placeHolder: 'Education Institute',
+                  color: field_bg_color,
+                  iconData: Icons.school,
+                  onChanged: () {}),
               SizedBox(
                 height: screenheight * 0.01,
               ),
-            
-               DropDownBtn(
+              DropDownBtn(
                   placeHolder: 'current Education Status',
                   fillColor: field_bg_color,
                   focusColor: progress_color,
                   preicon: const Icon(Icons.school),
                   iconData: Icons.keyboard_arrow_down,
-                  onChanged: (){
-
-                  }, 
-                  onSaved: (){
-
-                  },
-                   items: educationItems),
-              
-              
+                  onChanged: () {},
+                  onSaved: () {},
+                  items: educationItems),
               SizedBox(
                 height: screenheight * 0.02,
               ),
               DropDownBtn(
                   placeHolder: 'current working status',
-                   preicon: const Icon(Icons.work),
+                  preicon: const Icon(Icons.work),
                   fillColor: field_bg_color,
                   focusColor: progress_color,
                   iconData: Icons.keyboard_arrow_down,
-                  onChanged: (){
-
-                  }, 
-                  onSaved: (){
-
-                  },
-                   items: workItems),
-              
+                  onChanged: () {},
+                  onSaved: () {},
+                  items: workItems),
               SizedBox(height: screenheight * 0.02),
               GestureDetector(
                 onTap: selectFile,
@@ -205,98 +188,109 @@ class UserPage extends State with SingleTickerProviderStateMixin {
                       ),
                     )),
               ),
-               _platformFile != null
-              ? Container(
-                padding: EdgeInsets.symmetric(horizontal: screenwidth*0.04,vertical: screenheight * 0.02),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Selected File',
-                      style: TextStyle(color: Colors.grey.shade400, fontSize: 15, ),),
-                    SizedBox(height: screenheight * 0.01,),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: screenwidth * 0.02,vertical: screenheight * 0.01),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.shade200,
-                            offset: Offset(0, 1),
-                            blurRadius: 3,
-                            spreadRadius: 2,
-                          )
-                        ]
-                      ),
-                      child: Row(
+              _platformFile != null
+                  ? Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: screenwidth * 0.04,
+                          vertical: screenheight * 0.02),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                         
-                          ),
-                        
-                          Container(
-                            padding: EdgeInsets.only(right: screenwidth * 0.02),
-                              child: const Icon(Icons.file_present),
-                          ),
-                          Expanded(
-                            child:Container(
-                              padding: EdgeInsets.symmetric(vertical: screenheight * 0.01),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(_platformFile!.name,
-                                  style: TextStyle(fontSize: 13, color: Colors.black),),
-                                SizedBox(height: 5,),
-                                Text('${(_platformFile!.size / 1024).ceil()} KB',
-                                  style: TextStyle(fontSize: 13, color: Colors.grey.shade500),
-                                ),
-                                SizedBox(height: 5,),
-                                Container(
-                                 
-                                  height: screenheight * 0.008,
-                                  clipBehavior: Clip.hardEdge,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Colors.blue.shade50,
-                                  ),
-                                  child: LinearProgressIndicator(
-                                    value: loadingController.value,
-                                    )
-                                ),
-                              ],
+                          Text(
+                            'Selected File',
+                            style: TextStyle(
+                              color: Colors.grey.shade400,
+                              fontSize: 15,
                             ),
-                          )),
-                          SizedBox(width: screenwidth*0.01,),
+                          ),
+                          SizedBox(
+                            height: screenheight * 0.01,
+                          ),
+                          Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: screenwidth * 0.02,
+                                  vertical: screenheight * 0.01),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.shade200,
+                                      offset: Offset(0, 1),
+                                      blurRadius: 3,
+                                      spreadRadius: 2,
+                                    )
+                                  ]),
+                              child: Row(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(
+                                        right: screenwidth * 0.02),
+                                    child: const Icon(Icons.file_present),
+                                  ),
+                                  Expanded(
+                                      child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: screenheight * 0.01),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          _platformFile!.name,
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              color: Colors.black),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          '${(_platformFile!.size / 1024).ceil()} KB',
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              color: Colors.grey.shade500),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Container(
+                                            height: screenheight * 0.008,
+                                            clipBehavior: Clip.hardEdge,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: Colors.blue.shade50,
+                                            ),
+                                            child: LinearProgressIndicator(
+                                              value: loadingController.value,
+                                            )),
+                                      ],
+                                    ),
+                                  )),
+                                  SizedBox(
+                                    width: screenwidth * 0.01,
+                                  ),
+                                ],
+                              )),
+                          SizedBox(
+                            height: screenheight * 0.02,
+                          ),
                         ],
-                      )
-                    ),
-                    SizedBox(height: screenheight * 0.02,),
-                   
-                  ],
-                ))
-              : Container(),
-               SizedBox(
-                  height: screenheight * 0.02,
-
-                ),
-                
-                   MainButton(
-                    title: 'Continue', 
-                    color: progress_color,
-                    
-                    onClick: (){
-                        //Navigator.push(context, SingleUser.route());
-                        
-                
-                    }
-                    
-                    
-                    )
-                    
-                    ,
-                
-
+                      ))
+                  : Container(),
+              SizedBox(
+                height: screenheight * 0.02,
+              ),
+              MainButton(
+                  title: 'Continue',
+                  color: progress_color,
+                  onClick: () {
+                    //Navigator.push(context, SingleUser.route());
+                  }),
             ]))));
   }
 }

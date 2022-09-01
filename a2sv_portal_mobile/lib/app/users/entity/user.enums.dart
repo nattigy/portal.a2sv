@@ -29,4 +29,3 @@ enum UserSourceEnum {
   WEBSITE,
   PHONE_CALL,
 }
-
