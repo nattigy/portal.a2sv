@@ -58,9 +58,9 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                   <a
                     href="#"
                     className={clsx(
-                      " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                       activePath.includes("/dashboard") &&
-                      "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                      "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700  fill-current  ",
+                      " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                     )}
                   >
                     <svg
@@ -264,7 +264,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
         </main>
       </div>
       {sidebar && (
-        <div className="hidden bg-white shadow-lg px-5 py-10 drop-shadow-lg md:flex min-h-screen  flex-col w-1/5">
+        <div className="hidden bg-white shadow-lg px-2 py-5 drop-shadow-lg md:flex min-h-screen  flex-col w-1/5">
           {sidebar}
         </div>
       )}
