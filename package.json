@@ -1,0 +1,25 @@
+{
+  "name": "portal.a2sv.org",
+  "version": "1.0.0",
+  "description": "This is the root folder for the A2SV Portal project",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RealEskalate/portal.a2sv.org.git"
+  },
+  "author": "Eskalate",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RealEskalate/portal.a2sv.org/issues"
+  },
+  "homepage": "https://github.com/RealEskalate/portal.a2sv.org#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
+    "husky": "^8.0.1"
+  }
+}

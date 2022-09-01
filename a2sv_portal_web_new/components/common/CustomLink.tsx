@@ -9,7 +9,7 @@ interface LayoutProps extends WithChildren {
 
 const CustomLink = (props: LayoutProps) => {
     return (
-        <Link href={props.href}>
+        <Link className='cursor-pointer' href={props.href}>
             {props.children}
         </Link>
     )
