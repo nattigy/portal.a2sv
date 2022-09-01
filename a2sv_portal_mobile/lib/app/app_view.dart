@@ -36,6 +36,8 @@ class _AppViewState extends State<AppView> {
       builder: (context, child) {
       //  return PlatformsPage();
       //   return TopicDetailsPage();
+        return SingleUser();
+        // return OnBoardingPage();
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             switch (state.status) {
@@ -51,12 +53,6 @@ class _AppViewState extends State<AppView> {
               //     (route) => false,
               //   );
               //   break;
-              case AuthenticationStatus.firstUse:
-                _navigator.pushAndRemoveUntil<void>(
-                  SingleUser.route(),
-                  (route) => false,
-                );
-                break;
               case AuthenticationStatus.firstUse:
                 _navigator.pushAndRemoveUntil<void>(
                   OnBoardingPage.route(),
