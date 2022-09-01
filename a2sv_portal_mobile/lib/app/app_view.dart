@@ -1,4 +1,5 @@
 import 'package:a2sv_portal_mobile/app/students/screens/platforms.page.dart';
+import 'package:a2sv_portal_mobile/utils/custom_colors.dart';
 import 'package:a2sv_portal_mobile/app/users/screens/widgets/single-user.component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,19 +28,28 @@ class _AppViewState extends State<AppView> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: _navigatorKey,
-      theme: ThemeData(fontFamily: "Urbanist Regular"),
+      theme: ThemeData(
+          fontFamily: "Urbanist Regular",
+        scaffoldBackgroundColor: CustomColors.scaffoldBackGroundColor,
+      ),
       builder: (context, child) {
-       return PlatformsPage();
+      //  return PlatformsPage();
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             switch (state.status) {
-              case AuthenticationStatus.authenticated:
+              case AuthenticationStatus.unauthenticated:
                 _navigator.pushAndRemoveUntil<void>(
                   HomePage.route(),
                   (route) => false,
                 );
                 break;
-              case AuthenticationStatus.unauthenticated:
+              // case AuthenticationStatus.unauthenticated:
+              //   _navigator.pushAndRemoveUntil<void>(
+              //     LoginPage.route(),
+              //     (route) => false,
+              //   );
+              //   break;
+              case AuthenticationStatus.firstUse:
                 _navigator.pushAndRemoveUntil<void>(
                   SingleUser.route(),
                   (route) => false,
@@ -48,6 +58,8 @@ class _AppViewState extends State<AppView> {
               case AuthenticationStatus.firstUse:
                 _navigator.pushAndRemoveUntil<void>(
                    SingleUser.route(),
+                  HomePage.route(),
+                  // OnBoardingPage.route(),
                   (route) => false,
                 );
                 break;
