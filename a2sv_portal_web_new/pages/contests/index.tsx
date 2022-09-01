@@ -1,5 +1,6 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState } from 'react'
 import StudentLayout from '../../components/common/StudentLayout'
+import ProblemModalDetail from '../../components/modals/ProblemDetailModal'
 
 const IndexPage = () => {
     const Sidebar: React.FC = () => {
@@ -8,11 +9,20 @@ const IndexPage = () => {
         )
     }
 
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+
+    const handleModalOpen = () => {
+        setIsModalOpen(true)
+    }
 
     return (
         <StudentLayout sidebar={<Sidebar />}>
-            <div>
-                Contests
+            {isModalOpen && (
+                <ProblemModalDetail onClose={() => setIsModalOpen(false)} />
+            )}
+            Contests
+            <div >
+                <button className="px-5 py-2 rounded-lg bg-blue-600 text-white" onClick={handleModalOpen}>Open Modal</button>
             </div>
         </StudentLayout>
     )
