@@ -1,4 +1,5 @@
 import 'package:a2sv_portal_mobile/app/contest_tab/contest_tabs.dart';
+import 'package:a2sv_portal_mobile/app/topic_details/topic_details_page.dart';
 import 'package:a2sv_portal_mobile/app/topics_tab/topics_tab.dart';
 import 'package:a2sv_portal_mobile/utils/custom_colors.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage> {
 
   final _widgets = [
     const HomeTab(),
-    const TopicsTab(),
+    const TopicDetailsPage(),
     const GroupTab(),
     const ContestTab(),
   ];
