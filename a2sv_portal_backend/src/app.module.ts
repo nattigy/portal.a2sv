@@ -11,6 +11,7 @@ import { SeasonModule } from './season/season.module'
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core'
 import { ConfigModule } from '@nestjs/config'
 import { AppResolver } from './app.resolver'
+import { AuthModule } from './auth/auth.module'
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { AppResolver } from './app.resolver'
     UserModule,
     PrismaModule,
     SeasonModule,
+    AuthModule,
   ],
   providers: [AppService, AppResolver],
 })

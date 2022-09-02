@@ -39,6 +39,16 @@ type Group {
   school: String
 }
 
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type LoginOutput {
+  accessToken: String!
+  userId: Int!
+}
+
 type Mutation {
   createGroup(createGroupInput: CreateGroupInput!): Group!
   createRole(data: CreateRoleInput!): Role!
@@ -47,7 +57,9 @@ type Mutation {
   deleteGroup(id: Int!): Group!
   deleteRole(id: Float!): Role!
   deleteSeason(id: Int!): Season!
+  login(loginInput: LoginInput!): LoginOutput!
   removeUser(id: Int!): User!
+  signUp(createUserInput: CreateUserInput!): SignupOutput!
   updateGroup(id: Int!, updateGroupInput: UpdateGroupInput!): Group!
   updateRole(data: UpdateRoleInput!, id: Float!): Role!
   updateSeason(id: Int!, updateSeasonInput: UpdateSeasonInput!): Season!
@@ -81,6 +93,10 @@ type Season {
   name: String!
   startDate: DateTime!
   updatedAt: DateTime
+}
+
+type SignupOutput {
+  userId: Int!
 }
 
 enum Status {
