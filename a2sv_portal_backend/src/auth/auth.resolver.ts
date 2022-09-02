@@ -18,7 +18,10 @@ export class AuthResolver {
     @Args('loginInput') loginInput: LoginInput,
     @Context() context,
   ): Promise<LoginOutput> {
-    const { accessToken, userId } = await this.authService.login(context.user)
+    const { accessToken, userId } = await this.authService.login(
+      context.user,
+      context,
+    )
     context.res.cookie('jwt', accessToken)
     return { accessToken, userId }
   }
@@ -28,5 +31,13 @@ export class AuthResolver {
     @Args('createUserInput') createUserInput: CreateUserInput,
   ): Promise<SignupOutput> {
     return this.authService.signUp(createUserInput)
+  }
+
+  @Mutation(() => SignupOutput)
+  async logout(@Context('res') response: Response): Promise<SignupOutput> {
+    await this.authService.logout(response)
+    return {
+      userId: -1,
+    }
   }
 }

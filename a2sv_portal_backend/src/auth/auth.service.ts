@@ -4,6 +4,8 @@ import { User } from '@prisma/client'
 import { JwtService } from '@nestjs/jwt'
 import { CreateUserInput } from '../user/dto/create-user.input'
 import * as bcrypt from 'bcrypt'
+import { Context } from '@nestjs/graphql'
+import { Response } from 'express'
 
 @Injectable()
 export class AuthService {
@@ -28,13 +30,17 @@ export class AuthService {
     return null
   }
 
-  async login(user: User): Promise<{ accessToken: string; userId: number }> {
+  async login(
+    user: User,
+    @Context() context,
+  ): Promise<{ accessToken: string; userId: number }> {
     console.log(user)
     const payload = { email: user.email, sub: user.id }
-    return {
-      userId: user.id,
-      accessToken: this.jwtService.sign(payload),
-    }
+    const accessToken = this.jwtService.sign(payload)
+    const expires = new Date()
+    expires.setSeconds(expires.getSeconds() + 432000)
+    context.res.cookie('Authentication', accessToken, { httpOnly: true })
+    return { accessToken, userId: user.id }
   }
 
   async signUp(createUserInput: CreateUserInput): Promise<{ userId: number }> {
@@ -42,5 +48,9 @@ export class AuthService {
     return {
       userId: user.id,
     }
+  }
+
+  async logout(@Context('res') response: Response) {
+    response.cookie('Authentication', '', { expires: new Date() })
   }
 }

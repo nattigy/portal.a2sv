@@ -58,6 +58,7 @@ type Mutation {
   deleteRole(id: Float!): Role!
   deleteSeason(id: Int!): Season!
   login(loginInput: LoginInput!): LoginOutput!
+  logout: SignupOutput!
   removeUser(id: Int!): User!
   signUp(createUserInput: CreateUserInput!): SignupOutput!
   updateGroup(id: Int!, updateGroupInput: UpdateGroupInput!): Group!

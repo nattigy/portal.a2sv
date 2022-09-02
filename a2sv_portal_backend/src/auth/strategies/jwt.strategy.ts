@@ -9,7 +9,11 @@ import { User } from '../../user/entities/user.entity'
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private authService: AuthService) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (request: any) => {
+          return request?.cookies.Authentication
+        },
+      ]),
       ignoreExpiration: false,
       secretOrKey: jwtConstants.secret,
     })

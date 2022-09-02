@@ -78,3 +78,12 @@ enum Status {
   ACTIVE
   INACTIVE
 }
+
+model Problem {
+    id Int @id @default(autoincrement())
+    title String
+    platfrom String
+    link String
+    difficulty string
+
+}
