@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../utils/router_generator.dart';
 import 'auth/bloc/auth/auth.bloc.dart';
 import 'auth/data/auth.repository.dart';
+import 'auth/screens/login.page.dart';
 import 'home/home.page.dart';
 import 'onboarding/screens/onboard_screen.dart';
 import 'students/screens/stats_detail_page.dart';
@@ -37,29 +38,28 @@ class _AppViewState extends State<AppView> {
         // return StatsDetailPage();
         // return SingleUser();
         // return OnBoardingPage();
+        // return StatsDetailPage();
+        // return HomePage();
+
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             switch (state.status) {
-              case AuthenticationStatus.unauthenticated:
+              case AuthenticationStatus.authenticated:
                 _navigator.pushAndRemoveUntil<void>(
-                 StatsDetailPage.route(),
+                  HomePage.route(),
                   (route) => false,
                 );
-                // _navigator.pushAndRemoveUntil<void>(
-                //   HomePage.route(),
-                //   (route) => false,
-                // );
                 break;
-              // case AuthenticationStatus.unauthenticated:
-              //   _navigator.pushAndRemoveUntil<void>(
-              //     LoginPage.route(),
-              //     (route) => false,
-              //   );
-              //   break;
+              case AuthenticationStatus.unauthenticated:
+                _navigator.pushAndRemoveUntil<void>(
+                  LoginPage.route(),
+                  (route) => false,
+                );
+                break;
               case AuthenticationStatus.firstUse:
                 _navigator.pushAndRemoveUntil<void>(
                   StatsDetailPage.route(),
-                      (route) => false,
+                  (route) => false,
                 );
                 // _navigator.pushAndRemoveUntil<void>(
                 //   OnBoardingPage.route(),
