@@ -9,11 +9,11 @@ export class RolesService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async createRole(data: CreateRoleInput): Promise<Role> {
-    const date = new Date();
+    const date = new Date()
     return await this.prismaService.role.create({
       data: {
         ...data,
-        updatedAt: date.toISOString()
+        updatedAt: date.toISOString(),
       },
     })
   }

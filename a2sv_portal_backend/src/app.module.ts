@@ -5,8 +5,9 @@ import { join } from 'path'
 import { AppService } from './app.service'
 import { GroupsModule } from './groups/groups.module'
 import { RolesModule } from './roles/roles.module'
-import { UserModule } from './user/user.module';
-import { PrismaModule } from './prisma/prisma.module';
+import { UserModule } from './user/user.module'
+import { PrismaModule } from './prisma/prisma.module'
+import { SeasonModule } from './season/season.module'
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { PrismaModule } from './prisma/prisma.module';
     RolesModule,
     UserModule,
     PrismaModule,
+    SeasonModule,
   ],
   providers: [AppService],
 })
