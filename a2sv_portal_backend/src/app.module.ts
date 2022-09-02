@@ -25,6 +25,7 @@ import { AppResolver } from './app.resolver'
         'graphql-ws': true,
         'subscriptions-transport-ws': true,
       },
+      introspection: true,
       resolvers: { DateTime: GraphQLISODateTime },
     }),
     GroupsModule,
