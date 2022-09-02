@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../utils/custom_colors.dart';
+import '../../../widgets/buttons/main-button.dart';
 import '../../auth/data/auth.repository.dart';
 import '../../auth/screens/login.page.dart';
 import '../models/onboard_data.dart';
@@ -143,19 +144,25 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 ),
               ],
             )
-          : ElevatedButton(
-              onPressed: () async {
-                await _storeOnboardInfo();
-                if (!mounted) {
-                  return;
-                }
-                Navigator.pushAndRemoveUntil<void>(
-                  context,
-                  LoginPage.route(),
-                  (route) => false,
-                );
-              },
-              child: const Text("Get Started")),
+          : Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.09),
+              child: MainButton(
+                title: "Get Started",
+                color: const Color.fromRGBO(89, 86, 233, 1),
+                onClick: () async {
+                  await _storeOnboardInfo();
+                  if (!mounted) {
+                    return;
+                  }
+                  Navigator.pushAndRemoveUntil<void>(
+                    context,
+                    LoginPage.route(),
+                    (route) => false,
+                  );
+                },
+              ),
+            ),
     );
   }
 

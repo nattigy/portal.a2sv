@@ -17,7 +17,7 @@ class SocialsForm extends StatelessWidget {
             fieldTitle: "Instagram handle",
             imageURL: "assets/images/insta.png",
             color: Color.fromARGB(255, 236, 228, 198),
-            onChange: () {},
+            onChange: (val) {},
           ),
           const SizedBox(
             height: 5,
@@ -26,7 +26,7 @@ class SocialsForm extends StatelessWidget {
             fieldTitle: "Telegram handle",
             imageURL: "assets/images/telegram.png",
             color: Color.fromARGB(255, 236, 228, 198),
-            onChange: () {},
+            onChange: (val) {},
           ),
           const SizedBox(
             height: 5,
@@ -35,7 +35,7 @@ class SocialsForm extends StatelessWidget {
             fieldTitle: "Twitter handle",
             imageURL: "assets/images/twitter.png",
             color: Color.fromARGB(255, 236, 228, 198),
-            onChange: () {},
+            onChange: (val) {},
           ),
           const SizedBox(
             height: 5,
@@ -44,7 +44,7 @@ class SocialsForm extends StatelessWidget {
             fieldTitle: "Linkedin handle",
             imageURL: "assets/images/linkedin.png",
             color: Color.fromARGB(255, 236, 228, 198),
-            onChange: () {},
+            onChange: (val) {},
           ),
           Expanded(child: Container()),
           Align(

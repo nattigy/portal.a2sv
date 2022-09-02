@@ -161,16 +161,16 @@ class SingleUserPage extends State {
                     placeHolder: 'John',
                     color: field_bg_color,
                     iconData: Icons.person,
-                    onChanged: () {}),
+                    onChanged: (val) {}),
                 MainInputField(
                     placeHolder: 'Doe',
                     color: field_bg_color,
                     iconData: Icons.person,
-                    onChanged: () {}),
+                    onChanged: (val) {}),
                 MainInputField(
                     placeHolder: '+251  phone',
                     color: field_bg_color,
-                    onChanged: () {}),
+                    onChanged: (val) {}),
                 SizedBox(
                   height: screenheight * 0.01,
                 ),
