@@ -3,7 +3,7 @@ import { UserService } from '../user/user.service'
 import { User } from '@prisma/client'
 import { JwtService } from '@nestjs/jwt'
 import { CreateUserInput } from '../user/dto/create-user.input'
-import { LoginOutput } from './dto/login-output.dto'
+import * as bcrypt from 'bcrypt'
 
 @Injectable()
 export class AuthService {
@@ -14,7 +14,7 @@ export class AuthService {
 
   async validateUser(email: string, pass: string): Promise<User | null> {
     const user = await this.usersService.findByEmail(email)
-    if (user && user.password === pass) {
+    if (user && bcrypt.compareSync(pass, user.password)) {
       return user
     }
     return null
@@ -29,6 +29,7 @@ export class AuthService {
   }
 
   async login(user: User): Promise<{ accessToken: string; userId: number }> {
+    console.log(user)
     const payload = { email: user.email, sub: user.id }
     return {
       userId: user.id,
