@@ -1,11 +1,11 @@
-import { Field,InputType} from '@nestjs/graphql'
+import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
 export class CreateTopicInput {
   @Field()
   name: string
   @Field({ nullable: true })
-  description?: string 
+  description?: string
   @Field({ nullable: true })
   createdAt?: Date
   @Field({ nullable: true })
