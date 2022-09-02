@@ -1,6 +1,8 @@
 import React, { ReactNode, useState } from 'react'
 import StudentLayout from '../../components/common/StudentLayout'
 import NewUserModal from '../../components/modals/NewUserModal'
+import NewProblemModal from '../../components/modals/NewProblemModal'
+import NewTopicModal from '../../components/modals/NewTopicModal'
 import ProblemModalDetail from '../../components/modals/ProblemDetailModal'
 
 const IndexPage = () => {
