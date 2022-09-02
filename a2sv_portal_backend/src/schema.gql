@@ -63,6 +63,7 @@ type Query {
   seasons: [Season!]!
   user(id: Int!): User!
   users(skip: Int, take: Int, where: WhereUserFilter): [User!]!
+  welcome: String!
 }
 
 type Role {
