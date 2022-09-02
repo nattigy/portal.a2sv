@@ -1,10 +1,10 @@
 import React, { ReactNode } from 'react'
-import StudentLayout from '../../../components/common/StudentLayout'
+import StudentLayout from '../../components/common/StudentLayout'
 
 const IndexPage = () => {
     const Sidebar: React.FC = () => {
         return (
-            <h1>Topics Side bar</h1>
+            <h1>Camp Sidebar</h1>
         )
     }
 
@@ -12,7 +12,7 @@ const IndexPage = () => {
     return (
         <StudentLayout sidebar={<Sidebar />}>
             <div>
-                Topics
+                Camp
             </div>
         </StudentLayout>
     )

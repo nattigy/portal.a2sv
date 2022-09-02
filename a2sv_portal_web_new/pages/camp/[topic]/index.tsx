@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
-import StudentLayout from "../../components/common/StudentLayout";
-import TopicList from "../../components/topics/TopicList";
-import TopicStruggledList from "../../components/topics/TopicStruggledList";
+import StudentLayout from "../../../components/common/StudentLayout";
+import TopicList from "../../../components/topics/TopicList";
+import TopicStruggledList from "../../../components/topics/TopicStruggledList";
 
 const IndexPage = () => {
   const Sidebar: React.FC = () => {

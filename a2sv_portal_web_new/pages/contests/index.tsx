@@ -1,5 +1,6 @@
 import React, { ReactNode, useState } from 'react'
 import StudentLayout from '../../components/common/StudentLayout'
+import NewUserModal from '../../components/modals/NewUserModal'
 import ProblemModalDetail from '../../components/modals/ProblemDetailModal'
 
 const IndexPage = () => {
@@ -17,13 +18,13 @@ const IndexPage = () => {
 
     return (
         <StudentLayout sidebar={<Sidebar />}>
-            {isModalOpen && (
-                <ProblemModalDetail onClose={() => setIsModalOpen(false)} />
-            )}
+            {/* {isModalOpen && (
+                <NewUserModal onClose={() => setIsModalOpen(false)} />
+            )} */}
             Contests
-            <div >
+            {/* <div >
                 <button className="px-5 py-2 rounded-lg bg-blue-600 text-white" onClick={handleModalOpen}>Open Modal</button>
-            </div>
+            </div> */}
         </StudentLayout>
     )
 }

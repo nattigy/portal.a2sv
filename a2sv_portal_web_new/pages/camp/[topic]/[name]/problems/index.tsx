@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
-import StudentLayout from "../../../../components/common/StudentLayout";
-import ProblemsTable from "../../../../components/problems/ProblemsTable";
-import TopicResourcesItem, { TopicResourcesProps } from "../../../../components/problems/TopicResourcesItem";
+import StudentLayout from "../../../../../components/common/StudentLayout";
+import ProblemsTable from "../../../../../components/problems/ProblemsTable";
+import TopicResourcesItem, { TopicResourcesProps } from "../../../../../components/problems/TopicResourcesItem";
 
 const IndexPage = () => {
   const topicResource: Array<TopicResourcesProps> = [
