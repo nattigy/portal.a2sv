@@ -11,6 +11,7 @@ export class TopicService {
   async getTopics(): Promise<Topic[]> {
     return this.prismaService.topic.findMany()
   }
+
   async getTopicById(id: number): Promise<Topic> {
     const topic = await this.prismaService.topic.findUnique({
       where: { id: id },
@@ -20,9 +21,11 @@ export class TopicService {
     }
     return topic
   }
+
   async createTopic(createTopicInput: CreateTopicInput): Promise<Topic> {
     return await this.prismaService.topic.create({ data: createTopicInput })
   }
+
   async updateTopic(
     id: number,
     updateTopicInput: UpdateTopicInput,
@@ -32,6 +35,7 @@ export class TopicService {
       data: updateTopicInput,
     })
   }
+
   async deleteTopic(id: number): Promise<Topic> {
     return this.prismaService.topic.delete({ where: { id } })
   }
