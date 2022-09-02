@@ -15,6 +15,8 @@ import { SeasonModule } from './season/season.module'
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
+      introspection: true,
+      playground: true,
     }),
     GroupsModule,
     RolesModule,
