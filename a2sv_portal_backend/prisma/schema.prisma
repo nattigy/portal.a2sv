@@ -10,8 +10,8 @@ datasource db {
 
 model Group {
   id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
   name      String
   country   String?
   school    String?
@@ -21,22 +21,22 @@ model Season {
   name      String
   startDate DateTime @default(now())
   endDate   DateTime @default(now())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 model Permission {
   id          Int      @id @default(autoincrement())
   action      String
   description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @updatedAt
 }
 
 model Role {
   id          Int      @id @default(autoincrement())
   name        String
   description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @updatedAt
 }
