@@ -8,16 +8,17 @@ input CreateGroupInput {
   school: String
 }
 
-input CreateSeasonInput {
-  endDate: DateTime!
-  name: String!
-  startDate: DateTime!
-}
 input CreateRoleInput {
   createdAt: DateTime
   description: String
   name: String!
   updatedAt: DateTime
+}
+
+input CreateSeasonInput {
+  endDate: DateTime!
+  name: String!
+  startDate: DateTime!
 }
 
 input CreateUserInput {
@@ -39,27 +40,37 @@ type Group {
 }
 
 type Mutation {
-  createSeason(createSeasonInput: CreateSeasonInput!): Season!
-  deleteSeason(id: Int!): Season!
-  updateSeason(id: Int!, updateSeasonInput: UpdateSeasonInput!): Season!
   createGroup(createGroupInput: CreateGroupInput!): Group!
   createRole(data: CreateRoleInput!): Role!
-  deleteGroup(id: Int!): Group!
-  deleteRole(id: Float!): Role!
+  createSeason(createSeasonInput: CreateSeasonInput!): Season!
   createUser(createUserInput: CreateUserInput!): User!
-  deleteRole(id: Float!): Role!
-  removeUser(id: Int!): User!
   deleteGroup(id: Int!): Group!
   deleteRole(id: Float!): Role!
+  deleteSeason(id: Int!): Season!
+  removeUser(id: Int!): User!
   updateGroup(id: Int!, updateGroupInput: UpdateGroupInput!): Group!
   updateRole(data: UpdateRoleInput!, id: Float!): Role!
+  updateSeason(id: Int!, updateSeasonInput: UpdateSeasonInput!): Season!
   updateUser(updateUserInput: UpdateUserInput!): User!
 }
 
 type Query {
-  group(id: Int!): Group
+  group(id: Int!): Group!
+  groups: [Group!]!
+  role(id: Float!): Role!
+  roles: [Role!]!
   season(id: Int!): Season!
   seasons: [Season!]!
+  user(id: Int!): User!
+  users(skip: Int, take: Int, where: WhereUserFilter): [User!]!
+}
+
+type Role {
+  createdAt: DateTime
+  description: String
+  id: Int!
+  name: String!
+  updatedAt: DateTime
 }
 
 type Season {
@@ -71,30 +82,11 @@ type Season {
   updatedAt: DateTime
 }
 
-input UpdateSeasonInput {
-  endDate: DateTime
-  name: String
-  startDate: DateTime
-}
-
-type Query {
-  group(id: Int!): Group!
-  groups: [Group!]!
-  role(id: Float!): Role!
-  roles: [Role!]!
-}
-
-type Role {
-  createdAt: DateTime
-  description: String
-  id: Int!
-  name: String!
-  updatedAt: DateTime
-}
 enum Status {
   ACTIVE
   INACTIVE
 }
+
 input UpdateGroupInput {
   country: String
   name: String
@@ -106,6 +98,12 @@ input UpdateRoleInput {
   description: String
   name: String
   updatedAt: DateTime
+}
+
+input UpdateSeasonInput {
+  endDate: DateTime
+  name: String
+  startDate: DateTime
 }
 
 input UpdateUserInput {
