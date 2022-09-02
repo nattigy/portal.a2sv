@@ -80,10 +80,9 @@ enum Status {
 }
 
 model Problem {
-    id Int @id @default(autoincrement())
-    title String
-    platfrom String
-    link String
-    difficulty string
-
+  id         Int    @id @default(autoincrement())
+  title      String
+  platfrom   String
+  link       String
+  difficulty String
 }
