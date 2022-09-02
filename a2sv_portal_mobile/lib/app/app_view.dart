@@ -1,7 +1,7 @@
 import 'package:a2sv_portal_mobile/app/students/screens/platforms.page.dart';
 import 'package:a2sv_portal_mobile/utils/custom_colors.dart';
 import 'package:a2sv_portal_mobile/app/users/screens/widgets/single-user.component.dart';
-import 'package:a2sv_portal_mobile/app/students/screens/topic_details_page.dart';
+import 'package:a2sv_portal_mobile/app/topic_details/topic_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -35,8 +35,8 @@ class _AppViewState extends State<AppView> {
       ),
       builder: (context, child) {
       //  return PlatformsPage();
-      //   return TopicDetailsPage();
-        return SingleUser();
+       //  return TopicDetailsPage();
+       // return SingleUser();
         // return OnBoardingPage();
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
