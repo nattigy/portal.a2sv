@@ -8,6 +8,11 @@ input CreateGroupInput {
   school: String
 }
 
+input CreateSeasonInput {
+  endDate: DateTime!
+  name: String!
+  startDate: DateTime!
+}
 input CreateRoleInput {
   createdAt: DateTime
   description: String
@@ -34,6 +39,9 @@ type Group {
 }
 
 type Mutation {
+  createSeason(createSeasonInput: CreateSeasonInput!): Season!
+  deleteSeason(id: Int!): Season!
+  updateSeason(id: Int!, updateSeasonInput: UpdateSeasonInput!): Season!
   createGroup(createGroupInput: CreateGroupInput!): Group!
   createRole(data: CreateRoleInput!): Role!
   deleteGroup(id: Int!): Group!
@@ -46,6 +54,27 @@ type Mutation {
   updateGroup(id: Int!, updateGroupInput: UpdateGroupInput!): Group!
   updateRole(data: UpdateRoleInput!, id: Float!): Role!
   updateUser(updateUserInput: UpdateUserInput!): User!
+}
+
+type Query {
+  group(id: Int!): Group
+  season(id: Int!): Season!
+  seasons: [Season!]!
+}
+
+type Season {
+  createdAt: DateTime
+  endDate: DateTime!
+  id: ID!
+  name: String!
+  startDate: DateTime!
+  updatedAt: DateTime
+}
+
+input UpdateSeasonInput {
+  endDate: DateTime
+  name: String
+  startDate: DateTime
 }
 
 type Query {

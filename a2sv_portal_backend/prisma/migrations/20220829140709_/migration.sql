@@ -1,0 +1,9 @@
+-- CreateTable
+CREATE TABLE "Season" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "startDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "endDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Season_pkey" PRIMARY KEY ("id")
+);
