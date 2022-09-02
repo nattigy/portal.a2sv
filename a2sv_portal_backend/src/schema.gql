@@ -8,6 +8,16 @@ input CreateGroupInput {
   school: String
 }
 
+input CreateProblemInput {
+  createdAt: DateTime
+  difficulty: String!
+  link: String!
+  platform: String!
+  tags: [CreateTagInput!]
+  title: String!
+  updatedAt: DateTime
+}
+
 input CreateRoleInput {
   createdAt: DateTime
   description: String
@@ -19,6 +29,10 @@ input CreateSeasonInput {
   endDate: DateTime!
   name: String!
   startDate: DateTime!
+}
+
+input CreateTagInput {
+  name: String!
 }
 
 input CreateUserInput {
@@ -51,29 +65,49 @@ type LoginOutput {
 
 type Mutation {
   createGroup(createGroupInput: CreateGroupInput!): Group!
+  createProblem(createProblemInput: CreateProblemInput!): Problem!
   createRole(data: CreateRoleInput!): Role!
   createSeason(createSeasonInput: CreateSeasonInput!): Season!
+  createTag(createTagInput: CreateTagInput!): Tag!
   createUser(createUserInput: CreateUserInput!): User!
   deleteGroup(id: Int!): Group!
   deleteRole(id: Float!): Role!
   deleteSeason(id: Int!): Season!
   login(loginInput: LoginInput!): LoginOutput!
   logout: SignupOutput!
+  removeProblem(id: Int!): Problem!
+  removeTag(id: Int!): Tag!
   removeUser(id: Int!): User!
   signUp(createUserInput: CreateUserInput!): SignupOutput!
   updateGroup(id: Int!, updateGroupInput: UpdateGroupInput!): Group!
+  updateProblem(updateProblemInput: UpdateProblemInput!): Problem!
   updateRole(data: UpdateRoleInput!, id: Float!): Role!
   updateSeason(id: Int!, updateSeasonInput: UpdateSeasonInput!): Season!
+  updateTag(updateTagInput: UpdateTagInput!): Tag!
   updateUser(updateUserInput: UpdateUserInput!): User!
+}
+
+type Problem {
+  createdAt: DateTime!
+  id: Int!
+  link: String!
+  platform: String!
+  tags: [Tag!]
+  title: String!
+  updatedAt: DateTime!
 }
 
 type Query {
   group(id: Int!): Group!
   groups: [Group!]!
+  problem(id: Int!): Problem!
+  problems: [Problem!]!
   role(id: Float!): Role!
   roles: [Role!]!
   season(id: Int!): Season!
   seasons: [Season!]!
+  tag(id: Int!): Tag!
+  tags: [Tag!]!
   user(id: Int!): User!
   users(skip: Int, take: Int, where: WhereUserFilter): [User!]!
   welcome: String!
@@ -105,10 +139,26 @@ enum Status {
   INACTIVE
 }
 
+type Tag {
+  id: Int!
+  name: String!
+}
+
 input UpdateGroupInput {
   country: String
   name: String
   school: String
+}
+
+input UpdateProblemInput {
+  createdAt: DateTime
+  difficulty: String
+  id: Int!
+  link: String
+  platform: String
+  tags: [CreateTagInput!]
+  title: String
+  updatedAt: DateTime
 }
 
 input UpdateRoleInput {
@@ -122,6 +172,11 @@ input UpdateSeasonInput {
   endDate: DateTime
   name: String
   startDate: DateTime
+}
+
+input UpdateTagInput {
+  id: Int!
+  name: String
 }
 
 input UpdateUserInput {
