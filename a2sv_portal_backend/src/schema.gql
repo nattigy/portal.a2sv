@@ -82,8 +82,6 @@ type Query {
   groups: [Group!]!
   role(id: Float!): Role!
   roles: [Role!]!
-  user(id: Int!): User!
-  users(skip: Int, take: Int, where: WhereUserFilter): [User!]!
 }
 
 type Role {
