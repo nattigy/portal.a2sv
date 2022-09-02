@@ -29,21 +29,42 @@ class UserRepository {
   }
 
   Future<User?> login(LoginInput loginInput) async {
-    final QueryOptions options = QueryOptions(
-      document: gql(LOGIN),
-      variables: <String, dynamic>{
-        "loginInput": {
-          'phoneNumber': loginInput.phoneNumber,
-          'password': loginInput.password,
-        }
-      },
+    // final QueryOptions options = QueryOptions(
+    //   document: gql(LOGIN),
+    //   variables: <String, dynamic>{
+    //     "loginInput": {
+    //       'phoneNumber': loginInput.phoneNumber,
+    //       'password': loginInput.password,
+    //     }
+    //   },
+    // );
+    // final QueryResult result = await client.query(options);
+    // if (result.hasException) {
+    //   throw Exception(result.exception);
+    // }
+    // await persistToken(result.data?['login']['access_token']);
+    // User user = User.fromJson(result.data?['login']['user']);
+    // await persistUser(user);
+    await persistToken("wassap token");
+
+    const user = User(
+
+      email: "abe@gmail.com",
+
+      firstName: "Abe",
+
+      id: "001",
+
+      lastName: "Kebe",
+
+      middleName: "beke",
+
+      password: "123561",
+
+      phoneNumber: "11212",
+
     );
-    final QueryResult result = await client.query(options);
-    if (result.hasException) {
-      throw Exception(result.exception);
-    }
-    await persistToken(result.data?['login']['access_token']);
-    User user = User.fromJson(result.data?['login']['user']);
+
     await persistUser(user);
     return user;
   }

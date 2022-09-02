@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../widgets/cards/shadow_card.dart';
+import '../../../widgets/percentage_indicator.dart';
 
 class TopicInfo extends StatelessWidget {
   const TopicInfo({Key? key}) : super(key: key);
@@ -11,12 +12,8 @@ class TopicInfo extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     return Column(
       children: [
-        SizedBox(height: height * 0.04),
-        const Text(
-          "Linked List",
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
-        ),
-        SizedBox(height: height * 0.04),
+        // SizedBox(height: height * 0.04),
+        SizedBox(height: height * 0.02),
         const Align(
           alignment: Alignment.topLeft,
           child: Chip(
@@ -31,7 +28,9 @@ class TopicInfo extends StatelessWidget {
             ), //Text
           ),
         ),
-        SizedBox(height: height * 0.01,),
+        SizedBox(
+          height: height * 0.01,
+        ),
         ShadowCard(
           child: Column(
             children: [
@@ -48,18 +47,20 @@ class TopicInfo extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             fontSize: 14),
                       ),
-                      SizedBox(
-                        height: height * 0.04,
+                      SizedBox(height: height * 0.01),
+                      Row(
+                        children: [
+                          PercentageIndicator(percent: 37, width: width * 0.4),
+                          Text("   37%"),
+                        ],
                       ),
+                      SizedBox(height: height * 0.03),
                       const Text(
                         "Comfortable with Linked list?",
                         style: TextStyle(
                             color: Color.fromRGBO(88, 88, 88, 1),
                             fontWeight: FontWeight.w500,
                             fontSize: 14),
-                      ),
-                      SizedBox(
-                        height: height * 0.01,
                       ),
                       Row(
                         children: [
@@ -85,19 +86,17 @@ class TopicInfo extends StatelessWidget {
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                   elevation: 0,
-                                  fixedSize: Size(20,20),
+                                  fixedSize: Size(20, 20),
                                   shadowColor: Colors.white,
                                   primary: Color.fromRGBO(235, 79, 79, 0.1),
                                   side: const BorderSide(
                                     color: Color.fromRGBO(235, 79, 79, 0.8),
-                                    
                                   )),
                               // style: ButtonStyle(elevation: 0,backgroundColor:MaterialStateProperty.all(Color.fromRGBO(92, 184, 92, 0.22)) ),
                               onPressed: () {},
                               child: const Text("No",
                                   style: TextStyle(
                                     fontSize: 12,
-                                    
                                     color: Color.fromRGBO(235, 79, 79, 0.8),
                                   )),
                             ),
@@ -129,7 +128,7 @@ class TopicInfo extends StatelessWidget {
                           color: Color.fromRGBO(170, 170, 170, 1),
                         ),
                       ),
-                                            SizedBox(
+                      SizedBox(
                         height: height * 0.02,
                       ),
                       Row(

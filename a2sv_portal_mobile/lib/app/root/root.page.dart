@@ -76,8 +76,9 @@ class _RootPageState extends State<RootPage> {
     return WillPopScope(
       onWillPop: () async {
         final mayPop =
-        await tabNavigatorKeys[_currentTab.index].currentState?.maybePop();
+            await tabNavigatorKeys[_currentTab.index].currentState?.maybePop();
         if (mayPop!) {
+          tabNavigatorKeys[_currentTab.index].currentState?.pop();
           return false;
         } else if (!mayPop && _currentTab != TabItem.home) {
           setCurrentIndex(TabItem.home);
@@ -102,12 +103,12 @@ class _RootPageState extends State<RootPage> {
             currentIndex: _currentTab.index,
             onTap: (idx) {
               setCurrentIndex(TabItem.values[idx]);
-                touchCounterIncrease();
-                if (touchCounter > 1) {
-                  Navigator.pushNamedAndRemoveUntil(
-                      _globalNavigatorContext, "/", (route) => false);
-                  touchCounterToZero();
-                }
+              // touchCounterIncrease();
+              // if (touchCounter > 1) {
+              //   Navigator.pushNamedAndRemoveUntil(
+              //       _globalNavigatorContext, "/", (route) => false);
+              //   touchCounterToZero();
+              // }
             },
             items: const [
               BottomNavigationBarItem(

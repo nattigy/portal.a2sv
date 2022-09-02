@@ -77,7 +77,7 @@ class TopicCardRow extends StatelessWidget {
                 ],
               ),
               SizedBox(height: screenHeight * 0.005),
-              PercentageIndicator(percent: percent),
+              PercentageIndicator(percent: percent, width: 200),
             ],
           ),
         )

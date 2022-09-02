@@ -15,7 +15,7 @@ class TopicsNavigator extends TabNavigator {
 
   Map<String, WidgetBuilder> _routeBuilder(BuildContext context) {
     return {
-      TopicsNavigatorRoutes.root: (ctx) => TopicsTab(),
+      TopicsNavigatorRoutes.root: (ctx) => TopicsTab(navigationCtx: navigatorKey.currentContext!),
     };
   }
 

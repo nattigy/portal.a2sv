@@ -52,8 +52,8 @@ class SingleMonth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 90,
-      height: 160,
+      width: 70,
+      height: 130,
       child: Wrap(
         children: [
           ...List.generate(31, (index) => Day()),
@@ -72,9 +72,9 @@ class Day extends StatelessWidget {
       margin: EdgeInsets.all(2),
       decoration: BoxDecoration(
         color: Colors.green,
-        borderRadius: BorderRadius.all(Radius.circular(3)),
+        borderRadius: BorderRadius.all(Radius.circular(2)),
       ),
-      child: SizedBox(width: 15, height: 15),
+      child: SizedBox(width: 12, height: 12),
     );
   }
 }

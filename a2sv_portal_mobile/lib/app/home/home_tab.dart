@@ -8,7 +8,9 @@ import 'widgets/profile_card.dart';
 import 'widgets/profile_stats_card.dart';
 
 class HomeTab extends StatelessWidget {
-  const HomeTab({Key? key}) : super(key: key);
+  const HomeTab({Key? key, required this.navigationCtx}) : super(key: key);
+
+  final BuildContext navigationCtx;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class HomeTab extends StatelessWidget {
                   children: [
                     CardLabelText(text: "Topics"),
                     SizedBox(height: 15),
-                    TopicInfoCard(),
+                    TopicInfoCard(navigationCtx: navigationCtx,),
                   ],
                 ),
               ),

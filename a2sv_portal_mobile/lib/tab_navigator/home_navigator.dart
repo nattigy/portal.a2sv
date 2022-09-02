@@ -15,7 +15,7 @@ class HomeNavigator extends TabNavigator {
 
   Map<String, WidgetBuilder> _routeBuilder(BuildContext context) {
     return {
-      HomeNavigatorRoutes.root: (ctx) => HomeTab(),
+      HomeNavigatorRoutes.root: (ctx) => HomeTab(navigationCtx: navigatorKey.currentContext!,),
     };
   }
 

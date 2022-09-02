@@ -7,7 +7,9 @@ import '../../../widgets/text_views/reminder_text_view.dart';
 import '../topic_details_page.dart';
 
 class TopicInfoCard extends StatelessWidget {
-  const TopicInfoCard({Key? key}) : super(key: key);
+  const TopicInfoCard({Key? key, required this.navigationCtx}) : super(key: key);
+
+  final BuildContext navigationCtx;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,7 @@ class TopicInfoCard extends StatelessWidget {
                       title: "Open Topic",
                       onClick: () {
                         Navigator.pushAndRemoveUntil<void>(
-                          context,
+                          navigationCtx,
                           TopicDetailsPage.route(),
                               (route) => false,
                         );

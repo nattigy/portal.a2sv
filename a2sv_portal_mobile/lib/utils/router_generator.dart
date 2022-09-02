@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../app/auth/screens/login.page.dart';
 import '../app/onboarding/screens/onboard_screen.dart';
+import '../app/root/root.page.dart';
 import '../app/root/splash.page.dart';
 import '../constants/app_routes.dart';
 
@@ -24,7 +25,7 @@ class RouterGenerator {
 
       default:
         return PageRouteBuilder(
-            pageBuilder: (context, animation1, animation2) => const LoginPage(),
+            pageBuilder: (context, animation1, animation2) => const RootPage(),
             transitionDuration: const Duration(seconds: 0));
     }
   }

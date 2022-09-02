@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'widgets/topic_info_card.dart';
 
 class TopicsTab extends StatelessWidget {
-  const TopicsTab({Key? key}) : super(key: key);
+  const TopicsTab({Key? key, required this.navigationCtx}) : super(key: key);
+
+  final BuildContext navigationCtx;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,7 @@ class TopicsTab extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            MarginContainer(child: TopicInfoCard()),
+            MarginContainer(child: TopicInfoCard(navigationCtx: navigationCtx)),
           ],
         ),
       ),
