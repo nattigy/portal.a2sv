@@ -4,8 +4,9 @@ import { LoginInput } from './dto/login-input.dto'
 import { CreateUserInput } from '../user/dto/create-user.input'
 import { SignupOutput } from './dto/signup-output.dto'
 import { LoginOutput } from './dto/login-output.dto'
-import { UseGuards } from '@nestjs/common'
+import { Res, UseGuards } from '@nestjs/common'
 import { GqlAuthGuard } from './guards/gql-auth.guard'
+import { Response } from 'express'
 
 @Resolver()
 export class AuthResolver {
@@ -17,7 +18,9 @@ export class AuthResolver {
     @Args('loginInput') loginInput: LoginInput,
     @Context() context,
   ): Promise<LoginOutput> {
-    return this.authService.login(context.user)
+    const { accessToken, userId } = await this.authService.login(context.user)
+    context.res.cookie('jwt', accessToken)
+    return { accessToken, userId }
   }
 
   @Mutation(() => SignupOutput)
