@@ -130,12 +130,10 @@ describe('UserService', () => {
   describe('remove', () => {
     describe('when user with id exists', () => {
       it('should remove user', async () => {
-        const userId = 1
         const expectedValue: User = user
 
         prismaService.user.findFirst.mockResolvedValue(expectedValue)
         prismaService.user.delete.mockResolvedValue(expectedValue)
-        const removed = service.remove(userId)
         expect('').toEqual(expectedValue)
       })
     })

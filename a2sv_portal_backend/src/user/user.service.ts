@@ -13,6 +13,7 @@ import { Parent } from '@nestjs/graphql'
 @Injectable()
 export class UserService {
   constructor(private readonly prismaService: PrismaService) {}
+
   async create(createUserInput: CreateUserInput): Promise<User> {
     const { email, password } = createUserInput
     const role = await this.prismaService.role.findFirst({
@@ -83,6 +84,20 @@ export class UserService {
   async remove(id: number): Promise<User | null> {
     return await this.prismaService.user.delete({
       where: { id },
+    })
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    return await this.prismaService.user.findFirst({
+      where: { email },
+    })
+  }
+
+  async findById(id: number) {
+    return await this.prismaService.user.findUnique({
+      where: {
+        id: id,
+      },
     })
   }
 }
