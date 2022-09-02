@@ -1,16 +1,13 @@
-import 'package:a2sv_portal_mobile/app/students/screens/platforms.page.dart';
-import 'package:a2sv_portal_mobile/utils/custom_colors.dart';
-import 'package:a2sv_portal_mobile/app/users/screens/widgets/single-user.component.dart';
-import 'package:a2sv_portal_mobile/app/topic_details/topic_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../utils/custom_colors.dart';
 import '../utils/router_generator.dart';
 import 'auth/bloc/auth/auth.bloc.dart';
 import 'auth/data/auth.repository.dart';
 import 'auth/screens/login.page.dart';
-import 'home/home.page.dart';
 import 'onboarding/screens/onboard_screen.dart';
+import 'root/root.page.dart';
 
 class AppView extends StatefulWidget {
   const AppView({super.key});
@@ -34,25 +31,25 @@ class _AppViewState extends State<AppView> {
         scaffoldBackgroundColor: CustomColors.scaffoldBackGroundColor,
       ),
       builder: (context, child) {
-      //  return PlatformsPage();
-       //  return TopicDetailsPage();
-       // return SingleUser();
+        //  return PlatformsPage();
+        //  return TopicDetailsPage();
+        // return SingleUser();
         // return OnBoardingPage();
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             switch (state.status) {
-              case AuthenticationStatus.unauthenticated:
+              case AuthenticationStatus.authenticated:
                 _navigator.pushAndRemoveUntil<void>(
-                  HomePage.route(),
+                  RootPage.route(),
                   (route) => false,
                 );
                 break;
-              // case AuthenticationStatus.unauthenticated:
-              //   _navigator.pushAndRemoveUntil<void>(
-              //     LoginPage.route(),
-              //     (route) => false,
-              //   );
-              //   break;
+              case AuthenticationStatus.unauthenticated:
+                _navigator.pushAndRemoveUntil<void>(
+                  LoginPage.route(),
+                  (route) => false,
+                );
+                break;
               case AuthenticationStatus.firstUse:
                 _navigator.pushAndRemoveUntil<void>(
                   OnBoardingPage.route(),

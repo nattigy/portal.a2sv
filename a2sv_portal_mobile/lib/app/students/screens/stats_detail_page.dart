@@ -1,10 +1,10 @@
-import 'package:a2sv_portal_mobile/app/home_tab/widgets/profile_stats_card.dart';
 import 'package:flutter/material.dart';
 
 import '../../../widgets/cards/margin_container.dart';
 import '../../../widgets/text_views/card_label_text.dart';
-import '../../group_tab/widgets/group_info_card.dart';
-import '../../home_tab/widgets/consistency_diagram_card.dart';
+import '../../groups/widgets/group_info_card.dart';
+import '../../home/widgets/consistency_diagram_card.dart';
+import '../../home/widgets/profile_stats_card.dart';
 import 'widgets/bottom_sheet_card.dart';
 import 'widgets/ranking_row.dart';
 import 'widgets/topics_covered_card.dart';

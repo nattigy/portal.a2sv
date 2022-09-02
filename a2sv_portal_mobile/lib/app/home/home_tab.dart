@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../widgets/cards/margin_container.dart';
 import '../../widgets/text_views/card_label_text.dart';
-import '../topics_tab/topics_tab.dart';
+import '../topics/widgets/topic_info_card.dart';
 import 'widgets/consistency_diagram_card.dart';
 import 'widgets/profile_card.dart';
 import 'widgets/profile_stats_card.dart';
@@ -40,7 +40,7 @@ class HomeTab extends StatelessWidget {
                   children: [
                     CardLabelText(text: "Topics"),
                     SizedBox(height: 15),
-                    TopicsTab(),
+                    TopicInfoCard(),
                   ],
                 ),
               ),

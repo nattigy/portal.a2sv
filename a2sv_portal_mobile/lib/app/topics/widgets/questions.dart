@@ -1,9 +1,10 @@
 // ignore_for_file: sort_child_properties_last
 
-import 'package:a2sv_portal_mobile/app/topic_details/widgets/question.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+
+import 'question.dart';
 
 class Questions extends StatelessWidget {
   const Questions({Key? key}) : super(key: key);

@@ -9,8 +9,10 @@ import '../models/onboard_data.dart';
 class OnBoardingPage extends StatefulWidget {
   static const pageRoute = '/onboard';
 
+  const OnBoardingPage({Key? key}) : super(key: key);
+
   static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => OnBoardingPage());
+    return MaterialPageRoute<void>(builder: (_) => const OnBoardingPage());
   }
 
   @override

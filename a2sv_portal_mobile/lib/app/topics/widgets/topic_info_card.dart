@@ -1,12 +1,13 @@
-import 'package:a2sv_portal_mobile/widgets/buttons/main-button.dart';
-import 'package:a2sv_portal_mobile/widgets/cards/shadow_card.dart';
 import 'package:flutter/material.dart';
 
-import '../../widgets/text_views/card_title_text.dart';
-import '../../widgets/text_views/reminder_text_view.dart';
+import '../../../widgets/buttons/main-button.dart';
+import '../../../widgets/cards/shadow_card.dart';
+import '../../../widgets/text_views/card_title_text.dart';
+import '../../../widgets/text_views/reminder_text_view.dart';
+import '../topic_details_page.dart';
 
-class TopicsTab extends StatelessWidget {
-  const TopicsTab({Key? key}) : super(key: key);
+class TopicInfoCard extends StatelessWidget {
+  const TopicInfoCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,13 @@ class TopicsTab extends StatelessWidget {
                     width: 125,
                     child: MainButton(
                       title: "Open Topic",
-                      onClick: () {},
+                      onClick: () {
+                        Navigator.pushAndRemoveUntil<void>(
+                          context,
+                          TopicDetailsPage.route(),
+                              (route) => false,
+                        );
+                      },
                       color: Colors.indigo,
                     ),
                   )
