@@ -38,10 +38,7 @@ export class ProblemResolver {
   async updateProblem(
     @Args('updateProblemInput') updateProblemInput: UpdateProblemInput,
   ): Promise<Problem> {
-    return this.problemService.update(
-      updateProblemInput.id,
-      updateProblemInput,
-    )
+    return this.problemService.update(updateProblemInput.id, updateProblemInput)
   }
 
   @Mutation(() => Problem)

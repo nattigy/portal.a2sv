@@ -88,13 +88,14 @@ type Mutation {
 }
 
 type Problem {
-  createdAt: DateTime!
+  createdAt: DateTime
+  difficulty: String!
   id: Int!
   link: String!
   platform: String!
   tags: [Tag!]
   title: String!
-  updatedAt: DateTime!
+  updatedAt: DateTime
 }
 
 type Query {
@@ -142,6 +143,7 @@ enum Status {
 type Tag {
   id: Int!
   name: String!
+  problems: [Problem!]
 }
 
 input UpdateGroupInput {

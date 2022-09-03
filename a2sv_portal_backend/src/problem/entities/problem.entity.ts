@@ -11,10 +11,12 @@ export class Problem {
   platform: string
   @Field()
   link: string
+  @Field()
+  difficulty: string
   @Field(() => [Tag], { nullable: true })
   tags?: Tag[]
-  @Field()
+  @Field({ nullable: true })
   createdAt?: Date
-  @Field()
+  @Field({ nullable: true })
   updatedAt?: Date
 }

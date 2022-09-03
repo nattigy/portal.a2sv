@@ -1,8 +1,17 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql'
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql'
 import { TagService } from './tag.service'
 import { Tag } from './entities/tag.entity'
 import { CreateTagInput } from './dto/create-tag.input'
 import { UpdateTagInput } from './dto/update-tag.input'
+import { Problem } from 'src/problem/entities/problem.entity'
 
 @Resolver(() => Tag)
 export class TagResolver {
@@ -35,5 +44,10 @@ export class TagResolver {
   @Mutation(() => Tag)
   async removeTag(@Args('id', { type: () => Int }) id: number): Promise<Tag> {
     return await this.tagService.remove(id)
+  }
+
+  @ResolveField(() => [Problem])
+  async problems(@Parent() tag: Tag): Promise<Problem[]> {
+    return tag.problems
   }
 }
