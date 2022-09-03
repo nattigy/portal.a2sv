@@ -3,6 +3,11 @@ import { Formik, Form } from "formik";
 import * as yup from "yup";
 import CustomTextField from "../../components/auth/TextField";
 import Link from "next/link";
+import useLogin from "../../lib/hooks/useLogin";
+import { useRouter } from "next/router";
+import { useApollo } from "../../lib/apollo/apolloClient";
+import { useMutation } from "@apollo/client";
+import { SIGN_IN_MUTATION } from "../../lib/apollo/Mutations/authMutations";
 
 export interface FormValues {
   email: string;
@@ -31,6 +36,10 @@ const FORM_VALIDATION = yup.object().shape({
 });
 
 const LoginForm = () => {
+  // const { login } = useLogin()
+  // const apolloClient = useApollo(null)
+  const [signin] = useMutation(SIGN_IN_MUTATION)
+  const router = useRouter()
   return (
     <>
       <div className="w-full lg:w-[28vw] border bg-white text-[#434343] py-16 px-10 rounded-lg">
@@ -44,11 +53,21 @@ const LoginForm = () => {
         </p>
         <Formik
           initialValues={INITIAL_VALUES}
-          onSubmit={(values: any) => {
-            console.log(values);
+          // validationSchema={FORM_VALIDATION}
+          onSubmit={async (values: any) => {
+            console.log(values, "sfasfas");
+            await signin({
+              variables: {
+                loginInput: values
+              },
+              refetchQueries: "active",
+              notifyOnNetworkStatusChange: true
+            })
+            // await login(values)
+            router.replace("/")
           }}
         >
-          {(formik) => (
+          {(formik,) => (
             <div>
               <Form>
                 <CustomTextField
@@ -65,11 +84,15 @@ const LoginForm = () => {
                   type="password"
                   formik={formik}
                 />
-                {/* <div className="bg-[#E4646451] py-1 rounded-md">
-                  <span className="text-[#E46464] px-4 text-xs">
-                    Invalid Email or Password
-                  </span>
-                </div> */}
+                {
+                  formik.touched.password && formik.errors.password && (
+                    <div className="bg-[#E4646451] py-1 rounded-md">
+                      <span className="text-[#E46464] px-4 text-xs">
+                        Invalid Email or Password
+                      </span>
+                    </div>
+                  )
+                }
                 <div className="mt-3">
                   <Link href="/">
                     <span className="text-sm text-[#434343] font-Poppins font-light cursor-pointer">
@@ -77,14 +100,14 @@ const LoginForm = () => {
                     </span>
                   </Link>
                 </div>
-                <button className="w-full px-6 py-2 mt-4 text-sm font-bold text-white bg-[#5956E9] rounded-lg">
+                <button type="submit" className="w-full px-6 py-2 mt-4 text-sm font-bold text-white bg-[#5956E9] rounded-lg">
                   Sign In
                 </button>
               </Form>
             </div>
           )}
         </Formik>
-      </div>
+      </div >
     </>
   );
 };

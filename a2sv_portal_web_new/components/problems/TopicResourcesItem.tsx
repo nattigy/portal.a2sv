@@ -19,7 +19,6 @@ type Props = {
 
 const TopicResourcesItem = ({ topicResource }: Props) => {
   let date = Date.now();
-  console.log("date", date.toString());
   // let date = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(currentTimestamp)
   return (
       <div className="flex flex-row justify-center items-center px-1 gap-1 text-sm text-[#565656] hover:bg-[#F6F6FC]">

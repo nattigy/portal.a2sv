@@ -1,7 +1,8 @@
-import type { NextPage } from "next";
+import type { GetServerSidePropsContext, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Navbar from "../components/common/Navbar";
+import { addApolloState, initializeApollo } from "../lib/apollo/apolloClient";
 
 const Home: NextPage = () => {
   return (
@@ -36,6 +37,17 @@ const Home: NextPage = () => {
       </div>
     </div>
   );
+};
+
+
+export const getServerSideProps = async ({
+  req,
+}: GetServerSidePropsContext) => {
+  const apolloClient = initializeApollo({ ctx: { req } });
+  // await apolloClient.query({ query: testQuery });
+  return addApolloState(apolloClient, {
+    props: {},
+  });
 };
 
 export default Home;
