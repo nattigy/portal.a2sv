@@ -65,6 +65,8 @@ type LoginOutput {
 
 type Mutation {
   createGroup(createGroupInput: CreateGroupInput!): Group!
+
+  """Create a problem with optional tags"""
   createProblem(createProblemInput: CreateProblemInput!): Problem!
   createRole(data: CreateRoleInput!): Role!
   createSeason(createSeasonInput: CreateSeasonInput!): Season!
@@ -75,11 +77,15 @@ type Mutation {
   deleteSeason(id: Int!): Season!
   login(loginInput: LoginInput!): LoginOutput!
   logout: SignupOutput!
+
+  """Remove a problem by id"""
   removeProblem(id: Int!): Problem!
   removeTag(id: Int!): Tag!
   removeUser(id: Int!): User!
   signUp(createUserInput: CreateUserInput!): SignupOutput!
   updateGroup(id: Int!, updateGroupInput: UpdateGroupInput!): Group!
+
+  """Update a given problem"""
   updateProblem(updateProblemInput: UpdateProblemInput!): Problem!
   updateRole(data: UpdateRoleInput!, id: Float!): Role!
   updateSeason(id: Int!, updateSeasonInput: UpdateSeasonInput!): Season!
@@ -88,19 +94,24 @@ type Mutation {
 }
 
 type Problem {
-  createdAt: DateTime!
+  createdAt: DateTime
+  difficulty: String!
   id: Int!
   link: String!
   platform: String!
   tags: [Tag!]
   title: String!
-  updatedAt: DateTime!
+  updatedAt: DateTime
 }
 
 type Query {
   group(id: Int!): Group!
   groups: [Group!]!
+
+  """Find a unique problem by id"""
   problem(id: Int!): Problem!
+
+  """Find all problems with populated tags"""
   problems: [Problem!]!
   role(id: Float!): Role!
   roles: [Role!]!
@@ -142,6 +153,7 @@ enum Status {
 type Tag {
   id: Int!
   name: String!
+  problems: [Problem!]
 }
 
 input UpdateGroupInput {

@@ -17,34 +17,39 @@ import { Tag } from '@prisma/client'
 export class ProblemResolver {
   constructor(private readonly problemService: ProblemService) {}
 
-  @Mutation(() => Problem)
+  @Mutation(() => Problem, {
+    description: 'Create a problem with optional tags',
+  })
   async createProblem(
     @Args('createProblemInput') createProblemInput: CreateProblemInput,
   ): Promise<Problem> {
     return await this.problemService.create(createProblemInput)
   }
 
-  @Query(() => [Problem], { name: 'problems' })
+  @Query(() => [Problem], {
+    name: 'problems',
+    description: 'Find all problems with populated tags',
+  })
   async problems(): Promise<Problem[]> {
     return await this.problemService.findAll()
   }
 
-  @Query(() => Problem, { name: 'problem' })
+  @Query(() => Problem, {
+    name: 'problem',
+    description: 'Find a unique problem by id',
+  })
   async problem(@Args('id', { type: () => Int }) id: number): Promise<Problem> {
     return await this.problemService.findOne(id)
   }
 
-  @Mutation(() => Problem)
+  @Mutation(() => Problem, { description: 'Update a given problem' })
   async updateProblem(
     @Args('updateProblemInput') updateProblemInput: UpdateProblemInput,
   ): Promise<Problem> {
-    return this.problemService.update(
-      updateProblemInput.id,
-      updateProblemInput,
-    )
+    return this.problemService.update(updateProblemInput.id, updateProblemInput)
   }
 
-  @Mutation(() => Problem)
+  @Mutation(() => Problem, { description: 'Remove a problem by id' })
   async removeProblem(
     @Args('id', { type: () => Int }) id: number,
   ): Promise<Problem> {

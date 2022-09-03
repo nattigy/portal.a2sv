@@ -13,17 +13,28 @@ export class TagService {
   }
 
   async findAll(filter?: any): Promise<Tag[]> {
-    return this.prismaService.tag.findMany(filter)
+    return this.prismaService.tag.findMany({
+      ...filter,
+      include: {
+        problems: true,
+      },
+    })
   }
 
   async findById(id: number): Promise<Tag> {
-    return this.prismaService.tag.findUnique({ where: { id } })
+    return this.prismaService.tag.findUnique({
+      where: { id },
+      include: { problems: true },
+    })
   }
 
   async update(id: number, updateTagInput: UpdateTagInput): Promise<Tag> {
     return this.prismaService.tag.update({
       where: { id },
       data: updateTagInput,
+      include: {
+        problems: true,
+      },
     })
   }
 
@@ -32,6 +43,11 @@ export class TagService {
   }
 
   async findOne(filter?: any): Promise<Tag | null> {
-    return this.prismaService.tag.findFirst({ where: filter })
+    return this.prismaService.tag.findFirst({
+      where: filter,
+      include: {
+        problems: true,
+      },
+    })
   }
 }
