@@ -1,3 +1,4 @@
+import 'package:a2sv_portal_mobile/app/topics/widgets/questions_title.dart';
 import 'package:a2sv_portal_mobile/widgets/cards/margin_container.dart';
 import 'package:flutter/material.dart';
 
@@ -31,6 +32,7 @@ class TopicDetailsPage extends StatelessWidget {
         child: MarginContainer(child: Column(
           children: [
             TopicInfo(),
+            QuestionsTitle(),
             Expanded(child: Questions()),
           ],
         )),

@@ -1,18 +1,14 @@
+import 'package:a2sv_portal_mobile/app/topics/entity/question.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class Question extends StatelessWidget {
-  final String title;
-  final String tag;
-  final String platformurl;
-  final bool solved;
-  const Question(
+class SingleQuestion extends StatelessWidget {
+  final Question question;
+  const SingleQuestion(
       {Key? key,
-      required this.title,
-      required this.tag,
-      required this.platformurl,
-      required this.solved})
+      required this.question,
+     })
       : super(key: key);
 
   @override
@@ -20,12 +16,12 @@ class Question extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        SizedBox(width: width * 0.1, child: Image.asset(platformurl)),
+        SizedBox(width: width * 0.1, child: Image.asset(question.platformurl)),
         SizedBox(
             width: width * 0.4,
-            child: Text(title,
+            child: Text(question.title,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -37,18 +33,18 @@ class Question extends StatelessWidget {
           child: Center(
             child: Chip(
               padding: EdgeInsets.all(8),
-              backgroundColor: tag == "Easy"
+              backgroundColor: question.tag == "Easy"
                   ? Color.fromRGBO(92, 184, 92, 0.22)
-                  : tag == "Medium"
+                  : question.tag == "Medium"
                       ? Color.fromRGBO(246, 161, 41, 0.22)
                       : Color.fromRGBO(235, 79, 79, 0.22), //CircleAvatar
               label: Text(
-                tag,
+                question.tag,
                 style: TextStyle(
                     fontSize: 12,
-                    color: tag == "Easy"
+                    color: question.tag == "Easy"
                   ? Color.fromRGBO(92, 184, 92, 1)
-                  : tag == "Medium"
+                  : question.tag == "Medium"
                       ? Color.fromRGBO(246, 161, 41, 1)
                       : Color.fromRGBO(235, 79, 79, 1),
                     fontWeight: FontWeight.bold),
@@ -58,7 +54,7 @@ class Question extends StatelessWidget {
         ),
         SizedBox(
           width: width * 0.1,
-          child: solved
+          child: question.solved
               ? Image.asset("assets/images/solved.png")
               : Image.asset("assets/images/not_solved.png"),
         ),
