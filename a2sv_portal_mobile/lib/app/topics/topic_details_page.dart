@@ -22,7 +22,7 @@ class TopicDetailsPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title:  Text(
+        title:  const Text(
           "Linked List",
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600, color: Colors.black),
         ),
