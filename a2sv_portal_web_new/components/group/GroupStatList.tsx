@@ -17,14 +17,14 @@ const groupStats: GropStatItemProps[] = [
 
 const GroupStatList = () => {
   return (
-    <>
+    <div>
       <p className="font-semibold text-[#565656] text-lg">Overview</p>
       <div className="flex flex-row">
         {groupStats.map((item, index) => (
-          <GroupStatItem {...item} path={svgs[index]} />
+          <GroupStatItem {...item} path={svgs[index]} key={index} />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

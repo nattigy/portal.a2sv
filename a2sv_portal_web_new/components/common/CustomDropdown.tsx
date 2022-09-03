@@ -3,18 +3,18 @@ import React from "react";
 const CustomDropdown = () => {
   return (
     <div>
-      <label className="text-xs" htmlFor="cars">
-        Choose a car:
+      <label className="text-xs" htmlFor="filter">
+        Sort by:
       </label>
       <select
-        name="cars"
-        id="cars"
-        className="text-[#5956E9] text-xs focus:border-none active:border-none outline-none"
+        name="filter"
+        id="filter"
+        className="text-[#5956E9] text-xs outline-none bg-transparent"
       >
-        <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="opel">Opel</option>
-        <option value="audi">Audi</option>
+        <option value="item1">Date created</option>
+        <option value="item2">item2</option>
+        <option value="item3">item3</option>
+        <option value="item4">item4</option>
       </select>
     </div>
   );
