@@ -16,25 +16,25 @@ import { GroupsService } from './groups.service'
 export class GroupsResolver {
   constructor(private readonly groupsService: GroupsService) {}
 
-  @Roles('admin', 'head_of_academy', 'head_of_education')
+  @Roles('ADMIN', 'HEAD_OF_ACADEMY')
   @Mutation(() => Group)
   createGroup(@Args('createGroupInput') createGroupInput: CreateGroupInput) {
     return this.groupsService.createGroup(createGroupInput)
   }
 
-  @Roles('admin', 'head_of_academy', 'head_of_education')
+  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
   @Query(() => [Group])
   groups() {
     return this.groupsService.getGroups()
   }
 
-  @Roles('admin', 'head_of_academy', 'head_of_education')
+  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
   @Query(() => Group)
   group(@Args('id', { type: () => Int }) id: number) {
     return this.groupsService.getGroupById(id)
   }
 
-  @Roles('admin', 'head_of_academy', 'head_of_education')
+  @Roles('ADMIN', 'HEAD_OF_ACADEMY')
   @Mutation(() => Group)
   updateGroup(
     @Args('id', { type: () => Int }) id: number,
@@ -43,7 +43,7 @@ export class GroupsResolver {
     return this.groupsService.updateGroup(id, updateGroupInput)
   }
 
-  @Roles('admin', 'head_of_academy', 'head_of_education')
+  @Roles('ADMIN', 'HEAD_OF_ACADEMY')
   @Mutation(() => Group)
   deleteGroup(@Args('id', { type: () => Int }) id: number) {
     return this.groupsService.deleteGroup(id)

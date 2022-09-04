@@ -11,32 +11,32 @@ import { Roles } from 'src/auth/auth.decorator'
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
-  @Roles('admin', 'head_of_academy', 'head_of_education')
+  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @Mutation(() => User)
   async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     return await this.userService.create(createUserInput)
   }
 
-  @Roles('admin', 'head_of_academy', 'head_of_education', 'assistant')
+  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
   @Query(() => [User], { name: 'users' })
   async findAll(@Args() args: GetUserArgs) {
     return await this.userService.findAll(args)
   }
 
-  @Roles('admin', 'head_of_academy', 'head_of_education', 'student')
+  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
   @Query(() => User, { name: 'user' })
   async findOne(@Args('id', { type: () => Int }) id: number) {
     // const {...needed, password} = user
     return await this.userService.findOne(id)
   }
 
-  @Roles('admin', 'head_of_academy', 'head_of_education')
+  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
   @Mutation(() => User)
   async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     return await this.userService.update(updateUserInput.id, updateUserInput)
   }
 
-  @Roles('admin', 'head_of_academy', 'head_of_education')
+  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @Mutation(() => User)
   async removeUser(@Args('id', { type: () => Int }) id: number) {
     return await this.userService.remove(id)

@@ -14,11 +14,16 @@ import { AppResolver } from './app.resolver'
 import { AuthModule } from './auth/auth.module'
 import { TagModule } from './tag/tag.module'
 import { ProblemModule } from './problem/problem.module'
+import { TopicModule } from './topic/topic.module'
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
+      cors: {
+        origin: '*',
+        credentials: true,
+      },
       context: ({ req, res }) => ({
         req,
         res,
@@ -43,6 +48,7 @@ import { ProblemModule } from './problem/problem.module'
     AuthModule,
     TagModule,
     ProblemModule,
+    TopicModule,
   ],
   providers: [AppService, AppResolver],
 })

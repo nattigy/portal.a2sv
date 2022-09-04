@@ -1,4 +1,6 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql'
+import { Field, ID, Int, ObjectType } from '@nestjs/graphql'
+import { Group } from 'src/groups/entities/group.entity'
+import { Season } from 'src/season/entities/season.entity'
 
 @ObjectType()
 export class Topic {
@@ -8,6 +10,14 @@ export class Topic {
   name: string
   @Field({ nullable: true })
   description?: string
+  @Field(() => Season, { nullable: true })
+  season?: Season
+  @Field(() => Int)
+  seasonId?: number
+  @Field(() => Group, { nullable: true })
+  group?: Group
+  @Field(() => Int)
+  groupId?: number
   @Field({ nullable: true })
   createdAt?: Date
   @Field({ nullable: true })

@@ -18,7 +18,7 @@ import { Roles } from 'src/auth/auth.decorator'
 export class ProblemResolver {
   constructor(private readonly problemService: ProblemService) {}
 
-  @Roles('admin', 'head_of_academy', 'head_of_education')
+  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @Mutation(() => Problem)
   async createProblem(
     @Args('createProblemInput') createProblemInput: CreateProblemInput,
@@ -42,7 +42,7 @@ export class ProblemResolver {
     return await this.problemService.findOne(id)
   }
 
-  @Roles('admin', 'head_of_academy', 'head_of_education')
+  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
   @Mutation(() => Problem)
   async updateProblem(
     @Args('updateProblemInput') updateProblemInput: UpdateProblemInput,
@@ -50,7 +50,7 @@ export class ProblemResolver {
     return this.problemService.update(updateProblemInput.id, updateProblemInput)
   }
 
-  @Roles('admin', 'head_of_academy', 'head_of_education')
+  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
   @Mutation(() => Problem)
   async removeProblem(
     @Args('id', { type: () => Int }) id: number,
@@ -58,7 +58,7 @@ export class ProblemResolver {
     return this.problemService.remove(id)
   }
 
-  @Roles('admin', 'head_of_academy', 'head_of_education')
+  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
   @ResolveField()
   async tags(@Parent() problem: Problem): Promise<Tag[]> {
     return problem.tags

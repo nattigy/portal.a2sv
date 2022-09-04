@@ -17,8 +17,6 @@ export class RolesGuard implements CanActivate {
       return true
     }
     const user = ctx.getContext().req.user
-    return requiredRoles.some(
-      (role) => user?.role.toUpperCase() === role.toUpperCase(),
-    )
+    return requiredRoles.some((role) => user?.role === role)
   }
 }

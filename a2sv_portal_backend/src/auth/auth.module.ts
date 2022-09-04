@@ -29,7 +29,7 @@ import { RolesGuard } from './guards/role.guard'
       useClass: GqlAuthGuard,
     },
     {
-      provide: 'ROLE_GUARD',
+      provide: 'APP_GUARD',
       useClass: RolesGuard,
     },
   ],
