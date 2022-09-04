@@ -1,16 +1,11 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { GET_ME_QUERY } from "../apollo/Queries/profileQueries";
 
-const GET_ME = gql`
-    query Me {
-        me {
-            _id
-            email
-        }
-    }
-`;
 
 const useGetMe = () => {
-    return useQuery(GET_ME)
+    return useQuery(GET_ME_QUERY, {
+        errorPolicy: 'all',
+    })
 }
 
 export default useGetMe

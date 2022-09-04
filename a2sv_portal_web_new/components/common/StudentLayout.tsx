@@ -4,6 +4,11 @@ import clsx from "clsx";
 import CustomLink from "./CustomLink";
 import { useRouter } from "next/router";
 import { GiCampfire } from "react-icons/gi";
+import { useMutation } from "@apollo/client";
+import { LOGOUT_MUTATION, SIGN_IN_MUTATION } from "../../lib/apollo/Mutations/authMutations";
+import useLogout from "../../lib/hooks/useLogout";
+import authenticatedVar, { authenticatedUser } from "../../lib/constants/authenticated";
+import { useApollo } from "../../lib/apollo/apolloClient";
 interface LayoutProps extends WithChildren {
   sidebar?: ReactNode;
 }
@@ -16,11 +21,39 @@ type NavItem = {
 
 const StudentLayout = ({ sidebar, children }: LayoutProps) => {
   const [activePath, setActivePath] = useState("");
+  const apolloClient = useApollo({})
+  const [logout] = useLogout()
   const router = useRouter();
 
   useEffect(() => {
     setActivePath(router.pathname);
   }, [router.pathname]);
+
+
+  const handleLogout = async () => {
+    try {
+      await logout({
+        errorPolicy: "all",
+        variables: {
+        },
+        onError: (error) => {
+
+        },
+        onCompleted: async () => {
+          authenticatedUser({})
+          authenticatedVar(false)
+          router.replace("/auth")
+          await apolloClient.resetStore()
+        }
+      })
+    } catch (error) {
+      authenticatedUser({})
+      authenticatedVar(false)
+      await apolloClient.resetStore()
+
+    }
+
+  }
 
   return (
     <div className="flex flex-1 bg-[#F6F6FC] min-h-screen">
@@ -59,7 +92,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                     href="#"
                     className={clsx(
                       activePath.includes("/dashboard") &&
-                        "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700  fill-current  ",
+                      "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700  fill-current  ",
                       " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group"
                     )}
                   >
@@ -67,7 +100,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                       className={clsx(
                         "w-6 h-6 hover:text-white ",
                         activePath.includes("/dashboard") &&
-                          "fill-current text-indigo-700 "
+                        "fill-current text-indigo-700 "
                       )}
                       xmlns="http://www.w3.org/2000/svg"
                       aria-hidden="true"
@@ -83,14 +116,14 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                     className={clsx(
                       " flex items-center justify-center  p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                       activePath.includes("/education") &&
-                        "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                      "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                     )}
                   >
                     <svg
                       className={clsx(
                         "w-6 h-6 hover:text-white ",
                         activePath.includes("/education") &&
-                          "fill-current text-indigo-700"
+                        "fill-current text-indigo-700"
                       )}
                       viewBox="0 0 25 25"
                       fill="none"
@@ -109,10 +142,10 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                     className={clsx(
                       " flex items-center justify-center  p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                       activePath.includes("/camp") &&
-                        "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                      "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                     )}
                   >
-                    <GiCampfire size={28}/>
+                    <GiCampfire size={28} />
                   </a>
                 </CustomLink>
                 <CustomLink href="/contests">
@@ -121,7 +154,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                     className={clsx(
                       " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                       activePath.includes("/contests") &&
-                        "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                      "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                     )}
                   >
                     <svg
@@ -168,14 +201,14 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                     className={clsx(
                       " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 ",
                       activePath.includes("/personal-status") &&
-                        "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                      "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                     )}
                   >
                     <svg
                       className={clsx(
                         "w-6 h-6 hover:text-white ",
                         activePath.includes("/personal-status") &&
-                          "fill-current text-indigo-700"
+                        "fill-current text-indigo-700"
                       )}
                       viewBox="0 0 26 27"
                       fill="none"
@@ -194,7 +227,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                     className={clsx(
                       " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                       activePath.includes("/settings") &&
-                        "fill current bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700",
+                      "fill current bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700",
                       "hover:text-white "
                     )}
                   >
@@ -202,7 +235,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                       className={clsx(
                         "w-6 h-6 hover:text-white ",
                         activePath.includes("/settings") &&
-                          "fill-current text-indigo-700 ",
+                        "fill-current text-indigo-700 ",
                         "hover:text-white "
                       )}
                       viewBox="0 0 27 27"
@@ -241,6 +274,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
               </button>
               <button
                 type="button"
+                onClick={handleLogout}
                 className="flex w-8 h-8 rounded-full items-center justify-center text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100"
               >
                 <svg

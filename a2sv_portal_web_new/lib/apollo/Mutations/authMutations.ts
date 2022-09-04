@@ -8,3 +8,11 @@ export const SIGN_IN_MUTATION = gql`
     }
   }
 `;
+
+export const LOGOUT_MUTATION = gql`
+  mutation Mutation {
+    logout {
+      userId
+    }
+  }
+`;

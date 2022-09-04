@@ -1,7 +1,7 @@
 import { ApolloClient, NormalizedCacheObject, useReactiveVar } from "@apollo/client"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
-import authenticatedUser from "../../lib/constants/authenticated"
+import authenticatedVar, { authenticatedUser } from "../constants/authenticated"
 import useGetMe from "../hooks/useGetMe"
 
 interface GuardProps {
@@ -11,23 +11,27 @@ interface GuardProps {
 }
 
 const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
-    const { data: user, refetch, error } = useGetMe()
-    const authenticated = useReactiveVar(authenticatedUser)
+    const { data: user, refetch } = useGetMe()
+    const authenticated = useReactiveVar(authenticatedVar)
     const router = useRouter()
 
-
     useEffect(() => {
+        if (user) {
+            authenticatedUser(user)
+        }
+        if (authenticated && excludedRoutes?.includes(router.pathname)) {
+            router.replace("/")
+        }
         if (!excludedRoutes?.includes(router.pathname)) {
-            // refetch()
+            refetch()
         }
     }, [router.pathname])
-
 
     useEffect(() => {
         const checkAuthenticated = async () => {
             if (!authenticated && !excludedRoutes?.includes(router.pathname)) {
+                router.replace("/auth");
                 await client.resetStore();
-                router.push("/auth");
             }
         }
         checkAuthenticated()
@@ -39,7 +43,7 @@ const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
                 excludedRoutes?.includes(router.pathname) ? (
                     children
                 ) : (
-                    authenticated && children
+                    user && children
                 )
             }
         </>
