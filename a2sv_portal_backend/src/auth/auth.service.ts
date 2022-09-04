@@ -31,14 +31,13 @@ export class AuthService {
   }
 
   async login(
-    user: User,
     @Context() context,
   ): Promise<{ accessToken: string; userId: number }> {
-    console.log(user)
+    const user = context.req.user
     const payload = { email: user.email, sub: user.id }
     const accessToken = this.jwtService.sign(payload)
     const expires = new Date()
-    expires.setSeconds(expires.getSeconds() + 432000)
+    expires.setHours(expires.getHours() + 120)
     context.res.cookie('Authentication', accessToken, { httpOnly: true })
     return { accessToken, userId: user.id }
   }

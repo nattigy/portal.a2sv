@@ -1,9 +1,6 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common'
-import { Prisma, Status, User } from '@prisma/client'
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { User, Prisma, Status } from '@prisma/client'
+import {} from '../user/entities/user.entity'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
@@ -16,15 +13,6 @@ export class UserService {
 
   async create(createUserInput: CreateUserInput): Promise<User> {
     const { email, password } = createUserInput
-    const role = await this.prismaService.role.findFirst({
-      where: {
-        name: {
-          in: 'student',
-          mode: 'insensitive',
-        },
-      },
-    })
-    if (!role) throw new InternalServerErrorException()
 
     const foundUser = await this.prismaService.user.findFirst({
       where: { email },
@@ -40,7 +28,7 @@ export class UserService {
         email,
         password: hash,
         status: Status.ACTIVE,
-        roleId: role.id,
+        role: createUserInput.role,
         updatedAt: new Date().toISOString(),
       },
     })
@@ -70,8 +58,7 @@ export class UserService {
   }
 
   async getRole(@Parent() user: User) {
-    const { roleId } = user
-    return this.prismaService.role.findFirst({ where: { id: roleId } })
+    return this.prismaService.role.findFirst({ where: { id: 1 } })
   }
 
   async update(id: number, updateUserInput: UpdateUserInput): Promise<User> {

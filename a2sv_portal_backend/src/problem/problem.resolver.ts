@@ -12,11 +12,13 @@ import { Problem } from './entities/problem.entity'
 import { CreateProblemInput } from './dto/create-problem.input'
 import { UpdateProblemInput } from './dto/update-problem.input'
 import { Tag } from '@prisma/client'
+import { Roles } from 'src/auth/auth.decorator'
 
 @Resolver(() => Problem)
 export class ProblemResolver {
   constructor(private readonly problemService: ProblemService) {}
 
+  @Roles('admin', 'head_of_academy', 'head_of_education')
   @Mutation(() => Problem)
   async createProblem(
     @Args('createProblemInput') createProblemInput: CreateProblemInput,
@@ -34,6 +36,7 @@ export class ProblemResolver {
     return await this.problemService.findOne(id)
   }
 
+  @Roles('admin', 'head_of_academy', 'head_of_education')
   @Mutation(() => Problem)
   async updateProblem(
     @Args('updateProblemInput') updateProblemInput: UpdateProblemInput,
@@ -41,6 +44,7 @@ export class ProblemResolver {
     return this.problemService.update(updateProblemInput.id, updateProblemInput)
   }
 
+  @Roles('admin', 'head_of_academy', 'head_of_education')
   @Mutation(() => Problem)
   async removeProblem(
     @Args('id', { type: () => Int }) id: number,
@@ -48,6 +52,7 @@ export class ProblemResolver {
     return this.problemService.remove(id)
   }
 
+  @Roles('admin', 'head_of_academy', 'head_of_education')
   @ResolveField()
   async tags(@Parent() problem: Problem): Promise<Tag[]> {
     return problem.tags

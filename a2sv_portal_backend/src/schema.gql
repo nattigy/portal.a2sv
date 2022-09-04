@@ -38,6 +38,7 @@ input CreateTagInput {
 input CreateUserInput {
   email: String!
   password: String!
+  role: RoleEnum = STUDENT
 }
 
 """
@@ -99,6 +100,7 @@ type Problem {
 }
 
 type Query {
+  getMe: User!
   group(id: Int!): Group!
   groups: [Group!]!
   problem(id: Int!): Problem!
@@ -120,6 +122,14 @@ type Role {
   id: Int!
   name: String!
   updatedAt: DateTime
+}
+
+enum RoleEnum {
+  ADMIN
+  ASSISTANT
+  HEAD_OF_ACADEMY
+  HEAD_OF_EDUCATION
+  STUDENT
 }
 
 type Season {
@@ -185,13 +195,13 @@ input UpdateUserInput {
   email: String
   id: Int!
   password: String
+  role: RoleEnum = STUDENT
 }
 
 type User {
   email: String!
   id: ID!
-  role: Role!
-  roleId: ID!
+  role: RoleEnum!
   status: Status!
 }
 
