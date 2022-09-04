@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BsPlus } from "react-icons/bs";
 import CustomDropdown from "../../components/common/CustomDropdown";
 import SearchField from "../../components/common/SearchField";
@@ -7,10 +7,19 @@ import GroupItem from "../../components/group/GroupItem";
 import GroupItemList from "../../components/group/GroupItemList";
 import GroupStatItem from "../../components/group/GroupStatItem";
 import GroupStatList from "../../components/group/GroupStatList";
+import NewGroupModal from "../../components/modals/NewGroupModal";
 
-const index = () => {
+const Index = () => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
   return (
     <StudentLayout>
+      {isModalOpen && (
+        <NewGroupModal onClose={() => setIsModalOpen(false)} />
+      )}
       <div className="w-full h-screen pt-7 flex flex-col gap-y-6">
         <GroupStatList />
         <div className="flex flex-row justify-between ">
@@ -20,7 +29,10 @@ const index = () => {
               Here‘s the list of all groups{" "}
             </p>
           </div>
-          <div className="flex flex-row gap-x-1 bg-[#5956E9] rounded-md items-center px-2">
+          <div
+            onClick={handleModalOpen}
+            className="flex flex-row gap-x-1 bg-[#5956E9] rounded-md items-center px-2"
+          >
             <BsPlus color="#ffffff" size={18} />
             <p className="font-medium  text-white text-xs">New Group</p>
           </div>
@@ -50,4 +62,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

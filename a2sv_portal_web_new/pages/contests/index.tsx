@@ -4,21 +4,24 @@ import NewUserModal from "../../components/modals/NewUserModal";
 import NewProblemModal from "../../components/modals/NewProblemModal";
 import NewTopicModal from "../../components/modals/NewTopicModal";
 import ProblemModalDetail from "../../components/modals/ProblemDetailModal";
-import GroupStudentsSidebarItem, { GroupStudentsSidebarProps } from "../../components/dashboard/GroupStudentsSidebarItem";
-import GroupStudents from "../../components/dashboard/GroupStudents";
+import GroupStudentsSidebarItem, { GroupStudentsSidebarProps } from "../../components/group/GroupStudentsSidebarItem";
+import NewGroupModal from "../../components/modals/NewGroupModal";
 import { UserRoleType } from "../../types/user";
 
 const IndexPage = () => {
-  const student:GroupStudentsSidebarProps = {
+  const student: GroupStudentsSidebarProps = {
     id: 1,
     name: "Natnael Bekele",
     photo: "images/group-students-profile.svg",
-    role: UserRoleType.HOE
-  }
+    role: UserRoleType.HOE,
+  };
 
   const Sidebar: React.FC = () => {
     return (
-      <GroupStudentsSidebarItem clicked={true} groupStudentSidebarItem={student}/>
+      <GroupStudentsSidebarItem
+        clicked={true}
+        groupStudentSidebarItem={student}
+      />
       // <h1>Contests Sidebar</h1>
     );
   };
@@ -31,14 +34,17 @@ const IndexPage = () => {
 
   return (
     <StudentLayout sidebar={<Sidebar />}>
-      {/* {isModalOpen && (
-                <NewUserModal onClose={() => setIsModalOpen(false)} />
-            )} */}
+      {isModalOpen && <NewGroupModal onClose={() => setIsModalOpen(false)} />}
       {/* Contests */}
-      <GroupStudents/>
-      {/* <div >
-                <button className="px-5 py-2 rounded-lg bg-blue-600 text-white" onClick={handleModalOpen}>Open Modal</button>
-            </div> */}
+      {/* <GroupStudents/> */}
+      <div>
+        <button
+          className="px-5 py-2 rounded-lg bg-blue-600 text-white"
+          onClick={handleModalOpen}
+        >
+          Open Modal
+        </button>
+      </div>
     </StudentLayout>
   );
 };
