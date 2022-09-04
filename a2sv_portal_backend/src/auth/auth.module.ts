@@ -8,6 +8,7 @@ import { jwtConstants } from './auth.constants'
 import { LocalStrategy } from './strategies/local.strategy'
 import { JwtStrategy } from './strategies/jwt.strategy'
 import { GqlAuthGuard } from './guards/gql-auth.guard'
+import { RolesGuard } from './guards/role.guard'
 
 @Module({
   imports: [
@@ -26,6 +27,10 @@ import { GqlAuthGuard } from './guards/gql-auth.guard'
     {
       provide: 'APP_GUARD',
       useClass: GqlAuthGuard,
+    },
+    {
+      provide: 'ROLE_GUARD',
+      useClass: RolesGuard,
     },
   ],
 })
