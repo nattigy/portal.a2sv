@@ -7,7 +7,9 @@ import merge from "deepmerge";
 import isEqual from "lodash/isEqual";
 import configs from "../constants/configs";
 import { setContext } from "@apollo/client/link/context";
-import authenticatedVar from "../constants/authenticated";
+import authenticatedVar, {
+  authenticatedUser,
+} from "../constants/authenticated";
 
 interface PageProps {
   props?: Record<string, any>;
@@ -20,7 +22,8 @@ const logoutLink = onError(({ graphQLErrors }) => {
     graphQLErrors?.length &&
     (graphQLErrors[0].extensions.response as any)?.statusCode == 401
   ) {
-    // authenticatedVar(false);
+    authenticatedVar(false);
+    authenticatedUser({});
   }
 });
 
@@ -43,13 +46,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
       )
     );
-    if (
-      graphQLErrors?.length > 0 &&
-      (graphQLErrors[0].extensions.response as any)?.statusCode == 401
-    ) {
-      console.log("unAuthenticated");
-      // authenticatedVar(false);
-    }
   }
   if (networkError) console.log(`[Network error]: ${networkError}`);
 });
@@ -64,7 +60,7 @@ const createApolloClient = (ctx?: GetServerSidePropsContext) => {
     ssrMode: typeof window === "undefined",
     cache: new InMemoryCache(),
     link: from([logoutLink, errorLink, httpLink]),
-    connectToDevTools: true,
+    // connectToDevTools: true,
   });
 };
 interface InitApollo {

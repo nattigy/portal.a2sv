@@ -16,7 +16,7 @@ const IndexPage = () => {
   };
 
   return (
-    <StudentLayout sidebar={<Sidebar />}>
+    <StudentLayout >
       <div>
         <h1 className="text-2xl font-bold mb-2">Users</h1>
         <UsersFilter handleTabChange={handleTabChange} activeIndex={tabIndex} />
