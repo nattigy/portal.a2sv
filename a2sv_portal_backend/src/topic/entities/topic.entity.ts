@@ -12,12 +12,8 @@ export class Topic {
   description?: string
   @Field(() => Season, { nullable: true })
   season?: Season
-  @Field(() => Int)
-  seasonId?: number
-  @Field(() => Group, { nullable: true })
-  group?: Group
-  @Field(() => Int)
-  groupId?: number
+  @Field(() => [Group], { nullable: true })
+  groups?: Group[]
   @Field({ nullable: true })
   createdAt?: Date
   @Field({ nullable: true })

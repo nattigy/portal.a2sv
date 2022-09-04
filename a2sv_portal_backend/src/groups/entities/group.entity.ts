@@ -1,4 +1,7 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql'
+import { Topic } from 'src/topic/entities/topic.entity'
+import { User } from 'src/user/entities/user.entity'
+import { GroupTopic } from './group-topic.entity'
 
 @ObjectType()
 export class Group {
@@ -12,6 +15,10 @@ export class Group {
   country?: string
   @Field({ nullable: true })
   school?: string
+  @Field(() => [User], { nullable: true })
+  users?: User[]
+  @Field(() => [GroupTopic], { nullable: true })
+  topics?: GroupTopic[]
 
   constructor(
     id: number,

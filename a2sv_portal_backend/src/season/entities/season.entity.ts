@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType, GraphQLISODateTime } from '@nestjs/graphql'
+import { Topic } from 'src/topic/entities/topic.entity'
 
 @ObjectType()
 export class Season {
@@ -6,6 +7,8 @@ export class Season {
   id: number
   @Field()
   name: string
+  @Field(() => [Topic], { nullable: true })
+  topics?: Topic[]
   @Field(() => GraphQLISODateTime)
   startDate: Date
   @Field(() => GraphQLISODateTime)
