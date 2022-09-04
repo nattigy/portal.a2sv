@@ -18,14 +18,8 @@ import { Roles } from 'src/auth/auth.decorator'
 export class ProblemResolver {
   constructor(private readonly problemService: ProblemService) {}
 
-<<<<<<< HEAD
-  @Mutation(() => Problem, {
-    description: 'Create a problem with optional tags',
-  })
-=======
   @Roles('admin', 'head_of_academy', 'head_of_education')
   @Mutation(() => Problem)
->>>>>>> backend.auth
   async createProblem(
     @Args('createProblemInput') createProblemInput: CreateProblemInput,
   ): Promise<Problem> {
@@ -48,24 +42,16 @@ export class ProblemResolver {
     return await this.problemService.findOne(id)
   }
 
-<<<<<<< HEAD
-  @Mutation(() => Problem, { description: 'Update a given problem' })
-=======
   @Roles('admin', 'head_of_academy', 'head_of_education')
   @Mutation(() => Problem)
->>>>>>> backend.auth
   async updateProblem(
     @Args('updateProblemInput') updateProblemInput: UpdateProblemInput,
   ): Promise<Problem> {
     return this.problemService.update(updateProblemInput.id, updateProblemInput)
   }
 
-<<<<<<< HEAD
-  @Mutation(() => Problem, { description: 'Remove a problem by id' })
-=======
   @Roles('admin', 'head_of_academy', 'head_of_education')
   @Mutation(() => Problem)
->>>>>>> backend.auth
   async removeProblem(
     @Args('id', { type: () => Int }) id: number,
   ): Promise<Problem> {
