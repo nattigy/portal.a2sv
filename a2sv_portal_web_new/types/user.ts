@@ -1,5 +1,5 @@
 export enum UserRoleType {
   STUDENT = "Student",
-  HOE = "HoE",
-  HOA = "HoA",
+  HOE = "Head of Education",
+  HOA = "Head of Academy",
 }

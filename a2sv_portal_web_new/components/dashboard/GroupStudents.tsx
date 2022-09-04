@@ -12,42 +12,42 @@ export type StudentsInfo = {
   dateJoined: string;
 };
 
-const ProblemsTable = () => {
-  const students: Array<StudentsInfo> = [
-    {
-      id: 1,
-      name: "Hanna Samuel",
-      dateJoined: "Oct 12/2019",
-      residence: "Addis Ababa",
-      nationality: "Ethiopia",
-      photo: "images/group-students-profile.svg",
-    },
-    {
-      id: 2,
-      name: "Kaleb Mesfin",
-      dateJoined: "Oct 12/2019",
-      residence: "Accra",
-      nationality: "Ghana",
-      photo: "images/group-students-profile.svg",
-    },
-    {
-      id: 3,
-      name: "Natnael Awel",
-      dateJoined: "Oct 12/2019",
-      residence: "Istanbul",
-      nationality: "Turkey",
-      photo: "images/group-students-profile.svg",
-    },
-    {
-      id: 4,
-      name: "Henok Adane",
-      dateJoined: "Oct 12/2019",
-      residence: "Kigali",
-      nationality: "Rwanda",
-      photo: "images/group-students-profile.svg",
-    },
-  ];
+export const students: Array<StudentsInfo> = [
+  {
+    id: 1,
+    name: "Hanna Samuel",
+    dateJoined: "Oct 12/2019",
+    residence: "Addis Ababa",
+    nationality: "Ethiopia",
+    photo: "images/group-students-profile.svg",
+  },
+  {
+    id: 2,
+    name: "Kaleb Mesfin",
+    dateJoined: "Oct 12/2019",
+    residence: "Accra",
+    nationality: "Ghana",
+    photo: "images/group-students-profile.svg",
+  },
+  {
+    id: 3,
+    name: "Natnael Awel",
+    dateJoined: "Oct 12/2019",
+    residence: "Istanbul",
+    nationality: "Turkey",
+    photo: "images/group-students-profile.svg",
+  },
+  {
+    id: 4,
+    name: "Henok Adane",
+    dateJoined: "Oct 12/2019",
+    residence: "Kigali",
+    nationality: "Rwanda",
+    photo: "images/group-students-profile.svg",
+  },
+];
 
+const GroupStudents = () => {
   // const [titleAscending, setTitleAscending] = useState(false)
   // const [titleDescending, setTitleDescending] = useState(false)
   // const [difficultyAscending, setDifficultyAscending] = useState(false)
@@ -92,6 +92,9 @@ const ProblemsTable = () => {
       <div className="h-screen font-semibold text-[#565656]">
         <div className="flex flex-row items-center justify-between my-6 font-semibold text-xl text-[#565656]">
           <h1>Group 32</h1>
+          <button className="px-4 py-2 bg-[#5956E9] rounded-lg text-center text-white font-medium text-sm">
+            +   New Student
+          </button>
           {/* <div className="p-2 pl-2">
             <label htmlFor="table-search" className="sr-only">
               Search a problem
@@ -342,4 +345,4 @@ const ProblemsTable = () => {
     </>
   );
 };
-export default ProblemsTable;
+export default GroupStudents;
