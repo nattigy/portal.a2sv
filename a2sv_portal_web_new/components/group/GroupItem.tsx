@@ -1,5 +1,6 @@
 import React from "react";
 import { AiOutlineClockCircle } from "react-icons/ai";
+import CustomLink from "../common/CustomLink";
 const StudentAvatar: React.FC<{ url: string }> = ({ url }: { url: string }) => {
   return (
     <img
@@ -10,6 +11,7 @@ const StudentAvatar: React.FC<{ url: string }> = ({ url }: { url: string }) => {
   );
 };
 export type GroupItemProps = {
+  groupId: number;
   groupName: string;
   groupLocation: string;
   createdAt: string;
@@ -80,7 +82,9 @@ const GroupItem = (props: GroupItemProps) => {
             {`+${props.totalStudents}`}
           </div>
         </div>
-        <p className="text-[#5956E9] text-xs font-semibold">View Details</p>
+        <CustomLink href={`/groups/${props.groupId}`}>
+          <p className="text-[#5956E9] text-xs font-semibold cursor-pointer">View Details</p>
+        </CustomLink>
       </div>
     </div>
   );
