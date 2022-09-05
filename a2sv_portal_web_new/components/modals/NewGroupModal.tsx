@@ -42,6 +42,9 @@ const NewGroupModal = (props: Props) => {
   });
 
   const [selected, setSelected] = useState("")
+  const onSelect = (e:any) => {
+    setSelected(e.target.value)
+  }
 
   return (
     <>
@@ -146,6 +149,7 @@ const NewGroupModal = (props: Props) => {
                             as="select"
                             name="country"
                             value={selected}
+                            onChange={onSelect}
                             className={clsx(
                               "w-full h-12 px-10 border rounded-md text-sm text-[#949494]",
                               touched.country && errors.country
