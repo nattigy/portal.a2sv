@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import useAllUsers from '../../lib/hooks/useUsers'
 import { UserRoleType } from '../../types/user'
 import StudentLayout from '../common/StudentLayout'
-import UserRank from '../personal-status/UserRank'
-import { UserProps } from './UserItem'
+import UserRank from './UserRank'
 import UsersFilter from './UsersFilter'
 import UsersList from './UsersList'
 
@@ -33,9 +32,9 @@ const HOEDashboard = (props: Props) => {
     return (
         <StudentLayout>
             <div>
-                <h1 className="text-2xl font-bold mb-2">Users</h1>
+                {/* <h1 className="text-2xl font-bold mb-2">Users</h1>
                 <UsersFilter handleTabChange={handleTabChange} activeIndex={tabIndex} />
-                <UsersList users={usersData} />
+                <UsersList users={usersData} /> */}
             </div>
         </StudentLayout>
     )

@@ -25,8 +25,7 @@ const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
         if (!excludedRoutes?.includes(router.pathname)) {
             refetch()
         }
-    }, [router.pathname, refetch, excludedRoutes, user, authenticated])
-
+    }, [authenticated, excludedRoutes, refetch, router, router.pathname, user])
     useEffect(() => {
         const checkAuthenticated = async () => {
             if (!authenticated && !excludedRoutes?.includes(router.pathname)) {

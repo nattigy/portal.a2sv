@@ -5,6 +5,7 @@ import { authenticatedUser } from "../../lib/constants/authenticated";
 import HOEDashboard from "../../components/dashboard/HOEDashboard";
 import HOADashboard from "../../components/dashboard/HOADashboard";
 import StudentDashboard from "../../components/dashboard/StudentDashboard";
+import { GraphqlUserRole } from "../../types/user";
 
 const IndexPage = () => {
   const authUser = useReactiveVar(authenticatedUser)
@@ -18,13 +19,13 @@ const IndexPage = () => {
   }) => {
 
     switch (user.role) {
-      case "STUDENT": {
+      case GraphqlUserRole.STUDENT: {
         return <StudentDashboard />
       }
-      case "HOE": {
+      case GraphqlUserRole.HEAD_OF_EDUCATIONS: {
         return <HOEDashboard />
       }
-      case "HOA": {
+      case GraphqlUserRole.HEAD_OF_ACADEMY: {
         return <HOADashboard />
       }
       default: {

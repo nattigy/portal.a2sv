@@ -2,7 +2,6 @@ import React from "react";
 import CustomLink from "../common/CustomLink";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { UserRoleType } from "../../types/user";
-import UserRoleChip from "./UserRoleChip";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { MdContentPaste } from "react-icons/md";
 import { getIcon } from "../../helpers/getReactIcon";

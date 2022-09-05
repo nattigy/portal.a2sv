@@ -20,11 +20,11 @@ const IndexPage = () => {
 
   const Sidebar: React.FC = () => {
     return (
-      <GroupStudentsSidebarItem
-        clicked={true}
-        groupStudentSidebarItem={student}
-      />
-      // <h1>Contests Sidebar</h1>
+      // <GroupStudentsSidebarItem
+      //   clicked={true}
+      //   groupStudentSidebarItem={student}
+      // />
+      <h1>Contests Sidebar</h1>
     );
   };
 
@@ -36,18 +36,7 @@ const IndexPage = () => {
 
   return (
     <StudentLayout sidebar={<Sidebar />}>
-      {/* {isModalOpen && <NewGroupModal onClose={() => setIsModalOpen(false)} />} */}
-      {/* Contests */}
-      {/* <GroupStudents/> */}
-
-      {/* <div>
-        <button
-          className="px-5 py-2 rounded-lg bg-blue-600 text-white"
-          onClick={handleModalOpen}
-        >
-          Open Modal
-        </button>
-      </div> */}
+      Contests
     </StudentLayout>
   );
 };
