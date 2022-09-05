@@ -7,25 +7,41 @@ class ConsistencyDiagramCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ShadowCard(
-        child: Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8),
-          child: Row(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 "201 total submissions",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
-              Text("heere"),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.arrow_back_ios,
+                      size: 15,
+                    ),
+                  ),
+                  Text("2022"),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 15,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
-        ),
-        SizedBox(height: 10),
-        MonthlyConsistency(),
-      ],
-    ));
+          MonthlyConsistency(),
+        ],
+      ),
+    );
   }
 }
 
