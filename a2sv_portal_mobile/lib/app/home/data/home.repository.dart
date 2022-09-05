@@ -7,7 +7,5 @@ class HomeRepository {
 
   HomeRepository({required this.storage, required this.client});
 
-  Future<void> loadConsistencyDiagram() async {
-  }
-
+  Future<void> loadConsistencyDiagram() async {}
 }

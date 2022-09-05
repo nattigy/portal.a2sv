@@ -1,6 +1,6 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
-import 'package:expandable/expandable.dart';
 import '../../../utils/custom_colors.dart';
 
 class TopicsPage extends StatelessWidget {

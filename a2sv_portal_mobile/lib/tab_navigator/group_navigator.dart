@@ -11,7 +11,9 @@ class GroupNavigator extends TabNavigator {
   final GlobalKey<NavigatorState> navigatorKey;
   final BuildContext globalNavigator;
 
-  const GroupNavigator({Key? key, required this.navigatorKey, required this.globalNavigator}) : super(key: key);
+  const GroupNavigator(
+      {Key? key, required this.navigatorKey, required this.globalNavigator})
+      : super(key: key);
 
   Map<String, WidgetBuilder> _routeBuilder(BuildContext context) {
     return {

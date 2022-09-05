@@ -13,12 +13,16 @@ class HomeNavigator extends TabNavigator {
   final GlobalKey<NavigatorState> navigatorKey;
   final BuildContext globalNavigator;
 
-  const HomeNavigator({Key? key, required this.navigatorKey, required this.globalNavigator}) : super(key: key);
+  const HomeNavigator(
+      {Key? key, required this.navigatorKey, required this.globalNavigator})
+      : super(key: key);
 
   Map<String, WidgetBuilder> _routeBuilder(BuildContext context) {
     return {
-      HomeNavigatorRoutes.root: (ctx) => HomeTab(navigationCtx: navigatorKey.currentContext!,),
-       HomeNavigatorRoutes.topicDetail: (ctx) => TopicDetailsPage(),
+      HomeNavigatorRoutes.root: (ctx) => HomeTab(
+            navigationCtx: navigatorKey.currentContext!,
+          ),
+      HomeNavigatorRoutes.topicDetail: (ctx) => TopicDetailsPage(),
     };
   }
 

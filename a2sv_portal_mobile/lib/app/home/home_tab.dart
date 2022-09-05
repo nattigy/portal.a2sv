@@ -16,7 +16,6 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -28,7 +27,6 @@ class _HomeTabState extends State<HomeTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,11 +34,12 @@ class _HomeTabState extends State<HomeTab> {
               SizedBox(height: 25),
               MarginContainer(child: ProfileCard()),
               SizedBox(height: 30),
-              MarginContainer(child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, "detail_stat");
-                  },
-                  child: ProblemsStatCard())),
+              MarginContainer(
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, "detail_stat");
+                      },
+                      child: ProblemsStatCard())),
               SizedBox(height: 30),
               MarginContainer(
                 child: Column(
@@ -59,7 +58,9 @@ class _HomeTabState extends State<HomeTab> {
                   children: [
                     CardLabelText(text: "Topics"),
                     SizedBox(height: 15),
-                    TopicInfoCard(navigationCtx: widget.navigationCtx,),
+                    TopicInfoCard(
+                      navigationCtx: widget.navigationCtx,
+                    ),
                   ],
                 ),
               ),

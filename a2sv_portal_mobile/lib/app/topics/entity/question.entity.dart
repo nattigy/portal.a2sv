@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+
 
 class Question {
   final String title;
@@ -6,6 +6,9 @@ class Question {
   final String platformurl;
   final bool solved;
 
-  Question({required this.title, required this.tag, required this.platformurl, required this.solved});
-  
+  Question(
+      {required this.title,
+      required this.tag,
+      required this.platformurl,
+      required this.solved});
 }

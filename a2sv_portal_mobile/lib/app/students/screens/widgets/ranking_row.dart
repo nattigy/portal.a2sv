@@ -13,7 +13,8 @@ class RankingRow extends StatelessWidget {
           RankItem(typeName: "Daily", typeRank: "4", color: Colors.green),
           RankItem(typeName: "Weekly", typeRank: "6", color: Colors.indigo),
           RankItem(typeName: "Monthly", typeRank: "11", color: Colors.orange),
-          RankItem(typeName: "Overall", typeRank: "7", color: Colors.blue.shade900),
+          RankItem(
+              typeName: "Overall", typeRank: "7", color: Colors.blue.shade900),
         ],
       ),
     );
@@ -21,7 +22,12 @@ class RankingRow extends StatelessWidget {
 }
 
 class RankItem extends StatelessWidget {
-  const RankItem({Key? key, required this.typeName, required this.typeRank, required this.color}) : super(key: key);
+  const RankItem(
+      {Key? key,
+      required this.typeName,
+      required this.typeRank,
+      required this.color})
+      : super(key: key);
 
   final String typeRank;
   final String typeName;
@@ -42,13 +48,12 @@ class RankItem extends StatelessWidget {
         Text(
           typeName,
           style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 19,
-              color: color,
+            fontWeight: FontWeight.w700,
+            fontSize: 19,
+            color: color,
           ),
         ),
       ],
     );
   }
 }
-

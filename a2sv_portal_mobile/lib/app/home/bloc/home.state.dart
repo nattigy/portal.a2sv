@@ -21,7 +21,6 @@ class HomeLoadSuccess extends HomeState {
 }
 
 class HomeLoadConsistencyData extends HomeState {
-
   @override
   List<Object?> get props => [];
 }

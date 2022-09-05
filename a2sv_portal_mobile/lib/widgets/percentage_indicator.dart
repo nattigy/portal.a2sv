@@ -4,7 +4,9 @@ import '../utils/colors.dart';
 import '../utils/custom_colors.dart';
 
 class PercentageIndicator extends StatelessWidget {
-  const PercentageIndicator({Key? key, required this.percent, required this.width}) : super(key: key);
+  const PercentageIndicator(
+      {Key? key, required this.percent, required this.width})
+      : super(key: key);
 
   final double percent;
   final double width;

@@ -47,28 +47,29 @@ class Questions extends StatelessWidget {
           SizedBox(
             height: height * 0.02,
           ),
-          Column(children: [
-            ...questions.map((question) {
-              return  GestureDetector(
-                onTap: () {
-              showModalBottomSheet<void>(
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(25.0)),
-                ),
-                context: context,
-                builder: (BuildContext context) {
-                  return BottomSheetCard();
-                },
-              );
-            },
-                child: SingleQuestion(
-                  question: question,
-                ),
-              );
-            }).toList()
-          ],),
-
+          Column(
+            children: [
+              ...questions.map((question) {
+                return GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet<void>(
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(25.0)),
+                      ),
+                      context: context,
+                      builder: (BuildContext context) {
+                        return BottomSheetCard();
+                      },
+                    );
+                  },
+                  child: SingleQuestion(
+                    question: question,
+                  ),
+                );
+              }).toList()
+            ],
+          ),
         ],
       ),
     );

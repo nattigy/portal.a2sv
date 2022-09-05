@@ -9,51 +9,53 @@ class QuestionsTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-        var style = const TextStyle(
+    var style = const TextStyle(
         fontWeight: FontWeight.w500,
         fontSize: 14,
         color: Color.fromRGBO(88, 88, 88, 1));
-    return Column(children: [
-      SizedBox(height: height * 0.05),
-          const Align(
-            child: Text(
-              " 27 Questions",
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                  color: Color.fromRGBO(88, 88, 88, 1)),
+    return Column(
+      children: [
+        SizedBox(height: height * 0.05),
+        const Align(
+          child: Text(
+            " 27 Questions",
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+                color: Color.fromRGBO(88, 88, 88, 1)),
+          ),
+          alignment: Alignment.topLeft,
+        ),
+        SizedBox(
+          height: height * 0.02,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: width * 0.1,
             ),
-            alignment: Alignment.topLeft,
-          ),
-          SizedBox(
-            height: height * 0.02,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: width * 0.1,
+            SizedBox(
+              width: width * 0.4,
+              child: Align(
+                  child: Text("Name", style: style),
+                  alignment: Alignment.topLeft),
+            ),
+            SizedBox(
+              width: width * 0.3,
+              child: Center(
+                child: Center(child: Text("Difficulty", style: style)),
               ),
-              SizedBox(
-                width: width * 0.4,
-                child: Align(
-                    child: Text("Name", style: style),
-                    alignment: Alignment.topLeft),
+            ),
+            SizedBox(
+              width: width * 0.1,
+              child: Center(
+                child: Text("Status", style: style),
               ),
-              SizedBox(
-                width: width * 0.3,
-                child: Center(
-                  child: Center(child: Text("Difficulty", style: style)),
-                ),
-              ),
-              SizedBox(
-                width: width * 0.1,
-                child: Center(
-                  child: Text("Status", style: style),
-                ),
-              ),
-            ],
-          ),
-    ],);
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }

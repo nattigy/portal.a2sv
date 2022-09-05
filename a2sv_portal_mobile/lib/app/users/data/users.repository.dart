@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:graphql/client.dart';
 
-import '../../auth/data/graphql/login.gql.dart';
 import '../../auth/dto/login.input.dart';
 import '../entity/users.entity.dart';
 import 'graphql/get_user.gql.dart';
@@ -33,7 +32,7 @@ class UserRepository {
     //   document: gql(LOGIN),
     //   variables: <String, dynamic>{
     //     "loginInput": {
-    //       'phoneNumber': loginInput.phoneNumber,
+    //       'email': loginInput.phoneNumber,
     //       'password': loginInput.password,
     //     }
     //   },
@@ -48,21 +47,13 @@ class UserRepository {
     await persistToken("wassap token");
 
     const user = User(
-
       email: "abe@gmail.com",
-
       firstName: "Abe",
-
       id: "001",
-
       lastName: "Kebe",
-
       middleName: "beke",
-
       password: "123561",
-
       phoneNumber: "11212",
-
     );
 
     await persistUser(user);

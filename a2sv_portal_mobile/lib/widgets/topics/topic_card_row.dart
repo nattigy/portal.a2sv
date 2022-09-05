@@ -1,6 +1,4 @@
-import 'package:a2sv_portal_mobile/utils/colors.dart';
 import 'package:a2sv_portal_mobile/utils/custom_colors.dart';
-import 'package:a2sv_portal_mobile/widgets/cards/shadow_card.dart';
 import 'package:flutter/material.dart';
 
 import '../percentage_indicator.dart';
@@ -43,8 +41,8 @@ class TopicCardRow extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
               SizedBox(height: screenHeight * 0.005),
               Text(

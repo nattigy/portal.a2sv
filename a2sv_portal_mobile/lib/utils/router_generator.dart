@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../app/auth/screens/login.page.dart';
 import '../app/onboarding/screens/onboard_screen.dart';
-import '../app/root/root.page.dart';
 import '../app/root/splash.page.dart';
 import '../constants/app_routes.dart';
 

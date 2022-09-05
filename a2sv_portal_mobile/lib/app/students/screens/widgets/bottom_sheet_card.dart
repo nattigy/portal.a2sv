@@ -14,6 +14,7 @@ class BottomSheetCard extends StatefulWidget {
 
 class _BottomSheetCardState extends State<BottomSheetCard> {
   ProblemStatus? status = ProblemStatus.solved;
+
   void onChange(value) {
     setState(() {
       status = value;
@@ -152,7 +153,10 @@ class _BottomSheetCardState extends State<BottomSheetCard> {
                     color: const Color.fromRGBO(250, 251, 255, 1),
                     onChanged: (value) {},
                   ),
-                  MainButton(title: "Save", color: CustomColors.primaryColor, onClick: (){}),
+                  MainButton(
+                      title: "Save",
+                      color: CustomColors.primaryColor,
+                      onClick: () {}),
                   // ElevatedButton(
                   //     style: Theme.of(context)
                   //         .copyWith()

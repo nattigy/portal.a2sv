@@ -11,7 +11,9 @@ class ContestNavigator extends TabNavigator {
   final GlobalKey<NavigatorState> navigatorKey;
   final BuildContext globalNavigator;
 
-  const ContestNavigator({Key? key, required this.navigatorKey, required this.globalNavigator}) : super(key: key);
+  const ContestNavigator(
+      {Key? key, required this.navigatorKey, required this.globalNavigator})
+      : super(key: key);
 
   Map<String, WidgetBuilder> _routeBuilder(BuildContext context) {
     return {

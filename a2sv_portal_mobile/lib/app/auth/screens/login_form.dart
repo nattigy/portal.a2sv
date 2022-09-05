@@ -78,8 +78,8 @@ class LoginForm extends StatelessWidget {
               Expanded(
                   flex: 2,
                   child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: _LoginButton())),
+                      alignment: Alignment.bottomCenter,
+                      child: _LoginButton())),
             ],
           ),
         ),

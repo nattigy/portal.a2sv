@@ -12,9 +12,9 @@ class GroupTab extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-              children: [
-                MarginContainer(child: GroupInfoCard()),
-              ],
+            children: [
+              MarginContainer(child: GroupInfoCard()),
+            ],
           ),
         ),
       ),

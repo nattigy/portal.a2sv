@@ -5,11 +5,11 @@ import 'package:flutter/src/widgets/framework.dart';
 
 class SingleQuestion extends StatelessWidget {
   final Question question;
-  const SingleQuestion(
-      {Key? key,
-      required this.question,
-     })
-      : super(key: key);
+
+  const SingleQuestion({
+    Key? key,
+    required this.question,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +43,10 @@ class SingleQuestion extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 12,
                     color: question.tag == "Easy"
-                  ? Color.fromRGBO(92, 184, 92, 1)
-                  : question.tag == "Medium"
-                      ? Color.fromRGBO(246, 161, 41, 1)
-                      : Color.fromRGBO(235, 79, 79, 1),
+                        ? Color.fromRGBO(92, 184, 92, 1)
+                        : question.tag == "Medium"
+                            ? Color.fromRGBO(246, 161, 41, 1)
+                            : Color.fromRGBO(235, 79, 79, 1),
                     fontWeight: FontWeight.bold),
               ), //Text
             ),

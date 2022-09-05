@@ -4,10 +4,10 @@ import '../../../widgets/buttons/main-button.dart';
 import '../../../widgets/cards/shadow_card.dart';
 import '../../../widgets/text_views/card_title_text.dart';
 import '../../../widgets/text_views/reminder_text_view.dart';
-import '../topic_details_page.dart';
 
 class TopicInfoCard extends StatelessWidget {
-  const TopicInfoCard({Key? key, required this.navigationCtx}) : super(key: key);
+  const TopicInfoCard({Key? key, required this.navigationCtx})
+      : super(key: key);
 
   final BuildContext navigationCtx;
 
@@ -44,10 +44,7 @@ class TopicInfoCard extends StatelessWidget {
                     child: MainButton(
                       title: "Open Topic",
                       onClick: () {
-                        Navigator.pushNamed(
-                          context,
-                          "topicDetail"
-                        );
+                        Navigator.pushNamed(context, "topicDetail");
                       },
                       color: Colors.indigo,
                     ),

@@ -13,12 +13,15 @@ class TopicsNavigator extends TabNavigator {
   final GlobalKey<NavigatorState> navigatorKey;
   final BuildContext globalNavigator;
 
-  const TopicsNavigator({Key? key, required this.navigatorKey, required this.globalNavigator}) : super(key: key);
+  const TopicsNavigator(
+      {Key? key, required this.navigatorKey, required this.globalNavigator})
+      : super(key: key);
 
   Map<String, WidgetBuilder> _routeBuilder(BuildContext context) {
     return {
-      TopicsNavigatorRoutes.root: (ctx) => TopicsTab(navigationCtx: navigatorKey.currentContext!),
-      TopicsNavigatorRoutes.topicDetail:(ctx) => TopicDetailsPage(),
+      TopicsNavigatorRoutes.root: (ctx) =>
+          TopicsTab(navigationCtx: navigatorKey.currentContext!),
+      TopicsNavigatorRoutes.topicDetail: (ctx) => TopicDetailsPage(),
     };
   }
 

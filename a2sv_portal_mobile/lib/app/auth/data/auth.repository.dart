@@ -38,7 +38,7 @@ class AuthenticationRepository {
     required String password,
   }) async {
     LoginInput loginInput =
-        LoginInput(phoneNumber: username, password: password);
+        LoginInput(email: username, password: password);
     User? user = await userRepository.login(loginInput);
     if (user != null) {
       _controller.add(AuthenticationStatus.authenticated);

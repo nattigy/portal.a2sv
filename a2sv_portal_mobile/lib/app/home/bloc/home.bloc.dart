@@ -11,7 +11,8 @@ class HomeBloc extends Cubit<HomeState> {
   final UserRepository usersRepository;
   final HomeRepository homeRepository;
 
-  HomeBloc({required this.usersRepository, required this.homeRepository}) : super(HomeUnknown());
+  HomeBloc({required this.usersRepository, required this.homeRepository})
+      : super(HomeUnknown());
 
   void loadHome() async {
     emit(HomeLoading());
