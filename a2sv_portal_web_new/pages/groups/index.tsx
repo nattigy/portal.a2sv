@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { BsPlus } from "react-icons/bs";
-import CustomDropdown from "../../components/common/CustomDropdown";
+import CustomDropdown, {
+  CustomDropdownProps,
+} from "../../components/common/CustomDropdown";
 import SearchField from "../../components/common/SearchField";
 import StudentLayout from "../../components/common/StudentLayout";
 import GroupItem from "../../components/group/GroupItem";
@@ -10,6 +12,10 @@ import GroupStatList from "../../components/group/GroupStatList";
 import NewGroupModal from "../../components/modals/NewGroupModal";
 
 const Index = () => {
+  const dropdown: CustomDropdownProps = {
+    label: "Sort By:",
+    options: ["Date Created", "Name"],
+  };
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleModalOpen = () => {
@@ -17,9 +23,7 @@ const Index = () => {
   };
   return (
     <StudentLayout>
-      {isModalOpen && (
-        <NewGroupModal onClose={() => setIsModalOpen(false)} />
-      )}
+      {isModalOpen && <NewGroupModal onClose={() => setIsModalOpen(false)} />}
       <div className="w-full h-screen pt-7 flex flex-col gap-y-6">
         <GroupStatList />
         <div className="flex flex-row justify-between ">
@@ -41,7 +45,7 @@ const Index = () => {
         <div className="grid grid-cols-6 gap-y-10">
           <div className="col-span-4 flex flex-row justify-between">
             <SearchField placeholder="Search a group" id="group-search" />
-            <CustomDropdown />
+            <CustomDropdown customProps={dropdown} />
           </div>
           <div className="col-span-4">
             <GroupItemList />

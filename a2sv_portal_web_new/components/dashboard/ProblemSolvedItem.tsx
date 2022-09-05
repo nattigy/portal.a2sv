@@ -2,7 +2,7 @@ import React from "react";
 import CustomLink from "../common/CustomLink";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { UserRoleType } from "../../types/user";
-import UserRoleChip from "./UserRoleChip";
+import UserRoleChip from "../dashboard/UserRoleChip";
 
 export type ProblemSolvedProps = {
   problems: number;
@@ -14,10 +14,10 @@ export type ProblemSolvedProps = {
 };
 
 type Props = {
-  problemSolvedProps: ProblemSolvedProps;
+  p: ProblemSolvedProps;
 };
 
-const ProblemSolvedItem = ({ problemSolvedProps }: Props) => {
+const ProblemSolvedItem = ({ p: problemSolvedProps }: Props) => {
   return (
     <div className="w-1/2 h-56 border-red-100 bg-white flex flex-col font-medium justify-between rounded-lg p-6 text-sm">
       <div className="flex w-full">

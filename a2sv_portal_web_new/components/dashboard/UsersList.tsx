@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { TypeOf } from "yup";
 import { UserRoleType } from "../../types/user";
-import RankItem from "../personal-status/RankItem";
 import UserItem, { UserProps } from "./UserItem";
 
 const UsersList = ({ users }: { users: UserProps[] }) => {

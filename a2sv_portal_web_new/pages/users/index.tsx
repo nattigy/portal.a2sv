@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import StudentLayout from '../../components/common/StudentLayout';
-import { UserProps } from '../../components/dashboard/UserItem';
+import UserRank from '../../components/dashboard/UserRank';
 import UsersFilter from '../../components/dashboard/UsersFilter';
 import UsersList from '../../components/dashboard/UsersList';
 import NewUserModal from '../../components/modals/NewUserModal';
-import UserRank from '../../components/personal-status/UserRank';
 import useAllUsers from '../../lib/hooks/useUsers';
-import { UserRoleType } from '../../types/user';
 
 type Props = {}
 
@@ -59,8 +57,5 @@ const UsersPage = (props: Props) => {
         </StudentLayout>
     )
 }
-
-
-
 
 export default UsersPage

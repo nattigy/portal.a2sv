@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import StudentLayout from '../common/StudentLayout'
-import UserRank from '../personal-status/UserRank'
+import UserRank from './UserRank'
 import UsersFilter from './UsersFilter'
 import UsersList from './UsersList'
 
