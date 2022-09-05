@@ -4,13 +4,13 @@ import {
 } from "react-icons/fa";
 import { SiLeetcode, SiCodeforces, SiAcademia } from "react-icons/si";
 
-export const getIcon:any = (name: string) => {
+export const getIcon: any = (name: string) => {
   switch (name) {
-    case "Leetcode":
+    case "LEETCODE":
       return <SiLeetcode />;
-    case "Hackerrank":
+    case "HACKERRANK":
       return <FaHackerrank />;
-    case "Codeforces":
+    case "CODEFORCES":
       return <SiCodeforces />;
     default:
       return <SiAcademia />;

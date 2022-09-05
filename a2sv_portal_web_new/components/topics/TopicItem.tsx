@@ -4,6 +4,7 @@ import CustomLink from "../common/CustomLink";
 
 export type TopicItemProps = {
   title: string;
+  season?: string;
 };
 export type ColorSVG = {
   imgPath: string;
@@ -29,7 +30,7 @@ export const slugify = (...args: (string | number)[]): string => {
 
 const TopicItem = (props: TopicItemProps) => {
   return (
-    <CustomLink href={`topics/${slugify(props.title)}/problems`}>
+    <CustomLink href={`topics/${props.season?.toLowerCase()}/${slugify(props.title)}/problems`}>
       <div className="h-[72px] flex w-72 rounded-r-lg gap-x-3 bg-white m-3 items-center cursor-pointer">
         <div
           className={`w-1 h-full`}

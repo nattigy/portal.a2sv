@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import StudentLayout from "../../../../../components/common/StudentLayout";
+import ProblemsPage from "../../../../../components/problems/ProblemsPage";
 import ProblemsTable from "../../../../../components/problems/ProblemsTable";
 import TopicResourcesItem, { TopicResourcesProps } from "../../../../../components/problems/TopicResourcesItem";
 
@@ -70,7 +71,7 @@ const IndexPage = () => {
   return (
     <StudentLayout sidebar={<Sidebar sidebarProps={topicResource} />}>
       <div>
-        <ProblemsTable />
+        <ProblemsPage />
       </div>
     </StudentLayout>
   );
