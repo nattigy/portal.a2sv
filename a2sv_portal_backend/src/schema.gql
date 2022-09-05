@@ -61,6 +61,43 @@ type Group {
   id: ID!
   name: String!
   school: String
+  topics: [GroupTopic!]
+  users: [User!]
+}
+
+type GroupTopic {
+  createdAt: DateTime
+  group: Group
+  groupId: Int!
+  id: Int!
+  problems: GroupTopicProblem
+  topic: Topic
+  topicId: Int!
+  updatedAt: DateTime
+}
+
+type GroupTopicProblem {
+  createdAt: DateTime
+  groupId: Int!
+  groupTopic: GroupTopic
+  problem: Problem
+  problemId: Int!
+  topicId: Int!
+  updatedAt: DateTime
+  users: GroupTopicProblemUser
+}
+
+type GroupTopicProblemUser {
+  attempts: Int!
+  groupId: Int!
+  groupTopicProblem: GroupTopicProblem
+  needHelp: Boolean!
+  problemId: Int!
+  solutionLink: String
+  solved: Boolean!
+  topicId: Int!
+  user: User
+  userId: Int!
 }
 
 input LoginInput {
@@ -103,6 +140,7 @@ type Mutation {
 type Problem {
   createdAt: DateTime
   difficulty: String!
+  groupTopics: [GroupTopicProblem!]
   id: Int!
   link: String!
   platform: String!
@@ -156,6 +194,7 @@ type Season {
   id: ID!
   name: String!
   startDate: DateTime!
+  topics: [Topic!]
   updatedAt: DateTime
 }
 
@@ -177,12 +216,10 @@ type Tag {
 type Topic {
   createdAt: DateTime
   description: String
-  group: Group
-  groupId: Int!
+  groups: [Group!]
   id: ID!
   name: String!
   season: Season
-  seasonId: Int!
   updatedAt: DateTime
 }
 
@@ -224,6 +261,7 @@ input UpdateTagInput {
 input UpdateTopicInput {
   createdAt: DateTime
   description: String
+  id: Int!
   name: String
   season: CreateSeasonInput
   updatedAt: DateTime
@@ -238,12 +276,16 @@ input UpdateUserInput {
 }
 
 type User {
+  createdAt: DateTime
   email: String!
   group: Group
   groupId: Int!
+  groupTopicProblems: [GroupTopicProblem!]
+  headToGroup: Group
   id: ID!
   role: RoleEnum!
   status: Status!
+  updatedAt: DateTime
 }
 
 input WhereUserFilter {

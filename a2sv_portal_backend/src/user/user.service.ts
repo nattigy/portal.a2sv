@@ -61,9 +61,13 @@ export class UserService {
     return this.prismaService.role.findFirst({ where: { id: 1 } })
   }
 
-  async update(id: number, updateUserInput: UpdateUserInput): Promise<User> {
+  async update(
+    givenId: number,
+    updateUserInput: UpdateUserInput,
+  ): Promise<User> {
+    const { id, group, ...data } = updateUserInput
     return await this.prismaService.user.update({
-      data: updateUserInput,
+      data: data,
       where: { id },
     })
   }

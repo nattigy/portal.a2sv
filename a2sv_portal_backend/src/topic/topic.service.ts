@@ -27,12 +27,13 @@ export class TopicService {
   }
 
   async updateTopic(
-    id: number,
+    givenId: number,
     updateTopicInput: UpdateTopicInput,
   ): Promise<Topic> {
+    const { id, season, ...data } = updateTopicInput
     return this.prismaService.topic.update({
       where: { id: id },
-      data: updateTopicInput,
+      data: data,
     })
   }
 
