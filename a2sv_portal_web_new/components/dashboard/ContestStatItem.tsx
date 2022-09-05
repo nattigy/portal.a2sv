@@ -57,7 +57,7 @@ const ContestStatItem = () => {
   return (
     <div className="w-full flex flex-col justify-between bg-white rounded-md p-6">
       <div className="flex justify-between">
-        <h1 className="font-semibold text-lg">Contest Stat</h1>
+        <h1 className="font-semibold">Contest Stat</h1>
         <div className="flex">
           <div className="flex items-center gap-x-2">
             <FaChevronLeft color="#787878" />
@@ -65,14 +65,14 @@ const ContestStatItem = () => {
             <FaChevronRight color="#787878" />
           </div>
           <div className="flex items-center gap-x-2">
-            <FaChevronLeft color="#787878"/>
+            <FaChevronLeft color="#787878" />
             <h1 className="font-semibold text-sm text-[#787878]">May</h1>
             <FaChevronRight color="#787878" />
           </div>
           <div className="flex items-center gap-x-2">
             <FaChevronLeft color="#787878" />
             <h1 className="font-semibold text-sm text-[#787878]">Contest 1</h1>
-            <FaChevronRight color="#787878"/>
+            <FaChevronRight color="#787878" />
           </div>
         </div>
       </div>
@@ -117,7 +117,9 @@ const ContestStatItem = () => {
                         <DifficultyChips status={problem.difficulty} />
                       </td>
                       <td className="py-4 px-6">{problem.status}</td>
-                      <td className="py-4 px-6">{problem.time ? problem.time : "-||-"}</td>
+                      <td className="py-4 px-6">
+                        {problem.time ? problem.time : "-||-"}
+                      </td>
                       <td className="py-4 px-6">
                         <a
                           href="#"
@@ -125,7 +127,7 @@ const ContestStatItem = () => {
                         >
                           <div className="pl-4">
                             {/* <MdContentPaste onClick={handleModalOpen} /> */}
-                            <MdContentPaste/>
+                            <MdContentPaste />
                           </div>
                         </a>
                       </td>

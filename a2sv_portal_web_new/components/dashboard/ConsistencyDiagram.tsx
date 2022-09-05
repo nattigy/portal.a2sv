@@ -36,7 +36,7 @@ const ConsistencyDiagramItem = () => {
   return (
     <div className="no-scrollbar w-1/2 h-56 flex flex-col justify-between bg-white rounded-md p-6">
       <div className="flex justify-between">
-        <h1 className="font-semibold text-lg">Consistency Diagram</h1>
+        <h1 className="font-semibold">Consistency Diagram</h1>
         <div className="flex">
           <div className="flex items-center gap-x-2">
             <FaChevronLeft />

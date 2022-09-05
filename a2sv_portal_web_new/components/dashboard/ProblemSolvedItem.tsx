@@ -19,7 +19,7 @@ type Props = {
 
 const ProblemSolvedItem = ({ problemSolvedProps }: Props) => {
   return (
-    <div className="w-1/2 h-56 border-red-100 bg-white flex flex-col font-medium justify-between rounded-lg p-6">
+    <div className="w-1/2 h-56 border-red-100 bg-white flex flex-col font-medium justify-between rounded-lg p-6 text-sm">
       <div className="flex w-full">
         <div className="w-3/5 flex flex-col gap-y-1">
           <h1>{problemSolvedProps.problems} Problems Solved</h1>
