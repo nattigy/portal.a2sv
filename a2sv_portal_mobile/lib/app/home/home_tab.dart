@@ -1,3 +1,5 @@
+import 'package:a2sv_portal_mobile/app/home/widgets/topics_covered_card.dart';
+import 'package:a2sv_portal_mobile/app/students/screens/widgets/ranking_row.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/cards/margin_container.dart';
@@ -45,6 +47,17 @@ class _HomeTabState extends State<HomeTab> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    CardLabelText(text: "Ranking"),
+                    SizedBox(height: 15),
+                    RankingRow(),
+                  ],
+                ),
+              ),
+              SizedBox(height: 30),
+              MarginContainer(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     CardLabelText(text: "Consistency diagram"),
                     SizedBox(height: 15),
                     ConsistencyDiagramCard(),
@@ -56,9 +69,9 @@ class _HomeTabState extends State<HomeTab> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CardLabelText(text: "Topics"),
+                    CardLabelText(text: "Topics Covered"),
                     SizedBox(height: 15),
-                    TopicInfoCard(),
+                    TopicsCoveredCard(),
                   ],
                 ),
               ),

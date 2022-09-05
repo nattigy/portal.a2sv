@@ -200,7 +200,7 @@ class TopicInfo extends StatelessWidget {
               ),
             ],
           ),
-        )
+        ),
       ],
     );
   }

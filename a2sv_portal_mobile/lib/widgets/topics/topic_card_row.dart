@@ -27,10 +27,11 @@ class TopicCardRow extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: 50,
-          width: 50,
+          height: 60,
+          width: 60,
           padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
           child: image,
         ),
@@ -41,8 +42,10 @@ class TopicCardRow extends StatelessWidget {
             children: [
               Text(
                 title,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
               SizedBox(height: screenHeight * 0.005),
               Text(

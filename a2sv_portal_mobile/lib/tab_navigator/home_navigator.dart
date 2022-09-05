@@ -6,7 +6,6 @@ import 'tab_navigator.dart';
 
 class HomeNavigatorRoutes {
   static const String root = "/";
-  static const String topicDetail = "topicDetail";
 }
 
 class HomeNavigator extends TabNavigator {
@@ -22,7 +21,6 @@ class HomeNavigator extends TabNavigator {
       HomeNavigatorRoutes.root: (ctx) => HomeTab(
             navigationCtx: navigatorKey.currentContext!,
           ),
-      HomeNavigatorRoutes.topicDetail: (ctx) => TopicDetailsPage(),
     };
   }
 
