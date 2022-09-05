@@ -17,7 +17,7 @@ model Group {
   school    String?
   users     User[]
   topics    GroupTopic[]
-  headId    Int          @unique
+  headId    Int?         @unique
   head      User?        @relation("GroupHead", fields: [headId], references: [id])
 }
 

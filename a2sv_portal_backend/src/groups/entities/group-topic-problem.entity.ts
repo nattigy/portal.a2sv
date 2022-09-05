@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
 import { Problem } from 'src/problem/entities/problem.entity'
+import { GroupTopicProblemUser } from './group-topic-problem-user.entity'
 import { GroupTopic } from './group-topic.entity'
 
 @ObjectType()
