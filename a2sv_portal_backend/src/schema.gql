@@ -26,9 +26,9 @@ input CreateRoleInput {
 }
 
 input CreateSeasonInput {
-  endDate: DateTime = "2022-09-05T09:32:24.700Z"
+  endDate: DateTime = "2022-09-05T12:56:24.986Z"
   name: String!
-  startDate: DateTime = "2022-09-05T09:32:24.700Z"
+  startDate: DateTime = "2022-09-05T12:56:24.986Z"
 }
 
 input CreateTagInput {
@@ -248,9 +248,9 @@ input UpdateRoleInput {
 }
 
 input UpdateSeasonInput {
-  endDate: DateTime = "2022-09-05T09:32:24.700Z"
+  endDate: DateTime = "2022-09-05T12:56:24.986Z"
   name: String
-  startDate: DateTime = "2022-09-05T09:32:24.700Z"
+  startDate: DateTime = "2022-09-05T12:56:24.986Z"
 }
 
 input UpdateTagInput {
