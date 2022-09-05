@@ -17,7 +17,7 @@ const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
 
     useEffect(() => {
         if (user) {
-            authenticatedUser(user)
+            authenticatedUser(user?.getMe)
         }
         if (authenticated && excludedRoutes?.includes(router.pathname)) {
             router.replace("/")
