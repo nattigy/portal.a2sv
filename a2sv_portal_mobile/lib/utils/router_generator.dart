@@ -8,11 +8,10 @@ import '../constants/app_routes.dart';
 class RouterGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      // case AppRoutes.welcomeRoute:
-      //   return MaterialPageRoute(builder: (context) => OnboardingPage());
-
       case AppRoutes.splashRoute:
-        return MaterialPageRoute(builder: (context) => const SplashPage());
+        return PageRouteBuilder(
+            pageBuilder: (context, animation1, animation2) => const SplashPage(),
+            transitionDuration: const Duration(seconds: 5));
 
       case AppRoutes.onboardingRoute:
         return MaterialPageRoute(builder: (context) => OnBoardingPage());

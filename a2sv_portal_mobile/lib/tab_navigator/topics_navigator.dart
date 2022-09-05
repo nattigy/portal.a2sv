@@ -1,7 +1,7 @@
-import 'package:a2sv_portal_mobile/app/topics/topic_details_page.dart';
+import 'package:a2sv_portal_mobile/app/topics/screens/topic_details_page.dart';
 import 'package:flutter/material.dart';
 
-import '../app/topics/topics_tab.dart';
+import '../app/topics/screens/topics_tab.dart';
 import 'tab_navigator.dart';
 
 class TopicsNavigatorRoutes {

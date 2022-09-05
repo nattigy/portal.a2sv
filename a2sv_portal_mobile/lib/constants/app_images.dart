@@ -1,0 +1,1 @@
+const a2svLogo = "assets/images/a2sv_logo.png";

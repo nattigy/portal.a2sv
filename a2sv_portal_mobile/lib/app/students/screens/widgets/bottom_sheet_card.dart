@@ -24,7 +24,7 @@ class _BottomSheetCardState extends State<BottomSheetCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.horizontal(
@@ -32,140 +32,145 @@ class _BottomSheetCardState extends State<BottomSheetCard> {
       child: StreamBuilder<Object>(
           stream: null,
           builder: (context, snapshot) {
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 5,
+            return Column(
+              children: [
+                const SizedBox(height: 8),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    width: 50,
+                    height: 6,
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        color: Color.fromRGBO(200, 200, 200, 1)),
                   ),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Container(
-                      width: 50,
-                      height: 10,
-                      decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
+                ),
+                const SizedBox(height: 8),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CardTitleText(text: "Min cost of climbing stairs"),
+                            Row(
+                              children: [
+                                Image.asset("assets/images/leetcode_icon.png"),
+                                Text("Leetcode"),
+                              ],
+                            )
+                          ],
+                        ),
+                        const Align(
+                          alignment: Alignment.topLeft,
+                          child: Chip(
+                            backgroundColor: Color.fromRGBO(92, 184, 92, 0.22),
+                            label: Text(
+                              "Easy",
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color.fromRGBO(92, 184, 92, 1),
+                                  fontWeight: FontWeight.bold),
+                            ), //Text
                           ),
-                          color: Color.fromRGBO(200, 200, 200, 1)),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "status",
+                              style: TextStyle(
+                                  color: Color.fromRGBO(150, 150, 150, 1),
+                                  fontSize: 16),
+                            )),
+                        RadioButton(
+                            status: status,
+                            title: "solved",
+                            color: Colors.green,
+                            onchange: onChange,
+                            value: ProblemStatus.solved),
+                        RadioButton(
+                            status: status,
+                            title: "Not solved",
+                            color: Colors.orange,
+                            onchange: onChange,
+                            value: ProblemStatus.notSolved),
+                        RadioButton(
+                            status: status,
+                            title: "unable to solve",
+                            color: Colors.red,
+                            onchange: onChange,
+                            value: ProblemStatus.unableSolve),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        const Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Number of Tries",
+                            style: TextStyle(
+                                color: Color.fromRGBO(150, 150, 150, 1),
+                                fontSize: 16),
+                          ),
+                        ),
+                        Row(children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.arrow_back_ios,
+                                color: Colors.grey, size: 10),
+                          ),
+                          Container(
+                            width: 40,
+                            height: 40,
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color.fromRGBO(251, 252, 255, 1)),
+                            child: Center(child: Text("1")),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.arrow_forward_ios,
+                                color: Colors.grey, size: 10),
+                          ),
+                        ]),
+                        MainInputField(
+                          iconData: Icons.alarm,
+                          placeHolder: "Time Taken(min)",
+                          color: const Color.fromRGBO(250, 251, 255, 1),
+                          onChanged: (value) {},
+                        ),
+                        MainInputField(
+                          iconData: Icons.calendar_month,
+                          placeHolder: "Submission Date",
+                          color: const Color.fromRGBO(250, 251, 255, 1),
+                          onChanged: (value) {},
+                        ),
+                        MainButton(
+                            title: "Save",
+                            color: CustomColors.primaryColor,
+                            onClick: () {}),
+                        // ElevatedButton(
+                        //     style: Theme.of(context)
+                        //         .copyWith()
+                        //         .elevatedButtonTheme
+                        //         .style,
+                        //     child: Text("Save"),
+                        //     onPressed: () {})
+                      ],
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CardTitleText(text: "Min cost of climbing stairs"),
-                      Row(
-                        children: [
-                          Image.asset("assets/images/leetcode_icon.png"),
-                          Text("Leetcode"),
-                        ],
-                      )
-                    ],
-                  ),
-                  const Align(
-                    alignment: Alignment.topLeft,
-                    child: Chip(
-                      backgroundColor: Color.fromRGBO(92, 184, 92, 0.22),
-                      label: Text(
-                        "Easy",
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromRGBO(92, 184, 92, 1),
-                            fontWeight: FontWeight.bold),
-                      ), //Text
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "status",
-                        style: TextStyle(
-                            color: Color.fromRGBO(150, 150, 150, 1),
-                            fontSize: 16),
-                      )),
-                  RadioButton(
-                      status: status,
-                      title: "solved",
-                      color: Colors.green,
-                      onchange: onChange,
-                      value: ProblemStatus.solved),
-                  RadioButton(
-                      status: status,
-                      title: "Not solved",
-                      color: Colors.orange,
-                      onchange: onChange,
-                      value: ProblemStatus.notSolved),
-                  RadioButton(
-                      status: status,
-                      title: "unable to solve",
-                      color: Colors.red,
-                      onchange: onChange,
-                      value: ProblemStatus.unableSolve),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Number of Tries",
-                      style: TextStyle(
-                          color: Color.fromRGBO(150, 150, 150, 1),
-                          fontSize: 16),
-                    ),
-                  ),
-                  Row(children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.arrow_back_ios,
-                          color: Colors.grey, size: 10),
-                    ),
-                    Container(
-                      width: 40,
-                      height: 40,
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Color.fromRGBO(251, 252, 255, 1)),
-                      child: Center(child: Text("1")),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.arrow_forward_ios,
-                          color: Colors.grey, size: 10),
-                    ),
-                  ]),
-                  MainInputField(
-                    iconData: Icons.alarm,
-                    placeHolder: "Time Taken(min)",
-                    color: const Color.fromRGBO(250, 251, 255, 1),
-                    onChanged: (value) {},
-                  ),
-                  MainInputField(
-                    iconData: Icons.calendar_month,
-                    placeHolder: "Submission Date",
-                    color: const Color.fromRGBO(250, 251, 255, 1),
-                    onChanged: (value) {},
-                  ),
-                  MainButton(
-                      title: "Save",
-                      color: CustomColors.primaryColor,
-                      onClick: () {}),
-                  // ElevatedButton(
-                  //     style: Theme.of(context)
-                  //         .copyWith()
-                  //         .elevatedButtonTheme
-                  //         .style,
-                  //     child: Text("Save"),
-                  //     onPressed: () {})
-                ],
-              ),
+                ),
+              ],
             );
           }),
     );

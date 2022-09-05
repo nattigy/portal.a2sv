@@ -2,8 +2,8 @@ import 'package:a2sv_portal_mobile/app/topics/widgets/questions_title.dart';
 import 'package:a2sv_portal_mobile/widgets/cards/margin_container.dart';
 import 'package:flutter/material.dart';
 
-import 'widgets/questions.dart';
-import 'widgets/topic_info.dart';
+import '../widgets/questions.dart';
+import '../widgets/topic_info.dart';
 
 class TopicDetailsPage extends StatelessWidget {
   const TopicDetailsPage({Key? key}) : super(key: key);

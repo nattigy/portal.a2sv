@@ -1,3 +1,5 @@
+import 'package:a2sv_portal_mobile/app/topics/widgets/topic_info_card.dart';
+import 'package:a2sv_portal_mobile/widgets/cards/margin_container.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
@@ -105,7 +107,9 @@ class TopicsPage extends StatelessWidget {
                     }),
                   ),
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 25),
+                TopicInfoCard(),
+                const SizedBox(height: 30),
                 ExpandableNotifier(child: _buildSeasonTopics()),
                 SizedBox(height: 20),
                 ExpandableNotifier(child: _buildSeasonTopics()),

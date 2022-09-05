@@ -1,11 +1,10 @@
+import 'package:a2sv_portal_mobile/app/auth/bloc/login/login_bloc.dart';
 import 'package:a2sv_portal_mobile/utils/custom_colors.dart';
+import 'package:a2sv_portal_mobile/widgets/buttons/main-button.dart';
+import 'package:a2sv_portal_mobile/widgets/inputs/main-input-field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-
-import '../../../widgets/buttons/main-button.dart';
-import '../../../widgets/inputs/main-input-field.dart';
-import '../../auth/bloc/login/login_bloc.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -74,12 +73,12 @@ class LoginForm extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 40),
               Expanded(
                   flex: 2,
                   child: Align(
                       alignment: Alignment.bottomCenter,
                       child: _LoginButton())),
+              const SizedBox(height: 40),
             ],
           ),
         ),

@@ -58,9 +58,7 @@ class _HomeTabState extends State<HomeTab> {
                   children: [
                     CardLabelText(text: "Topics"),
                     SizedBox(height: 15),
-                    TopicInfoCard(
-                      navigationCtx: widget.navigationCtx,
-                    ),
+                    TopicInfoCard(),
                   ],
                 ),
               ),
