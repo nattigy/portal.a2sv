@@ -1,5 +1,4 @@
-import 'package:a2sv_portal_mobile/app/topics/models/topic.dart';
-import 'package:equatable/equatable.dart';
+part of "topic.bloc.dart";
 
 class TopicState extends Equatable {
   const TopicState();

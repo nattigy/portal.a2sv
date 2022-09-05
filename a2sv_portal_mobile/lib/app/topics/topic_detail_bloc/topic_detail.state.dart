@@ -1,4 +1,4 @@
-part of 'topic_detail_cubit.dart';
+part of 'topic_detail.bloc.dart';
 
 abstract class TopicDetailState extends Equatable {
   const TopicDetailState();

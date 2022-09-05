@@ -50,22 +50,8 @@ class Questions extends StatelessWidget {
           Column(
             children: [
               ...questions.map((question) {
-                return GestureDetector(
-                  onTap: () {
-                    showModalBottomSheet<void>(
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(25.0)),
-                      ),
-                      context: context,
-                      builder: (BuildContext context) {
-                        return BottomSheetCard();
-                      },
-                    );
-                  },
-                  child: SingleQuestion(
-                    question: question,
-                  ),
+                return SingleQuestion(
+                  question: question,
                 );
               }).toList()
             ],

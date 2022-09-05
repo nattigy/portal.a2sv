@@ -1,11 +1,13 @@
 String GET_USER = r"""
-  query getUser {
-    getUser{
-      id
-      firstName
-      middleName
-      lastName
-      phoneNumber
-    }
+query GetMe {
+  getMe {
+    createdAt
+    email
+    groupId
+    id
+    role
+    status
+    updatedAt
   }
+}
 """;
