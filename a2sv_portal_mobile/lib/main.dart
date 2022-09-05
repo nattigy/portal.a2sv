@@ -3,7 +3,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 
 import 'app/app.dart';
 import 'app/users/data/users.repository.dart';
-import 'config/graphql/client.dart';
+import 'config/gql.client.dart';
 import 'config/local_storage.dart';
 
 Future<void> main() async {

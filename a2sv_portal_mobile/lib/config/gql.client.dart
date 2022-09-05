@@ -1,10 +1,10 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:graphql/client.dart';
 
-import '../local_storage.dart';
+import 'local_storage.dart';
 
 final HttpLink _httpLink = HttpLink(
-  'http://192.168.0.185:8000/graphql',
+  'https://a2sv-portal.herokuapp.com/graphql',
 );
 
 final AuthLink authLink = AuthLink(

@@ -7,7 +7,7 @@
 
 import 'package:a2sv_portal_mobile/app/app.dart';
 import 'package:a2sv_portal_mobile/app/users/data/users.repository.dart';
-import 'package:a2sv_portal_mobile/config/graphql/client.dart';
+import 'package:a2sv_portal_mobile/config/gql.client.dart';
 import 'package:a2sv_portal_mobile/config/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
