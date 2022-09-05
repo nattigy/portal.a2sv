@@ -7,11 +7,12 @@ import { Season } from '@prisma/client'
 export class SeasonService {
   constructor(private readonly prismaService: PrismaService) {}
   async getSeasons(): Promise<Season[]> {
-    return this.prismaService.season.findMany()
+    return this.prismaService.season.findMany({ include: { topics: true } })
   }
   async getSeasonById(id: number): Promise<Season> {
     const season = await this.prismaService.season.findUnique({
       where: { id: id },
+      include: { topics: true },
     })
     if (!season) {
       throw new NotFoundException(`Season with id ${id} not found`)
@@ -19,7 +20,10 @@ export class SeasonService {
     return season
   }
   async createSeason(createSeasonInput: CreateSeasonInput): Promise<Season> {
-    return await this.prismaService.season.create({ data: createSeasonInput })
+    return await this.prismaService.season.create({
+      data: createSeasonInput,
+      include: { topics: true },
+    })
   }
   async updateSeason(
     id: number,
@@ -28,9 +32,13 @@ export class SeasonService {
     return this.prismaService.season.update({
       where: { id: id },
       data: updateSeasonInput,
+      include: { topics: true },
     })
   }
   async deleteSeason(id: number): Promise<Season> {
-    return this.prismaService.season.delete({ where: { id } })
+    return this.prismaService.season.delete({
+      where: { id },
+      include: { topics: true },
+    })
   }
 }

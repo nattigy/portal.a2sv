@@ -23,7 +23,7 @@ model Group {
 
 model Season {
   id        Int       @id @default(autoincrement())
-  name      String
+  name      String    @unique
   startDate DateTime  @default(now())
   endDate   DateTime  @default(now())
   createdAt DateTime? @default(now())
@@ -72,12 +72,12 @@ model UserProfile {
 
 model Topic {
   id          Int          @id @default(autoincrement())
-  seasonId    Int          @unique
+  seasonId    Int
   name        String
   description String?
   createdAt   DateTime?    @default(now())
   updatedAt   DateTime?
-  season      Season?      @relation(fields: [seasonId], references: [id])
+  season      Season       @relation(fields: [seasonId], references: [id])
   groups      GroupTopic[]
 }
 

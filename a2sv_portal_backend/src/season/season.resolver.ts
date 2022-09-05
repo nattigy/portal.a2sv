@@ -1,5 +1,14 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
+import {
+  Args,
+  Int,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql'
 import { Roles } from 'src/auth/auth.decorator'
+import { Topic } from 'src/topic/entities/topic.entity'
 import { CreateSeasonInput } from './dto/create-season.input'
 import { UpdateSeasonInput } from './dto/update-season.input'
 import { Season } from './entities/season.entity'
@@ -38,5 +47,11 @@ export class SeasonResolver {
   @Mutation(() => Season)
   deleteSeason(@Args('id', { type: () => Int }) id: number) {
     return this.seasonService.deleteSeason(id)
+  }
+
+  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
+  @ResolveField(() => [Topic])
+  topics(@Parent() season: Season): Topic[] {
+    return season.topics
   }
 }

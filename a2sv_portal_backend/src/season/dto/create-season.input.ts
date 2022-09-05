@@ -5,9 +5,9 @@ export class CreateSeasonInput {
   @Field()
   name: string
 
-  @Field(() => GraphQLISODateTime)
-  startDate: Date
+  @Field(() => GraphQLISODateTime, { defaultValue: new Date(), nullable: true })
+  startDate?: Date
 
-  @Field(() => GraphQLISODateTime)
-  endDate: Date
+  @Field(() => GraphQLISODateTime, { defaultValue: new Date(), nullable: true })
+  endDate?: Date
 }

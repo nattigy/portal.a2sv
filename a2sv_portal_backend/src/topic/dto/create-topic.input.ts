@@ -1,4 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql'
+import { Field, InputType, Int } from '@nestjs/graphql'
 import { CreateSeasonInput } from 'src/season/dto/create-season.input'
 import { Season } from '../../season/entities/season.entity'
 
@@ -9,7 +9,7 @@ export class CreateTopicInput {
   @Field({ nullable: true })
   description?: string
   @Field(() => CreateSeasonInput)
-  season: CreateSeasonInput
+  season?: CreateSeasonInput
   @Field({ nullable: true })
   createdAt?: Date
   @Field({ nullable: true })
