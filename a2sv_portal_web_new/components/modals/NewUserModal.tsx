@@ -1,50 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
 import clsx from "clsx";
 import { AiOutlineUser } from "react-icons/ai";
+import { ApolloError, useMutation } from "@apollo/client";
+import { CREATE_USER_MUTATION } from "../../lib/apollo/Mutations/usersMutations";
+import { GraphqlUserRole } from "../../types/user";
 
-export enum RoleTypes {
-  STUDENT = "Student",
-  HOE = "Head of Education",
-  HOA = "Head of Academy",
-}
 
 interface FormValues {
   name: string;
   email: string;
   password: string;
-  role: RoleTypes;
+  role: GraphqlUserRole;
 }
 
 type Props = {
   onClose: () => void;
 };
-const NewUserModal = (props: Props) => {
-  const INITIAL_VALUES = {
-    // status: QuestionStatus.NOT_SOLVED,
-    // time_spent: 0,
-    // total_attempts: 0,
-    // wrong_submissions: 0
-  } as FormValues;
+const INITIAL_VALUES = {
+  // status: QuestionStatus.NOT_SOLVED,
+  // time_spent: 0,
+  // total_attempts: 0,
+  // wrong_submissions: 0
+} as FormValues;
 
-  const FORM_VALIDATION = yup.object().shape({
-    name: yup.string().required("Required").min(3).max(40),
-    email: yup
-      .string()
-      .required("Required")
-      .email("email should have the format user@example.com"),
-    password: yup
-      .string()
-      .min(8)
-      .required("Required")
-      .min(8, "Too Short!")
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-      ),
-    role: yup.string().min(0).required("Required"),
-  });
+const FORM_VALIDATION = yup.object().shape({
+  name: yup.string().required("Required").min(3).max(40),
+  email: yup
+    .string()
+    .required("Required")
+    .email("email should have the format user@example.com"),
+  password: yup
+    .string()
+    .min(8)
+    .required("Required")
+    .min(8, "Too Short!")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
+      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+    ),
+  role: yup.string().min(0).required("Required"),
+});
+
+
+const NewUserModal = (props: Props) => {
+  const [addNewUser] = useMutation(CREATE_USER_MUTATION)
+  const [isLoading, setIsLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
 
   return (
     <>
@@ -52,9 +55,34 @@ const NewUserModal = (props: Props) => {
         <Formik
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
-          onSubmit={() => {}}
+          onSubmit={async (values, actions) => {
+            console.log(values, " is values")
+            setIsLoading(true)
+            await addNewUser({
+              variables: {
+                createUserInput: {
+                  email: values.email,
+                  group: null,
+                  password: values.password,
+                  role: values.role
+                }
+              },
+              refetchQueries: "active",
+              notifyOnNetworkStatusChange: true,
+              onCompleted: (data) => {
+                setIsLoading(false)
+                props.onClose()
+              },
+              onError: (error) => {
+                setErrorMessage((error as ApolloError).message);
+                setIsLoading(false)
+              }
+            })
+            actions.resetForm()
+          }}
         >
           {({ isSubmitting, handleChange, errors, touched }) => (
+
             <Form>
               <div
                 role="alert"
@@ -63,6 +91,7 @@ const NewUserModal = (props: Props) => {
                 <div className="w-full flex flex-col items-center">
                   <div className="my-3 w-full flex justify-between items-center">
                     <h2 className="font-semibold text-lg">Create New User</h2>
+                    {JSON.stringify(errors)}
                     <div
                       className="cursor-pointer"
                       onClick={() => props.onClose()}
@@ -174,7 +203,7 @@ const NewUserModal = (props: Props) => {
                           />
                           <Field
                             as="select"
-                            name="roles"
+                            name="role"
                             className={clsx(
                               "w-full h-12 px-8 border rounded-md",
                               touched.role && errors.role
@@ -191,14 +220,23 @@ const NewUserModal = (props: Props) => {
                             >
                               Select Role
                             </option>
-                            <option value="Student">Student</option>
-                            <option value="HOE">Head of Education</option>
-                            <option value="HOA">Head of Academy</option>
+                            <option value={GraphqlUserRole.STUDENT}>Student</option>
+                            <option value={GraphqlUserRole.ASSISTANT}>Assistant</option>
+                            <option value={GraphqlUserRole.HEAD_OF_EDUCATIONS}>Head of Education</option>
                           </Field>
                         </div>
                       </div>
                     </div>
                   </div>
+                  {
+                    errorMessage && (
+                      <div className="bg-[#E4646451] py-1 rounded-md">
+                        <span className="text-[#E46464] px-4 text-xs">
+                          {errorMessage}
+                        </span>
+                      </div>
+                    )
+                  }
                   <div className="flex justify-end items-center gap-x-3">
                     <button
                       onClick={() => props.onClose()}
@@ -209,8 +247,16 @@ const NewUserModal = (props: Props) => {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="min-w-min px-6 py-3 mt-4 text-sm font-semibold text-white bg-primary rounded-lg"
+                      className="min-w-min flex px-6 py-3 mt-4 text-sm font-semibold text-white bg-primary rounded-lg"
                     >
+                      {
+                        isLoading && (
+                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                        )
+                      }
                       Save
                     </button>
                   </div>

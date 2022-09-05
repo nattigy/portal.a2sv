@@ -16,20 +16,21 @@ export const GET_SINGLE_USER_QUERY = gql`
   }
 `;
 
-export const GET_ALL_PROBLEM_QUERY = gql`
-  query Problems {
-    problems {
+export const GET_ALL_USER_QUERY = gql`
+  query Users {
+    users {
       createdAt
-      difficulty
-      id
-      link
-      platform
-      tags {
-        name
+      email
+      headToGroup {
         id
       }
-      title
+      id
+      status
       updatedAt
+      role
+      group {
+        id
+      }
     }
   }
 `;
