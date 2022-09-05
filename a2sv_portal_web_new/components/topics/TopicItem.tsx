@@ -10,7 +10,7 @@ export type ColorSVG = {
   color: string;
 };
 
-const mapp: { [title: string]: ColorSVG } = {
+export const titleToIcon: { [title: string]: ColorSVG } = {
   "Dynamic Programming": { imgPath: "/icons/dp-icon.svg", color: "#5956E9" },
   "Sliding Window": { imgPath: "/icons/sw-icon.svg", color: "#FFDC60" },
   "Bit Manipulation": { imgPath: "/icons/bm-icon.svg", color: "#FFADAD" },
@@ -34,10 +34,10 @@ const TopicItem = (props: TopicItemProps) => {
         <div
           className={`w-1 h-full`}
           style={{
-            background: mapp[props.title].color,
+            background: titleToIcon[props.title].color,
           }}
         ></div>
-        <img src={mapp[props.title].imgPath} className="w-12" alt="" />
+        <img src={titleToIcon[props.title].imgPath} className="w-12" alt="" />
         <div className="flex flex-row justify-between w-full items-center pr-3">
           <div className="flex flex-col justify-center">
             <p className="font-Poppins font-semibold text-sm">{props.title}</p>
