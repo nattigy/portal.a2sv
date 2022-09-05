@@ -6,10 +6,16 @@ import UserRoleChip from "./UserRoleChip";
 export type UserProps = {
   id?: number;
   fullname: string;
+  email: string;
   role: UserRoleType;
+  createdAt: string;
+  group: any
+  headToGroup: any
+  status: string;
+  updatedAt: string;
 };
 
-const UserItem = ({ fullname, role }: UserProps) => {
+const UserItem = ({ email, role }: UserProps) => {
   return (
     <CustomLink href={`topics/fp/problems`}>
       <div className="h-[76px] flex w-56 bg-white items-center cursor-pointer gap-x-2 rounded-sm drop-shadow-sm">
@@ -20,7 +26,7 @@ const UserItem = ({ fullname, role }: UserProps) => {
         />
         <div className="flex flex-row justify-between w-full items-start h-full">
           <div className="flex flex-col justify-center w-full my-auto">
-            <p className="text-[#565656] font-semibold text-xs">{fullname}</p>
+            <p className="text-[#565656] font-semibold text-xs">{email}</p>
             <div className="flex flex-row items-center justify-between">
               <UserRoleChip role={role} />
               <div className="text-[#5956E9] text-[10px] font-semibold">
