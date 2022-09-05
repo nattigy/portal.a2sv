@@ -4,6 +4,7 @@ import { useApollo } from "../lib/apollo/apolloClient";
 import Guard from "../lib/Guard";
 import '../styles/globals.css'
 
+
 export default function App({ Component, pageProps }: AppProps) {
   const client = useApollo(pageProps);
 

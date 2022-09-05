@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { TypeOf } from "yup";
 import { UserRoleType } from "../../types/user";
+import { LoaderSmall } from "../common/Loaders";
 import RankItem from "../personal-status/RankItem";
 import UserItem, { UserProps } from "./UserItem";
 
@@ -24,16 +25,18 @@ const UsersList = ({ users }: { users: UserProps[] }) => {
   }, res);
 
 
-  return usersData.length == 0 ? (
-    <div>List is empty</div>
+  return users.length === 0 ? (
+    <div className="w-full flex h-full items-center justify-center min-w-full min-h-full">
+      <LoaderSmall />
+    </div>
   ) : (
     <div>
       {chars.split("").map((letter, index) => {
         return (
           res[letter] && (
-            <div key={index}>
-              <p className="font-medium text-xl text-black mt-10">{letter}</p>
-              <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
+            <div key={index} className="my-10">
+              <p className="font-semibold text-2xl  text-black ">{letter}</p>
+              <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4">
                 {res[letter].map((user, index) => (
                   <UserItem key={user.id} {...user} />
                 ))}

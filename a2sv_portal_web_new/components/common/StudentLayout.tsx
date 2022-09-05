@@ -845,7 +845,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
         </div>
       </div>
 
-      <div className="flex flex-col flex-1 min-h-screen max-h-screen overflow-y-auto">
+      <div className="flex flex-col flex-1 min-h-screen max-h-screen no-scrollbar overflow-auto">
         <main>
           <div className="bg-[#F6F6FC] p-4 mx-auto max-w-7xl  sm:px-6 md:px-8">
             {children}

@@ -18,12 +18,6 @@ interface FormValues {
 type Props = {
   onClose: () => void;
 };
-const INITIAL_VALUES = {
-  // status: QuestionStatus.NOT_SOLVED,
-  // time_spent: 0,
-  // total_attempts: 0,
-  // wrong_submissions: 0
-} as FormValues;
 
 const FORM_VALIDATION = yup.object().shape({
   name: yup.string().required("Required").min(3).max(40),
@@ -43,11 +37,19 @@ const FORM_VALIDATION = yup.object().shape({
   role: yup.string().min(0).required("Required"),
 });
 
-
 const NewUserModal = (props: Props) => {
   const [addNewUser] = useMutation(CREATE_USER_MUTATION)
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
+
+  const INITIAL_VALUES = {
+    // status: QuestionStatus.NOT_SOLVED,
+    // time_spent: 0,
+    // total_attempts: 0,
+    // wrong_submissions: 0
+  } as FormValues;
+
+
 
   return (
     <>
@@ -91,7 +93,6 @@ const NewUserModal = (props: Props) => {
                 <div className="w-full flex flex-col items-center">
                   <div className="my-3 w-full flex justify-between items-center">
                     <h2 className="font-semibold text-lg">Create New User</h2>
-                    {JSON.stringify(errors)}
                     <div
                       className="cursor-pointer"
                       onClick={() => props.onClose()}
@@ -134,7 +135,6 @@ const NewUserModal = (props: Props) => {
                           name="name"
                           placeholder="Name"
                           type="text"
-                          onChange={handleChange}
                           className={clsx(
                             "w-full text-sm placeholder-[#949494] border bg-white rounded-md focus:outline-none py-3 px-4 my-2",
                             touched.name && errors.name
@@ -152,7 +152,6 @@ const NewUserModal = (props: Props) => {
                           name="email"
                           placeholder="Email"
                           type="text"
-                          onChange={handleChange}
                           className={clsx(
                             "w-full text-sm placeholder-[#949494] border bg-white rounded-md focus:outline-none py-3 px-4 my-2",
                             touched.email && errors.email
@@ -170,7 +169,6 @@ const NewUserModal = (props: Props) => {
                           name="password"
                           placeholder="Password"
                           type="password"
-                          onChange={handleChange}
                           className={clsx(
                             "w-full text-sm placeholder-[#949494] border bg-white rounded-md focus:outline-none py-3 px-4",
                             touched.password && errors.password

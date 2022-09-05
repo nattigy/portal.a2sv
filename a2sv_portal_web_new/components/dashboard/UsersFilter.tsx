@@ -28,7 +28,7 @@ type Props = {
 
 const UsersFilter = (props: Props) => {
   return (
-    <div className="flex flex-row bg-white rounded-sm w-full h-16 items-center gap-x-12 my-5">
+    <div className="flex flex-row bg-white rounded-sm w-full h-16 items-center gap-x-12 my-5 sticky inset-x-0 top-0 left-0 ">
       <UsersSearch />
       <div className="flex flex-1  gap-x-12 ">
         {filterItems.map((item, index) => (
