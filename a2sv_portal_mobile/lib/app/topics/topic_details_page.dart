@@ -17,19 +17,21 @@ class TopicDetailsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black), onPressed: () {},
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title:  const Text(
+        title: const Text(
           "Linked List",
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600, color: Colors.black),
+          style: TextStyle(
+              fontSize: 22, fontWeight: FontWeight.w600, color: Colors.black),
         ),
       ),
-      body:  SafeArea(
-        child: MarginContainer(child: Column(
+      body: SafeArea(
+        child: MarginContainer(
+            child: Column(
           children: [
             TopicInfo(),
             QuestionsTitle(),

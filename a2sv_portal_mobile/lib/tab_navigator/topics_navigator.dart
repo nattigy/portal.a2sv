@@ -1,3 +1,4 @@
+import 'package:a2sv_portal_mobile/app/topics/topic_details_page.dart';
 import 'package:flutter/material.dart';
 
 import '../app/topics/topics_tab.dart';
@@ -5,6 +6,7 @@ import 'tab_navigator.dart';
 
 class TopicsNavigatorRoutes {
   static const String root = "/";
+  static const String topicDetail = "topicDetail";
 }
 
 class TopicsNavigator extends TabNavigator {
@@ -16,6 +18,7 @@ class TopicsNavigator extends TabNavigator {
   Map<String, WidgetBuilder> _routeBuilder(BuildContext context) {
     return {
       TopicsNavigatorRoutes.root: (ctx) => TopicsTab(navigationCtx: navigatorKey.currentContext!),
+      TopicsNavigatorRoutes.topicDetail:(ctx) => TopicDetailsPage(),
     };
   }
 

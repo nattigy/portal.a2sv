@@ -44,10 +44,9 @@ class TopicInfoCard extends StatelessWidget {
                     child: MainButton(
                       title: "Open Topic",
                       onClick: () {
-                        Navigator.pushAndRemoveUntil<void>(
-                          navigationCtx,
-                          TopicDetailsPage.route(),
-                              (route) => false,
+                        Navigator.pushNamed(
+                          context,
+                          "topicDetail"
                         );
                       },
                       color: Colors.indigo,
