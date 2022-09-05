@@ -31,7 +31,7 @@ const Index = () => {
           </div>
           <div
             onClick={handleModalOpen}
-            className="flex flex-row gap-x-1 bg-[#5956E9] rounded-md items-center px-2"
+            className="flex flex-row gap-x-1 cursor-pointer bg-[#5956E9] rounded-md items-center px-3"
           >
             <BsPlus color="#ffffff" size={18} />
             <p className="font-medium  text-white text-xs">New Group</p>

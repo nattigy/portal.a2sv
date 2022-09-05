@@ -3,6 +3,8 @@ import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
 import clsx from "clsx";
 import { getNationality } from "../../helpers/getNationalityFlag";
+import { ApolloError, useMutation } from "@apollo/client";
+import { CREATE_GROUP_MUTATION } from "../../lib/apollo/Mutations/groupsMutations";
 
 export enum RoleTypes {
   STUDENT = "Student",
@@ -20,6 +22,10 @@ type Props = {
   onClose: () => void;
 };
 const NewGroupModal = (props: Props) => {
+  const [addNewGroup] = useMutation(CREATE_GROUP_MUTATION)
+  const [isLoading, setIsLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
+
   const INITIAL_VALUES = {
     // status: QuestionStatus.NOT_SOLVED,
     // time_spent: 0,
@@ -29,20 +35,10 @@ const NewGroupModal = (props: Props) => {
 
   const FORM_VALIDATION = yup.object().shape({
     name: yup.string().required("Required").min(3).max(40),
-    email: yup
+    country: yup
       .string()
-      .required("Required")
-      .email("email should have the format user@example.com"),
-    password: yup
-      .string()
-      .min(8)
-      .required("Required")
-      .min(8, "Too Short!")
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-      ),
-    role: yup.string().min(0).required("Required"),
+      .required("Required"),
+    school: yup.string().required("Required"),
   });
 
   const [selected, setSelected] = useState("")
@@ -53,9 +49,28 @@ const NewGroupModal = (props: Props) => {
         <Formik
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
-          onSubmit={() => {}}
+          onSubmit={async (values, actions) => {
+            console.log(values, " is values")
+            setIsLoading(true)
+            await addNewGroup({
+              variables: {
+                createGroupInput: values
+              },
+              refetchQueries: "active",
+              notifyOnNetworkStatusChange: true,
+              onCompleted: (data) => {
+                setIsLoading(false)
+              },
+              onError: (error) => {
+                setErrorMessage((error as ApolloError).message);
+                setIsLoading(false)
+              }
+            })
+            actions.resetForm()
+
+          }}
         >
-          {({ isSubmitting, handleChange, errors, touched }) => (
+          {({ isSubmitting, handleChange, errors, touched, values }) => (
             <Form>
               <div
                 role="alert"
@@ -129,9 +144,8 @@ const NewGroupModal = (props: Props) => {
                           </div>
                           <Field
                             as="select"
-                            name="roles"
+                            name="country"
                             value={selected}
-                            onChange={(e:any) => setSelected(e.target.value)}
                             className={clsx(
                               "w-full h-12 px-10 border rounded-md text-sm text-[#949494]",
                               touched.country && errors.country
@@ -187,6 +201,15 @@ const NewGroupModal = (props: Props) => {
                         </div>
                       </div>
                     </div>
+                    {
+                      errorMessage && (
+                        <div className="bg-[#E4646451] py-1 rounded-md">
+                          <span className="text-[#E46464] px-4 text-xs">
+                            {errorMessage}
+                          </span>
+                        </div>
+                      )
+                    }
                     <div className="flex justify-end items-center gap-x-3">
                       <button
                         onClick={() => props.onClose()}
@@ -197,8 +220,16 @@ const NewGroupModal = (props: Props) => {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="min-w-min px-6 py-3 mt-4 text-sm font-semibold text-white bg-primary rounded-lg"
+                        className="flex justify-center items-center min-w-min px-6 py-3 mt-4 text-sm font-semibold text-white bg-primary rounded-lg"
                       >
+                        {
+                          isLoading && (
+                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                          )
+                        }
                         Save
                       </button>
                     </div>
