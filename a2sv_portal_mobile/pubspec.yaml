@@ -50,6 +50,7 @@ dependencies:
   iconsax: ^0.0.8
   loading_indicator: ^3.1.0
   csc_picker: ^0.2.6
+  expandable: ^5.0.1
 
 dev_dependencies:
   flutter_test:
