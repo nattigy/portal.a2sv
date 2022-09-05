@@ -24,9 +24,15 @@ class RouterGenerator {
             transitionDuration: const Duration(seconds: 0));
 
       default:
-        return PageRouteBuilder(
-            pageBuilder: (context, animation1, animation2) => const RootPage(),
-            transitionDuration: const Duration(seconds: 0));
+        return _errorRoute();
     }
+  }
+
+  static Route<dynamic> _errorRoute() {
+    return MaterialPageRoute(
+      builder: (_) {
+        return const Scaffold(body: Center(child: Text('ERROR')));
+      },
+    );
   }
 }

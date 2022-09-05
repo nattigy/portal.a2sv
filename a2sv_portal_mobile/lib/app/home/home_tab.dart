@@ -7,10 +7,22 @@ import 'widgets/consistency_diagram_card.dart';
 import 'widgets/profile_card.dart';
 import 'widgets/profile_stats_card.dart';
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
   const HomeTab({Key? key, required this.navigationCtx}) : super(key: key);
-
   final BuildContext navigationCtx;
+
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +35,11 @@ class HomeTab extends StatelessWidget {
               SizedBox(height: 25),
               MarginContainer(child: ProfileCard()),
               SizedBox(height: 30),
-              MarginContainer(child: ProblemsStatCard()),
+              MarginContainer(child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, "detail_stat");
+                  },
+                  child: ProblemsStatCard())),
               SizedBox(height: 30),
               MarginContainer(
                 child: Column(
@@ -42,7 +58,7 @@ class HomeTab extends StatelessWidget {
                   children: [
                     CardLabelText(text: "Topics"),
                     SizedBox(height: 15),
-                    TopicInfoCard(navigationCtx: navigationCtx,),
+                    TopicInfoCard(navigationCtx: widget.navigationCtx,),
                   ],
                 ),
               ),

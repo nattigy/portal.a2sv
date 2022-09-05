@@ -152,13 +152,14 @@ class _BottomSheetCardState extends State<BottomSheetCard> {
                     color: const Color.fromRGBO(250, 251, 255, 1),
                     onChanged: (value) {},
                   ),
-                  ElevatedButton(
-                      style: Theme.of(context)
-                          .copyWith()
-                          .elevatedButtonTheme
-                          .style,
-                      child: Text("Save"),
-                      onPressed: () {})
+                  MainButton(title: "Save", color: CustomColors.primaryColor, onClick: (){}),
+                  // ElevatedButton(
+                  //     style: Theme.of(context)
+                  //         .copyWith()
+                  //         .elevatedButtonTheme
+                  //         .style,
+                  //     child: Text("Save"),
+                  //     onPressed: () {})
                 ],
               ),
             );
