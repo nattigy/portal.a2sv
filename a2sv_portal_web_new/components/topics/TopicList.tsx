@@ -4,6 +4,7 @@ import TopicStruggledItem from "./TopicStruggledItem";
 
 type TopicListProps = {
   title: string;
+  selectedSeason: string;
 };
 
 const TopicList = (props: TopicListProps) => {
@@ -37,7 +38,7 @@ const TopicList = (props: TopicListProps) => {
       </p>
       <div className="flex flex-row flex-wrap">
         {DUMMY_DATA.map((item) => (
-          <TopicItem key={item.id} title={item.title} />
+          <TopicItem season={props.selectedSeason} key={item.id} title={item.title} />
         ))}
       </div>
     </>

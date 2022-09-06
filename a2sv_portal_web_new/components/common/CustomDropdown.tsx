@@ -26,7 +26,7 @@ const CustomDropdown = ({ customProps, selected, setSelected }: Props) => {
         onChange={changeHandler}
         value={selected}
         id="filter"
-        className="text-[#5956E9] text-xs outline-none bg-transparent"
+        className="text-[#5956E9] outline-none bg-transparent px-5 py-2 text-sm cursor-pointer"
       >
         {customProps.options.map((option: any, index: number) => (
           <option value={option} key={index}>
