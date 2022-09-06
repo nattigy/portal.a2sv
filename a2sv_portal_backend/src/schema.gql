@@ -26,9 +26,9 @@ input CreateRoleInput {
 }
 
 input CreateSeasonInput {
-  endDate: DateTime = "2022-09-06T09:49:52.308Z"
+  endDate: DateTime = "2022-09-06T12:33:44.907Z"
   name: String!
-  startDate: DateTime = "2022-09-06T09:49:52.308Z"
+  startDate: DateTime = "2022-09-06T12:33:44.907Z"
 }
 
 input CreateTagInput {
@@ -168,7 +168,7 @@ type Query {
   topic(id: Int!): Topic!
   topics: [Topic!]!
   user(id: Int!): User!
-  users(Role: String, Status: String, email: String, groupId: Float, skip: Int, take: Int): [User!]!
+  users(email: String, groupId: Float, role: String, skip: Int, status: String, take: Int): [User!]!
   welcome: String!
 }
 
@@ -200,11 +200,6 @@ type Season {
 
 type SignupOutput {
   userId: Int!
-}
-
-enum Status {
-  ACTIVE
-  INACTIVE
 }
 
 type Tag {
@@ -248,9 +243,9 @@ input UpdateRoleInput {
 }
 
 input UpdateSeasonInput {
-  endDate: DateTime = "2022-09-06T09:49:52.308Z"
+  endDate: DateTime = "2022-09-06T12:33:44.907Z"
   name: String
-  startDate: DateTime = "2022-09-06T09:49:52.308Z"
+  startDate: DateTime = "2022-09-06T12:33:44.907Z"
 }
 
 input UpdateTagInput {
@@ -273,7 +268,7 @@ input UpdateUserInput {
   groupId: Int
   id: Int!
   password: String
-  role: RoleEnum = STUDENT
+  role: RoleEnum
 }
 
 type User {
@@ -285,6 +280,11 @@ type User {
   headToGroup: Group
   id: ID!
   role: RoleEnum!
-  status: Status!
+  status: status!
   updatedAt: DateTime
+}
+
+enum status {
+  ACTIVE
+  INACTIVE
 }

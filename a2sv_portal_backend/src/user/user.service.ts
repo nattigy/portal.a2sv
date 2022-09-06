@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { User, Prisma, Status } from '@prisma/client'
+import { User, Prisma, Status, RoleEnum } from '@prisma/client'
 import {} from '../user/entities/user.entity'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateUserInput } from './dto/create-user.input'
@@ -34,17 +34,25 @@ export class UserService {
     })
   }
 
-  findAll(params: {
+  async findAll(params: {
     skip?: number
     take?: number
-    where?: any
+    status?: Status
+    email?: string
+    groupId?:number
+    role?:RoleEnum
   }): Promise<User[] | []> {
-    const { skip, take, where } = params
-    return this.prismaService.user.findMany({
+    const { skip, take, status, email,groupId,role } = params
+    
+    const result = await this.prismaService.user.findMany({
       skip,
       take,
-      where,
+      where:{
+        status, email,groupId,role 
+      }
     })
+
+    return result
   }
 
   async findOne(id: number) {

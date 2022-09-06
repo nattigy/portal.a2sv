@@ -20,7 +20,7 @@ export class UserResolver {
 
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
   @Query(() => [User], { name: 'users' })
-  async findAll(@Args() args: GetUserArgs) {
+  async findAll(@Args() args: GetUserArgs) {  
     return await this.userService.findAll(args)
   }
 
