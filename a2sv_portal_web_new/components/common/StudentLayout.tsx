@@ -70,7 +70,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
       email: string,
     }
   }) => {
-    const userRole: string = GraphqlUserRole.HEAD_OF_EDUCATIONS
+    const userRole: string = GraphqlUserRole.HEAD_OF_EDUCATION
     switch (userRole) {
       case GraphqlUserRole.STUDENT: {
         return (
@@ -249,7 +249,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
           </nav>
         )
       }
-      case GraphqlUserRole.HEAD_OF_EDUCATIONS: {
+      case GraphqlUserRole.HEAD_OF_EDUCATION: {
         return (
           <nav className="flex-1 space-y-2">
             <CustomLink href="/dashboard">

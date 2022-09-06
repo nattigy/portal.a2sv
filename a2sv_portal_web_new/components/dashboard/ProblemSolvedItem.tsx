@@ -24,15 +24,15 @@ const ProblemSolvedItem = ({ p: problemSolvedProps }: Props) => {
         </div>
         <div className="w-2/5 flex flex-col gap-y-1">
           <div className="flex items-center gap-x-2">
-            <div className="bg-[#3DAB3DB3] w-4 h-4 rounded-sm"></div>
+            <div className="bg-[#3DAB3DB3] w-3 h-3 rounded-sm"></div>
             <h1>{problemSolvedProps.easy} Problems</h1>
           </div>
           <div className="flex items-center gap-x-2">
-            <div className="bg-[#FCBD5EE6] w-4 h-4 rounded-sm"></div>
+            <div className="bg-[#FCBD5EE6] w-3 h-3 rounded-sm"></div>
             <h1>{problemSolvedProps.medium} Problems</h1>
           </div>
           <div className="flex items-center gap-x-2">
-            <div className="bg-[#5956E9E6] w-4 h-4 rounded-sm"></div>
+            <div className="bg-[#5956E9E6] w-3 h-3 rounded-sm"></div>
             <h1>{problemSolvedProps.hard} Problems</h1>
           </div>
         </div>
@@ -66,15 +66,15 @@ const ProblemSolvedItem = ({ p: problemSolvedProps }: Props) => {
         </div>
         <div className="flex gap-x-6 py-1">
           <div className="flex items-center gap-x-1">
-            <div className="bg-[#3DAB3DB3] w-4 h-4"></div>
+            <div className="bg-[#3DAB3DB3] w-3 h-3"></div>
             <span>Easy</span>
           </div>
           <div className="flex items-center gap-x-1">
-            <div className="bg-[#FCBD5EE6] w-4 h-4"></div>
+            <div className="bg-[#FCBD5EE6] w-3 h-3"></div>
             <span>Medium</span>
           </div>
           <div className="flex items-center gap-x-1">
-            <div className="bg-[#5956E9E6] w-4 h-4"></div>
+            <div className="bg-[#5956E9E6] w-3 h-3"></div>
             <span>Hard</span>
           </div>
         </div>
