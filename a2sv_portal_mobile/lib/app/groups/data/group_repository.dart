@@ -10,122 +10,123 @@ class GroupRepository {
   Future<List<Group>> fetchGroups() async {
 
 
-    return [
-      new Group(
-        id: "1", 
-        createdAt: DateTime.now(),
-         school: 'AAIT',
-          name: 'G-31', 
-          topics: [
+    // return [
+    //   new Group(
+    //     id: "1", 
+    //     createdAt: DateTime.now(),
+    //      school: 'AAIT',
+    //       name: 'G-31', 
+    //       topics: [
 
-          ],
-           users: [
+    //       ],
+    //        users: [
 
-           ]),
-           new Group(
-        id: "1", 
-        createdAt: DateTime.now(),
-         school: 'AASTU',
-          name: 'G-33', 
-          topics: [
+    //        ]),
+    //        new Group(
+    //     id: "1", 
+    //     createdAt: DateTime.now(),
+    //      school: 'AASTU',
+    //       name: 'G-33', 
+    //       topics: [
 
-          ],
-           users: [
+    //       ],
+    //        users: [
 
-           ]), 
-            new Group(
-        id: "1", 
-        createdAt: DateTime.now(),
-         school: 'AASTU',
-          name: 'G-33', 
-          topics: [
+    //        ]), 
+    //         new Group(
+    //     id: "1", 
+    //     createdAt: DateTime.now(),
+    //      school: 'AASTU',
+    //       name: 'G-33', 
+    //       topics: [
 
-          ],
-           users: [
+    //       ],
+    //        users: [
 
-           ]), 
-            new Group(
-        id: "1", 
-        createdAt: DateTime.now(),
-         school: 'AASTU',
-          name: 'G-33', 
-          topics: [
+    //        ]), 
+    //         new Group(
+    //     id: "1", 
+    //     createdAt: DateTime.now(),
+    //      school: 'AASTU',
+    //       name: 'G-33', 
+    //       topics: [
 
-          ],
-           users: [
+    //       ],
+    //        users: [
 
-           ]), 
-            new Group(
-        id: "1", 
-        createdAt: DateTime.now(),
-         school: 'AASTU',
-          name: 'G-33', 
-          topics: [
+    //        ]), 
+    //         new Group(
+    //     id: "1", 
+    //     createdAt: DateTime.now(),
+    //      school: 'AASTU',
+    //       name: 'G-33', 
+    //       topics: [
 
-          ],
-           users: [
+    //       ],
+    //        users: [
 
-           ]), 
-            new Group(
-        id: "1", 
-        createdAt: DateTime.now(),
-         school: 'AASTU',
-          name: 'G-33', 
-          topics: [
+    //        ]), 
+    //         new Group(
+    //     id: "1", 
+    //     createdAt: DateTime.now(),
+    //      school: 'AASTU',
+    //       name: 'G-33', 
+    //       topics: [
 
-          ],
-           users: [
+    //       ],
+    //        users: [
 
-           ]), 
-            new Group(
-        id: "1", 
-        createdAt: DateTime.now(),
-         school: 'AASTU',
-          name: 'G-33', 
-          topics: [
+    //        ]), 
+    //         new Group(
+    //     id: "1", 
+    //     createdAt: DateTime.now(),
+    //      school: 'AASTU',
+    //       name: 'G-33', 
+    //       topics: [
 
-          ],
-           users: [
+    //       ],
+    //        users: [
 
-           ]), 
-            new Group(
-        id: "1", 
-        createdAt: DateTime.now(),
-         school: 'AASTU',
-          name: 'G-33', 
-          topics: [
+    //        ]), 
+    //         new Group(
+    //     id: "1", 
+    //     createdAt: DateTime.now(),
+    //      school: 'AASTU',
+    //       name: 'G-33', 
+    //       topics: [
 
-          ],
-           users: [
+    //       ],
+    //        users: [
 
-           ]), 
-            new Group(
-        id: "1", 
-        createdAt: DateTime.now(),
-         school: 'AASTU',
-          name: 'G-33', 
-          topics: [
+    //        ]), 
+    //         new Group(
+    //     id: "1", 
+    //     createdAt: DateTime.now(),
+    //      school: 'AASTU',
+    //       name: 'G-33', 
+    //       topics: [
 
-          ],
-           users: [
+    //       ],
+    //        users: [
 
-           ]), 
-            new Group(
-        id: "1", 
-        createdAt: DateTime.now(),
-         school: 'AASTU',
-          name: 'G-33', 
-          topics: [
+    //        ]), 
+    //         new Group(
+    //     id: "1", 
+    //     createdAt: DateTime.now(),
+    //      school: 'AASTU',
+    //       name: 'G-33', 
+    //       topics: [
 
-          ],
-           users: [
+    //       ],
+    //        users: [
 
-           ]), 
-    ];
-    // final response =
-    //     await client.query(QueryOptions(document: gql(Get_Groups)));
-    // final groups = response.data?['groups'] as List;
-
-    // return groups.map((topic) => Group.fromJson(topic)).toList();
+    //        ]), 
+    // ];
+    final response =
+        await client.query(QueryOptions(document: gql(Get_Groups),fetchPolicy: FetchPolicy.noCache));
+        print(response);
+    final groups = response.data?['groups'] as List;
+ 
+    return groups.map((group) => Group.fromJson(group)).toList();
   }
 }

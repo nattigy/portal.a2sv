@@ -1,11 +1,17 @@
-const Get_Groups = r"""
-query Get_Groups{
+String Get_Groups = r"""
+query Groups{
   groups{
     id
     name
     school
-    topics
-    users
+    topics{
+      topic{
+        name
+      }
+      }
+    users{
+      id
+    }
   }
 }
 """;

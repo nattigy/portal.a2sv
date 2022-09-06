@@ -25,7 +25,7 @@ class GroupInfoCard extends StatelessWidget {
                 SizedBox(height: 8),
                 CardContentText(text: group.school),
                 SizedBox(height: 5),
-                CardContentText(text: group.createdAt.toString()),
+                CardContentText(text: ''),
                 SizedBox(height: 5),
                 CardContentText(text: group.users!.length.toString()),
                 SizedBox(height: 5),

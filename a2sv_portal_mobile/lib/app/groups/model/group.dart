@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 class Group extends Equatable {
   final String id;
-  final DateTime createdAt;
   final String name;
   final String school;
   final List<Topic>? topics;
@@ -13,7 +12,6 @@ class Group extends Equatable {
 
   Group(
       {required this.id,
-      required this.createdAt,
       required this.school,
       required this.name,
       required this.topics,
@@ -21,20 +19,23 @@ class Group extends Equatable {
 
   factory Group.fromJson(Map<String, dynamic> json) {
     return Group(
-      id: json['_id'],
+      id: json['id'],
       name: json['name'],
       school: json['school'],
-      createdAt: json['createdAt'],
-      topics: List<Topic>.from(
-        json["topics"].map(
-          (x) => Topic.fromJson(x),
-        ),
-      ),
-      users: List<User>.from(
-        json["users"].map(
-          (x) => User.fromJson(x),
-        ),
-      ),
+      topics: json['topics'] != null
+          ? List<Topic>.from(
+              json["topics"].map(
+                (x) => Topic.fromJson(x),
+              ),
+            )
+          : [],
+      users: json['users'] == null
+          ? []
+          : List<User>.from(
+              json["users"].map(
+                (x) => User.fromJson(x),
+              ),
+            ),
     );
   }
 
