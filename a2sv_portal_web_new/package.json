@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
+    "apexcharts": "^3.35.5",
     "better-docs": "^2.7.2",
     "clsx": "^1.2.1",
     "deepmerge": "^4.2.2",
@@ -25,6 +26,7 @@
     "next-auth": "^4.10.3",
     "prettier": "^2.7.1",
     "react": "18.2.0",
+    "react-apexcharts": "^1.4.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
     "react-loader-spinner": "^5.3.3",

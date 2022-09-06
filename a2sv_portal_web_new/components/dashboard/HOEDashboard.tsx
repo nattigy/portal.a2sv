@@ -1,53 +1,57 @@
 import React, { useEffect, useState } from "react";
 import useAllUsers from "../../lib/hooks/useUsers";
-import { UserRoleType } from "../../types/user";
 import StudentLayout from "../common/StudentLayout";
-import ConsistencyDiagramItem, { ProblemSolvedProps } from "./ConsistencyDiagram";
+import ConsistencyDiagramItem, {
+  ProblemSolvedProps,
+} from "./ConsistencyDiagram";
 import DashboardRankItem, { DashboardRankItemProps } from "./DashboardRankItem";
 import DashboardStruggledItem from "./DashboardStruggledItem";
-import DashboardTopicItem, { DashboradTopicItemProps } from "./DashboardTopicItem";
+import DashboardTopicItem, {
+  DashboradTopicItemProps,
+} from "./DashboardTopicItem";
+import HOEChart from "./HOEChart";
 import ProblemSolvedItem from "./ProblemSolvedItem";
 
 type Props = {};
 const DashboradTopic: DashboradTopicItemProps[] = [
-    {
-      questions: 10,
-      topicName: "Dynamic Programming",
-    },
-    {
-      questions: 20,
-      topicName: "Sliding Window",
-    },
-    {
-      questions: 34,
-      topicName: "Bit Manipulation",
-    },
-    {
-      questions: 15,
-      topicName: "Queue",
-    },
-  ];
-  const strugglingWith: { percent: number; name: string }[] = [
-    { percent: 10, name: "Dynamic Programming" },
-    { percent: 20, name: "Sliding Window" },
-    { percent: 34, name: "Bit Manipulation" },
-    { percent: 5, name: "Queue" },
-  ];
-  const problemStat: ProblemSolvedProps = {
-    problems: 389,
-    wrong: 459,
-    minutes: 4554,
-    easy: 239,
-    medium: 104,
-    hard: 46,
-  };
+  {
+    questions: 10,
+    topicName: "Dynamic Programming",
+  },
+  {
+    questions: 20,
+    topicName: "Sliding Window",
+  },
+  {
+    questions: 34,
+    topicName: "Bit Manipulation",
+  },
+  {
+    questions: 15,
+    topicName: "Queue",
+  },
+];
+const strugglingWith: { percent: number; name: string }[] = [
+  { percent: 10, name: "Dynamic Programming" },
+  { percent: 20, name: "Sliding Window" },
+  { percent: 34, name: "Bit Manipulation" },
+  { percent: 5, name: "Queue" },
+];
+const problemStat: ProblemSolvedProps = {
+  problems: 389,
+  wrong: 459,
+  minutes: 4554,
+  easy: 239,
+  medium: 104,
+  hard: 46,
+};
 
-  const rankList: DashboardRankItemProps[] = [
-    { rankType: "Daily", totalStudents: 30, userRank: 2 },
-    { rankType: "Weekly", totalStudents: 30, userRank: 1 },
-    { rankType: "Monthly", totalStudents: 30, userRank: 3 },
-    { rankType: "Overall", totalStudents: 30, userRank: 5 },
-  ];
+const rankList: DashboardRankItemProps[] = [
+  { rankType: "Daily", totalStudents: 30, userRank: 2 },
+  { rankType: "Weekly", totalStudents: 30, userRank: 1 },
+  { rankType: "Monthly", totalStudents: 30, userRank: 3 },
+  { rankType: "Overall", totalStudents: 30, userRank: 5 },
+];
 
 const HOEDashboard = (props: Props) => {
   const [filter, setFilter] = useState("all");
@@ -89,13 +93,10 @@ const HOEDashboard = (props: Props) => {
     <StudentLayout>
       <div className="flex flex-col gap-y-4">
         <p className="text-[rgb(103,103,103)] font-semibold">Student Stats</p>
-       
       </div>
-
-      <div>
-        {/* <h1 className="text-2xl font-bold mb-2">Users</h1>
-                <UsersFilter handleTabChange={handleTabChange} activeIndex={tabIndex} />
-                <UsersList users={usersData} /> */}
+      <div className="w-fit bg-white p-4">
+        <h2 className="font-semibold">Submission Report</h2>
+        <HOEChart />
       </div>
     </StudentLayout>
   );
