@@ -31,33 +31,33 @@ class UserRepository {
   }
 
   Future<User?> login(LoginInput loginInput) async {
-    // final QueryOptions options = QueryOptions(
-    //   document: gql(LOGIN),
-    //   variables: <String, dynamic>{
-    //     "loginInput": {
-    //       'email': loginInput.email,
-    //       'password': loginInput.password,
-    //     }
-    //   },
-    // );
-    // final QueryResult result = await client.query(options);
-    // if (result.hasException) {
-    //   throw Exception(result.exception);
-    // }
-    // await persistToken(result.data?['login']['accessToken']);
-    // User user = User.fromJson(result.data?['login']['userId']);
-    // await persistToken("wassap token");
-    // User user = await getUser();
-    const user = User(
-      email: "abe@gmail.com",
-      firstName: "Abe",
-      id: "001",
-      lastName: "Kebe",
-      middleName: "beke",
-      password: "123561",
-      phoneNumber: "11212",
+    final QueryOptions options = QueryOptions(
+      document: gql(LOGIN),
+      variables: <String, dynamic>{
+        "loginInput": {
+          'email': loginInput.email,
+          'password': loginInput.password,
+        }
+      },
     );
+    final QueryResult result = await client.query(options);
+    if (result.hasException) {
+      throw Exception(result.exception);
+    }
+    await persistToken(result.data?['login']['accessToken']);
+    // User user = User.fromJson(result.data?['login']['userId']);
+    User user = await getUser();
     await persistUser(user);
+    // const user = User(
+    //   email: "abe@gmail.com",
+    //   firstName: "Abe",
+    //   id: "001",
+    //   lastName: "Kebe",
+    //   middleName: "beke",
+    //   password: "123561",
+    //   phoneNumber: "11212",
+    // );
+    // await persistUser(user);
     return user;
   }
 

@@ -1,10 +1,10 @@
 String GET_USER = r"""
 query GetMe {
   getMe {
-    createdAt
     email
-    groupId
-    id
+    group {
+      id
+    }
     role
     status
     updatedAt

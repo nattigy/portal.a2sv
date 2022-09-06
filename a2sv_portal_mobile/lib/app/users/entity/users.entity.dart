@@ -20,18 +20,31 @@ class User extends Equatable {
   });
 
   @override
-  List<Object> get props => ['id'];
+  List<Object?> get props =>
+      [id, firstName, middleName, lastName, email, phoneNumber, password];
 
   static const empty = User();
 
   factory User.fromJson(Map<String, dynamic> data) {
-    return User();
+    return User(
+      email: data["email"],
+      firstName: "First name ",
+      lastName: "Last name",
+      middleName: "Middle name",
+      id: "1",
+      password: "123456",
+      phoneNumber: "123456",
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'firstName': firstName,
+      "lastName": lastName,
+      "middleName": middleName,
+      "password": password,
+      "phoneNumber": phoneNumber,
     };
   }
 }
