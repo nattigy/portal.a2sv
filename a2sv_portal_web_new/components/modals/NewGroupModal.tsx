@@ -63,6 +63,7 @@ const NewGroupModal = (props: Props) => {
               notifyOnNetworkStatusChange: true,
               onCompleted: (data) => {
                 setIsLoading(false)
+                props.onClose()
               },
               onError: (error) => {
                 setErrorMessage((error as ApolloError).message);
@@ -78,7 +79,7 @@ const NewGroupModal = (props: Props) => {
               <div
                 role="alert"
                 className="flex flex-col gap-y-3 min-h-[400px] bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-8 py-5"
-              >
+                >
                 <div className="w-full flex flex-col items-center">
                   <div className="my-3 w-full flex justify-between items-center">
                     <h2 className="font-semibold text-lg">Create New Group</h2>
@@ -143,13 +144,11 @@ const NewGroupModal = (props: Props) => {
                       <div className="flex items-center">
                         <div className="bg-white dark:bg-gray-100 rounded-full w-full h-8 flex flex-shrink-0 justify-start items-center relative">
                           <div className="absolute left-3">
-                            <img src={getNationality(selected)} className="w-6 rounded-full" alt="" />
+                            <img src={getNationality(values.country)} className="w-6 rounded-full" alt="" />
                           </div>
                           <Field
                             as="select"
                             name="country"
-                            value={selected}
-                            onChange={onSelect}
                             className={clsx(
                               "w-full h-12 px-10 border rounded-md text-sm text-[#949494]",
                               touched.country && errors.country

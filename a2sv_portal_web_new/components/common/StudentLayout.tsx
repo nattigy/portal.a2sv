@@ -4,14 +4,19 @@ import clsx from "clsx";
 import CustomLink from "./CustomLink";
 import { useRouter } from "next/router";
 import { GiCampfire } from "react-icons/gi";
-import { TiGroupOutline } from "react-icons/ti"
-import { HiUsers, HiOutlineNewspaper } from "react-icons/hi"
-import { ImMakeGroup } from "react-icons/im"
+import { TiGroupOutline } from "react-icons/ti";
+import { HiUsers, HiOutlineNewspaper } from "react-icons/hi";
+import { ImMakeGroup } from "react-icons/im";
 import { useMutation, useReactiveVar } from "@apollo/client";
 
-import { LOGOUT_MUTATION, SIGN_IN_MUTATION } from "../../lib/apollo/Mutations/authMutations";
+import {
+  LOGOUT_MUTATION,
+  SIGN_IN_MUTATION,
+} from "../../lib/apollo/Mutations/authMutations";
 import useLogout from "../../lib/hooks/useLogout";
-import authenticatedVar, { authenticatedUser } from "../../lib/constants/authenticated";
+import authenticatedVar, {
+  authenticatedUser,
+} from "../../lib/constants/authenticated";
 import { useApollo } from "../../lib/apollo/apolloClient";
 import { GraphqlUserRole } from "../../types/user";
 interface LayoutProps extends WithChildren {
@@ -26,51 +31,48 @@ type NavItem = {
 
 const StudentLayout = ({ sidebar, children }: LayoutProps) => {
   const [activePath, setActivePath] = useState("");
-  const authUser = useReactiveVar(authenticatedUser)
+  const authUser = useReactiveVar(authenticatedUser);
 
-  const apolloClient = useApollo({})
-  const [logout] = useLogout()
+  const apolloClient = useApollo({});
+  const [logout] = useLogout();
   const router = useRouter();
 
   useEffect(() => {
     setActivePath(router.pathname);
   }, [router.pathname]);
 
-
   const handleLogout = async () => {
     try {
       await logout({
         errorPolicy: "all",
-        variables: {
-        },
-        onError: (error) => {
-
-        },
+        variables: {},
+        onError: (error) => {},
         onCompleted: async () => {
-          authenticatedUser({})
-          authenticatedVar(false)
-          router.replace("/auth")
-          await apolloClient.resetStore()
-        }
-      })
+          authenticatedUser({});
+          authenticatedVar(false);
+          router.replace("/auth");
+          await apolloClient.resetStore();
+        },
+      });
     } catch (error) {
-      authenticatedUser({})
-      authenticatedVar(false)
-      await apolloClient.resetStore()
-
+      authenticatedUser({});
+      authenticatedVar(false);
+      await apolloClient.resetStore();
     }
+  };
 
-  }
-
-
-  const SideNavigations = ({ user }: {
+  const SideNavigations = ({
+    user,
+  }: {
     user: {
-      id: string,
-      role: string, status: string
-      email: string,
-    }
+      id: string;
+      role: string;
+      status: string;
+      email: string;
+    };
   }) => {
-    const userRole: string = GraphqlUserRole.HEAD_OF_EDUCATION
+    const userRole: string = user.role;
+
     switch (userRole) {
       case GraphqlUserRole.STUDENT: {
         return (
@@ -80,7 +82,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 href="#"
                 className={clsx(
                   activePath.includes("/dashboard") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700  fill-current  ",
+                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700  fill-current  ",
                   " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group"
                 )}
               >
@@ -88,7 +90,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                   className={clsx(
                     "w-6 h-6 hover:text-white ",
                     activePath.includes("/dashboard") &&
-                    "fill-current text-indigo-700 "
+                      "fill-current text-indigo-700 "
                   )}
                   xmlns="http://www.w3.org/2000/svg"
                   aria-hidden="true"
@@ -104,14 +106,14 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 className={clsx(
                   " flex items-center justify-center  p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                   activePath.includes("/education") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                 )}
               >
                 <svg
                   className={clsx(
                     "w-6 h-6 hover:text-white ",
                     activePath.includes("/education") &&
-                    "fill-current text-indigo-700"
+                      "fill-current text-indigo-700"
                   )}
                   viewBox="0 0 25 25"
                   fill="none"
@@ -130,7 +132,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 className={clsx(
                   " flex items-center justify-center  p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                   activePath.includes("/camp") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                 )}
               >
                 <GiCampfire size={28} />
@@ -142,7 +144,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 className={clsx(
                   " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                   activePath.includes("/contests") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                 )}
               >
                 <svg
@@ -189,14 +191,14 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 className={clsx(
                   " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 ",
                   activePath.includes("/personal-status") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                 )}
               >
                 <svg
                   className={clsx(
                     "w-6 h-6 hover:text-white ",
                     activePath.includes("/personal-status") &&
-                    "fill-current text-indigo-700"
+                      "fill-current text-indigo-700"
                   )}
                   viewBox="0 0 26 27"
                   fill="none"
@@ -215,7 +217,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 className={clsx(
                   " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                   activePath.includes("/settings") &&
-                  "fill current bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700",
+                    "fill current bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700",
                   "hover:text-white "
                 )}
               >
@@ -223,7 +225,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                   className={clsx(
                     "w-6 h-6 hover:text-white ",
                     activePath.includes("/settings") &&
-                    "fill-current text-indigo-700 ",
+                      "fill-current text-indigo-700 ",
                     "hover:text-white "
                   )}
                   viewBox="0 0 27 27"
@@ -247,7 +249,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
               </a>
             </CustomLink>
           </nav>
-        )
+        );
       }
       case GraphqlUserRole.HEAD_OF_EDUCATION: {
         return (
@@ -257,7 +259,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 href="#"
                 className={clsx(
                   activePath.includes("/dashboard") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700  fill-current  ",
+                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700  fill-current  ",
                   " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group"
                 )}
               >
@@ -265,7 +267,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                   className={clsx(
                     "w-6 h-6 hover:text-white ",
                     activePath.includes("/dashboard") &&
-                    "fill-current text-indigo-700 "
+                      "fill-current text-indigo-700 "
                   )}
                   xmlns="http://www.w3.org/2000/svg"
                   aria-hidden="true"
@@ -282,7 +284,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 className={clsx(
                   " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                   activePath.includes("/users") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                 )}
               >
                 <TiGroupOutline size={26} />
@@ -330,7 +332,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 className={clsx(
                   " flex items-center justify-center  p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                   activePath.includes("/topics") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                 )}
               >
                 <HiOutlineNewspaper size={26} />
@@ -358,7 +360,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 className={clsx(
                   " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 ",
                   activePath.includes("/group") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                 )}
               >
                 <ImMakeGroup size={26} />
@@ -385,7 +387,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 className={clsx(
                   " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                   activePath.includes("/settings") &&
-                  "fill current bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700",
+                    "fill current bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700",
                   "hover:text-white "
                 )}
               >
@@ -393,7 +395,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                   className={clsx(
                     "w-6 h-6 hover:text-white ",
                     activePath.includes("/settings") &&
-                    "fill-current text-indigo-700 ",
+                      "fill-current text-indigo-700 ",
                     "hover:text-white "
                   )}
                   viewBox="0 0 27 27"
@@ -417,7 +419,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
               </a>
             </CustomLink>
           </nav>
-        )
+        );
       }
       case GraphqlUserRole.HEAD_OF_ACADEMY: {
         return (
@@ -427,7 +429,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 href="#"
                 className={clsx(
                   activePath.includes("/dashboard") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700  fill-current  ",
+                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700  fill-current  ",
                   " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group"
                 )}
               >
@@ -435,7 +437,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                   className={clsx(
                     "w-6 h-6 hover:text-white ",
                     activePath.includes("/dashboard") &&
-                    "fill-current text-indigo-700 "
+                      "fill-current text-indigo-700 "
                   )}
                   xmlns="http://www.w3.org/2000/svg"
                   aria-hidden="true"
@@ -445,19 +447,20 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 </svg>
               </a>
             </CustomLink>
-            <CustomLink href="/education">
+            <CustomLink href="/topics">
               <a
                 href="#"
                 className={clsx(
                   " flex items-center justify-center  p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
-                  activePath.includes("/education") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                  activePath.includes("/topics") &&
+                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                 )}
               >
-                <svg
+                <HiOutlineNewspaper size={26} />
+                {/* <svg
                   className={clsx(
                     "w-6 h-6 hover:text-white ",
-                    activePath.includes("/education") &&
+                    activePath.includes("/topics") &&
                     "fill-current text-indigo-700"
                   )}
                   viewBox="0 0 25 25"
@@ -468,19 +471,34 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                     d="M12.5906 0C5.81103 0 0.181112 4.91986 0.181112 11.1105C0.181112 14.0232 1.5438 16.5832 3.57088 18.5486C3.49243 19.6746 2.92876 20.3479 2.14911 21.0085C1.72975 21.3621 1.26584 21.6934 0.847443 22.1015C0.429049 22.5095 1.49048e-06 23.0633 1.49048e-06 23.8308C-0.000375577 24.0465 0.0708012 24.2562 0.202315 24.4268C0.333829 24.5974 0.518202 24.7193 0.72638 24.7732C2.54523 25.2619 4.50355 24.9015 6.29528 24.2563C7.90881 23.6754 9.27052 22.8156 10.3514 21.98C11.0816 22.1005 11.8177 22.1918 12.5906 22.1918C19.3701 22.1918 25 17.3011 25 11.1105C25 4.92083 19.3701 0 12.5906 0ZM12.5906 1.94307C18.4461 1.94307 23.063 6.11096 23.063 11.1115C23.063 16.1129 18.4461 20.2497 12.5906 20.2497C11.8303 20.2497 11.102 20.2041 10.3814 20.0681C10.2403 20.0351 10.0936 20.0343 9.95211 20.0657C9.81064 20.0972 9.678 20.16 9.56398 20.2497C8.68942 20.9871 7.22214 21.8732 5.65994 22.4357C4.69725 22.7825 3.72293 22.9409 2.81447 22.9827C3.01786 22.8175 3.1796 22.7009 3.41979 22.4969C4.39507 21.6711 5.5689 20.344 5.5689 18.3368C5.56824 18.1985 5.53818 18.062 5.48073 17.9364C5.42327 17.8107 5.33975 17.6988 5.23573 17.6081C3.29873 15.9313 2.11909 13.6462 2.11909 11.1115C2.11909 6.10902 6.73498 1.94307 12.5906 1.94307Z"
                     fill="currentColor"
                   />
-                </svg>
+                </svg> */}
               </a>
             </CustomLink>
-            <CustomLink href="/camp">
+            <CustomLink href="/groups">
               <a
                 href="#"
                 className={clsx(
-                  " flex items-center justify-center  p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
-                  activePath.includes("/camp") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                  " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 ",
+                  activePath.includes("/group") &&
+                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                 )}
               >
-                <GiCampfire size={28} />
+                <ImMakeGroup size={26} />
+                {/* <svg
+                  className={clsx(
+                    "w-6 h-6 hover:text-white ",
+                    activePath.includes("/group") &&
+                    "fill-current text-indigo-700"
+                  )}
+                  viewBox="0 0 26 27"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12.906 0.00448758C12.8637 0.0121243 12.822 0.0224791 12.781 0.0354876C12.5552 0.0860893 12.354 0.213411 12.2116 0.395757C12.0692 0.578102 11.9944 0.804188 12 1.03549V2.03549H3C2.20435 2.03549 1.44129 2.35156 0.87868 2.91417C0.31607 3.47678 0 4.23984 0 5.03549L0 18.0355C0 19.6915 1.344 21.0355 3 21.0355H12V21.4105L6.562 24.1295C6.32171 24.2455 6.13736 24.4523 6.0495 24.7042C5.96164 24.9562 5.97747 25.2327 6.0935 25.473C6.20953 25.7133 6.41627 25.8976 6.66822 25.9855C6.92018 26.0733 7.19671 26.0575 7.437 25.9415L12 23.6605V24.0355C12 24.3007 12.1054 24.5551 12.2929 24.7426C12.4804 24.9301 12.7348 25.0355 13 25.0355C13.2652 25.0355 13.5196 24.9301 13.7071 24.7426C13.8946 24.5551 14 24.3007 14 24.0355V23.6605L18.563 25.9415C18.8033 26.0575 19.0798 26.0733 19.3318 25.9855C19.5837 25.8976 19.7905 25.7133 19.9065 25.473C20.0225 25.2327 20.0384 24.9562 19.9505 24.7042C19.8626 24.4523 19.6783 24.2455 19.438 24.1295L14 21.4105V21.0355H23C24.656 21.0355 26 19.6915 26 18.0355V5.03549C26 4.23984 25.6839 3.47678 25.1213 2.91417C24.5587 2.35156 23.7956 2.03549 23 2.03549H14V1.03549C14.005 0.893285 13.9797 0.751643 13.9256 0.620024C13.8716 0.488404 13.79 0.369839 13.6865 0.272249C13.5829 0.17466 13.4597 0.100293 13.3251 0.054118C13.1905 0.00794282 13.0477 -0.00897747 12.906 0.00448758ZM2 5.03549H24V18.0355H2V5.03549ZM20.875 6.03549C20.651 6.05957 20.4417 6.15858 20.281 6.31649L17 9.59849L14.719 7.31549C14.6098 7.2034 14.4757 7.11852 14.3277 7.06767C14.1797 7.01682 14.0218 7.00143 13.8667 7.02274C13.7117 7.04404 13.5638 7.10144 13.435 7.19033C13.3061 7.27921 13.2 7.39709 13.125 7.53449L10.156 12.7225L8.937 9.65949C8.87781 9.50134 8.77953 9.36075 8.65132 9.25084C8.52312 9.14093 8.36918 9.06528 8.20384 9.03093C8.0385 8.99658 7.86716 9.00467 7.70579 9.05443C7.54443 9.10418 7.39828 9.194 7.281 9.31549L4.281 12.3155C4.18645 12.41 4.11143 12.5222 4.06024 12.6456C4.00904 12.7691 3.98267 12.9015 3.98262 13.0351C3.98257 13.1688 4.00886 13.3012 4.05997 13.4247C4.11108 13.5482 4.18601 13.6604 4.2805 13.755C4.37499 13.8495 4.48717 13.9246 4.61065 13.9758C4.73412 14.0269 4.86648 14.0533 5.00015 14.0534C5.13382 14.0534 5.26619 14.0271 5.3897 13.976C5.51321 13.9249 5.62545 13.85 5.72 13.7555L7.626 11.8495L9.064 15.4115C9.13187 15.5901 9.2495 15.7456 9.40298 15.8595C9.55645 15.9733 9.73934 16.0408 9.92999 16.054C10.1206 16.0671 10.3111 16.0254 10.4787 15.9337C10.6464 15.8419 10.7842 15.7041 10.876 15.5365L14.22 9.69249L16.282 11.7555C16.3753 11.852 16.487 11.9287 16.6105 11.9811C16.734 12.0335 16.8668 12.0605 17.001 12.0605C17.1352 12.0605 17.268 12.0335 17.3915 11.9811C17.515 11.9287 17.6267 11.852 17.72 11.7555L21.72 7.75549C21.878 7.60924 21.9845 7.41593 22.0238 7.20428C22.0631 6.99263 22.0331 6.77394 21.9382 6.58073C21.8433 6.38752 21.6885 6.23009 21.497 6.13186C21.3054 6.03363 21.0873 5.99983 20.875 6.03549Z"
+                    fill="currentColor"
+                  />
+                </svg> */}
               </a>
             </CustomLink>
             <CustomLink href="/contests">
@@ -489,7 +507,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 className={clsx(
                   " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                   activePath.includes("/contests") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                 )}
               >
                 <svg
@@ -530,39 +548,13 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 </svg>
               </a>
             </CustomLink>
-            <CustomLink href="/personal-status">
-              <a
-                href="#"
-                className={clsx(
-                  " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 ",
-                  activePath.includes("/personal-status") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
-                )}
-              >
-                <svg
-                  className={clsx(
-                    "w-6 h-6 hover:text-white ",
-                    activePath.includes("/personal-status") &&
-                    "fill-current text-indigo-700"
-                  )}
-                  viewBox="0 0 26 27"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.906 0.00448758C12.8637 0.0121243 12.822 0.0224791 12.781 0.0354876C12.5552 0.0860893 12.354 0.213411 12.2116 0.395757C12.0692 0.578102 11.9944 0.804188 12 1.03549V2.03549H3C2.20435 2.03549 1.44129 2.35156 0.87868 2.91417C0.31607 3.47678 0 4.23984 0 5.03549L0 18.0355C0 19.6915 1.344 21.0355 3 21.0355H12V21.4105L6.562 24.1295C6.32171 24.2455 6.13736 24.4523 6.0495 24.7042C5.96164 24.9562 5.97747 25.2327 6.0935 25.473C6.20953 25.7133 6.41627 25.8976 6.66822 25.9855C6.92018 26.0733 7.19671 26.0575 7.437 25.9415L12 23.6605V24.0355C12 24.3007 12.1054 24.5551 12.2929 24.7426C12.4804 24.9301 12.7348 25.0355 13 25.0355C13.2652 25.0355 13.5196 24.9301 13.7071 24.7426C13.8946 24.5551 14 24.3007 14 24.0355V23.6605L18.563 25.9415C18.8033 26.0575 19.0798 26.0733 19.3318 25.9855C19.5837 25.8976 19.7905 25.7133 19.9065 25.473C20.0225 25.2327 20.0384 24.9562 19.9505 24.7042C19.8626 24.4523 19.6783 24.2455 19.438 24.1295L14 21.4105V21.0355H23C24.656 21.0355 26 19.6915 26 18.0355V5.03549C26 4.23984 25.6839 3.47678 25.1213 2.91417C24.5587 2.35156 23.7956 2.03549 23 2.03549H14V1.03549C14.005 0.893285 13.9797 0.751643 13.9256 0.620024C13.8716 0.488404 13.79 0.369839 13.6865 0.272249C13.5829 0.17466 13.4597 0.100293 13.3251 0.054118C13.1905 0.00794282 13.0477 -0.00897747 12.906 0.00448758ZM2 5.03549H24V18.0355H2V5.03549ZM20.875 6.03549C20.651 6.05957 20.4417 6.15858 20.281 6.31649L17 9.59849L14.719 7.31549C14.6098 7.2034 14.4757 7.11852 14.3277 7.06767C14.1797 7.01682 14.0218 7.00143 13.8667 7.02274C13.7117 7.04404 13.5638 7.10144 13.435 7.19033C13.3061 7.27921 13.2 7.39709 13.125 7.53449L10.156 12.7225L8.937 9.65949C8.87781 9.50134 8.77953 9.36075 8.65132 9.25084C8.52312 9.14093 8.36918 9.06528 8.20384 9.03093C8.0385 8.99658 7.86716 9.00467 7.70579 9.05443C7.54443 9.10418 7.39828 9.194 7.281 9.31549L4.281 12.3155C4.18645 12.41 4.11143 12.5222 4.06024 12.6456C4.00904 12.7691 3.98267 12.9015 3.98262 13.0351C3.98257 13.1688 4.00886 13.3012 4.05997 13.4247C4.11108 13.5482 4.18601 13.6604 4.2805 13.755C4.37499 13.8495 4.48717 13.9246 4.61065 13.9758C4.73412 14.0269 4.86648 14.0533 5.00015 14.0534C5.13382 14.0534 5.26619 14.0271 5.3897 13.976C5.51321 13.9249 5.62545 13.85 5.72 13.7555L7.626 11.8495L9.064 15.4115C9.13187 15.5901 9.2495 15.7456 9.40298 15.8595C9.55645 15.9733 9.73934 16.0408 9.92999 16.054C10.1206 16.0671 10.3111 16.0254 10.4787 15.9337C10.6464 15.8419 10.7842 15.7041 10.876 15.5365L14.22 9.69249L16.282 11.7555C16.3753 11.852 16.487 11.9287 16.6105 11.9811C16.734 12.0335 16.8668 12.0605 17.001 12.0605C17.1352 12.0605 17.268 12.0335 17.3915 11.9811C17.515 11.9287 17.6267 11.852 17.72 11.7555L21.72 7.75549C21.878 7.60924 21.9845 7.41593 22.0238 7.20428C22.0631 6.99263 22.0331 6.77394 21.9382 6.58073C21.8433 6.38752 21.6885 6.23009 21.497 6.13186C21.3054 6.03363 21.0873 5.99983 20.875 6.03549Z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </a>
-            </CustomLink>
             <CustomLink href="/settings">
               <a
                 href="#"
                 className={clsx(
                   " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                   activePath.includes("/settings") &&
-                  "fill current bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700",
+                    "fill current bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700",
                   "hover:text-white "
                 )}
               >
@@ -570,7 +562,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                   className={clsx(
                     "w-6 h-6 hover:text-white ",
                     activePath.includes("/settings") &&
-                    "fill-current text-indigo-700 ",
+                      "fill-current text-indigo-700 ",
                     "hover:text-white "
                   )}
                   viewBox="0 0 27 27"
@@ -594,7 +586,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
               </a>
             </CustomLink>
           </nav>
-        )
+        );
       }
       default: {
         return (
@@ -604,7 +596,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 href="#"
                 className={clsx(
                   activePath.includes("/dashboard") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700  fill-current  ",
+                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700  fill-current  ",
                   " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group"
                 )}
               >
@@ -612,7 +604,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                   className={clsx(
                     "w-6 h-6 hover:text-white ",
                     activePath.includes("/dashboard") &&
-                    "fill-current text-indigo-700 "
+                      "fill-current text-indigo-700 "
                   )}
                   xmlns="http://www.w3.org/2000/svg"
                   aria-hidden="true"
@@ -628,14 +620,14 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 className={clsx(
                   " flex items-center justify-center  p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                   activePath.includes("/education") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                 )}
               >
                 <svg
                   className={clsx(
                     "w-6 h-6 hover:text-white ",
                     activePath.includes("/education") &&
-                    "fill-current text-indigo-700"
+                      "fill-current text-indigo-700"
                   )}
                   viewBox="0 0 25 25"
                   fill="none"
@@ -654,7 +646,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 className={clsx(
                   " flex items-center justify-center  p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                   activePath.includes("/camp") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                 )}
               >
                 <GiCampfire size={28} />
@@ -666,7 +658,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 className={clsx(
                   " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                   activePath.includes("/contests") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                 )}
               >
                 <svg
@@ -713,14 +705,14 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 className={clsx(
                   " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 ",
                   activePath.includes("/personal-status") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                 )}
               >
                 <svg
                   className={clsx(
                     "w-6 h-6 hover:text-white ",
                     activePath.includes("/personal-status") &&
-                    "fill-current text-indigo-700"
+                      "fill-current text-indigo-700"
                   )}
                   viewBox="0 0 26 27"
                   fill="none"
@@ -739,7 +731,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 className={clsx(
                   " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                   activePath.includes("/settings") &&
-                  "fill current bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700",
+                    "fill current bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700",
                   "hover:text-white "
                 )}
               >
@@ -747,7 +739,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                   className={clsx(
                     "w-6 h-6 hover:text-white ",
                     activePath.includes("/settings") &&
-                    "fill-current text-indigo-700 ",
+                      "fill-current text-indigo-700 ",
                     "hover:text-white "
                   )}
                   viewBox="0 0 27 27"
@@ -771,11 +763,10 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
               </a>
             </CustomLink>
           </nav>
-        )
+        );
       }
     }
-  }
-
+  };
 
   return (
     <div className="flex flex-1 bg-[#F6F6FC] min-h-screen">
@@ -808,9 +799,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
 
           <div className="min-h-full flex flex-col flex-1 mt-6">
             <div className="flex-1 h-full space-y-4">
-              {
-                <SideNavigations user={authUser as any} />
-              }
+              {<SideNavigations user={authUser as any} />}
             </div>
 
             <div className="pb-4 flex flex-col gap-y-5 items-center justify-center">
