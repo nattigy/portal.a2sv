@@ -16,7 +16,7 @@ export class User {
   status: Status
   @Field(() => Group, { nullable: true })
   group?: Group
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   groupId?: number
   @Field(() => [GroupTopicProblem], { nullable: true })
   groupTopicProblems?: GroupTopicProblem[]

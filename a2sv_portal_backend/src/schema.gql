@@ -26,9 +26,9 @@ input CreateRoleInput {
 }
 
 input CreateSeasonInput {
-  endDate: DateTime = "2022-09-05T12:56:24.986Z"
+  endDate: DateTime = "2022-09-06T09:49:52.308Z"
   name: String!
-  startDate: DateTime = "2022-09-05T12:56:24.986Z"
+  startDate: DateTime = "2022-09-06T09:49:52.308Z"
 }
 
 input CreateTagInput {
@@ -45,7 +45,7 @@ input CreateTopicInput {
 
 input CreateUserInput {
   email: String!
-  group: CreateGroupInput
+  group: UpdateGroupInput
   password: String!
   role: RoleEnum = STUDENT
 }
@@ -168,7 +168,7 @@ type Query {
   topic(id: Int!): Topic!
   topics: [Topic!]!
   user(id: Int!): User!
-  users(skip: Int, take: Int, where: WhereUserFilter): [User!]!
+  users(Role: String, Status: String, email: String, groupId: Float, skip: Int, take: Int): [User!]!
   welcome: String!
 }
 
@@ -248,9 +248,9 @@ input UpdateRoleInput {
 }
 
 input UpdateSeasonInput {
-  endDate: DateTime = "2022-09-05T12:56:24.986Z"
+  endDate: DateTime = "2022-09-06T09:49:52.308Z"
   name: String
-  startDate: DateTime = "2022-09-05T12:56:24.986Z"
+  startDate: DateTime = "2022-09-06T09:49:52.308Z"
 }
 
 input UpdateTagInput {
@@ -269,7 +269,8 @@ input UpdateTopicInput {
 
 input UpdateUserInput {
   email: String
-  group: CreateGroupInput
+  group: UpdateGroupInput
+  groupId: Int
   id: Int!
   password: String
   role: RoleEnum = STUDENT
@@ -279,16 +280,11 @@ type User {
   createdAt: DateTime
   email: String!
   group: Group
-  groupId: Int!
+  groupId: Int
   groupTopicProblems: [GroupTopicProblem!]
   headToGroup: Group
   id: ID!
   role: RoleEnum!
   status: Status!
   updatedAt: DateTime
-}
-
-input WhereUserFilter {
-  Status: String
-  email: String
 }
