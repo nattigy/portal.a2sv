@@ -4,6 +4,8 @@ export type DashboardRankItemProps = {
   rankType: string;
   userRank: number;
   totalStudents: number;
+  activeColor: string;
+  inactiveColor: string;
 };
 const height = [24, 30, 34, 29, 24, 28, 22, 23, 22, 24];
 
@@ -24,9 +26,10 @@ const DashboardRankItem = (props: DashboardRankItemProps) => {
             key={index}
             style={{
               height: item,
-              background: index == clicked ? "#5956E9" : "#E9E3FE99",
+              background:
+                index == clicked ? props.activeColor : props.inactiveColor,
             }}
-            className="w-2 rounded-sm bg-[#E9E3FE99]"
+            className="w-2 rounded-sm hover:mb-0.5"
             onClick={() => setClickedIndex(index)}
           ></div>
         ))}

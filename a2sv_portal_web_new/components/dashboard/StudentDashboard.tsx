@@ -6,7 +6,9 @@ import ConsistencyDiagramItem from "./ConsistencyDiagram";
 import ContestStatItem from "./ContestStatItem";
 import DashboardRankItem, { DashboardRankItemProps } from "./DashboardRankItem";
 import DashboardStruggledItem from "./DashboardStruggledItem";
-import DashboardTopicItem, { DashboradTopicItemProps } from "./DashboardTopicItem";
+import DashboardTopicItem, {
+  DashboradTopicItemProps,
+} from "./DashboardTopicItem";
 import ProblemSolvedItem, { ProblemSolvedProps } from "./ProblemSolvedItem";
 
 type Props = {};
@@ -56,10 +58,34 @@ const StudentDashboard = (props: Props) => {
   };
 
   const rankList: DashboardRankItemProps[] = [
-    { rankType: "Daily", totalStudents: 30, userRank: 2 },
-    { rankType: "Weekly", totalStudents: 30, userRank: 1 },
-    { rankType: "Monthly", totalStudents: 30, userRank: 3 },
-    { rankType: "Overall", totalStudents: 30, userRank: 5 },
+    {
+      rankType: "Daily",
+      totalStudents: 30,
+      userRank: 2,
+      activeColor: "#5956E9",
+      inactiveColor: "#E9E3FE99",
+    },
+    {
+      rankType: "Weekly",
+      totalStudents: 30,
+      userRank: 1,
+      activeColor: "#5956E9",
+      inactiveColor: "#E9E3FE99",
+    },
+    {
+      rankType: "Monthly",
+      totalStudents: 30,
+      userRank: 3,
+      activeColor: "#5956E9",
+      inactiveColor: "#E9E3FE99",
+    },
+    {
+      rankType: "Overall",
+      totalStudents: 30,
+      userRank: 5,
+      activeColor: "#5956E9",
+      inactiveColor: "#E9E3FE99",
+    },
   ];
   const Sidebar: React.FC = () => {
     return (
