@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { LoaderSmall } from '../../components/common/Loaders';
 import StudentLayout from '../../components/common/StudentLayout';
-import UserRank from '../../components/dashboard/UserRank';
-import UsersFilter from '../../components/dashboard/UsersFilter';
-import UsersList from '../../components/dashboard/UsersList';
 import NewUserModal from '../../components/modals/NewUserModal';
+import UserRank from '../../components/users/UserRank';
+import UsersFilter from '../../components/users/UsersFilter';
+import UsersList from '../../components/users/UsersList';
 import useAllUsers from '../../lib/hooks/useUsers';
 
 type Props = {}

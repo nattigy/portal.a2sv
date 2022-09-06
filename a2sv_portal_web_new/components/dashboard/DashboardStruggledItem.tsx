@@ -1,6 +1,6 @@
 import React from "react";
 
-const PersonalStruggledItem = (props: { percent: number; name: string }) => {
+const DashboardStruggledItem = (props: { percent: number; name: string }) => {
   return (
     <div>
       <div
@@ -15,4 +15,4 @@ const PersonalStruggledItem = (props: { percent: number; name: string }) => {
   );
 };
 
-export default PersonalStruggledItem;
+export default DashboardStruggledItem;

@@ -1,27 +1,24 @@
-import React, { useState } from 'react'
-import StudentLayout from '../common/StudentLayout'
-import UserRank from './UserRank'
-import UsersFilter from './UsersFilter'
-import UsersList from './UsersList'
+import React, { useState } from "react";
+import StudentLayout from "../common/StudentLayout";
 
-type Props = {}
+type Props = {};
 
 const HOADashboard = (props: Props) => {
-    const Sidebar: React.FC = () => {
-        return <UserRank />;
-    };
-    const [tabIndex, setTabIndex] = useState(0);
-    const handleTabChange = (index: number) => {
-        setTabIndex(index);
-    };
+  const Sidebar: React.FC = () => {
+    return <div></div>;
+  };
+  const [tabIndex, setTabIndex] = useState(0);
+  const handleTabChange = (index: number) => {
+    setTabIndex(index);
+  };
 
-    return (
-        <StudentLayout>
-            <div>
-                <h1 className="text-2xl font-bold mb-2">HOA Dashboard</h1>
-            </div>
-        </StudentLayout>
-    )
-}
+  return (
+    <StudentLayout>
+      <div>
+        <h1 className="text-2xl font-bold mb-2">HOA Dashboard</h1>
+      </div>
+    </StudentLayout>
+  );
+};
 
-export default HOADashboard
+export default HOADashboard;
