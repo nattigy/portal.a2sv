@@ -9,7 +9,7 @@ type Props = {
 const UserRoleChip = ({ role }: Props) => {
   const getRole = () => {
     switch (role) {
-      case GraphqlUserRole.HEAD_OF_EDUCATIONS:
+      case GraphqlUserRole.HEAD_OF_EDUCATION:
         return "HoE"
       case GraphqlUserRole.HEAD_OF_ACADEMY:
         return "HoA"
@@ -24,7 +24,7 @@ const UserRoleChip = ({ role }: Props) => {
     <span
       className={clsx(
         "py-1 capitalize leading-wide font-semibold text-[10px] rounded-md",
-        role === GraphqlUserRole.HEAD_OF_EDUCATIONS ? "bg-[#F28F8F2E] p-2 text-[#FFADAD]" : "",
+        role === GraphqlUserRole.HEAD_OF_EDUCATION ? "bg-[#F28F8F2E] p-2 text-[#FFADAD]" : "",
         role === GraphqlUserRole.STUDENT
           ? "bg-[#ffdc601A] p-2 text-[#FFDC60]"
           : "",

@@ -22,7 +22,7 @@ const IndexPage = () => {
       case GraphqlUserRole.STUDENT: {
         return <StudentDashboard />
       }
-      case GraphqlUserRole.HEAD_OF_EDUCATIONS: {
+      case GraphqlUserRole.HEAD_OF_EDUCATION: {
         return <HOEDashboard />
       }
       case GraphqlUserRole.HEAD_OF_ACADEMY: {

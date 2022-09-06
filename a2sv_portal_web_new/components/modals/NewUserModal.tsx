@@ -220,7 +220,7 @@ const NewUserModal = (props: Props) => {
                             </option>
                             <option value={GraphqlUserRole.STUDENT}>Student</option>
                             <option value={GraphqlUserRole.ASSISTANT}>Assistant</option>
-                            <option value={GraphqlUserRole.HEAD_OF_EDUCATIONS}>Head of Education</option>
+                            <option value={GraphqlUserRole.HEAD_OF_EDUCATION}>Head of Education</option>
                           </Field>
                         </div>
                       </div>

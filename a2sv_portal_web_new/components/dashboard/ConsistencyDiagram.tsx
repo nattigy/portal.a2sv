@@ -23,7 +23,7 @@ const ConsistencyDiagramItem = () => {
         style={{
           height: `${Math.floor((height[i] / maxi) * 100)}px`,
         }}
-        className={`w-3 rounded-md flex flex-none bg-[#5956E9]`}
+        className={`w-2 rounded-md flex flex-none bg-[#5956E9]`}
         key={i}
       >
         {/* {Math.floor((height[i]/maxi)*100)} */}
@@ -49,7 +49,7 @@ const ConsistencyDiagramItem = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-row gap-x-6 items-end overflow-x-auto">
+      <div className="flex flex-row gap-x-3 items-end overflow-x-auto">
         {months}
       </div>
     </div>
