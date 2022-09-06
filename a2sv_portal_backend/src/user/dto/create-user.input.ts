@@ -16,6 +16,7 @@ export class CreateUserInput {
 
   @Field(() => UpdateGroupInput, { nullable: true })
   group?: UpdateGroupInput
+
 }
 
 registerEnumType(Status, {

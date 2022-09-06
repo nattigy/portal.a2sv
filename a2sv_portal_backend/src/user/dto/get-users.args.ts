@@ -10,16 +10,16 @@ export class GetUserArgs {
   @Field(() => Int, { nullable: true })
   take: number
 
-  @Field({ name: 'Status', nullable: true })
-  Status: Status
+  @Field({ name: 'status', nullable: true })
+  status: Status
 
   @Field({ nullable: true })
   email: string
   
   @Field({ nullable: true })
-  groupId: Number
+  groupId: number
 
-  @Field({name:'Role', nullable: true })
+  @Field({name:'role', nullable: true })
   role: RoleEnum
 
   // @Field(() => WhereUserFilter, { nullable: true })
@@ -27,8 +27,8 @@ export class GetUserArgs {
 }
 
 registerEnumType(Status, {
-  name: 'Status',
+  name: 'status',
 })
 registerEnumType(RoleEnum, {
-  name: 'Role',
+  name: 'role',
 })
