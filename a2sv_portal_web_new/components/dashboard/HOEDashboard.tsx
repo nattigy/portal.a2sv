@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import useAllUsers from "../../lib/hooks/useUsers";
 import { ProblemDifficultyType } from "../../types/problems";
 import { UserRoleType } from "../../types/user";
 import StudentLayout from "../common/StudentLayout";
@@ -82,16 +81,6 @@ const rankList: DashboardRankItemProps[] = [
 ];
 
 const HOEDashboard = (props: Props) => {
-  const [filter, setFilter] = useState("all");
-  const { loading, data, error, refetch } = useAllUsers();
-  const [usersData, setUsersData] = useState([]);
-  useEffect(() => {
-    if (data) {
-      console.log("data is ", data);
-      setUsersData(data.users);
-    }
-  }, [refetch, data]);
-
   const Sidebar: React.FC = () => {
     return (
       <div className="flex flex-col gap-y-3">

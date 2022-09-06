@@ -45,7 +45,7 @@ const ProblemSolvedItem = ({ p: problemSolvedProps }: Props) => {
                 (problemSolvedProps.easy / problemSolvedProps.problems) * 100
               )}%`,
             }}
-            className="h-4 bg-[#3DAB3DB3] rounded-md"
+            className="h-2 bg-[#3DAB3DB3] rounded-md"
           ></div>
           <div
             style={{
@@ -53,7 +53,7 @@ const ProblemSolvedItem = ({ p: problemSolvedProps }: Props) => {
                 (problemSolvedProps.medium / problemSolvedProps.problems) * 100
               )}%`,
             }}
-            className="h-4 bg-[#FCBD5EE6] rounded-md"
+            className="h-2 bg-[#FCBD5EE6] rounded-md"
           ></div>
           <div
             style={{
@@ -61,7 +61,7 @@ const ProblemSolvedItem = ({ p: problemSolvedProps }: Props) => {
                 (problemSolvedProps.hard / problemSolvedProps.problems) * 100
               )}%`,
             }}
-            className="h-4 bg-[#5956E9E6] rounded-md"
+            className="h-2 bg-[#5956E9E6] rounded-md"
           ></div>
         </div>
         <div className="flex gap-x-6 py-1">

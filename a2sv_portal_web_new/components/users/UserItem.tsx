@@ -9,39 +9,36 @@ export type UserProps = {
   email: string;
   role: GraphqlUserRole;
   createdAt: string;
-  group: any
-  headToGroup: any
+  group: any;
+  headToGroup: any;
   status: string;
   updatedAt: string;
 };
 
 const UserItem = ({ email, role }: UserProps) => {
   return (
-    <CustomLink href={`topics/fp/problems`}>
-      <div className="min-h-[90px] cursor-pointer min-w-full bg-white border flex items-center justify-between gap-x-4 px-2 rounded-md">
-        <div className="flex justify-between items-center gap-x-2 w-full">
-          <img
-            className="object-cover w-12 h-12 rounded-full"
-            src="https://landingfoliocom.imgix.net/store/collection/clarity-dashboard/images/vertical-menu/2/avatar-male.png"
-            alt=""
-          />
-          <div className="flex flex-col flex-1 gap-y-2 w-full">
-            <p className="text-[#565656] font-semibold text-xs">{email}</p>
-            <div className="flex flex-row items-center justify-between w-full">
-              <UserRoleChip role={role} />
-              <div className="text-[#5956E9] text-[12px] font-semibold mx-2 justify-end">
-                Details
-              </div>
+    <CustomLink href={`users/`}>
+      <div className="min-h-[90px] cursor-pointer gap-x-2 bg-white border flex items-center justify-start px-2 rounded-md">
+        <img
+          className="object-cover w-12 h-12 rounded-full"
+          src="https://landingfoliocom.imgix.net/store/collection/clarity-dashboard/images/vertical-menu/2/avatar-male.png"
+          alt=""
+        />
+
+        <div className="flex flex-col flex-1 gap-y-2 w-4/6">
+          <p className="text-[#565656] font-semibold text-xs truncate text-ellipsis ">
+            {email}
+          </p>
+          <div className="flex flex-row items-center justify-between">
+            <UserRoleChip role={role} />
+            <div className="text-[#5956E9] text-[12px] font-semibold mx-2 justify-end">
+              Details
             </div>
           </div>
         </div>
         <div className="flex justify-start items-start h-full py-2">
-          <BsThreeDotsVertical
-            color="#565656"
-            size={14}
-          />
+          <BsThreeDotsVertical color="#565656" size={14} />
         </div>
-
       </div>
       {/* <div className="border-2 overflow-hidden min-h-[90px] flex justify-start bg-white items-center cursor-pointer gap-x-2 rounded-md drop-shadow-sm px-5">
         <img

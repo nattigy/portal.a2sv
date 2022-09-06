@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useAllUsers from "../../lib/hooks/useUsers";
+import {useFilteredUsers} from "../../lib/hooks/useUsers";
 import { UserRoleType } from "../../types/user";
 import StudentLayout from "../common/StudentLayout";
 import ConsistencyDiagramItem from "./ConsistencyDiagram";
@@ -14,15 +14,6 @@ import ProblemSolvedItem, { ProblemSolvedProps } from "./ProblemSolvedItem";
 type Props = {};
 
 const StudentDashboard = (props: Props) => {
-  const [filter, setFilter] = useState("all");
-  const { loading, data, error, refetch } = useAllUsers();
-  const [usersData, setUsersData] = useState([]);
-  useEffect(() => {
-    if (data) {
-      console.log("data is ", data);
-      setUsersData(data.users);
-    }
-  }, [refetch, data]);
 
   const DashboradTopic: DashboradTopicItemProps[] = [
     {

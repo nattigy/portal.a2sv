@@ -34,3 +34,14 @@ export const GET_ALL_USER_QUERY = gql`
     }
   }
 `;
+
+export const GET_FILTERED_USERS = gql`
+  query Users($role: String) {
+    users(role: $role) {
+      email
+      id
+      role
+      status
+    }
+  }
+`;
