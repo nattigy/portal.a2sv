@@ -40,7 +40,7 @@ const LineChart = (props: Props) => {
   };
   return (
     <Chart
-      width={700}
+      width={625}
       type="line"
       height={300}
       options={options}
