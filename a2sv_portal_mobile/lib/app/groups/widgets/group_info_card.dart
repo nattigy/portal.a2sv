@@ -1,3 +1,4 @@
+import 'package:a2sv_portal_mobile/utils/custom_colors.dart';
 import 'package:a2sv_portal_mobile/widgets/cards/shadow_card.dart';
 import 'package:a2sv_portal_mobile/widgets/text_views/card_title_text.dart';
 import 'package:flutter/material.dart';
@@ -37,23 +38,23 @@ class GroupInfoCard extends StatelessWidget {
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Colors.lightBlueAccent.withOpacity(0.1),
+                  color: CustomColors.blueBgColor,
                 ),
-                child: CardTitleText(text: "G-32"),
+                child: Text( "G-32",style: TextStyle(color:  CustomColors.blueTextColor,fontWeight: FontWeight.bold,fontSize: 16),),
               ),
               SizedBox(height: 30),
               Row(
                 children: [
                   Text(
                     "Contest Ranking",
-                    style: TextStyle(color: Color(0xFF3B6A8B)),
+                    style: TextStyle(color: CustomColors.blueTextColor),
                   ),
                   SizedBox(width: 8),
                   Text(
                     "1st",
                     style: TextStyle(
-                      color: Color(0xFF3B6A8B),
-                      fontWeight: FontWeight.w600,
+                      color: CustomColors.blueTextColor,
+                      fontWeight: FontWeight.normal,
                       fontSize: 16,
                     ),
                   ),
@@ -64,14 +65,14 @@ class GroupInfoCard extends StatelessWidget {
                 children: [
                   Text(
                     "Problem Ranking",
-                    style: TextStyle(color: Color(0xFF3B6A8B)),
+                    style: TextStyle(color:CustomColors.blueTextColor),
                   ),
                   SizedBox(width: 8),
                   Text(
                     "1st",
                     style: TextStyle(
-                      color: Color(0xFF3B6A8B),
-                      fontWeight: FontWeight.w600,
+                      color: CustomColors.blueTextColor,
+                      fontWeight: FontWeight.normal,
                       fontSize: 16,
                     ),
                   ),

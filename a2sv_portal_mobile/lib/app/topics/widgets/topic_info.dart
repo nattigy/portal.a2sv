@@ -13,7 +13,6 @@ class TopicInfo extends StatelessWidget {
     return Column(
       children: [
         // SizedBox(height: height * 0.04),
-        SizedBox(height: height * 0.02),
         const Align(
           alignment: Alignment.topLeft,
           child: Chip(
@@ -29,7 +28,7 @@ class TopicInfo extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: height * 0.01,
+          height: height * 0.005,
         ),
         ShadowCard(
           child: Column(

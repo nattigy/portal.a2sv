@@ -48,7 +48,7 @@ class RankItem extends StatelessWidget {
         Text(
           typeName,
           style: TextStyle(
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
             fontSize: 19,
             color: color,
           ),

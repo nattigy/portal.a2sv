@@ -23,7 +23,7 @@ class ProblemsStatCard extends StatelessWidget {
                   ),
                   Text(
                     "129",
-                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
                   ),
                 ],
               ),
