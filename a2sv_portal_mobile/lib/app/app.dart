@@ -1,3 +1,6 @@
+import 'package:a2sv_portal_mobile/app/groups/bloc/group.bloc.dart';
+import 'package:a2sv_portal_mobile/app/groups/client.dart';
+import 'package:a2sv_portal_mobile/app/groups/data/group_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,6 +13,7 @@ class App extends StatefulWidget {
   const App({Key? key, required this.userRepository}) : super(key: key);
 
   final UserRepository userRepository;
+  
 
   @override
   State<App> createState() => _AppState();
@@ -20,16 +24,22 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     final AuthenticationRepository authenticationRepository =
         AuthenticationRepository(userRepository: widget.userRepository);
-
+     final GroupRepository groupRepository = new GroupRepository(client: client());
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: authenticationRepository),
+        RepositoryProvider.value(value: groupRepository)
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider<AuthenticationBloc>(
             create: (context) => AuthenticationBloc(
                 authenticationRepository: authenticationRepository),
+            lazy: false,
+          ),
+          BlocProvider<GroupBloc>(
+            create: (context) => GroupBloc(
+                groupRepository: groupRepository)..fetchGroups(),
             lazy: false,
           ),
         ],

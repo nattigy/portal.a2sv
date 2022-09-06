@@ -1,4 +1,5 @@
 import 'package:a2sv_portal_mobile/utils/custom_colors.dart';
+import 'package:a2sv_portal_mobile/app/groups/model/group.dart';
 import 'package:a2sv_portal_mobile/widgets/cards/shadow_card.dart';
 import 'package:a2sv_portal_mobile/widgets/text_views/card_title_text.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,8 @@ import 'package:flutter/material.dart';
 import '../../../widgets/text_views/card_content_text.dart';
 
 class GroupInfoCard extends StatelessWidget {
-  const GroupInfoCard({Key? key}) : super(key: key);
+  final Group group;
+  const GroupInfoCard({Key? key, required this.group}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +21,13 @@ class GroupInfoCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CardTitleText(text: "Group 32"),
+                CardTitleText(text: group.name),
                 SizedBox(height: 8),
-                CardContentText(text: "Addis Ababa Institute of Technology"),
+                CardContentText(text: group.school),
                 SizedBox(height: 5),
-                CardContentText(text: "Ethiopia"),
+                CardContentText(text: group.createdAt.toString()),
                 SizedBox(height: 5),
-                CardContentText(text: "123 members"),
+                CardContentText(text: group.users!.length.toString()),
                 SizedBox(height: 5),
                 CardContentText(text: "created at 21-02-2022"),
               ],
