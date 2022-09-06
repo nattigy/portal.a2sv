@@ -35,7 +35,7 @@ class _HomeTabState extends State<HomeTab> {
             children: [
               SizedBox(height: 25),
               MarginContainer(child: ProfileCard()),
-              SizedBox(height: 30),
+              SizedBox(height: 10),
               MarginContainer(
                   child: GestureDetector(
                       onTap: () {

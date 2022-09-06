@@ -91,92 +91,100 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Urbanist Regular
+    - family: Urbanist
       fonts:
         - asset: fonts/Urbanist-Regular.ttf
           weight: 400
-    - family: Urbanist Italic
-      fonts:
         - asset: fonts/Urbanist-Italic.ttf
           weight: 400
           style: italic
-    - family: Urbanist Black
-      fonts:
         - asset: fonts/Urbanist-Black.ttf
           weight: 900
-    - family: Urbanist Black Italic
-      fonts:
         - asset: fonts/Urbanist-BlackItalic.ttf
           weight: 900
           style: italic
-    - family: Urbanist Bold
-      fonts:
         - asset: fonts/Urbanist-Bold.ttf
           weight: 700
-    - family: Urbanist Bold Italic
-      fonts:
         - asset: fonts/Urbanist-BoldItalic.ttf
           weight: 700
           style: italic
-    - family: Urbanist ExtraBold
-      fonts:
         - asset: fonts/Urbanist-ExtraBold.ttf
           weight: 800
-    - family: Urbanist ExtraBold Italic
-      fonts:
         - asset: fonts/Urbanist-ExtraBoldItalic.ttf
           weight: 800
           style: italic
-    - family: Urbanist ExtraLight
-      fonts:
         - asset: fonts/Urbanist-ExtraLight.ttf
           weight: 200
-    - family: Urbanist ExtraLight Italic
-      fonts:
         - asset: fonts/Urbanist-ExtraLightItalic.ttf
           weight: 200
           style: italic
-    - family: Urbanist Light
-      fonts:
         - asset: fonts/Urbanist-Light.ttf
           weight: 300
-    - family: Urbanist Light Italic
-      fonts:
         - asset: fonts/Urbanist-LightItalic.ttf
           weight: 300
           style: italic
-    - family: Urbanist Medium
-      fonts:
         - asset: fonts/Urbanist-Medium.ttf
           weight: 500
-    - family: Urbanist Medium Italic
-      fonts:
         - asset: fonts/Urbanist-MediumItalic.ttf
           weight: 500
           style: italic
-    - family: Urbanist SemiBold
-      fonts:
         - asset: fonts/Urbanist-SemiBold.ttf
           weight: 600
-    - family: Urbanist SemiBold Italic
-      fonts:
         - asset: fonts/Urbanist-SemiBoldItalic.ttf
           weight: 600
           style: italic
-    - family: Urbanist Thin
-      fonts:
         - asset: fonts/Urbanist-Thin.ttf
           weight: 100
-    - family: Urbanist Thin Italic
-      fonts:
         - asset: fonts/Urbanist-ThinItalic.ttf
           weight: 100
           style: italic
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+    - family: Poppins
+      fonts:
+        - asset: fonts/Poppins-Regular.ttf
+          weight: 400
+        - asset: fonts/Poppins-Italic.ttf
+          weight: 400
+          style: italic
+        - asset: fonts/Poppins-Black.ttf
+          weight: 900
+        - asset: fonts/Poppins-BlackItalic.ttf
+          weight: 900
+          style: italic
+        - asset: fonts/Poppins-Bold.ttf
+          weight: 700
+        - asset: fonts/Poppins-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: fonts/Poppins-ExtraBold.ttf
+          weight: 800
+        - asset: fonts/Poppins-ExtraBoldItalic.ttf
+          weight: 800
+          style: italic
+        - asset: fonts/Poppins-ExtraLight.ttf
+          weight: 200
+        - asset: fonts/Poppins-ExtraLightItalic.ttf
+          weight: 200
+          style: italic
+        - asset: fonts/Poppins-Light.ttf
+          weight: 300
+        - asset: fonts/Poppins-LightItalic.ttf
+          weight: 300
+          style: italic
+        - asset: fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: fonts/Poppins-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: fonts/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: fonts/Poppins-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
+        - asset: fonts/Poppins-Thin.ttf
+          weight: 100
+        - asset: fonts/Poppins-ThinItalic.ttf
+          weight: 100
+          style: italic
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

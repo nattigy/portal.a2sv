@@ -7,7 +7,7 @@ class ContestTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-        child: Text("Contest"),
+        child: Image.asset("assets/images/groupcon.png"),
       ),
     );
   }

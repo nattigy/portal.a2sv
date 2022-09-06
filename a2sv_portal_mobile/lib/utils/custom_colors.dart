@@ -12,4 +12,6 @@ class CustomColors {
   static Color scaffoldBackGroundColor = const Color(0xFFFBFCFF);
   static Color lightShadowColor = const Color.fromRGBO(0, 0, 0, 0.05);
   static Color? white = const Color(0xFFFFFFFF);
+  static Color? blueTextColor = const Color.fromRGBO(59, 106, 139,1);
+   static Color? blueBgColor = const Color.fromRGBO(59, 106, 139,0.15);
 }

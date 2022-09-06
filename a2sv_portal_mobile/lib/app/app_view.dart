@@ -27,7 +27,7 @@ class _AppViewState extends State<AppView> {
       debugShowCheckedModeBanner: false,
       navigatorKey: _navigatorKey,
       theme: ThemeData(
-        fontFamily: "Urbanist Regular",
+        fontFamily: "Poppins",
         scaffoldBackgroundColor: CustomColors.scaffoldBackGroundColor,
       ),
       builder: (context, child) {

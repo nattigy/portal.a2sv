@@ -37,6 +37,7 @@ class SingleQuestion extends StatelessWidget {
           SizedBox(
             width: width * 0.4,
             child: Text(
+
               question.title,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,

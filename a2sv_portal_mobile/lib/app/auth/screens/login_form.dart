@@ -26,60 +26,58 @@ class LoginForm extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.03),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Expanded(
-                flex: 1,
-                child: Container(),
-              ),
-              const SizedBox(height: 60),
-              const Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "Login",
-                  style: TextStyle(
-                    fontSize: 36,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 14),
-              const Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "Enter credentials associated with your account and continue.",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 32),
-              _UsernameInput(),
-              const SizedBox(height: 12),
-              _PasswordInput(),
-              const SizedBox(height: 10),
-              GestureDetector(
-                onTap: () {},
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "Forgot password?",
-                      style: TextStyle(color: CustomColors.primaryColor),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+          
+                const SizedBox(height: 60),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "Login",
+                    style: TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                  flex: 2,
-                  child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: _LoginButton())),
-              const SizedBox(height: 40),
-            ],
+                const SizedBox(height: 14),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "Enter credentials associated with your account and continue.",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 32),
+                _UsernameInput(),
+                const SizedBox(height: 12),
+                _PasswordInput(),
+                const SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () {},
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        "Forgot password?",
+                        style: TextStyle(color: CustomColors.primaryColor),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 40,),
+                Align(
+                    alignment: Alignment.topCenter,
+                    child: _LoginButton()),
+                // const SizedBox(height: 40),
+              ],
+            ),
           ),
         ),
       ),

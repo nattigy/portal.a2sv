@@ -48,6 +48,7 @@ class MainInputField extends StatelessWidget {
           focusedBorder: customOutlineInputBorder,
           filled: true,
           fillColor: color,
+          iconColor: CustomColors.primaryColor,
           focusColor: color,
           // fillColor: Color.fromRGBO(250, 251, 255, 1),
           border: customOutlineInputBorder,
