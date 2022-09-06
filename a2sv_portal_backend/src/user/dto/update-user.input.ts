@@ -5,4 +5,6 @@ import { InputType, Field, Int, PartialType } from '@nestjs/graphql'
 export class UpdateUserInput extends PartialType(CreateUserInput) {
   @Field(() => Int)
   id: number
+  @Field(() => Int,{nullable: true})
+  groupId?: number
 }

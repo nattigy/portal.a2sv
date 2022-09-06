@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql'
+import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nestjs/graphql'
 import { UserService } from './user.service'
 import { User } from './entities/user.entity'
 import { User as UserModel } from '@prisma/client'
@@ -6,10 +6,11 @@ import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { GetUserArgs } from './dto/get-users.args'
 import { Roles } from 'src/auth/auth.decorator'
+import { GroupsService } from 'src/groups/groups.service'
 
 @Resolver(() => User)
 export class UserResolver {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService, private readonly groupService: GroupsService) {}
 
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @Mutation(() => User)
@@ -40,5 +41,11 @@ export class UserResolver {
   @Mutation(() => User)
   async removeUser(@Args('id', { type: () => Int }) id: number) {
     return await this.userService.remove(id)
+  }
+
+  @ResolveField()
+  async group(@Parent() user: User) {
+    const { groupId } = user;
+    return this.groupService.getGroupById(groupId)
   }
 }

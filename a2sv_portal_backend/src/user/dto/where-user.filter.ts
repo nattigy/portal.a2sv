@@ -1,5 +1,5 @@
 import { Field, InputType, registerEnumType } from '@nestjs/graphql'
-import { Status } from '@prisma/client'
+import { RoleEnum, Status } from '@prisma/client'
 
 @InputType()
 export class WhereUserFilter {
@@ -8,8 +8,16 @@ export class WhereUserFilter {
 
   @Field({ nullable: true })
   email: string
+  @Field({ nullable: true })
+  groupId: Number
+  @Field({ nullable: true })
+  role: string
+
 }
 
 registerEnumType(Status, {
   name: 'Status',
+})
+registerEnumType(RoleEnum, {
+  name: 'Role',
 })
