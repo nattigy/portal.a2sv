@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-export type PersonalRankItemProps = {
+export type DashboardRankItemProps = {
   rankType: string;
   userRank: number;
   totalStudents: number;
 };
 const height = [24, 30, 34, 29, 24, 28, 22, 23, 22, 24];
 
-const PersonalRankItem = (props: PersonalRankItemProps) => {
+const DashboardRankItem = (props: DashboardRankItemProps) => {
   const [clicked, setClickedIndex] = useState(height.length - 1);
   return (
     <div className="bg-white rounded-xl w-64 h-16 flex flex-row p-3 gap-x-3">
@@ -35,4 +35,4 @@ const PersonalRankItem = (props: PersonalRankItemProps) => {
   );
 };
 
-export default PersonalRankItem;
+export default DashboardRankItem;

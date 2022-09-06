@@ -1,8 +1,4 @@
 import React from "react";
-import CustomLink from "../common/CustomLink";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { UserRoleType } from "../../types/user";
-import UserRoleChip from "../dashboard/UserRoleChip";
 
 export type ProblemSolvedProps = {
   problems: number;

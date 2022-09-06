@@ -4,9 +4,9 @@ import { UserRoleType } from "../../types/user";
 import StudentLayout from "../common/StudentLayout";
 import ConsistencyDiagramItem from "./ConsistencyDiagram";
 import ContestStatItem from "./ContestStatItem";
-import PersonalRankItem, { PersonalRankItemProps } from "./PersonalRankItem";
-import PersonalStruggledItem from "./PersonalStruggledItem";
-import PersonalTopicItem, { PersonalTopicItemProps } from "./PersonalTopicItem";
+import DashboardRankItem, { DashboardRankItemProps } from "./DashboardRankItem";
+import DashboardStruggledItem from "./DashboardStruggledItem";
+import DashboardTopicItem, { DashboradTopicItemProps } from "./DashboardTopicItem";
 import ProblemSolvedItem, { ProblemSolvedProps } from "./ProblemSolvedItem";
 
 type Props = {};
@@ -22,7 +22,7 @@ const StudentDashboard = (props: Props) => {
     }
   }, [refetch, data]);
 
-  const personalTopic: PersonalTopicItemProps[] = [
+  const DashboradTopic: DashboradTopicItemProps[] = [
     {
       questions: 10,
       topicName: "Dynamic Programming",
@@ -46,16 +46,16 @@ const StudentDashboard = (props: Props) => {
     { percent: 34, name: "Bit Manipulation" },
     { percent: 5, name: "Queue" },
   ];
-    const problemStat: ProblemSolvedProps = {
-      problems: 389,
-      wrong: 459,
-      minutes: 4554,
-      easy: 239,
-      medium: 104,
-      hard: 46,
-    };
+  const problemStat: ProblemSolvedProps = {
+    problems: 389,
+    wrong: 459,
+    minutes: 4554,
+    easy: 239,
+    medium: 104,
+    hard: 46,
+  };
 
-  const rankList: PersonalRankItemProps[] = [
+  const rankList: DashboardRankItemProps[] = [
     { rankType: "Daily", totalStudents: 30, userRank: 2 },
     { rankType: "Weekly", totalStudents: 30, userRank: 1 },
     { rankType: "Monthly", totalStudents: 30, userRank: 3 },
@@ -69,14 +69,14 @@ const StudentDashboard = (props: Props) => {
           <p>Topic</p>
           <p>Questions</p>
         </div>
-        {personalTopic.map((item, index) => (
-          <PersonalTopicItem {...item} key={index} />
+        {DashboradTopic.map((item, index) => (
+          <DashboardTopicItem {...item} key={index} />
         ))}
         <p className="text-[#565656] font-semibold text-lg mt-5">
           Topics Struggling with
         </p>
         {strugglingWith.map((item, index) => (
-          <PersonalStruggledItem {...item} key={index} />
+          <DashboardStruggledItem {...item} key={index} />
         ))}
       </div>
     );
@@ -88,14 +88,12 @@ const StudentDashboard = (props: Props) => {
         <p className="text-[#676767] font-semibold">Student Stats</p>
         <div className="flex flex-row gap-x-3">
           {rankList.map((item, index) => (
-            <PersonalRankItem key={index} {...item} />
+            <DashboardRankItem key={index} {...item} />
           ))}
         </div>
         <div className="flex gap-x-2 my-4">
           <ConsistencyDiagramItem />
-          <ProblemSolvedItem
-            p={problemStat}
-          />
+          <ProblemSolvedItem p={problemStat} />
         </div>
         <ContestStatItem />
       </div>
