@@ -12,6 +12,15 @@ class CustomColors {
   static Color scaffoldBackGroundColor = const Color(0xFFFBFCFF);
   static Color lightShadowColor = const Color.fromRGBO(0, 0, 0, 0.05);
   static Color? white = const Color(0xFFFFFFFF);
-  static Color? blueTextColor = const Color.fromRGBO(59, 106, 139,1);
-   static Color? blueBgColor = const Color.fromRGBO(59, 106, 139,0.15);
+  static Color? blueTextColor = const Color.fromRGBO(59, 106, 139, 1);
+  static Color? blueBgColor = const Color.fromRGBO(59, 106, 139, 0.15);
+
+  static Color? lowProgress = const Color(0xCC136EC1);
+  static Color? mediumProgress = const Color(0xFFF6A133);
+  static Color? highProgress = const Color(0xFF2FA45D);
+
+  static Color? noConsistency = const Color(0xFFE2E2E2);
+  static Color? lowConsistency = const Color(0xFF3BB367);
+  static Color? goodConsistency = const Color(0xFF358953);
+  static Color? greatConsistency = const Color(0xFF265838);
 }

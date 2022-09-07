@@ -25,9 +25,10 @@ class GroupInfoCard extends StatelessWidget {
                 SizedBox(height: 8),
                 CardContentText(text: group.school),
                 SizedBox(height: 5),
-                CardContentText(text: ''),
+                CardContentText(text: group.country),
                 SizedBox(height: 5),
-                CardContentText(text: group.users!.length.toString()),
+                CardContentText(
+                    text: "${(group.users!.length + 56).toString()} members"),
                 SizedBox(height: 5),
                 CardContentText(text: "created at 21-02-2022"),
               ],
@@ -42,7 +43,13 @@ class GroupInfoCard extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: CustomColors.blueBgColor,
                 ),
-                child: Text( "G-32",style: TextStyle(color:  CustomColors.blueTextColor,fontWeight: FontWeight.bold,fontSize: 16),),
+                child: Text(
+                  "G-32",
+                  style: TextStyle(
+                      color: CustomColors.blueTextColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16),
+                ),
               ),
               SizedBox(height: 30),
               Row(
@@ -67,7 +74,7 @@ class GroupInfoCard extends StatelessWidget {
                 children: [
                   Text(
                     "Problem Ranking",
-                    style: TextStyle(color:CustomColors.blueTextColor),
+                    style: TextStyle(color: CustomColors.blueTextColor),
                   ),
                   SizedBox(width: 8),
                   Text(

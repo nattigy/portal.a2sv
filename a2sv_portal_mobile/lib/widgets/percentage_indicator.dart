@@ -26,7 +26,11 @@ class PercentageIndicator extends StatelessWidget {
             flex: percent.toInt(),
             child: Container(
               decoration: BoxDecoration(
-                color: CustomColors.primaryColor,
+                color: percent <= 25
+                    ? Colors.blue[800]
+                    : percent <= 65
+                        ? Colors.yellow[700]
+                        : Colors.green,
                 borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
             ),

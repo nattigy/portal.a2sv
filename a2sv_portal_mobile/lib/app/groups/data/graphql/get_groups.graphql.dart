@@ -4,6 +4,7 @@ query Groups{
     id
     name
     school
+    country
     topics{
       topic{
         name

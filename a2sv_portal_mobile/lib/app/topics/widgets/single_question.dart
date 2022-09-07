@@ -35,9 +35,8 @@ class SingleQuestion extends StatelessWidget {
           SizedBox(
               width: width * 0.1, child: Image.asset(question.platformurl)),
           SizedBox(
-            width: width * 0.4,
+            width: width * 0.35,
             child: Text(
-
               question.title,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
@@ -73,7 +72,8 @@ class SingleQuestion extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: width * 0.1,
+            height: 24,
+            width: width * 0.15,
             child: question.solved
                 ? Image.asset("assets/images/solved.png")
                 : Image.asset("assets/images/not_solved.png"),

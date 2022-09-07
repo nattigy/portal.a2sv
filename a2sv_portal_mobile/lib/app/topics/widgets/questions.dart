@@ -17,25 +17,30 @@ class Questions extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     var questions = [
       Question(
-          title: "Best time to sell and buy stocks",
+          title: "Best Time to Buy and Sell Stock",
           tag: "Easy",
           platformurl: "assets/images/leetcode_icon.png",
           solved: true),
       Question(
-          title: "Min Cost something",
+          title: "Binary Tree Pruning",
           tag: "Medium",
           platformurl: "assets/images/leetcode_icon.png",
           solved: false),
       Question(
-          title: "Min Cost to sell stocks ",
-          tag: "Hard",
+          title: "3 Sum",
+          tag: "Medium",
           platformurl: "assets/images/leetcode_icon.png",
           solved: true),
       Question(
-          title: "Min Cost ",
-          tag: "Easy",
+          title: "Jump game IV",
+          tag: "Hard",
           platformurl: "assets/images/leetcode_icon.png",
           solved: false),
+      Question(
+          title: "Min Cost Climbing Stairs",
+          tag: "Medium",
+          platformurl: "assets/images/leetcode_icon.png",
+          solved: true),
     ];
     var style = const TextStyle(
         fontWeight: FontWeight.w500,
