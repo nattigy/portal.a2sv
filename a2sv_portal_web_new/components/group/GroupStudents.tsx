@@ -11,7 +11,8 @@ import GroupStudentsSidebarItem from "./GroupStudentsSidebarItem";
 import StudentTable, { StudentsInfo } from "./StudentTable";
 
 type Props = {
-
+  isAddStudentToGroupSidebarOpen: boolean;
+  setIsAddStudentToGroupSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
@@ -50,7 +51,7 @@ type Props = {
 //   },
 // ];
 
-const GroupStudents = () => {
+const GroupStudents = (props: Props) => {
   // const [titleAscending, setTitleAscending] = useState(false)
   // const [titleDescending, setTitleDescending] = useState(false)
   // const [difficultyAscending, setDifficultyAscending] = useState(false)
@@ -78,18 +79,27 @@ const GroupStudents = () => {
 
   return (
     <>
-      {isModalOpen && (
+      {/* {isModalOpen && (
         <NewUserModal onClose={() => setIsModalOpen(false)} />
-      )}
+      )} */}
       <div className="h-screen font-semibold text-[#565656]">
         <div className="flex flex-row items-center justify-end my-6 font-semibold text-xl text-[#565656]">
-          <button onClick={handleModalOpen} className="px-4 py-2 bg-[#5956E9] rounded-lg text-center text-white font-medium text-sm">
-            + New Student
-          </button>
+          {
+            props.isAddStudentToGroupSidebarOpen ? (
+              <button onClick={() => props.setIsAddStudentToGroupSidebarOpen(false)} className="px-4 py-2 bg-[#5956E9] rounded-lg text-center text-white font-medium text-sm">
+                Cancel
+              </button>
+            ) : (
+              <button onClick={() => props.setIsAddStudentToGroupSidebarOpen(true)} className="px-4 py-2 bg-[#5956E9] rounded-lg text-center text-white font-medium text-sm">
+                + Add Student
+              </button>
+            )
+          }
+
         </div>
         {
           loading ? (
-            <div>
+            <div className="border-8 w-full h-full flex justify-center items-center">
               <LoaderSmall />
             </div>
           ) :

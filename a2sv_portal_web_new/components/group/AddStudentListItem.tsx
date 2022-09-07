@@ -12,39 +12,39 @@ export type UserProps = {
 type Props = {
   studentProps: StudentsInfo;
   checked: boolean;
+  handleStudentCheck: () => void,
   handleChange: any;
 };
 
 export type StudentsInfo = {
   id: number;
   name: string;
+  email: string;
   photo: string;
   role: UserRoleType;
 };
 
 const AddStudentListItem = ({
   studentProps,
-  checked,
+  handleStudentCheck,
   handleChange,
 }: Props) => {
   return (
     <div onClick={handleChange} className={clsx(
       "flex gap-x-4 py-2 cursor-pointer",
-      checked
-        ? "bg-[#5956E91F]"
-        : ""
+      // ? "bg-[#5956E91F]"
+      // : ""
     )}>
       <input
         className="w-4 rounded-md border-2 text-red-400"
-        checked={checked}
-        onChange={handleChange}
+        // onChange={(val) => handleStudentCheck(val, "add")}
         value={studentProps.id}
         type="checkbox"
       />
       <div className="flex items-center gap-x-2">
-        <img src={studentProps.photo} className="w-12" alt="" />
+        <img src="/images/group-students-profile.svg" className="w-12" alt="" />
         <div className="flex flex-col justify-around">
-          <span className="font-semibold text-sm">{studentProps.name}</span>
+          <span className="font-semibold text-sm truncate w-40">{studentProps.email}</span>
           <span className="font-light text-xs">{studentProps.role}</span>
         </div>
       </div>

@@ -3,6 +3,9 @@ import CustomLink from "../common/CustomLink";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import AddStudentListItem, { StudentsInfo } from "./AddStudentListItem";
 import { UserRoleType } from "../../types/user";
+import { useGetUsersWithNoGroup, useUsersByGroupId } from "../../lib/hooks/useUsers";
+import { LoaderSmall } from "../common/Loaders";
+import SearchField from "../common/SearchField";
 
 export type UserProps = {
   id?: number;
@@ -10,38 +13,50 @@ export type UserProps = {
 };
 
 const AddStudentList = () => {
-  const students: Array<StudentsInfo> = [
-    {
-      id: 1,
-      name: "Yidedya Kebede",
-      photo: "/images/group-students-profile.svg",
-      role: UserRoleType.STUDENT,
-    },
-    {
-      id: 2,
-      name: "Yidedya Kebede",
-      photo: "/images/group-students-profile.svg",
-      role: UserRoleType.STUDENT,
-    },
-    {
-      id: 3,
-      name: "Yidedya Kebede",
-      photo: "/images/group-students-profile.svg",
-      role: UserRoleType.STUDENT,
-    },
-    {
-      id: 4,
-      name: "Yidedya Kebede",
-      photo: "/images/group-students-profile.svg",
-      role: UserRoleType.HOE,
-    },
-    {
-      id: 5,
-      name: "Yidedya Kebede",
-      photo: "/images/group-students-profile.svg",
-      role: UserRoleType.HOA,
-    },
-  ];
+  // const students: Array<StudentsInfo> = [
+  //   {
+  //     id: 1,
+  //     name: "Yidedya Kebede",
+  //     photo: "/images/group-students-profile.svg",
+  //     role: UserRoleType.STUDENT,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Yidedya Kebede",
+  //     photo: "/images/group-students-profile.svg",
+  //     role: UserRoleType.STUDENT,
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Yidedya Kebede",
+  //     photo: "/images/group-students-profile.svg",
+  //     role: UserRoleType.STUDENT,
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Yidedya Kebede",
+  //     photo: "/images/group-students-profile.svg",
+  //     role: UserRoleType.HOE,
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "Yidedya Kebede",
+  //     photo: "/images/group-students-profile.svg",
+  //     role: UserRoleType.HOA,
+  //   },
+  // ];
+
+  const { data, loading, error, refetch } = useGetUsersWithNoGroup()
+  const [students, setStudents] = useState<Array<StudentsInfo>>([])
+  const [searchStudents, setSearchStudents] = useState<Array<StudentsInfo>>([])
+  const [searchQuery, setSearchQuery] = useState("")
+  useEffect(() => {
+    if (data) {
+      setSearchStudents(data.users)
+      setStudents(data.users)
+    }
+  }, [refetch])
+
 
   const [checkedState, setCheckedState] = useState(
     new Array(students.length).fill(false)
@@ -57,9 +72,35 @@ const AddStudentList = () => {
     return counter
   };
 
-  useEffect(()=>{
+  useEffect(() => {
 
   }, [checkedState])
+
+  const handleSearchQueryChange = (text: string) => {
+    setSearchQuery(text)
+  }
+
+  let selectedStudent: Set<string> = new Set<string>();
+
+  const handleStudentCheck = (id: string, type = "add") => {
+    if (type === "add") {
+      selectedStudent.add(id)
+    } else {
+      selectedStudent.delete(id)
+    }
+  }
+
+  useEffect(() => {
+    let searchedData = students
+    if (searchQuery) {
+      searchedData = students.filter(student => {
+        return student.email.toLowerCase().includes(searchQuery.trim().toLowerCase())
+      })
+    }
+    setSearchStudents(searchedData)
+
+  }, [searchQuery])
+
 
   const handleSingleCheck = (position: any) => {
     const updatedCheckedState = checkedState.map((item, index) =>
@@ -77,24 +118,30 @@ const AddStudentList = () => {
           Add
         </button>
       </div>
-      <div className="w-full p-2 mt-2 border rounded-md">
-        <h1>Search</h1>
+      <div className="w-full">
+        <SearchField onChange={handleSearchQueryChange} placeholder="Search student" id="" className="" />
       </div>
-      {students ? (
-        students.map((student, index) => (
-          <div className="hover:bg-[#5956E91F]" key={index}>
-            <AddStudentListItem
-              handleChange={() => handleSingleCheck(index)}
-              studentProps={student}
-              checked={checkedState[index]}
-            />
+      {
+        loading ? (
+          <div className="w-full h-full flex justify-center items-center">
+            <LoaderSmall />
           </div>
-        ))
-      ) : (
-        <div className="h-full bg-red-400">
-          <h1>No students yet!</h1>
-        </div>
-      )}
+        ) :
+          searchStudents ? (
+            searchStudents.map((student, index) => (
+              <div className="hover:bg-[#5956E91F]" key={index}>
+                <AddStudentListItem
+                  handleChange={() => handleSingleCheck(index)}
+                  studentProps={student}
+                  handleStudentCheck={handleStudentCheck}
+                />
+              </div>
+            ))
+          ) : (
+            <div className="h-full bg-red-400">
+              <h1>No students yet!</h1>
+            </div>
+          )}
     </div>
   );
 };

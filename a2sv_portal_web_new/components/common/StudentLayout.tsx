@@ -848,7 +848,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
         </main>
       </div>
       {sidebar && (
-        <div className="hidden bg-white shadow-lg px-5 py-10 drop-shadow-lg md:flex min-h-screen max-h-screen overflow-y-auto custom-scrollbar flex-col w-1/5">
+        <div className="hidden bg-white shadow-lg px-5 py-10 drop-shadow-lg md:flex min-h-screen max-h-screen overflow-y-auto overflow-x-hidden custom-scrollbar flex-col w-1/5">
           {sidebar}
         </div>
       )}

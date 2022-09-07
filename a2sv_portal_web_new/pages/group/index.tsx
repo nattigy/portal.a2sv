@@ -13,21 +13,22 @@ import NewGroupModal from "../../components/modals/NewGroupModal";
 
 const Index = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [isAddStudentToGroupSidebarOpen, setIsAddStudentToGroupSidebarOpen] = useState(false)
 
     const handleModalOpen = () => {
         setIsModalOpen(true);
     };
 
-    const Sidebar: React.FC = () => {
+    const Sidebar: React.FC<{ showStudentList: boolean }> = ({ showStudentList }: { showStudentList: boolean }) => {
         return (
-            <div className="flex flex-col gap-y-3">
-                <GroupStudentsSidebarItem clicked={true} />
+            <div className="flex flex-col gap-y-3 ">
+                <GroupStudentsSidebarItem showStudentList={isAddStudentToGroupSidebarOpen} />
             </div>
         );
     };
     return (
-        <StudentLayout sidebar={<Sidebar />}>
-            <GroupStudents />
+        <StudentLayout sidebar={<Sidebar showStudentList={isAddStudentToGroupSidebarOpen} />}>
+            <GroupStudents isAddStudentToGroupSidebarOpen={isAddStudentToGroupSidebarOpen} setIsAddStudentToGroupSidebarOpen={setIsAddStudentToGroupSidebarOpen} />
         </StudentLayout>
     );
 };

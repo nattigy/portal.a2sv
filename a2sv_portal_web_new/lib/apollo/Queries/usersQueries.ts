@@ -59,3 +59,15 @@ export const GET_USERS_BY_GROUP_ID_QUERY = gql`
     }
   }
 `;
+
+export const GET_STUDENTS_WITH_NO_GROUP_QUERY = gql`
+  query Users($role: String, $groupId: Float) {
+    users(role: $role, groupId: $groupId) {
+      email
+      id
+      status
+      createdAt
+      updatedAt
+    }
+  }
+`;
