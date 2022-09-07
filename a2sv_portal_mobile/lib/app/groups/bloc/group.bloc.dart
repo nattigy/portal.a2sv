@@ -16,7 +16,7 @@ class GroupBloc extends Cubit<GroupState> {
       final List<Group> groups= await groupRepository.fetchGroups();
       emit(GroupSuccess(groups: groups));
     } catch (e) {
-      print(e.toString());
+     
       emit(GroupError(errorMessage: e.toString()));
     }
   }
