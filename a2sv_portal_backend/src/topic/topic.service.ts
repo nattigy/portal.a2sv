@@ -31,7 +31,6 @@ export class TopicService {
         groups: {
           include: {
             group: true,
-            topic: true,
           },
         },
       },
@@ -45,7 +44,6 @@ export class TopicService {
         season: true,
         groups: {
           include: {
-            group: true,
             topic: true,
           },
         },
@@ -78,7 +76,6 @@ export class TopicService {
         groups: {
           include: {
             group: true,
-            topic: true,
           },
         },
       },
@@ -98,7 +95,6 @@ export class TopicService {
         groups: {
           include: {
             group: true,
-            topic: true,
           },
         },
       },

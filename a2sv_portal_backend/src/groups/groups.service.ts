@@ -3,7 +3,6 @@ import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateGroupInput } from './dto/create-group.input'
 import { Group } from '../groups/entities/group.entity'
 import { UpdateGroupInput } from './dto/update-group.input'
-import { RoleEnum } from '@prisma/client'
 
 @Injectable()
 export class GroupsService {
@@ -14,7 +13,6 @@ export class GroupsService {
       include: {
         topics: {
           include: {
-            group: true,
             topic: true,
           },
         },
@@ -28,7 +26,6 @@ export class GroupsService {
       include: {
         topics: {
           include: {
-            group: true,
             topic: true,
           },
         },
@@ -45,55 +42,54 @@ export class GroupsService {
     console.log("I'm Here")
     return this.prismaService.group.findMany({
       include: {
-        topics: true,
+        topics: {
+          include: {
+            topic: true,
+          },
+        },
       },
     })
   }
 
   async updateGroup(updateGroupInput: UpdateGroupInput): Promise<Group> {
-    console.log("I'm here in update group")
     const { topics, users, ...groupData } = updateGroupInput
+    const queryData = groupData as any
     if (users) {
-      this.prismaService.group.update({
-        where: { id: updateGroupInput.id },
-        data: {
-          users: {
-            connect: users,
-          },
-        },
-      })
+      queryData.users = {
+        connect: users,
+      }
     }
     if (topics) {
-      topics.map((topic) => {
-        this.prismaService.group.update({
-          where: { id: updateGroupInput.id },
-          data: {
-            topics: {
-              connectOrCreate: {
-                where: {
-                  groupId_topicId: {
-                    groupId: updateGroupInput.id,
-                    topicId: topic.id,
-                  },
-                },
-                create: {
-                  topic: {
-                    connect: {
-                      id: topic.id,
-                    },
-                  },
+      queryData.topics = {
+        connectOrCreate: topics.map((topic) => {
+          return {
+            where: {
+              groupId_topicId: {
+                groupId: updateGroupInput.id,
+                topicId: topic.id,
+              },
+            },
+            create: {
+              topic: {
+                connect: {
+                  id: topic.id,
                 },
               },
             },
-          },
-        })
-      })
+          }
+        }),
+      }
     }
+
     return this.prismaService.group.update({
       where: { id: updateGroupInput.id },
       data: groupData,
       include: {
-        topics: true,
+        topics: {
+          include: {
+            topic: true,
+          },
+        },
         users: true,
       },
     })
