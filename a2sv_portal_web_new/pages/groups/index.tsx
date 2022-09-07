@@ -44,7 +44,7 @@ const Index = () => {
 
         <div className="grid grid-cols-6 gap-y-10">
           <div className="col-span-4 flex flex-row justify-between">
-            <SearchField placeholder="Search a group" id="group-search" />
+            <SearchField onChange={() => { }} placeholder="Search a group" id="group-search" />
             <CustomDropdown customProps={dropdown} />
           </div>
           <div className="col-span-4">

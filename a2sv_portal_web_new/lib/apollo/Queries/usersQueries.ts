@@ -45,3 +45,27 @@ export const GET_FILTERED_USERS = gql`
     }
   }
 `;
+
+export const GET_USERS_BY_GROUP_ID_QUERY = gql`
+  query Users($groupId: Float) {
+    users(groupId: $groupId) {
+      email
+      id
+      createdAt
+      group {
+        country
+        school
+      }
+    }
+  }
+`;
+
+export const GET_STUDENTS_WITH_NO_GROUP_QUERY = gql`
+  query UsersQuery($role: String, $groupId: Float) {
+    users(role: $role, groupId: $groupId) {
+      id
+      email
+      role
+    }
+  }
+`;

@@ -49,7 +49,7 @@ const ConsistencyDiagramItem = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-row gap-x-3 items-end overflow-x-auto">
+      <div className="flex flex-row gap-x-3 items-end overflow-x-auto no-scrollbar">
         {months}
       </div>
     </div>

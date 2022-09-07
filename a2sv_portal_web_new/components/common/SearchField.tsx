@@ -1,14 +1,18 @@
+import clsx from "clsx";
 import React, { useState } from "react";
 
 type SearchFieldProps = {
   placeholder: string;
   id: string;
+  onChange: (val: string) => void;
+  className?: string;
 };
 
-const SearchField = ({ placeholder, id }: SearchFieldProps) => {
+const SearchField = ({ placeholder, id, className, onChange }: SearchFieldProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearch = (e: any) => {
     setSearchQuery(e.target.value);
+
   };
   return (
     <div className="relative flex items-center mt-1">
@@ -29,9 +33,13 @@ const SearchField = ({ placeholder, id }: SearchFieldProps) => {
       <input
         type="text"
         id={id}
-        className="bg-white outline-none text-gray-400 font-regular text-xs rounded-full px-2 appearance-none dark:appearance-none dark:border-transparent border-transparent block w-80 pl-10 p-2.5  dark:bg-white  dark:placeholder-gray-400 dark:text-gray-400 "
-        onChange={handleSearch}
-        value={searchQuery}
+        className={clsx(
+          "bg-white outline-none text-gray-400 font-regular text-xs rounded-full px-2 appearance-none dark:appearance-none dark:border-transparent border-transparent block w-80 pl-10 p-2.5  dark:bg-white  dark:placeholder-gray-400 dark:text-gray-400 ",
+          className
+        )}
+        onChange={(e: any) => onChange(e.target.value)}
+        // onChange={handleSearch}
+        // value={searchQuery}
         placeholder={placeholder}
       />
     </div>

@@ -3,98 +3,105 @@ import CustomLink from "../common/CustomLink";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import AddStudentListItem, { StudentsInfo } from "./AddStudentListItem";
 import { UserRoleType } from "../../types/user";
+import { useGetUsersWithNoGroup, useUsersByGroupId } from "../../lib/hooks/useUsers";
+import { LoaderSmall } from "../common/Loaders";
+import SearchField from "../common/SearchField";
+import { ApolloError, useMutation } from "@apollo/client";
+import { ADD_STUDENTS_TO_GROUP } from "../../lib/apollo/Mutations/usersMutations";
 
 export type UserProps = {
   id?: number;
   fullname: string;
 };
+type Props = {
+  students: Array<StudentsInfo>
+}
 
-const AddStudentList = () => {
-  const students: Array<StudentsInfo> = [
-    {
-      id: 1,
-      name: "Yidedya Kebede",
-      photo: "/images/group-students-profile.svg",
-      role: UserRoleType.STUDENT,
-    },
-    {
-      id: 2,
-      name: "Yidedya Kebede",
-      photo: "/images/group-students-profile.svg",
-      role: UserRoleType.STUDENT,
-    },
-    {
-      id: 3,
-      name: "Yidedya Kebede",
-      photo: "/images/group-students-profile.svg",
-      role: UserRoleType.STUDENT,
-    },
-    {
-      id: 4,
-      name: "Yidedya Kebede",
-      photo: "/images/group-students-profile.svg",
-      role: UserRoleType.HOE,
-    },
-    {
-      id: 5,
-      name: "Yidedya Kebede",
-      photo: "/images/group-students-profile.svg",
-      role: UserRoleType.HOA,
-    },
-  ];
+const AddStudentList = (props: Props) => {
+  const [searchStudents, setSearchStudents] = useState<Array<any>>(props.students)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [selectedStudentCount, setSelectedStudentCount] = useState(0)
+  const [addStudentsToGroup] = useMutation(ADD_STUDENTS_TO_GROUP)
+  const [isLoading, setIsLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
 
-  const [checkedState, setCheckedState] = useState(
-    new Array(students.length).fill(false)
-  );
+  useEffect(() => {
+    setSearchStudents(props.students)
+  }, [props.students])
 
-  const countChecked = () => {
-    var counter = 0;
-    for (var i = 0; i < students.length; i++) {
-      if (checkedState[i] === true) {
-        counter++;
-      }
+  const [selectedStudent, setSelectedStudent] = useState<Set<number>>(new Set([]))
+
+  const handleStudentCheck = (id: number) => {
+    if (selectedStudent.has(id)) {
+      selectedStudent.delete(id)
+    } else {
+      selectedStudent.add(id)
     }
-    return counter
-  };
+    setSelectedStudentCount(selectedStudent.size)
+  }
 
-  useEffect(()=>{
+  useEffect(() => {
+    let searchedData = props.students
+    searchedData = props.students.filter(student => {
+      return student.email.toLowerCase().includes(searchQuery.trim().toLowerCase())
+    })
+    setSearchStudents(searchedData)
+  }, [searchQuery])
 
-  }, [checkedState])
+  const handleSearchQueryChange = (text: string) => {
+    setSearchQuery(text)
+  }
 
-  const handleSingleCheck = (position: any) => {
-    const updatedCheckedState = checkedState.map((item, index) =>
-      index === position ? !item : item
-    );
-    console.log("checked", checkedState)
-    setCheckedState(updatedCheckedState);
-  };
+  const handleAddStudents = async () => {
+    setIsLoading(true)
+    console.log(selectedStudent, " is the soelected data")
+    await addStudentsToGroup({
+      variables: {
+        updateGroupInput: {
+          id: 1,
+          studentsId: []
+        }
+      },
+      refetchQueries: "active",
+      notifyOnNetworkStatusChange: true,
+      onCompleted: (data) => {
+        setIsLoading(false)
+      },
+      onError: (error) => {
+        setErrorMessage((error as ApolloError).message);
+        setIsLoading(false)
+
+      }
+    })
+    setIsLoading(false)
+  }
 
   return (
     <div className="flex flex-col gap-y-2">
       <div className="flex justify-between items-center">
-        <h1 className="font-semibold text-lg">Add Students <span className="font-light text-xs pl-1">{`${countChecked()}`}/{`${students.length}`}</span></h1>
-        <button className="w-20 py-2 bg-[#5956E9] rounded-lg text-center text-white font-medium text-sm">
+        <h1 className="font-semibold text-lg">Add Students <span className="font-light text-xs pl-1">${selectedStudent.size}/{`${props.students.length}`}</span></h1>
+        <button onClick={handleAddStudents} className="w-20 py-2 bg-[#5956E9] rounded-lg text-center text-white font-medium text-sm">
           Add
         </button>
       </div>
-      <div className="w-full p-2 mt-2 border rounded-md">
-        <h1>Search</h1>
+      <div className="w-full">
+        <SearchField onChange={handleSearchQueryChange} placeholder="Search student" id="" className="" />
       </div>
-      {students ? (
-        students.map((student, index) => (
-          <div className="hover:bg-[#5956E91F]" key={index}>
-            <AddStudentListItem
-              handleChange={() => handleSingleCheck(index)}
-              studentProps={student}
-              checked={checkedState[index]}
-            />
+      {
+        searchStudents.length > 0 ? (
+          searchStudents.map((student, index) => (
+            <div className="hover:bg-[#5956E91F]" key={index}>
+              <AddStudentListItem
+                studentProps={student}
+                handleStudentCheck={handleStudentCheck}
+              />
+            </div>
+          ))
+        ) : (
+          <div className="h-full bg-red-400">
+            <h1>No students yet!</h1>
           </div>
-        ))
-      ) : (
-        <div className="h-full bg-red-400">
-          <h1>No students yet!</h1>
-        </div>
-      )}
+        )}
     </div>
   );
 };
