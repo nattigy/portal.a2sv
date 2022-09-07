@@ -1,7 +1,6 @@
 import 'package:a2sv_portal_mobile/app/topics/models/topic.dart';
 import 'package:a2sv_portal_mobile/app/users/entity/users.entity.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
 class Group extends Equatable {
   final String id;

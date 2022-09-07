@@ -1,5 +1,5 @@
-import 'package:a2sv_portal_mobile/utils/custom_colors.dart';
 import 'package:a2sv_portal_mobile/app/groups/model/group.dart';
+import 'package:a2sv_portal_mobile/utils/custom_colors.dart';
 import 'package:a2sv_portal_mobile/widgets/cards/shadow_card.dart';
 import 'package:a2sv_portal_mobile/widgets/text_views/card_title_text.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +8,7 @@ import '../../../widgets/text_views/card_content_text.dart';
 
 class GroupInfoCard extends StatelessWidget {
   final Group group;
+
   const GroupInfoCard({Key? key, required this.group}) : super(key: key);
 
   @override

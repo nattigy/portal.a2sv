@@ -10,12 +10,8 @@ class HomeRepository {
   HomeRepository({required this.storage, required this.client});
 
   Future<Consistency> loadConsistencyDiagram(String year) async {
-    List<DailyStat> days = [
-      ...List.generate(30, (index) => DailyStat(index))
-    ];
-    List<Month> months = [
-      ...List.generate(12, (idx) => Month(days))
-    ];
+    List<DailyStat> days = [...List.generate(30, (index) => DailyStat(index))];
+    List<Month> months = [...List.generate(12, (idx) => Month(days))];
     Consistency consistency = Consistency(
       year: year,
       months: months,

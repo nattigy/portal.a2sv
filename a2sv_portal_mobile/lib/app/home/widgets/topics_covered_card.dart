@@ -1,7 +1,7 @@
 import 'package:a2sv_portal_mobile/constants/app_images.dart' as CustomImageUrl;
-import 'package:flutter/material.dart';
 import 'package:a2sv_portal_mobile/widgets/cards/shadow_card.dart';
 import 'package:a2sv_portal_mobile/widgets/topics/topic_card_row.dart';
+import 'package:flutter/material.dart';
 
 class TopicsCoveredCard extends StatelessWidget {
   const TopicsCoveredCard({Key? key}) : super(key: key);

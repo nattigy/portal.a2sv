@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../utils/colors.dart';
-import '../utils/custom_colors.dart';
 
 class PercentageIndicator extends StatelessWidget {
   const PercentageIndicator(

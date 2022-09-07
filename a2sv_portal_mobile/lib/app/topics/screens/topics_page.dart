@@ -2,7 +2,6 @@ import 'package:a2sv_portal_mobile/app/topics/models/season.dart';
 import 'package:a2sv_portal_mobile/app/topics/season_bloc/season.bloc.dart';
 import 'package:a2sv_portal_mobile/app/topics/season_bloc/season_state.dart';
 import 'package:a2sv_portal_mobile/app/topics/widgets/topic_info_card.dart';
-import 'package:a2sv_portal_mobile/widgets/cards/margin_container.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,8 +13,8 @@ class TopicsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight=MediaQuery.of(context).size.height;
-    final screenWidth= MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xFFFBFCFF),
@@ -41,7 +40,6 @@ class TopicsPage extends StatelessWidget {
                 SizedBox(height: screenHeight * 0.02),
                 SizedBox(
                   height: screenHeight * 0.24,
-                 
                   child: BlocBuilder<SeasonBloc, SeasonState>(
                     builder: ((context, state) {
                       if (state is SeasonInit) {
@@ -59,9 +57,12 @@ class TopicsPage extends StatelessWidget {
                             itemCount: seasons.length,
                             itemBuilder: ((context, index) {
                               return Padding(
-                                padding:  EdgeInsets.only(right: screenWidth * 0.03),
+                                padding:
+                                    EdgeInsets.only(right: screenWidth * 0.03),
                                 child: Container(
-                                  padding:  EdgeInsets.symmetric(horizontal: screenWidth * 0.01,vertical: screenHeight * 0.01),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: screenWidth * 0.01,
+                                      vertical: screenHeight * 0.01),
                                   color: Colors.white,
                                   width:
                                       MediaQuery.of(context).size.width * 0.42,
@@ -93,7 +94,8 @@ class TopicsPage extends StatelessWidget {
                                             //     ),
                                             //   ),
                                             // ),
-                                          SizedBox(height: screenHeight * 0.03),
+                                            SizedBox(
+                                                height: screenHeight * 0.03),
                                             Align(
                                               alignment: Alignment.centerLeft,
                                               child: Text(
@@ -106,7 +108,8 @@ class TopicsPage extends StatelessWidget {
                                                 ),
                                               ),
                                             ),
-                                            SizedBox(height: screenHeight * 0.01),
+                                            SizedBox(
+                                                height: screenHeight * 0.01),
                                             Align(
                                               alignment: Alignment.centerLeft,
                                               child: Text(
@@ -137,11 +140,13 @@ class TopicsPage extends StatelessWidget {
                     }),
                   ),
                 ),
-                 SizedBox(height: screenHeight * 0.04),
+                SizedBox(height: screenHeight * 0.04),
                 TopicInfoCard(),
-                 SizedBox(height: screenHeight * 0.01),
-                 Container(
-                  padding: EdgeInsets.symmetric(horizontal:screenWidth * 0.04,vertical: screenHeight * 0.04),
+                SizedBox(height: screenHeight * 0.01),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.04,
+                      vertical: screenHeight * 0.04),
                   child: BlocBuilder<SeasonBloc, SeasonState>(
                     builder: ((context, state) {
                       if (state is SeasonInit) {
@@ -155,19 +160,19 @@ class TopicsPage extends StatelessWidget {
                           return Text('no seasons');
                         }
                         return ListView.builder(
-                          shrinkWrap: true,
+                            shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             itemCount: seasons.length,
                             itemBuilder: ((context, index) {
-                              return  ExpandableNotifier(child: _buildSeasonTopics(seasons[index]));
+                              return ExpandableNotifier(
+                                  child: _buildSeasonTopics(seasons[index]));
                             }));
                       } else {
                         return Text('Error');
                       }
                     }),
                   ),
-                 )
-                
+                )
               ],
             ),
           ),
@@ -193,24 +198,20 @@ class TopicsPage extends StatelessWidget {
           ),
         ),
         collapsed: Container(),
-       
-        expanded: 
-      
-           ListView.builder(
-            shrinkWrap: true,
-            itemCount: season.topics!.length,
-            itemBuilder: (context, index) {
-              return _buildTopicCard(
-                context: context,
-                iconData: Icons.abc,
-                topicTitle: season.topics![index].name,
-                topicDescription: season.topics![index].description.toString(),
-                problemsCount: 23,
-              );
-            },
-          ),
+        expanded: ListView.builder(
+          shrinkWrap: true,
+          itemCount: season.topics!.length,
+          itemBuilder: (context, index) {
+            return _buildTopicCard(
+              context: context,
+              iconData: Icons.abc,
+              topicTitle: season.topics![index].name,
+              topicDescription: season.topics![index].description.toString(),
+              problemsCount: 23,
+            );
+          },
         ),
-      
+      ),
     );
   }
 
@@ -223,9 +224,7 @@ class TopicsPage extends StatelessWidget {
   }) {
     return Container(
       color: CustomColors.white,
-      
       child: ListTile(
-       
         leading: const SizedBox(
           height: 50,
           width: 50,

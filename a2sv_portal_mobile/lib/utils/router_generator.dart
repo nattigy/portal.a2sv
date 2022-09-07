@@ -10,7 +10,8 @@ class RouterGenerator {
     switch (settings.name) {
       case AppRoutes.splashRoute:
         return PageRouteBuilder(
-            pageBuilder: (context, animation1, animation2) => const SplashPage(),
+            pageBuilder: (context, animation1, animation2) =>
+                const SplashPage(),
             transitionDuration: const Duration(seconds: 5));
 
       case AppRoutes.onboardingRoute:

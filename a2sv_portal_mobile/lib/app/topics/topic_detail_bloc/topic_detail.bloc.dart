@@ -7,11 +7,14 @@ part 'topic_detail.state.dart';
 
 class TopicDetailBloc extends Cubit<TopicDetailState> {
   final TopicDetailRepository topicDetailRepository;
-  TopicDetailBloc({required this.topicDetailRepository}) : super(TopicDetailInitial());
+
+  TopicDetailBloc({required this.topicDetailRepository})
+      : super(TopicDetailInitial());
+
   Future<void> fetchTopic() async {
     try {
       emit(TopicDetailLoading());
-      final Topic topic= await topicDetailRepository.fetchTopic();
+      final Topic topic = await topicDetailRepository.fetchTopic();
       emit(TopicDetailSuccess(topic: topic));
     } catch (e) {
       print(e.toString());

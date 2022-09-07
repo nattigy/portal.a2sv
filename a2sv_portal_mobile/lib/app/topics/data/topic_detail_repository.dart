@@ -1,4 +1,3 @@
-import 'package:a2sv_portal_mobile/app/topics/data/graphql/get_topics.graphql.dart';
 import 'package:a2sv_portal_mobile/app/topics/models/season.dart';
 import 'package:a2sv_portal_mobile/app/topics/models/topic.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -9,8 +8,11 @@ class TopicDetailRepository {
   TopicDetailRepository({required this.client});
 
   Future<Topic> fetchTopic() async {
-    
-    var topic  = Topic(id: "1",description: "Hi",name: "Stack",season: Season(id:"2",name: "Camp",topics:[] ));
+    var topic = Topic(
+        id: "1",
+        description: "Hi",
+        name: "Stack",
+        season: Season(id: "2", name: "Camp", topics: []));
     await Future.delayed(Duration(seconds: 5));
     return topic;
 

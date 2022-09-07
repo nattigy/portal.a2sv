@@ -4,7 +4,6 @@ import 'package:a2sv_portal_mobile/app/home/bloc/home.bloc.dart';
 import 'package:a2sv_portal_mobile/app/home/data/home.repository.dart';
 import 'package:a2sv_portal_mobile/app/topics/data/season_repository.dart';
 import 'package:a2sv_portal_mobile/app/topics/season_bloc/season.bloc.dart';
-import 'package:a2sv_portal_mobile/config/gql.client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,9 +13,13 @@ import 'auth/data/auth.repository.dart';
 import 'users/data/users.repository.dart';
 
 class App extends StatefulWidget {
-  const App(
-      {Key? key, required this.userRepository, required this.homeRepository, required this.groupRepository, required this.seasonRepository,})
-      : super(key: key);
+  const App({
+    Key? key,
+    required this.userRepository,
+    required this.homeRepository,
+    required this.groupRepository,
+    required this.seasonRepository,
+  }) : super(key: key);
 
   final UserRepository userRepository;
   final HomeRepository homeRepository;

@@ -15,10 +15,12 @@ class Season {
     return Season(
         id: json['id'],
         name: json['name'],
-        topics: json['topics']==null? []:List<Topic>.from(
-          json["topics"].map(
-            (x) => Topic.fromJson(x),
-          ),
-        ));
+        topics: json['topics'] == null
+            ? []
+            : List<Topic>.from(
+                json["topics"].map(
+                  (x) => Topic.fromJson(x),
+                ),
+              ));
   }
 }

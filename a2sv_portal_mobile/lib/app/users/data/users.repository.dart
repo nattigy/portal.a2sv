@@ -1,10 +1,10 @@
 import 'dart:convert';
+
 import 'package:a2sv_portal_mobile/app/auth/dto/login.input.dart';
 import 'package:a2sv_portal_mobile/app/users/data/graphql/get_user.gql.dart';
 import 'package:a2sv_portal_mobile/app/users/entity/users.entity.dart';
-import 'package:graphql/client.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:a2sv_portal_mobile/app/users/data/graphql/login.gql.dart';
+import 'package:graphql/client.dart';
 
 class UserRepository {
   final GraphQLClient client;

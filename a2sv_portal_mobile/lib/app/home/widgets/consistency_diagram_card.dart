@@ -24,7 +24,8 @@ class ConsistencyDiagramCard extends StatelessWidget {
             children: [
               Text(
                 "$totalSubmissions total submissions",
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
               Row(
                 children: [
@@ -59,7 +60,8 @@ class ConsistencyDiagramCard extends StatelessWidget {
 class MonthlyConsistency extends StatelessWidget {
   final Consistency consistency;
 
-  const MonthlyConsistency({Key? key, required this.consistency}) : super(key: key);
+  const MonthlyConsistency({Key? key, required this.consistency})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

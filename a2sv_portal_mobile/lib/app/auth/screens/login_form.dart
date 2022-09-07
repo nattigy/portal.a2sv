@@ -30,7 +30,6 @@ class LoginForm extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-          
                 const SizedBox(height: 60),
                 const Align(
                   alignment: Alignment.topLeft,
@@ -71,10 +70,10 @@ class LoginForm extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 40,),
-                Align(
-                    alignment: Alignment.topCenter,
-                    child: _LoginButton()),
+                SizedBox(
+                  height: 40,
+                ),
+                Align(alignment: Alignment.topCenter, child: _LoginButton()),
                 // const SizedBox(height: 40),
               ],
             ),

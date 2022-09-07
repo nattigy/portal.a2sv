@@ -17,64 +17,60 @@ class TopicDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TopicDetailBloc, TopicDetailState>(
-      builder: (context, state){
-        if(state is TopicDetailInitial){
+      builder: (context, state) {
+        if (state is TopicDetailInitial) {
           context.read<TopicDetailBloc>().fetchTopic();
-           return Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: true,
-            iconTheme: IconThemeData(
-              color: Colors.black, //change your color here
-            ),
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          
-          ),
-          body: Center(child:CircularProgressIndicator()),
-          );
-        }
-        else if(state is TopicDetailSuccess){
           return Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: true,
-            iconTheme: IconThemeData(
-              color: Colors.black, //change your color here
+            appBar: AppBar(
+              automaticallyImplyLeading: true,
+              iconTheme: IconThemeData(
+                color: Colors.black, //change your color here
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
             ),
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            centerTitle: true,
-            title: Text(
-              state is TopicDetailSuccess?state.topic.name:"",
-              style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black),
+            body: Center(child: CircularProgressIndicator()),
+          );
+        } else if (state is TopicDetailSuccess) {
+          return Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: true,
+              iconTheme: IconThemeData(
+                color: Colors.black, //change your color here
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              centerTitle: true,
+              title: Text(
+                state is TopicDetailSuccess ? state.topic.name : "",
+                style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black),
+              ),
             ),
-          ),
-          body: SafeArea(
-            child: MarginContainer(
-                child: Column(
-              children: [
-                TopicInfo(season:state.topic.season.name),
-                QuestionsTitle(),
-                Expanded(child: Questions()),
-              ],
-            )),
-          ),
-        );
-        }
-        else{
-           return Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: true,
-            iconTheme: IconThemeData(
-              color: Colors.black, //change your color here
+            body: SafeArea(
+              child: MarginContainer(
+                  child: Column(
+                children: [
+                  TopicInfo(season: state.topic.season.name),
+                  QuestionsTitle(),
+                  Expanded(child: Questions()),
+                ],
+              )),
             ),
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          
-          ),
-          body: Center(child:CircularProgressIndicator()),
+          );
+        } else {
+          return Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: true,
+              iconTheme: IconThemeData(
+                color: Colors.black, //change your color here
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
+            body: Center(child: CircularProgressIndicator()),
           );
         }
       },

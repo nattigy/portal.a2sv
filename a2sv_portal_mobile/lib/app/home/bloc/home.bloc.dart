@@ -20,7 +20,8 @@ class HomeBloc extends Cubit<HomeState> {
     emit(HomeLoading());
     try {
       User? user = await usersRepository.getLocalUser();
-      Consistency consistency = await homeRepository.loadConsistencyDiagram("2022");
+      Consistency consistency =
+          await homeRepository.loadConsistencyDiagram("2022");
       ProblemStat problemStat = await homeRepository.loadProblemStats();
       emit(HomeLoadSuccess(
         user: user!,

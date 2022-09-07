@@ -5,7 +5,6 @@ import '../../../widgets/percentage_indicator.dart';
 
 class TopicInfo extends StatelessWidget {
   final String season;
-  
 
   const TopicInfo({Key? key, required this.season}) : super(key: key);
 
@@ -16,7 +15,7 @@ class TopicInfo extends StatelessWidget {
     return Column(
       children: [
         // SizedBox(height: height * 0.04),
-         Align(
+        Align(
           alignment: Alignment.topLeft,
           child: Chip(
             padding: EdgeInsets.all(8),

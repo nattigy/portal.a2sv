@@ -19,7 +19,7 @@ class SplashPage extends StatelessWidget {
             Container(
               width: 300,
               child: AspectRatio(
-                aspectRatio: 16/9, //aspect ratio for Image
+                aspectRatio: 16 / 9, //aspect ratio for Image
                 child: Image(
                   image: AssetImage(a2svLogo),
                   fit: BoxFit.fitWidth, //fill type of image inside aspectRatio

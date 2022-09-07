@@ -1,5 +1,3 @@
-
-
 class Question {
   final String title;
   final String tag;

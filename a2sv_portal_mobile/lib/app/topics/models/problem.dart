@@ -27,20 +27,20 @@ class Problem {
         link: json['link'],
         platform: json['platform'],
         difficulty: json['difficulty'],
-        createdAt:  json['createdAt'],
+        createdAt: json['createdAt'],
         updatedAt: json['updatedAt'],
         tags: List<Tag>.from(json["problems"].map((x) => Problem.fromMap(x))));
   }
-    factory Problem.fromMap(Map<String, dynamic> json) {
+
+  factory Problem.fromMap(Map<String, dynamic> json) {
     return Problem(
         id: json['_id'],
         title: json['title'],
         link: json['link'],
         platform: json['platform'],
         difficulty: json['difficulty'],
-        createdAt:  json['createdAt'],
+        createdAt: json['createdAt'],
         updatedAt: json['updatedAt'],
         tags: List<Tag>.from(json["problems"].map((x) => Problem.fromMap(x))));
   }
-
 }

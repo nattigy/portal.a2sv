@@ -6,8 +6,7 @@ import '../../../widgets/text_views/card_title_text.dart';
 import '../../../widgets/text_views/reminder_text_view.dart';
 
 class TopicInfoCard extends StatelessWidget {
-  const TopicInfoCard({Key? key})
-      : super(key: key);
+  const TopicInfoCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

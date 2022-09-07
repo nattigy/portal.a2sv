@@ -1,6 +1,5 @@
 import 'package:a2sv_portal_mobile/app/groups/bloc/group.bloc.dart';
 import 'package:a2sv_portal_mobile/app/groups/bloc/group.state.dart';
-import 'package:a2sv_portal_mobile/widgets/cards/margin_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
