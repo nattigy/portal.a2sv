@@ -10,7 +10,7 @@ class TopicDetailRepository {
 
   Future<Topic> fetchTopic() async {
     
-    var topic  = Topic(id: 1,description: "Hi",name: "Stack",season: Season(id:"2",name: "Camp",topics:[],startDate: DateTime.now(),createdAt: DateTime.now(),endDate: DateTime.now(),updatedAt: DateTime.now() ));
+    var topic  = Topic(id: "1",description: "Hi",name: "Stack",season: Season(id:"2",name: "Camp",topics:[] ));
     await Future.delayed(Duration(seconds: 5));
     return topic;
 

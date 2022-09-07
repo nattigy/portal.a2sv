@@ -1,9 +1,18 @@
+import 'dart:math';
+
+import 'package:a2sv_portal_mobile/utils/custom_colors.dart';
 import 'package:a2sv_portal_mobile/widgets/cards/shadow_card.dart';
 import 'package:flutter/material.dart';
 
-class ConsistencyDiagramCard extends StatelessWidget {
+class ConsistencyDiagramCard extends StatefulWidget {
   const ConsistencyDiagramCard({Key? key}) : super(key: key);
 
+  @override
+  State<ConsistencyDiagramCard> createState() => _ConsistencyDiagramCardState();
+}
+
+class _ConsistencyDiagramCardState extends State<ConsistencyDiagramCard> {
+  int year = 2022;
   @override
   Widget build(BuildContext context) {
     return ShadowCard(
@@ -20,16 +29,26 @@ class ConsistencyDiagramCard extends StatelessWidget {
               Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
-                    icon: Icon(
+                    onPressed: () {
+                      setState(() {
+                        year -= 1;
+                      });
+                    },
+                    icon: const Icon(
                       Icons.arrow_back_ios,
                       size: 15,
                     ),
                   ),
-                  Text("2022"),
+                  Text("$year"),
                   IconButton(
-                    onPressed: () {},
-                    icon: Icon(
+                    onPressed: year < 2022
+                        ? () {
+                            setState(() {
+                              year += 1;
+                            });
+                          }
+                        : null,
+                    icon: const Icon(
                       Icons.arrow_forward_ios,
                       size: 15,
                     ),
@@ -38,7 +57,12 @@ class ConsistencyDiagramCard extends StatelessWidget {
               ),
             ],
           ),
-          MonthlyConsistency(),
+          MonthlyConsistency(colorRange: [
+            CustomColors.greatConsistency,
+            CustomColors.goodConsistency,
+            CustomColors.lowConsistency,
+            CustomColors.noConsistency
+          ]),
         ],
       ),
     );
@@ -46,7 +70,9 @@ class ConsistencyDiagramCard extends StatelessWidget {
 }
 
 class MonthlyConsistency extends StatelessWidget {
-  const MonthlyConsistency({Key? key}) : super(key: key);
+  List<Color?> colorRange;
+
+  MonthlyConsistency({Key? key, required this.colorRange}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +81,7 @@ class MonthlyConsistency extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          ...List.generate(12, (index) => SingleMonth()),
+          ...List.generate(12, (index) => SingleMonth(colorRange: colorRange)),
         ],
       ),
     );
@@ -63,7 +89,8 @@ class MonthlyConsistency extends StatelessWidget {
 }
 
 class SingleMonth extends StatelessWidget {
-  const SingleMonth({Key? key}) : super(key: key);
+  final List<Color?> colorRange;
+  const SingleMonth({Key? key, required this.colorRange}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +99,7 @@ class SingleMonth extends StatelessWidget {
       height: 130,
       child: Wrap(
         children: [
-          ...List.generate(31, (index) => Day()),
+          ...List.generate(31, (index) => Day(colorRange: colorRange)),
         ],
       ),
     );
@@ -80,14 +107,16 @@ class SingleMonth extends StatelessWidget {
 }
 
 class Day extends StatelessWidget {
-  const Day({Key? key}) : super(key: key);
+  final List<Color?> colorRange;
+  const Day({Key? key, required this.colorRange}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(2),
       decoration: BoxDecoration(
-        color: Colors.green,
+        color: colorRange[Random().nextInt(colorRange.length)],
+        // color: Colors.green,
         borderRadius: BorderRadius.all(Radius.circular(2)),
       ),
       child: SizedBox(width: 12, height: 12),

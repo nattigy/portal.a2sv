@@ -7,12 +7,14 @@ class Group extends Equatable {
   final String id;
   final String name;
   final String school;
+  final String country;
   final List<Topic>? topics;
   final List<User>? users;
 
   Group(
       {required this.id,
       required this.school,
+      required this.country,
       required this.name,
       required this.topics,
       required this.users});
@@ -22,6 +24,7 @@ class Group extends Equatable {
       id: json['id'],
       name: json['name'],
       school: json['school'],
+      country: json['country'],
       topics: json['topics'] != null
           ? List<Topic>.from(
               json["topics"].map(
@@ -40,5 +43,5 @@ class Group extends Equatable {
   }
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [id, school, country, name, topics, users];
 }

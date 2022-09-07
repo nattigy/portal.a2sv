@@ -1,7 +1,10 @@
+import 'package:a2sv_portal_mobile/app/topics/season_bloc/season.bloc.dart';
+import 'package:a2sv_portal_mobile/app/topics/season_bloc/season_state.dart';
 import 'package:a2sv_portal_mobile/app/topics/widgets/topic_info_card.dart';
 import 'package:a2sv_portal_mobile/widgets/cards/margin_container.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../utils/custom_colors.dart';
 
@@ -36,76 +39,171 @@ class TopicsPage extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.24,
                   // color: Colors.blue,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 5,
-                    itemBuilder: ((context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          color: Colors.white,
-                          width: MediaQuery.of(context).size.width * 0.42,
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 4,
+                  child: BlocBuilder<SeasonBloc, SeasonState>(
+                    builder: ((context, state) {
+                      if (state is SeasonInit) {
+                        context.read<SeasonBloc>().fetchSeasons();
+                        return const CircularProgressIndicator();
+                      } else if (state is SeasonLoading) {
+                        return const CircularProgressIndicator();
+                      } else if (state is SeasonSuccess) {
+                        final seasons = state.seasons;
+                        if (seasons.isEmpty) {
+                          return Text('no seasons');
+                        }
+                        return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: seasons.length,
+                            itemBuilder: ((context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  color: Colors.white,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.42,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 4,
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            const Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                "Active",
+                                                style: TextStyle(
+                                                  color: Colors.green,
+                                                ),
+                                              ),
+                                            ),
+                                            // Align(
+                                            //   alignment: Alignment.topLeft,
+                                            //   child: Text(
+                                            //     "starts in 12/12/2022",
+                                            //     style: TextStyle(
+                                            //       color: CustomColors.veryLightTextColor,
+                                            //     ),
+                                            //   ),
+                                            // ),
+                                            const SizedBox(height: 12),
+                                            Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                seasons[index].name,
+                                                style: TextStyle(
+                                                  color: CustomColors
+                                                      .veryDarkTextColor,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                seasons[index]
+                                                        .topics!
+                                                        .length
+                                                        .toString() +
+                                                    " topics",
+                                                style: TextStyle(
+                                                  color: CustomColors
+                                                      .lightTextColor,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    const Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(
-                                        "Active",
-                                        style: TextStyle(
-                                          color: Colors.green,
-                                        ),
-                                      ),
-                                    ),
-                                    // Align(
-                                    //   alignment: Alignment.topLeft,
-                                    //   child: Text(
-                                    //     "starts in 12/12/2022",
-                                    //     style: TextStyle(
-                                    //       color: CustomColors.veryLightTextColor,
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    const SizedBox(height: 12),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        "Education season",
-                                        style: TextStyle(
-                                          color: CustomColors.veryDarkTextColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        "8 topics covered",
-                                        style: TextStyle(
-                                          color: CustomColors.lightTextColor,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
+                              );
+                            }));
+                      } else {
+                        return Text('Errorh');
+                      }
                     }),
                   ),
+
+                  // child: ListView.builder(
+                  //   scrollDirection: Axis.horizontal,
+                  //   itemCount: 5,
+                  //   itemBuilder: ((context, index) {
+                  //     return Padding(
+                  //       padding: const EdgeInsets.only(right: 8),
+                  //       child: Container(
+                  //         padding: const EdgeInsets.all(8),
+                  //         color: Colors.white,
+                  //         width: MediaQuery.of(context).size.width * 0.42,
+                  //         child: Column(
+                  //           children: [
+                  //             Container(
+                  //               padding: const EdgeInsets.symmetric(
+                  //                 vertical: 4,
+                  //               ),
+                  //               child: Column(
+                  //                 mainAxisAlignment: MainAxisAlignment.start,
+                  //                 children: [
+                  //                   const Align(
+                  //                     alignment: Alignment.topLeft,
+                  //                     child: Text(
+                  //                       "Active",
+                  //                       style: TextStyle(
+                  //                         color: Colors.green,
+                  //                       ),
+                  //                     ),
+                  //                   ),
+                  //                   // Align(
+                  //                   //   alignment: Alignment.topLeft,
+                  //                   //   child: Text(
+                  //                   //     "starts in 12/12/2022",
+                  //                   //     style: TextStyle(
+                  //                   //       color: CustomColors.veryLightTextColor,
+                  //                   //     ),
+                  //                   //   ),
+                  //                   // ),
+                  //                   const SizedBox(height: 12),
+                  //                   Align(
+                  //                     alignment: Alignment.centerLeft,
+                  //                     child: Text(
+                  //                       "Education season",
+                  //                       style: TextStyle(
+                  //                         color: CustomColors.veryDarkTextColor,
+                  //                         fontSize: 16,
+                  //                         fontWeight: FontWeight.w400,
+                  //                       ),
+                  //                     ),
+                  //                   ),
+                  //                   const SizedBox(height: 8),
+                  //                   Align(
+                  //                     alignment: Alignment.centerLeft,
+                  //                     child: Text(
+                  //                       "8 topics covered",
+                  //                       style: TextStyle(
+                  //                         color: CustomColors.lightTextColor,
+                  //                         fontSize: 12,
+                  //                         fontWeight: FontWeight.w500,
+                  //                       ),
+                  //                     ),
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     );
+                  //   }),
+                  // ),
                 ),
                 const SizedBox(height: 25),
                 TopicInfoCard(),

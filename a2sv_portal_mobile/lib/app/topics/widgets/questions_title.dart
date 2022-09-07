@@ -29,31 +29,34 @@ class QuestionsTitle extends StatelessWidget {
         SizedBox(
           height: height * 0.02,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: width * 0.1,
-            ),
-            SizedBox(
-              width: width * 0.4,
-              child: Align(
-                  child: Text("Name", style: style),
-                  alignment: Alignment.topLeft),
-            ),
-            SizedBox(
-              width: width * 0.3,
-              child: Center(
-                child: Center(child: Text("Difficulty", style: style)),
+        Container(
+          margin: EdgeInsets.only(bottom: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: width * 0.1,
               ),
-            ),
-            SizedBox(
-              width: width * 0.1,
-              child: Center(
-                child: Text("Status", style: style),
+              SizedBox(
+                width: width * 0.35,
+                child: Align(
+                    child: Text("Name", style: style),
+                    alignment: Alignment.topLeft),
               ),
-            ),
-          ],
+              SizedBox(
+                width: width * 0.3,
+                child: Center(
+                  child: Center(child: Text("Difficulty", style: style)),
+                ),
+              ),
+              SizedBox(
+                width: width * 0.15,
+                child: Center(
+                  child: Text("Status", style: style),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );

@@ -22,7 +22,7 @@ class GroupTab extends StatelessWidget {
             builder: (context, state) {
               if (state is GroupInit) {
                 context.read<GroupBloc>().fetchGroups();
-                return CircularProgressIndicator();
+                return Center(child: CircularProgressIndicator());
               } else if (state is GroupSuccess) {
                 final groups = state.groups;
                 if (groups.isEmpty) {
