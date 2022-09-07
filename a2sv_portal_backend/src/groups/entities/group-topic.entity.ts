@@ -6,8 +6,6 @@ import { Group } from './group.entity'
 @ObjectType()
 export class GroupTopic {
   @Field(() => Int)
-  id: number
-  @Field(() => Int)
   groupId: number
   @Field(() => Int)
   topicId: number
@@ -22,13 +20,11 @@ export class GroupTopic {
   @Field({ nullable: true })
   updatedAt?: Date
   constructor(
-    id: number,
     groupId: number,
     topicId: number,
     createdAt: Date,
     updatedAt: Date,
   ) {
-    this.id = id
     this.groupId = groupId
     this.topicId = topicId
     this.createdAt = createdAt

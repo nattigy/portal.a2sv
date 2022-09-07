@@ -26,9 +26,9 @@ input CreateRoleInput {
 }
 
 input CreateSeasonInput {
-  endDate: DateTime = "2022-09-06T12:33:44.907Z"
+  endDate: DateTime = "2022-09-06T16:42:58.092Z"
   name: String!
-  startDate: DateTime = "2022-09-06T12:33:44.907Z"
+  startDate: DateTime = "2022-09-06T16:42:58.092Z"
 }
 
 input CreateTagInput {
@@ -69,7 +69,6 @@ type GroupTopic {
   createdAt: DateTime
   group: Group
   groupId: Int!
-  id: Int!
   problems: GroupTopicProblem
   topic: Topic
   topicId: Int!
@@ -166,7 +165,7 @@ type Query {
   tag(id: Int!): Tag!
   tags: [Tag!]!
   topic(id: Int!): Topic!
-  topics: [Topic!]!
+  topics(groupId: Int, seasonId: Int, skip: Int, take: Int): [Topic!]!
   user(id: Int!): User!
   users(email: String, groupId: Float, role: String, skip: Int, status: String, take: Int): [User!]!
   welcome: String!
@@ -211,7 +210,7 @@ type Tag {
 type Topic {
   createdAt: DateTime
   description: String
-  groups: [Group!]
+  groups: [GroupTopic!]
   id: ID!
   name: String!
   season: Season
@@ -222,6 +221,7 @@ input UpdateGroupInput {
   country: String
   name: String
   school: String
+  topics: [UpdateTopicInput!]
 }
 
 input UpdateProblemInput {
@@ -243,9 +243,9 @@ input UpdateRoleInput {
 }
 
 input UpdateSeasonInput {
-  endDate: DateTime = "2022-09-06T12:33:44.907Z"
+  endDate: DateTime = "2022-09-06T16:42:58.092Z"
   name: String
-  startDate: DateTime = "2022-09-06T12:33:44.907Z"
+  startDate: DateTime = "2022-09-06T16:42:58.092Z"
 }
 
 input UpdateTagInput {

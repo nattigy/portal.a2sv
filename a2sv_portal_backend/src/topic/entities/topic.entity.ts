@@ -1,4 +1,5 @@
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql'
+import { GroupTopic } from 'src/groups/entities/group-topic.entity'
 import { Group } from 'src/groups/entities/group.entity'
 import { Season } from 'src/season/entities/season.entity'
 
@@ -12,8 +13,8 @@ export class Topic {
   description?: string
   @Field(() => Season, { nullable: true })
   season?: Season
-  @Field(() => [Group], { nullable: true })
-  groups?: Group[]
+  @Field(() => [GroupTopic], { nullable: true })
+  groups?: GroupTopic[]
   @Field({ nullable: true })
   createdAt?: Date
   @Field({ nullable: true })

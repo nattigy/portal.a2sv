@@ -2,11 +2,13 @@ import {
   Args,
   Int,
   Mutation,
+  Parent,
   Query,
   ResolveField,
   Resolver,
 } from '@nestjs/graphql'
 import { Roles } from 'src/auth/auth.decorator'
+import { Topic } from 'src/topic/entities/topic.entity'
 import { CreateGroupInput } from './dto/create-group.input'
 import { UpdateGroupInput } from './dto/update-group.input'
 import { Group } from './entities/group.entity'
@@ -47,5 +49,10 @@ export class GroupsResolver {
   @Mutation(() => Group)
   deleteGroup(@Args('id', { type: () => Int }) id: number) {
     return this.groupsService.deleteGroup(id)
+  }
+
+  @ResolveField(() => [Topic])
+  topics(@Parent() group: Group): Topic[] {
+    return group.topics?.map((groupTopic) => groupTopic.group)
   }
 }

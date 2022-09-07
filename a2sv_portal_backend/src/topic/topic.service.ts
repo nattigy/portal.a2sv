@@ -8,8 +8,21 @@ import { UpdateTopicInput } from './dto/update-topic.input'
 export class TopicService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getTopics(): Promise<Topic[]> {
-    return this.prismaService.topic.findMany({ include: { season: true } })
+  async getTopics(params: {
+    skip?: number
+    take?: number
+    groupId?: number
+    seasonId?: number
+  }): Promise<Topic[] | []> {
+    const {skip, take, groupId, seasonId } = params;
+    return this.prismaService.topic.findMany({ skip, take, where: {
+       seasonId, 
+       groups:{
+        every:{
+          groupId:groupId??undefined
+        }
+       }
+    },include: { season: true } })
   }
 
   async getTopicById(id: number): Promise<Topic> {
