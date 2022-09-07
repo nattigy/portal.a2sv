@@ -2,7 +2,7 @@ import React from "react";
 import { AiOutlineMinus } from "react-icons/ai";
 import { BiDownArrowAlt, BiUpArrowAlt } from "react-icons/bi";
 
-export type HOAContestInfo = {
+export type ContestInfo = {
   id: number;
   name: string;
   photo: string;
@@ -14,10 +14,10 @@ export type HOAContestInfo = {
 };
 
 type Props = {
-  contestInfo: HOAContestInfo[];
+  contestInfo: ContestInfo[];
 };
 
-const HOAContestRating = ({ contestInfo }: Props) => {
+const ContestRating = ({ contestInfo }: Props) => {
   return (
     <div>
       <div className="overflow-x-auto relative bg-white border-blue-100 shadow-md sm:rounded-lg border p-4 w-fit ">
@@ -53,7 +53,7 @@ const HOAContestRating = ({ contestInfo }: Props) => {
           <tbody>
             {contestInfo ? (
               contestInfo.map(
-                (contestRatingInfo: HOAContestInfo, index: number) => {
+                (contestRatingInfo: ContestInfo, index: number) => {
                   return (
                     <tr
                       className="bg-white text-[#565656] hover:bg-gray-50 dark:hover:bg-[#E2E2E2]"
@@ -111,4 +111,4 @@ const HOAContestRating = ({ contestInfo }: Props) => {
   );
 };
 
-export default HOAContestRating;
+export default ContestRating;

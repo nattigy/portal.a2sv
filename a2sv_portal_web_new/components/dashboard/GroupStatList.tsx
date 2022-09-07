@@ -18,8 +18,8 @@ const groupStats: GropStatItemProps[] = [
 const GroupStatList = () => {
   return (
     <div>
-      <p className="font-semibold text-[#565656] text-lg">Overview</p>
-      <div className="flex flex-row">
+      <p className="font-semibold text-[#565656] text-lg">Dashboard</p>
+      <div className="flex flex-row gap-x-5">
         {groupStats.map((item, index) => (
           <GroupStatItem {...item} path={svgs[index]} key={index} />
         ))}

@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import StudentLayout from "../../components/common/StudentLayout";
+import BaseLayout from "../../components/common/BaseLayout";
 import { useReactiveVar } from "@apollo/client";
 import { authenticatedUser } from "../../lib/constants/authenticated";
 import HOEDashboard from "../../components/dashboard/HOEDashboard";
@@ -23,7 +23,7 @@ const IndexPage = () => {
         return <StudentDashboard />
       }
       case GraphqlUserRole.HEAD_OF_EDUCATION: {
-        return <HOEDashboard />
+        return <HOEDashboard groupId={"1"} />
       }
       case GraphqlUserRole.HEAD_OF_ACADEMY: {
         return <HOADashboard />

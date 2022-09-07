@@ -8,13 +8,24 @@ import { LoaderSmall } from "../common/Loaders";
 import NewUserModal from "../modals/NewUserModal";
 import AddStudentList from "./AddStudentList";
 import GroupStudentsSidebarItem from "./GroupStudentsSidebarItem";
-import StudentTable, { StudentsInfo } from "./StudentTable";
+import StudentTable from "./StudentTable";
 
 type Props = {
   isAddStudentToGroupSidebarOpen: boolean;
-  setIsAddStudentToGroupSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>
-}
+  setIsAddStudentToGroupSidebarOpen: React.Dispatch<
+    React.SetStateAction<boolean>
+  >;
+  groupData?: any;
+};
 
+export type StudentsInfo = {
+  id: number;
+  name: string;
+  photo: string;
+  nationality: string;
+  residence: string;
+  dateJoined: string;
+};
 
 // export const students: Array<StudentsInfo> = [
 //   {
@@ -59,12 +70,13 @@ const GroupStudents = (props: Props) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const authUser = useReactiveVar<AuthUser | any>(authenticatedUser)
-  const [loadStudents, { data, refetch, loading }] = useUsersByGroupId(((authUser) as AuthUser).groupId)
+  const authUser = useReactiveVar<AuthUser | any>(authenticatedUser);
+  const [loadStudents, { data, refetch, loading }] = useUsersByGroupId(
+    (authUser as AuthUser).groupId
+  );
   useEffect(() => {
-    loadStudents()
-  }, [authUser, refetch])
-
+    loadStudents();
+  }, [authUser, refetch]);
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -74,43 +86,44 @@ const GroupStudents = (props: Props) => {
     setSearchQuery(e.target.value);
   };
 
-
-
-
   return (
     <>
       {/* {isModalOpen && (
         <NewUserModal onClose={() => setIsModalOpen(false)} />
       )} */}
       <div className="h-screen font-semibold text-[#565656]">
-        <div className="flex flex-row items-center justify-end my-6 font-semibold text-xl text-[#565656]">
-          {
-            props.isAddStudentToGroupSidebarOpen ? (
-              <button onClick={() => props.setIsAddStudentToGroupSidebarOpen(false)} className="px-4 py-2 bg-[#5956E9] rounded-lg text-center text-white font-medium text-sm">
+        <div className="flex justify-between items-center">
+          <p className="text-[rgb(103,103,103)] font-semibold text-lg">
+            {props.groupData.group.name}
+          </p>
+
+          <div className="flex flex-row items-center justify-end my-6 font-semibold text-xl text-[#565656]">
+            {props.isAddStudentToGroupSidebarOpen ? (
+              <button
+                onClick={() => props.setIsAddStudentToGroupSidebarOpen(false)}
+                className="px-4 py-2 bg-[#5956E9] rounded-lg text-center text-white font-medium text-sm"
+              >
                 Cancel
               </button>
             ) : (
-              <button onClick={() => props.setIsAddStudentToGroupSidebarOpen(true)} className="px-4 py-2 bg-[#5956E9] rounded-lg text-center text-white font-medium text-sm">
+              <button
+                onClick={() => props.setIsAddStudentToGroupSidebarOpen(true)}
+                className="px-4 py-2 bg-[#5956E9] rounded-lg text-center text-white font-medium text-sm"
+              >
                 + Add Student
               </button>
-            )
-          }
-
+            )}
+          </div>
         </div>
-        {
-          loading ? (
-            <div className="w-full h-full flex justify-center items-center">
-              <LoaderSmall />
-            </div>
-          ) :
-            data && data.users ? (
-              <StudentTable students={data.users} />
-            ) : (
-              <h1>
-                Empty
-              </h1>
-            )
-        }
+        {loading ? (
+          <div className="w-full h-full flex justify-center items-center">
+            <LoaderSmall />
+          </div>
+        ) : data && data.users ? (
+          <StudentTable students={data.users} />
+        ) : (
+          <h1>Empty</h1>
+        )}
       </div>
     </>
   );

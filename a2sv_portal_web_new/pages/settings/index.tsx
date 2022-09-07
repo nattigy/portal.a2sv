@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import StudentLayout from '../../components/common/StudentLayout'
+import BaseLayout from '../../components/common/BaseLayout'
 
 const IndexPage = () => {
     const Sidebar: React.FC = () => {
@@ -10,11 +10,11 @@ const IndexPage = () => {
 
 
     return (
-        <StudentLayout sidebar={<Sidebar />}>
+        <BaseLayout sidebar={<Sidebar />}>
             <div>
                 Settings
             </div>
-        </StudentLayout>
+        </BaseLayout>
     )
 }
 

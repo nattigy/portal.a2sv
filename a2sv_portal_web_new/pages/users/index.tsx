@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { LoaderSmall } from "../../components/common/Loaders";
-import StudentLayout from "../../components/common/StudentLayout";
+import BaseLayout from "../../components/common/BaseLayout";
 import NewUserModal from "../../components/modals/NewUserModal";
 import UserRank from "../../components/users/UserRank";
 import UsersFilter from "../../components/users/UsersFilter";
@@ -39,10 +39,10 @@ const UsersPage = (props: Props) => {
   };
 
   return (
-    <StudentLayout sidebar={<Sidebar />}>
+    <BaseLayout sidebar={<Sidebar />}>
       {isModalOpen && <NewUserModal onClose={() => setIsModalOpen(false)} />}
       <div className="flex flex-col relative">
-        <h1 className="text-2xl font-bold mb-2">Users 1</h1>
+        <h1 className="text-2xl font-bold mb-2">Users</h1>
         <UsersFilter
           handleModalOpen={handleModalOpen}
           handleTabChange={handleTabChange}
@@ -62,7 +62,7 @@ const UsersPage = (props: Props) => {
           </>
         )}
       </div>
-    </StudentLayout>
+    </BaseLayout>
   );
 };
 

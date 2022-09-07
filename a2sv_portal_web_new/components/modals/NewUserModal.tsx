@@ -66,7 +66,7 @@ const NewUserModal = (props: Props) => {
               variables: {
                 createUserInput: {
                   email: values.email,
-                  groupId: authUser.groupId,
+                  // groupId: authUser,
                   password: values.password,
                   role: authUser && authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY ? GraphqlUserRole.STUDENT : values.role
                 }

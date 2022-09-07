@@ -1,6 +1,7 @@
 import React from "react";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import CustomLink from "../common/CustomLink";
+import { format, formatDistance, formatRelative, subDays } from "date-fns";
 const StudentAvatar: React.FC<{ url: string }> = ({ url }: { url: string }) => {
   return (
     <img
@@ -69,7 +70,9 @@ const GroupItem = (props: GroupItemProps) => {
           </div>
           <div className="flex felx-col justify-end mt-2 gap-x-1 items-center">
             <AiOutlineClockCircle color="white" size={12} />
-            <p className="text-white text-[10px]">{props.createdAt}</p>
+            <p className="text-white text-[10px]">
+              {format(new Date(props.createdAt), "MMM, d uuuu")}
+            </p>
           </div>
         </div>
       </div>
@@ -82,8 +85,10 @@ const GroupItem = (props: GroupItemProps) => {
             {`+${props.totalStudents}`}
           </div>
         </div>
-        <CustomLink href={`/groups/${props.groupId}`}>
-          <p className="text-[#5956E9] text-xs font-semibold cursor-pointer">View Details</p>
+        <CustomLink href={`/dashboard/${props.groupId}`}>
+          <p className="text-[#5956E9] text-xs font-semibold cursor-pointer">
+            View Details
+          </p>
         </CustomLink>
       </div>
     </div>

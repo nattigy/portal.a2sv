@@ -1,7 +1,7 @@
 import { useReactiveVar } from "@apollo/client";
 import React, { ReactNode, useEffect, useState } from "react";
 import CustomDropdown, { CustomDropdownProps } from "../../../components/common/CustomDropdown";
-import StudentLayout from "../../../components/common/StudentLayout";
+import BaseLayout from "../../../components/common/BaseLayout";
 import TopicList from "../../../components/topics/TopicList";
 import TopicStruggledList from "../../../components/topics/TopicStruggledList";
 
@@ -37,7 +37,7 @@ const IndexPage = () => {
   }, [select]);
 
   return (
-    <StudentLayout sidebar={<Sidebar />}>
+    <BaseLayout sidebar={<Sidebar />}>
       <>
         <div className="flex items-center mb-2 gap-x-4">
           <h1 className="text-2xl font-bold text-gray-700">Topics</h1>
@@ -47,7 +47,7 @@ const IndexPage = () => {
         </div>
 
       </>
-    </StudentLayout>
+    </BaseLayout>
   );
 };
 

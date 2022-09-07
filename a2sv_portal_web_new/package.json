@@ -16,6 +16,7 @@
     "apexcharts": "^3.35.5",
     "better-docs": "^2.7.2",
     "clsx": "^1.2.1",
+    "date-fns": "^2.29.2",
     "deepmerge": "^4.2.2",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",

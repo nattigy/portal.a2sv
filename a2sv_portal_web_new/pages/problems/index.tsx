@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useState } from 'react'
+import BaseLayout from '../../components/common/BaseLayout'
 import { LoaderSmall } from '../../components/common/Loaders'
-import StudentLayout from '../../components/common/StudentLayout'
 import ProblemsTable from '../../components/problems/ProblemsTable'
 import useAllProblems from '../../lib/hooks/useAllProblems'
 import { ProblemDifficultyType, ProblemsInfo, ProblemStatus } from '../../types/problems'
@@ -23,7 +23,7 @@ const IndexPage = () => {
 
 
     return (
-        <StudentLayout sidebar={<Sidebar />}>
+        <BaseLayout sidebar={<Sidebar />}>
             {
                 loading ? (
                     <div className="w-full flex items-center justify-center">
@@ -33,7 +33,7 @@ const IndexPage = () => {
                     <ProblemsTable problems={problems} />
                 )
             }
-        </StudentLayout>
+        </BaseLayout>
     )
 }
 

@@ -1,10 +1,10 @@
 import React from "react";
 import { titleToIcon } from "../topics/TopicItem";
-export type DashboradTopicItemProps = {
+export type DashboardTopicItemProps = {
   topicName: string;
   questions: number;
 };
-const DashboradTopicItem = (props: DashboradTopicItemProps) => {
+const DashboardStatTopicItem = (props: DashboardTopicItemProps) => {
   return (
     <div className="flex flex-row text-[#787878] text-xs font-medium justify-between items-center">
       <div className="flex flex-row gap-x-2 items-center">
@@ -20,4 +20,4 @@ const DashboradTopicItem = (props: DashboradTopicItemProps) => {
   );
 };
 
-export default DashboradTopicItem;
+export default DashboardStatTopicItem;

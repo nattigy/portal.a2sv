@@ -79,7 +79,7 @@ const AddStudentList = (props: Props) => {
   return (
     <div className="flex flex-col gap-y-2">
       <div className="flex justify-between items-center">
-        <h1 className="font-semibold text-lg">Add Students <span className="font-light text-xs pl-1">${selectedStudent.size}/{`${props.students.length}`}</span></h1>
+        <h1 className="font-semibold text-lg">Add Students <span className="font-light text-xs pl-1">{selectedStudent.size}/{`${props.students.length}`}</span></h1>
         <button onClick={handleAddStudents} className="w-20 py-2 bg-[#5956E9] rounded-lg text-center text-white font-medium text-sm">
           Add
         </button>

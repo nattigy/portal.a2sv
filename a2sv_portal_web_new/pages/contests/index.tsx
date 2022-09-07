@@ -1,8 +1,8 @@
 import React, { ReactNode, useState } from "react";
-import StudentLayout from "../../components/common/StudentLayout";
+import BaseLayout from "../../components/common/BaseLayout";
 import GroupStudentsSidebarItem, {
   GroupStudentsSidebarProps,
-} from "../../components/group/GroupStudentsSidebarItem";
+} from "../../components/dashboard/GroupStudentsSidebarItem";
 import NewGroupModal from "../../components/modals/NewGroupModal";
 import { UserRoleType } from "../../types/user";
 
@@ -31,9 +31,9 @@ const IndexPage = () => {
   };
 
   return (
-    <StudentLayout sidebar={<Sidebar />}>
+    <BaseLayout sidebar={<Sidebar />}>
       Contests
-    </StudentLayout>
+    </BaseLayout>
   );
 };
 

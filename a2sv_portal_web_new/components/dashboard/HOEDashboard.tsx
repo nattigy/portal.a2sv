@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { ProblemDifficultyType } from "../../types/problems";
 import { UserRoleType } from "../../types/user";
-import StudentLayout from "../common/StudentLayout";
+import BaseLayout from "../common/BaseLayout";
+import { AcceptanceInfo } from "./AcceptanceRate";
 import ConsistencyDiagramItem, {
   ProblemSolvedProps,
 } from "./ConsistencyDiagram";
-import DashboardRankItem, { DashboardRankItemProps } from "./DashboardRankItem";
+import { ContestInfo } from "./ContestRating";
+import { DashboardRankItemProps } from "./DashboardRankItem";
 import DashboardStruggledItem from "./DashboardStruggledItem";
 import DashboardTopicItem, {
-  DashboradTopicItemProps,
+  DashboardTopicItemProps,
 } from "./DashboardTopicItem";
-import HOEAcceptanceRate, { HOEAcceptanceInfo } from "./HOEAcceptanceRate";
-import HOEChart from "./HOEChart";
-import HOEContestRating, { HOEContestInfo } from "./HOEContestRating";
-import ProblemSolvedItem from "./ProblemSolvedItem";
-import RadialBar from "./RadialBar";
-import TotalRadialBar from "./TotalRadialBar";
+import GroupInfo from "./GroupInfo";
 
-type Props = {};
-const DashboradTopic: DashboradTopicItemProps[] = [
+
+type Props = {
+  groupId: string;
+};
+const DashboardTopic: DashboardTopicItemProps[] = [
   {
     questions: 10,
     topicName: "Dynamic Programming",
@@ -91,7 +91,7 @@ const HOEDashboard = (props: Props) => {
           <p>Topic</p>
           <p>Questions</p>
         </div>
-        {DashboradTopic.map((item, index) => (
+        {DashboardTopic.map((item, index) => (
           <DashboardTopicItem {...item} key={index} />
         ))}
         <p className="text-[#565656] font-semibold text-lg mt-5">
@@ -107,7 +107,7 @@ const HOEDashboard = (props: Props) => {
   const handleTabChange = (index: number) => {
     setTabIndex(index);
   };
-  const userList: Array<HOEAcceptanceInfo> = [
+  const userList: Array<AcceptanceInfo> = [
     {
       id: 1,
       name: "Hanna Samuel",
@@ -142,7 +142,7 @@ const HOEDashboard = (props: Props) => {
     },
   ];
 
-  const contestUserList: Array<HOEContestInfo> = [
+  const contestUserList: Array<ContestInfo> = [
     {
       id: 1,
       name: "Hanna Samuel",
@@ -186,55 +186,7 @@ const HOEDashboard = (props: Props) => {
   ];
 
   return (
-    <StudentLayout sidebar={<Sidebar />}>
-      <div className="flex flex-col gap-y-4 w-full">
-        <p className="text-[rgb(103,103,103)] font-semibold">Group #</p>
-        <div className="flex flex-row gap-x-3 w-full">
-          {rankList.map((item, index) => (
-            <DashboardRankItem key={index} {...item} />
-          ))}
-        </div>
-        <div className="rounded-lg items-center w-full flex flex-row gap-4">
-          <div className="bg-white rounded-lg items-start flex w-2/3 flex-col p-3">
-            <h2 className="font-semibold">Submission Report</h2>
-            <HOEChart />
-          </div>
-          <div className="flex flex-col w-1/3 bg-white rounded-lg justify-start p-4 items-center gap-y-4">
-            <p className="text-[#454343] font-semibold">Solved Problems</p>
-            <TotalRadialBar />
-            <p className="text-[#454343] font-bold">220/300</p>
-            <p className="text-[#B2B2B2] text-[10px] font-semibold">
-              Acceptance Rate
-            </p>
-            <div className="flex flex-row gap-x-2">
-              <RadialBar
-                difficulty={ProblemDifficultyType.EASY}
-                solvedProblems={147}
-                totalProblems={220}
-              />
-              <RadialBar
-                difficulty={ProblemDifficultyType.MEDIUM}
-                solvedProblems={37}
-                totalProblems={120}
-              />
-              <RadialBar
-                difficulty={ProblemDifficultyType.HARD}
-                solvedProblems={37}
-                totalProblems={420}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="flex w-full gap-x-4 my-4">
-        <div className="w-1/2">
-          <HOEAcceptanceRate acceptanceInfo={userList} />
-        </div>
-        <div className="w-1/2">
-          <HOEContestRating contestInfo={contestUserList} />
-        </div>
-      </div>
-    </StudentLayout>
+      <GroupInfo groupId={props.groupId} />
   );
 };
 

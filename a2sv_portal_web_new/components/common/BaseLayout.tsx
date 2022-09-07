@@ -72,7 +72,6 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
     };
   }) => {
     const userRole: string = user.role;
-
     switch (userRole) {
       case GraphqlUserRole.STUDENT: {
         return (
@@ -447,39 +446,12 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 </svg>
               </a>
             </CustomLink>
-            <CustomLink href="/topics">
+            <CustomLink href="/users">
               <a
                 href="#"
                 className={clsx(
                   " flex items-center justify-center  p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
                   activePath.includes("/topics") &&
-                  "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
-                )}
-              >
-                <HiOutlineNewspaper size={26} />
-                {/* <svg
-                  className={clsx(
-                    "w-6 h-6 hover:text-white ",
-                    activePath.includes("/topics") &&
-                    "fill-current text-indigo-700"
-                  )}
-                  viewBox="0 0 25 25"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.5906 0C5.81103 0 0.181112 4.91986 0.181112 11.1105C0.181112 14.0232 1.5438 16.5832 3.57088 18.5486C3.49243 19.6746 2.92876 20.3479 2.14911 21.0085C1.72975 21.3621 1.26584 21.6934 0.847443 22.1015C0.429049 22.5095 1.49048e-06 23.0633 1.49048e-06 23.8308C-0.000375577 24.0465 0.0708012 24.2562 0.202315 24.4268C0.333829 24.5974 0.518202 24.7193 0.72638 24.7732C2.54523 25.2619 4.50355 24.9015 6.29528 24.2563C7.90881 23.6754 9.27052 22.8156 10.3514 21.98C11.0816 22.1005 11.8177 22.1918 12.5906 22.1918C19.3701 22.1918 25 17.3011 25 11.1105C25 4.92083 19.3701 0 12.5906 0ZM12.5906 1.94307C18.4461 1.94307 23.063 6.11096 23.063 11.1115C23.063 16.1129 18.4461 20.2497 12.5906 20.2497C11.8303 20.2497 11.102 20.2041 10.3814 20.0681C10.2403 20.0351 10.0936 20.0343 9.95211 20.0657C9.81064 20.0972 9.678 20.16 9.56398 20.2497C8.68942 20.9871 7.22214 21.8732 5.65994 22.4357C4.69725 22.7825 3.72293 22.9409 2.81447 22.9827C3.01786 22.8175 3.1796 22.7009 3.41979 22.4969C4.39507 21.6711 5.5689 20.344 5.5689 18.3368C5.56824 18.1985 5.53818 18.062 5.48073 17.9364C5.42327 17.8107 5.33975 17.6988 5.23573 17.6081C3.29873 15.9313 2.11909 13.6462 2.11909 11.1115C2.11909 6.10902 6.73498 1.94307 12.5906 1.94307Z"
-                    fill="currentColor"
-                  />
-                </svg> */}
-              </a>
-            </CustomLink>
-            <CustomLink href="/groups">
-              <a
-                href="#"
-                className={clsx(
-                  " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 ",
-                  activePath.includes("/group") &&
                   "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
                 )}
               >
@@ -501,6 +473,34 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
                 </svg> */}
               </a>
             </CustomLink>
+            <CustomLink href="/topics">
+              <a
+                href="#"
+                className={clsx(
+                  " flex items-center justify-center  p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group",
+                  activePath.includes("/topics") &&
+                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700"
+                )}
+              >
+                <HiOutlineNewspaper size={26} />
+                {/* <svg
+                  className={clsx(
+                    "w-6 h-6 hover:text-white ",
+                    activePath.includes("/topics") &&
+                    "fill-current text-indigo-700"
+                  )}
+                  viewBox="0 0 25 25"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12.5906 0C5.81103 0 0.181112 4.91986 0.181112 11.1105C0.181112 14.0232 1.5438 16.5832 3.57088 18.5486C3.49243 19.6746 2.92876 20.3479 2.14911 21.0085C1.72975 21.3621 1.26584 21.6934 0.847443 22.1015C0.429049 22.5095 1.49048e-06 23.0633 1.49048e-06 23.8308C-0.000375577 24.0465 0.0708012 24.2562 0.202315 24.4268C0.333829 24.5974 0.518202 24.7193 0.72638 24.7732C2.54523 25.2619 4.50355 24.9015 6.29528 24.2563C7.90881 23.6754 9.27052 22.8156 10.3514 21.98C11.0816 22.1005 11.8177 22.1918 12.5906 22.1918C19.3701 22.1918 25 17.3011 25 11.1105C25 4.92083 19.3701 0 12.5906 0ZM12.5906 1.94307C18.4461 1.94307 23.063 6.11096 23.063 11.1115C23.063 16.1129 18.4461 20.2497 12.5906 20.2497C11.8303 20.2497 11.102 20.2041 10.3814 20.0681C10.2403 20.0351 10.0936 20.0343 9.95211 20.0657C9.81064 20.0972 9.678 20.16 9.56398 20.2497C8.68942 20.9871 7.22214 21.8732 5.65994 22.4357C4.69725 22.7825 3.72293 22.9409 2.81447 22.9827C3.01786 22.8175 3.1796 22.7009 3.41979 22.4969C4.39507 21.6711 5.5689 20.344 5.5689 18.3368C5.56824 18.1985 5.53818 18.062 5.48073 17.9364C5.42327 17.8107 5.33975 17.6988 5.23573 17.6081C3.29873 15.9313 2.11909 13.6462 2.11909 11.1115C2.11909 6.10902 6.73498 1.94307 12.5906 1.94307Z"
+                    fill="currentColor"
+                  />
+                </svg> */}
+              </a>
+            </CustomLink>
+
             <CustomLink href="/contests">
               <a
                 href="#"

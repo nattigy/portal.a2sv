@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from "react";
-import {useFilteredUsers} from "../../lib/hooks/useUsers";
 import { UserRoleType } from "../../types/user";
-import StudentLayout from "../common/StudentLayout";
+import BaseLayout from "../common/BaseLayout";
 import ConsistencyDiagramItem from "./ConsistencyDiagram";
 import ContestStatItem from "./ContestStatItem";
 import DashboardRankItem, { DashboardRankItemProps } from "./DashboardRankItem";
 import DashboardStruggledItem from "./DashboardStruggledItem";
-import DashboardTopicItem, {
-  DashboradTopicItemProps,
-} from "./DashboardTopicItem";
+import DashboardTopicItem, { DashboardTopicItemProps } from "./DashboardTopicItem";
 import ProblemSolvedItem, { ProblemSolvedProps } from "./ProblemSolvedItem";
 
 type Props = {};
 
 const StudentDashboard = (props: Props) => {
 
-  const DashboradTopic: DashboradTopicItemProps[] = [
+  const DashboardTopic: DashboardTopicItemProps[] = [
     {
       questions: 10,
       topicName: "Dynamic Programming",
@@ -86,7 +83,7 @@ const StudentDashboard = (props: Props) => {
           <p>Topic</p>
           <p>Questions</p>
         </div>
-        {DashboradTopic.map((item, index) => (
+        {DashboardTopic.map((item, index) => (
           <DashboardTopicItem {...item} key={index} />
         ))}
         <p className="text-[#565656] font-semibold text-lg mt-5">
@@ -100,7 +97,7 @@ const StudentDashboard = (props: Props) => {
   };
 
   return (
-    <StudentLayout sidebar={<Sidebar  />}>
+    <BaseLayout sidebar={<Sidebar />}>
       <div className="flex flex-col gap-y-4">
         <p className="text-[#676767] font-semibold text-xl">Student Stats</p>
         <div className="flex flex-row gap-x-3">
@@ -114,7 +111,7 @@ const StudentDashboard = (props: Props) => {
         </div>
         <ContestStatItem />
       </div>
-    </StudentLayout>
+    </BaseLayout>
   );
 };
 
