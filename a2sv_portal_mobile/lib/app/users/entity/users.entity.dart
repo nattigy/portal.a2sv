@@ -45,6 +45,7 @@ class User extends Equatable {
       "middleName": middleName,
       "password": password,
       "phoneNumber": phoneNumber,
+      "email": email,
     };
   }
 }

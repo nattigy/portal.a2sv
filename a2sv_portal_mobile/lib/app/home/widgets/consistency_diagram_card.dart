@@ -1,18 +1,18 @@
-import 'dart:math';
-
+import 'package:a2sv_portal_mobile/app/home/models/consistency.entity.dart';
 import 'package:a2sv_portal_mobile/utils/custom_colors.dart';
 import 'package:a2sv_portal_mobile/widgets/cards/shadow_card.dart';
 import 'package:flutter/material.dart';
 
-class ConsistencyDiagramCard extends StatefulWidget {
-  const ConsistencyDiagramCard({Key? key}) : super(key: key);
+class ConsistencyDiagramCard extends StatelessWidget {
+  const ConsistencyDiagramCard({
+    Key? key,
+    required this.totalSubmissions,
+    required this.consistency,
+  }) : super(key: key);
 
-  @override
-  State<ConsistencyDiagramCard> createState() => _ConsistencyDiagramCardState();
-}
+  final int totalSubmissions;
+  final Consistency consistency;
 
-class _ConsistencyDiagramCardState extends State<ConsistencyDiagramCard> {
-  int year = 2022;
   @override
   Widget build(BuildContext context) {
     return ShadowCard(
@@ -23,46 +23,33 @@ class _ConsistencyDiagramCardState extends State<ConsistencyDiagramCard> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "201 total submissions",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                "$totalSubmissions total submissions",
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
               Row(
                 children: [
                   IconButton(
                     onPressed: () {
-                      setState(() {
-                        year -= 1;
-                      });
+                      // setState(() {
+                      //   year -= 1;
+                      // });
                     },
-                    icon: const Icon(
-                      Icons.arrow_back_ios,
-                      size: 15,
-                    ),
+                    icon: const Icon(Icons.arrow_back_ios, size: 15),
                   ),
-                  Text("$year"),
+                  Text(consistency.year),
                   IconButton(
-                    onPressed: year < 2022
-                        ? () {
-                            setState(() {
-                              year += 1;
-                            });
-                          }
-                        : null,
-                    icon: const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 15,
-                    ),
+                    onPressed: () {
+                      // setState(() {
+                      //   year += 1;
+                      // });
+                    },
+                    icon: const Icon(Icons.arrow_forward_ios, size: 15),
                   ),
                 ],
               ),
             ],
           ),
-          MonthlyConsistency(colorRange: [
-            CustomColors.greatConsistency,
-            CustomColors.goodConsistency,
-            CustomColors.lowConsistency,
-            CustomColors.noConsistency
-          ]),
+          MonthlyConsistency(consistency: consistency),
         ],
       ),
     );
@@ -70,9 +57,9 @@ class _ConsistencyDiagramCardState extends State<ConsistencyDiagramCard> {
 }
 
 class MonthlyConsistency extends StatelessWidget {
-  List<Color?> colorRange;
+  final Consistency consistency;
 
-  MonthlyConsistency({Key? key, required this.colorRange}) : super(key: key);
+  const MonthlyConsistency({Key? key, required this.consistency}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +68,10 @@ class MonthlyConsistency extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          ...List.generate(12, (index) => SingleMonth(colorRange: colorRange)),
+          ...List.generate(
+            consistency.months.length,
+            (index) => SingleMonth(month: consistency.months[index]),
+          ),
         ],
       ),
     );
@@ -89,8 +79,9 @@ class MonthlyConsistency extends StatelessWidget {
 }
 
 class SingleMonth extends StatelessWidget {
-  final List<Color?> colorRange;
-  const SingleMonth({Key? key, required this.colorRange}) : super(key: key);
+  final Month month;
+
+  const SingleMonth({Key? key, required this.month}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +90,10 @@ class SingleMonth extends StatelessWidget {
       height: 130,
       child: Wrap(
         children: [
-          ...List.generate(31, (index) => Day(colorRange: colorRange)),
+          ...List.generate(
+            month.days.length,
+            (index) => Day(dailyStat: month.days[index]),
+          ),
         ],
       ),
     );
@@ -107,19 +101,24 @@ class SingleMonth extends StatelessWidget {
 }
 
 class Day extends StatelessWidget {
-  final List<Color?> colorRange;
-  const Day({Key? key, required this.colorRange}) : super(key: key);
+  const Day({Key? key, required this.dailyStat}) : super(key: key);
+  final DailyStat dailyStat;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(2),
+      margin: const EdgeInsets.all(2),
       decoration: BoxDecoration(
-        color: colorRange[Random().nextInt(colorRange.length)],
-        // color: Colors.green,
-        borderRadius: BorderRadius.all(Radius.circular(2)),
+        color: dailyStat.totalProblems <= 1
+            ? CustomColors.noConsistency
+            : dailyStat.totalProblems <= 3
+                ? CustomColors.lowConsistency
+                : dailyStat.totalProblems <= 7
+                    ? CustomColors.goodConsistency
+                    : CustomColors.greatConsistency,
+        borderRadius: const BorderRadius.all(Radius.circular(2)),
       ),
-      child: SizedBox(width: 12, height: 12),
+      child: const SizedBox(width: 12, height: 12),
     );
   }
 }
