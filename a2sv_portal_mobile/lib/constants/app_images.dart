@@ -4,5 +4,6 @@ const linkedListImg = "assets/images/linkedlist.png";
 const stackImg = "assets/images/stack.png";
 const arrayImg = "assets/images/array.png";
 const dpImg = "assets/images/dp.png";
+const userImg = "assets/images/user_img.png";
 const geeksForGeeksImg = "assets/images/geeks.png";
 const leetcodeIconImg = "assets/images/leetcode.png";

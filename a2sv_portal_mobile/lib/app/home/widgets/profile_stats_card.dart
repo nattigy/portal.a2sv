@@ -1,10 +1,26 @@
+import 'package:a2sv_portal_mobile/app/home/widgets/questions_ratio.dart';
+import 'package:a2sv_portal_mobile/widgets/cards/shadow_card.dart';
 import 'package:flutter/material.dart';
 
-import '../../../widgets/cards/shadow_card.dart';
-import 'questions_ratio.dart';
-
 class ProblemsStatCard extends StatelessWidget {
-  const ProblemsStatCard({Key? key}) : super(key: key);
+  const ProblemsStatCard({
+    Key? key,
+    required this.problemsSolved,
+    required this.totalSubmissions,
+    required this.minutes,
+    required this.wrongSubmissions,
+    required this.easy,
+    required this.medium,
+    required this.hard,
+  }) : super(key: key);
+
+  final int problemsSolved;
+  final int totalSubmissions;
+  final int minutes;
+  final int wrongSubmissions;
+  final int easy;
+  final int medium;
+  final int hard;
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +34,13 @@ class ProblemsStatCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const Text("Problems Solved"),
                   Text(
-                    "Problems Solved",
-                  ),
-                  Text(
-                    "129",
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+                    "$problemsSolved",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 24,
+                    ),
                   ),
                 ],
               ),
@@ -32,50 +49,50 @@ class ProblemsStatCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text("201 total submissions"),
-                      SizedBox(width: 5),
+                      Text("$totalSubmissions total submissions"),
+                      const SizedBox(width: 5),
                       SizedBox(
                         width: 10,
                         height: 10,
                         child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.orange,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
+                          decoration: const BoxDecoration(
+                            color: Colors.orange,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Row(
                     children: [
-                      Text("1,293 minutes dedicated"),
-                      SizedBox(width: 5),
+                      Text("$minutes minutes dedicated"),
+                      const SizedBox(width: 5),
                       SizedBox(
                         width: 10,
                         height: 10,
                         child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
+                          decoration: const BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Row(
                     children: [
-                      Text("72 wrong submissions"),
-                      SizedBox(width: 5),
+                      Text("$wrongSubmissions wrong submissions"),
+                      const SizedBox(width: 5),
                       SizedBox(
                         width: 10,
                         height: 10,
                         child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
+                          decoration: const BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
                         ),
                       ),
                     ],
@@ -84,8 +101,8 @@ class ProblemsStatCard extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(height: 12),
-          QuestionsRatio(),
+          const SizedBox(height: 12),
+          QuestionsRatio(easy: easy, hard: hard, medium: medium),
         ],
       ),
     );

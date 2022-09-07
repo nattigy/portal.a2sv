@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 
 class QuestionsRatio extends StatelessWidget {
-  const QuestionsRatio({Key? key}) : super(key: key);
+  const QuestionsRatio({
+    Key? key,
+    required this.easy,
+    required this.medium,
+    required this.hard,
+  }) : super(key: key);
+
+  final int easy;
+  final int medium;
+  final int hard;
 
   @override
   Widget build(BuildContext context) {
@@ -11,37 +20,37 @@ class QuestionsRatio extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              flex: 1,
+              flex: easy,
               child: SizedBox(
                 height: 10,
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(3)),
                     color: Colors.green,
                   ),
                 ),
               ),
             ),
-            SizedBox(width: 3),
+            const SizedBox(width: 3),
             Expanded(
-              flex: 1,
+              flex: medium,
               child: SizedBox(
                 height: 10,
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(3)),
                     color: Colors.orange,
                   ),
                 ),
               ),
             ),
-            SizedBox(width: 3),
+            const SizedBox(width: 3),
             Expanded(
-              flex: 2,
+              flex: hard,
               child: SizedBox(
                 height: 10,
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(3)),
                     color: Colors.deepPurple,
                   ),
@@ -50,7 +59,7 @@ class QuestionsRatio extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -61,45 +70,39 @@ class QuestionsRatio extends StatelessWidget {
                   height: 8,
                   width: 8,
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                    ),
+                    decoration: const BoxDecoration(color: Colors.green),
                   ),
                 ),
-                SizedBox(width: 5),
-                Text("Easy"),
+                const SizedBox(width: 5),
+                const Text("Easy"),
               ],
             ),
-            SizedBox(width: 15),
+            const SizedBox(width: 15),
             Row(
               children: [
                 SizedBox(
                   height: 8,
                   width: 8,
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.orange,
-                    ),
+                    decoration: const BoxDecoration(color: Colors.orange),
                   ),
                 ),
-                SizedBox(width: 5),
-                Text("Medium"),
+                const SizedBox(width: 5),
+                const Text("Medium"),
               ],
             ),
-            SizedBox(width: 15),
+            const SizedBox(width: 15),
             Row(
               children: [
                 SizedBox(
                   height: 8,
                   width: 8,
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.deepPurple,
-                    ),
+                    decoration: const BoxDecoration(color: Colors.deepPurple),
                   ),
                 ),
-                SizedBox(width: 5),
-                Text("Hard"),
+                const SizedBox(width: 5),
+                const Text("Hard"),
               ],
             ),
           ],

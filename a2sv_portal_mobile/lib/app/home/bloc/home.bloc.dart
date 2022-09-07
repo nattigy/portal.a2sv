@@ -1,3 +1,5 @@
+import 'package:a2sv_portal_mobile/app/home/models/consistency.entity.dart';
+import 'package:a2sv_portal_mobile/app/home/models/problem_stat.entity.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,18 +19,14 @@ class HomeBloc extends Cubit<HomeState> {
   void loadHome() async {
     emit(HomeLoading());
     try {
-      final item = await usersRepository.getLocalUser();
-      emit(HomeLoadSuccess(item!));
-    } catch (e) {
-      emit(HomeOperationFailure(e.toString()));
-    }
-  }
-
-  void loadConsistencyDiagram() async {
-    emit(HomeLoading());
-    try {
-      await homeRepository.loadConsistencyDiagram();
-      emit(HomeLoadConsistencyData());
+      User? user = await usersRepository.getLocalUser();
+      Consistency consistency = await homeRepository.loadConsistencyDiagram("2022");
+      ProblemStat problemStat = await homeRepository.loadProblemStats();
+      emit(HomeLoadSuccess(
+        user: user!,
+        consistency: consistency,
+        problemStat: problemStat,
+      ));
     } catch (e) {
       emit(HomeOperationFailure(e.toString()));
     }

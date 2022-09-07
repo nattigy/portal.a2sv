@@ -13,16 +13,17 @@ class HomeUnknown extends HomeState {}
 
 class HomeLoadSuccess extends HomeState {
   final User user;
+  final Consistency consistency;
+  final ProblemStat problemStat;
 
-  const HomeLoadSuccess(this.user);
+  const HomeLoadSuccess({
+    required this.problemStat,
+    required this.user,
+    required this.consistency,
+  });
 
   @override
   List<Object?> get props => [user];
-}
-
-class HomeLoadConsistencyData extends HomeState {
-  @override
-  List<Object?> get props => [];
 }
 
 class HomeOperationFailure extends HomeState {
