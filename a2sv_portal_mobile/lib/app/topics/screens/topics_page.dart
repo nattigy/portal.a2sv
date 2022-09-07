@@ -1,3 +1,4 @@
+import 'package:a2sv_portal_mobile/app/topics/models/season.dart';
 import 'package:a2sv_portal_mobile/app/topics/season_bloc/season.bloc.dart';
 import 'package:a2sv_portal_mobile/app/topics/season_bloc/season_state.dart';
 import 'package:a2sv_portal_mobile/app/topics/widgets/topic_info_card.dart';
@@ -13,19 +14,21 @@ class TopicsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight=MediaQuery.of(context).size.height;
+    final screenWidth= MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xFFFBFCFF),
         body: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.05,
-            vertical: MediaQuery.of(context).size.width * 0.05,
+            horizontal: screenWidth * 0.05,
+            vertical: screenHeight * 0.05,
           ).copyWith(top: 0),
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                const SizedBox(height: 40),
+                SizedBox(height: screenHeight * 0.04),
                 const Align(
                     alignment: Alignment.center,
                     child: Text(
@@ -35,10 +38,10 @@ class TopicsPage extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     )),
-                const SizedBox(height: 24),
+                SizedBox(height: screenHeight * 0.02),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.24,
-                  // color: Colors.blue,
+                  height: screenHeight * 0.24,
+                 
                   child: BlocBuilder<SeasonBloc, SeasonState>(
                     builder: ((context, state) {
                       if (state is SeasonInit) {
@@ -49,16 +52,16 @@ class TopicsPage extends StatelessWidget {
                       } else if (state is SeasonSuccess) {
                         final seasons = state.seasons;
                         if (seasons.isEmpty) {
-                          return Text('no seasons');
+                          return const Text('no seasons');
                         }
                         return ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: seasons.length,
                             itemBuilder: ((context, index) {
                               return Padding(
-                                padding: const EdgeInsets.only(right: 8),
+                                padding:  EdgeInsets.only(right: screenWidth * 0.03),
                                 child: Container(
-                                  padding: const EdgeInsets.all(8),
+                                  padding:  EdgeInsets.symmetric(horizontal: screenWidth * 0.01,vertical: screenHeight * 0.01),
                                   color: Colors.white,
                                   width:
                                       MediaQuery.of(context).size.width * 0.42,
@@ -90,7 +93,7 @@ class TopicsPage extends StatelessWidget {
                                             //     ),
                                             //   ),
                                             // ),
-                                            const SizedBox(height: 12),
+                                          SizedBox(height: screenHeight * 0.03),
                                             Align(
                                               alignment: Alignment.centerLeft,
                                               child: Text(
@@ -103,7 +106,7 @@ class TopicsPage extends StatelessWidget {
                                                 ),
                                               ),
                                             ),
-                                            const SizedBox(height: 8),
+                                            SizedBox(height: screenHeight * 0.01),
                                             Align(
                                               alignment: Alignment.centerLeft,
                                               child: Text(
@@ -129,88 +132,42 @@ class TopicsPage extends StatelessWidget {
                               );
                             }));
                       } else {
-                        return Text('Errorh');
+                        return const Text('Error');
                       }
                     }),
                   ),
-
-                  // child: ListView.builder(
-                  //   scrollDirection: Axis.horizontal,
-                  //   itemCount: 5,
-                  //   itemBuilder: ((context, index) {
-                  //     return Padding(
-                  //       padding: const EdgeInsets.only(right: 8),
-                  //       child: Container(
-                  //         padding: const EdgeInsets.all(8),
-                  //         color: Colors.white,
-                  //         width: MediaQuery.of(context).size.width * 0.42,
-                  //         child: Column(
-                  //           children: [
-                  //             Container(
-                  //               padding: const EdgeInsets.symmetric(
-                  //                 vertical: 4,
-                  //               ),
-                  //               child: Column(
-                  //                 mainAxisAlignment: MainAxisAlignment.start,
-                  //                 children: [
-                  //                   const Align(
-                  //                     alignment: Alignment.topLeft,
-                  //                     child: Text(
-                  //                       "Active",
-                  //                       style: TextStyle(
-                  //                         color: Colors.green,
-                  //                       ),
-                  //                     ),
-                  //                   ),
-                  //                   // Align(
-                  //                   //   alignment: Alignment.topLeft,
-                  //                   //   child: Text(
-                  //                   //     "starts in 12/12/2022",
-                  //                   //     style: TextStyle(
-                  //                   //       color: CustomColors.veryLightTextColor,
-                  //                   //     ),
-                  //                   //   ),
-                  //                   // ),
-                  //                   const SizedBox(height: 12),
-                  //                   Align(
-                  //                     alignment: Alignment.centerLeft,
-                  //                     child: Text(
-                  //                       "Education season",
-                  //                       style: TextStyle(
-                  //                         color: CustomColors.veryDarkTextColor,
-                  //                         fontSize: 16,
-                  //                         fontWeight: FontWeight.w400,
-                  //                       ),
-                  //                     ),
-                  //                   ),
-                  //                   const SizedBox(height: 8),
-                  //                   Align(
-                  //                     alignment: Alignment.centerLeft,
-                  //                     child: Text(
-                  //                       "8 topics covered",
-                  //                       style: TextStyle(
-                  //                         color: CustomColors.lightTextColor,
-                  //                         fontSize: 12,
-                  //                         fontWeight: FontWeight.w500,
-                  //                       ),
-                  //                     ),
-                  //                   ),
-                  //                 ],
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //     );
-                  //   }),
-                  // ),
                 ),
-                const SizedBox(height: 25),
+                 SizedBox(height: screenHeight * 0.04),
                 TopicInfoCard(),
-                const SizedBox(height: 30),
-                ExpandableNotifier(child: _buildSeasonTopics()),
-                SizedBox(height: 20),
-                ExpandableNotifier(child: _buildSeasonTopics()),
+                 SizedBox(height: screenHeight * 0.01),
+                 Container(
+                  padding: EdgeInsets.symmetric(horizontal:screenWidth * 0.04,vertical: screenHeight * 0.04),
+                  child: BlocBuilder<SeasonBloc, SeasonState>(
+                    builder: ((context, state) {
+                      if (state is SeasonInit) {
+                        context.read<SeasonBloc>().fetchSeasons();
+                        return const CircularProgressIndicator();
+                      } else if (state is SeasonLoading) {
+                        return const CircularProgressIndicator();
+                      } else if (state is SeasonSuccess) {
+                        final seasons = state.seasons;
+                        if (seasons.isEmpty) {
+                          return Text('no seasons');
+                        }
+                        return ListView.builder(
+                          shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            itemCount: seasons.length,
+                            itemBuilder: ((context, index) {
+                              return  ExpandableNotifier(child: _buildSeasonTopics(seasons[index]));
+                            }));
+                      } else {
+                        return Text('Error');
+                      }
+                    }),
+                  ),
+                 )
+                
               ],
             ),
           ),
@@ -219,7 +176,7 @@ class TopicsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSeasonTopics() {
+  Widget _buildSeasonTopics(Season season) {
     return ScrollOnExpand(
       scrollOnExpand: true,
       scrollOnCollapse: false,
@@ -227,7 +184,7 @@ class TopicsPage extends StatelessWidget {
         header: Padding(
           padding: const EdgeInsets.only(top: 12, left: 12),
           child: Text(
-            "Education season topics",
+            season.name + " season topics",
             style: TextStyle(
               fontSize: 14,
               color: CustomColors.veryDarkTextColor,
@@ -236,24 +193,24 @@ class TopicsPage extends StatelessWidget {
           ),
         ),
         collapsed: Container(),
-        // expanded: _buildSeasonTopics,
-        expanded: SizedBox(
-          height: 200,
-          child: ListView.builder(
-            itemCount: 4,
+       
+        expanded: 
+      
+           ListView.builder(
+            shrinkWrap: true,
+            itemCount: season.topics!.length,
             itemBuilder: (context, index) {
               return _buildTopicCard(
                 context: context,
                 iconData: Icons.abc,
-                topicTitle: "Stack",
-                topicDescription:
-                    "linear data structure that follows the principle of Last In First Out (LIFO)",
+                topicTitle: season.topics![index].name,
+                topicDescription: season.topics![index].description.toString(),
                 problemsCount: 23,
               );
             },
           ),
         ),
-      ),
+      
     );
   }
 
@@ -266,9 +223,9 @@ class TopicsPage extends StatelessWidget {
   }) {
     return Container(
       color: CustomColors.white,
-      // color: Colors.red,
+      
       child: ListTile(
-        // leading: Icon(iconData),
+       
         leading: const SizedBox(
           height: 50,
           width: 50,
