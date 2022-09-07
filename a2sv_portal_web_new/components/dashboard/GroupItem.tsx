@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import CustomLink from "../common/CustomLink";
 import { format, formatDistance, formatRelative, subDays } from "date-fns";
+import MenuItem from "../common/MenuItem";
+import AssignHoEModal from "../modals/AssignHoEModal";
 const StudentAvatar: React.FC<{ url: string }> = ({ url }: { url: string }) => {
   return (
     <img
@@ -19,18 +21,29 @@ export type GroupItemProps = {
   studentsImage: string[];
   totalStudents: number;
   color?: string;
+ 
 };
 
-const GroupItem = (props: GroupItemProps) => {
+const GroupItem = (props:GroupItemProps) => {
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState<boolean>(false);
+
+  const handleAssignModalOpen = () => {
+    setIsAssignModalOpen(true);
+  };
   return (
+    <>
+    {isAssignModalOpen && (
+      <AssignHoEModal groupId={props.groupId} onClose={() => setIsAssignModalOpen(false)} />
+    )}
     <div className="w-64 h-32 bg-white rounded-lg">
       <div className="relative w-full h-2/3 rounded-lg">
         <img
-          className="absolute w-full h-full object-cover  rounded-t-lg "
+          className="absolute w-full h-full object-cover rounded-t-lg "
           src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
           alt=""
         />
-        <div className="relative h-full w-full bg-[#00000070] rounded-t-lg p-3">
+        <div className="relative h-full w-full bg-[#00000070] rounded-t-lg pl-3">
+          <MenuItem onClick={handleAssignModalOpen}/>
           <div className="flex gap-x-3 items-center">
             <div className="w-12 h-12">
               <svg
@@ -82,7 +95,7 @@ const GroupItem = (props: GroupItemProps) => {
             <StudentAvatar url={item} key={index} />
           ))}
           <div className="w-8 h-8 rounded-full bg-[#D9D9D9] text-[#000] border-solid border-white border-2 text-[10px] font-semibold flex items-center justify-center">
-            {`+${props.totalStudents}`}
+            +{props.totalStudents}
           </div>
         </div>
         <CustomLink href={`/dashboard/${props.groupId}`}>
@@ -92,6 +105,7 @@ const GroupItem = (props: GroupItemProps) => {
         </CustomLink>
       </div>
     </div>
+    </>
   );
 };
 
