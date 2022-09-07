@@ -4,7 +4,10 @@ import '../../../widgets/cards/shadow_card.dart';
 import '../../../widgets/percentage_indicator.dart';
 
 class TopicInfo extends StatelessWidget {
-  const TopicInfo({Key? key}) : super(key: key);
+  final String season;
+  
+
+  const TopicInfo({Key? key, required this.season}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,13 +16,13 @@ class TopicInfo extends StatelessWidget {
     return Column(
       children: [
         // SizedBox(height: height * 0.04),
-        const Align(
+         Align(
           alignment: Alignment.topLeft,
           child: Chip(
             padding: EdgeInsets.all(8),
             backgroundColor: Color.fromRGBO(92, 184, 92, 0.22),
             label: Text(
-              "Education",
+              season,
               style: TextStyle(
                   fontSize: 12,
                   color: Color.fromRGBO(92, 184, 92, 1),

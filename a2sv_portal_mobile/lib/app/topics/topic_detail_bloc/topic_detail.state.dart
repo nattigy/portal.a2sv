@@ -18,3 +18,9 @@ class TopicDetailSuccess extends TopicDetailState {
 }
 
 class TopicDetailLoading extends TopicDetailState {}
+
+class TopicDetailError extends TopicDetailState {
+  final String? errorMessage;
+
+  TopicDetailError({this.errorMessage});
+}

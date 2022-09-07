@@ -1,6 +1,8 @@
 import 'package:a2sv_portal_mobile/app/groups/bloc/group.bloc.dart';
 
 import 'package:a2sv_portal_mobile/app/groups/data/group_repository.dart';
+import 'package:a2sv_portal_mobile/app/topics/data/topic_detail_repository.dart';
+import 'package:a2sv_portal_mobile/app/topics/topic_detail_bloc/topic_detail.bloc.dart';
 import 'package:a2sv_portal_mobile/config/gql.client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,10 +29,12 @@ class _AppState extends State<App> {
     final AuthenticationRepository authenticationRepository =
         AuthenticationRepository(userRepository: widget.userRepository);
      final GroupRepository groupRepository = GroupRepository(client:Client().connect);
+      final TopicDetailRepository topicDetailRepository = TopicDetailRepository(client:Client().connect);
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: authenticationRepository),
-        RepositoryProvider.value(value: groupRepository)
+        RepositoryProvider.value(value: groupRepository),
+        RepositoryProvider.value(value: topicDetailRepository)
       ],
       child: MultiBlocProvider(
         providers: [
@@ -42,6 +46,11 @@ class _AppState extends State<App> {
           BlocProvider<GroupBloc>(
             create: (context) => GroupBloc(
                 groupRepository: groupRepository),
+            lazy: false,
+          ),
+          BlocProvider<TopicDetailBloc>(
+            create: (context) => TopicDetailBloc(
+             topicDetailRepository: topicDetailRepository),
             lazy: false,
           ),
         ],
