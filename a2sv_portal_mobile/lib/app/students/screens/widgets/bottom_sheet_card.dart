@@ -1,4 +1,5 @@
 import 'package:a2sv_portal_mobile/app/students/screens/widgets/radion_buttons.dart';
+import 'package:a2sv_portal_mobile/app/topics/models/problem.dart';
 import 'package:a2sv_portal_mobile/utils/custom_colors.dart';
 import 'package:a2sv_portal_mobile/widgets/buttons/main-button.dart';
 import 'package:a2sv_portal_mobile/widgets/inputs/main-input-field.dart';
@@ -6,19 +7,38 @@ import 'package:a2sv_portal_mobile/widgets/text_views/card_title_text.dart';
 import 'package:flutter/material.dart';
 
 class BottomSheetCard extends StatefulWidget {
-  const BottomSheetCard({Key? key}) : super(key: key);
-
+  final Problem problem;
+  const BottomSheetCard({Key? key, required this.problem}) : super(key: key);
   @override
   State<BottomSheetCard> createState() => _BottomSheetCardState();
 }
 
 class _BottomSheetCardState extends State<BottomSheetCard> {
-  ProblemStatus? status = ProblemStatus.solved;
+  ProblemStatus? status;
+  int numOfTries = 1;
 
   void onChange(value) {
     setState(() {
       status = value;
     });
+  }
+  void increment() {
+    setState(() {
+      numOfTries++;;
+    });
+  }
+    void decrement() {
+    setState(() {
+      if(numOfTries > 1)
+        numOfTries--;
+    });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    status = widget.problem.status;
+    numOfTries = widget.problem.numOfTries;
   }
 
   @override
@@ -59,24 +79,43 @@ class _BottomSheetCardState extends State<BottomSheetCard> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            CardTitleText(text: "Min cost of climbing stairs"),
+                            Container(
+                              width: 250,
+                              child: Text(
+                                widget.problem.title,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600, fontSize: 20),
+                              ),
+                            ),
                             Row(
                               children: [
                                 Image.asset("assets/images/leetcode_icon.png"),
-                                Text("Leetcode"),
+                                Text(widget.problem.platform),
                               ],
                             )
                           ],
                         ),
-                        const Align(
+                        Align(
                           alignment: Alignment.topLeft,
                           child: Chip(
-                            backgroundColor: Color.fromRGBO(92, 184, 92, 0.22),
+                            padding: EdgeInsets.all(8),
+                            backgroundColor: widget.problem.difficulty == "Easy"
+                                ? Color.fromRGBO(92, 184, 92, 0.22)
+                                : widget.problem.difficulty == "Medium"
+                                    ? Color.fromRGBO(246, 161, 41, 0.22)
+                                    : Color.fromRGBO(
+                                        235, 79, 79, 0.22), //CircleAvatar
                             label: Text(
-                              "Easy",
+                              widget.problem.difficulty,
                               style: TextStyle(
                                   fontSize: 12,
-                                  color: Color.fromRGBO(92, 184, 92, 1),
+                                  color: widget.problem.difficulty == "Easy"
+                                      ? Color.fromRGBO(92, 184, 92, 1)
+                                      : widget.problem.difficulty == "Medium"
+                                          ? Color.fromRGBO(246, 161, 41, 1)
+                                          : Color.fromRGBO(235, 79, 79, 1),
                                   fontWeight: FontWeight.bold),
                             ), //Text
                           ),
@@ -97,19 +136,19 @@ class _BottomSheetCardState extends State<BottomSheetCard> {
                             title: "solved",
                             color: Colors.green,
                             onchange: onChange,
-                            value: ProblemStatus.solved),
+                            value: ProblemStatus.SOLVED),
                         RadioButton(
                             status: status,
                             title: "Not solved",
                             color: Colors.orange,
                             onchange: onChange,
-                            value: ProblemStatus.notSolved),
+                            value: ProblemStatus.NOT_SOLVED),
                         RadioButton(
                             status: status,
                             title: "unable to solve",
                             color: Colors.red,
                             onchange: onChange,
-                            value: ProblemStatus.unableSolve),
+                            value: ProblemStatus.UNABLE_TO_SOLVE),
                         SizedBox(
                           height: 20,
                         ),
@@ -124,7 +163,7 @@ class _BottomSheetCardState extends State<BottomSheetCard> {
                         ),
                         Row(children: [
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () =>increment(),
                             icon: Icon(Icons.arrow_back_ios,
                                 color: Colors.grey, size: 10),
                           ),
@@ -135,10 +174,10 @@ class _BottomSheetCardState extends State<BottomSheetCard> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: Color.fromRGBO(251, 252, 255, 1)),
-                            child: Center(child: Text("1")),
+                            child: Center(child: Text(numOfTries.toString())),
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () => decrement(),
                             icon: Icon(Icons.arrow_forward_ios,
                                 color: Colors.grey, size: 10),
                           ),

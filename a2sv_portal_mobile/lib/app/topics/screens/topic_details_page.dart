@@ -54,7 +54,7 @@ class TopicDetailsPage extends StatelessWidget {
             child: MarginContainer(
                 child: Column(
               children: [
-                TopicInfo(season: state.topic.season!.name),
+                TopicInfo(topic: state.topic),
                 // TopicInfo(season:state.topic.season.name),
                 QuestionsTitle(),
                 Expanded(child: Questions(id:state.topic.id!)),

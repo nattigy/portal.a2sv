@@ -1,3 +1,4 @@
+import 'package:a2sv_portal_mobile/app/students/screens/widgets/radion_buttons.dart';
 import 'package:a2sv_portal_mobile/app/topics/models/tag.dart';
 
 class Problem {
@@ -8,6 +9,8 @@ class Problem {
   String platform;
   List<Tag> tags;
   String title;
+  int numOfTries;
+  ProblemStatus status;
   String solved;
   DateTime updatedAt;
 
@@ -18,7 +21,9 @@ class Problem {
       required this.difficulty,
       required this.tags,
       required this.link,
+      required this.status,
       required this.solved,
+      required this.numOfTries,
       required this.createdAt,
       required this.updatedAt});
 
@@ -27,24 +32,14 @@ class Problem {
         id: json['_id'],
         title: json['title'],
         link: json['link'],
-        platform: json['platform'],
+        platform: json['platfom'],
         difficulty: json['difficulty'],
         solved: json['solved'],
+        status: json['status'],
+        numOfTries: json['numOfTries'],
         createdAt:  json['createdAt'],
         updatedAt: json['updatedAt'],
-        tags: List<Tag>.from(json["problems"].map((x) => Problem.fromMap(x))));
+        tags: List<Tag>.from(json["tags"].map((x) => Tag.fromJson(x))));
   }
 
-  factory Problem.fromMap(Map<String, dynamic> json) {
-    return Problem(
-        id: json['_id'],
-        title: json['title'],
-        link: json['link'],
-        platform: json['platform'],
-        difficulty: json['difficulty'],
-        solved: json['solved'],
-        createdAt:  json['createdAt'],
-        updatedAt: json['updatedAt'],
-        tags: List<Tag>.from(json["problems"].map((x) => Problem.fromMap(x))));
-  }
 }

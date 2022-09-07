@@ -13,7 +13,7 @@ class Tag {
       name: json['name'],
       problems: List<Problem>.from(
         json["problems"].map(
-          (x) => Problem.fromMap(x),
+          (x) => Problem.fromJson(x),
         ),
       ),
     );

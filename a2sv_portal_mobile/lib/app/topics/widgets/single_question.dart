@@ -25,7 +25,7 @@ class SingleQuestion extends StatelessWidget {
           ),
           context: context,
           builder: (BuildContext context) {
-            return BottomSheetCard();
+            return BottomSheetCard(problem: problem);
           },
         );
       },
@@ -34,7 +34,7 @@ class SingleQuestion extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-              width: width * 0.1, child: Image.asset(problem.platform)),
+              width: width * 0.1, child: Image.asset(problem.link)),
           SizedBox(
             width: width * 0.35,
             child: Text(
