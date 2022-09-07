@@ -1,15 +1,16 @@
 import 'package:a2sv_portal_mobile/app/students/screens/widgets/bottom_sheet_card.dart';
 import 'package:a2sv_portal_mobile/app/topics/entity/question.entity.dart';
+import 'package:a2sv_portal_mobile/app/topics/models/problem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class SingleQuestion extends StatelessWidget {
-  final Question question;
+  final Problem problem;
 
   const SingleQuestion({
     Key? key,
-    required this.question,
+    required this.problem,
   }) : super(key: key);
 
   @override
@@ -33,11 +34,11 @@ class SingleQuestion extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-              width: width * 0.1, child: Image.asset(question.platformurl)),
+              width: width * 0.1, child: Image.asset(problem.platform)),
           SizedBox(
             width: width * 0.35,
             child: Text(
-              question.title,
+              problem.title,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -52,18 +53,18 @@ class SingleQuestion extends StatelessWidget {
             child: Center(
               child: Chip(
                 padding: EdgeInsets.all(8),
-                backgroundColor: question.tag == "Easy"
+                backgroundColor: problem.difficulty == "Easy"
                     ? Color.fromRGBO(92, 184, 92, 0.22)
-                    : question.tag == "Medium"
+                    : problem.difficulty == "Medium"
                         ? Color.fromRGBO(246, 161, 41, 0.22)
                         : Color.fromRGBO(235, 79, 79, 0.22), //CircleAvatar
                 label: Text(
-                  question.tag,
+                 problem.difficulty,
                   style: TextStyle(
                       fontSize: 12,
-                      color: question.tag == "Easy"
+                      color: problem.difficulty== "Easy"
                           ? Color.fromRGBO(92, 184, 92, 1)
-                          : question.tag == "Medium"
+                          : problem.difficulty == "Medium"
                               ? Color.fromRGBO(246, 161, 41, 1)
                               : Color.fromRGBO(235, 79, 79, 1),
                       fontWeight: FontWeight.bold),
@@ -74,7 +75,7 @@ class SingleQuestion extends StatelessWidget {
           SizedBox(
             height: 24,
             width: width * 0.15,
-            child: question.solved
+            child: problem.solved == "solved"
                 ? Image.asset("assets/images/solved.png")
                 : Image.asset("assets/images/not_solved.png"),
           ),

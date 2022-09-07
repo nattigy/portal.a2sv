@@ -8,6 +8,7 @@ class Problem {
   String platform;
   List<Tag> tags;
   String title;
+  String solved;
   DateTime updatedAt;
 
   Problem(
@@ -17,6 +18,7 @@ class Problem {
       required this.difficulty,
       required this.tags,
       required this.link,
+      required this.solved,
       required this.createdAt,
       required this.updatedAt});
 
@@ -27,7 +29,8 @@ class Problem {
         link: json['link'],
         platform: json['platform'],
         difficulty: json['difficulty'],
-        createdAt: json['createdAt'],
+        solved: json['solved'],
+        createdAt:  json['createdAt'],
         updatedAt: json['updatedAt'],
         tags: List<Tag>.from(json["problems"].map((x) => Problem.fromMap(x))));
   }
@@ -39,7 +42,8 @@ class Problem {
         link: json['link'],
         platform: json['platform'],
         difficulty: json['difficulty'],
-        createdAt: json['createdAt'],
+        solved: json['solved'],
+        createdAt:  json['createdAt'],
         updatedAt: json['updatedAt'],
         tags: List<Tag>.from(json["problems"].map((x) => Problem.fromMap(x))));
   }
