@@ -13,6 +13,8 @@ import { CreateGroupTopicInput } from './dto/create-group-topic.input'
 import { UpdateGroupTopicInput } from './dto/update-group-topic.input'
 import { Group } from 'src/groups/entities/group.entity'
 import { Topic } from 'src/topic/entities/topic.entity'
+import { Problem } from 'src/problem/entities/problem.entity'
+import { GroupTopicProblem } from 'src/groups/entities/group-topic-problem.entity'
 
 @Resolver(() => GroupTopic)
 export class GroupTopicResolver {
@@ -25,7 +27,7 @@ export class GroupTopicResolver {
     return this.groupTopicService.create(createGroupTopicInput)
   }
 
-  @Query(() => [GroupTopic], { name: 'groupTopic' })
+  @Query(() => [GroupTopic], { name: 'groupTopics' })
   findAll() {
     return this.groupTopicService.findAll()
   }
@@ -42,10 +44,7 @@ export class GroupTopicResolver {
   updateGroupTopic(
     @Args('updateGroupTopicInput') updateGroupTopicInput: UpdateGroupTopicInput,
   ) {
-    return this.groupTopicService.update(
-      updateGroupTopicInput.id,
-      updateGroupTopicInput,
-    )
+    return this.groupTopicService.update(updateGroupTopicInput)
   }
 
   @Mutation(() => GroupTopic)
@@ -64,5 +63,10 @@ export class GroupTopicResolver {
   @ResolveField(() => Topic, { nullable: true })
   topic(@Parent() groupTopic: GroupTopic): Topic | null {
     return groupTopic.topic
+  }
+
+  @ResolveField(() => [GroupTopicProblem])
+  problems(@Parent() groupTopic: GroupTopic): GroupTopicProblem[] {
+    return groupTopic.problems
   }
 }

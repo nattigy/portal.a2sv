@@ -138,10 +138,10 @@ enum RoleEnum {
 model GroupTopic {
   groupId   Int
   topicId   Int
-  createdAt DateTime            @default(now())
-  updatedAt DateTime            @updatedAt
-  group     Group               @relation(fields: [groupId], references: [id])
-  topic     Topic               @relation(fields: [topicId], references: [id])
+  createdAt DateTime?           @default(now())
+  updatedAt DateTime?           @updatedAt
+  group     Group?              @relation(fields: [groupId], references: [id])
+  topic     Topic?              @relation(fields: [topicId], references: [id])
   problems  GroupTopicProblem[]
 
   @@id([groupId, topicId])

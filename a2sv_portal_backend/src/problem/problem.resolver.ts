@@ -13,6 +13,7 @@ import { CreateProblemInput } from './dto/create-problem.input'
 import { UpdateProblemInput } from './dto/update-problem.input'
 import { Tag } from '@prisma/client'
 import { Roles } from 'src/auth/auth.decorator'
+import { GroupTopicProblem } from 'src/groups/entities/group-topic-problem.entity'
 
 @Resolver(() => Problem)
 export class ProblemResolver {
@@ -62,5 +63,11 @@ export class ProblemResolver {
   @ResolveField()
   async tags(@Parent() problem: Problem): Promise<Tag[]> {
     return problem.tags
+  }
+
+  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
+  @ResolveField(() => [GroupTopicProblem], { nullable: 'itemsAndList' })
+  async groupTopics(@Parent() problem: Problem): Promise<GroupTopicProblem[]> {
+    return problem.groupTopics
   }
 }

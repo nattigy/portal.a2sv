@@ -7,8 +7,9 @@ import { UpdateGroupTopicInput } from './dto/update-group-topic.input'
 export class GroupTopicService {
   constructor(private readonly prismaService: PrismaService) {}
   create(createGroupTopicInput: CreateGroupTopicInput) {
+    const { group, topic, problems, ...data } = createGroupTopicInput
     return this.prismaService.groupTopic.create({
-      data: createGroupTopicInput,
+      data: data,
       include: {
         topic: true,
         group: true,
@@ -21,6 +22,11 @@ export class GroupTopicService {
       include: {
         group: true,
         topic: true,
+        problems: {
+          include: {
+            problem: true,
+          },
+        },
       },
     })
   }
@@ -31,10 +37,46 @@ export class GroupTopicService {
       include: {
         group: true,
         topic: true,
+        problems: {
+          include: {
+            problem: true,
+          },
+        },
       },
     })
   }
-  update(id: number, updateGroupTopicInput: UpdateGroupTopicInput) {
+  update(updateGroupTopicInput: UpdateGroupTopicInput) {
+    const { groupId, topicId, group, topic, problems, ...data } =
+      updateGroupTopicInput
+    const queryData = data as any
+    if (problems) {
+      queryData.problems = {
+        connectOrCreate: problems.map((problem) => {
+          return {
+            where: {
+              problemId_groupId_topicId: {
+                problemId: problem.id,
+                groupId: groupId,
+                topicId: topicId,
+              },
+            },
+            create: {
+              groupTopic: {
+                connect: {
+                  groupId,
+                  topicId,
+                },
+              },
+              problem: {
+                connect: {
+                  id: problem.id,
+                },
+              },
+            },
+          }
+        }),
+      }
+    }
     return this.prismaService.groupTopic.update({
       include: {
         topic: true,
@@ -42,11 +84,11 @@ export class GroupTopicService {
       },
       where: {
         groupId_topicId: {
-          groupId: updateGroupTopicInput.groupId,
-          topicId: updateGroupTopicInput.topicId,
+          groupId: groupId,
+          topicId: topicId,
         },
       },
-      data: updateGroupTopicInput,
+      data: queryData,
     })
   }
 

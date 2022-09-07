@@ -31,9 +31,9 @@ input CreateRoleInput {
 }
 
 input CreateSeasonInput {
-  endDate: DateTime = "2022-09-07T19:41:52.768Z"
+  endDate: DateTime = "2022-09-07T20:43:46.175Z"
   name: String!
-  startDate: DateTime = "2022-09-07T19:41:52.768Z"
+  startDate: DateTime = "2022-09-07T20:43:46.175Z"
 }
 
 input CreateTagInput {
@@ -167,6 +167,7 @@ type Query {
   getMe: User!
   group(id: Int!): Group!
   groupTopic(groupId: Int!, topicId: Int!): GroupTopic!
+  groupTopics: [GroupTopic!]!
   groups: [Group!]!
 
   """Find a unique problem by id"""
@@ -233,9 +234,11 @@ input UpdateGroupInput {
 }
 
 input UpdateGroupTopicInput {
-  groupId: Int
-  id: Int!
-  topicId: Int
+  group: UpdateGroupInput
+  groupId: Int!
+  problems: UpdateProblemInput
+  topic: UpdateTopicInput
+  topicId: Int!
 }
 
 input UpdateProblemInput {
@@ -257,9 +260,9 @@ input UpdateRoleInput {
 }
 
 input UpdateSeasonInput {
-  endDate: DateTime = "2022-09-07T19:41:52.768Z"
+  endDate: DateTime = "2022-09-07T20:43:46.175Z"
   name: String
-  startDate: DateTime = "2022-09-07T19:41:52.768Z"
+  startDate: DateTime = "2022-09-07T20:43:46.175Z"
 }
 
 input UpdateTagInput {
