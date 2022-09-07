@@ -2,11 +2,14 @@ import {
   Args,
   Int,
   Mutation,
+  Parent,
   Query,
   ResolveField,
   Resolver,
 } from '@nestjs/graphql'
 import { Roles } from 'src/auth/auth.decorator'
+import { GroupTopic } from 'src/group-topic/entities/group-topic.entity'
+import { Topic } from 'src/topic/entities/topic.entity'
 import { CreateGroupInput } from './dto/create-group.input'
 import { UpdateGroupInput } from './dto/update-group.input'
 import { Group } from './entities/group.entity'
@@ -36,16 +39,18 @@ export class GroupsResolver {
 
   @Roles('ADMIN', 'HEAD_OF_ACADEMY')
   @Mutation(() => Group)
-  updateGroup(
-    @Args('id', { type: () => Int }) id: number,
-    @Args('updateGroupInput') updateGroupInput: UpdateGroupInput,
-  ) {
-    return this.groupsService.updateGroup(id, updateGroupInput)
+  updateGroup(@Args('updateGroupInput') updateGroupInput: UpdateGroupInput) {
+    return this.groupsService.updateGroup(updateGroupInput)
   }
 
   @Roles('ADMIN', 'HEAD_OF_ACADEMY')
   @Mutation(() => Group)
   deleteGroup(@Args('id', { type: () => Int }) id: number) {
     return this.groupsService.deleteGroup(id)
+  }
+
+  @ResolveField(() => [GroupTopic], { nullable: 'itemsAndList' })
+  topics(@Parent() group: Group): GroupTopic[] | null {
+    return group.topics
   }
 }

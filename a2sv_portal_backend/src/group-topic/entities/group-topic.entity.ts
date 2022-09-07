@@ -1,12 +1,10 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { GroupTopicProblem } from 'src/groups/entities/group-topic-problem.entity'
+import { Group } from 'src/groups/entities/group.entity'
 import { Topic } from 'src/topic/entities/topic.entity'
-import { GroupTopicProblem } from './group-topic-problem.entity'
-import { Group } from './group.entity'
 
 @ObjectType()
 export class GroupTopic {
-  @Field(() => Int)
-  id: number
   @Field(() => Int)
   groupId: number
   @Field(() => Int)
@@ -22,13 +20,11 @@ export class GroupTopic {
   @Field({ nullable: true })
   updatedAt?: Date
   constructor(
-    id: number,
     groupId: number,
     topicId: number,
     createdAt: Date,
     updatedAt: Date,
   ) {
-    this.id = id
     this.groupId = groupId
     this.topicId = topicId
     this.createdAt = createdAt

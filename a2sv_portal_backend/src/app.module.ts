@@ -15,6 +15,7 @@ import { AuthModule } from './auth/auth.module'
 import { TagModule } from './tag/tag.module'
 import { ProblemModule } from './problem/problem.module'
 import { TopicModule } from './topic/topic.module'
+import { GroupTopicModule } from './group-topic/group-topic.module'
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { TopicModule } from './topic/topic.module'
     TagModule,
     ProblemModule,
     TopicModule,
+    GroupTopicModule,
   ],
   providers: [AppService, AppResolver],
 })

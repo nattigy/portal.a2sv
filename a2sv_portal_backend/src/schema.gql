@@ -8,6 +8,11 @@ input CreateGroupInput {
   school: String
 }
 
+input CreateGroupTopicInput {
+  groupId: Int!
+  topicId: Int!
+}
+
 input CreateProblemInput {
   createdAt: DateTime
   difficulty: String!
@@ -26,9 +31,9 @@ input CreateRoleInput {
 }
 
 input CreateSeasonInput {
-  endDate: DateTime = "2022-09-06T12:33:44.907Z"
+  endDate: DateTime = "2022-09-07T08:20:32.912Z"
   name: String!
-  startDate: DateTime = "2022-09-06T12:33:44.907Z"
+  startDate: DateTime = "2022-09-07T08:20:32.912Z"
 }
 
 input CreateTagInput {
@@ -69,7 +74,6 @@ type GroupTopic {
   createdAt: DateTime
   group: Group
   groupId: Int!
-  id: Int!
   problems: GroupTopicProblem
   topic: Topic
   topicId: Int!
@@ -112,6 +116,7 @@ type LoginOutput {
 
 type Mutation {
   createGroup(createGroupInput: CreateGroupInput!): Group!
+  createGroupTopic(createGroupTopicInput: CreateGroupTopicInput!): GroupTopic!
   createProblem(createProblemInput: CreateProblemInput!): Problem!
   createRole(data: CreateRoleInput!): Role!
   createSeason(createSeasonInput: CreateSeasonInput!): Season!
@@ -124,11 +129,13 @@ type Mutation {
   deleteTopic(id: Int!): Topic!
   login(loginInput: LoginInput!): LoginOutput!
   logout: SignupOutput!
+  removeGroupTopic(groupId: Int!, topicId: Int!): GroupTopic!
   removeProblem(id: Int!): Problem!
   removeTag(id: Int!): Tag!
   removeUser(id: Int!): User!
   signUp(createUserInput: CreateUserInput!): SignupOutput!
-  updateGroup(id: Int!, updateGroupInput: UpdateGroupInput!): Group!
+  updateGroup(updateGroupInput: UpdateGroupInput!): Group!
+  updateGroupTopic(updateGroupTopicInput: UpdateGroupTopicInput!): GroupTopic!
   updateProblem(updateProblemInput: UpdateProblemInput!): Problem!
   updateRole(data: UpdateRoleInput!, id: Float!): Role!
   updateSeason(id: Int!, updateSeasonInput: UpdateSeasonInput!): Season!
@@ -152,6 +159,7 @@ type Problem {
 type Query {
   getMe: User!
   group(id: Int!): Group!
+  groupTopic(groupId: Int!, topicId: Int!): GroupTopic!
   groups: [Group!]!
 
   """Find a unique problem by id"""
@@ -166,7 +174,7 @@ type Query {
   tag(id: Int!): Tag!
   tags: [Tag!]!
   topic(id: Int!): Topic!
-  topics: [Topic!]!
+  topics(groupId: Int, seasonId: Int, skip: Int, take: Int): [Topic!]!
   user(id: Int!): User!
   users(email: String, groupId: Float, role: String, skip: Int, status: String, take: Int): [User!]!
   welcome: String!
@@ -211,7 +219,7 @@ type Tag {
 type Topic {
   createdAt: DateTime
   description: String
-  groups: [Group!]
+  groups: [GroupTopic!]
   id: ID!
   name: String!
   season: Season
@@ -219,9 +227,14 @@ type Topic {
 }
 
 input UpdateGroupInput {
-  country: String
-  name: String
-  school: String
+  id: Int!
+  topics: [UpdateTopicInput!]
+}
+
+input UpdateGroupTopicInput {
+  groupId: Int
+  id: Int!
+  topicId: Int
 }
 
 input UpdateProblemInput {
@@ -243,9 +256,9 @@ input UpdateRoleInput {
 }
 
 input UpdateSeasonInput {
-  endDate: DateTime = "2022-09-06T12:33:44.907Z"
+  endDate: DateTime = "2022-09-07T08:20:32.912Z"
   name: String
-  startDate: DateTime = "2022-09-06T12:33:44.907Z"
+  startDate: DateTime = "2022-09-07T08:20:32.912Z"
 }
 
 input UpdateTagInput {
