@@ -14,15 +14,28 @@ export class TopicService {
     groupId?: number
     seasonId?: number
   }): Promise<Topic[] | []> {
-    const {skip, take, groupId, seasonId } = params;
-    return this.prismaService.topic.findMany({ skip, take, where: {
-       seasonId, 
-       groups:{
-        every:{
-          groupId:groupId??undefined
-        }
-       }
-    },include: { season: true } })
+    const { skip, take, groupId, seasonId } = params
+    return this.prismaService.topic.findMany({
+      skip,
+      take,
+      where: {
+        seasonId,
+        groups: {
+          every: {
+            groupId: groupId ?? undefined,
+          },
+        },
+      },
+      include: {
+        season: true,
+        groups: {
+          include: {
+            group: true,
+            topic: true,
+          },
+        },
+      },
+    })
   }
 
   async getTopicById(id: number): Promise<Topic> {
@@ -30,6 +43,12 @@ export class TopicService {
       where: { id: id },
       include: {
         season: true,
+        groups: {
+          include: {
+            group: true,
+            topic: true,
+          },
+        },
       },
     })
     if (!topic) {
@@ -56,6 +75,12 @@ export class TopicService {
       },
       include: {
         season: true,
+        groups: {
+          include: {
+            group: true,
+            topic: true,
+          },
+        },
       },
     })
   }
@@ -70,6 +95,12 @@ export class TopicService {
       data: data,
       include: {
         season: true,
+        groups: {
+          include: {
+            group: true,
+            topic: true,
+          },
+        },
       },
     })
   }

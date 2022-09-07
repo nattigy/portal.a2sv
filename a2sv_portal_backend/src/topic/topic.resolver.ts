@@ -8,9 +8,9 @@ import {
   Resolver,
 } from '@nestjs/graphql'
 // import { Group } from '@prisma/client'
-import { Group} from '../groups/entities/group.entity'
+import { Group } from '../groups/entities/group.entity'
 import { Roles } from 'src/auth/auth.decorator'
-import { GroupTopic } from 'src/groups/entities/group-topic.entity'
+import { GroupTopic } from 'src/group-topic/entities/group-topic.entity'
 import { Season } from 'src/season/entities/season.entity'
 import { CreateTopicInput } from './dto/create-topic.input'
 import { GetTopicArgs } from './dto/get-topic.args'
@@ -28,7 +28,7 @@ export class TopicResolver {
     return this.topicService.createTopic(createTopicInput)
   }
 
-  @Query(() => [Topic],{name:'topics'})
+  @Query(() => [Topic], { name: 'topics' })
   topics(@Args() args: GetTopicArgs) {
     return this.topicService.getTopics(args)
   }
@@ -58,8 +58,8 @@ export class TopicResolver {
     return topic.season
   }
 
-  @ResolveField(() => [Group])
-  groups(@Parent() topic: Topic): Group[] {
-    return topic.groups?.map((groupTopic) => groupTopic.group)
+  @ResolveField(() => [GroupTopic], { nullable: 'itemsAndList' })
+  groups(@Parent() topic: Topic): GroupTopic[] | null {
+    return topic.groups
   }
 }

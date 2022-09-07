@@ -1,5 +1,5 @@
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql'
-import { GroupTopic } from 'src/groups/entities/group-topic.entity'
+import { GroupTopic } from 'src/group-topic/entities/group-topic.entity'
 import { Group } from 'src/groups/entities/group.entity'
 import { Season } from 'src/season/entities/season.entity'
 

@@ -1,7 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { GroupTopic } from 'src/group-topic/entities/group-topic.entity'
 import { Problem } from 'src/problem/entities/problem.entity'
 import { GroupTopicProblemUser } from './group-topic-problem-user.entity'
-import { GroupTopic } from './group-topic.entity'
 
 @ObjectType()
 export class GroupTopicProblem {
