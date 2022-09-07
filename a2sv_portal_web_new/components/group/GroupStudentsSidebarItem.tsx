@@ -1,9 +1,12 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState, useEffect } from "react";
 import clsx from "clsx";
 import { MdContentPaste } from "react-icons/md";
 import { getGoogleIcon } from "../../helpers/getGoogleIcon";
 import CustomLink from "../common/CustomLink";
 import AddStudentList from "./AddStudentList";
+import { useGetUsersWithNoGroup } from "../../lib/hooks/useUsers";
+import { StudentsInfo } from "./AddStudentListItem";
+import { LoaderSmall } from "../common/Loaders";
 
 export type GroupStudentsSidebarProps = {
   id: number;
@@ -21,9 +24,20 @@ const GroupStudentsSidebarItem = ({
   groupStudentSidebarItem,
   showStudentList,
 }: Props) => {
+  const { data, loading, error, refetch } = useGetUsersWithNoGroup()
+  const [students, setStudents] = useState([])
+
+  useEffect(() => {
+    if (data) {
+      console.log(data, " is data")
+      setStudents(data.users)
+    }
+  }, [refetch, students])
+
+
   return (
-    <div className={clsx("h-full flex flex-col", showStudentList ? "justify-start" : "justify-between")}>
-      <div className={clsx("flex flex-col gap-y-2 transition-all duration-1000 ease-in-out delay-150 translate-y-80 translate-x-80", showStudentList ? "translate-x-0 translate-y-0 transform-none" : "hidden")}>
+    <div className={clsx("h-full flex flex-col")}>
+      <div className={clsx("flex flex-col gap-y-2 transition-all")}>
         <div className="flex flex-row justify-end items-center px-1 gap-2 text-sm hover:bg-[#F6F6FC]">
           <div className="flex flex-none justify-center w-3/12 py-2 items-center rounded-lg">
             <img src={groupStudentSidebarItem?.photo} alt="" />
@@ -37,7 +51,16 @@ const GroupStudentsSidebarItem = ({
             </p>
           </div>
         </div>
-        <AddStudentList />
+        <div className={clsx(showStudentList ? "flex flex-col" : "hidden")}>
+          {
+            loading ? (
+              <div className="w-full h-full flex justify-center items-center">
+                <LoaderSmall />
+              </div>
+            ) :
+              <AddStudentList students={data.users} />
+          }
+        </div>
       </div>
       <div className="flex flex-col">
         <img src="images/group-students.svg" alt="" />

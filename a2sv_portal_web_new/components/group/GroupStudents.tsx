@@ -99,7 +99,7 @@ const GroupStudents = (props: Props) => {
         </div>
         {
           loading ? (
-            <div className="border-8 w-full h-full flex justify-center items-center">
+            <div className="w-full h-full flex justify-center items-center">
               <LoaderSmall />
             </div>
           ) :

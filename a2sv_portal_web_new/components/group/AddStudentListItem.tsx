@@ -11,9 +11,7 @@ export type UserProps = {
 
 type Props = {
   studentProps: StudentsInfo;
-  checked: boolean;
-  handleStudentCheck: () => void,
-  handleChange: any;
+  handleStudentCheck: (id: number) => void,
 };
 
 export type StudentsInfo = {
@@ -27,28 +25,35 @@ export type StudentsInfo = {
 const AddStudentListItem = ({
   studentProps,
   handleStudentCheck,
-  handleChange,
 }: Props) => {
+
+  console.log(studentProps)
+
   return (
-    <div onClick={handleChange} className={clsx(
-      "flex gap-x-4 py-2 cursor-pointer",
-      // ? "bg-[#5956E91F]"
-      // : ""
-    )}>
+    <div className={
+      clsx(
+        "flex gap-x-4 py-2 cursor-pointer",
+        // ? "bg-[#5956E91F]"
+        // : ""
+      )
+    } >
       <input
+        id={studentProps.id.toString()}
         className="w-4 rounded-md border-2 text-red-400"
-        // onChange={(val) => handleStudentCheck(val, "add")}
+        onChange={() => handleStudentCheck(studentProps.id)}
         value={studentProps.id}
         type="checkbox"
       />
-      <div className="flex items-center gap-x-2">
-        <img src="/images/group-students-profile.svg" className="w-12" alt="" />
-        <div className="flex flex-col justify-around">
-          <span className="font-semibold text-sm truncate w-40">{studentProps.email}</span>
-          <span className="font-light text-xs">{studentProps.role}</span>
+      <label className="cursor-pointer" htmlFor={studentProps.id.toString()} >
+        <div className="flex items-center gap-x-2" >
+          <img src="/images/group-students-profile.svg" className="w-12" alt="" />
+          <div className="flex flex-col justify-around">
+            <span className="font-semibold text-sm truncate w-40">{studentProps.email}</span>
+            <span className="font-light text-xs">{studentProps.role}</span>
+          </div>
         </div>
-      </div>
-    </div>
+      </label>
+    </div >
   );
 };
 
