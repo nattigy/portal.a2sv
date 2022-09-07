@@ -7,13 +7,7 @@ query Seasons{
       id
       name
       description
-      season {
-        id
-        name
-        
-
-        }
-      }
+    }
   }
 }
 """;

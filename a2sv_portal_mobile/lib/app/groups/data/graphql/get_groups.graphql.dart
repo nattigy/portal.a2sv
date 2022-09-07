@@ -8,8 +8,10 @@ query Groups{
     topics{
       topic{
         name
+        id
+        description
       }
-      }
+    }
     users{
       id
     }

@@ -24,12 +24,14 @@ class Group extends Equatable {
       name: json['name'],
       school: json['school'],
       country: json['country'],
-      topics: json['topics'] != null
-          ? List<Topic>.from(
-              json["topics"].map(
-                (x) => Topic.fromJson(x),
-              ),
-            )
+      topics: json.containsKey("topics")
+          ? json['topics'] != null
+              ? List<Topic>.from(
+                  json["topics"].map(
+                    (x) => Topic.fromJson(x),
+                  ),
+                )
+              : []
           : [],
       users: json['users'] == null
           ? []

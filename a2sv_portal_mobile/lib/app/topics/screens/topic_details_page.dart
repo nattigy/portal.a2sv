@@ -42,7 +42,7 @@ class TopicDetailsPage extends StatelessWidget {
               elevation: 0,
               centerTitle: true,
               title: Text(
-                state is TopicDetailSuccess ? state.topic.name : "",
+                state is TopicDetailSuccess ? state.topic.name.toString() : "",
                 style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w600,
@@ -53,7 +53,7 @@ class TopicDetailsPage extends StatelessWidget {
               child: MarginContainer(
                   child: Column(
                 children: [
-                  TopicInfo(season: state.topic.season.name),
+                  TopicInfo(season: state.topic.season!.name),
                   QuestionsTitle(),
                   Expanded(child: Questions()),
                 ],

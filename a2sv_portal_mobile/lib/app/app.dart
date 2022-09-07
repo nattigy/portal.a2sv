@@ -53,12 +53,12 @@ class _AppState extends State<App> {
           BlocProvider<GroupBloc>(
             create: (context) =>
                 GroupBloc(groupRepository: widget.groupRepository),
-            lazy: false,
+            // lazy: false,
           ),
           BlocProvider<SeasonBloc>(
             create: (context) =>
                 SeasonBloc(seasonRepository: widget.seasonRepository),
-            lazy: false,
+            // lazy: false,
           ),
           BlocProvider<HomeBloc>(
             create: (context) => HomeBloc(

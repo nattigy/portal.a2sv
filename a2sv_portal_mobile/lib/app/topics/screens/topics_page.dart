@@ -150,7 +150,7 @@ class TopicsPage extends StatelessWidget {
                   child: BlocBuilder<SeasonBloc, SeasonState>(
                     builder: ((context, state) {
                       if (state is SeasonInit) {
-                        context.read<SeasonBloc>().fetchSeasons();
+                        // context.read<SeasonBloc>().fetchSeasons();
                         return const CircularProgressIndicator();
                       } else if (state is SeasonLoading) {
                         return const CircularProgressIndicator();
@@ -205,7 +205,8 @@ class TopicsPage extends StatelessWidget {
             return _buildTopicCard(
               context: context,
               iconData: Icons.abc,
-              topicTitle: season.topics![index].name,
+              topicTitle: season.topics![index].name.toString(),
+              // topicTitle: season.topics![index].name,
               topicDescription: season.topics![index].description.toString(),
               problemsCount: 23,
             );
