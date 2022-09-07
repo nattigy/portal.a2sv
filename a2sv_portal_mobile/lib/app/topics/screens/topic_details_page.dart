@@ -33,44 +33,47 @@ class TopicDetailsPage extends StatelessWidget {
           );
         } else if (state is TopicDetailSuccess) {
           return Scaffold(
-            appBar: AppBar(
-              automaticallyImplyLeading: true,
-              iconTheme: IconThemeData(
-                color: Colors.black, //change your color here
-              ),
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              centerTitle: true,
-              title: Text(
-                state is TopicDetailSuccess ? state.topic.name.toString() : "",
-                style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
-              ),
+          appBar: AppBar(
+            automaticallyImplyLeading: true,
+            iconTheme: IconThemeData(
+              color: Colors.black, //change your color here
             ),
-            body: SafeArea(
-              child: MarginContainer(
-                  child: Column(
-                children: [
-                  TopicInfo(season: state.topic.season!.name),
-                  QuestionsTitle(),
-                  Expanded(child: Questions()),
-                ],
-              )),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            centerTitle: true,
+            title: Text(
+              //state is TopicDetailSuccess?state.topic.name:"",
+              state is TopicDetailSuccess ? state.topic.name.toString() : "",
+              style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black),
             ),
-          );
+          ),
+          body: SafeArea(
+            child: MarginContainer(
+                child: Column(
+              children: [
+                TopicInfo(season: state.topic.season!.name),
+                // TopicInfo(season:state.topic.season.name),
+                QuestionsTitle(),
+                Expanded(child: Questions(id:state.topic.id!)),
+                // Expanded(child: Questions(id:state.topic.id)),
+              ],
+            )),
+          ),
+        );
         } else {
-          return Scaffold(
-            appBar: AppBar(
-              automaticallyImplyLeading: true,
-              iconTheme: IconThemeData(
-                color: Colors.black, //change your color here
-              ),
-              backgroundColor: Colors.transparent,
-              elevation: 0,
+           return Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: true,
+            iconTheme: IconThemeData(
+              color: Colors.black, //change your color here
             ),
-            body: Center(child: CircularProgressIndicator()),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+          body: Center(child: CircularProgressIndicator()),
           );
         }
       },

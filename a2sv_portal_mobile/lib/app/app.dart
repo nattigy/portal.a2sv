@@ -1,9 +1,14 @@
 import 'package:a2sv_portal_mobile/app/groups/bloc/group.bloc.dart';
 import 'package:a2sv_portal_mobile/app/groups/data/group_repository.dart';
+import 'package:a2sv_portal_mobile/app/topics/data/problem_repository.dart';
 import 'package:a2sv_portal_mobile/app/home/bloc/home.bloc.dart';
+import 'package:a2sv_portal_mobile/app/topics/data/topic_detail_repository.dart';
+import 'package:a2sv_portal_mobile/app/topics/problems_bloc/problems_bloc_cubit.dart';
 import 'package:a2sv_portal_mobile/app/home/data/home.repository.dart';
 import 'package:a2sv_portal_mobile/app/topics/data/season_repository.dart';
 import 'package:a2sv_portal_mobile/app/topics/season_bloc/season.bloc.dart';
+import 'package:a2sv_portal_mobile/app/topics/topic_detail_bloc/topic_detail.bloc.dart';
+import 'package:a2sv_portal_mobile/config/gql.client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -35,13 +40,16 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     final AuthenticationRepository authenticationRepository =
         AuthenticationRepository(userRepository: widget.userRepository);
-
+      final TopicDetailRepository topicDetailRepository = TopicDetailRepository(client:Client().connect);
+     final ProblemsRepository problemsRepository = ProblemsRepository(client: Client().connect);
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: authenticationRepository),
         RepositoryProvider.value(value: widget.groupRepository),
         RepositoryProvider.value(value: widget.seasonRepository),
         RepositoryProvider.value(value: widget.homeRepository),
+        RepositoryProvider.value(value: topicDetailRepository),
+        RepositoryProvider.value(value: problemsRepository),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -66,7 +74,17 @@ class _AppState extends State<App> {
               homeRepository: widget.homeRepository,
             ),
             lazy: false,
+          ),  
+           BlocProvider<ProblemsBloc>(
+            create: (context) => ProblemsBloc(
+                problemsRepository:problemsRepository),
+            // lazy: false,
           ),
+           BlocProvider<TopicDetailBloc>(
+            create: (context) => TopicDetailBloc(
+                topicDetailRepository: topicDetailRepository),
+            // lazy: false,
+          ),  
         ],
         child: const AppView(),
       ),
