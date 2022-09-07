@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-enum ProblemStatus { solved, notSolved, unableSolve }
+enum ProblemStatus { SOLVED, NOT_SOLVED, UNABLE_TO_SOLVE }
 
 class RadioButton extends StatefulWidget {
   String title;

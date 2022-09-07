@@ -1,12 +1,14 @@
+import 'package:a2sv_portal_mobile/app/topics/models/topic.dart';
 import 'package:flutter/material.dart';
 
 import '../../../widgets/cards/shadow_card.dart';
 import '../../../widgets/percentage_indicator.dart';
 
 class TopicInfo extends StatelessWidget {
-  final String season;
+  final Topic topic;
+  
 
-  const TopicInfo({Key? key, required this.season}) : super(key: key);
+  const TopicInfo({Key? key, required this.topic}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class TopicInfo extends StatelessWidget {
             padding: EdgeInsets.all(8),
             backgroundColor: Color.fromRGBO(92, 184, 92, 0.22),
             label: Text(
-              season,
+              topic.season!.name,
               style: TextStyle(
                   fontSize: 12,
                   color: Color.fromRGBO(92, 184, 92, 1),
@@ -51,7 +53,7 @@ class TopicInfo extends StatelessWidget {
                       SizedBox(height: height * 0.01),
                       Row(
                         children: [
-                          PercentageIndicator(percent: 37, width: width * 0.4),
+                          PercentageIndicator(percent: 10, width: width * 0.4),
                           Text("   37%"),
                         ],
                       ),
@@ -110,10 +112,10 @@ class TopicInfo extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Align(
+                       Align(
                         alignment: Alignment.topCenter,
                         child: Text(
-                          "Linked List",
+                          topic.name!,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
