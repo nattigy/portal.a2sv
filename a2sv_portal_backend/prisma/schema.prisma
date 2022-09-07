@@ -52,7 +52,7 @@ model User {
   role               RoleEnum                @default(STUDENT)
   email              String                  @unique
   password           String
-  userprofile        UserProfile?
+  userProfile        UserProfile?
   status             Status
   group              Group?                  @relation(fields: [groupId], references: [id])
   groupId            Int?
@@ -63,11 +63,34 @@ model User {
 }
 
 model UserProfile {
-  id        Int       @id @default(autoincrement())
-  user      User      @relation(fields: [user_id], references: [id])
-  user_id   Int       @unique
-  createdAt DateTime? @default(now())
-  updatedAt DateTime?
+  id              Int       @id @default(autoincrement())
+  userId          Int       @unique
+  firstName       String?
+  lastName        String?
+  photoUrl        String?
+  phone           String?
+  birthDate       DateTime?
+  resumeLink      String?
+  github          String?
+  linkedin        String?
+  twitter         String?
+  facebook        String?
+  instagram       String?
+  leetcode        String?
+  codeforces      String?
+  hackerrank      String?
+  geekforgeeks    String?
+  educationPlace  String?
+  educationYear   Int?
+  educationDegree String?
+  educationField  String?
+  graduationYear  Int?
+  tshirtSize      String?
+  website         String?
+  bio             String?
+  createdAt       DateTime? @default(now())
+  updatedAt       DateTime? @updatedAt
+  User            User      @relation(fields: [userId], references: [id])
 }
 
 model Topic {

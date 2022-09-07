@@ -31,9 +31,9 @@ input CreateRoleInput {
 }
 
 input CreateSeasonInput {
-  endDate: DateTime = "2022-09-07T08:53:13.869Z"
+  endDate: DateTime = "2022-09-07T12:06:15.186Z"
   name: String!
-  startDate: DateTime = "2022-09-07T08:53:13.869Z"
+  startDate: DateTime = "2022-09-07T12:06:15.186Z"
 }
 
 input CreateTagInput {
@@ -53,6 +53,10 @@ input CreateUserInput {
   group: UpdateGroupInput
   password: String!
   role: RoleEnum = STUDENT
+}
+
+input CreateUserProfileInput {
+  userId: Int!
 }
 
 """
@@ -123,6 +127,7 @@ type Mutation {
   createTag(createTagInput: CreateTagInput!): Tag!
   createTopic(createTopicInput: CreateTopicInput!): Topic!
   createUser(createUserInput: CreateUserInput!): User!
+  createUserProfile(createUserProfileInput: CreateUserProfileInput!): UserProfile!
   deleteGroup(id: Int!): Group!
   deleteRole(id: Float!): Role!
   deleteSeason(id: Int!): Season!
@@ -133,6 +138,7 @@ type Mutation {
   removeProblem(id: Int!): Problem!
   removeTag(id: Int!): Tag!
   removeUser(id: Int!): User!
+  removeUserProfile(id: Int!): UserProfile!
   signUp(createUserInput: CreateUserInput!): SignupOutput!
   updateGroup(updateGroupInput: UpdateGroupInput!): Group!
   updateGroupTopic(updateGroupTopicInput: UpdateGroupTopicInput!): GroupTopic!
@@ -142,6 +148,7 @@ type Mutation {
   updateTag(updateTagInput: UpdateTagInput!): Tag!
   updateTopic(id: Int!, updateTopicInput: UpdateTopicInput!): Topic!
   updateUser(updateUserInput: UpdateUserInput!): User!
+  updateUserProfile(updateUserProfileInput: UpdateUserProfileInput!): UserProfile!
 }
 
 type Problem {
@@ -176,6 +183,7 @@ type Query {
   topic(id: Int!): Topic!
   topics(groupId: Int, seasonId: Int, skip: Int, take: Int): [Topic!]!
   user(id: Int!): User!
+  userProfile(id: Int!): UserProfile!
   users(email: String, groupId: Float, role: String, skip: Int, status: String, take: Int): [User!]!
   welcome: String!
 }
@@ -256,9 +264,9 @@ input UpdateRoleInput {
 }
 
 input UpdateSeasonInput {
-  endDate: DateTime = "2022-09-07T08:53:13.869Z"
+  endDate: DateTime = "2022-09-07T12:06:15.186Z"
   name: String
-  startDate: DateTime = "2022-09-07T08:53:13.869Z"
+  startDate: DateTime = "2022-09-07T12:06:15.186Z"
 }
 
 input UpdateTagInput {
@@ -282,6 +290,11 @@ input UpdateUserInput {
   id: Int!
   password: String
   role: RoleEnum
+  userProfile: UpdateUserProfileInput
+}
+
+input UpdateUserProfileInput {
+  id: Int!
 }
 
 type User {
@@ -295,6 +308,36 @@ type User {
   role: RoleEnum!
   status: status!
   updatedAt: DateTime
+  userProfile: UserProfile
+  userProfilesId: Int
+}
+
+type UserProfile {
+  bio: String!
+  birthDate: DateTime!
+  codeforces: String!
+  educationDegree: String!
+  educationField: String!
+  educationPlace: String!
+  educationYear: Int!
+  facebook: String!
+  firstName: String!
+  geekforgeeks: String!
+  github: String!
+  graduationYear: Int!
+  hackerrank: String!
+  id: Int!
+  instagram: String!
+  lastName: String!
+  leetcode: String!
+  linkedin: String!
+  phone: String!
+  photoURL: String!
+  resumeLink: String!
+  tshirtSize: String!
+  twitter: String!
+  userId: Int!
+  website: String!
 }
 
 enum status {

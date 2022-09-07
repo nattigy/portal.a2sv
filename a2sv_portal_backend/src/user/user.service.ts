@@ -39,17 +39,20 @@ export class UserService {
     take?: number
     status?: Status
     email?: string
-    groupId?:number
-    role?:RoleEnum
+    groupId?: number
+    role?: RoleEnum
   }): Promise<User[] | []> {
-    const { skip, take, status, email,groupId,role } = params
-    
+    const { skip, take, status, email, groupId, role } = params
+
     const result = await this.prismaService.user.findMany({
       skip,
       take,
-      where:{
-        status, email,groupId,role 
-      }
+      where: {
+        status,
+        email,
+        groupId,
+        role,
+      },
     })
 
     return result
@@ -73,9 +76,21 @@ export class UserService {
     givenId: number,
     updateUserInput: UpdateUserInput,
   ): Promise<User> {
-    const { id, group, ...data } = updateUserInput
+    const { id, groupId, userProfile, group, ...data } = updateUserInput
+
     return await this.prismaService.user.update({
-      data: data,
+      data: {
+        ...data,
+        group: {
+          connect: { id: groupId || group?.id },
+        },
+        userProfile: {
+          connectOrCreate: {
+            where: { id: userProfile.id },
+            create: userProfile,
+          },
+        },
+      },
       where: { id },
     })
   }
