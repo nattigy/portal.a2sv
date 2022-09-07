@@ -8,11 +8,6 @@ input CreateGroupInput {
   school: String
 }
 
-input CreateGroupTopicInput {
-  groupId: Int!
-  topicId: Int!
-}
-
 input CreateProblemInput {
   createdAt: DateTime
   difficulty: String!
@@ -31,9 +26,9 @@ input CreateRoleInput {
 }
 
 input CreateSeasonInput {
-  endDate: DateTime = "2022-09-07T08:20:32.912Z"
+  endDate: DateTime = "2022-09-07T08:51:22.432Z"
   name: String!
-  startDate: DateTime = "2022-09-07T08:20:32.912Z"
+  startDate: DateTime = "2022-09-07T08:51:22.432Z"
 }
 
 input CreateTagInput {
@@ -116,7 +111,6 @@ type LoginOutput {
 
 type Mutation {
   createGroup(createGroupInput: CreateGroupInput!): Group!
-  createGroupTopic(createGroupTopicInput: CreateGroupTopicInput!): GroupTopic!
   createProblem(createProblemInput: CreateProblemInput!): Problem!
   createRole(data: CreateRoleInput!): Role!
   createSeason(createSeasonInput: CreateSeasonInput!): Season!
@@ -129,13 +123,11 @@ type Mutation {
   deleteTopic(id: Int!): Topic!
   login(loginInput: LoginInput!): LoginOutput!
   logout: SignupOutput!
-  removeGroupTopic(groupId: Int!, topicId: Int!): GroupTopic!
   removeProblem(id: Int!): Problem!
   removeTag(id: Int!): Tag!
   removeUser(id: Int!): User!
   signUp(createUserInput: CreateUserInput!): SignupOutput!
-  updateGroup(updateGroupInput: UpdateGroupInput!): Group!
-  updateGroupTopic(updateGroupTopicInput: UpdateGroupTopicInput!): GroupTopic!
+  updateGroup(id: Int!, updateGroupInput: UpdateGroupInput!): Group!
   updateProblem(updateProblemInput: UpdateProblemInput!): Problem!
   updateRole(data: UpdateRoleInput!, id: Float!): Role!
   updateSeason(id: Int!, updateSeasonInput: UpdateSeasonInput!): Season!
@@ -159,7 +151,6 @@ type Problem {
 type Query {
   getMe: User!
   group(id: Int!): Group!
-  groupTopic(groupId: Int!, topicId: Int!): GroupTopic!
   groups: [Group!]!
 
   """Find a unique problem by id"""
@@ -227,14 +218,10 @@ type Topic {
 }
 
 input UpdateGroupInput {
-  id: Int!
+  country: String
+  name: String
+  school: String
   topics: [UpdateTopicInput!]
-}
-
-input UpdateGroupTopicInput {
-  groupId: Int
-  id: Int!
-  topicId: Int
 }
 
 input UpdateProblemInput {
@@ -256,9 +243,9 @@ input UpdateRoleInput {
 }
 
 input UpdateSeasonInput {
-  endDate: DateTime = "2022-09-07T08:20:32.912Z"
+  endDate: DateTime = "2022-09-07T08:51:22.432Z"
   name: String
-  startDate: DateTime = "2022-09-07T08:20:32.912Z"
+  startDate: DateTime = "2022-09-07T08:51:22.432Z"
 }
 
 input UpdateTagInput {
