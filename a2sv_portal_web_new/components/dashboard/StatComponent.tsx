@@ -5,12 +5,11 @@ import Chart from "./Chart";
 import { ProblemSolvedProps } from "./ConsistencyDiagram";
 import ContestRating, { ContestInfo } from "./ContestRating";
 import DashboardRankItem, { DashboardRankItemProps } from "./DashboardRankItem";
-import { DashboardTopicItemProps } from "./DashboardTopicItem";
 import RadialBar from "./RadialBar";
 import TotalRadialBar from "./TotalRadialBar";
 
 type Props = {
-  groupData: any
+  groupData: any;
 };
 
 const problemStat: ProblemSolvedProps = {
@@ -135,7 +134,9 @@ const StatComponent = (props: Props) => {
   return (
     <div>
       <div className="flex flex-col gap-y-4 w-full">
-        <p className="text-[rgb(103,103,103)] font-semibold text-lg">{props.groupData.group.name}</p>
+        <p className="text-[rgb(103,103,103)] font-semibold text-lg">
+          {props.groupData?.group.name}
+        </p>
         <div className="flex flex-row gap-x-3 w-full">
           {rankList.map((item, index) => (
             <DashboardRankItem key={index} {...item} />

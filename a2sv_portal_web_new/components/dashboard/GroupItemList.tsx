@@ -43,14 +43,13 @@ const url =
 //     totalStudents: 120,
 //   },
 // ];
-
 const GroupItemList = () => {
-  const { data, loading, error, refetch } = useAllGroups()
-  console.log(data, loading, error, " is fetching")
-  let [groups, setGroups] = useState([])
+  const { data, loading, error, refetch } = useAllGroups();
+  console.log(data, loading, error, " is fetching");
+  let [groups, setGroups] = useState([]);
   useEffect(() => {
     if (data && data.groups) {
-      console.log("data is ", data)
+      console.log("data is ", data);
       const datas = data.groups.map((group: any) => {
         return {
           groupId: group.id,
@@ -59,27 +58,26 @@ const GroupItemList = () => {
           createdAt: group.createdAt,
           studentsImage: [url, url, url],
           totalStudents: 120,
-        }
-      })
-      setGroups(datas)
+        };
+      });
+      setGroups(datas);
     }
-  }, [data])
+  }, [data]);
 
   return (
     <div className="grid grid-cols-3 gap-y-5">
-      {
-        loading ? (
-          <h1>Loading</h1>
-        ) : (
-          groups && groups.map((item: GroupItemProps, index: number) => (
-            <GroupItem
-              color={colors[index % colors.length]}
-              {...item}
-              key={index}
-            />
-          ))
-        )
-      }
+      {loading ? (
+        <h1>Loading</h1>
+      ) : (
+        groups &&
+        groups.map((item: GroupItemProps, index: number) => (
+          <GroupItem
+            color={colors[index % colors.length]}
+            {...item}
+            key={index}
+          />
+        ))
+      )}
     </div>
   );
 };
