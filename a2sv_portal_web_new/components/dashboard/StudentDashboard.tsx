@@ -100,9 +100,9 @@ const StudentDashboard = (props: Props) => {
   };
 
   return (
-    <StudentLayout sidebar={<Sidebar />}>
+    <StudentLayout sidebar={<Sidebar  />}>
       <div className="flex flex-col gap-y-4">
-        <p className="text-[#676767] font-semibold">Student Stats</p>
+        <p className="text-[#676767] font-semibold text-xl">Student Stats</p>
         <div className="flex flex-row gap-x-3">
           {rankList.map((item, index) => (
             <DashboardRankItem key={index} {...item} />

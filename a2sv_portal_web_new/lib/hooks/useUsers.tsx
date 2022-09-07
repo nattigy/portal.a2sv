@@ -1,16 +1,11 @@
 import { useLazyQuery, useQuery } from "@apollo/client";
 import { BsFileBreakFill } from "react-icons/bs";
 import { GraphqlUserRole } from "../../types/user";
-import { GET_ALL_USER_QUERY,GET_FILTERED_USERS } from "../apollo/Queries/usersQueries";
+import { GET_ALL_USER_QUERY, GET_FILTERED_USERS, GET_USERS_BY_GROUP_ID_QUERY } from "../apollo/Queries/usersQueries";
 
 
-// export const useAllUsers = () => {
-//     return useQuery(GET_ALL_USER_QUERY, {
-//         errorPolicy: 'all',
-//         notifyOnNetworkStatusChange: true
-//     })
-// }
-export const useFilteredUsers = (tabIndex:number) => {
+
+export const useFilteredUsers = (tabIndex: number) => {
     let role;
     switch (tabIndex) {
         case 1:
@@ -27,7 +22,7 @@ export const useFilteredUsers = (tabIndex:number) => {
     }
 
     return useLazyQuery(GET_FILTERED_USERS, {
-        variables:{
+        variables: {
             role
         },
         errorPolicy: 'all',
@@ -35,4 +30,14 @@ export const useFilteredUsers = (tabIndex:number) => {
     })
 }
 
+
+export const useUsersByGroupId = (groupId: number) => {
+    return useLazyQuery(GET_USERS_BY_GROUP_ID_QUERY, {
+        variables: {
+            groupId
+        },
+        errorPolicy: 'all',
+        notifyOnNetworkStatusChange: true
+    })
+}
 

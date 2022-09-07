@@ -5,8 +5,9 @@ import {
 } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { LoaderLarge } from "../../components/common/Loaders";
 import authenticatedVar, {
-  authenticatedUser,
+  authenticatedUser, hasNetworkError,
 } from "../constants/authenticated";
 import useGetMe from "../hooks/useGetMe";
 
@@ -20,6 +21,7 @@ const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
   const { data: user, refetch } = useGetMe();
   const authenticated = useReactiveVar(authenticatedVar);
   const authUser = useReactiveVar(authenticatedUser);
+  const hasNoConnection = useReactiveVar(hasNetworkError)
   const router = useRouter();
 
   useEffect(() => {
@@ -33,6 +35,7 @@ const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
       refetch();
     }
   }, [authenticated, excludedRoutes, refetch, router, router.pathname, user]);
+
   useEffect(() => {
     const checkAuthenticated = async () => {
       if (!authenticated && !excludedRoutes?.includes(router.pathname)) {
@@ -42,11 +45,23 @@ const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
     };
     checkAuthenticated();
   }, [authenticated, router, excludedRoutes, client]);
-  {
-  }
+
   return (
     <>
-      {excludedRoutes?.includes(router.pathname) ? children : user && children}
+      {excludedRoutes?.includes(router.pathname) ? children : (
+        <>
+          {
+            user ? user && children : <div className="min-h-screen min-w-full flex justify-center items-center">
+              <LoaderLarge />
+            </div>
+          }
+        </>
+      )}
+      {
+        !user && hasNoConnection && (
+          <h1>No Connection</h1>
+        )
+      }
     </>
   );
 };

@@ -8,6 +8,7 @@ import GroupItemList from "../../components/group/GroupItemList";
 import GroupStatItem from "../../components/group/GroupStatItem";
 import GroupStatList from "../../components/group/GroupStatList";
 import GroupStudents from "../../components/group/GroupStudents";
+import GroupStudentsSidebarItem from "../../components/group/GroupStudentsSidebarItem";
 import NewGroupModal from "../../components/modals/NewGroupModal";
 
 const Index = () => {
@@ -16,8 +17,16 @@ const Index = () => {
     const handleModalOpen = () => {
         setIsModalOpen(true);
     };
+
+    const Sidebar: React.FC = () => {
+        return (
+            <div className="flex flex-col gap-y-3">
+                <GroupStudentsSidebarItem clicked={true} />
+            </div>
+        );
+    };
     return (
-        <StudentLayout>
+        <StudentLayout sidebar={<Sidebar />}>
             <GroupStudents />
         </StudentLayout>
     );

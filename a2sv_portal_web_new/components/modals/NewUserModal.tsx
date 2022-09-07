@@ -3,9 +3,10 @@ import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
 import clsx from "clsx";
 import { AiOutlineUser } from "react-icons/ai";
-import { ApolloError, useMutation } from "@apollo/client";
+import { ApolloError, useMutation, useReactiveVar } from "@apollo/client";
 import { CREATE_USER_MUTATION } from "../../lib/apollo/Mutations/usersMutations";
 import { GraphqlUserRole } from "../../types/user";
+import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 
 
 interface FormValues {
@@ -34,13 +35,14 @@ const FORM_VALIDATION = yup.object().shape({
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
       "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     ),
-  role: yup.string().min(0).required("Required"),
+  role: yup.string(),
 });
 
 const NewUserModal = (props: Props) => {
   const [addNewUser] = useMutation(CREATE_USER_MUTATION)
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
+  const authUser = useReactiveVar<AuthUser | any>(authenticatedUser)
 
   const INITIAL_VALUES = {
     // status: QuestionStatus.NOT_SOLVED,
@@ -58,15 +60,15 @@ const NewUserModal = (props: Props) => {
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
-            console.log(values, " is values")
+            console.log(values, authUser.groupId, " is values")
             setIsLoading(true)
             await addNewUser({
               variables: {
                 createUserInput: {
                   email: values.email,
-                  group: null,
+                  groupId: authUser.groupId,
                   password: values.password,
-                  role: values.role
+                  role: authUser && authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY ? GraphqlUserRole.STUDENT : values.role
                 }
               },
               refetchQueries: "active",
@@ -142,9 +144,14 @@ const NewUserModal = (props: Props) => {
                               : "border-[#DCDCDC]"
                           )}
                         />
-                        <p className="w-full text-xs text-red-500">
-                          {errors.name}
-                        </p>
+                        {
+                          touched.name && errors.name && (
+                            <p className="w-full text-xs text-red-500">
+                              {errors.name}
+                            </p>
+                          )
+                        }
+
                       </div>
                       <div>
                         <Field
@@ -159,9 +166,13 @@ const NewUserModal = (props: Props) => {
                               : "border-[#DCDCDC]"
                           )}
                         />
-                        <p className="w-full text-xs text-red-500">
-                          {errors.email}
-                        </p>
+                        {
+                          touched.email && errors.email && (
+                            <p className="w-full text-xs text-red-500">
+                              {errors.email}
+                            </p>
+                          )
+                        }
                       </div>
                       <div>
                         <Field
@@ -176,9 +187,13 @@ const NewUserModal = (props: Props) => {
                               : "border-[#DCDCDC]"
                           )}
                         />
-                        <p className="w-full text-xs text-red-500">
-                          {errors.password}
-                        </p>
+                        {
+                          touched.password && errors.password && (
+                            <p className="w-full text-xs text-red-500">
+                              {errors.password}
+                            </p>
+                          )
+                        }
                       </div>
                     </div>
                   </div>
@@ -191,41 +206,45 @@ const NewUserModal = (props: Props) => {
                       different users.
                     </p>
                   </div>
-                  <div className="">
-                    <div className="flex flex-col justify-start gap-y-4">
-                      <div className="flex items-center">
-                        <div className="bg-white dark:bg-gray-100 rounded-full w-full h-8 flex flex-shrink-0 justify-start items-center relative">
-                          <AiOutlineUser
-                            size={20}
-                            className="absolute left-2"
-                          />
-                          <Field
-                            as="select"
-                            name="role"
-                            className={clsx(
-                              "w-full h-12 px-8 border rounded-md",
-                              touched.role && errors.role
-                                ? "border-red-500"
-                                : ""
-                            )}
-                          >
-                            <option
-                              className="h-20"
-                              value=""
-                              selected
-                              disabled
-                              hidden
-                            >
-                              Select Role
-                            </option>
-                            <option value={GraphqlUserRole.STUDENT}>Student</option>
-                            <option value={GraphqlUserRole.ASSISTANT}>Assistant</option>
-                            <option value={GraphqlUserRole.HEAD_OF_EDUCATION}>Head of Education</option>
-                          </Field>
+                  {
+                    authUser && authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY && (
+                      <div className="">
+                        <div className="flex flex-col justify-start gap-y-4">
+                          <div className="flex items-center">
+                            <div className="bg-white dark:bg-gray-100 rounded-full w-full h-8 flex flex-shrink-0 justify-start items-center relative">
+                              <AiOutlineUser
+                                size={20}
+                                className="absolute left-2"
+                              />
+                              <Field
+                                as="select"
+                                name="role"
+                                className={clsx(
+                                  "w-full h-12 px-8 border rounded-md",
+                                  touched.role && errors.role
+                                    ? "border-red-500"
+                                    : ""
+                                )}
+                              >
+                                <option
+                                  className="h-20"
+                                  value=""
+                                  selected
+                                  disabled
+                                  hidden
+                                >
+                                  Select Role
+                                </option>
+                                <option value={GraphqlUserRole.STUDENT}>Student</option>
+                                <option value={GraphqlUserRole.ASSISTANT}>Assistant</option>
+                                <option value={GraphqlUserRole.HEAD_OF_EDUCATION}>Head of Education</option>
+                              </Field>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
+                    )
+                  }
                   {
                     errorMessage && (
                       <div className="bg-[#E4646451] py-1 rounded-md">

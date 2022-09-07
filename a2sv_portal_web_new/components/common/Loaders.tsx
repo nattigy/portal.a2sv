@@ -13,11 +13,11 @@ export const LoaderMedium = ({ className }: { className: string }) => {
     />
 }
 
-export const LoaderLarge = ({ color, style, className }: { color: string, style?: any, className?: string }) => {
+export const LoaderLarge = ({ color = "#5956E9", style, className }: { color?: string, style?: any, className?: string }) => {
     return <ThreeDots
         height="80"
         width="80"
-        // radius="9"
+        radius="10"
         color={color}
         ariaLabel="three-dots-loading"
         wrapperStyle={style}

@@ -62,7 +62,6 @@ const LoginForm = () => {
                 refetchQueries: "active",
                 notifyOnNetworkStatusChange: true,
                 onError: (error) => {
-                  console.log(error, " is error")
                   setErrorMessage(error.message)
                   setIsLoading(false)
 

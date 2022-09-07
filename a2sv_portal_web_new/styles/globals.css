@@ -5,6 +5,8 @@
 
 :root {
   --text-primary: #565656;
+  --bg-primary: #5956E9;
+  --bg-primary-dark: #3f3cdd;
 }
 
 @layer base {
@@ -27,5 +29,34 @@
     -ms-overflow-style: none;
     /* IE and Edge */
     scrollbar-width: none;
+  }
+
+
+  /* width */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 8px;
+
+  }
+
+  /* Track */
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #fafafa;
+    border-radius: 8px;
+  }
+
+  /* Handle */
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--bg-primary);
+    border-radius: 8px;
+    background-image: linear-gradient(to top bottom, var(--bg-primary), var(--bg-primary-dark));
+
+  }
+
+  /* Handle on hover */
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--bg-primary-dark);
+    background-image: linear-gradient(to top bottom, var(--bg-primary), var(--bg-primary-dark));
+
   }
 }

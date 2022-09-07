@@ -25,7 +25,7 @@ const CustomTextField: React.FC<InputProps> = (props: InputProps) => {
   return (
     <div className="flex flex-row justify-around">
       <Field
-        autocomplete="off"
+        autoComplete="off"
         id={props.id}
         name={props.name}
         placeholder={props.placeholder}

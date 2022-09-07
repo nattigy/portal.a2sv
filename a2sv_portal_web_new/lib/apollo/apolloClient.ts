@@ -9,6 +9,7 @@ import configs from "../constants/configs";
 import { setContext } from "@apollo/client/link/context";
 import authenticatedVar, {
   authenticatedUser,
+  hasNetworkError,
 } from "../constants/authenticated";
 
 interface PageProps {
@@ -29,7 +30,8 @@ const logoutLink = onError(({ graphQLErrors }) => {
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
-  const token = localStorage.getItem("token");
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("token") : "";
   // return the headers to the context so httpLink can read them
   return {
     headers: {
@@ -46,8 +48,20 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
       )
     );
+
+    if ((graphQLErrors[0].extensions.response as any)?.statusCode === 401) {
+      authenticatedVar(false);
+      authenticatedUser({});
+    }
+    if ((graphQLErrors[0].extensions.response as any)?.statusCode === 500) {
+      authenticatedVar(false);
+      authenticatedUser({});
+    }
   }
-  if (networkError) console.log(`[Network error]: ${networkError}`);
+  if (networkError) {
+    console.log(`[Network error]: ${networkError} nnnnnnnnnnn`);
+    hasNetworkError(true);
+  }
 });
 
 const createApolloClient = (ctx?: GetServerSidePropsContext) => {
@@ -59,7 +73,7 @@ const createApolloClient = (ctx?: GetServerSidePropsContext) => {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
     cache: new InMemoryCache(),
-    link: from([logoutLink, errorLink, httpLink]),
+    link: from([logoutLink, authLink, errorLink, httpLink]),
     // connectToDevTools: true,
   });
 };

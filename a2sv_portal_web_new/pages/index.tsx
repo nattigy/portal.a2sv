@@ -1,7 +1,6 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
 import Navbar from "../components/common/Navbar";
 import { addApolloState, initializeApollo } from "../lib/apollo/apolloClient";
-import { GET_ME_QUERY } from "../lib/apollo/Queries/profileQueries";
 
 const Home: NextPage = () => {
   return (
