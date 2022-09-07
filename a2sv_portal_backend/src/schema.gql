@@ -31,9 +31,9 @@ input CreateRoleInput {
 }
 
 input CreateSeasonInput {
-  endDate: DateTime = "2022-09-07T12:06:15.186Z"
+  endDate: DateTime = "2022-09-07T14:50:18.895Z"
   name: String!
-  startDate: DateTime = "2022-09-07T12:06:15.186Z"
+  startDate: DateTime = "2022-09-07T14:50:18.895Z"
 }
 
 input CreateTagInput {
@@ -52,7 +52,7 @@ input CreateUserInput {
   email: String!
   group: UpdateGroupInput
   password: String!
-  role: RoleEnum = STUDENT
+  role: role = STUDENT
 }
 
 input CreateUserProfileInput {
@@ -196,14 +196,6 @@ type Role {
   updatedAt: DateTime
 }
 
-enum RoleEnum {
-  ADMIN
-  ASSISTANT
-  HEAD_OF_ACADEMY
-  HEAD_OF_EDUCATION
-  STUDENT
-}
-
 type Season {
   createdAt: DateTime
   endDate: DateTime!
@@ -237,6 +229,7 @@ type Topic {
 input UpdateGroupInput {
   id: Int!
   topics: [UpdateTopicInput!]
+  users: [UpdateUserInput!]
 }
 
 input UpdateGroupTopicInput {
@@ -264,9 +257,9 @@ input UpdateRoleInput {
 }
 
 input UpdateSeasonInput {
-  endDate: DateTime = "2022-09-07T12:06:15.186Z"
+  endDate: DateTime = "2022-09-07T14:50:18.895Z"
   name: String
-  startDate: DateTime = "2022-09-07T12:06:15.186Z"
+  startDate: DateTime = "2022-09-07T14:50:18.895Z"
 }
 
 input UpdateTagInput {
@@ -289,12 +282,36 @@ input UpdateUserInput {
   groupId: Int
   id: Int!
   password: String
-  role: RoleEnum
+  role: role
   userProfile: UpdateUserProfileInput
 }
 
 input UpdateUserProfileInput {
-  id: Int!
+  bio: String
+  birthDate: DateTime
+  codeforces: String
+  educationDegree: String
+  educationField: String
+  educationPlace: String
+  educationYear: Int
+  facebook: String
+  firstName: String = "John"
+  geekforgeeks: String
+  github: String
+  graduationYear: Int
+  hackerrank: String
+  id: Int
+  instagram: String
+  lastName: String = "Doe"
+  leetcode: String
+  linkedin: String
+  phone: String
+  photoURL: String
+  resumeLink: String
+  tshirtSize: String
+  twitter: String
+  userId: Int
+  website: String
 }
 
 type User {
@@ -305,7 +322,7 @@ type User {
   groupTopicProblems: [GroupTopicProblem!]
   headToGroup: Group
   id: ID!
-  role: RoleEnum!
+  role: role!
   status: status!
   updatedAt: DateTime
   userProfile: UserProfile
@@ -313,31 +330,41 @@ type User {
 }
 
 type UserProfile {
-  bio: String!
-  birthDate: DateTime!
-  codeforces: String!
-  educationDegree: String!
-  educationField: String!
-  educationPlace: String!
-  educationYear: Int!
-  facebook: String!
-  firstName: String!
-  geekforgeeks: String!
-  github: String!
-  graduationYear: Int!
-  hackerrank: String!
+  bio: String
+  birthDate: DateTime
+  codeforces: String
+  createdAt: DateTime
+  educationDegree: String
+  educationField: String
+  educationPlace: String
+  educationYear: Int
+  facebook: String
+  firstName: String
+  geekforgeeks: String
+  github: String
+  graduationYear: Int
+  hackerrank: String
   id: Int!
-  instagram: String!
-  lastName: String!
-  leetcode: String!
-  linkedin: String!
-  phone: String!
-  photoURL: String!
-  resumeLink: String!
-  tshirtSize: String!
-  twitter: String!
+  instagram: String
+  lastName: String
+  leetcode: String
+  linkedin: String
+  phone: String
+  photoUrl: String
+  resumeLink: String
+  tshirtSize: String
+  twitter: String
+  updatedAt: DateTime
   userId: Int!
-  website: String!
+  website: String
+}
+
+enum role {
+  ADMIN
+  ASSISTANT
+  HEAD_OF_ACADEMY
+  HEAD_OF_EDUCATION
+  STUDENT
 }
 
 enum status {

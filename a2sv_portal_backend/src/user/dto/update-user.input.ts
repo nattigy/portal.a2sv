@@ -1,6 +1,6 @@
 import { CreateUserInput } from './create-user.input'
 import { InputType, Field, Int } from '@nestjs/graphql'
-import { RoleEnum } from 'src/roles/interfaces/role.enum'
+import { RoleEnum } from '@prisma/client'
 import { UpdateGroupInput } from 'src/groups/dto/update-group.input'
 import { UpdateUserProfileInput } from 'src/user-profile/dto/update-user-profile.input'
 
@@ -18,7 +18,7 @@ export class UpdateUserInput {
   password: string
 
   @Field(() => RoleEnum, { nullable: true })
-  role: RoleEnum
+  role?: RoleEnum
 
   @Field(() => UpdateGroupInput, { nullable: true })
   group?: UpdateGroupInput

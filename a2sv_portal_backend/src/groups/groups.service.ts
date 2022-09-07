@@ -3,7 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateGroupInput } from './dto/create-group.input'
 import { Group } from '../groups/entities/group.entity'
 import { UpdateGroupInput } from './dto/update-group.input'
-import { TopicService } from 'src/topic/topic.service'
+import { RoleEnum } from '@prisma/client'
 
 @Injectable()
 export class GroupsService {
@@ -45,35 +45,29 @@ export class GroupsService {
     console.log("I'm Here")
     return this.prismaService.group.findMany({
       include: {
-        topics: {
-          include: {
-            group: true,
-            topic: true,
-          },
-        },
+        topics: true,
       },
     })
   }
 
   async updateGroup(updateGroupInput: UpdateGroupInput): Promise<Group> {
     console.log("I'm here in update group")
-    const { topics, ...groupData } = updateGroupInput
-    console.log('topics: ', topics)
-    if (topics) {
-      let result
-      topics.map((topic) => {
-        result = this.prismaService.group.update({
-          include: {
-            topics: {
-              include: {
-                group: true,
-                topic: true,
-              },
-            },
+    const { topics, users, ...groupData } = updateGroupInput
+    if (users) {
+      this.prismaService.group.update({
+        where: { id: updateGroupInput.id },
+        data: {
+          users: {
+            connect: users,
           },
+        },
+      })
+    }
+    if (topics) {
+      topics.map((topic) => {
+        this.prismaService.group.update({
           where: { id: updateGroupInput.id },
           data: {
-            ...groupData,
             topics: {
               connectOrCreate: {
                 where: {
@@ -94,18 +88,13 @@ export class GroupsService {
           },
         })
       })
-      return result
     }
     return this.prismaService.group.update({
       where: { id: updateGroupInput.id },
       data: groupData,
       include: {
-        topics: {
-          include: {
-            group: true,
-            topic: true,
-          },
-        },
+        topics: true,
+        users: true,
       },
     })
   }

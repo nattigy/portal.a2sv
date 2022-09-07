@@ -3,13 +3,13 @@ import { Status } from '@prisma/client'
 import { GroupTopicProblem } from 'src/groups/entities/group-topic-problem.entity'
 import { Group } from 'src/groups/entities/group.entity'
 import { UserProfile } from 'src/user-profile/entities/user-profile.entity'
-import { RoleEnum } from '../../roles/interfaces/role.enum'
+import { RoleEnum } from '@prisma/client'
 
 @ObjectType()
 export class User {
   @Field(() => ID)
   id: number
-  @Field(() => RoleEnum)
+  @Field(() => RoleEnum, { defaultValue: RoleEnum.STUDENT })
   role: RoleEnum
   @Field({})
   email: string

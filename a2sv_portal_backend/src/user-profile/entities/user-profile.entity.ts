@@ -6,50 +6,54 @@ export class UserProfile {
   id: number
   @Field(() => Int)
   userId: number
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   firstName?: string = 'John' // Courtesy of dany the sun!
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   lastName?: string = 'Doe'
-  @Field()
+  @Field({ nullable: true })
   phone?: string
-  @Field()
+  @Field({ nullable: true })
   birthDate?: Date
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   resumeLink?: string
-  @Field(() => String)
-  photoURL?: string
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
+  photoUrl?: string
+  @Field(() => String, { nullable: true })
   bio?: string
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   educationPlace?: string
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   educationYear?: number
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   educationDegree?: string
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   educationField?: string
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   graduationYear?: number
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   tshirtSize?: string
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   leetcode?: string
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   github?: string
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   linkedin?: string
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   website?: string
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   hackerrank?: string
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   codeforces?: string
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   geekforgeeks?: string
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   instagram?: string
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   twitter?: string
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   facebook?: string
+  @Field({ nullable: true })
+  createdAt?: Date
+  @Field({ nullable: true })
+  updatedAt?: Date
 }

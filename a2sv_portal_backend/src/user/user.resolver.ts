@@ -1,7 +1,16 @@
-import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nestjs/graphql'
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql'
 import { UserService } from './user.service'
 import { User } from './entities/user.entity'
 import { User as UserModel } from '@prisma/client'
+import { UserProfile } from 'src/user-profile/entities/user-profile.entity'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { GetUserArgs } from './dto/get-users.args'
@@ -10,7 +19,10 @@ import { GroupsService } from 'src/groups/groups.service'
 
 @Resolver(() => User)
 export class UserResolver {
-  constructor(private readonly userService: UserService, private readonly groupService: GroupsService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly groupService: GroupsService,
+  ) {}
 
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @Mutation(() => User)
@@ -20,7 +32,7 @@ export class UserResolver {
 
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
   @Query(() => [User], { name: 'users' })
-  async findAll(@Args() args: GetUserArgs) {  
+  async findAll(@Args() args: GetUserArgs) {
     return await this.userService.findAll(args)
   }
 
@@ -45,7 +57,12 @@ export class UserResolver {
 
   @ResolveField()
   async group(@Parent() user: User) {
-    const { groupId } = user;
+    const { groupId } = user
     return this.groupService.getGroupById(groupId)
+  }
+
+  @ResolveField(() => UserProfile)
+  userProfile(@Parent() user: User): UserProfile {
+    return user.userProfile
   }
 }

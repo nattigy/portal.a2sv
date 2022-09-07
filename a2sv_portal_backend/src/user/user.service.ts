@@ -31,6 +31,10 @@ export class UserService {
         role: createUserInput.role,
         updatedAt: new Date().toISOString(),
       },
+      include: {
+        group: true,
+        userProfile: true,
+      },
     })
   }
 
@@ -53,6 +57,10 @@ export class UserService {
         groupId,
         role,
       },
+      include: {
+        group: true,
+        userProfile: true,
+      },
     })
 
     return result
@@ -60,6 +68,10 @@ export class UserService {
 
   async findOne(id: number) {
     const user = await this.prismaService.user.findUnique({
+      include: {
+        group: true,
+        userProfile: true,
+      },
       where: {
         id: id,
       },
@@ -78,19 +90,30 @@ export class UserService {
   ): Promise<User> {
     const { id, groupId, userProfile, group, ...data } = updateUserInput
 
-    return await this.prismaService.user.update({
-      data: {
-        ...data,
-        group: {
-          connect: { id: groupId || group?.id },
-        },
-        userProfile: {
-          connectOrCreate: {
-            where: { id: userProfile.id },
-            create: userProfile,
+    const queryData = {
+      include: {
+        group: true,
+        userProfile: true,
+      },
+      ...data,
+      userProfile: {
+        connectOrCreate: {
+          where: { userId: id },
+          create: {
+            ...userProfile,
           },
         },
       },
+    } as unknown as Prisma.UserUpdateInput
+
+    if (group) {
+      queryData.group = {
+        connect: { id: groupId || group.id },
+      }
+    }
+    console.log(queryData)
+    return await this.prismaService.user.update({
+      data: queryData,
       where: { id },
     })
   }

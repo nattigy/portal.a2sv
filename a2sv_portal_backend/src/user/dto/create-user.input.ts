@@ -1,8 +1,7 @@
 import { InputType, Int, Field, registerEnumType } from '@nestjs/graphql'
 import { Status } from '@prisma/client'
-import { CreateGroupInput } from 'src/groups/dto/create-group.input'
 import { UpdateGroupInput } from 'src/groups/dto/update-group.input'
-import { RoleEnum } from '../../roles/interfaces/role.enum'
+import { RoleEnum } from '@prisma/client'
 @InputType()
 export class CreateUserInput {
   @Field({})
@@ -16,7 +15,6 @@ export class CreateUserInput {
 
   @Field(() => UpdateGroupInput, { nullable: true })
   group?: UpdateGroupInput
-
 }
 
 registerEnumType(Status, {
