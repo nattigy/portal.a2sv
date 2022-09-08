@@ -12,6 +12,13 @@ class TopicDetailRepository {
         id: "1",
         description: "Hi",
         name: "Stack",
+      season: Season(
+        id: "id",
+        name: "Camp",
+        status: "started",
+        topics: []
+      ),
+    );
     await Future.delayed(Duration(seconds: 5));
     return topic;
 

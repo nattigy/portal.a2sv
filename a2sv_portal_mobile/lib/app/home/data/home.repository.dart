@@ -29,9 +29,9 @@ class HomeRepository {
 
   Future<ProblemStat> loadProblemStats() async {
     ProblemStat problemStat = ProblemStat(
-      medium: 12,
+      medium: 15,
       easy: 10,
-      hard: 8,
+      hard: 5,
       minutes: 4654,
       problemsSolved: 30,
       totalSubmissions: 50,
