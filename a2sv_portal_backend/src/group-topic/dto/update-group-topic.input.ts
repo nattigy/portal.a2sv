@@ -16,6 +16,6 @@ export class UpdateGroupTopicInput {
   group?: UpdateGroupInput
   @Field(() => UpdateTopicInput, { nullable: true })
   topic?: UpdateTopicInput
-  @Field(() => UpdateProblemInput, { nullable: true })
+  @Field(() => [UpdateProblemInput], { nullable: true })
   problems?: UpdateProblemInput[]
 }

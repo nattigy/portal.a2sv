@@ -16,6 +16,11 @@ export class UserService {
     const { email, password } = createUserInput
 
     const foundUser = await this.prismaService.user.findFirst({
+      include: {
+        group: true,
+        headToGroup: true,
+        userProfile: true,
+      },
       where: { email },
     })
 
@@ -94,17 +99,7 @@ export class UserService {
   ): Promise<User> {
     const { id, groupId, userProfile, group, ...data } = updateUserInput
 
-    const queryData = {
-      ...data,
-      userProfile: {
-        connectOrCreate: {
-          where: { userId: id },
-          create: {
-            ...userProfile,
-          },
-        },
-      },
-    } as unknown as Prisma.UserUpdateInput
+    const queryData = data as any
 
     if (group) {
       queryData.group = {
@@ -152,6 +147,11 @@ export class UserService {
     return await this.prismaService.user.findUnique({
       where: {
         id: id,
+      },
+      include: {
+        group: true,
+        headToGroup: true,
+        userProfile: true,
       },
     })
   }

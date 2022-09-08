@@ -13,38 +13,37 @@ import { CreateGroupTopicInput } from './dto/create-group-topic.input'
 import { UpdateGroupTopicInput } from './dto/update-group-topic.input'
 import { Group } from 'src/groups/entities/group.entity'
 import { Topic } from 'src/topic/entities/topic.entity'
-import { Problem } from 'src/problem/entities/problem.entity'
-import { GroupTopicProblem } from 'src/groups/entities/group-topic-problem.entity'
+import { GroupTopicProblem } from 'src/group-topic-problem/entities/group-topic-problem.entity'
 
 @Resolver(() => GroupTopic)
 export class GroupTopicResolver {
   constructor(private readonly groupTopicService: GroupTopicService) {}
 
   @Mutation(() => GroupTopic)
-  createGroupTopic(
+  async createGroupTopic(
     @Args('createGroupTopicInput') createGroupTopicInput: CreateGroupTopicInput,
   ) {
     return this.groupTopicService.create(createGroupTopicInput)
   }
 
   @Query(() => [GroupTopic], { name: 'groupTopics' })
-  findAll() {
-    return this.groupTopicService.findAll()
+  async findAll() {
+    return await this.groupTopicService.findAll()
   }
 
   @Query(() => GroupTopic, { name: 'groupTopic' })
-  findOne(
+  async findOne(
     @Args('groupId', { type: () => Int }) groupId: number,
     @Args('topicId', { type: () => Int }) topicId: number,
   ) {
-    return this.groupTopicService.findOne(groupId, topicId)
+    return await this.groupTopicService.findOne(groupId, topicId)
   }
 
   @Mutation(() => GroupTopic)
-  updateGroupTopic(
+  async updateGroupTopic(
     @Args('updateGroupTopicInput') updateGroupTopicInput: UpdateGroupTopicInput,
   ) {
-    return this.groupTopicService.update(updateGroupTopicInput)
+    return await this.groupTopicService.update(updateGroupTopicInput)
   }
 
   @Mutation(() => GroupTopic)

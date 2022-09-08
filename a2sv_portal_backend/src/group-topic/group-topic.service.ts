@@ -13,12 +13,17 @@ export class GroupTopicService {
       include: {
         topic: true,
         group: true,
+        problems: {
+          include: {
+            problem: true,
+          },
+        },
       },
     })
   }
 
-  findAll() {
-    return this.prismaService.groupTopic.findMany({
+  async findAll() {
+    return await this.prismaService.groupTopic.findMany({
       include: {
         group: true,
         topic: true,
@@ -61,12 +66,6 @@ export class GroupTopicService {
               },
             },
             create: {
-              groupTopic: {
-                connect: {
-                  groupId,
-                  topicId,
-                },
-              },
               problem: {
                 connect: {
                   id: problem.id,
@@ -81,6 +80,11 @@ export class GroupTopicService {
       include: {
         topic: true,
         group: true,
+        problems: {
+          include: {
+            problem: true,
+          },
+        },
       },
       where: {
         groupId_topicId: {
@@ -94,10 +98,6 @@ export class GroupTopicService {
 
   remove(groupId: number, topicId: number) {
     return this.prismaService.groupTopic.delete({
-      include: {
-        topic: true,
-        group: true,
-      },
       where: {
         groupId_topicId: {
           groupId,

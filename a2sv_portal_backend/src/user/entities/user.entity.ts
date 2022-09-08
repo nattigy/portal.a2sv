@@ -1,9 +1,9 @@
 import { ObjectType, Field, Int, ID, registerEnumType } from '@nestjs/graphql'
 import { Status } from '@prisma/client'
-import { GroupTopicProblem } from 'src/groups/entities/group-topic-problem.entity'
 import { Group } from 'src/groups/entities/group.entity'
 import { UserProfile } from 'src/user-profile/entities/user-profile.entity'
 import { RoleEnum } from '@prisma/client'
+import { GroupTopicProblemUser } from 'src/group-topic-problem-user/entities/group-topic-problem-user.entity'
 
 @ObjectType()
 export class User {
@@ -19,8 +19,8 @@ export class User {
   group?: Group
   @Field(() => Int, { nullable: true })
   groupId?: number
-  @Field(() => [GroupTopicProblem], { nullable: true })
-  groupTopicProblems?: GroupTopicProblem[]
+  @Field(() => [GroupTopicProblemUser], { nullable: true })
+  groupTopicProblems?: GroupTopicProblemUser[]
   @Field(() => Group, { nullable: true })
   headToGroup?: Group
   @Field(() => Int, { nullable: true })

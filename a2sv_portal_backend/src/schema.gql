@@ -13,6 +13,19 @@ input CreateGroupTopicInput {
   topicId: Int!
 }
 
+input CreateGroupTopicProblemInput {
+  groupId: Int!
+  groupTopic: UpdateGroupInput!
+  problem: UpdateProblemInput!
+  problemId: Int!
+  topicId: Int!
+}
+
+input CreateGroupTopicProblemUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 input CreateProblemInput {
   createdAt: DateTime
   difficulty: String!
@@ -31,9 +44,9 @@ input CreateRoleInput {
 }
 
 input CreateSeasonInput {
-  endDate: DateTime = "2022-09-08T07:10:16.934Z"
+  endDate: DateTime = "2022-09-08T09:23:49.492Z"
   name: String!
-  startDate: DateTime = "2022-09-08T07:10:16.934Z"
+  startDate: DateTime = "2022-09-08T09:23:49.492Z"
 }
 
 input CreateTagInput {
@@ -80,7 +93,7 @@ type GroupTopic {
   createdAt: DateTime
   group: Group
   groupId: Int!
-  problems: GroupTopicProblem
+  problems: [GroupTopicProblem!]
   topic: Topic
   topicId: Int!
   updatedAt: DateTime
@@ -89,7 +102,7 @@ type GroupTopic {
 type GroupTopicProblem {
   createdAt: DateTime
   groupId: Int!
-  groupTopic: GroupTopic
+  groupTopic: GroupTopic!
   problem: Problem
   problemId: Int!
   topicId: Int!
@@ -123,6 +136,8 @@ type LoginOutput {
 type Mutation {
   createGroup(createGroupInput: CreateGroupInput!): Group!
   createGroupTopic(createGroupTopicInput: CreateGroupTopicInput!): GroupTopic!
+  createGroupTopicProblem(createGroupTopicProblemInput: CreateGroupTopicProblemInput!): GroupTopicProblem!
+  createGroupTopicProblemUser(createGroupTopicProblemUserInput: CreateGroupTopicProblemUserInput!): GroupTopicProblemUser!
   createProblem(createProblemInput: CreateProblemInput!): Problem!
   createRole(data: CreateRoleInput!): Role!
   createSeason(createSeasonInput: CreateSeasonInput!): Season!
@@ -130,6 +145,7 @@ type Mutation {
   createTopic(createTopicInput: CreateTopicInput!): Topic!
   createUser(createUserInput: CreateUserInput!): User!
   createUserProfile(createUserProfileInput: CreateUserProfileInput!): UserProfile!
+  cupdateGroupTopicProblem(updateGroupTopicProblemInput: UpdateGroupTopicProblemInput!): GroupTopicProblem!
   deleteGroup(id: Int!): Group!
   deleteRole(id: Float!): Role!
   deleteSeason(id: Int!): Season!
@@ -137,6 +153,8 @@ type Mutation {
   login(loginInput: LoginInput!): LoginOutput!
   logout: SignupOutput!
   removeGroupTopic(groupId: Int!, topicId: Int!): GroupTopic!
+  removeGroupTopicProblem(groupId: Int!, problemId: Int!, topicId: Int!): GroupTopicProblem!
+  removeGroupTopicProblemUser(id: Int!): GroupTopicProblemUser!
   removeProblem(id: Int!): Problem!
   removeTag(id: Int!): Tag!
   removeUser(id: Int!): User!
@@ -144,6 +162,7 @@ type Mutation {
   signUp(createUserInput: CreateUserInput!): SignupOutput!
   updateGroup(updateGroupInput: UpdateGroupInput!): Group!
   updateGroupTopic(updateGroupTopicInput: UpdateGroupTopicInput!): GroupTopic!
+  updateGroupTopicProblemUser(updateGroupTopicProblemUserInput: UpdateGroupTopicProblemUserInput!): GroupTopicProblemUser!
   updateProblem(updateProblemInput: UpdateProblemInput!): Problem!
   updateRole(data: UpdateRoleInput!, id: Float!): Role!
   updateSeason(id: Int!, updateSeasonInput: UpdateSeasonInput!): Season!
@@ -169,6 +188,9 @@ type Query {
   getMe: User!
   group(id: Int!): Group!
   groupTopic(groupId: Int!, topicId: Int!): GroupTopic!
+  groupTopicProblem(id: Int!): GroupTopicProblem!
+  groupTopicProblemUser(id: Int!): GroupTopicProblemUser!
+  groupTopicProblems: [GroupTopicProblem!]!
   groupTopics: [GroupTopic!]!
   groups: [Group!]!
 
@@ -243,9 +265,24 @@ input UpdateGroupInput {
 input UpdateGroupTopicInput {
   group: UpdateGroupInput
   groupId: Int!
-  problems: UpdateProblemInput
+  problems: [UpdateProblemInput!]
   topic: UpdateTopicInput
   topicId: Int!
+}
+
+input UpdateGroupTopicProblemInput {
+  groupId: Int
+  groupTopic: UpdateGroupInput
+  id: Int!
+  problem: UpdateProblemInput
+  problemId: Int
+  topicId: Int
+}
+
+input UpdateGroupTopicProblemUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }
 
 input UpdateProblemInput {
@@ -267,9 +304,9 @@ input UpdateRoleInput {
 }
 
 input UpdateSeasonInput {
-  endDate: DateTime = "2022-09-08T07:10:16.934Z"
+  endDate: DateTime = "2022-09-08T09:23:49.492Z"
   name: String
-  startDate: DateTime = "2022-09-08T07:10:16.934Z"
+  startDate: DateTime = "2022-09-08T09:23:49.492Z"
 }
 
 input UpdateTagInput {
@@ -329,7 +366,7 @@ type User {
   email: String!
   group: Group
   groupId: Int
-  groupTopicProblems: [GroupTopicProblem!]
+  groupTopicProblems: [GroupTopicProblemUser!]
   headToGroup: Group
   id: ID!
   role: role!

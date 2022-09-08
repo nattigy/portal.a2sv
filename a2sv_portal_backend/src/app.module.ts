@@ -17,6 +17,8 @@ import { ProblemModule } from './problem/problem.module'
 import { TopicModule } from './topic/topic.module'
 import { GroupTopicModule } from './group-topic/group-topic.module'
 import { UserProfileModule } from './user-profile/user-profile.module';
+import { GroupTopicProblemModule } from './group-topic-problem/group-topic-problem.module';
+import { GroupTopicProblemUserModule } from './group-topic-problem-user/group-topic-problem-user.module';
 
 @Module({
   imports: [
@@ -53,6 +55,8 @@ import { UserProfileModule } from './user-profile/user-profile.module';
     TopicModule,
     GroupTopicModule,
     UserProfileModule,
+    GroupTopicProblemModule,
+    GroupTopicProblemUserModule,
   ],
   providers: [AppService, AppResolver],
 })

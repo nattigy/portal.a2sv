@@ -31,6 +31,11 @@ export class GroupsService {
         topics: {
           include: {
             topic: true,
+            problems: {
+              include: {
+                problem: true,
+              },
+            },
           },
         },
       },
@@ -51,6 +56,11 @@ export class GroupsService {
         topics: {
           include: {
             topic: true,
+            problems: {
+              include: {
+                problem: true,
+              },
+            },
           },
         },
       },
@@ -101,6 +111,11 @@ export class GroupsService {
         topics: {
           include: {
             topic: true,
+            problems: {
+              include: {
+                problem: true,
+              },
+            },
           },
         },
         users: true,
