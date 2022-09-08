@@ -11,6 +11,8 @@ export class GroupsService {
   async createGroup(createGroupInput: CreateGroupInput): Promise<Group> {
     return this.prismaService.group.create({
       include: {
+        users: true,
+        head: true,
         topics: {
           include: {
             topic: true,
@@ -24,6 +26,8 @@ export class GroupsService {
   async getGroupById(id: number): Promise<Group> {
     const group = await this.prismaService.group.findUnique({
       include: {
+        users: true,
+        head: true,
         topics: {
           include: {
             topic: true,
@@ -42,6 +46,8 @@ export class GroupsService {
     console.log("I'm Here")
     return this.prismaService.group.findMany({
       include: {
+        users: true,
+        head: true,
         topics: {
           include: {
             topic: true,
@@ -52,7 +58,7 @@ export class GroupsService {
   }
 
   async updateGroup(updateGroupInput: UpdateGroupInput): Promise<Group> {
-    const { topics, users, ...groupData } = updateGroupInput
+    const { id, topics, users, head, headId, ...groupData } = updateGroupInput
     const queryData = groupData as any
     if (users) {
       queryData.users = {
@@ -65,7 +71,7 @@ export class GroupsService {
           return {
             where: {
               groupId_topicId: {
-                groupId: updateGroupInput.id,
+                groupId: id,
                 topicId: topic.id,
               },
             },
@@ -80,10 +86,17 @@ export class GroupsService {
         }),
       }
     }
+    if (head || headId) {
+      queryData.head = {
+        connect: {
+          id: head.id || headId,
+        },
+      }
+    }
 
     return this.prismaService.group.update({
-      where: { id: updateGroupInput.id },
-      data: groupData,
+      where: { id: id },
+      data: queryData,
       include: {
         topics: {
           include: {
@@ -91,6 +104,7 @@ export class GroupsService {
           },
         },
         users: true,
+        head: true,
       },
     })
   }

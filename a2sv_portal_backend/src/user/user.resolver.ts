@@ -9,13 +9,13 @@ import {
 } from '@nestjs/graphql'
 import { UserService } from './user.service'
 import { User } from './entities/user.entity'
-import { User as UserModel } from '@prisma/client'
 import { UserProfile } from 'src/user-profile/entities/user-profile.entity'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { GetUserArgs } from './dto/get-users.args'
 import { Roles } from 'src/auth/auth.decorator'
 import { GroupsService } from 'src/groups/groups.service'
+import { Group } from 'src/groups/entities/group.entity'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -64,5 +64,10 @@ export class UserResolver {
   @ResolveField(() => UserProfile)
   userProfile(@Parent() user: User): UserProfile {
     return user.userProfile
+  }
+
+  @ResolveField(() => Group)
+  headToGroup(@Parent() user: User): Group {
+    return user.headToGroup
   }
 }

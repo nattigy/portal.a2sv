@@ -31,9 +31,9 @@ input CreateRoleInput {
 }
 
 input CreateSeasonInput {
-  endDate: DateTime = "2022-09-07T20:43:46.175Z"
+  endDate: DateTime = "2022-09-08T06:46:33.713Z"
   name: String!
-  startDate: DateTime = "2022-09-07T20:43:46.175Z"
+  startDate: DateTime = "2022-09-08T06:46:33.713Z"
 }
 
 input CreateTagInput {
@@ -67,6 +67,8 @@ scalar DateTime
 type Group {
   country: String
   createdAt: DateTime!
+  head: User
+  headId: Int
   id: ID!
   name: String!
   school: String
@@ -228,7 +230,12 @@ type Topic {
 }
 
 input UpdateGroupInput {
+  country: String
+  head: UpdateUserInput
+  headId: Int
   id: Int!
+  name: String
+  school: String
   topics: [UpdateTopicInput!]
   users: [UpdateUserInput!]
 }
@@ -260,9 +267,9 @@ input UpdateRoleInput {
 }
 
 input UpdateSeasonInput {
-  endDate: DateTime = "2022-09-07T20:43:46.175Z"
+  endDate: DateTime = "2022-09-08T06:46:33.713Z"
   name: String
-  startDate: DateTime = "2022-09-07T20:43:46.175Z"
+  startDate: DateTime = "2022-09-08T06:46:33.713Z"
 }
 
 input UpdateTagInput {

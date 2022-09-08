@@ -6,6 +6,7 @@ import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import * as bcrypt from 'bcrypt'
 import { Parent } from '@nestjs/graphql'
+import { UserProfile } from 'src/user-profile/entities/user-profile.entity'
 
 @Injectable()
 export class UserService {
@@ -34,6 +35,7 @@ export class UserService {
       include: {
         group: true,
         userProfile: true,
+        headToGroup: true,
       },
     })
   }
@@ -60,6 +62,7 @@ export class UserService {
       include: {
         group: true,
         userProfile: true,
+        headToGroup: true,
       },
     })
 
@@ -71,6 +74,7 @@ export class UserService {
       include: {
         group: true,
         userProfile: true,
+        headToGroup: true,
       },
       where: {
         id: id,
@@ -94,6 +98,7 @@ export class UserService {
       include: {
         group: true,
         userProfile: true,
+        headToGroup: true,
       },
       ...data,
       userProfile: {
@@ -127,6 +132,11 @@ export class UserService {
   async findByEmail(email: string): Promise<User | null> {
     return await this.prismaService.user.findFirst({
       where: { email },
+      include: {
+        group: true,
+        headToGroup: true,
+        userProfile: true,
+      },
     })
   }
 

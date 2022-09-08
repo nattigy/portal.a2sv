@@ -9,7 +9,7 @@ import {
 } from '@nestjs/graphql'
 import { Roles } from 'src/auth/auth.decorator'
 import { GroupTopic } from 'src/group-topic/entities/group-topic.entity'
-import { Topic } from 'src/topic/entities/topic.entity'
+import { User } from 'src/user/entities/user.entity'
 import { CreateGroupInput } from './dto/create-group.input'
 import { UpdateGroupInput } from './dto/update-group.input'
 import { Group } from './entities/group.entity'
@@ -52,5 +52,10 @@ export class GroupsResolver {
   @ResolveField(() => [GroupTopic], { nullable: 'itemsAndList' })
   topics(@Parent() group: Group): GroupTopic[] | null {
     return group.topics
+  }
+
+  @ResolveField(() => User, { nullable: true })
+  head(@Parent() group: Group): User {
+    return group.head
   }
 }
