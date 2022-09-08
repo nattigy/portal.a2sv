@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MainButton extends StatelessWidget {
   final String title;
   final Color color;
-  final Function onClick;
+  final Function()? onClick;
 
   const MainButton(
       {Key? key,
@@ -18,7 +18,7 @@ class MainButton extends StatelessWidget {
       width: double.infinity,
       height: 50,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onClick,
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(
             color,

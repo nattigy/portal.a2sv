@@ -1,0 +1,22 @@
+import 'package:a2sv_portal_mobile/app/topics/data/topic_repository.dart';
+import 'package:a2sv_portal_mobile/app/topics/models/topic.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+part "topic.state.dart";
+
+class TopicBloc extends Cubit<TopicState> {
+  final TopicRepository topicRepository;
+
+  TopicBloc({required this.topicRepository}) : super(TopicInit());
+
+  Future<void> fetchTopics() async {
+    try {
+      emit(TopicLoading());
+      final List<Topic> topics = await topicRepository.fetchTopics();
+      emit(TopicSuccess(topics: topics));
+    } catch (e) {
+      emit(TopicError(errorMessage: e.toString()));
+    }
+  }
+}

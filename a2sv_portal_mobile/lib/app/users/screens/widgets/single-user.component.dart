@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:a2sv_portal_mobile/app/users/screens/widgets/user_profile.dart';
+import 'package:a2sv_portal_mobile/app/users/screens/user_profile.dart';
 import 'package:a2sv_portal_mobile/utils/colors.dart';
 import 'package:a2sv_portal_mobile/widgets/buttons/main-button.dart';
 import 'package:a2sv_portal_mobile/widgets/inputs/main-input-field.dart';
@@ -161,16 +161,16 @@ class SingleUserPage extends State {
                     placeHolder: 'John',
                     color: field_bg_color,
                     iconData: Icons.person,
-                    onChanged: () {}),
+                    onChanged: (val) {}),
                 MainInputField(
                     placeHolder: 'Doe',
                     color: field_bg_color,
                     iconData: Icons.person,
-                    onChanged: () {}),
+                    onChanged: (val) {}),
                 MainInputField(
                     placeHolder: '+251  phone',
                     color: field_bg_color,
-                    onChanged: () {}),
+                    onChanged: (val) {}),
                 SizedBox(
                   height: screenheight * 0.01,
                 ),

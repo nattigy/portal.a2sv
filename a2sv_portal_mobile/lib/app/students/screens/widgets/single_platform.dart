@@ -5,7 +5,7 @@ class SinglePlatform extends StatelessWidget {
   final String fieldTitle;
   final String imageURL;
   final Color? color;
-  final Function onChange;
+  final ValueChanged<String>? onChange;
 
   const SinglePlatform(
       {Key? key,

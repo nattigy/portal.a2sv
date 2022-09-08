@@ -16,7 +16,7 @@ class PlatformsForm extends StatelessWidget {
             fieldTitle: "leetcode url",
             imageURL: "assets/images/leetcode.png",
             color: Color.fromARGB(255, 250, 236, 223),
-            onChange: () {},
+            onChange: (val) {},
           ),
           const SizedBox(
             height: 5,
@@ -25,7 +25,7 @@ class PlatformsForm extends StatelessWidget {
             fieldTitle: "GeeksForGeeks url",
             imageURL: "assets/images/geeks.png",
             color: Color.fromARGB(255, 250, 236, 223),
-            onChange: () {},
+            onChange: (val) {},
           ),
           const SizedBox(
             height: 5,
@@ -34,7 +34,7 @@ class PlatformsForm extends StatelessWidget {
             fieldTitle: "HackerRank url",
             imageURL: "assets/images/hacker.png",
             color: Color.fromARGB(255, 250, 236, 223),
-            onChange: () {},
+            onChange: (val) {},
           ),
           const SizedBox(
             height: 5,
@@ -43,7 +43,7 @@ class PlatformsForm extends StatelessWidget {
             fieldTitle: "CodeForces url",
             imageURL: "assets/images/codeforces.png",
             color: Color.fromARGB(255, 250, 236, 223),
-            onChange: () {},
+            onChange: (val) {},
           ),
           Expanded(child: Container()),
           Align(
