@@ -36,7 +36,7 @@ const TopicList = (props: TopicListProps) => {
       <p className="font-Poppins font-semibold text-[#565656] text-sm">
         {props.title}
       </p>
-      <div className="flex flex-row flex-wrap">
+      <div className="grid grid-cols-3 gap-3 gap-x-12">
         {DUMMY_DATA.map((item) => (
           <TopicItem season={props.selectedSeason} key={item.id} title={item.title} />
         ))}

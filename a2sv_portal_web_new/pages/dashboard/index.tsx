@@ -1,5 +1,4 @@
 import React, { ReactNode } from "react";
-import BaseLayout from "../../components/common/BaseLayout";
 import { useReactiveVar } from "@apollo/client";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import HOEDashboard from "../../components/dashboard/HOEDashboard";

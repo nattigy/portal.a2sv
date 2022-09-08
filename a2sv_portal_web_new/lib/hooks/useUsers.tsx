@@ -5,6 +5,7 @@ import {
   GET_ALL_USER_QUERY,
   GET_FILTERED_USERS,
   GET_SINGLE_GROUP_USERS_QUERY,
+  GET_SINGLE_USER_QUERY,
   GET_STUDENTS_WITH_NO_GROUP_QUERY,
   GET_USERS_BY_GROUP_ID_QUERY,
 } from "../apollo/Queries/usersQueries";
@@ -60,6 +61,18 @@ export const useGetUsersWithNoGroup = () => {
     variables: {
       role: GraphqlUserRole.STUDENT,
       groupId: null,
+    },
+    errorPolicy: "all",
+    notifyOnNetworkStatusChange: true,
+  });
+};
+
+export const useGetSingleUser = (id: any) => {
+  const userId = parseInt(id) || 0;
+  console.log(userId, "user id")
+  return useLazyQuery(GET_SINGLE_USER_QUERY, {
+    variables: {
+      userId,
     },
     errorPolicy: "all",
     notifyOnNetworkStatusChange: true,

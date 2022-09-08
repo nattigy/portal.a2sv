@@ -15,9 +15,9 @@ export type UserProps = {
   updatedAt: string;
 };
 
-const UserItem = ({ email, role }: UserProps) => {
+const UserItem = ({ id, email, role }: UserProps) => {
   return (
-    <CustomLink href={`users/`}>
+    <div>
       <div className="min-h-[90px] cursor-pointer gap-x-2 bg-white border flex items-center justify-start px-2 rounded-md">
         <img
           className="object-cover w-12 h-12 rounded-full"
@@ -31,9 +31,11 @@ const UserItem = ({ email, role }: UserProps) => {
           </p>
           <div className="flex flex-row items-center justify-between">
             <UserRoleChip role={role} />
-            <div className="text-[#5956E9] text-[12px] font-semibold mx-2 justify-end">
-              Details
-            </div>
+            <CustomLink href={`users/${id}`}>
+              <div className="text-[#5956E9] text-[12px] font-semibold mx-2 justify-end">
+                Details
+              </div>
+            </CustomLink>
           </div>
         </div>
         <div className="flex justify-start items-start h-full py-2">
@@ -61,7 +63,7 @@ const UserItem = ({ email, role }: UserProps) => {
           // className="mt-2 mr-2"
         />
       </div> */}
-    </CustomLink>
+    </div>
   );
 };
 

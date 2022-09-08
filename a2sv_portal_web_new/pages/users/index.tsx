@@ -1,32 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { LoaderSmall } from "../../components/common/Loaders";
 import BaseLayout from "../../components/common/BaseLayout";
+import { LoaderSmall } from "../../components/common/Loaders";
 import NewUserModal from "../../components/modals/NewUserModal";
 import UserRank from "../../components/users/UserRank";
 import UsersFilter from "../../components/users/UsersFilter";
 import UsersList from "../../components/users/UsersList";
 import { useFilteredUsers } from "../../lib/hooks/useUsers";
+import { GraphqlUserRole } from "../../types/user";
 
 type Props = {};
+
+type User = {
+  email: string;
+  id: string;
+  role: GraphqlUserRole;
+};
 
 const UsersPage = (props: Props) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [usersData, setUsersData] = useState([]);
-  const [loadUsers, { loading, data, error, refetch }] = useFilteredUsers(tabIndex);
-  
+  const [loadUsers, { loading, data, error, refetch }] =
+    useFilteredUsers(tabIndex);
+  const [selected, setSelected] = useState(0);
   useEffect(() => {
     loadUsers();
   }, [tabIndex]);
 
   useEffect(() => {
     if (data) {
-      console.log("data is ", data);
+      console.log("data is ", data.users[0]);
       setUsersData(data.users);
+      setSelected(data.users[0].id);
     }
   }, [refetch, data]);
 
   const Sidebar: React.FC = () => {
-    return <UserRank />;
+    return (
+      <div>
+        {loading ? (
+          <div className="h-full flex items-center justify-center">
+            <LoaderSmall />
+          </div>
+        ) : (
+          <UserRank selected={selected} />
+        )}
+      </div>
+    );
   };
   const handleTabChange = (index: number) => {
     setTabIndex(index);
@@ -49,13 +68,17 @@ const UsersPage = (props: Props) => {
           activeIndex={tabIndex}
         />
         {loading ? (
-          <div className="w-full flex justify-center">
+          <div className="w-full h-full flex justify-center items-center">
             <LoaderSmall color="#5956E9" />
           </div>
         ) : (
           <>
             {usersData && usersData.length > 0 ? (
-              <UsersList users={usersData} />
+              <UsersList
+                selected={selected}
+                setSelected={setSelected}
+                users={usersData}
+              />
             ) : (
               <h1>No Users</h1>
             )}

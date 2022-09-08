@@ -31,7 +31,7 @@ export const slugify = (...args: (string | number)[]): string => {
 const TopicItem = (props: TopicItemProps) => {
   return (
     <CustomLink href={`topics/${props.season?.toLowerCase()}/${slugify(props.title)}/problems`}>
-      <div className="h-[72px] flex w-72 rounded-r-lg gap-x-3 bg-white m-3 items-center cursor-pointer">
+      <div className="h-[72px] flex w-full rounded-r-lg gap-x-3 bg-white items-center cursor-pointer">
         <div
           className={`w-1 h-full`}
           style={{

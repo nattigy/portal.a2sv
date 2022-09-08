@@ -1,8 +1,6 @@
 import React, { ReactNode, useState } from "react";
 import BaseLayout from "../../components/common/BaseLayout";
-import GroupStudentsSidebarItem, {
-  GroupStudentsSidebarProps,
-} from "../../components/dashboard/GroupStudentsSidebarItem";
+import { GroupStudentsSidebarProps } from "../../components/dashboard/GroupStudentsSidebarItem";
 import NewGroupModal from "../../components/modals/NewGroupModal";
 import { UserRoleType } from "../../types/user";
 
