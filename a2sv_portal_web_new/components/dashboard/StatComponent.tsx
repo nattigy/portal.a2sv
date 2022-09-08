@@ -132,22 +132,22 @@ const contestUserList: Array<ContestInfo> = [
 
 const StatComponent = (props: Props) => {
   return (
-    <div>
+    <div className="">
       <div className="flex flex-col gap-y-4 w-full">
         <p className="text-[rgb(103,103,103)] font-semibold text-lg">
           {props.groupData?.group.name}
         </p>
-        <div className="flex flex-row gap-x-3 w-full">
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">
           {rankList.map((item, index) => (
             <DashboardRankItem key={index} {...item} />
           ))}
         </div>
-        <div className="rounded-lg items-center w-full flex flex-row gap-4">
-          <div className="bg-white rounded-lg items-start flex w-2/3 flex-col p-3">
+        <div className="rounded-lg items-center w-full flex flex-col lg:flex-row gap-4">
+          <div className="bg-white rounded-lg items-start flex w-full lg:w-2/3 flex-col p-3 relative overflow-auto">
             <h2 className="font-semibold">Submission Report</h2>
             <Chart />
           </div>
-          <div className="flex flex-col w-1/3 bg-white rounded-lg justify-start p-4 items-center gap-y-4">
+          <div className="flex flex-col w-full lg:w-1/3 bg-white rounded-lg justify-start p-4 items-center gap-y-4">
             <p className="text-[#454343] font-semibold">Solved Problems</p>
             <TotalRadialBar />
             <p className="text-[#454343] font-bold">220/300</p>
@@ -174,11 +174,11 @@ const StatComponent = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className="flex w-full gap-x-4 my-4">
-        <div className="w-1/2">
+      <div className="flex flex-col lg:flex-row gap-4 w-full my-4">
+        <div className="w-full lg:w-1/2">
           <AcceptanceRate acceptanceInfo={userList} />
         </div>
-        <div className="w-1/2">
+        <div className="w-full lg:w-1/2">
           <ContestRating contestInfo={contestUserList} />
         </div>
       </div>

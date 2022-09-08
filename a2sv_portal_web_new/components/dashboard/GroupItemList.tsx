@@ -68,7 +68,7 @@ const GroupItemList = () => {
   }, [data]);
 
   return (
-    <div className="grid grid-cols-3 gap-y-5">
+    <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-3">
       {loading ? (
         <h1>Loading</h1>
       ) : (

@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { ReactNode } from "react";
 import BaseLayout from "../../../../../components/common/BaseLayout";
 import ProblemsPage from "../../../../../components/problems/ProblemsPage";
@@ -68,9 +69,14 @@ const IndexPage = () => {
     );
   };
 
+  const router = useRouter()
+  const pathname = router.query
+
   return (
     <BaseLayout sidebar={<Sidebar sidebarProps={topicResource} />}>
       <div>
+        <h1 className="capitalize text-2xl font-semibold">{pathname?.name}</h1>
+
         <ProblemsPage />
       </div>
     </BaseLayout>

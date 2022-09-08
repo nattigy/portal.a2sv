@@ -65,7 +65,7 @@ const AddStudentList = (props: Props) => {
       id: parseInt(props.groupId.toString()),
       users: updateValue
     }
-    console.log(updateValue, updateGroupInput, props.groupId, " is the soelected data")
+    console.log(updateValue, updateGroupInput, props.groupId, " is the selected data")
 
     await addStudentsToGroup({
       variables: {

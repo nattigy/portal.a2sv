@@ -4,6 +4,9 @@ import BaseLayout from "../../components/common/BaseLayout";
 import CustomDropdown, {
   CustomDropdownProps,
 } from "../../components/common/CustomDropdown";
+import HOATopicsPage from "../../components/common/HOATopicsPage";
+import HOETopicsPage from "../../components/common/HOETopicsPage";
+import AddTopicToGroupModal from "../../components/modals/AddTopicToGroupModal";
 import NewTopicModal from "../../components/modals/NewTopicModal";
 import SeasonSelecBox from "../../components/topics/SeasonSelecBox";
 import TopicList from "../../components/topics/TopicList";
@@ -13,13 +16,14 @@ import { GraphqlUserRole } from "../../types/user";
 
 const IndexPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isAddTopicToGroupModalOpen, setIsAddTopicToGroupModalOpen] = useState(false)
   const selectMenuItems = [
     {
-      value: 7,
+      value: 2,
       label: "Education",
     },
     {
-      value: 8,
+      value: 1,
       label: "Camp",
     },
   ];
@@ -57,35 +61,43 @@ const IndexPage = () => {
   const handleModalOpen = () => {
     setIsModalOpen(true);
   };
+
+  const handleAddTopicToGroupModalOpen = () => {
+    setIsAddTopicToGroupModalOpen(true);
+  };
+
+
+
+  const ActiveComponent = ({ user }: {
+    user: {
+      id: string,
+      role: string,
+      status: string
+      email: string,
+    }
+  }) => {
+
+    switch (user.role) {
+      case GraphqlUserRole.STUDENT: {
+        return <HOETopicsPage groupId={authUser?.headToGroup?.id} />
+      }
+      case GraphqlUserRole.HEAD_OF_EDUCATION: {
+        return <HOETopicsPage groupId={authUser?.headToGroup?.id} />
+      }
+      case GraphqlUserRole.HEAD_OF_ACADEMY: {
+        return <HOATopicsPage />
+      }
+      default: {
+        return <HOETopicsPage groupId={authUser?.headToGroup?.id} />
+      }
+    }
+
+  }
   return (
     <BaseLayout sidebar={<Sidebar />}>
-      {isModalOpen && <NewTopicModal onClose={() => setIsModalOpen(false)} />}
-      <>
-        <div className="flex flex-row justify-between">
-          <div className="flex w-full items-center mb-2 gap-x-5 ">
-            <h1 className="text-2xl font-bold text-gray-700">Topics</h1>
-            <SeasonSelecBox
-              handleSelect={(val) => setSelectedSeason(val)}
-              selectMenuItems={selectMenuItems}
-            />
-          </div>
-          {authUser.role !== GraphqlUserRole.STUDENT && (
-            <button
-              onClick={handleModalOpen}
-              className="flex justify-center items-center w-44 px-2 text-sm font-semibold text-white bg-primary rounded-lg"
-            >
-              Add New Topic
-            </button>
-          )}
-        </div>
-        <div className="flex flex-col gap-y-4">
-          {/* <TopicList selectedSeason={selectedSeason} title="Current" /> */}
-          {/* <TopicList selectedSeason={selectedSeason} title="Recent" /> */}
-          <TopicList selectedSeason={selectedSeason} title="All Covered" />
-        </div>
-      </>
+      <ActiveComponent user={authUser as any} />
     </BaseLayout>
   );
-};
+}
 
 export default IndexPage;

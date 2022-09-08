@@ -7,15 +7,10 @@ import TopicStruggledItem from "./TopicStruggledItem";
 
 type TopicListProps = {
   title: string;
-  selectedSeason: any;
+  topics: []
 };
 
 const TopicList = (props: TopicListProps) => {
-  const [fetchUsers, { data, refetch, loading, }] = useGetAllTopicsBySeasonIdQuery(props.selectedSeason.value)
-
-  useEffect(() => {
-    fetchUsers()
-  }, [refetch, props.selectedSeason])
 
   return (
     <>
@@ -23,19 +18,15 @@ const TopicList = (props: TopicListProps) => {
         {props.title}
       </p>
       {
-        loading ? (
-          <div className="w-full flex justify-center items-center">
-            <LoaderSmall />
-          </div>
-        ) :
-          <div className="grid grid-cols-3 gap-3 gap-x-12">{
-            data && data.topics.map((topic: any) => (
-              <>
-                <TopicItem topic={topic} season={props.selectedSeason} key={topic.id} title={props.title} />
-              </>
-            )
-            )}
-          </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 gap-x-12">{
+          props.topics?.map((topic: any) => (
+            <>
+              <TopicItem topic={topic} key={topic.id} title={props.title} />
+            </>
+          )
+          )}
+        </div>
       }
     </>
   );

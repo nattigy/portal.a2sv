@@ -26,3 +26,8 @@ export const generateRandomColor = () => {
   }
   return color;
 }
+
+export const getRandomNumber = (min:number, max: number) => {
+  const rndInt = Math.floor(Math.random() * max) + min
+  return rndInt
+}

@@ -32,8 +32,8 @@ export const slugify = (...args: (string | number)[]): string => {
 };
 
 const TopicItem = (props: TopicItemProps) => {
-  const link = `topics/${props.season.label?.toLowerCase()}/${slugify(props.topic.name)}/problems`
-  console.log(link, props.topic.name, props.season.label, " ssfasf")
+  const link = `topics/${props?.topic?.season.name?.toLowerCase()}/${slugify(props.topic.name)}/problems`
+  console.log(link, props.topic.name, props?.topic?.season.name, " ssfasf")
   return (
     <CustomLink href={link}>
       <div className="h-[72px] flex w-full rounded-r-lg gap-x-3 bg-white items-center cursor-pointer">

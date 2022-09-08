@@ -40,15 +40,15 @@ const HOADashboard = (props: Props) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-6 gap-y-10 w-full">
-          <div className="col-span-4 flex flex-row justify-between">
+        <div className="grid grid-cols-12 gap-y-5 w-full">
+          <div className="col-span-9 flex flex-row justify-between">
             <SearchField onChange={()=>{}} placeholder="Search a group" id="group-search" />
             <CustomDropdown customProps={dropdown} />
           </div>
-          <div className="col-span-4">
+          <div className="col-span-9">
             <GroupItemList />
           </div>
-          <div className="col-span-2">
+          <div className="col-span-3 w-full h-full ">
             <div className="flex flex-col items-center p-4 justify-center gap-y-2">
               <img src="/images/group-image.svg" className="" alt="" />
               <p className="text-[#ACACAC] justify-self-center text-xs">

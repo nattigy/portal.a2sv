@@ -105,7 +105,7 @@ const StudentDashboard = (props: Props) => {
             <DashboardRankItem key={index} {...item} />
           ))}
         </div>
-        <div className="flex gap-x-2 my-4">
+        <div className="flex gap-x-2 my-4 ">
           <ConsistencyDiagramItem />
           <ProblemSolvedItem p={problemStat} />
         </div>

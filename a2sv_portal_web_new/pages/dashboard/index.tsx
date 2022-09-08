@@ -22,7 +22,7 @@ const IndexPage = () => {
         return <StudentDashboard />
       }
       case GraphqlUserRole.HEAD_OF_EDUCATION: {
-        return <HOEDashboard groupId={authUser.headToGroup.id} />
+        return <HOEDashboard groupId={authUser?.headToGroup?.id} />
       }
       case GraphqlUserRole.HEAD_OF_ACADEMY: {
         return <HOADashboard />

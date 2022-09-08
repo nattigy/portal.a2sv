@@ -214,6 +214,15 @@ const NewTopicModal = (props: Props) => {
                       </div>
                     </div>
                   </div>
+                  {
+                    errorMessage && (
+                      <div className="bg-[#E4646451] py-1 rounded-md">
+                        <span className="text-[#E46464] px-4 text-xs">
+                          {errorMessage}
+                        </span>
+                      </div>
+                    )
+                  }
                   <div className="flex justify-end items-center gap-x-3">
                     <button
                       onClick={() => props.onClose()}
