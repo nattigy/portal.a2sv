@@ -1,12 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { User, Prisma, Status, RoleEnum } from '@prisma/client'
+import {
+  User,
+  Prisma,
+  Status,
+  RoleEnum,
+  GroupTopicProblem,
+} from '@prisma/client'
 import {} from '../user/entities/user.entity'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import * as bcrypt from 'bcrypt'
 import { Parent } from '@nestjs/graphql'
-import { UserProfile } from 'src/user-profile/entities/user-profile.entity'
 
 @Injectable()
 export class UserService {
@@ -20,6 +25,7 @@ export class UserService {
         group: true,
         headToGroup: true,
         userProfile: true,
+        groupTopicProblems: true,
       },
       where: { email },
     })
@@ -41,6 +47,7 @@ export class UserService {
         group: true,
         userProfile: true,
         headToGroup: true,
+        groupTopicProblems: true,
       },
     })
   }
@@ -68,6 +75,7 @@ export class UserService {
         group: true,
         userProfile: true,
         headToGroup: true,
+        groupTopicProblems: true,
       },
     })
 
@@ -80,6 +88,7 @@ export class UserService {
         group: true,
         userProfile: true,
         headToGroup: true,
+        groupTopicProblems: true,
       },
       where: {
         id: id,
@@ -93,18 +102,65 @@ export class UserService {
     return this.prismaService.role.findFirst({ where: { id: 1 } })
   }
 
-  async update(
-    givenId: number,
-    updateUserInput: UpdateUserInput,
-  ): Promise<User> {
-    const { id, groupId, userProfile, group, ...data } = updateUserInput
-
+  async update(updateUserInput: UpdateUserInput): Promise<User> {
+    // eslint-disable-next-line prefer-const
+    let { id, groupTopicProblems, groupId, userProfile, group, ...data } =
+      updateUserInput
     const queryData = data as any
 
-    if (group) {
+    if (group || groupId) {
       queryData.group = {
         connect: { id: groupId || group.id },
       }
+    }
+    if (groupTopicProblems) {
+      queryData.groupTopicProblems = {
+        upsert: groupTopicProblems.map((groupTopicProblem) => {
+          const {
+            problemId,
+            topicId,
+            userId,
+            groupId,
+            ...groupTopicProblemData
+          } = groupTopicProblem
+          return {
+            where: {
+              groupId_topicId_problemId_userId: {
+                groupId,
+                topicId,
+                problemId,
+                userId,
+              },
+            },
+            create: {
+              // user: {
+              //   connect: {
+              //     id: id,
+              //   },
+              // },
+              groupTopicProblem: {
+                connect: {
+                  problemId_groupId_topicId: {
+                    groupId,
+                    topicId,
+                    problemId,
+                  },
+                },
+              },
+              ...groupTopicProblemData,
+            },
+            update: groupTopicProblemData,
+          }
+        }),
+      }
+      // queryData.groupTopicProblems = groupTopicProblems.map(
+      //   (groupTopicProblem) => {
+
+      //     return {
+
+      //     }
+      //   },
+      // )
     }
     if (userProfile) {
       {
@@ -115,16 +171,17 @@ export class UserService {
           },
         }
       }
-      return await this.prismaService.user.update({
-        include: {
-          group: true,
-          userProfile: true,
-          headToGroup: true,
-        },
-        data: queryData,
-        where: { id },
-      })
     }
+    return await this.prismaService.user.update({
+      include: {
+        group: true,
+        userProfile: true,
+        headToGroup: true,
+        groupTopicProblems: true,
+      },
+      data: queryData,
+      where: { id },
+    })
   }
 
   async remove(id: number): Promise<User | null> {

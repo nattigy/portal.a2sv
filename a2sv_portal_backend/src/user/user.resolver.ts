@@ -16,6 +16,7 @@ import { GetUserArgs } from './dto/get-users.args'
 import { Roles } from 'src/auth/auth.decorator'
 import { GroupsService } from 'src/groups/groups.service'
 import { Group } from 'src/groups/entities/group.entity'
+import { GroupTopicProblemUser } from 'src/group-topic-problem-user/entities/group-topic-problem-user.entity'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -64,7 +65,7 @@ export class UserResolver {
   )
   @Mutation(() => User)
   async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return await this.userService.update(updateUserInput.id, updateUserInput)
+    return await this.userService.update(updateUserInput)
   }
 
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
@@ -105,5 +106,17 @@ export class UserResolver {
   @ResolveField(() => Group)
   headToGroup(@Parent() user: User): Group {
     return user.headToGroup
+  }
+
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
+  @ResolveField(() => [GroupTopicProblemUser])
+  groupTopicProblems(@Parent() user: User): GroupTopicProblemUser[] {
+    return user.groupTopicProblems
   }
 }

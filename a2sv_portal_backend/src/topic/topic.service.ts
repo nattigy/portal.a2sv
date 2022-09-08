@@ -61,7 +61,7 @@ export class TopicService {
     if (season) {
       queryData.season = {
         connectOrCreate: {
-          where: season,
+          where: { name: season.name },
           create: season,
         },
       }
@@ -88,7 +88,7 @@ export class TopicService {
     if (season) {
       queryData.season = {
         connectOrCreate: {
-          where: season,
+          where: { name: season.name },
           create: season,
         },
       }

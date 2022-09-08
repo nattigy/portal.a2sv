@@ -22,8 +22,12 @@ input CreateGroupTopicProblemInput {
 }
 
 input CreateGroupTopicProblemUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  groupId: Int!
+  groupTopicProblem: UpdateGroupTopicProblemInput
+  problemId: Int!
+  topicId: Int!
+  user: UpdateUserInput
+  userId: Int!
 }
 
 input CreateProblemInput {
@@ -44,9 +48,9 @@ input CreateRoleInput {
 }
 
 input CreateSeasonInput {
-  endDate: DateTime = "2022-09-08T12:06:58.515Z"
+  endDate: DateTime = "2022-09-08T14:25:08.129Z"
   name: String!
-  startDate: DateTime = "2022-09-08T12:06:58.515Z"
+  startDate: DateTime = "2022-09-08T14:25:08.129Z"
 }
 
 input CreateTagInput {
@@ -280,9 +284,16 @@ input UpdateGroupTopicProblemInput {
 }
 
 input UpdateGroupTopicProblemUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  attempts: Int
+  groupId: Int!
+  groupTopicProblem: UpdateGroupTopicProblemInput
+  needHelp: Boolean
+  problemId: Int!
+  solutionLink: String
+  solved: Boolean
+  topicId: Int!
+  user: UpdateUserInput
+  userId: Int!
 }
 
 input UpdateProblemInput {
@@ -304,9 +315,9 @@ input UpdateRoleInput {
 }
 
 input UpdateSeasonInput {
-  endDate: DateTime = "2022-09-08T12:06:58.515Z"
+  endDate: DateTime = "2022-09-08T14:25:08.129Z"
   name: String
-  startDate: DateTime = "2022-09-08T12:06:58.515Z"
+  startDate: DateTime = "2022-09-08T14:25:08.129Z"
 }
 
 input UpdateTagInput {
@@ -327,6 +338,7 @@ input UpdateUserInput {
   email: String
   group: UpdateGroupInput
   groupId: Int
+  groupTopicProblems: [UpdateGroupTopicProblemUserInput!]
   id: Int!
   password: String
   role: role

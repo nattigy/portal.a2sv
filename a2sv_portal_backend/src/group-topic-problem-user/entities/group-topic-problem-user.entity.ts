@@ -13,9 +13,9 @@ export class GroupTopicProblemUser {
   @Field(() => Int)
   userId: number
   @Field(() => GroupTopicProblem, { nullable: true })
-  groupTopicProblem?: GroupTopicProblem
+  groupTopicProblem: GroupTopicProblem
   @Field(() => User, { nullable: true })
-  user?: User
+  user: User
   @Field({ defaultValue: false })
   solved: boolean
   @Field({ nullable: true })
