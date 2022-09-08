@@ -16,8 +16,8 @@ export const useGetAllGroupTopicsBySeasonIdQuery = (seasonId: any, groupId: any)
         notifyOnNetworkStatusChange: true,
         errorPolicy: 'all',
         variables: {
-            seasonId,
-            groupId
+            seasonId: parseInt(seasonId?.toString()) || 0,
+            groupId: parseInt(groupId?.toString()) || 0
         }
     })
 }

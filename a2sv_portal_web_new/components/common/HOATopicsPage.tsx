@@ -17,11 +17,11 @@ import { LoaderSmall } from "./Loaders";
 
 const selectMenuItems = [
     {
-        value: 2,
+        value: 3,
         label: "Education",
     },
     {
-        value: 1,
+        value: 4,
         label: "Camp",
     },
 ];
@@ -51,7 +51,7 @@ const HOATopicsPage = () => {
             <>
                 <div className="w-full my-2  flex flex-col md:flex-row justify-between">
                     <div className="my-2 justify-between flex items-center mb-2 gap-x-5 ">
-                        <h1 className="text-2xl font-bold text-gray-700">Topics</h1>
+                        <h1 className="text-2xl font-bold text-gray-700">Topics </h1>
                         <SeasonSelecBox
                             handleSelect={(val) => setSelectedSeason(val)}
                             selectMenuItems={selectMenuItems}
