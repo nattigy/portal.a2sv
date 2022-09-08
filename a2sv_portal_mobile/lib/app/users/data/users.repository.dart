@@ -13,17 +13,21 @@ class UserRepository {
 
   UserRepository({required this.storage, required this.client});
 
-  Future<User> getUser() async {
+  Future<User> getUser(int id) async {
     final result = await client.query(
       QueryOptions(
         document: gql(GET_USER),
+        variables: {
+          "userId": 1,
+        },
         fetchPolicy: FetchPolicy.noCache,
       ),
     );
     if (result.hasException) {
+      print(result.exception);
       throw Exception(result.exception);
     }
-    final data = result.data?['getMe'];
+    final data = result.data?['getMe']['userProfile'];
     User user = User.fromJson(data);
     await persistUser(user);
     return user;
@@ -43,10 +47,13 @@ class UserRepository {
     if (result.hasException) {
       throw Exception(result.exception);
     }
-    await persistToken(result.data?['login']['accessToken']);
     // User user = User.fromJson(result.data?['login']['userId']);
-    User user = await getUser();
-    await persistUser(user);
+
+    await persistToken(result.data?['login']['accessToken']);
+
+    User user = await getUser(result.data?['login']['userId']);
+
+    // await persistUser(user);
     // const user = User(
     //   email: "abe@gmail.com",
     //   firstName: "Abe",
@@ -61,11 +68,19 @@ class UserRepository {
   }
 
   Future<void> persistToken(String token) async {
-    await storage.write(key: "jwt", value: token);
+    try{
+      await storage.write(key: "jwt", value: token);
+    } catch(e){
+      throw Exception(e);
+    }
   }
 
   Future<void> persistUser(User user) async {
-    await storage.write(key: "user", value: jsonEncode(user.toJson()));
+    try{
+      await storage.write(key: "user", value: jsonEncode(user.toJson()));
+    } catch(e){
+      throw Exception(e);
+    }
   }
 
   Future<User?> getLocalUser() async {

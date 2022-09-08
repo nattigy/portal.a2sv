@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class User extends Equatable {
-  final String? id;
+  final int? id;
   final String? firstName;
   final String? middleName;
   final String? lastName;
@@ -27,11 +27,11 @@ class User extends Equatable {
 
   factory User.fromJson(Map<String, dynamic> data) {
     return User(
-      email: data["email"],
-      firstName: "First name ",
+      email: "email@gmail.com",
+      firstName: data['firstName'],
       lastName: "Last name",
       middleName: "Middle name",
-      id: "1",
+      id: data['id'],
       password: "123456",
       phoneNumber: "123456",
     );

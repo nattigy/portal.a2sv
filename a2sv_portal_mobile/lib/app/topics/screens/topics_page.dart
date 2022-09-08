@@ -144,9 +144,9 @@ class TopicsPage extends StatelessWidget {
                 TopicInfoCard(),
                 SizedBox(height: screenHeight * 0.01),
                 Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.04,
-                      vertical: screenHeight * 0.04),
+                  // padding: EdgeInsets.symmetric(
+                  //     // horizontal: screenWidth * 0.04,
+                  //     vertical: screenHeight * 0.04),
                   child: BlocBuilder<SeasonBloc, SeasonState>(
                     builder: ((context, state) {
                       if (state is SeasonInit) {
@@ -160,6 +160,7 @@ class TopicsPage extends StatelessWidget {
                           return Text('no seasons');
                         }
                         return ListView.builder(
+                          padding: EdgeInsets.all(0),
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             itemCount: seasons.length,
@@ -191,7 +192,7 @@ class TopicsPage extends StatelessWidget {
           child: Text(
             season.name + " season topics",
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 16,
               color: CustomColors.veryDarkTextColor,
               fontWeight: FontWeight.w500,
             ),

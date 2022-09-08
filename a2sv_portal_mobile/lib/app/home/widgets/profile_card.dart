@@ -29,12 +29,17 @@ class ProfileCard extends StatelessWidget {
               ),
             ),
             Text(
-              "$firstName $lastName",
+              "$firstName",
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
             ),
           ],
         ),
-        CircleAvatar(foregroundImage: AssetImage(userImg)),
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, "profile");
+          },
+          child: CircleAvatar(foregroundImage: AssetImage(userImg)),
+        ),
       ],
     );
   }

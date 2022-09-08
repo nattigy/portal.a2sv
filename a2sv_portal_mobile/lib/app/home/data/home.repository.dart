@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:a2sv_portal_mobile/app/home/models/consistency.entity.dart';
 import 'package:a2sv_portal_mobile/app/home/models/problem_stat.entity.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -10,8 +12,13 @@ class HomeRepository {
   HomeRepository({required this.storage, required this.client});
 
   Future<Consistency> loadConsistencyDiagram(String year) async {
-    List<DailyStat> days = [...List.generate(30, (index) => DailyStat(index))];
-    List<Month> months = [...List.generate(12, (idx) => Month(days))];
+   List<List<DailyStat>> days =[
+     [...List.generate(31, (index) => DailyStat(new Random().nextInt(3)))],
+     [...List.generate(30, (index) => DailyStat(new Random().nextInt(10)))],
+     [...List.generate(31, (index) => DailyStat(new Random().nextInt(5)))],
+     [...List.generate(30, (index) => DailyStat(new Random().nextInt(10)))],
+   ];
+    List<Month> months = [...List.generate(12, (idx) => Month(days[new Random().nextInt(3)]))];
     Consistency consistency = Consistency(
       year: year,
       months: months,

@@ -87,16 +87,19 @@ class SingleMonth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 70,
-      height: 130,
-      child: Wrap(
-        children: [
-          ...List.generate(
-            month.days.length,
-            (index) => Day(dailyStat: month.days[index]),
-          ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.all(1),
+      child: SizedBox(
+        width: 70,
+        height: 130,
+        child: Wrap(
+          children: [
+            ...List.generate(
+              month.days.length,
+              (index) => Day(dailyStat: month.days[index]),
+            ),
+          ],
+        ),
       ),
     );
   }
