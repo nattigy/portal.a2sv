@@ -95,11 +95,6 @@ export class UserService {
     const { id, groupId, userProfile, group, ...data } = updateUserInput
 
     const queryData = {
-      include: {
-        group: true,
-        userProfile: true,
-        headToGroup: true,
-      },
       ...data,
       userProfile: {
         connectOrCreate: {
@@ -118,7 +113,20 @@ export class UserService {
     }
     console.log(queryData)
     return await this.prismaService.user.update({
-      data: queryData,
+      include: {
+        group: true,
+        userProfile: true,
+        headToGroup: true,
+      },
+      data: {
+        ...queryData,
+        userProfile: {
+          upsert: {
+            update: userProfile,
+            create: userProfile,
+          },
+        },
+      },
       where: { id },
     })
   }
