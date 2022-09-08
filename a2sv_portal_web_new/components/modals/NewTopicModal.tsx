@@ -3,6 +3,8 @@ import { Formik, Form, Field, FormikValues } from "formik";
 import * as yup from "yup";
 import clsx from "clsx";
 import { AiOutlineUser } from "react-icons/ai";
+import { ApolloError, useMutation } from "@apollo/client";
+import { CREATE_TOPIC_MUTATION } from "../../lib/apollo/Mutations/createTopic";
 
 export enum SeasonTypes {
   CAMP = "Camp",
@@ -11,8 +13,8 @@ export enum SeasonTypes {
 
 interface FormValues {
   season: SeasonTypes;
-  group: number;
-  resources: Array<string>[];
+  topic_title: string;
+  description: string;
 }
 
 type Props = {
@@ -20,33 +22,15 @@ type Props = {
 };
 
 const NewTopicModal = (props: Props) => {
-  const groups: Array<string> = ["12", "31", "32", "33"];
   const INITIAL_VALUES = {} as FormValues;
-  const [input, setInput] = useState("");
-  const [resources, setResources] = useState<string[]>([]);
-
-  const clickHandler = () => {
-    const trimmedInput = input.trim();
-
-    if (trimmedInput.length && !resources.includes(trimmedInput)) {
-      setResources((prevState) => [...prevState, trimmedInput]);
-      setInput("");
-    }
-  };
-
-  const onChange = (e: any) => {
-    const { value } = e.target;
-    setInput(value);
-  };
-
-  const deleteResource = (index: number) => {
-    setResources((prevState) => prevState.filter((resource, i) => i !== index));
-  };
+  const [errorMessage, setErrorMessage] = useState("")
+  const [addNewTopic, { loading, error, data }] = useMutation(CREATE_TOPIC_MUTATION)
 
   const FORM_VALIDATION = yup.object().shape({
     season: yup.string().required("Required"),
-    group: yup.number().required("Required"),
-    resources: yup.array(),
+    topic_title: yup.string().required("Required"),
+    description: yup.string().required("Required"),
+
   });
 
   return (
@@ -55,8 +39,27 @@ const NewTopicModal = (props: Props) => {
         <Formik
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
-          onSubmit={(values: FormikValues) => {
-            console.log("values", values);
+          onSubmit={async (values, actions) => {
+            await addNewTopic({
+              variables: {
+                createTopicInput: {
+                  description: values.description,
+                  name: values.topic_title,
+                  season: {
+                    name: values.season
+                  }
+                }
+              },
+              refetchQueries: "active",
+              notifyOnNetworkStatusChange: true,
+              onCompleted: (data) => {
+                props.onClose()
+              },
+              onError: (error) => {
+                setErrorMessage((error as ApolloError).message);
+              }
+            })
+            actions.resetForm()
           }}
         >
           {({ isSubmitting, values, errors, touched }) => (
@@ -118,7 +121,7 @@ const NewTopicModal = (props: Props) => {
                               />
                               <Field
                                 as="select"
-                                name="roles"
+                                name="season"
                                 className={clsx(
                                   "w-full h-12 px-8 border rounded-md",
                                   touched.season && errors.season
@@ -140,110 +143,86 @@ const NewTopicModal = (props: Props) => {
                               </Field>
                             </div>
                           </div>
-                          {/* <p className="w-full text-xs text-red-500">
-                            {errors.season}
-                          </p> */}
+                          <p className="w-full text-xs text-red-500">
+                            {touched.season && errors.season}
+                          </p>
                         </div>
                       </div>
                     </div>
                     <div className="my-4">
-                      <div className="w-full flex flex-col items-center">
-                        <div className="my-3 w-full flex justify-between items-center">
-                          <h2 className="font-semibold text-lg">
-                            Group Assigned
-                          </h2>
-                        </div>
-                      </div>
-                      <div className="my-4">
-                        <div className="flex flex-col justify-start gap-y-4">
-                          <div className="flex items-center">
-                            <div className="bg-white dark:bg-gray-100 rounded-full w-full h-8 flex flex-shrink-0 justify-start items-center relative">
-                              <AiOutlineUser
-                                size={20}
-                                className="absolute left-2"
-                              />
-                              <Field
-                                as="select"
-                                name="groups"
-                                className={clsx(
-                                  "w-full h-12 px-8 border rounded-md",
-                                  touched.group && errors.group
-                                    ? "border-red-500"
-                                    : ""
-                                )}
-                              >
-                                <option
-                                  className="h-20"
-                                  value=""
-                                  selected
-                                  disabled
-                                  hidden
-                                >
-                                  Select Group
-                                </option>
-                                {groups.map((group: any, index: number) => (
-                                  <option value={group} key={index}>
-                                    {`Group ${group}`}
-                                  </option>
-                                ))}
-                              </Field>
-                            </div>
-                          </div>
-                          {/* <p className="w-full text-xs text-red-500">
-                            {errors.group}
-                          </p> */}
-                        </div>
-                      </div>
                       <div className="my-4">
                         <div className="w-full flex flex-col items-center">
-                          <div className="my-3 w-full flex justify-between items-center">
+                          <div className="my-2 w-full flex justify-between items-center">
                             <h2 className="font-semibold text-lg">
-                              Resource Links
+                              Topic Title
                             </h2>
                           </div>
                         </div>
-                        <div className="my-4">
-                          <div className="flex flex-row flex-wrap gap-x-2 gap-y-2">
-                            {resources.map((resource: any, index: number) => (
-                              <div
-                                className="bg-white p-2 dark:bg-gray-100 rounded-md w-full flex flex-shrink-0 justify-between items-center py-2 relative"
-                                key={index}
-                              >
-                                <h1 className="text-sm">{resource}</h1>
-                                <button onClick={() => deleteResource(index)}>
-                                  x
-                                </button>
-                              </div>
-                            ))}
-                          </div>
+                        <div className="">
                           <div className="mt-4 flex flex-col justify-start gap-y-4">
                             <div className="flex flex-col items-center gap-y-2">
                               <div className="bg-white dark:bg-gray-100 rounded-full w-full h-8 flex flex-shrink-0 justify-start items-center relative">
                                 <Field
                                   type="text"
-                                  id="resources"
-                                  name="resources"
-                                  onChange={onChange}
-                                  value={input}
-                                  placeholder="Add Link for the Resources"
+                                  id="topic_title"
+                                  name="topic_title"
+                                  placeholder="Add Title of the topic"
                                   className={clsx(
                                     "w-full h-12 px-4 border rounded-md",
-                                    touched.resources && errors.resources
+                                    touched.topic_title && errors.topic_title
                                       ? "border-red-500"
                                       : ""
                                   )}
                                 />
                               </div>
-                              <div>
-                                <button onClick={clickHandler}>+</button>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="my-4">
+                      <div className="my-4">
+                        <div className="w-full flex flex-col items-center">
+                          <div className="my-2 w-full flex justify-between items-center">
+                            <h2 className="font-semibold text-lg">
+                              Topic Description
+                            </h2>
+                          </div>
+                        </div>
+                        <div className="">
+                          <div className="mt-4 flex flex-col justify-start gap-y-4">
+                            <div className="flex flex-col items-center gap-y-2">
+                              <div className="bg-white dark:bg-gray-100 rounded-full w-full h-8 flex flex-shrink-0 justify-start items-center relative">
+                                <Field
+                                  type="text"
+                                  id="description"
+                                  name="description"
+                                  placeholder="Add description of the topic"
+                                  className={clsx(
+                                    "w-full h-12 px-4 border rounded-md",
+                                    touched.description && errors.description
+                                      ? "border-red-500"
+                                      : ""
+                                  )}
+                                />
                               </div>
+
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-
+                  {
+                    errorMessage && (
+                      <div className="bg-[#E4646451] py-1 rounded-md">
+                        <span className="text-[#E46464] px-4 text-xs">
+                          {errorMessage}
+                        </span>
+                      </div>
+                    )
+                  }
                   <div className="flex justify-end items-center gap-x-3">
                     <button
                       onClick={() => props.onClose()}
@@ -254,8 +233,16 @@ const NewTopicModal = (props: Props) => {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="min-w-min px-6 py-3 mt-4 text-sm font-semibold text-white bg-primary rounded-lg"
+                      className="min-w-min flex items-center px-6 py-3 mt-4 text-sm font-semibold text-white bg-primary rounded-lg"
                     >
+                      {
+                        loading && (
+                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                        )
+                      }
                       Save
                     </button>
                   </div>

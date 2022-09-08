@@ -33,7 +33,7 @@ type Props = {
 const UsersFilter = (props: Props) => {
   const authUser = useReactiveVar(authenticatedUser);
   return (
-    <div className="flex flex-row bg-white rounded-sm w-full h-16 items-center gap-x-12 my-5 sticky inset-x-0 top-0 left-0 ">
+    <div className="overflow-x-auto flex flex-row bg-white rounded-sm w-full h-16 items-center gap-x-12 my-5 sticky inset-x-0 top-0 left-0 ">
       <UsersSearch />
       <div className="flex flex-1  gap-x-12 ">
         {filterItems.map((item, index) => (
@@ -57,7 +57,7 @@ const UsersFilter = (props: Props) => {
         <div className="flex justify-end items-center px-5">
           <button
             onClick={props.handleModalOpen}
-            className="flex justify-center items-center min-w-min px-6 py-3 text-sm font-semibold text-white bg-primary rounded-lg"
+            className="flex justify-center items-center min-w-min px-6 lg:py-3 text-sm font-semibold text-white bg-primary rounded-lg"
           >
             Add New User
           </button>

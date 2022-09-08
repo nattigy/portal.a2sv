@@ -19,8 +19,8 @@ type Props = {
 
 const ContestRating = ({ contestInfo }: Props) => {
   return (
-    <div>
-      <div className="overflow-x-auto relative bg-white border-blue-100 shadow-md sm:rounded-lg border p-4 w-fit ">
+    <div className="w-full">
+      <div className="w-full overflow-x-auto relative bg-white border-blue-100 shadow-md sm:rounded-lg border p-4 ">
         <div className="mx-3 my-2 font-semibold text-md text-[#565656]">
           <h1>Top Students (Contest Rating)</h1>
         </div>

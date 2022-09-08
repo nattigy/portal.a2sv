@@ -19,3 +19,15 @@ export const ASSIGN_HOE_TO_GROUP = gql`
     }
   }
 `;
+
+export const ADD_TOPIC_TO_GROUP = gql`
+  mutation Mutation($updateGroupInput: UpdateGroupInput!) {
+    updateGroup(updateGroupInput: $updateGroupInput) {
+      topics {
+        topic {
+          id
+        }
+      }
+    }
+  }
+`;

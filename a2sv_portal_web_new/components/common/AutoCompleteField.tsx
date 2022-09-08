@@ -4,25 +4,25 @@ import { BsChevronContract, BsCheck2 } from "react-icons/bs";
 
 type Props = {
   students: AutoCompleteFieldProps[];
-  setSelected:(user:AutoCompleteFieldProps)=>void;
-  selected:AutoCompleteFieldProps;
+  setSelected: (user: AutoCompleteFieldProps) => void;
+  selected: AutoCompleteFieldProps;
 };
 export type AutoCompleteFieldProps = {
   id: number;
   email: string;
 };
-export default function AutoCompleteField({ students,setSelected,selected }: Props) {
+export default function AutoCompleteField({ students, setSelected, selected }: Props) {
   const [query, setQuery] = useState("");
 
   const filteredStudents =
     query === ""
       ? students
       : students.filter((student) =>
-          student.email
-            .toLowerCase()
-            .replace(/\s+/g, "")
-            .includes(query.toLowerCase().replace(/\s+/g, ""))
-        );
+        student.email
+          .toLowerCase()
+          .replace(/\s+/g, "")
+          .includes(query.toLowerCase().replace(/\s+/g, ""))
+      );
 
   return (
     <div className="w-full">
@@ -31,7 +31,7 @@ export default function AutoCompleteField({ students,setSelected,selected }: Pro
           <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
             <Combobox.Input
               className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-              displayValue={(person: AutoCompleteFieldProps) => person?person.email:""}
+              displayValue={(person: AutoCompleteFieldProps) => person ? person.email : ""}
               onChange={(event) => setQuery(event.target.value)}
             />
             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -55,8 +55,7 @@ export default function AutoCompleteField({ students,setSelected,selected }: Pro
                   <Combobox.Option
                     key={student.id}
                     className={({ active }) =>
-                      `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                        active ? "bg-[#e2e2e2] text-gray-700" : "text-gray-900"
+                      `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? "bg-[#e2e2e2] text-gray-700" : "text-gray-900"
                       }`
                     }
                     value={student}
@@ -64,17 +63,15 @@ export default function AutoCompleteField({ students,setSelected,selected }: Pro
                     {({ selected, active }) => (
                       <>
                         <span
-                          className={`block truncate ${
-                            selected ? "font-medium" : "font-normal"
-                          }`}
+                          className={`block truncate ${selected ? "font-medium" : "font-normal"
+                            }`}
                         >
                           {student.email}
                         </span>
                         {selected ? (
                           <span
-                            className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                              active ? "text-white" : "text-[#5956E9]"
-                            }`}
+                            className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active ? "text-white" : "text-[#5956E9]"
+                              }`}
                           >
                             <BsCheck2 />
                           </span>
