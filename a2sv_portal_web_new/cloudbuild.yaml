@@ -1,0 +1,29 @@
+steps:
+  - name: 'gcr.io/cloud-builders/npm'
+    entrypoint: npm
+    dir: "a2sv_portal_web_new"
+    args: ["install", "--legacy-peer-deps", "--no-optional"]
+  - name: 'gcr.io/cloud-builders/npm'
+    entrypoint: npm
+    dir: "a2sv_portal_web_new"
+    args: ["run", "create-env"]
+    env:
+      - 'NEXT_PUBLIC_API_URL=${_NEXT_PUBLIC_API_URL}'
+      - 'API_URL=${_API_URL}'
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/zeta-ascent-272907/github.com/realeskalate/portal.a2sv.org:$SHORT_SHA", "."]
+    dir: "a2sv_portal_web_new"
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/zeta-ascent-272907/github.com/realeskalate/portal.a2sv.org:$SHORT_SHA"]
+    dir: "a2sv_portal_web_new"
+  - name: "gcr.io/cloud-builders/gcloud"
+    args:
+      [
+        "beta",
+        "run",
+        "deploy",
+        "a2sv-portal-web",
+        "--region=us-central1",
+        "--platform=managed",
+        "--image=gcr.io/zeta-ascent-272907/github.com/realeskalate/portal.a2sv.org:$SHORT_SHA",
+      ]
