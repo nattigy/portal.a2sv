@@ -20,4 +20,29 @@ export const ADD_STUDENTS_TO_GROUP = gql`
     }
   }
 `;
+export const ASSIGN_USER_TO_GROUP = gql`
+  mutation UpdateUser($updateUserInput: UpdateUserInput!) {
+    updateUser(updateUserInput: $updateUserInput) {
+      email
+      id
+      status
+      role
+      group{
+        name
+      }
+    }
+  }
+`;
 
+
+export const UPDATE_USER_PROFILE_MUTATION = gql`
+  mutation UpdateUser($updateUserInput: UpdateUserInput!) {
+    updateUser(updateUserInput: $updateUserInput) {
+      email
+      id
+      status
+      role
+      groupId
+    }
+  }
+`;

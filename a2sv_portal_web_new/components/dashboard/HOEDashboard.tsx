@@ -16,7 +16,7 @@ import GroupInfo from "./GroupInfo";
 
 
 type Props = {
-  groupId: string;
+  groupId: number;
 };
 const DashboardTopic: DashboardTopicItemProps[] = [
   {
@@ -42,47 +42,49 @@ const strugglingWith: { percent: number; name: string }[] = [
   { percent: 34, name: "Bit Manipulation" },
   { percent: 5, name: "Queue" },
 ];
-const problemStat: ProblemSolvedProps = {
-  problems: 389,
-  wrong: 459,
-  minutes: 4554,
-  easy: 239,
-  medium: 104,
-  hard: 46,
-};
+// const problemStat: ProblemSolvedProps = {
+//   problems: 389,
+//   wrong: 459,
+//   minutes: 4554,
+//   easy: 239,
+//   medium: 104,
+//   hard: 46,
+// };
 
-const rankList: DashboardRankItemProps[] = [
-  {
-    rankType: "Daily",
-    totalStudents: 30,
-    userRank: 2,
-    activeColor: "#8A70D6",
-    inactiveColor: "#E9E3FE99",
-  },
-  {
-    rankType: "Weekly",
-    totalStudents: 30,
-    userRank: 1,
-    activeColor: "#579BE4",
-    inactiveColor: "#E4F2FF",
-  },
-  {
-    rankType: "Monthly",
-    totalStudents: 30,
-    userRank: 3,
-    activeColor: "#FCAB5E",
-    inactiveColor: "#FFF0E1",
-  },
-  {
-    rankType: "Overall",
-    totalStudents: 30,
-    userRank: 5,
-    activeColor: "#5956E9",
-    inactiveColor: "#E9E3FE99",
-  },
-];
+// const rankList: DashboardRankItemProps[] = [
+//   {
+//     rankType: "Daily",
+//     totalStudents: 30,
+//     userRank: 2,
+//     activeColor: "#8A70D6",
+//     inactiveColor: "#E9E3FE99",
+//   },
+//   {
+//     rankType: "Weekly",
+//     totalStudents: 30,
+//     userRank: 1,
+//     activeColor: "#579BE4",
+//     inactiveColor: "#E4F2FF",
+//   },
+//   {
+//     rankType: "Monthly",
+//     totalStudents: 30,
+//     userRank: 3,
+//     activeColor: "#FCAB5E",
+//     inactiveColor: "#FFF0E1",
+//   },
+//   {
+//     rankType: "Overall",
+//     totalStudents: 30,
+//     userRank: 5,
+//     activeColor: "#5956E9",
+//     inactiveColor: "#E9E3FE99",
+//   },
+// ];
 
 const HOEDashboard = (props: Props) => {
+  console.log(props.groupId)
+
   const Sidebar: React.FC = () => {
     return (
       <div className="flex flex-col gap-y-3">

@@ -3,7 +3,7 @@ import React, { ReactNode, useEffect, useState } from "react";
 import { FaLongArrowAltUp, FaLongArrowAltDown } from "react-icons/fa";
 import ProblemModalDetail from "../../components/modals/ProblemDetailModal";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
-import { useUsersByGroupId } from "../../lib/hooks/useUsers";
+import {  useUsersByGroupId, useUsersOfSingleGroup } from "../../lib/hooks/useUsers";
 import { LoaderSmall } from "../common/Loaders";
 import NewUserModal from "../modals/NewUserModal";
 import AddStudentList from "./AddStudentList";
@@ -16,6 +16,7 @@ type Props = {
     React.SetStateAction<boolean>
   >;
   groupData?: any;
+  groupId: number
 };
 
 export type StudentsInfo = {
@@ -27,41 +28,6 @@ export type StudentsInfo = {
   dateJoined: string;
 };
 
-// export const students: Array<StudentsInfo> = [
-//   {
-//     id: 1,
-//     name: "Hanna Samuel",
-//     dateJoined: "Oct 12/2019",
-//     residence: "Addis Ababa",
-//     nationality: "Ethiopia",
-//     photo: "images/group-students-profile.svg",
-//   },
-//   {
-//     id: 2,
-//     name: "Kaleb Mesfin",
-//     dateJoined: "Oct 12/2019",
-//     residence: "Accra",
-//     nationality: "Ghana",
-//     photo: "images/group-students-profile.svg",
-//   },
-//   {
-//     id: 3,
-//     name: "Natnael Awel",
-//     dateJoined: "Oct 12/2019",
-//     residence: "Istanbul",
-//     nationality: "Turkey",
-//     photo: "images/group-students-profile.svg",
-//   },
-//   {
-//     id: 4,
-//     name: "Henok Adane",
-//     dateJoined: "Oct 12/2019",
-//     residence: "Kigali",
-//     nationality: "Rwanda",
-//     photo: "images/group-students-profile.svg",
-//   },
-// ];
-
 const GroupStudents = (props: Props) => {
   // const [titleAscending, setTitleAscending] = useState(false)
   // const [titleDescending, setTitleDescending] = useState(false)
@@ -71,12 +37,9 @@ const GroupStudents = (props: Props) => {
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const authUser = useReactiveVar<AuthUser | any>(authenticatedUser);
-  const [loadStudents, { data, refetch, loading }] = useUsersByGroupId(
-    (authUser as AuthUser).groupId
-  );
-  useEffect(() => {
-    loadStudents();
-  }, [authUser, refetch]);
+
+  // const groupId = props.groupData?.group?.id || 0
+  const { data, refetch, loading } = useUsersOfSingleGroup(props.groupId);
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -94,7 +57,7 @@ const GroupStudents = (props: Props) => {
       <div className="h-screen font-semibold text-[#565656]">
         <div className="flex justify-between items-center">
           <p className="text-[rgb(103,103,103)] font-semibold text-lg">
-            {props.groupData.group.name}
+            {props.groupData?.group?.name}
           </p>
 
           <div className="flex flex-row items-center justify-end my-6 font-semibold text-xl text-[#565656]">
@@ -119,8 +82,8 @@ const GroupStudents = (props: Props) => {
           <div className="w-full h-full flex justify-center items-center">
             <LoaderSmall />
           </div>
-        ) : data && data.users ? (
-          <StudentTable students={data.users} />
+        ) : data && data.group.users ? (
+          <StudentTable students={data.group.users} />
         ) : (
           <h1>Empty</h1>
         )}

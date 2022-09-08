@@ -14,17 +14,19 @@ const student: GroupStudentsSidebarProps = {
   role: UserRoleType.HOE,
 };
 
-const StudentSidebar: React.FC<{ showStudentList: boolean }> = ({
+const StudentSidebar: React.FC<{ groupId: number, showStudentList: boolean }> = ({
   showStudentList,
+  groupId,
 }: {
   showStudentList: boolean;
+  groupId: number
 }) => {
   const { data, loading, error, refetch } = useGetUsersWithNoGroup();
-  useEffect(() => {}, [refetch, data]);
+  useEffect(() => { }, [refetch, data]);
 
   return (
     <div className="flex flex-col gap-y-3 ">
-      <GroupStudentsSidebarItem showStudentList={showStudentList} />
+      <GroupStudentsSidebarItem groupId={groupId} showStudentList={showStudentList} />
     </div>
   );
 };

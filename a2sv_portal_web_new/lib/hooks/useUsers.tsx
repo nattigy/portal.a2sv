@@ -4,6 +4,7 @@ import { GraphqlUserRole } from "../../types/user";
 import {
   GET_ALL_USER_QUERY,
   GET_FILTERED_USERS,
+  GET_SINGLE_GROUP_USERS_QUERY,
   GET_STUDENTS_WITH_NO_GROUP_QUERY,
   GET_USERS_BY_GROUP_ID_QUERY,
 } from "../apollo/Queries/usersQueries";
@@ -42,6 +43,17 @@ export const useUsersByGroupId = (groupId: number) => {
     notifyOnNetworkStatusChange: true,
   });
 };
+
+export const useUsersOfSingleGroup = (id: number) => {
+  const groupId = parseInt(id.toString()) || 0
+  return useQuery(GET_SINGLE_GROUP_USERS_QUERY, {
+    variables: {
+      groupId
+    }
+  })
+}
+
+
 
 export const useGetUsersWithNoGroup = () => {
   return useQuery(GET_STUDENTS_WITH_NO_GROUP_QUERY, {

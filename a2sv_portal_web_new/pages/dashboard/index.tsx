@@ -1,15 +1,15 @@
 import React, { ReactNode } from "react";
 import BaseLayout from "../../components/common/BaseLayout";
 import { useReactiveVar } from "@apollo/client";
-import { authenticatedUser } from "../../lib/constants/authenticated";
+import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import HOEDashboard from "../../components/dashboard/HOEDashboard";
 import HOADashboard from "../../components/dashboard/HOADashboard";
 import StudentDashboard from "../../components/dashboard/StudentDashboard";
 import { GraphqlUserRole } from "../../types/user";
 
 const IndexPage = () => {
-  const authUser = useReactiveVar(authenticatedUser)
-
+  const authUser = useReactiveVar(authenticatedUser) as AuthUser
+  console.log(authUser as any, " authUsers")
   const ActiveComponent = ({ user }: {
     user: {
       id: string,
@@ -23,7 +23,7 @@ const IndexPage = () => {
         return <StudentDashboard />
       }
       case GraphqlUserRole.HEAD_OF_EDUCATION: {
-        return <HOEDashboard groupId={"1"} />
+        return <HOEDashboard groupId={authUser.headToGroup.id} />
       }
       case GraphqlUserRole.HEAD_OF_ACADEMY: {
         return <HOADashboard />

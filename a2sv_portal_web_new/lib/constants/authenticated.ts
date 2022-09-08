@@ -8,13 +8,16 @@ export type AuthUser = {
     id: number;
   };
   createdAt: string;
-  id: string;
+  id: number;
   name: string;
   email: string;
   groupId: number;
   role: GraphqlUserRole;
   status: string;
-  headToGroup: any;
+  headToGroup: {
+    id: number;
+    name: string;
+  };
 };
 export const authenticatedUser: AuthUser | any = makeVar({});
 

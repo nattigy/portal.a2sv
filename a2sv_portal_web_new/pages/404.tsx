@@ -21,7 +21,7 @@ const NotFoundPage = (props: Props) => {
                     </div>
                     <div className="mb-20 md:mb-0">
                         <button className="text-lg font-light outline-none focus:outline-none transform transition-all hover:scale-110 text-blue-500 hover:text-blue-600">
-                            <CustomLink href={"/dashboard"}>Go back home</CustomLink>
+                            <CustomLink href="/dashboard">Go back home</CustomLink>
                         </button>
                     </div>
                 </div>
