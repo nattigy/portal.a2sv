@@ -1,4 +1,5 @@
 import 'package:a2sv_portal_mobile/app/groups/model/group.dart';
+import 'package:a2sv_portal_mobile/app/topics/models/season.dart';
 import 'package:a2sv_portal_mobile/utils/custom_colors.dart';
 import 'package:a2sv_portal_mobile/widgets/cards/shadow_card.dart';
 import 'package:a2sv_portal_mobile/widgets/text_views/card_title_text.dart';
@@ -29,9 +30,9 @@ class GroupInfoCard extends StatelessWidget {
                 CardContentText(text: group.country),
                 SizedBox(height: 5),
                 CardContentText(
-                    text: "${(group.users!.length + 56).toString()} members"),
+                    text:group.members),
                 SizedBox(height: 5),
-                CardContentText(text: "created at 21-02-2022"),
+                CardContentText(text: 'created at' + group.createdat),
               ],
             ),
           ),
@@ -45,7 +46,7 @@ class GroupInfoCard extends StatelessWidget {
                   color: CustomColors.blueBgColor,
                 ),
                 child: Text(
-                  "G-32",
+                  group.name,
                   style: TextStyle(
                       color: CustomColors.blueTextColor,
                       fontWeight: FontWeight.bold,
