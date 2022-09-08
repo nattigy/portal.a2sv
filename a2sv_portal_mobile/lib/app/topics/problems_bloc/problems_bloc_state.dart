@@ -18,6 +18,10 @@ class ProblemsBlocSuccess extends ProblemsBlocState {
 
 }
 
+class ProblemsBlocUpdateSuccess extends ProblemsBlocState {
+
+
+}
 class ProblemBlocError extends ProblemsBlocState {
   final String? errorMessage;
 
