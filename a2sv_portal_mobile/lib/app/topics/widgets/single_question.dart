@@ -1,4 +1,5 @@
 import 'package:a2sv_portal_mobile/app/students/screens/widgets/bottom_sheet_card.dart';
+import 'package:a2sv_portal_mobile/app/students/screens/widgets/radion_buttons.dart';
 import 'package:a2sv_portal_mobile/app/topics/entity/question.entity.dart';
 import 'package:a2sv_portal_mobile/app/topics/models/problem.dart';
 import 'package:flutter/material.dart';
@@ -19,10 +20,12 @@ class SingleQuestion extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: () {
+  
         showModalBottomSheet<void>(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
           ),
+
           context: context,
           builder: (BuildContext context) {
             return BottomSheetCard(problem: problem);
@@ -75,7 +78,7 @@ class SingleQuestion extends StatelessWidget {
           SizedBox(
             height: 24,
             width: width * 0.15,
-            child: problem.solved == "solved"
+            child: problem.status ==ProblemStatus.SOLVED
                 ? Image.asset("assets/images/solved.png")
                 : Image.asset("assets/images/not_solved.png"),
           ),

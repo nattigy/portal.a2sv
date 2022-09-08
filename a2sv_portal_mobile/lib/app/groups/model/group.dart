@@ -7,11 +7,15 @@ class Group extends Equatable {
   final String name;
   final String school;
   final String country;
+  final String members;
+  final String createdat;
   final List<Topic>? topics;
   final List<User>? users;
 
   Group(
       {required this.id,
+      required this.members,
+      required this.createdat,
       required this.school,
       required this.country,
       required this.name,
@@ -22,6 +26,8 @@ class Group extends Equatable {
     return Group(
       id: json['id'],
       name: json['name'],
+      members: json['members'],
+      createdat: json['createdat'],
       school: json['school'],
       country: json['country'],
       topics: json.containsKey("topics")

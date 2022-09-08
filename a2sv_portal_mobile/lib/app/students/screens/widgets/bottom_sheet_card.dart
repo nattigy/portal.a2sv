@@ -1,10 +1,12 @@
 import 'package:a2sv_portal_mobile/app/students/screens/widgets/radion_buttons.dart';
 import 'package:a2sv_portal_mobile/app/topics/models/problem.dart';
+import 'package:a2sv_portal_mobile/app/topics/problems_bloc/problems_bloc_cubit.dart';
 import 'package:a2sv_portal_mobile/utils/custom_colors.dart';
 import 'package:a2sv_portal_mobile/widgets/buttons/main-button.dart';
 import 'package:a2sv_portal_mobile/widgets/inputs/main-input-field.dart';
 import 'package:a2sv_portal_mobile/widgets/text_views/card_title_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BottomSheetCard extends StatefulWidget {
   final Problem problem;
@@ -163,7 +165,7 @@ class _BottomSheetCardState extends State<BottomSheetCard> {
                         ),
                         Row(children: [
                           IconButton(
-                            onPressed: () =>increment(),
+                            onPressed: () =>decrement(),
                             icon: Icon(Icons.arrow_back_ios,
                                 color: Colors.grey, size: 10),
                           ),
@@ -177,7 +179,7 @@ class _BottomSheetCardState extends State<BottomSheetCard> {
                             child: Center(child: Text(numOfTries.toString())),
                           ),
                           IconButton(
-                            onPressed: () => decrement(),
+                            onPressed: () => increment(),
                             icon: Icon(Icons.arrow_forward_ios,
                                 color: Colors.grey, size: 10),
                           ),
@@ -197,7 +199,11 @@ class _BottomSheetCardState extends State<BottomSheetCard> {
                         MainButton(
                             title: "Save",
                             color: CustomColors.primaryColor,
-                            onClick: () {}),
+                            onClick: () {
+                              
+                              context.read<ProblemsBloc>().updateProblem(widget.problem.id, status!,numOfTries);
+                              Navigator.pop(context);
+                            }),
                         // ElevatedButton(
                         //     style: Theme.of(context)
                         //         .copyWith()

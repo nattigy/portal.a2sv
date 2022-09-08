@@ -76,10 +76,10 @@ class TopicsPage extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
-                                            const Align(
+                                             const Align(
                                               alignment: Alignment.topLeft,
                                               child: Text(
-                                                "Active",
+                                                'Active',
                                                 style: TextStyle(
                                                   color: Colors.green,
                                                 ),
@@ -95,7 +95,7 @@ class TopicsPage extends StatelessWidget {
                                             //   ),
                                             // ),
                                             SizedBox(
-                                                height: screenHeight * 0.03),
+                                                height: screenHeight * 0.005),
                                             Align(
                                               alignment: Alignment.centerLeft,
                                               child: Text(
@@ -162,6 +162,7 @@ class TopicsPage extends StatelessWidget {
                         return ListView.builder(
                           padding: EdgeInsets.all(0),
                             shrinkWrap: true,
+                            
                             scrollDirection: Axis.vertical,
                             itemCount: seasons.length,
                             itemBuilder: ((context, index) {
