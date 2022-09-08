@@ -31,13 +31,13 @@ function SeasonSelecBox(props: Props) {
 
     return (
         <div className="relative">
-            <div className="relative w-56 border border-gray-300 rounded outline-none">
+            <div className="relative w-40 border border-gray-300 rounded outline-none">
                 <button
                     onClick={(e) => {
                         e.stopPropagation()
                         setShowMenu(prev => !prev)
                     }}
-                    className="relative flex items-center justify-between w-full px-5 py-3 "
+                    className="relative flex items-center justify-between w-full px-3 py-2 "
                 >
                     <span
                         className="pr-4 text-sm font-medium text-gray-600"
