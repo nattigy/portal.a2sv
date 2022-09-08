@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:a2sv_portal_mobile/app/users/screens/widgets/user_profile.dart';
+import 'package:a2sv_portal_mobile/app/users/screens/user_profile.dart';
 import 'package:a2sv_portal_mobile/utils/colors.dart';
 import 'package:a2sv_portal_mobile/widgets/buttons/main-button.dart';
 import 'package:a2sv_portal_mobile/widgets/inputs/main-input-field.dart';
