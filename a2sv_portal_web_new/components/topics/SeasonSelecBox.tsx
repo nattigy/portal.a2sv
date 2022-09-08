@@ -4,18 +4,18 @@ import React, { useEffect, useState } from 'react'
 type Props = {
     label?: string;
     helperText?: string;
-    selectMenuItems: { value: string, label: string }[];
-    handleSelect: (val: string) => void
+    selectMenuItems: { value: number, label: string }[];
+    handleSelect: (val: any) => void
 }
 
 function SeasonSelecBox(props: Props) {
-    const [seasonVal, setSeasonVal] = useState<{ value: string, label: string } | null>(null)
+    const [seasonVal, setSeasonVal] = useState<{ value: number, label: string } | null>(null)
     const [showMenu, setShowMenu] = useState(false)
 
-    const onMenuSelect = (item: { value: string, label: string }) => {
+    const onMenuSelect = (item: { value: number, label: string }) => {
         setSeasonVal(item)
         setShowMenu(false)
-        props.handleSelect(item.value)
+        props.handleSelect(item)
     }
 
     useEffect(() => {

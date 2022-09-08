@@ -56,7 +56,7 @@ const GroupInfo = (props: Props) => {
         ) : ( */}
         <div>
           {tabIndex == 0 && <StatComponent groupData={data} />}
-          {tabIndex == 1 && <GroupStudents groupId={props.groupId} groupData={data.group} isAddStudentToGroupSidebarOpen={isAddStudentToGroupSidebarOpen} setIsAddStudentToGroupSidebarOpen={setIsAddStudentToGroupSidebarOpen} />}
+          {tabIndex == 1 && <GroupStudents groupId={props.groupId} groupData={data?.group} isAddStudentToGroupSidebarOpen={isAddStudentToGroupSidebarOpen} setIsAddStudentToGroupSidebarOpen={setIsAddStudentToGroupSidebarOpen} />}
         </div>
         {/* )} */}
       </div>
