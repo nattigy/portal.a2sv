@@ -25,35 +25,73 @@ export class GroupsResolver {
     return this.groupsService.createGroup(createGroupInput)
   }
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @Query(() => [Group])
   groups() {
     return this.groupsService.getGroups()
   }
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @Query(() => Group)
   group(@Args('id', { type: () => Int }) id: number) {
     return this.groupsService.getGroupById(id)
   }
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY')
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @Mutation(() => Group)
   updateGroup(@Args('updateGroupInput') updateGroupInput: UpdateGroupInput) {
     return this.groupsService.updateGroup(updateGroupInput)
   }
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY')
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @Mutation(() => Group)
   deleteGroup(@Args('id', { type: () => Int }) id: number) {
     return this.groupsService.deleteGroup(id)
   }
 
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @ResolveField(() => [GroupTopic], { nullable: 'itemsAndList' })
   topics(@Parent() group: Group): GroupTopic[] | null {
     return group.topics
   }
 
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @ResolveField(() => User, { nullable: true })
   head(@Parent() group: Group): User {
     return group.head

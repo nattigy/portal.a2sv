@@ -19,7 +19,13 @@ import { GroupTopicProblem } from 'src/group-topic-problem/entities/group-topic-
 export class ProblemResolver {
   constructor(private readonly problemService: ProblemService) {}
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @Mutation(() => Problem)
   async createProblem(
     @Args('createProblemInput') createProblemInput: CreateProblemInput,
@@ -27,14 +33,35 @@ export class ProblemResolver {
     return await this.problemService.create(createProblemInput)
   }
 
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @Query(() => [Problem], {
     name: 'problems',
     description: 'Find all problems with populated tags',
   })
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   async problems(): Promise<Problem[]> {
     return await this.problemService.findAll()
   }
 
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @Query(() => Problem, {
     name: 'problem',
     description: 'Find a unique problem by id',
@@ -43,7 +70,13 @@ export class ProblemResolver {
     return await this.problemService.findOne(id)
   }
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @Mutation(() => Problem)
   async updateProblem(
     @Args('updateProblemInput') updateProblemInput: UpdateProblemInput,
@@ -59,7 +92,13 @@ export class ProblemResolver {
     return this.problemService.remove(id)
   }
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @ResolveField()
   async tags(@Parent() problem: Problem): Promise<Tag[]> {
     return problem.tags

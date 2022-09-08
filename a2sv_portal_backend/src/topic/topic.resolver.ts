@@ -28,16 +28,36 @@ export class TopicResolver {
     return this.topicService.createTopic(createTopicInput)
   }
 
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @Query(() => [Topic], { name: 'topics' })
   topics(@Args() args: GetTopicArgs) {
     return this.topicService.getTopics(args)
   }
 
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @Query(() => Topic)
   topic(@Args('id', { type: () => Int }) id: number) {
     return this.topicService.getTopicById(id)
   }
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @Mutation(() => Topic)
   updateTopic(
     @Args('id', { type: () => Int }) id: number,
@@ -52,12 +72,25 @@ export class TopicResolver {
     return this.topicService.deleteTopic(id)
   }
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @ResolveField(() => Season)
   season(@Parent() topic: Topic): Season {
     return topic.season
   }
 
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @ResolveField(() => [GroupTopic], { nullable: 'itemsAndList' })
   groups(@Parent() topic: Topic): GroupTopic[] | null {
     return topic.groups

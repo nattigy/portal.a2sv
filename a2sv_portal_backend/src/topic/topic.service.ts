@@ -57,20 +57,17 @@ export class TopicService {
 
   async createTopic(createTopicInput: CreateTopicInput): Promise<Topic> {
     const { season, ...data } = createTopicInput
-    return await this.prismaService.topic.create({
-      data: {
-        ...data,
-        season: {
-          connectOrCreate: {
-            where: {
-              name: season.name,
-            },
-            create: {
-              ...season,
-            },
-          },
+    const queryData = data as any
+    if (season) {
+      queryData.season = {
+        connectOrCreate: {
+          where: season,
+          create: season,
         },
-      },
+      }
+    }
+    return await this.prismaService.topic.create({
+      data: queryData,
       include: {
         season: true,
         groups: {
@@ -87,9 +84,18 @@ export class TopicService {
     updateTopicInput: UpdateTopicInput,
   ): Promise<Topic> {
     const { id, season, ...data } = updateTopicInput
+    const queryData = data as any
+    if (season) {
+      queryData.season = {
+        connectOrCreate: {
+          where: season,
+          create: season,
+        },
+      }
+    }
     return this.prismaService.topic.update({
       where: { id: id },
-      data: data,
+      data: queryData,
       include: {
         season: true,
         groups: {

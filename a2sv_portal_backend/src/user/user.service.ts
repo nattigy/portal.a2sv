@@ -106,24 +106,25 @@ export class UserService {
         connect: { id: groupId || group.id },
       }
     }
-    console.log(queryData)
-    return await this.prismaService.user.update({
-      include: {
-        group: true,
-        userProfile: true,
-        headToGroup: true,
-      },
-      data: {
-        ...queryData,
-        userProfile: {
+    if (userProfile) {
+      {
+        queryData.userProfile = {
           upsert: {
             update: userProfile,
             create: userProfile,
           },
+        }
+      }
+      return await this.prismaService.user.update({
+        include: {
+          group: true,
+          userProfile: true,
+          headToGroup: true,
         },
-      },
-      where: { id },
-    })
+        data: queryData,
+        where: { id },
+      })
+    }
   }
 
   async remove(id: number): Promise<User | null> {

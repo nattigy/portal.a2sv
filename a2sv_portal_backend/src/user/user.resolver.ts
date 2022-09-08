@@ -30,20 +30,38 @@ export class UserResolver {
     return await this.userService.create(createUserInput)
   }
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @Query(() => [User], { name: 'users' })
   async findAll(@Args() args: GetUserArgs) {
     return await this.userService.findAll(args)
   }
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @Query(() => User, { name: 'user' })
   async findOne(@Args('id', { type: () => Int }) id: number) {
     // const {...needed, password} = user
     return await this.userService.findOne(id)
   }
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @Mutation(() => User)
   async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     return await this.userService.update(updateUserInput.id, updateUserInput)
@@ -54,18 +72,36 @@ export class UserResolver {
   async removeUser(@Args('id', { type: () => Int }) id: number) {
     return await this.userService.remove(id)
   }
-
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @ResolveField()
   async group(@Parent() user: User) {
     const { groupId } = user
     return this.groupService.getGroupById(groupId)
   }
-
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @ResolveField(() => UserProfile)
   userProfile(@Parent() user: User): UserProfile {
     return user.userProfile
   }
-
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @ResolveField(() => Group)
   headToGroup(@Parent() user: User): Group {
     return user.headToGroup
