@@ -11,3 +11,11 @@ export const CREATE_GROUP_MUTATION = gql`
     }
   }
 `;
+export const ASSIGN_HOE_TO_GROUP = gql`
+  mutation Mutation($updateGroupInput: UpdateGroupInput!) {
+    updateGroup(updateGroupInput: $updateGroupInput) {
+      id
+      name
+    }
+  }
+`;

@@ -1,23 +1,25 @@
 import { ApolloError, useMutation } from "@apollo/client";
 import { Formik, Form } from "formik";
 import React, { useEffect, useState } from "react";
-import AutoCompleteField,{AutoCompleteFieldProps} from "../common/AutoCompleteField";
+import AutoCompleteField, {
+  AutoCompleteFieldProps,
+} from "../common/AutoCompleteField";
 import { useFilteredUsers } from "../../lib/hooks/useUsers";
-import { ASSIGN_USER_TO_GROUP } from "../../lib/apollo/Mutations/usersMutations";
+import { ASSIGN_HOE_TO_GROUP } from "../../lib/apollo/Mutations/groupsMutations";
 
 type Props = {
   onClose: () => void;
-  groupId:number;
+  groupId: number;
 };
 
 const AssignHoEModal = (props: Props) => {
-  const [assignUser,{loading:isLoading}] = useMutation(ASSIGN_USER_TO_GROUP)
+  const [assignUser, { loading: isLoading }] = useMutation(ASSIGN_HOE_TO_GROUP);
 
   const [errorMessage, setErrorMessage] = useState("");
-  const initialState:AutoCompleteFieldProps = {
-        id: 0,
-        email: ""
-    };
+  const initialState: AutoCompleteFieldProps = {
+    id: 0,
+    email: "",
+  };
   const [selected, setSelected] = useState(initialState);
 
   const [usersData, setUsersData] = useState([]);
@@ -33,42 +35,42 @@ const AssignHoEModal = (props: Props) => {
     }
   }, [refetch, data]);
 
-
   return (
     <>
       <div className=" transition-all duration-200 py-8 text-[#565656] w-screen h-screen absolute top-0 bottom-0 left-0 right-0 bg-gray-900 bg-opacity-30 z-50">
         <Formik
           initialValues={{ name: "" }}
           onSubmit={async (values, actions) => {
+            console.log(selected.id.toString(), props.groupId.toString());
             await assignUser({
               variables: {
-                updateUserInput: {
+                updateGroupInput: {
+                  id: parseInt(props.groupId.toString()),
+                  head: {
                     id: parseInt(selected.id.toString()),
-                    groupId: parseInt(props.groupId.toString())
-                  }
+                  },
+                },
               },
               refetchQueries: "active",
               notifyOnNetworkStatusChange: true,
               onCompleted: (data) => {
-                props.onClose()
+                props.onClose();
               },
               onError: (error) => {
                 setErrorMessage((error as ApolloError).message);
-              }
-            })
-            actions.resetForm()
-
-
+              },
+            });
+            actions.resetForm();
           }}
         >
           {({ isSubmitting, handleChange, errors, touched, values }) => (
             <Form>
               <div
                 role="alert"
-                className="flex flex-col gap-y-3 min-h-[300px] bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-8 py-5"
+                className="flex flex-col gap-y-2 min-h-[300px] bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-8 py-5"
               >
-                <div className="w-full flex flex-col items-center">
-                  <div className="my-3 w-full flex justify-between items-center">
+                <div className="w-full flex flex-col items-cente">
+                  <div className="mt-3 w-full flex justify-between items-center">
                     <h2 className="font-semibold text-lg">Assign User</h2>
 
                     <div
@@ -108,7 +110,11 @@ const AssignHoEModal = (props: Props) => {
                   <div className="">
                     <div className="flex flex-col justify-start gap-y-4">
                       <div>
-                        <AutoCompleteField students={usersData} setSelected={setSelected} selected={selected} />
+                        <AutoCompleteField
+                          students={usersData}
+                          setSelected={setSelected}
+                          selected={selected}
+                        />
                         <p className="w-full text-xs text-red-500">
                           {errors.name}
                         </p>
@@ -116,17 +122,13 @@ const AssignHoEModal = (props: Props) => {
                     </div>
                   </div>
 
-
-                  {
-                      errorMessage && (
-                        <div className="bg-[#E4646451] py-1 rounded-md">
-                          <span className="text-[#E46464] px-4 text-xs">
-                            {errorMessage}
-                          </span>
-                        </div>
-                      )
-                    }
-
+                  {errorMessage && (
+                    <div className="bg-[#E4646451] py-1 rounded-md">
+                      <span className="text-[#E46464] px-4 text-xs">
+                        {errorMessage}
+                      </span>
+                    </div>
+                  )}
 
                   <div className="flex justify-end items-center gap-x-3">
                     <button
