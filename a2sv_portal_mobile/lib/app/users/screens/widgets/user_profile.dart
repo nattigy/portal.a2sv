@@ -123,7 +123,7 @@ class UserPage extends State with SingleTickerProviderStateMixin {
                   placeHolder: 'Education Institute',
                   color: field_bg_color,
                   iconData: Icons.school,
-                  onChanged: () {}),
+                  onChanged: (val) {}),
               SizedBox(
                 height: screenheight * 0.01,
               ),

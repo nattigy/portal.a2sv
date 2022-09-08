@@ -1,12 +1,11 @@
 import 'dart:convert';
 
+import 'package:a2sv_portal_mobile/app/auth/dto/login.input.dart';
+import 'package:a2sv_portal_mobile/app/users/data/graphql/get_user.gql.dart';
+import 'package:a2sv_portal_mobile/app/users/data/graphql/login.gql.dart';
+import 'package:a2sv_portal_mobile/app/users/entity/users.entity.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:graphql/client.dart';
-
-import '../../auth/data/graphql/login.gql.dart';
-import '../../auth/dto/login.input.dart';
-import '../entity/users.entity.dart';
-import 'graphql/get_user.gql.dart';
 
 class UserRepository {
   final GraphQLClient client;
@@ -24,8 +23,10 @@ class UserRepository {
     if (result.hasException) {
       throw Exception(result.exception);
     }
-    final data = result.data?['getUser'];
-    return User.fromJson(data);
+    final data = result.data?['getMe'];
+    User user = User.fromJson(data);
+    await persistUser(user);
+    return user;
   }
 
   Future<User?> login(LoginInput loginInput) async {
@@ -33,7 +34,7 @@ class UserRepository {
       document: gql(LOGIN),
       variables: <String, dynamic>{
         "loginInput": {
-          'phoneNumber': loginInput.phoneNumber,
+          'email': loginInput.email,
           'password': loginInput.password,
         }
       },
@@ -42,9 +43,20 @@ class UserRepository {
     if (result.hasException) {
       throw Exception(result.exception);
     }
-    await persistToken(result.data?['login']['access_token']);
-    User user = User.fromJson(result.data?['login']['user']);
+    await persistToken(result.data?['login']['accessToken']);
+    // User user = User.fromJson(result.data?['login']['userId']);
+    User user = await getUser();
     await persistUser(user);
+    // const user = User(
+    //   email: "abe@gmail.com",
+    //   firstName: "Abe",
+    //   id: "001",
+    //   lastName: "Kebe",
+    //   middleName: "beke",
+    //   password: "123561",
+    //   phoneNumber: "11212",
+    // );
+    // await persistUser(user);
     return user;
   }
 

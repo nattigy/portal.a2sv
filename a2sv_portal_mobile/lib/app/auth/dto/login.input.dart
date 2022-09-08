@@ -1,6 +1,6 @@
 class LoginInput {
-  final String phoneNumber;
+  final String email;
   final String password;
 
-  LoginInput({required this.phoneNumber, required this.password});
+  LoginInput({required this.email, required this.password});
 }
