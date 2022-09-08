@@ -21,7 +21,6 @@ export type GroupItemProps = {
   studentsImage: string[];
   totalStudents: number;
   color?: string;
- 
 };
 
 const GroupItem = (props:GroupItemProps) => {

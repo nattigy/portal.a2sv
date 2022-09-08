@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useAllGroups from "../../lib/hooks/useAllGroups";
+import { LoaderSmall } from "../common/Loaders";
 import GroupItem, { GroupItemProps } from "./GroupItem";
 
 const colors = ["#FFADAD", "#5956E9", "#FBC400"];
@@ -43,13 +44,14 @@ const url =
 //     totalStudents: 120,
 //   },
 // ];
+
 const GroupItemList = () => {
-  const { data, loading, error, refetch } = useAllGroups();
-  console.log(data, loading, error, " is fetching");
-  let [groups, setGroups] = useState([]);
+  const { data, loading, error, refetch } = useAllGroups()
+  console.log(data, loading, error, " is fetching")
+  let [groups, setGroups] = useState([])
   useEffect(() => {
     if (data && data.groups) {
-      console.log("data is ", data);
+      console.log("data is ", data)
       const datas = data.groups.map((group: any) => {
         return {
           groupId: group.id,
@@ -58,6 +60,7 @@ const GroupItemList = () => {
           createdAt: group.createdAt,
           studentsImage: [url, url, url],
           totalStudents: 120,
+
         };
       });
       setGroups(datas);
