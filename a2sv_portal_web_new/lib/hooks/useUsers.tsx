@@ -44,7 +44,7 @@ export const useUsersByGroupId = (groupId: number) => {
   });
 };
 
-export const userUsersOfSingleGroup = (id: number) => {
+export const useUsersOfSingleGroup = (id: number) => {
   const groupId = parseInt(id.toString()) || 0
   return useQuery(GET_SINGLE_GROUP_USERS_QUERY, {
     variables: {

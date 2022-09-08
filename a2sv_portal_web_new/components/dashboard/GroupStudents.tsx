@@ -3,7 +3,7 @@ import React, { ReactNode, useEffect, useState } from "react";
 import { FaLongArrowAltUp, FaLongArrowAltDown } from "react-icons/fa";
 import ProblemModalDetail from "../../components/modals/ProblemDetailModal";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
-import { userUsersOfSingleGroup, useUsersByGroupId } from "../../lib/hooks/useUsers";
+import {  useUsersByGroupId, useUsersOfSingleGroup } from "../../lib/hooks/useUsers";
 import { LoaderSmall } from "../common/Loaders";
 import NewUserModal from "../modals/NewUserModal";
 import AddStudentList from "./AddStudentList";
@@ -39,7 +39,7 @@ const GroupStudents = (props: Props) => {
   const authUser = useReactiveVar<AuthUser | any>(authenticatedUser);
 
   // const groupId = props.groupData?.group?.id || 0
-  const { data, refetch, loading } = userUsersOfSingleGroup(props.groupId);
+  const { data, refetch, loading } = useUsersOfSingleGroup(props.groupId);
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
