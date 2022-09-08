@@ -69,3 +69,19 @@ export const GET_STUDENTS_WITH_NO_GROUP_QUERY = gql`
     }
   }
 `;
+
+export const GET_SINGLE_GROUP_USERS_QUERY = gql`
+  query Users($groupId: Int!) {
+    group(id: $groupId) {
+      users {
+        email
+        createdAt
+        status
+        userProfile {
+          firstName
+          lastName
+        }
+      }
+    }
+  }
+`;

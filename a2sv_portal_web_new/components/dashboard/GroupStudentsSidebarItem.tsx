@@ -18,10 +18,12 @@ export type GroupStudentsSidebarProps = {
 type Props = {
   groupStudentSidebarItem?: GroupStudentsSidebarProps;
   showStudentList?: boolean;
+  groupId: number;
 };
 
 const GroupStudentsSidebarItem = ({
   groupStudentSidebarItem,
+  groupId,
   showStudentList,
 }: Props) => {
   const { data, loading, error, refetch } = useGetUsersWithNoGroup()
@@ -29,7 +31,6 @@ const GroupStudentsSidebarItem = ({
 
   useEffect(() => {
     if (data) {
-      console.log(data, " is data")
       setStudents(data.users)
     }
   }, [refetch, students])
@@ -58,7 +59,7 @@ const GroupStudentsSidebarItem = ({
                 <LoaderSmall />
               </div>
             ) :
-              <AddStudentList students={data.users} />
+              <AddStudentList groupId={groupId || 0} students={data.users} />
           }
         </div>
       </div>
