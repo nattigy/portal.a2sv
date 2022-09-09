@@ -81,16 +81,16 @@ const StudentTable = (props: Props) => {
               </th>
               <th scope="col" className="py-3 px-6">
                 <div className="flex flex-row gap-x-1">
-                  <div className="text-[#979797]">Nationality</div>
+                  <div className="text-[#979797]">Residence</div>
                   <div className="flex flex-row">
                     <FaLongArrowAltUp className="-mr-2 pr-1" />
                     <FaLongArrowAltDown />
                   </div>
                 </div>
               </th>
-              <th scope="col" className="py-3 px-6">
+              {/* <th scope="col" className="py-3 px-6">
                 <div className="text-[#979797]">Residence</div>
-              </th>
+              </th> */}
               <th scope="col" className="py-3 px-6">
                 <div className="text-[#979797]">Date Joined</div>
               </th>
@@ -148,10 +148,10 @@ const StudentTable = (props: Props) => {
                         )}
                       </div>
                     </td>
-                    <td className="py-4 px-6">{student.group?.country}</td>
+                    {/* <td className="py-4 px-6">{student.group?.country}</td> */}
                     <td className="py-4 px-6">
                       <div className="flex flex-row gap-x-2">
-                        {/* {format(new Date(student.createdAt), "MMM, d, u")} */}
+                        {format(new Date(student.createdAt), "MMM, d, u")}
                       </div>
                     </td>
                     <td className="py-4 px-6">

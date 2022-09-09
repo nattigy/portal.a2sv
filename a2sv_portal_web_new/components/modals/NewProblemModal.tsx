@@ -106,7 +106,6 @@ const NewProblemModal = (props: Props) => {
         >
           {({ isSubmitting, errors, touched }) => (
             <Form>
-              {JSON.stringify(errors)}
               <div
                 role="alert"
                 className="flex flex-col gap-y-3 min-h-[400px] bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-10 py-5"

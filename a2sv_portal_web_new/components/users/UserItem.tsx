@@ -31,11 +31,11 @@ const UserItem = ({ id, email, role }: UserProps) => {
           </p>
           <div className="flex flex-row items-center justify-between">
             <UserRoleChip role={role} />
-            <CustomLink href={`users/${id}`}>
-              <div className="text-[#5956E9] text-[12px] font-semibold mx-2 justify-end">
-                Details
-              </div>
-            </CustomLink>
+            {/* <CustomLink href={`users/${id}`}> */}
+            <div className="text-[#5956E9] text-[12px] font-semibold mx-2 justify-end">
+              Details
+            </div>
+            {/* </CustomLink> */}
           </div>
         </div>
         <div className="flex justify-start items-start h-full py-2">

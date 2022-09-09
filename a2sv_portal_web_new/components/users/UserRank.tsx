@@ -8,9 +8,6 @@ export type UserRankProps = {
   selected: any;
 };
 
-
-
-
 const UserRank = ({ selected }: UserRankProps) => {
   const [fetchUser, { refetch, data, loading, error }] =
     useGetSingleUser(selected);
@@ -19,28 +16,28 @@ const UserRank = ({ selected }: UserRankProps) => {
       id: 1,
       color: "#5CB85C",
       name: "Daily",
-      standing: getRandomNumber(1, 66),
+      standing: getRandomNumber(1, 65),
       totalStudents: 65,
     },
     {
       id: 2,
       color: "#FFDC60",
       name: "Weekly",
-      standing: getRandomNumber(1, 66),
+      standing: getRandomNumber(1, 65),
       totalStudents: 65,
     },
     {
       id: 3,
       color: "#D72B2BCC",
       name: "Monthly",
-      standing: getRandomNumber(1, 66),
+      standing: getRandomNumber(1, 65),
       totalStudents: 65,
     },
     {
       id: 4,
       color: "#5956E9",
       name: "All time",
-      standing: getRandomNumber(1, 66),
+      standing: getRandomNumber(1, 65),
       totalStudents: 65,
     },
   ];
@@ -77,8 +74,8 @@ const UserRank = ({ selected }: UserRankProps) => {
                 <p className="font-semibold">
                   {data.user?.userProfile
                     ? data.user?.userProfile?.firstName +
-                    " " +
-                    data.user?.userProfile?.lastName
+                      " " +
+                      data.user?.userProfile?.lastName
                     : "No Name"}
                 </p>
                 <p className="font-semibold">{data.user && data.user.email}</p>
