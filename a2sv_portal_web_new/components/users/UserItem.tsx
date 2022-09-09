@@ -3,8 +3,12 @@ import CustomLink from "../common/CustomLink";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { GraphqlUserRole, UserRoleType } from "../../types/user";
 import UserRoleChip from "./UserRoleChip";
+import PromoteStudent from "../common/PromoteStudent";
+import { useMutation, useReactiveVar } from "@apollo/client";
+import { PROMOTE_USER_TO_HOE_MUTATION } from "../../lib/apollo/Mutations/usersMutations";
+import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 export type UserProps = {
-  id?: number;
+  id: number;
   fullname: string;
   email: string;
   role: GraphqlUserRole;
@@ -16,6 +20,26 @@ export type UserProps = {
 };
 
 const UserItem = ({ id, email, role }: UserProps) => {
+  const [promoteStudent, { loading, data }] = useMutation(
+    PROMOTE_USER_TO_HOE_MUTATION
+  );
+  const authUser = useReactiveVar(authenticatedUser) as AuthUser;
+
+  const handlePromote = async () => {
+    await promoteStudent({
+      variables: {
+        updateUserInput: {
+          id: parseInt(id?.toString()),
+          role: GraphqlUserRole.HEAD_OF_EDUCATION,
+        },
+      },
+      refetchQueries: "active",
+      notifyOnNetworkStatusChange: true,
+      onCompleted: (data) => {},
+      onError: (error) => {},
+    });
+  };
+
   return (
     <div>
       <div className="min-h-[90px] cursor-pointer gap-x-2 bg-white border flex items-center justify-start px-2 rounded-md">
@@ -38,8 +62,11 @@ const UserItem = ({ id, email, role }: UserProps) => {
             {/* </CustomLink> */}
           </div>
         </div>
-        <div className="flex justify-start items-start h-full py-2">
-          <BsThreeDotsVertical color="#565656" size={14} />
+        <div className="flex justify-start items-start h-full py-2 ">
+          {authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY &&
+            role === GraphqlUserRole.STUDENT && (
+              <PromoteStudent onClick={handlePromote} />
+            )}
         </div>
       </div>
       {/* <div className="border-2 overflow-hidden min-h-[90px] flex justify-start bg-white items-center cursor-pointer gap-x-2 rounded-md drop-shadow-sm px-5">

@@ -24,7 +24,7 @@ const UsersPage = (props: Props) => {
   const [selected, setSelected] = useState(0);
   useEffect(() => {
     loadUsers();
-  }, [tabIndex]);
+  }, [tabIndex, refetch]);
 
   useEffect(() => {
     if (data) {

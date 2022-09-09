@@ -1,12 +1,11 @@
 import { ApolloError, useMutation } from "@apollo/client";
 import { Formik, Form, Field } from "formik";
 import React, { useEffect, useState } from "react";
-import { ADD_TOPIC_TO_GROUP, ASSIGN_HOE_TO_GROUP } from "../../lib/apollo/Mutations/groupsMutations";
-import * as yup from "yup"
-import { AiOutlineUser } from "react-icons/ai";
+import { ADD_TOPIC_TO_GROUP } from "../../lib/apollo/Mutations/groupsMutations";
+import * as yup from "yup";
 import clsx from "clsx";
 import AutoCompleteSearch from "../common/AutocompleteSearch";
-import useGetAllTopicsBySeasonIdQuery, { useGetAllTopicsByForSearchQuery } from "../../lib/hooks/useTopics";
+import { useGetAllTopicsByForSearchQuery } from "../../lib/hooks/useTopics";
 import { LoaderSmall } from "../common/Loaders";
 
 export enum SeasonTypes {
@@ -27,7 +26,8 @@ export type AutoCompleteFieldProps = {
 };
 
 const AddTopicToGroupModal = (props: Props) => {
-  const [addTopicToGroup, { loading: isLoading, data, }] = useMutation(ADD_TOPIC_TO_GROUP);
+  const [addTopicToGroup, { loading: isLoading, data }] =
+    useMutation(ADD_TOPIC_TO_GROUP);
   const INITIAL_VALUES = {} as FormValues;
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -36,22 +36,21 @@ const AddTopicToGroupModal = (props: Props) => {
     name: "",
   };
   const [selected, setSelected] = useState(initialState);
-  const [selectedTopic, setSelectedTopic] = useState(initialState)
-  const [fetchTopics, { loading, data: topicData, error, refetch }] = useGetAllTopicsByForSearchQuery()
+  const [selectedTopic, setSelectedTopic] = useState(initialState);
+  const [fetchTopics, { loading, data: topicData, error, refetch }] =
+    useGetAllTopicsByForSearchQuery();
 
   const FORM_VALIDATION = yup.object().shape({
     topicId: yup.string().required("Required"),
   });
 
   useEffect(() => {
-    fetchTopics()
+    fetchTopics();
   }, [refetch]);
 
-
   const handleSelect = (val: any) => {
-    setSelected(val)
-
-  }
+    setSelected(val);
+  };
   return (
     <>
       <div className=" transition-all duration-200 py-8 text-[#565656] w-screen h-screen absolute top-0 bottom-0 left-0 right-0 bg-gray-900 bg-opacity-30 z-50">
@@ -59,16 +58,20 @@ const AddTopicToGroupModal = (props: Props) => {
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
-            console.log(selected.id.toString(), props.groupId.toString(), " sfasfasf");
+            console.log(
+              selected.id?.toString(),
+              props.groupId?.toString(),
+              " sfasfasf"
+            );
             await addTopicToGroup({
               variables: {
                 updateGroupInput: {
                   topics: [
                     {
-                      id: parseInt(values.topicId.toString())
-                    }
+                      id: parseInt(values.topicId?.toString()),
+                    },
                   ],
-                  id: parseInt(props.groupId.toString())
+                  id: parseInt(props.groupId?.toString()),
                 },
               },
               refetchQueries: "active",
@@ -89,6 +92,7 @@ const AddTopicToGroupModal = (props: Props) => {
                 role="alert"
                 className="flex flex-col gap-y-2 min-h-[300px] bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-8 py-5"
               >
+                {JSON.stringify(props)}
                 <div className="w-full flex flex-col items-cente">
                   <div className="mt-3 w-full flex justify-between items-center">
                     <h2 className="font-semibold text-lg">Assign User</h2>
@@ -125,17 +129,19 @@ const AddTopicToGroupModal = (props: Props) => {
 
                   <div className="mt-4">
                     <div className="flex flex-col justify-start gap-y-4">
-                      <div className={clsx("flex items-center ")} >
-                        {
-                          loading ? (
-                            <LoaderSmall />
-                          ) : (
-                            <AutoCompleteSearch selectedTopic={selectedTopic} setSelectedTopic={(val) => {
-                              setFieldValue("topicId", val.id)
-                              setSelectedTopic(val)
-                            }} topics={topicData?.topics || []} />
-                          )
-                        }
+                      <div className={clsx("flex items-center ")}>
+                        {loading ? (
+                          <LoaderSmall />
+                        ) : (
+                          <AutoCompleteSearch
+                            selectedTopic={selectedTopic}
+                            setSelectedTopic={(val) => {
+                              setFieldValue("topicId", val.id);
+                              setSelectedTopic(val);
+                            }}
+                            topics={topicData?.topics || []}
+                          />
+                        )}
                       </div>
                     </div>
                   </div>
@@ -147,7 +153,6 @@ const AddTopicToGroupModal = (props: Props) => {
                   <div className="">
                     <div className="flex flex-col justify-start gap-y-4">
                       <div>
-
                         <p className="w-full text-xs text-red-500">
                           {/* {errors.name} */}
                         </p>
@@ -172,7 +177,6 @@ const AddTopicToGroupModal = (props: Props) => {
                     </button>
                     <button
                       type="submit"
-                      disabled={isSubmitting}
                       className="flex justify-center items-center min-w-min px-6 py-3 mt-4 text-sm font-semibold text-white bg-primary rounded-lg"
                     >
                       {isLoading && (

@@ -46,3 +46,16 @@ export const UPDATE_USER_PROFILE_MUTATION = gql`
     }
   }
 `;
+
+
+export const PROMOTE_USER_TO_HOE_MUTATION = gql`
+  mutation UpdateUser($updateUserInput: UpdateUserInput!) {
+    updateUser(updateUserInput: $updateUserInput) {
+      email
+      id
+      status
+      role
+      groupId
+    }
+  }
+`;
