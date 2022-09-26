@@ -1,12 +1,6 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { WithChildren } from "../../types/common";
-import clsx from "clsx";
-import CustomLink from "./CustomLink";
 import { useRouter } from "next/router";
-import { GiCampfire } from "react-icons/gi";
-import { TiGroupOutline } from "react-icons/ti";
-import { HiUsers, HiOutlineNewspaper } from "react-icons/hi";
-import { ImMakeGroup } from "react-icons/im";
 import { useMutation, useReactiveVar } from "@apollo/client";
 
 import {
@@ -44,6 +38,10 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
     setActivePath(router.pathname);
   }, [router.pathname]);
 
+  const goToProfile = () => {
+    router.push("/profile");
+  };
+
   const handleLogout = async () => {
     try {
       await logout({
@@ -77,24 +75,16 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
     const userRole: string = user.role;
     switch (userRole) {
       case GraphqlUserRole.STUDENT: {
-        return (
-          <StudentRoleSidebar/>
-        );
+        return <StudentRoleSidebar />;
       }
       case GraphqlUserRole.HEAD_OF_EDUCATION: {
-        return (
-          <HOERoleSidebar/>
-        );
+        return <HOERoleSidebar />;
       }
       case GraphqlUserRole.HEAD_OF_ACADEMY: {
-        return (
-          <HOARoleSidebar/>
-        );
+        return <HOARoleSidebar />;
       }
       default: {
-        return (
-          <StudentRoleSidebar/>
-        );
+        return <StudentRoleSidebar />;
       }
     }
   };
@@ -135,6 +125,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
 
             <div className="pb-4 flex flex-col gap-y-5 items-center justify-center">
               <button
+                onClick={goToProfile}
                 type="button"
                 className="flex w-8 h-8 items-center justify-center text-sm font-medium text-gray-700 transition-all duration-200 rounded-lg hover:bg-gray-100"
               >
@@ -173,7 +164,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
       </div>
       <div className="flex flex-col flex-1 min-h-screen max-h-screen no-scrollbar overflow-auto">
         <main>
-          <div className="bg-[#F6F6FC] p-4 mx-auto max-w-7xl  sm:px-6 md:px-8">
+          <div className="bg-[#F6F6FC] p-4 max-w-full sm:px-6 md:px-8">
             {children}
           </div>
         </main>
