@@ -4,7 +4,7 @@ import ContestSidebarItem from "../../components/contests/ContestSidebarItem";
 import PreviousContestsItem, {
   ContestDetail,
 } from "../../components/contests/PreviousContestsItem";
-import UpcomingContestItem from "../../components/contests/UpcomingContestItem";
+import UpcomingContestItem, { UpcomingContests } from "../../components/contests/UpcomingContestItem";
 import { ContestInfo } from "../../components/dashboard/ContestRating";
 
 const IndexPage = () => {
@@ -60,6 +60,27 @@ const IndexPage = () => {
       timeSpent: "Something",
     },
   ];
+
+  const upcomingContests: Array<UpcomingContests> = [
+    {
+      id: 1,
+      name: "A2SV G3 01",
+      div: 2,
+      date: "Saturday 3:30LT",
+    },
+    {
+      id: 2,
+      name: "A2SV G3 01",
+      div: 2,
+      date: "Saturday 9:30LT",
+    },
+    {
+      id: 3,
+      name: "A2SV G3 01",
+      div: 1,
+      date: "Sunday 3:30LT",
+    },
+  ]
 
   const contestUserList: Array<ContestInfo> = [
     {
@@ -119,7 +140,7 @@ const IndexPage = () => {
     <BaseLayout sidebar={<Sidebar />}>
       <div className="flex flex-col gap-y-4">
         <h1 className="font-bold text-2xl">Contest</h1>
-        <UpcomingContestItem />
+        <UpcomingContestItem upcomingContests={upcomingContests} />
         <PreviousContestsItem contests={contests} />
       </div>
     </BaseLayout>
