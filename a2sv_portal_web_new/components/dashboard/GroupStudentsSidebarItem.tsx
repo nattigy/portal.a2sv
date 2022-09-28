@@ -16,58 +16,53 @@ export type GroupStudentsSidebarProps = {
 };
 
 type Props = {
-  groupStudentSidebarItem?: GroupStudentsSidebarProps;
+  groupHead?: GroupStudentsSidebarProps;
   showStudentList?: boolean;
   groupId: number;
 };
 
 const GroupStudentsSidebarItem = ({
-  groupStudentSidebarItem,
+  groupHead,
   groupId,
   showStudentList,
 }: Props) => {
-  const { data, loading, error, refetch } = useGetUsersWithNoGroup()
-  const [students, setStudents] = useState([])
+  const { data, loading, error, refetch } = useGetUsersWithNoGroup();
+  const [students, setStudents] = useState([]);
 
   useEffect(() => {
     if (data) {
-      setStudents(data.users)
+      setStudents(data.users);
     }
-  }, [refetch, students])
-
+  }, [refetch, students]);
 
   return (
-    <div className={clsx("h-full flex flex-col")}>
+    <div className={clsx("h-full flex flex-col gap-y-2 justify-between")}>
       <div className={clsx("flex flex-col gap-y-2 transition-all")}>
-        <div className="flex flex-row justify-end items-center px-1 gap-2 text-sm hover:bg-[#F6F6FC]">
-          <div className="flex flex-none justify-center w-3/12 py-2 items-center rounded-lg">
-            <img src={groupStudentSidebarItem?.photo} alt="" />
+        <div className="flex flex-row justify-start items-center gap-3 text-sm hover:bg-[#F6F6FC]">
+          <div className="flex justify-center w-3/12 py-2 items-center rounded-lg">
+            <img src={groupHead?.photo} alt="" />
           </div>
-          <div className="flex flex-col items-start justify-end w-7/12">
-            <p className="font-semibold text-lg truncate text-ellipsis">
-              {groupStudentSidebarItem?.name}
+          <div className="flex flex-col w-7/12 items-start justify-end">
+            <p className="w-full font-semibold text-md truncate text-ellipsis">
+              {groupHead ? groupHead?.name : "No Name"}
             </p>
-            <p className="text-sm font-medium">
-              {groupStudentSidebarItem?.role}
-            </p>
+            <p className="text-xs font-medium">Head of Education</p>
           </div>
         </div>
         <div className={clsx(showStudentList ? "flex flex-col" : "hidden")}>
-          {
-            loading ? (
-              <div className="w-full h-full flex justify-center items-center">
-                <LoaderSmall />
-              </div>
-            ) :
-              <AddStudentList groupId={groupId || 0} students={data.users} />
-          }
+          {loading ? (
+            <div className="w-full h-full flex justify-center items-center">
+              <LoaderSmall />
+            </div>
+          ) : (
+            <AddStudentList groupId={groupId || 0} students={data.users} />
+          )}
         </div>
       </div>
-      <div className="flex flex-col">
-        <img src="images/group-students.svg" alt="" />
-        <p className="text-center text-xs">
-          Here‘s the list of all groups Here‘s the list of all groups Here‘s
-          the list of all groups.
+      <div className="flex flex-col pb-4">
+        <img className={clsx(showStudentList ? "hidden" : "")} src="/images/group-students.svg" alt="" />
+        <p className={clsx(showStudentList ? "text-center text-xs" : "hidden")}>
+          Here‘s the list of all students that are not assigned a group yet!
         </p>
       </div>
     </div>
