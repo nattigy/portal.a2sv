@@ -6,10 +6,14 @@ export const GET_SINGLE_GROUP_QUERY = gql`
       country
       createdAt
       head {
-        id
-        groupId
-        email
+      id
+      role
+      email
+      userProfile {
+        firstName
+        lastName
       }
+    }
       headId
       id
       name

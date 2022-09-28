@@ -7,6 +7,7 @@ import StudentSidebar from "./StudentSidebar";
 import GroupStudents from "./GroupStudents";
 import router from "next/router";
 import useGroupDetail from "../../lib/hooks/useGroupDetail";
+import { GroupStudentsSidebarProps } from "./GroupStudentsSidebarItem";
 
 type Props = {
   groupId: number;
@@ -40,9 +41,16 @@ const GroupInfo = (props: Props) => {
   const handleTabChange = (index: number) => {
     setTabIndex(index);
   };
+  const groupHeadData : GroupStudentsSidebarProps = {
+    id:data?.group.head.id,
+    role:data?.group.head.role,
+    name:data?.group.head.email,
+    photo:"/images/group-students-profile.svg",
+
+  }
 
   return (
-    <BaseLayout sidebar={tabIndex == 0 ? <StatSidebar /> : <StudentSidebar groupId={props.groupId} showStudentList={isAddStudentToGroupSidebarOpen} />}>
+    <BaseLayout sidebar={tabIndex == 0 ? <StatSidebar /> : <StudentSidebar groupId={props.groupId} showStudentList={isAddStudentToGroupSidebarOpen} groupHead={groupHeadData}/>}>
       <div className="flex flex-col relative">
         <h1 className="text-2xl font-bold mb-2">Dashboard</h1>
         <DashboardFilter

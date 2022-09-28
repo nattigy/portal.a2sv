@@ -44,11 +44,11 @@ const AddStudentListItem = ({
         value={studentProps.id}
         type="checkbox"
       />
-      <label className="cursor-pointer" htmlFor={studentProps.id.toString()} >
+      <label className="w-full cursor-pointer" htmlFor={studentProps.id.toString()} >
         <div className="flex items-center gap-x-2" >
           <img src="/images/group-students-profile.svg" className="w-12" alt="" />
           <div className="flex flex-col justify-around">
-            <span className="font-semibold text-sm truncate w-40">{studentProps.email}</span>
+            <span className="w-32 font-semibold text-xs truncate">{studentProps.email}</span>
             <span className="font-light text-xs">{studentProps.role}</span>
           </div>
         </div>
