@@ -8,4 +8,6 @@ export class CreateGroupTopicInput extends PartialType(GroupTopic) {
   groupId: number
   @Field(() => Int)
   topicId: number
+  @Field(() => Int)
+  seasonId: number
 }

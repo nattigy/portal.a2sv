@@ -20,4 +20,6 @@ export class UpdateGroupInput {
   headId?: number
   @Field(() => UpdateUserInput, { nullable: true })
   head?: UpdateUserInput
+  @Field(() => Int, { defaultValue: 1 })
+  currentSeasonId = 1
 }

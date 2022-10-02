@@ -22,13 +22,13 @@ model Group {
 }
 
 model Season {
-  id        Int       @id @default(autoincrement())
-  name      String    @unique
-  startDate DateTime  @default(now())
-  endDate   DateTime  @default(now())
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
-  topics    Topic[]
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  startDate   DateTime     @default(now())
+  endDate     DateTime     @default(now())
+  createdAt   DateTime?    @default(now())
+  updatedAt   DateTime?    @updatedAt
+  groupTopics GroupTopic[]
 }
 
 model Permission {
@@ -100,7 +100,6 @@ model Topic {
   description String?
   createdAt   DateTime?    @default(now())
   updatedAt   DateTime?
-  season      Season       @relation(fields: [seasonId], references: [id])
   groups      GroupTopic[]
 }
 
@@ -143,21 +142,24 @@ model GroupTopic {
   group     Group?              @relation(fields: [groupId], references: [id])
   topic     Topic?              @relation(fields: [topicId], references: [id])
   problems  GroupTopicProblem[]
+  season    Season?             @relation(fields: [seasonId], references: [id])
+  seasonId  Int
 
-  @@id([groupId, topicId])
+  @@id([groupId, topicId, seasonId])
 }
 
 model GroupTopicProblem {
   problemId  Int
   groupId    Int
   topicId    Int
+  seasonId    Int
   createdAt  DateTime                @default(now())
   updatedAt  DateTime                @updatedAt
-  groupTopic GroupTopic              @relation(fields: [groupId, topicId], references: [groupId, topicId])
+  groupTopic GroupTopic              @relation(fields: [groupId, topicId, seasonId], references: [groupId, topicId, seasonId])
   problem    Problem                 @relation(fields: [problemId], references: [id])
   users      GroupTopicProblemUser[]
 
-  @@id([problemId, groupId, topicId])
+  @@id([problemId, groupId, topicId, seasonId])
 }
 
 model GroupTopicProblemUser {
@@ -165,14 +167,15 @@ model GroupTopicProblemUser {
   groupId           Int
   topicId           Int
   userId            Int
+  seasonId          Int
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
-  groupTopicProblem GroupTopicProblem @relation(fields: [groupId, topicId, problemId], references: [groupId, topicId, problemId])
+  groupTopicProblem GroupTopicProblem @relation(fields: [groupId, topicId, problemId, seasonId], references: [groupId, topicId, problemId, seasonId])
   user              User              @relation(fields: [userId], references: [id])
   solved            Boolean           @default(false)
   solutionLink      String?
   attempts          Int               @default(0)
   needHelp          Boolean           @default(false)
 
-  @@id([groupId, topicId, problemId, userId])
+  @@id([groupId, topicId, problemId, seasonId, userId])
 }

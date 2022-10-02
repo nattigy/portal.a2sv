@@ -68,7 +68,8 @@ export class GroupsService {
   }
 
   async updateGroup(updateGroupInput: UpdateGroupInput): Promise<Group> {
-    const { id, topics, users, head, headId, ...groupData } = updateGroupInput
+    const { currentSeasonId, id, topics, users, head, headId, ...groupData } =
+      updateGroupInput
     const queryData = groupData as any
     if (users) {
       queryData.users = {
@@ -80,12 +81,18 @@ export class GroupsService {
         connectOrCreate: topics.map((topic) => {
           return {
             where: {
-              groupId_topicId: {
+              groupId_topicId_seasonId: {
                 groupId: id,
                 topicId: topic.id,
+                seasonId: currentSeasonId,
               },
             },
             create: {
+              season: {
+                connect: {
+                  id: currentSeasonId,
+                },
+              },
               topic: {
                 connect: {
                   id: topic.id,
