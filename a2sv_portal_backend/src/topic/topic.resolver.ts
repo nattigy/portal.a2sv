@@ -7,16 +7,15 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql'
-// import { Group } from '@prisma/client'
-import { Group } from '../groups/entities/group.entity'
 import { Roles } from 'src/auth/auth.decorator'
-import { GroupTopic } from 'src/group-topic/entities/group-topic.entity'
-import { Season } from 'src/season/entities/season.entity'
 import { CreateTopicInput } from './dto/create-topic.input'
 import { GetTopicArgs } from './dto/get-topic.args'
 import { UpdateTopicInput } from './dto/update-topic.input'
 import { Topic } from './entities/topic.entity'
 import { TopicService } from './topic.service'
+import { GroupTopicSeason } from '../group-topic-season/entities/group-topic-season.entity'
+import { AddTopicToGroupInput } from './dto/add-topic-to-group-input'
+import { TopicActionStatus } from './entities/topic-action-status'
 
 @Resolver(() => Topic)
 export class TopicResolver {
@@ -51,6 +50,7 @@ export class TopicResolver {
   topic(@Args('id', { type: () => Int }) id: number) {
     return this.topicService.getTopicById(id)
   }
+
   @Roles(
     'ADMIN',
     'HEAD_OF_ACADEMY',
@@ -79,11 +79,6 @@ export class TopicResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @ResolveField(() => Season)
-  season(@Parent() topic: Topic): Season {
-    return topic.season
-  }
-
   @Roles(
     'ADMIN',
     'HEAD_OF_ACADEMY',
@@ -91,8 +86,22 @@ export class TopicResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @ResolveField(() => [GroupTopic], { nullable: 'itemsAndList' })
-  groups(@Parent() topic: Topic): GroupTopic[] | null {
-    return topic.groups
+  @ResolveField(() => [GroupTopicSeason], { nullable: 'itemsAndList' })
+  seasonGroups(@Parent() topic: Topic): GroupTopicSeason[] | null {
+    return topic.seasonGroups
+  }
+
+  @Mutation(() => TopicActionStatus)
+  async addTopicToGroup(
+    @Args('addTopicToGroupInput', { type: () => AddTopicToGroupInput })
+    addTopicToGroupInput: AddTopicToGroupInput,
+  ): Promise<TopicActionStatus> {
+    try {
+      await this.topicService.addTopicToGroup(addTopicToGroupInput)
+      return TopicActionStatus.SUCCESS
+    } catch (e) {
+      console.error(e)
+      return TopicActionStatus.FAILED
+    }
   }
 }

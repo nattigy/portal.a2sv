@@ -13,7 +13,7 @@ import { CreateProblemInput } from './dto/create-problem.input'
 import { UpdateProblemInput } from './dto/update-problem.input'
 import { Tag } from '@prisma/client'
 import { Roles } from 'src/auth/auth.decorator'
-import { GroupTopicProblem } from 'src/group-topic-problem/entities/group-topic-problem.entity'
+import { GroupTopicSeasonProblem } from '../group-topic-season-problem/entities/group-topic-season-problem.entity'
 
 @Resolver(() => Problem)
 export class ProblemResolver {
@@ -111,8 +111,8 @@ export class ProblemResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @ResolveField(() => [GroupTopicProblem], { nullable: 'itemsAndList' })
-  groupTopics(@Parent() problem: Problem): GroupTopicProblem[] {
-    return problem.groupTopics
+  @ResolveField(() => [GroupTopicSeasonProblem], { nullable: 'itemsAndList' })
+  groupTopics(@Parent() problem: Problem): GroupTopicSeasonProblem[] {
+    return problem.seasonGroupTopics
   }
 }

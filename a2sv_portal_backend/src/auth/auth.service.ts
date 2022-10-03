@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common'
 import { UserService } from '../user/user.service'
-import { User } from '@prisma/client'
 import { JwtService } from '@nestjs/jwt'
 import { CreateUserInput } from '../user/dto/create-user.input'
 import * as bcrypt from 'bcrypt'
 import { Context } from '@nestjs/graphql'
 import { Response } from 'express'
+import { User } from '@prisma/client'
 
 @Injectable()
 export class AuthService {

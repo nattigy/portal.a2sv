@@ -1,6 +1,6 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql'
-import { GroupTopicProblem } from 'src/group-topic-problem/entities/group-topic-problem.entity'
 import { Tag } from '../../tag/entities/tag.entity'
+import { GroupTopicSeasonProblem } from '../../group-topic-season-problem/entities/group-topic-season-problem.entity'
 
 @ObjectType()
 export class Problem {
@@ -16,8 +16,8 @@ export class Problem {
   difficulty: string
   @Field(() => [Tag], { nullable: true })
   tags?: Tag[]
-  @Field(() => [GroupTopicProblem], { nullable: true })
-  groupTopics?: GroupTopicProblem[]
+  @Field(() => [GroupTopicSeasonProblem], { nullable: true })
+  seasonGroupTopics?: GroupTopicSeasonProblem[]
   @Field({ nullable: true })
   createdAt?: Date
   @Field({ nullable: true })

@@ -10,7 +10,7 @@ async function main() {
     //     data:topics
     // })
     // await prisma.group.createMany({
-    //     data:groups
+    //     data:group
     // })
     //  await prisma.problem.createMany({
     //     data:problems

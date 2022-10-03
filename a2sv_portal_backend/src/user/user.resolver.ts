@@ -14,9 +14,9 @@ import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { GetUserArgs } from './dto/get-users.args'
 import { Roles } from 'src/auth/auth.decorator'
-import { GroupsService } from 'src/groups/groups.service'
-import { Group } from 'src/groups/entities/group.entity'
-import { GroupTopicProblemUser } from 'src/group-topic-problem-user/entities/group-topic-problem-user.entity'
+import { GroupsService } from 'src/group/groups.service'
+import { Group } from 'src/group/entities/group.entity'
+import { GroupTopicSeasonProblemUser } from '../group-topic-season-problem-user/entities/group-topic-season-problem-user.entity'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -115,8 +115,8 @@ export class UserResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @ResolveField(() => [GroupTopicProblemUser])
-  groupTopicProblems(@Parent() user: User): GroupTopicProblemUser[] {
-    return user.groupTopicProblems
+  @ResolveField(() => [GroupTopicSeasonProblemUser])
+  groupTopicProblems(@Parent() user: User): GroupTopicSeasonProblemUser[] {
+    return user.groupTopicSeasonProblems
   }
 }

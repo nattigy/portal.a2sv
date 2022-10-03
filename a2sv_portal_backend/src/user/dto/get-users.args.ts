@@ -15,11 +15,11 @@ export class GetUserArgs {
 
   @Field({ nullable: true })
   email: string
-  
+
   @Field({ nullable: true })
   groupId: number
 
-  @Field({name:'role', nullable: true })
+  @Field({ name: 'role', nullable: true })
   role: RoleEnum
 
   // @Field(() => WhereUserFilter, { nullable: true })

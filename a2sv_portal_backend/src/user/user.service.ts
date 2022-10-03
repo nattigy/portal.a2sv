@@ -1,17 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import {
-  User,
-  Prisma,
-  Status,
-  RoleEnum,
-  GroupTopicProblem,
-} from '@prisma/client'
-import {} from '../user/entities/user.entity'
-import { PrismaService } from '../prisma/prisma.service'
+import { Status, RoleEnum, User } from '@prisma/client'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import * as bcrypt from 'bcrypt'
 import { Parent } from '@nestjs/graphql'
+import { PrismaService } from '../prisma.service'
 
 @Injectable()
 export class UserService {
@@ -25,7 +18,7 @@ export class UserService {
         group: true,
         headToGroup: true,
         userProfile: true,
-        groupTopicProblems: true,
+        groupTopicSeasonProblems: true,
       },
       where: { email },
     })
@@ -47,7 +40,7 @@ export class UserService {
         group: true,
         userProfile: true,
         headToGroup: true,
-        groupTopicProblems: true,
+        groupTopicSeasonProblems: true,
       },
     })
   }
@@ -75,7 +68,7 @@ export class UserService {
         group: true,
         userProfile: true,
         headToGroup: true,
-        groupTopicProblems: true,
+        groupTopicSeasonProblems: true,
       },
     })
 
@@ -88,7 +81,7 @@ export class UserService {
         group: true,
         userProfile: true,
         headToGroup: true,
-        groupTopicProblems: true,
+        groupTopicSeasonProblems: true,
       },
       where: {
         id: id,
@@ -115,21 +108,16 @@ export class UserService {
     }
     if (groupTopicProblems) {
       queryData.groupTopicProblems = {
-        upsert: groupTopicProblems.map((groupTopicProblem) => {
-          const {
-            problemId,
-            topicId,
-            userId,
-            groupId,
-            ...groupTopicProblemData
-          } = groupTopicProblem
+        upsert: groupTopicProblems.map((GroupTopicSeasonProblem) => {
+          const { problemId, topicId, groupId, ...groupTopicProblemData } =
+            GroupTopicSeasonProblem
           return {
             where: {
               groupId_topicId_problemId_userId: {
                 groupId,
                 topicId,
                 problemId,
-                userId,
+                id,
               },
             },
             create: {
@@ -138,7 +126,7 @@ export class UserService {
               //     id: id,
               //   },
               // },
-              groupTopicProblem: {
+              GroupTopicSeasonProblem: {
                 connect: {
                   problemId_groupId_topicId: {
                     groupId,
@@ -154,7 +142,7 @@ export class UserService {
         }),
       }
       // queryData.groupTopicProblems = groupTopicProblems.map(
-      //   (groupTopicProblem) => {
+      //   (GroupTopicSeasonProblem) => {
 
       //     return {
 
@@ -177,7 +165,7 @@ export class UserService {
         group: true,
         userProfile: true,
         headToGroup: true,
-        groupTopicProblems: true,
+        groupTopicSeasonProblems: true,
       },
       data: queryData,
       where: { id },

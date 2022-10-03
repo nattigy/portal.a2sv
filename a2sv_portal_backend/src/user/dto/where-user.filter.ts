@@ -12,7 +12,6 @@ export class WhereUserFilter {
   groupId: Number
   @Field({ nullable: true })
   role: string
-
 }
 
 registerEnumType(Status, {

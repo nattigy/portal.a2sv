@@ -13,6 +13,7 @@ import { CreateSeasonInput } from './dto/create-season.input'
 import { UpdateSeasonInput } from './dto/update-season.input'
 import { Season } from './entities/season.entity'
 import { SeasonService } from './season.service'
+import { GroupTopicSeason } from '../group-topic-season/entities/group-topic-season.entity'
 
 @Resolver(() => Season)
 export class SeasonResolver {
@@ -50,8 +51,8 @@ export class SeasonResolver {
   }
 
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
-  @ResolveField(() => [Topic])
-  topics(@Parent() season: Season): Topic[] {
-    return season.topics
+  @ResolveField(() => [GroupTopicSeason])
+  groupTopics(@Parent() season: Season): GroupTopicSeason[] {
+    return season.groupTopics
   }
 }

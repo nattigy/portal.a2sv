@@ -11,7 +11,7 @@ ALTER TABLE "Group" ADD COLUMN     "headId" INTEGER;
 ALTER TABLE "User" ADD COLUMN     "groupId" INTEGER;
 
 -- CreateTable
-CREATE TABLE "GroupTopic" (
+CREATE TABLE "GroupTopicSeason" (
     "groupId" INTEGER NOT NULL,
     "topicId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -21,7 +21,7 @@ CREATE TABLE "GroupTopic" (
 );
 
 -- CreateTable
-CREATE TABLE "GroupTopicProblem" (
+CREATE TABLE "GroupTopicSeasonProblem" (
     "problemId" INTEGER NOT NULL,
     "groupId" INTEGER NOT NULL,
     "topicId" INTEGER NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE "GroupTopicProblem" (
 );
 
 -- CreateTable
-CREATE TABLE "GroupTopicProblemUser" (
+CREATE TABLE "GroupTopicSeasonProblemUser" (
     "problemId" INTEGER NOT NULL,
     "groupId" INTEGER NOT NULL,
     "topicId" INTEGER NOT NULL,
@@ -57,19 +57,19 @@ ALTER TABLE "Group" ADD CONSTRAINT "Group_headId_fkey" FOREIGN KEY ("headId") RE
 ALTER TABLE "User" ADD CONSTRAINT "User_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "Group"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "GroupTopic" ADD CONSTRAINT "GroupTopic_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "Group"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "GroupTopicSeason" ADD CONSTRAINT "GroupTopic_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "Group"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "GroupTopic" ADD CONSTRAINT "GroupTopic_topicId_fkey" FOREIGN KEY ("topicId") REFERENCES "Topic"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "GroupTopicSeason" ADD CONSTRAINT "GroupTopic_topicId_fkey" FOREIGN KEY ("topicId") REFERENCES "Topic"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "GroupTopicProblem" ADD CONSTRAINT "GroupTopicProblem_groupId_topicId_fkey" FOREIGN KEY ("groupId", "topicId") REFERENCES "GroupTopic"("groupId", "topicId") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "GroupTopicSeasonProblem" ADD CONSTRAINT "GroupTopicProblem_groupId_topicId_fkey" FOREIGN KEY ("groupId", "topicId") REFERENCES "GroupTopicSeason"("groupId", "topicId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "GroupTopicProblem" ADD CONSTRAINT "GroupTopicProblem_problemId_fkey" FOREIGN KEY ("problemId") REFERENCES "Problem"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "GroupTopicSeasonProblem" ADD CONSTRAINT "GroupTopicProblem_problemId_fkey" FOREIGN KEY ("problemId") REFERENCES "Problem"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "GroupTopicProblemUser" ADD CONSTRAINT "GroupTopicProblemUser_groupId_topicId_problemId_fkey" FOREIGN KEY ("groupId", "topicId", "problemId") REFERENCES "GroupTopicProblem"("groupId", "topicId", "problemId") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "GroupTopicSeasonProblemUser" ADD CONSTRAINT "GroupTopicProblemUser_groupId_topicId_problemId_fkey" FOREIGN KEY ("groupId", "topicId", "problemId") REFERENCES "GroupTopicSeasonProblem"("groupId", "topicId", "problemId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "GroupTopicProblemUser" ADD CONSTRAINT "GroupTopicProblemUser_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "GroupTopicSeasonProblemUser" ADD CONSTRAINT "GroupTopicProblemUser_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

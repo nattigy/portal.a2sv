@@ -1,8 +1,8 @@
-import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateRoleInput } from './dto/create-role.dto'
 import { UpdateRoleInput } from './dto/update-role.dto'
 import { Role } from '@prisma/client'
 import { Injectable } from '@nestjs/common'
+import { PrismaService } from '../prisma.service'
 
 @Injectable()
 export class RolesService {

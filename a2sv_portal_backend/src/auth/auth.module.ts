@@ -19,19 +19,15 @@ import { RolesGuard } from './guards/role.guard'
       signOptions: { expiresIn: jwtConstants.expiresIn },
     }),
   ],
-  providers: [
-    AuthService,
-    LocalStrategy,
-    AuthResolver,
-    JwtStrategy,
-    {
-      provide: 'APP_GUARD',
-      useClass: GqlAuthGuard,
-    },
-    {
-      provide: 'APP_GUARD',
-      useClass: RolesGuard,
-    },
-  ],
+  providers: [AuthService, LocalStrategy, AuthResolver, JwtStrategy],
+  //   {
+  //     provide: 'APP_GUARD',
+  //     useClass: GqlAuthGuard,
+  //   },
+  //   {
+  //     provide: 'APP_GUARD',
+  //     useClass: RolesGuard,
+  //   },
+  // ],
 })
 export class AuthModule {}
