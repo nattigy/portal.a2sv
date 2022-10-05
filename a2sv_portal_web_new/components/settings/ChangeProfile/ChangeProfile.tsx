@@ -3,7 +3,10 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
 import { useMutation, useReactiveVar } from "@apollo/client";
-import { authenticatedUser, AuthUser } from "../../../lib/constants/authenticated";
+import {
+  authenticatedUser,
+  AuthUser,
+} from "../../../lib/constants/authenticated";
 
 type Props = {};
 
@@ -28,9 +31,9 @@ const DisplayingErrorMessagesSchema = Yup.object().shape({
 });
 
 const ChangeProfile = (props: Props) => {
-  const authUser: AuthUser = useReactiveVar(authenticatedUser)
-  const isLoading = true
-  const [errorMessage, setErrorMessage] = useState("")
+  const authUser: AuthUser = useReactiveVar(authenticatedUser);
+  const isLoading = true;
+  const [errorMessage, setErrorMessage] = useState("");
   return (
     <div>
       <div className="flex items-center my-10 bg-white dark:bg-gray-900">
@@ -53,12 +56,9 @@ const ChangeProfile = (props: Props) => {
                   confirm: "",
                 }}
                 validationSchema={DisplayingErrorMessagesSchema}
-                onSubmit={async (values) => {
-
-                }}
+                onSubmit={async (values) => {}}
               >
                 {({ errors, touched, isValidating, values }) => (
-
                   <Form>
                     <div className="mb-6">
                       <label
@@ -173,8 +173,9 @@ const ChangeProfile = (props: Props) => {
                         disabled={isLoading}
                         type="submit"
                         className={clsx(
-                          "flex  justify-center items-center w-full px-3 py-4 text-white bg-indigo-500 disabled:bg-indigo-300 rounded-md focus:bg-indigo-600 focus:outline-none"
-                          , isLoading ? "opacity-50 cursor-not-allowed" : "")}
+                          "flex  justify-center items-center w-full px-3 py-4 text-white bg-indigo-500 disabled:bg-indigo-300 rounded-md focus:bg-indigo-600 focus:outline-none",
+                          isLoading ? "opacity-50 cursor-not-allowed" : ""
+                        )}
                       >
                         {isLoading ? (
                           <>
@@ -225,7 +226,7 @@ const ChangeProfile = (props: Props) => {
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 

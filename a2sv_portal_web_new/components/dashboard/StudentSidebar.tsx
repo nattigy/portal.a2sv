@@ -14,24 +14,31 @@ type Props = {};
 //   role: UserRoleType.HOE,
 // };
 
-const StudentSidebar: React.FC<{ groupId: number, showStudentList: boolean ,groupHead :GroupStudentsSidebarProps}> = ({
+const StudentSidebar: React.FC<{
+  groupId: number;
+  showStudentList: boolean;
+  groupHead: GroupStudentsSidebarProps;
+}> = ({
   showStudentList,
   groupId,
-  groupHead
+  groupHead,
 }: {
   showStudentList: boolean;
-  groupId: number
-  groupHead :GroupStudentsSidebarProps
+  groupId: number;
+  groupHead: GroupStudentsSidebarProps;
 }) => {
   const { data, loading, error, refetch } = useGetUsersWithNoGroup();
-  useEffect(() => { }, [refetch, data]);
+  useEffect(() => {}, [refetch, data]);
 
   return (
     <div className="h-full flex flex-col py-2">
-      <GroupStudentsSidebarItem groupId={groupId} showStudentList={showStudentList} groupHead={groupHead}/>
+      <GroupStudentsSidebarItem
+        groupId={groupId}
+        showStudentList={showStudentList}
+        groupHead={groupHead}
+      />
     </div>
   );
 };
-
 
 export default StudentSidebar;

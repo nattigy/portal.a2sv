@@ -68,7 +68,9 @@ const SingleContestProblems = (props: Props) => {
 
   return (
     <>
-      {isModalOpen && <ContestDetailModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <ContestDetailModal onClose={() => setIsModalOpen(false)} />
+      )}
       <div className="w-full flex flex-col justify-between bg-white rounded-md">
         <div className="flex justify-between">
           <h1 className="font-semibold px-6 py-4 my-2">Contest Stat</h1>

@@ -14,7 +14,6 @@ import DashboardTopicItem, {
 } from "./DashboardTopicItem";
 import GroupInfo from "./GroupInfo";
 
-
 type Props = {
   groupId: number;
 };
@@ -83,7 +82,7 @@ const strugglingWith: { percent: number; name: string }[] = [
 // ];
 
 const HOEDashboard = (props: Props) => {
-  console.log(props.groupId)
+  console.log(props.groupId);
 
   const Sidebar: React.FC = () => {
     return (
@@ -187,9 +186,7 @@ const HOEDashboard = (props: Props) => {
     },
   ];
 
-  return (
-      <GroupInfo groupId={props.groupId} />
-  );
+  return <GroupInfo groupId={props.groupId} />;
 };
 
 export default HOEDashboard;

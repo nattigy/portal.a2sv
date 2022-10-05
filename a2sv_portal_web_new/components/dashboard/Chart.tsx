@@ -112,7 +112,7 @@ const HOAChart = (props: Props) => {
       ],
     },
   ];
-  
+
   const defaultDataList = chartData.map((item, index) => ({
     name: item.name,
     data: item.data,

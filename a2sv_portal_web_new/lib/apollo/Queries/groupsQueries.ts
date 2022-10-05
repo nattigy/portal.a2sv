@@ -6,14 +6,14 @@ export const GET_SINGLE_GROUP_QUERY = gql`
       country
       createdAt
       head {
-      id
-      role
-      email
-      userProfile {
-        firstName
-        lastName
+        id
+        role
+        email
+        userProfile {
+          firstName
+          lastName
+        }
       }
-    }
       headId
       id
       name
@@ -31,8 +31,6 @@ export const GET_SINGLE_GROUP_QUERY = gql`
     }
   }
 `;
-
-
 
 export const GET_ALL_GROUPS_QUERY = gql`
   query GET_ALL_GROUPS_QUERY {

@@ -3,7 +3,8 @@ const API_URL =
 
 const NEXT_PUBLIC_API_URL = `${process.env.NEXT_PUBLIC_API_URL}/graphql`;
 
-const APOLLO_STATE_PROPERTY_NAME = process.env.APOLLO_STATE_PROPERTY_NAME || "__APOLLO_STATE__";
+const APOLLO_STATE_PROPERTY_NAME =
+  process.env.APOLLO_STATE_PROPERTY_NAME || "__APOLLO_STATE__";
 const COOKIES_TOKEN_NAME = "AUTHENTICATION";
 
 const configs = {

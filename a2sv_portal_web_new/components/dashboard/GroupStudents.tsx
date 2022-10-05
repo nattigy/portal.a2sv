@@ -3,7 +3,10 @@ import React, { ReactNode, useEffect, useState } from "react";
 import { FaLongArrowAltUp, FaLongArrowAltDown } from "react-icons/fa";
 import ProblemModalDetail from "../../components/modals/ProblemDetailModal";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
-import {  useUsersByGroupId, useUsersOfSingleGroup } from "../../lib/hooks/useUsers";
+import {
+  useUsersByGroupId,
+  useUsersOfSingleGroup,
+} from "../../lib/hooks/useUsers";
 import { LoaderSmall } from "../common/Loaders";
 import NewUserModal from "../modals/NewUserModal";
 import AddStudentList from "./AddStudentList";
@@ -16,7 +19,7 @@ type Props = {
     React.SetStateAction<boolean>
   >;
   groupData?: any;
-  groupId: number
+  groupId: number;
 };
 
 export type StudentsInfo = {

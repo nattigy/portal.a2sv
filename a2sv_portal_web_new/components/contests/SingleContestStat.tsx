@@ -56,7 +56,9 @@ const SingleContestStat = (props: Props) => {
         rankItem={{
           color: "#8A70D6",
           title: "Wrong Submissions",
-          content: <span className="text-2xl">{props.rankItem.wrong.toString()}</span>,
+          content: (
+            <span className="text-2xl">{props.rankItem.wrong.toString()}</span>
+          ),
           id: 3,
         }}
       />

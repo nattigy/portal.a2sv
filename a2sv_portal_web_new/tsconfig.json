@@ -15,6 +15,12 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/dashboard/[id]", "components/dashboard/HOAAcceptanceRate tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "pages/dashboard/[id]",
+    "components/dashboard/HOAAcceptanceRate tsx"
+  ],
   "exclude": ["node_modules"]
 }

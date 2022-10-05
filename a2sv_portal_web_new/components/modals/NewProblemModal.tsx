@@ -23,11 +23,9 @@ type Props = {
   onClose: () => void;
 };
 const NewProblemModal = (props: Props) => {
-  const [addNewProblem] = useMutation(CREATE_PROBLEM_MUTATION)
-  const [isLoading, setIsLoading] = useState(false)
-  const [errorMessage, setErrorMessage] = useState("")
-
-
+  const [addNewProblem] = useMutation(CREATE_PROBLEM_MUTATION);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [input, setInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
@@ -77,31 +75,32 @@ const NewProblemModal = (props: Props) => {
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
-            console.log(values, " is values")
-            setIsLoading(true)
+            console.log(values, " is values");
+            setIsLoading(true);
             await addNewProblem({
               variables: {
                 createProblemInput: {
                   difficulty: values.difficulty,
                   link: values.link,
                   title: values.name,
-                  tags: tags.map(tag => { return { name: tag } }),
+                  tags: tags.map((tag) => {
+                    return { name: tag };
+                  }),
                   platform: values.platform,
-                }
+                },
               },
               refetchQueries: "active",
               notifyOnNetworkStatusChange: true,
               onCompleted: (data) => {
-                setIsLoading(false)
-                props.onClose()
+                setIsLoading(false);
+                props.onClose();
               },
               onError: (error) => {
                 setErrorMessage((error as ApolloError).message);
-                setIsLoading(false)
-              }
-            })
-            actions.resetForm()
-
+                setIsLoading(false);
+              },
+            });
+            actions.resetForm();
           }}
         >
           {({ isSubmitting, errors, touched }) => (
@@ -345,15 +344,13 @@ const NewProblemModal = (props: Props) => {
                       </div>
                     </div>
                   </div>
-                  {
-                    errorMessage && (
-                      <div className="bg-[#E4646451] py-1 rounded-md">
-                        <span className="text-[#E46464] px-4 text-xs">
-                          {errorMessage}
-                        </span>
-                      </div>
-                    )
-                  }
+                  {errorMessage && (
+                    <div className="bg-[#E4646451] py-1 rounded-md">
+                      <span className="text-[#E46464] px-4 text-xs">
+                        {errorMessage}
+                      </span>
+                    </div>
+                  )}
                   <div className="flex justify-end items-center gap-x-3">
                     <button
                       onClick={() => props.onClose()}
@@ -366,14 +363,28 @@ const NewProblemModal = (props: Props) => {
                       disabled={isSubmitting}
                       className="min-w-min flex items-center px-6 py-2 mt-4 text-sm font-semibold text-white bg-primary rounded-lg"
                     >
-                      {
-                        isLoading && (
-                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                        )
-                      }
+                      {isLoading && (
+                        <svg
+                          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                      )}
                       Submit
                     </button>
                   </div>

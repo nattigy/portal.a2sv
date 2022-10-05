@@ -9,8 +9,8 @@ const filterItems: Array<FilterItem> = [
     title: "Social Media Handles",
   },
   {
-    title: "Programming Site Handles"
-  }
+    title: "Programming Site Handles",
+  },
 ];
 
 type Props = {

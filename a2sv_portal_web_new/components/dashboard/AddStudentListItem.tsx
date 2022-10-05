@@ -11,7 +11,7 @@ export type UserProps = {
 
 type Props = {
   studentProps: StudentsInfo;
-  handleStudentCheck: (id: number) => void,
+  handleStudentCheck: (id: number) => void;
 };
 
 export type StudentsInfo = {
@@ -22,21 +22,17 @@ export type StudentsInfo = {
   role: UserRoleType;
 };
 
-const AddStudentListItem = ({
-  studentProps,
-  handleStudentCheck,
-}: Props) => {
-
-  console.log(studentProps)
+const AddStudentListItem = ({ studentProps, handleStudentCheck }: Props) => {
+  console.log(studentProps);
 
   return (
-    <div className={
-      clsx(
-        "flex gap-x-4 py-2 cursor-pointer",
+    <div
+      className={clsx(
+        "flex gap-x-4 py-2 cursor-pointer"
         // ? "bg-[#5956E91F]"
         // : ""
-      )
-    } >
+      )}
+    >
       <input
         id={studentProps.id.toString()}
         className="w-4 rounded-md border-2 text-red-400"
@@ -44,16 +40,25 @@ const AddStudentListItem = ({
         value={studentProps.id}
         type="checkbox"
       />
-      <label className="w-full cursor-pointer" htmlFor={studentProps.id.toString()} >
-        <div className="flex items-center gap-x-2" >
-          <img src="/images/group-students-profile.svg" className="w-12" alt="" />
+      <label
+        className="w-full cursor-pointer"
+        htmlFor={studentProps.id.toString()}
+      >
+        <div className="flex items-center gap-x-2">
+          <img
+            src="/images/group-students-profile.svg"
+            className="w-12"
+            alt=""
+          />
           <div className="flex flex-col justify-around">
-            <span className="w-32 font-semibold text-xs truncate">{studentProps.email}</span>
+            <span className="w-32 font-semibold text-xs truncate">
+              {studentProps.email}
+            </span>
             <span className="font-light text-xs">{studentProps.role}</span>
           </div>
         </div>
       </label>
-    </div >
+    </div>
   );
 };
 

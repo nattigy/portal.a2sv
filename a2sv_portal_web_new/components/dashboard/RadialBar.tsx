@@ -34,7 +34,7 @@ const RadialBar = (props: Props) => {
     plotOptions: {
       radialBar: {
         track: {
-            margin:0,
+          margin: 0,
           background: "#FF000000",
         },
 

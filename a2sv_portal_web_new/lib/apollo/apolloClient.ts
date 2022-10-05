@@ -48,7 +48,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     //     `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
     //   )
     // );
-
     // if ((graphQLErrors[0].extensions.response as any)?.statusCode === 401) {
     //   authenticatedVar(false);
     //   authenticatedUser({});

@@ -42,7 +42,11 @@ const HOADashboard = (props: Props) => {
 
         <div className="grid grid-cols-12 gap-y-5 w-full">
           <div className="col-span-9 flex flex-row justify-between">
-            <SearchField onChange={()=>{}} placeholder="Search a group" id="group-search" />
+            <SearchField
+              onChange={() => {}}
+              placeholder="Search a group"
+              id="group-search"
+            />
             <CustomDropdown customProps={dropdown} />
           </div>
           <div className="col-span-9">

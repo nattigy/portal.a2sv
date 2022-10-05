@@ -13,19 +13,19 @@ const LineChart = (props: Props) => {
         enabled: false,
       },
       toolbar: {
-        show: false
-      }
+        show: false,
+      },
     },
     legend: {
-      position: 'top',
-      horizontalAlign: 'right',
+      position: "top",
+      horizontalAlign: "right",
       fontSize: "12",
       offsetY: 4,
       markers: {
         radius: 0,
         height: 9,
         width: 9,
-      }
+      },
     },
     colors: ["#8A70D6", "#FCAB5E"],
     markers: {

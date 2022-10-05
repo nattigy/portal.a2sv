@@ -32,7 +32,7 @@ const ProgrammingDetails = (props: Props) => {
   } as ProgrammingFormValues;
 
   return (
-    <div className="bg-white p-4"> 
+    <div className="bg-white p-4">
       {/* Title and buttons */}
       <div className="flex justify-between p-2">
         <div>
@@ -89,7 +89,7 @@ const ProgrammingDetails = (props: Props) => {
                 {(errors as any)["leetcode"]}
               </h1>
             </div>
-            <hr className="mx-2"/>
+            <hr className="mx-2" />
 
             <div className="flex">
               <div className="flex w-5/12 items-center gap-x-2 p-2">
@@ -117,7 +117,7 @@ const ProgrammingDetails = (props: Props) => {
                 {(errors as any)["geeksforgeeks"]}
               </h1>
             </div>
-            <hr className="mx-2"/>
+            <hr className="mx-2" />
 
             <div className="flex w-full">
               <div className="w-5/12 flex items-center gap-x-2 p-2">
@@ -144,7 +144,7 @@ const ProgrammingDetails = (props: Props) => {
                 {(errors as any)["hackerrank"]}
               </h1>
             </div>
-            <hr className="mx-2"/>
+            <hr className="mx-2" />
 
             <div className="w-full flex">
               <div className="flex w-5/12 items-center gap-x-2 p-2">

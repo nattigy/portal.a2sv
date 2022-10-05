@@ -21,10 +21,10 @@ const UpcomingContestItem = (props: Props) => {
   ];
 
   const router = useRouter();
-  const handleClick = (e:any) => {
+  const handleClick = (e: any) => {
     router.push({
       pathname: `/contests/${e.name}`,
-      query: {div: e.div}
+      query: { div: e.div },
     });
   };
   return (
@@ -37,10 +37,12 @@ const UpcomingContestItem = (props: Props) => {
               <div
                 key={contest.id}
                 style={{
-                  backgroundImage: `url(${images[Math.floor(Math.random()*images.length)]})`,
+                  backgroundImage: `url(${
+                    images[Math.floor(Math.random() * images.length)]
+                  })`,
                 }}
                 className="flex flex-col w-1/3 h-48 justify-between rounded-md items-end"
-                onClick={()=>handleClick(contest)}
+                onClick={() => handleClick(contest)}
               >
                 <div className="self-end p-2">
                   <div className="p-1 px-2 rounded-md bg-white text-[#5956E9] text-sm">

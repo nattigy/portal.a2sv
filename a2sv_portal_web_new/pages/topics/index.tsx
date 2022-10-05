@@ -15,8 +15,9 @@ import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../types/user";
 
 const IndexPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isAddTopicToGroupModalOpen, setIsAddTopicToGroupModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddTopicToGroupModalOpen, setIsAddTopicToGroupModalOpen] =
+    useState(false);
   const selectMenuItems = [
     {
       value: 2,
@@ -27,16 +28,13 @@ const IndexPage = () => {
       label: "Camp",
     },
   ];
-  const [selectedSeason, setSelectedSeason] = useState(
-    selectMenuItems[0]
-  );
+  const [selectedSeason, setSelectedSeason] = useState(selectMenuItems[0]);
   const dropdown: CustomDropdownProps = {
     label: "",
     options: ["Education", "Camp"],
   };
 
   const Sidebar: React.FC = () => {
-
     return (
       <div className="flex flex-col justify-between h-full">
         <div className="flex flex-col gap-y-5">
@@ -57,7 +55,6 @@ const IndexPage = () => {
   };
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
 
-
   const handleModalOpen = () => {
     setIsModalOpen(true);
   };
@@ -66,38 +63,36 @@ const IndexPage = () => {
     setIsAddTopicToGroupModalOpen(true);
   };
 
-
-
-  const ActiveComponent = ({ user }: {
+  const ActiveComponent = ({
+    user,
+  }: {
     user: {
-      id: string,
-      role: string,
-      status: string
-      email: string,
-    }
+      id: string;
+      role: string;
+      status: string;
+      email: string;
+    };
   }) => {
-
     switch (user.role) {
       case GraphqlUserRole.STUDENT: {
-        return <HOETopicsPage groupId={authUser?.headToGroup?.id} />
+        return <HOETopicsPage groupId={authUser?.headToGroup?.id} />;
       }
       case GraphqlUserRole.HEAD_OF_EDUCATION: {
-        return <HOETopicsPage groupId={authUser?.headToGroup?.id} />
+        return <HOETopicsPage groupId={authUser?.headToGroup?.id} />;
       }
       case GraphqlUserRole.HEAD_OF_ACADEMY: {
-        return <HOATopicsPage />
+        return <HOATopicsPage />;
       }
       default: {
-        return <HOETopicsPage groupId={authUser?.headToGroup?.id} />
+        return <HOETopicsPage groupId={authUser?.headToGroup?.id} />;
       }
     }
-
-  }
+  };
   return (
     <BaseLayout sidebar={<Sidebar />}>
       <ActiveComponent user={authUser as any} />
     </BaseLayout>
   );
-}
+};
 
 export default IndexPage;

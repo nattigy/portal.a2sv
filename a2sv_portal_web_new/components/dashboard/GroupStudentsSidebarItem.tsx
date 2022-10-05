@@ -60,7 +60,11 @@ const GroupStudentsSidebarItem = ({
         </div>
       </div>
       <div className="flex flex-col pb-4">
-        <img className={clsx(showStudentList ? "hidden" : "")} src="/images/group-students.svg" alt="" />
+        <img
+          className={clsx(showStudentList ? "hidden" : "")}
+          src="/images/group-students.svg"
+          alt=""
+        />
         <p className={clsx(showStudentList ? "text-center text-xs" : "hidden")}>
           Here‘s the list of all students that are not assigned a group yet!
         </p>

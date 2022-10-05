@@ -37,7 +37,6 @@ const Home: NextPage = () => {
   );
 };
 
-
 export const getServerSideProps = async ({
   req,
 }: GetServerSidePropsContext) => {

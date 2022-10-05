@@ -81,4 +81,3 @@ export const GET_ALL_GROUP_TOPICS_BY_SEASON_ID_QUERY = gql`
     }
   }
 `;
-

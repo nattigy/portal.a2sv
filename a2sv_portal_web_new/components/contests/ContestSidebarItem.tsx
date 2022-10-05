@@ -4,7 +4,7 @@ import { ContestInfo } from "../dashboard/ContestRating";
 import TopStudentsList from "./TopStudentsList";
 
 type Props = {
-  contestStanding: Array<ContestInfo>
+  contestStanding: Array<ContestInfo>;
 };
 
 const ContestSidebarItem = (props: Props) => {
