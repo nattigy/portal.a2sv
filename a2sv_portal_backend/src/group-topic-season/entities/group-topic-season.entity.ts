@@ -2,6 +2,7 @@ import { ObjectType, Field, Int } from '@nestjs/graphql'
 import { Group } from '../../group/entities/group.entity'
 import { Season } from '../../season/entities/season.entity'
 import { Topic } from '../../topic/entities/topic.entity'
+import {User} from "../../user/entities/user.entity";
 
 @ObjectType()
 export class GroupTopicSeason {

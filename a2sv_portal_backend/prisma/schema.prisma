@@ -60,6 +60,23 @@ model User {
   updatedAt                DateTime?
   groupTopicSeasonProblems GroupTopicSeasonProblemUser[]
   headToGroup              Group?                        @relation("GroupHead")
+  topics                   UserTopic[]
+}
+
+enum ComfortLevel {
+  COMFORTABLE
+  UNCOMFORTABLE
+  MEDIOCRE
+}
+
+model UserTopic {
+  userId       Int
+  topicId      Int
+  comfortLevel ComfortLevel @default(UNCOMFORTABLE)
+  user         User         @relation(fields: [userId], references: [id])
+  topic        Topic        @relation(fields: [topicId], references: [id])
+
+  @@id([userId, topicId])
 }
 
 model UserProfile {
@@ -100,6 +117,7 @@ model Topic {
   createdAt    DateTime?          @default(now())
   updatedAt    DateTime?          @updatedAt
   seasonGroups GroupTopicSeason[]
+  users        UserTopic[]
 }
 
 enum Status {
