@@ -5,6 +5,7 @@ import {CreateGroupTopicSeasonInput} from './dto/create-group-topic-season.input
 import {UpdateGroupTopicSeasonInput} from './dto/update-group-topic-season.input'
 import {Group} from "../group/entities/group.entity";
 import {Topic} from "../topic/entities/topic.entity";
+import {Season} from "../season/entities/season.entity";
 
 @Resolver(() => GroupTopicSeason)
 export class GroupTopicSeasonResolver {
@@ -55,5 +56,9 @@ export class GroupTopicSeasonResolver {
     @ResolveField(() => Topic)
     topic(@Parent() groupTopic: GroupTopicSeason) {
         return groupTopic.topic
+    }
+    @ResolveField(() => Season)
+    season(@Parent() groupTopic: GroupTopicSeason) {
+        return groupTopic.season
     }
 }
