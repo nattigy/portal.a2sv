@@ -34,7 +34,7 @@ export class GroupsResolver {
         'STUDENT',
     )
     @Query(() => [Group])
-    groups(@Args('filter', {type: () => GroupWhereInput}) where: GroupWhereInput) {
+    groups(@Args('filter', {type: () => GroupWhereInput, nullable: true}) where?: GroupWhereInput) {
         return this.groupsService.getGroups(where)
     }
 

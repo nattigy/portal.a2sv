@@ -73,8 +73,8 @@ export class GroupsService {
         return group
     }
 
-    async getGroups(filter: GroupWhereInput): Promise<Group[]> {
-        const {skip, take, seasonId, topicId, ...where} = filter
+    async getGroups(filter?: GroupWhereInput): Promise<Group[]> {
+        const {skip, take, seasonId, topicId, ...where} = filter || {}
 
 
         return this.prismaService.group.findMany({
