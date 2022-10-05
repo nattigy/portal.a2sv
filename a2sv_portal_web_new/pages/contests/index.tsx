@@ -4,7 +4,9 @@ import ContestSidebarItem from "../../components/contests/ContestSidebarItem";
 import PreviousContestsItem, {
   ContestDetail,
 } from "../../components/contests/PreviousContestsItem";
-import UpcomingContestItem, { UpcomingContests } from "../../components/contests/UpcomingContestItem";
+import UpcomingContestItem, {
+  UpcomingContests,
+} from "../../components/contests/UpcomingContestItem";
 import { ContestInfo } from "../../components/dashboard/ContestRating";
 
 const IndexPage = () => {
@@ -80,7 +82,7 @@ const IndexPage = () => {
       div: 1,
       date: "Sunday 3:30LT",
     },
-  ]
+  ];
 
   const contestUserList: Array<ContestInfo> = [
     {

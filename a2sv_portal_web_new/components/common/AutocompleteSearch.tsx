@@ -3,33 +3,35 @@ import clsx from "clsx";
 import { Combobox, Transition } from "@headlessui/react";
 import { LoaderSmall } from "./Loaders";
 
-
 type Props = {
   selectedTopic: any;
   setSelectedTopic: (val: any) => void;
-  topics: any,
+  topics: any;
 };
 
-function AutoCompleteSearch({ selectedTopic, setSelectedTopic, topics }: Props) {
+function AutoCompleteSearch({
+  selectedTopic,
+  setSelectedTopic,
+  topics,
+}: Props) {
   const [filteredTopics, setFilteredTopics] = useState<[]>([]);
   const [query, setQuery] = useState("");
 
   useEffect(() => {
     if (query.trim() !== "") {
       const searchTopics = topics.filter((topic: any) => {
-        console.log(query, " is topic".includes(""))
-        return topic?.name.toLowerCase().includes(query.trim().toLowerCase())
-      })
-      setFilteredTopics(searchTopics)
+        console.log(query, " is topic".includes(""));
+        return topic?.name.toLowerCase().includes(query.trim().toLowerCase());
+      });
+      setFilteredTopics(searchTopics);
     } else {
       setFilteredTopics(topics);
       setQuery("");
     }
   }, [query]);
 
-
   const handleSelect = (value: any) => {
-    setSelectedTopic(value)
+    setSelectedTopic(value);
     setQuery("");
   };
 
@@ -41,21 +43,22 @@ function AutoCompleteSearch({ selectedTopic, setSelectedTopic, topics }: Props) 
     setQuery(event.target.value.trim());
   };
 
-
   return (
     <div className="z-50 w-full flex justify-center py-2 text-blue-900 transition-all duration-500 ease-in">
       <div
-        className={`block w-full col-span-1 mt-1 rounded-md ${query.trim() !== "" && filteredTopics.length > 1
-          ? "bg-white"
-          : "text-ivory-800"
-          } `}
+        className={`block w-full col-span-1 mt-1 rounded-md ${
+          query.trim() !== "" && filteredTopics.length > 1
+            ? "bg-white"
+            : "text-ivory-800"
+        } `}
       >
         <Combobox value={selectedTopic} onChange={handleSelect}>
           <div
-            className={`transition-all ease-in-out duration-300 w-full border border-ivory-600 flex flex-col flex-wrap rounded-md sm:text-sm text-ivory-800 ${query.trim() !== "" && filteredTopics.length > 1
-              ? "bg-white text-ivory-800"
-              : "bg-white text-ivory-800"
-              }`}
+            className={`transition-all ease-in-out duration-300 w-full border border-ivory-600 flex flex-col flex-wrap rounded-md sm:text-sm text-ivory-800 ${
+              query.trim() !== "" && filteredTopics.length > 1
+                ? "bg-white text-ivory-800"
+                : "bg-white text-ivory-800"
+            }`}
           >
             <div
               className={clsx(
@@ -104,10 +107,10 @@ function AutoCompleteSearch({ selectedTopic, setSelectedTopic, topics }: Props) 
                 </Combobox.Options>
               </div>
             </Transition>
-          </div >
-        </Combobox >
-      </div >
-    </div >
+          </div>
+        </Combobox>
+      </div>
+    </div>
   );
 }
 

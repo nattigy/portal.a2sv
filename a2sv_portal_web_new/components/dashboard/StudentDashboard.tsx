@@ -5,13 +5,14 @@ import ConsistencyDiagramItem from "./ConsistencyDiagram";
 import ContestStatItem from "./ContestStatItem";
 import DashboardRankItem, { DashboardRankItemProps } from "./DashboardRankItem";
 import DashboardStruggledItem from "./DashboardStruggledItem";
-import DashboardTopicItem, { DashboardTopicItemProps } from "./DashboardTopicItem";
+import DashboardTopicItem, {
+  DashboardTopicItemProps,
+} from "./DashboardTopicItem";
 import ProblemSolvedItem, { ProblemSolvedProps } from "./ProblemSolvedItem";
 
 type Props = {};
 
 const StudentDashboard = (props: Props) => {
-
   const DashboardTopic: DashboardTopicItemProps[] = [
     {
       questions: 10,

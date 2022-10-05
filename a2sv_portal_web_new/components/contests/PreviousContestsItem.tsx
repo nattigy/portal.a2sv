@@ -64,7 +64,10 @@ const PreviousContestsItem = ({ contests }: Props) => {
               contests.map((contest: ContestDetail, index: number) => {
                 return (
                   <tr
-                    className={clsx("text-[#565656] hover:bg-gray-50 dark:hover:bg-[#E2E2E2]", index%2==0 ? "bg-[#5956E914]" : "bg-white" )}
+                    className={clsx(
+                      "text-[#565656] hover:bg-gray-50 dark:hover:bg-[#E2E2E2]",
+                      index % 2 == 0 ? "bg-[#5956E914]" : "bg-white"
+                    )}
                     key={contest.id}
                   >
                     <td scope="row" className="py-4 px-6 whitespace-nowrap ">

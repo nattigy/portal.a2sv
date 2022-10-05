@@ -8,7 +8,10 @@ const Login: NextPage = () => {
   return (
     <>
       <div className="h-screen bg-no-repeat bg-center bg-cover flex flex-col items-center pt-6 bg-login-pattern">
-        <div onClick={()=>router.push('/')} className="flex justify-between w-10/12 cursor-pointer">
+        <div
+          onClick={() => router.push("/")}
+          className="flex justify-between w-10/12 cursor-pointer"
+        >
           <img className="w-[7vw]" src="/images/A2SV-logo.svg" alt="" />
         </div>
 
@@ -28,7 +31,11 @@ const Login: NextPage = () => {
             </p>
           </div>
           <div className="hidden md:flex">
-            <img src="/images/login-person.svg" className="h-[80vh] w-[30vw]" alt="" />
+            <img
+              src="/images/login-person.svg"
+              className="h-[80vh] w-[30vw]"
+              alt=""
+            />
           </div>
           <div className="w-full lg:w-4/12">
             <LoginForm />

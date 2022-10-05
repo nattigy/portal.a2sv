@@ -23,14 +23,15 @@ type Props = {
 
 const NewTopicModal = (props: Props) => {
   const INITIAL_VALUES = {} as FormValues;
-  const [errorMessage, setErrorMessage] = useState("")
-  const [addNewTopic, { loading, error, data }] = useMutation(CREATE_TOPIC_MUTATION)
+  const [errorMessage, setErrorMessage] = useState("");
+  const [addNewTopic, { loading, error, data }] = useMutation(
+    CREATE_TOPIC_MUTATION
+  );
 
   const FORM_VALIDATION = yup.object().shape({
     season: yup.string().required("Required"),
     topic_title: yup.string().required("Required"),
     description: yup.string().required("Required"),
-
   });
 
   return (
@@ -46,20 +47,20 @@ const NewTopicModal = (props: Props) => {
                   description: values.description,
                   name: values.topic_title,
                   season: {
-                    name: values.season
-                  }
-                }
+                    name: values.season,
+                  },
+                },
               },
               refetchQueries: "active",
               notifyOnNetworkStatusChange: true,
               onCompleted: (data) => {
-                props.onClose()
+                props.onClose();
               },
               onError: (error) => {
                 setErrorMessage((error as ApolloError).message);
-              }
-            })
-            actions.resetForm()
+              },
+            });
+            actions.resetForm();
           }}
         >
           {({ isSubmitting, values, errors, touched }) => (
@@ -175,7 +176,6 @@ const NewTopicModal = (props: Props) => {
                                   )}
                                 />
                               </div>
-
                             </div>
                           </div>
                         </div>
@@ -207,22 +207,19 @@ const NewTopicModal = (props: Props) => {
                                   )}
                                 />
                               </div>
-
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  {
-                    errorMessage && (
-                      <div className="bg-[#E4646451] py-1 rounded-md">
-                        <span className="text-[#E46464] px-4 text-xs">
-                          {errorMessage}
-                        </span>
-                      </div>
-                    )
-                  }
+                  {errorMessage && (
+                    <div className="bg-[#E4646451] py-1 rounded-md">
+                      <span className="text-[#E46464] px-4 text-xs">
+                        {errorMessage}
+                      </span>
+                    </div>
+                  )}
                   <div className="flex justify-end items-center gap-x-3">
                     <button
                       onClick={() => props.onClose()}
@@ -235,14 +232,28 @@ const NewTopicModal = (props: Props) => {
                       disabled={isSubmitting}
                       className="min-w-min flex items-center px-6 py-3 mt-4 text-sm font-semibold text-white bg-primary rounded-lg"
                     >
-                      {
-                        loading && (
-                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                        )
-                      }
+                      {loading && (
+                        <svg
+                          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                      )}
                       Save
                     </button>
                   </div>

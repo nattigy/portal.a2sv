@@ -24,7 +24,7 @@ const ProfileForm = (props: CustomInputProps) => {
       setPreview("");
     }
   }, [preview, profile]);
-  
+
   return (
     <div className="w-full flex justify-between items-center p-2">
       <h1 className="text-sm font-semibold">{props.label}</h1>

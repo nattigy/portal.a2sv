@@ -14,18 +14,19 @@ type Props = {
 };
 
 const GroupInfo = (props: Props) => {
-  const [currentPath, setCurrentPath] = useState<number>(0)
+  const [currentPath, setCurrentPath] = useState<number>(0);
   const [tabIndex, setTabIndex] = useState(0);
-  const [isAddStudentToGroupSidebarOpen, setIsAddStudentToGroupSidebarOpen] = useState(false)
+  const [isAddStudentToGroupSidebarOpen, setIsAddStudentToGroupSidebarOpen] =
+    useState(false);
 
-  const { data, loading, error, refetch } = useGroupDetail(props.groupId)
+  const { data, loading, error, refetch } = useGroupDetail(props.groupId);
   // router.query["id"]?.toString()
-  console.log(data, " is group data users")
+  console.log(data, " is group data users");
   useEffect(() => {
     // setCurrentPath(parseInt(router.query["id"]?.toString() || "1"))
-    setCurrentPath(props.groupId)
-    refetch()
-  }, [router.pathname])
+    setCurrentPath(props.groupId);
+    refetch();
+  }, [router.pathname]);
   //   const [loadUsers, { loading, data, error, refetch }] = useFilteredUsers(tabIndex);
   //     useEffect(() => {
   //       loadUsers();
@@ -41,16 +42,27 @@ const GroupInfo = (props: Props) => {
   const handleTabChange = (index: number) => {
     setTabIndex(index);
   };
-  const groupHeadData : GroupStudentsSidebarProps = {
-    id:data?.group.head.id,
-    role:data?.group.head.role,
-    name:data?.group.head.email,
-    photo:"/images/group-students-profile.svg",
-
-  }
+  const groupHeadData: GroupStudentsSidebarProps = {
+    id: data?.group.head.id,
+    role: data?.group.head.role,
+    name: data?.group.head.email,
+    photo: "/images/group-students-profile.svg",
+  };
 
   return (
-    <BaseLayout sidebar={tabIndex == 0 ? <StatSidebar /> : <StudentSidebar groupId={props.groupId} showStudentList={isAddStudentToGroupSidebarOpen} groupHead={groupHeadData}/>}>
+    <BaseLayout
+      sidebar={
+        tabIndex == 0 ? (
+          <StatSidebar />
+        ) : (
+          <StudentSidebar
+            groupId={props.groupId}
+            showStudentList={isAddStudentToGroupSidebarOpen}
+            groupHead={groupHeadData}
+          />
+        )
+      }
+    >
       <div className="flex flex-col relative">
         <h1 className="text-2xl font-bold mb-2">Dashboard</h1>
         <DashboardFilter
@@ -64,7 +76,16 @@ const GroupInfo = (props: Props) => {
         ) : ( */}
         <div className="">
           {tabIndex == 0 && <StatComponent groupData={data} />}
-          {tabIndex == 1 && <GroupStudents groupId={props.groupId} groupData={data?.group} isAddStudentToGroupSidebarOpen={isAddStudentToGroupSidebarOpen} setIsAddStudentToGroupSidebarOpen={setIsAddStudentToGroupSidebarOpen} />}
+          {tabIndex == 1 && (
+            <GroupStudents
+              groupId={props.groupId}
+              groupData={data?.group}
+              isAddStudentToGroupSidebarOpen={isAddStudentToGroupSidebarOpen}
+              setIsAddStudentToGroupSidebarOpen={
+                setIsAddStudentToGroupSidebarOpen
+              }
+            />
+          )}
         </div>
         {/* )} */}
       </div>

@@ -46,15 +46,13 @@ export const useUsersByGroupId = (groupId: number) => {
 };
 
 export const useUsersOfSingleGroup = (id: number) => {
-  const groupId = parseInt(id?.toString()) || 0
+  const groupId = parseInt(id?.toString()) || 0;
   return useQuery(GET_SINGLE_GROUP_USERS_QUERY, {
     variables: {
-      groupId
-    }
-  })
-}
-
-
+      groupId,
+    },
+  });
+};
 
 export const useGetUsersWithNoGroup = () => {
   return useQuery(GET_STUDENTS_WITH_NO_GROUP_QUERY, {
@@ -69,7 +67,7 @@ export const useGetUsersWithNoGroup = () => {
 
 export const useGetSingleUser = (id: any) => {
   const userId = parseInt(id) || 0;
-  console.log(userId, "user id")
+  console.log(userId, "user id");
   return useLazyQuery(GET_SINGLE_USER_QUERY, {
     variables: {
       userId,

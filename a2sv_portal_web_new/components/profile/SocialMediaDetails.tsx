@@ -110,7 +110,7 @@ const SocialMediaDetails = (props: Props) => {
                 {(errors as any)["twitter"]}
               </h1>
             </div>
-            <hr className="mx-2"/>
+            <hr className="mx-2" />
 
             <div className="flex w-full">
               <div className="w-2/5 flex items-center gap-x-2 p-2">
@@ -137,7 +137,7 @@ const SocialMediaDetails = (props: Props) => {
                 {(errors as any)["telegram"]}
               </h1>
             </div>
-            <hr className="mx-2"/>
+            <hr className="mx-2" />
 
             <div className="w-full flex">
               <div className="flex w-2/5 items-center gap-x-2 p-2">

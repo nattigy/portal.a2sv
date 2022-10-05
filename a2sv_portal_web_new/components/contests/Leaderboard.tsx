@@ -4,13 +4,13 @@ import { BiDownArrowAlt, BiUpArrowAlt } from "react-icons/bi";
 import { ContestInfo } from "../dashboard/ContestRating";
 
 export type LeaderboardProps = {
-    id: number;
-    photo: string;
-    name: string;
-    solved: number;
-    total: number;
-    time: string;
-}
+  id: number;
+  photo: string;
+  name: string;
+  solved: number;
+  total: number;
+  time: string;
+};
 
 type Props = {
   contestStatus: Array<LeaderboardProps>;
@@ -54,8 +54,8 @@ const Leaderboard = ({ contestStatus }: Props) => {
                     className="bg-white text-[#565656] font-semibold text-xs hover:bg-gray-50 dark:hover:bg-[#E2E2E2]"
                     key={index}
                   >
-                   <td scope="row" className="p-1 whitespace-nowrap ">
-                      <div>{index+1}</div>
+                    <td scope="row" className="p-1 whitespace-nowrap ">
+                      <div>{index + 1}</div>
                     </td>
                     <td scope="row" className="whitespace-nowrap py-2 ">
                       <img
@@ -73,9 +73,7 @@ const Leaderboard = ({ contestStatus }: Props) => {
                       </div>
                     </td>
                     <td scope="row" className="pl-2 whitespace-nowrap ">
-                      <div>
-                        {contestLeaderboard.time}
-                      </div>
+                      <div>{contestLeaderboard.time}</div>
                     </td>
                   </tr>
                 );

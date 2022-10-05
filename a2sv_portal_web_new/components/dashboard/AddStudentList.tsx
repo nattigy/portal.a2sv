@@ -3,7 +3,10 @@ import CustomLink from "../common/CustomLink";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import AddStudentListItem, { StudentsInfo } from "./AddStudentListItem";
 import { UserRoleType } from "../../types/user";
-import { useGetUsersWithNoGroup, useUsersByGroupId } from "../../lib/hooks/useUsers";
+import {
+  useGetUsersWithNoGroup,
+  useUsersByGroupId,
+} from "../../lib/hooks/useUsers";
 import { LoaderSmall } from "../common/Loaders";
 import SearchField from "../common/SearchField";
 import { ApolloError, useMutation } from "@apollo/client";
@@ -14,32 +17,38 @@ export type UserProps = {
   fullname: string;
 };
 type Props = {
-  students: Array<StudentsInfo>
+  students: Array<StudentsInfo>;
   groupId: number;
-}
+};
 
 const AddStudentList = (props: Props) => {
-  const [searchStudents, setSearchStudents] = useState<Array<any>>(props.students)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedStudentCount, setSelectedStudentCount] = useState(0)
-  const [addStudentsToGroup, { loading, data, error }] = useMutation(ADD_STUDENTS_TO_GROUP)
-  const [isLoading, setIsLoading] = useState(false)
-  const [errorMessage, setErrorMessage] = useState("")
+  const [searchStudents, setSearchStudents] = useState<Array<any>>(
+    props.students
+  );
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedStudentCount, setSelectedStudentCount] = useState(0);
+  const [addStudentsToGroup, { loading, data, error }] = useMutation(
+    ADD_STUDENTS_TO_GROUP
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    setSearchStudents(props.students)
-  }, [props.students])
+    setSearchStudents(props.students);
+  }, [props.students]);
 
-  const [selectedStudent, setSelectedStudent] = useState<Set<number>>(new Set([]))
+  const [selectedStudent, setSelectedStudent] = useState<Set<number>>(
+    new Set([])
+  );
 
   const handleStudentCheck = (id: number) => {
     if (selectedStudent.has(id)) {
-      selectedStudent.delete(id)
+      selectedStudent.delete(id);
     } else {
-      selectedStudent.add(id)
+      selectedStudent.add(id);
     }
-    setSelectedStudentCount(selectedStudent.size)
-  }
+    setSelectedStudentCount(selectedStudent.size);
+  };
 
   useEffect(() => {
     let searchedData = props.students
@@ -50,40 +59,44 @@ const AddStudentList = (props: Props) => {
   }, [searchQuery])
 
   const handleSearchQueryChange = (text: string) => {
-    setSearchQuery(text)
-  }
+    setSearchQuery(text);
+  };
 
   const handleAddStudents = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     const updateValue = [...selectedStudent].map((id: any) => {
       return {
-        id: parseInt(id.toString())
-      }
-    })
+        id: parseInt(id.toString()),
+      };
+    });
 
     const updateGroupInput = {
       id: parseInt(props.groupId.toString()),
-      users: updateValue
-    }
-    console.log(updateValue, updateGroupInput, props.groupId, " is the selected data")
+      users: updateValue,
+    };
+    console.log(
+      updateValue,
+      updateGroupInput,
+      props.groupId,
+      " is the selected data"
+    );
 
     await addStudentsToGroup({
       variables: {
-        updateGroupInput
+        updateGroupInput,
       },
       refetchQueries: "active",
       notifyOnNetworkStatusChange: true,
       onCompleted: (data) => {
-        setIsLoading(false)
+        setIsLoading(false);
       },
       onError: (error) => {
         setErrorMessage((error as ApolloError).message);
-        setIsLoading(false)
-
-      }
-    })
-    setIsLoading(false)
-  }
+        setIsLoading(false);
+      },
+    });
+    setIsLoading(false);
+  };
 
   return (
     <div className="flex flex-col gap-y-2">
@@ -102,7 +115,12 @@ const AddStudentList = (props: Props) => {
         </button>
       </div>
       <div className="w-full">
-        <SearchField onChange={handleSearchQueryChange} placeholder="Search student" id="" className="" />
+        <SearchField
+          onChange={handleSearchQueryChange}
+          placeholder="Search student"
+          id=""
+          className=""
+        />
       </div>
       {
         searchStudents?.length > 0 ? (

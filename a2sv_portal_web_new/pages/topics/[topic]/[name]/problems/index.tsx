@@ -3,8 +3,9 @@ import React, { ReactNode } from "react";
 import BaseLayout from "../../../../../components/common/BaseLayout";
 import ProblemsPage from "../../../../../components/problems/ProblemsPage";
 import ProblemsTable from "../../../../../components/problems/ProblemsTable";
-import TopicResourcesItem, { TopicResourcesProps } from "../../../../../components/problems/TopicResourcesItem";
-
+import TopicResourcesItem, {
+  TopicResourcesProps,
+} from "../../../../../components/problems/TopicResourcesItem";
 
 const IndexPage = () => {
   const topicResource: Array<TopicResourcesProps> = [
@@ -69,8 +70,8 @@ const IndexPage = () => {
     );
   };
 
-  const router = useRouter()
-  const pathname = router.query
+  const router = useRouter();
+  const pathname = router.query;
 
   return (
     <BaseLayout sidebar={<Sidebar sidebarProps={topicResource} />}>

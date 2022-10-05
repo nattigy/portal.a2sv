@@ -16,12 +16,10 @@ export type PlatformInfo = {
 };
 
 type Props = {
-  problems: ProblemsInfo[]
-}
+  problems: ProblemsInfo[];
+};
 
 const ProblemsTable = ({ problems }: Props) => {
-
-
   // const [titleAscending, setTitleAscending] = useState(false)
   // const [titleDescending, setTitleDescending] = useState(false)
   // const [difficultyAscending, setDifficultyAscending] = useState(false)
@@ -132,12 +130,19 @@ const ProblemsTable = ({ problems }: Props) => {
                     </div>
                   </td>
                   <td scope="row" className="py-4 px-6 whitespace-nowrap ">
-                    <a className="text-primary" href={problem.link} target="_blank" rel="noopener noreferrer">
+                    <a
+                      className="text-primary"
+                      href={problem.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       {problem.title}
                     </a>
                   </td>
                   <td className="py-4 px-6">
-                    <DifficultyChips status={problem.difficulty.toUpperCase()} />
+                    <DifficultyChips
+                      status={problem.difficulty.toUpperCase()}
+                    />
                   </td>
                   <td className="py-4 px-6">
                     <div className="flex flex-row gap-x-2 uppercase">

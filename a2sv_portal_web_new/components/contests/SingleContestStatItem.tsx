@@ -21,9 +21,7 @@ const SingleContestStatItem = (props: Props) => {
       className={clsx("border-l-4 flex flex-row justify-center h-20")}
     >
       <div className="flex flex-col w-full justify-center pl-4 gap-y-2 bg-white font-medium">
-        <h4 className="text-xs font-semibold w-full">
-          {props.rankItem.title}
-        </h4>
+        <h4 className="text-xs font-semibold w-full">{props.rankItem.title}</h4>
         <div>
           <span className="text-3xl">{props.rankItem.content}</span>
         </div>

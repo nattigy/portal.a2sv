@@ -8,11 +8,15 @@ type SearchFieldProps = {
   className?: string;
 };
 
-const SearchField = ({ placeholder, id, className, onChange }: SearchFieldProps) => {
+const SearchField = ({
+  placeholder,
+  id,
+  className,
+  onChange,
+}: SearchFieldProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearch = (e: any) => {
     setSearchQuery(e.target.value);
-
   };
   return (
     <div className="relative flex items-center mt-1">

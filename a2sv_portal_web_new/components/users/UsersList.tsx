@@ -45,7 +45,11 @@ const UsersList = ({ users, selected, setSelected }: Props) => {
               <p className="font-semibold text-2xl  text-black ">{letter}</p>
               <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4">
                 {res[letter].map((user, index) => (
-                  <div className="cursor-pointer" onClick={()=> setSelected(user.id || 0)} key={index}>
+                  <div
+                    className="cursor-pointer"
+                    onClick={() => setSelected(user.id || 0)}
+                    key={index}
+                  >
                     <UserItem key={user.id} {...user} />
                   </div>
                 ))}

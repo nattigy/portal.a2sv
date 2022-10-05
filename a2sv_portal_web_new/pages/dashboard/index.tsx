@@ -7,14 +7,17 @@ import StudentDashboard from "../../components/dashboard/StudentDashboard";
 import { GraphqlUserRole } from "../../types/user";
 
 const IndexPage = () => {
-  const authUser = useReactiveVar(authenticatedUser) as AuthUser
-  console.log(authUser as any, " authUsers")
-  const ActiveComponent = ({ user }: {
+  const authUser = useReactiveVar(authenticatedUser) as AuthUser;
+  console.log(authUser as any, " authUsers");
+  const ActiveComponent = ({
+    user,
+  }: {
     user: {
-      id: string,
-      role: string, status: string
-      email: string,
-    }
+      id: string;
+      role: string;
+      status: string;
+      email: string;
+    };
   }) => {
 
     // switch (user.role) {
@@ -34,7 +37,7 @@ const IndexPage = () => {
 
   }
   return (
-    < >
+    <>
       <ActiveComponent user={authUser as any} />
     </>
   );

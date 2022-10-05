@@ -6,8 +6,7 @@ import CustomLink from "../common/CustomLink";
 export type TopicItemProps = {
   title: string;
   season?: any;
-  topic: any
-
+  topic: any;
 };
 export type ColorSVG = {
   imgPath: string;
@@ -32,8 +31,10 @@ export const slugify = (...args: (string | number)[]): string => {
 };
 
 const TopicItem = (props: TopicItemProps) => {
-  const link = `topics/${props?.topic?.season.name?.toLowerCase()}/${slugify(props.topic.name)}/problems`
-  console.log(link, props.topic.name, props?.topic?.season.name, " ssfasf")
+  const link = `topics/${props?.topic?.season.name?.toLowerCase()}/${slugify(
+    props.topic.name
+  )}/problems`;
+  console.log(link, props.topic.name, props?.topic?.season.name, " ssfasf");
   return (
     <CustomLink href={link}>
       <div className="h-[72px] flex w-full rounded-r-lg gap-x-3 bg-white items-center cursor-pointer">
@@ -46,7 +47,9 @@ const TopicItem = (props: TopicItemProps) => {
         {/* <img src={titleToIcon[props.title].imgPath} className="w-12" alt="" /> */}
         <div className="flex flex-row justify-between w-full items-center pr-3">
           <div className="flex flex-col justify-center">
-            <p className="font-Poppins font-semibold text-sm">{props.topic.name}</p>
+            <p className="font-Poppins font-semibold text-sm">
+              {props.topic.name}
+            </p>
             <p className="font-Poppins font-medium text-xs text-[#8A8A8A]">
               Solved 12/32
             </p>

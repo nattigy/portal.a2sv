@@ -27,13 +27,12 @@ export const ASSIGN_USER_TO_GROUP = gql`
       id
       status
       role
-      group{
+      group {
         name
       }
     }
   }
 `;
-
 
 export const UPDATE_USER_PROFILE_MUTATION = gql`
   mutation UpdateUser($updateUserInput: UpdateUserInput!) {
@@ -46,7 +45,6 @@ export const UPDATE_USER_PROFILE_MUTATION = gql`
     }
   }
 `;
-
 
 export const PROMOTE_USER_TO_HOE_MUTATION = gql`
   mutation UpdateUser($updateUserInput: UpdateUserInput!) {
