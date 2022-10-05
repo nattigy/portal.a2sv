@@ -8,7 +8,7 @@ import clsx from "clsx";
 export type DOBInputFieldProps = {
   name: string;
   onChange: any;
-  formik: FormikProps<ProfileFormValues>;
+  formik: FormikProps<any>;
   placeholder: string;
   className: string;
   label: string;

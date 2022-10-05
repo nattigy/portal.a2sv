@@ -19,21 +19,23 @@ const IndexPage = () => {
       email: string;
     };
   }) => {
-    switch (user.role) {
-      case GraphqlUserRole.STUDENT: {
-        return <StudentDashboard />;
-      }
-      case GraphqlUserRole.HEAD_OF_EDUCATION: {
-        return <HOEDashboard groupId={authUser?.headToGroup?.id} />;
-      }
-      case GraphqlUserRole.HEAD_OF_ACADEMY: {
-        return <HOADashboard />;
-      }
-      default: {
-        return <StudentDashboard />;
-      }
-    }
-  };
+
+    // switch (user.role) {
+    //   case GraphqlUserRole.STUDENT: {
+    //     return <StudentDashboard />
+    //   }
+    //   case GraphqlUserRole.HEAD_OF_EDUCATION: {
+        return <HOEDashboard groupId={authUser?.headToGroup?.id} />
+    //   }
+    //   case GraphqlUserRole.HEAD_OF_ACADEMY: {
+    //     return <HOADashboard />
+    //   }
+    //   default: {
+    //     return <StudentDashboard />
+    //   }
+    // }
+
+  }
   return (
     <>
       <ActiveComponent user={authUser as any} />
