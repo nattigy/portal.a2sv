@@ -55,7 +55,7 @@ const GroupStudentsSidebarItem = ({
               <LoaderSmall />
             </div>
           ) : (
-            <AddStudentList groupId={groupId || 0} students={data.users} />
+            <AddStudentList groupId={groupId || 0} students={data?.users} />
           )}
         </div>
       </div>

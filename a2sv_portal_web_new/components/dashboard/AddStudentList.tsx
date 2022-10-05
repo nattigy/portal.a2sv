@@ -43,7 +43,7 @@ const AddStudentList = (props: Props) => {
 
   useEffect(() => {
     let searchedData = props.students
-    searchedData = props.students.filter(student => {
+    searchedData = props.students?.filter(student => {
       return student.email.toLowerCase().includes(searchQuery.trim().toLowerCase())
     })
     setSearchStudents(searchedData)
@@ -88,7 +88,7 @@ const AddStudentList = (props: Props) => {
   return (
     <div className="flex flex-col gap-y-2">
       <div className="flex justify-between items-center">
-        <h1 className="font-medium text-sm">Add Students <span className="font-light text-xs pl-1">{selectedStudent.size}/{`${props.students.length}`}</span></h1>
+        <h1 className="font-medium text-sm">Add Students <span className="font-light text-xs pl-1">{selectedStudent.size}/{`${props.students?.length}`}</span></h1>
         <button onClick={handleAddStudents} className="flex justify-center items-center w-20 py-2 bg-[#5956E9] rounded-lg text-center text-white font-medium text-sm">
           {
             loading && (
@@ -105,7 +105,7 @@ const AddStudentList = (props: Props) => {
         <SearchField onChange={handleSearchQueryChange} placeholder="Search student" id="" className="" />
       </div>
       {
-        searchStudents.length > 0 ? (
+        searchStudents?.length > 0 ? (
           searchStudents.map((student, index) => (
             <div className="hover:bg-[#5956E91F]" key={index}>
               <AddStudentListItem

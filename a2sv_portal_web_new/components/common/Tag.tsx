@@ -7,7 +7,7 @@ interface TagProps extends WithChildren {
 
 const Tag = (props: TagProps) => {
     return (
-        <div className='flex flex-row justify-between px-4 py-2 border rounded-full gap-x-2'>
+        <div className='flex flex-row justify-between px-4 py-2 border rounded-full gap-x-2 bg-[#5956E91A]'>
             {props.children}
         </div>
     )

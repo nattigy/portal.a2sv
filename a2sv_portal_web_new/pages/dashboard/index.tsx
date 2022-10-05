@@ -17,20 +17,20 @@ const IndexPage = () => {
     }
   }) => {
 
-    switch (user.role) {
-      case GraphqlUserRole.STUDENT: {
-        return <StudentDashboard />
-      }
-      case GraphqlUserRole.HEAD_OF_EDUCATION: {
+    // switch (user.role) {
+    //   case GraphqlUserRole.STUDENT: {
+    //     return <StudentDashboard />
+    //   }
+    //   case GraphqlUserRole.HEAD_OF_EDUCATION: {
         return <HOEDashboard groupId={authUser?.headToGroup?.id} />
-      }
-      case GraphqlUserRole.HEAD_OF_ACADEMY: {
-        return <HOADashboard />
-      }
-      default: {
-        return <StudentDashboard />
-      }
-    }
+    //   }
+    //   case GraphqlUserRole.HEAD_OF_ACADEMY: {
+    //     return <HOADashboard />
+    //   }
+    //   default: {
+    //     return <StudentDashboard />
+    //   }
+    // }
 
   }
   return (
