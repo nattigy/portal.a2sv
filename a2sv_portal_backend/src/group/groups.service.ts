@@ -15,15 +15,15 @@ export class GroupWhereInput {
     country?: string
     @Field({nullable: true})
     school?: string
-    @Field(() => Int,{nullable: true})
+    @Field(() => Int, {nullable: true})
     seasonId?: number
-    @Field(() => Int,{nullable: true})
+    @Field(() => Int, {nullable: true})
     topicId?: number
-    @Field(() => Int,{nullable: true})
+    @Field(() => Int, {nullable: true})
     headId?: number
-    @Field(() => Int,{nullable: true})
+    @Field(() => Int, {nullable: true})
     take?: number
-    @Field(() => Int,{nullable: true})
+    @Field(() => Int, {nullable: true})
     skip?: number
 }
 
@@ -31,6 +31,7 @@ export class GroupWhereInput {
 export class GroupsService {
     constructor(private readonly prismaService: PrismaService) {
     }
+
     async createGroup(createGroupInput: CreateGroupInput): Promise<Group> {
         return this.prismaService.group.create({
             include: {
