@@ -1,16 +1,10 @@
-import { CreateGroupTopicSeasonProblemInput } from './create-group-topic-season-problem.input'
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql'
+import {CreateGroupTopicSeasonProblemInput} from './create-group-topic-season-problem.input'
+import {Field, InputType, Int, PartialType} from '@nestjs/graphql'
 
 @InputType()
 export class UpdateGroupTopicSeasonProblemInput extends PartialType(
-  CreateGroupTopicSeasonProblemInput,
+    CreateGroupTopicSeasonProblemInput,
 ) {
-  @Field(() => Int)
-  problemId
-  @Field(() => Int)
-  groupId
-  @Field(() => Int)
-  topicId
-  @Field(() => Int)
-  seasonId
+    @Field(() => Int)
+    problemId: number
 }

@@ -10,6 +10,4 @@ export class CreateGroupTopicSeasonProblemInput {
   topicId
   @Field(() => Int)
   seasonId
-  @Field(() => Int)
-  userId
 }

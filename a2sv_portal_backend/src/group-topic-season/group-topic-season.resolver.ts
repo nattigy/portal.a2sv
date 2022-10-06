@@ -34,20 +34,19 @@ export class GroupTopicSeasonResolver {
         return this.groupTopicSeasonService.groupTopicSeason(groupId, topicId, seasonId)
     }
 
-    @Mutation(() => GroupTopicSeason)
+    @Mutation(() => GroupTopicSeason, {nullable: true})
     updateGroupTopicSeason(
         @Args('updateGroupTopicSeasonInput')
             updateGroupTopicSeasonInput: UpdateGroupTopicSeasonInput,
     ) {
-        // return this.groupTopicSeasonService.update(
-        //   updateGroupTopicSeasonInput.id,
-        //   updateGroupTopicSeasonInput,
-        // )
+        return this.groupTopicSeasonService.updateGroupTopicSeason(
+            updateGroupTopicSeasonInput,
+        )
     }
 
     @Mutation(() => GroupTopicSeason)
     removeGroupTopicSeason(@Args('id', {type: () => Int}) id: number) {
-        return this.groupTopicSeasonService.removegroupTopicSeason(id)
+        return this.groupTopicSeasonService.removeGroupTopicSeason(id)
     }
 
     @ResolveField(() => Group)

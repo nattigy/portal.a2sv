@@ -25,7 +25,16 @@ export class GroupTopicSeasonService {
     }
 
     createGroupTopicSeason(createGroupTopicSeasonInput: CreateGroupTopicSeasonInput) {
-        return this.prismaService.groupTopicSeason.create({data: createGroupTopicSeasonInput})
+        return this.prismaService.groupTopicSeason.create({
+            data: createGroupTopicSeasonInput,
+            include: {
+                problems: {
+                    include: {
+                        problem: true
+                    }
+                }
+            }
+        })
     }
 
     groupTopicSeasons(filter: GroupTopicSeasonWhereInput) {
@@ -38,7 +47,11 @@ export class GroupTopicSeasonService {
                 group: true,
                 season: true,
                 topic: true,
-                problems: true
+                problems: {
+                    include: {
+                        problem: true
+                    }
+                }
             }
         })
     }
@@ -55,17 +68,60 @@ export class GroupTopicSeasonService {
             include: {
                 group: true,
                 topic: true,
-                problems: true,
+                problems: {
+                    include: {
+                        problem: true
+                    }
+                },
                 season: true
             }
         })
     }
 
-    updategroupTopicSeason(id: number, updateGroupTopicSeasonInput: UpdateGroupTopicSeasonInput) {
-        return `This action updates a #${id} groupTopicSeason`
+    updateGroupTopicSeason(updateGroupTopicSeasonInput: UpdateGroupTopicSeasonInput) {
+
+        const {problems, ...rest} = updateGroupTopicSeasonInput
+        return this.prismaService.groupTopicSeason.update({
+            where: {
+                groupId_topicId_seasonId: {
+                    groupId: updateGroupTopicSeasonInput.groupId,
+                    topicId: updateGroupTopicSeasonInput.topicId,
+                    seasonId: updateGroupTopicSeasonInput.seasonId
+                }
+            },
+            data: {
+                ...rest,
+                problems: {
+                    connectOrCreate: problems.map((problem) => {
+                        return {
+                            where: {
+                                problemId_groupId_topicId_seasonId: {
+                                    problemId: problem.problemId,
+                                    groupId: updateGroupTopicSeasonInput.groupId,
+                                    seasonId: updateGroupTopicSeasonInput.seasonId,
+                                    topicId: updateGroupTopicSeasonInput.topicId
+                                }
+                            },
+                            create: {
+                                problem: {
+                                    connect: {id: problem.problemId}
+                                }
+                            }
+                        }
+                    })
+                }
+            },
+            include: {
+                problems: {
+                    include: {
+                        problem: true
+                    }
+                }
+            }
+        })
     }
 
-    removegroupTopicSeason(id: number) {
+    removeGroupTopicSeason(id: number) {
         return `This action removes a #${id} groupTopicSeason`
     }
 }
