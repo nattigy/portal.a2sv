@@ -1,26 +1,71 @@
-import { Injectable } from '@nestjs/common'
-import { CreateGroupTopicSeasonInput } from './dto/create-group-topic-season.input'
-import { UpdateGroupTopicSeasonInput } from './dto/update-group-topic-season.input'
+import {Injectable} from '@nestjs/common'
+import {CreateGroupTopicSeasonInput} from './dto/create-group-topic-season.input'
+import {UpdateGroupTopicSeasonInput} from './dto/update-group-topic-season.input'
+import {PrismaService} from "../prisma.service";
+import {Field, InputType, Int} from "@nestjs/graphql";
+
+@InputType()
+export class GroupTopicSeasonWhereInput {
+    @Field(() => Int, {nullable: true})
+    groupId?: number
+    @Field(() => Int, {nullable: true})
+    topicId?: number
+    @Field(() => Int, {nullable: true})
+    @Field(() => Int, {nullable: true})
+    seasonId?: number
+    @Field(() => Int, {nullable: true})
+    take?: number
+    @Field(() => Int, {nullable: true})
+    skip?: number
+}
 
 @Injectable()
 export class GroupTopicSeasonService {
-  create(createGroupTopicSeasonInput: CreateGroupTopicSeasonInput) {
-    return 'This action adds a new groupTopicSeason'
-  }
+    constructor(private readonly prismaService: PrismaService) {
+    }
 
-  findAll() {
-    return `This action returns all groupTopicSeason`
-  }
+    createGroupTopicSeason(createGroupTopicSeasonInput: CreateGroupTopicSeasonInput) {
+        return this.prismaService.groupTopicSeason.create({data: createGroupTopicSeasonInput})
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} groupTopicSeason`
-  }
+    groupTopicSeasons(filter: GroupTopicSeasonWhereInput) {
+        const {take, skip, ...filter2} = filter
+        return this.prismaService.groupTopicSeason.findMany({
+            take,
+            skip,
+            where: filter2,
+            include: {
+                group: true,
+                season: true,
+                topic: true,
+                problems: true
+            }
+        })
+    }
 
-  update(id: number, updateGroupTopicSeasonInput: UpdateGroupTopicSeasonInput) {
-    return `This action updates a #${id} groupTopicSeason`
-  }
+    groupTopicSeason(groupId: number, topicId: number, seasonId: number) {
+        return this.prismaService.groupTopicSeason.findUnique({
+            where: {
+                groupId_topicId_seasonId: {
+                    groupId: groupId,
+                    topicId: topicId,
+                    seasonId: seasonId
+                }
+            },
+            include: {
+                group: true,
+                topic: true,
+                problems: true,
+                season: true
+            }
+        })
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} groupTopicSeason`
-  }
+    updategroupTopicSeason(id: number, updateGroupTopicSeasonInput: UpdateGroupTopicSeasonInput) {
+        return `This action updates a #${id} groupTopicSeason`
+    }
+
+    removegroupTopicSeason(id: number) {
+        return `This action removes a #${id} groupTopicSeason`
+    }
 }

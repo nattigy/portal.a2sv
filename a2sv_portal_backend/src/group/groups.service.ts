@@ -31,7 +31,6 @@ export class GroupWhereInput {
 export class GroupsService {
     constructor(private readonly prismaService: PrismaService) {
     }
-
     async createGroup(createGroupInput: CreateGroupInput): Promise<Group> {
         return this.prismaService.group.create({
             include: {
@@ -75,8 +74,6 @@ export class GroupsService {
 
     async getGroups(filter?: GroupWhereInput): Promise<Group[]> {
         const {skip, take, seasonId, topicId, ...where} = filter || {}
-
-
         return this.prismaService.group.findMany({
             skip,
             take,
@@ -108,7 +105,7 @@ export class GroupsService {
     }
 
     async updateGroup(updateGroupInput: UpdateGroupInput): Promise<Group> {
-        const {currentSeasonId, id, topics, users, head, headId, ...groupData} =
+        const {currentSeasonId, id, seasonTopics: topics, users, head, headId, ...groupData} =
             updateGroupInput
         const queryData = groupData as any
         if (users) {
@@ -117,13 +114,13 @@ export class GroupsService {
             }
         }
         if (topics) {
-            queryData.topics = {
+            queryData.seasonTopics = {
                 connectOrCreate: topics.map((topic) => {
                     return {
                         where: {
                             groupId_topicId_seasonId: {
                                 groupId: id,
-                                topicId: topic.id,
+                                topicId: topic.topicId,
                                 seasonId: currentSeasonId,
                             },
                         },
@@ -135,7 +132,7 @@ export class GroupsService {
                             },
                             topic: {
                                 connect: {
-                                    id: topic.id,
+                                    id: topic.topicId,
                                 },
                             },
                         },
