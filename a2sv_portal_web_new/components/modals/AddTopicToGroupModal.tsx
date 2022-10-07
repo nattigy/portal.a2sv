@@ -1,12 +1,12 @@
 import { ApolloError, useMutation } from "@apollo/client";
 import { Formik, Form, Field } from "formik";
 import React, { useEffect, useState } from "react";
-import { ADD_TOPIC_TO_GROUP } from "../../lib/apollo/Mutations/groupsMutations";
 import * as yup from "yup";
 import clsx from "clsx";
 import AutoCompleteSearch from "../common/AutocompleteSearch";
 import { useGetAllTopicsByForSearchQuery } from "../../lib/hooks/useTopics";
 import { LoaderSmall } from "../common/Loaders";
+import { ADD_TOPIC_UNDER_GROUP_AND_SEASON_ID } from "../../lib/apollo/Mutations/topicsMutations";
 
 export enum SeasonTypes {
   CAMP = "Camp",
@@ -15,6 +15,7 @@ export enum SeasonTypes {
 type Props = {
   onClose: () => void;
   groupId: number;
+  seasonId: number;
 };
 
 interface FormValues {
@@ -26,8 +27,9 @@ export type AutoCompleteFieldProps = {
 };
 
 const AddTopicToGroupModal = (props: Props) => {
-  const [addTopicToGroup, { loading: isLoading, data }] =
-    useMutation(ADD_TOPIC_TO_GROUP);
+  const [addTopicToGroupAndSeason, { loading: isLoading, data }] = useMutation(
+    ADD_TOPIC_UNDER_GROUP_AND_SEASON_ID
+  );
   const INITIAL_VALUES = {} as FormValues;
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -58,20 +60,13 @@ const AddTopicToGroupModal = (props: Props) => {
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
-            console.log(
-              selected.id?.toString(),
-              props.groupId?.toString(),
-              " sfasfasf"
-            );
-            await addTopicToGroup({
+            console.log(4, props.groupId?.toString());
+            await addTopicToGroupAndSeason({
               variables: {
-                updateGroupInput: {
-                  topics: [
-                    {
-                      id: parseInt(values.topicId?.toString()),
-                    },
-                  ],
-                  id: parseInt(props.groupId?.toString()),
+                addTopicToGroupInput: {
+                  groupId: parseInt(props.groupId?.toString()),
+                  seasonId: parseInt(props.seasonId?.toString()),
+                  topicId: parseInt(values.topicId?.toString()),
                 },
               },
               refetchQueries: "active",

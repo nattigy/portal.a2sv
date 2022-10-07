@@ -45,6 +45,7 @@ const HOATopicsPage = () => {
     <>
       {isAddTopicToGroupModalOpen && (
         <AddTopicToGroupModal
+          seasonId={selectedSeason.value}
           onClose={() => setIsAddTopicToGroupModalOpen(false)}
           groupId={authUser?.headToGroup?.id}
         />
@@ -74,7 +75,7 @@ const HOATopicsPage = () => {
               <LoaderSmall />
             </div>
           ) : (
-            <TopicList topics={data?.topics} title="All Topics" />
+            <TopicList season={selectedSeason.label} topics={data?.topics} title="All Topics" />
           )}
         </div>
       </>

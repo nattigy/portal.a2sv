@@ -42,12 +42,13 @@ const GroupInfo = (props: Props) => {
   const handleTabChange = (index: number) => {
     setTabIndex(index);
   };
-  const groupHeadData: GroupStudentsSidebarProps = {
-    id: data?.group.head.id,
-    role: data?.group.head.role,
-    name: data?.group.head.email,
-    photo: "/images/group-students-profile.svg",
-  };
+  const groupHeadData : GroupStudentsSidebarProps = {
+    id:data?.group.head?.id,
+    role:data?.group.head?.role,
+    name:data?.group.head?.email,
+    photo:"/images/group-students-profile.svg",
+
+  }
 
   return (
     <BaseLayout

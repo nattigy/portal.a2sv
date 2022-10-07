@@ -82,7 +82,7 @@ const strugglingWith: { percent: number; name: string }[] = [
 // ];
 
 const HOEDashboard = (props: Props) => {
-  console.log(props.groupId);
+  console.log("Group id", props.groupId);
 
   const Sidebar: React.FC = () => {
     return (

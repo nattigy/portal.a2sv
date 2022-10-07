@@ -16,12 +16,19 @@ import { authenticatedUser } from "../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../types/user";
 import NewProblemModal from "../modals/NewProblemModal";
 import useAllGroups from "../../lib/hooks/useAllGroups";
-import useAllProblems from "../../lib/hooks/useAllProblems";
+import useAllProblems, {
+  useGetProblemsByGroupSeasonTopic,
+} from "../../lib/hooks/useAllProblems";
 import { LoaderSmall } from "../common/Loaders";
 
 export type PlatformInfo = {
   id: string;
   name: string;
+};
+type ProblemsPageProps = {
+  seasonId: number;
+  groupId: number;
+  topicId: number;
 };
 
 const ProblemsPage = () => {
@@ -72,6 +79,7 @@ const ProblemsPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { loading, data, refetch, error } = useAllProblems();
+  // const [getProblems, { loading, data, refetch }] = useGetProblemsByGroupSeasonTopic(seasonId,groupId,topicId);
   const [problems, setProblems] = useState<ProblemsInfo[]>([]);
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -80,6 +88,10 @@ const ProblemsPage = () => {
   const handleSearch = (e: any) => {
     setSearchQuery(e.target.value);
   };
+  // useEffect(()=>{
+  //   getProblems();
+
+  // },[refetch])
 
   useEffect(() => {
     if (data) {

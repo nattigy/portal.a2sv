@@ -42,7 +42,7 @@ const mockUsers = [
     groupId: null,
     groupTopicProblems: [],
     groupTopicSeasonProblems: [],
-    headToGroup: null,
+    headToGroup: { id: 2 },
     id: "3",
     role: "HEAD_OF_EDUCATION",
     status: "ACTIVE",
@@ -82,7 +82,7 @@ const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
   const { data, refetch, error } = useGetMe();
   user = data;
   if (!user || error) {
-    const mockUser = mockUsers[2];
+    const mockUser = mockUsers[1];
     user = {
       getMe: mockUser,
     };

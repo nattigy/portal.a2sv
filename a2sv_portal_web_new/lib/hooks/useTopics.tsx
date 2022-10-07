@@ -3,9 +3,10 @@ import {
   GET_ALL_GROUP_TOPICS_BY_SEASON_ID_QUERY,
   GET_ALL_TOPICS_BY_SEASON_ID_QUERY,
   GET_ALL_TOPIC_QUERY,
+  GET_ALL_TOPICS_BY_GROUP_AND_SEASON_ID_QUERY,
 } from "../apollo/Queries/topicsQueries";
 
-const useGetAllTopicsBySeasonIdQuery = (seasonId: any) => {
+export const useGetAllTopicsBySeasonIdQuery = (seasonId: any) => {
   return useLazyQuery(GET_ALL_TOPICS_BY_SEASON_ID_QUERY, {
     notifyOnNetworkStatusChange: true,
     errorPolicy: "all",
@@ -24,6 +25,20 @@ export const useGetAllGroupTopicsBySeasonIdQuery = (
     variables: {
       seasonId: parseInt(seasonId?.toString()) || 0,
       groupId: parseInt(groupId?.toString()) || 0,
+    },
+  });
+};
+
+export const useGetAllTopicsByGroupAndSeasonIdQuery = (
+  seasonId: any,
+  groupId: any
+) => {
+  return useLazyQuery(GET_ALL_TOPICS_BY_GROUP_AND_SEASON_ID_QUERY, {
+    notifyOnNetworkStatusChange: true,
+    errorPolicy: "all",
+    variables: {
+        groupId: parseInt(groupId?.toString()) || 0,
+        seasonId: parseInt(seasonId?.toString()) || 0,
     },
   });
 };

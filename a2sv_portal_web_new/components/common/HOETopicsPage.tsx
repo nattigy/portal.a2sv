@@ -9,9 +9,7 @@ import TopicList from "../topics/TopicList";
 import TopicStruggledList from "../topics/TopicStruggledList";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../types/user";
-import useGetAllTopicsBySeasonIdQuery, {
-  useGetAllGroupTopicsBySeasonIdQuery,
-} from "../../lib/hooks/useTopics";
+import { useGetAllTopicsByGroupAndSeasonIdQuery } from "../../lib/hooks/useTopics";
 import { LoaderSmall } from "./Loaders";
 
 type Props = {
@@ -24,12 +22,16 @@ const HOETopicsPage = (props: Props) => {
     useState(false);
   const selectMenuItems = [
     {
-      value: 3,
-      label: "Education",
+      value: 1,
+      label: "CAMP",
     },
     {
-      value: 4,
-      label: "Camp",
+      value: 2,
+      label: "EDUCATION",
+    },
+    {
+      value: 3,
+      label: "PROJECT",
     },
   ];
   const [selectedSeason, setSelectedSeason] = useState(selectMenuItems[0]);
@@ -40,18 +42,21 @@ const HOETopicsPage = (props: Props) => {
     setIsAddTopicToGroupModalOpen(true);
   };
 
-  const [fetchUsers, { data, refetch, loading }] =
-    useGetAllGroupTopicsBySeasonIdQuery(selectedSeason.value, props.groupId);
+  const [fetchTopics, { data, refetch, loading }] =
+    useGetAllTopicsByGroupAndSeasonIdQuery(selectedSeason.value, props.groupId);
 
   useEffect(() => {
-    fetchUsers();
+    fetchTopics();
   }, [selectedSeason, refetch, props.groupId]);
+
+
   return (
     <>
       {isAddTopicToGroupModalOpen && (
         <AddTopicToGroupModal
           onClose={() => setIsAddTopicToGroupModalOpen(false)}
           groupId={authUser?.headToGroup?.id}
+          seasonId = {selectedSeason.value}
         />
       )}
       {isModalOpen && <NewTopicModal onClose={() => setIsModalOpen(false)} />}
@@ -79,7 +84,7 @@ const HOETopicsPage = (props: Props) => {
               <LoaderSmall />
             </div>
           ) : (
-            <TopicList topics={data?.topics} title="All Topics" />
+            <TopicList season={selectedSeason.label} topics={data?.topics} title="All Topics" />
           )}
         </div>
       </>
