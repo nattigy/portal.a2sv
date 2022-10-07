@@ -32,6 +32,11 @@ export class TopicService {
                 seasonGroups: {
                     include: {
                         group: true,
+                        problems: {
+                            include: {
+                                problem: true
+                            }
+                        }
                     },
                 },
             },
@@ -45,6 +50,11 @@ export class TopicService {
                 seasonGroups: {
                     include: {
                         topic: true,
+                        problems: {
+                            include: {
+                                problem: true
+                            }
+                        }
                     },
                 },
             },
@@ -64,6 +74,11 @@ export class TopicService {
                 seasonGroups: {
                     include: {
                         group: true,
+                        problems: {
+                            include: {
+                                problem: true
+                            }
+                        }
                     },
                 },
             },
@@ -83,6 +98,11 @@ export class TopicService {
                 seasonGroups: {
                     include: {
                         group: true,
+                        problems: {
+                            include: {
+                                problem: true
+                            }
+                        }
                     },
                 },
             },
