@@ -12,3 +12,9 @@ export const CREATE_TOPIC_MUTATION = gql`
     }
   }
 `;
+
+export const ADD_TOPIC_UNDER_GROUP_AND_SEASON_ID = gql`
+  mutation AddTopicToGroup($addTopicToGroupInput: AddTopicToGroupInput!) {
+    addTopicToGroup(addTopicToGroupInput: $addTopicToGroupInput)
+  }
+`;

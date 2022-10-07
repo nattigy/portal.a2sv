@@ -4,7 +4,7 @@ import * as yup from "yup";
 import clsx from "clsx";
 import { AiOutlineUser } from "react-icons/ai";
 import { ApolloError, useMutation } from "@apollo/client";
-import { CREATE_TOPIC_MUTATION } from "../../lib/apollo/Mutations/createTopic";
+import { CREATE_TOPIC_MUTATION } from "../../lib/apollo/Mutations/topicsMutations";
 
 export enum SeasonTypes {
   CAMP = "Camp",

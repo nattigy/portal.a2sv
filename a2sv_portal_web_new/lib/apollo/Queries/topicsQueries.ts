@@ -7,31 +7,18 @@ export const GET_ALL_TOPIC_QUERY = gql`
       name
       description
       createdAt
-      season {
-        name
-      }
     }
   }
 `;
 
-export const GET_ALL_TOPICS_BY_GROUP_ID_AND_SEASON_QUERY = gql`
-  query Query($groupId: Int, $seasonId: Int) {
-    topics(groupId: $groupId, seasonId: $seasonId) {
-      description
-      id
-      name
-      season {
-        id
-      }
-      createdAt
-      groups {
-        groupId
-        group {
-          id
-        }
-      }
-    }
+export const GET_ALL_TOPICS_BY_GROUP_AND_SEASON_ID_QUERY = gql`
+ query Query($groupId: Int, $seasonId: Int) {
+  topics(groupId: $groupId, seasonId: $seasonId) {
+    description
+    id
+    name
   }
+}
 `;
 
 export const GET_ALL_TOPICS_BY_GROUP_ID_QUERY = gql`

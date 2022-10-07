@@ -35,3 +35,23 @@ export const GET_ALL_PROBLEM_QUERY = gql`
     }
   }
 `;
+
+export const GET_PROBLEMS_BY_GROUP_SEASON_TOPIC = gql`
+query GroupTopicSeason($groupId: Int!, $topicId: Int!, $seasonId: Int!) {
+  groupTopicSeason(groupId: $groupId, topicId: $topicId, seasonId: $seasonId) {
+    problems {
+      problem {
+        id
+        link
+        platform
+        title
+        tags {
+          name
+          id
+        }
+        difficulty
+      }
+    }
+  }
+}
+`;

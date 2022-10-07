@@ -5,7 +5,7 @@ import CustomLink from "../common/CustomLink";
 
 export type TopicItemProps = {
   title: string;
-  season?: any;
+  season?: string;
   topic: any;
 };
 export type ColorSVG = {
@@ -31,10 +31,11 @@ export const slugify = (...args: (string | number)[]): string => {
 };
 
 const TopicItem = (props: TopicItemProps) => {
-  const link = `topics/${props?.topic?.season.name?.toLowerCase()}/${slugify(
+  console.log("hanna",props);
+  const link = `topics/${props?.season?.toLowerCase()}/${slugify(
     props.topic.name
   )}/problems`;
-  console.log(link, props.topic.name, props?.topic?.season.name, " ssfasf");
+  // console.log(link, props.seasonTopic.name, props?.seasonTopic?.season?.name, " ssfasf");
   return (
     <CustomLink href={link}>
       <div className="h-[72px] flex w-full rounded-r-lg gap-x-3 bg-white items-center cursor-pointer">

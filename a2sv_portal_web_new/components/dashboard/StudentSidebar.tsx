@@ -32,11 +32,15 @@ const StudentSidebar: React.FC<{
 
   return (
     <div className="h-full flex flex-col py-2">
-      <GroupStudentsSidebarItem
-        groupId={groupId}
-        showStudentList={showStudentList}
-        groupHead={groupHead}
-      />
+      {groupHead.id ? (
+        <GroupStudentsSidebarItem
+          groupId={groupId}
+          showStudentList={showStudentList}
+          groupHead={groupHead}
+        />
+      ) : (
+        <p>No Head of Education</p>
+      )}
     </div>
   );
 };
