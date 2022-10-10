@@ -18,7 +18,7 @@ export const GET_SINGLE_PROBLEM_QUERY = gql`
   }
 `;
 
-export const GET_ALL_PROBLEM_QUERY = gql`
+export const GET_ALL_PROBLEMS_QUERY = gql`
   query GetProblems {
     problems {
       createdAt
@@ -35,6 +35,7 @@ export const GET_ALL_PROBLEM_QUERY = gql`
     }
   }
 `;
+
 
 export const GET_PROBLEMS_BY_GROUP_SEASON_TOPIC = gql`
 query GroupTopicSeason($groupId: Int!, $topicId: Int!, $seasonId: Int!) {

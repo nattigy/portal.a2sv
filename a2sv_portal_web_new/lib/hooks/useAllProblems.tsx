@@ -1,10 +1,10 @@
 import { useLazyQuery, useQuery } from "@apollo/client";
 import {
-  GET_ALL_PROBLEM_QUERY,
+  GET_ALL_PROBLEMS_QUERY,
   GET_PROBLEMS_BY_GROUP_SEASON_TOPIC,
 } from "../apollo/Queries/problemsQueries";
 const useAllProblems = () => {
-  return useQuery(GET_ALL_PROBLEM_QUERY, {
+  return useQuery(GET_ALL_PROBLEMS_QUERY, {
     errorPolicy: "all",
     notifyOnNetworkStatusChange: true,
   });
