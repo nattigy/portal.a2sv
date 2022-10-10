@@ -1,11 +1,8 @@
 import { useReactiveVar } from "@apollo/client";
 import React, { ReactNode, useEffect, useState } from "react";
-import CustomDropdown, {
-  CustomDropdownProps,
-} from "../../../components/common/CustomDropdown";
-import BaseLayout from "../../../components/common/BaseLayout";
-import TopicList from "../../../components/topics/TopicList";
-import TopicStruggledList from "../../../components/topics/TopicStruggledList";
+import BaseLayout from "../../../../components/common/BaseLayout";
+import CustomDropdown, { CustomDropdownProps } from "../../../../components/common/CustomDropdown";
+import TopicStruggledList from "../../../../components/topics/TopicStruggledList";
 
 const IndexPage = () => {
   const [select, setSelect] = useState("Education");

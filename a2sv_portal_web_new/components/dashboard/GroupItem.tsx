@@ -4,7 +4,7 @@ import CustomLink from "../common/CustomLink";
 import { format, formatDistance, formatRelative, subDays } from "date-fns";
 import MenuItem from "../common/MenuItem";
 import AssignHoEModal from "../modals/AssignHoEModal";
-const StudentAvatar: React.FC<{ url: string }> = ({ url }: { url: string }) => {
+export const StudentAvatar: React.FC<{ url: string }> = ({ url }: { url: string }) => {
   return (
     <img
       className="w-8 h-8 rounded-full object-cover border-solid border-white border-2"
@@ -45,7 +45,7 @@ const GroupItem = (props: GroupItemProps) => {
             alt=""
           />
           <div className="relative h-full w-full bg-[#00000070] rounded-t-lg pl-3">
-            <MenuItem onClick={handleAssignModalOpen} />
+            <MenuItem onClick={handleAssignModalOpen} editTitle="Assign Hoe" deleteTitle="Delete Group"/>
             <div className="flex gap-x-3 items-center">
               <div className="w-12 h-12">
                 <svg

@@ -21,7 +21,8 @@ const HOADashboard = (props: Props) => {
   };
   return (
     <BaseLayout>
-      {isModalOpen && <NewGroupModal onClose={() => setIsModalOpen(false)} />}
+
+
       <div className="w-full h-screen pt-7 flex flex-col gap-y-6">
         <GroupStatList />
         <div className="flex flex-row justify-between ">

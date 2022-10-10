@@ -1,11 +1,8 @@
 import { useRouter } from "next/router";
 import React, { ReactNode } from "react";
-import BaseLayout from "../../../../../components/common/BaseLayout";
-import ProblemsPage from "../../../../../components/problems/ProblemsPage";
-import ProblemsTable from "../../../../../components/problems/ProblemsTable";
-import TopicResourcesItem, {
-  TopicResourcesProps,
-} from "../../../../../components/problems/TopicResourcesItem";
+import BaseLayout from "../../../../../../components/common/BaseLayout";
+import ProblemsPage from "../../../../../../components/problems/ProblemsPage";
+import TopicResourcesItem, { TopicResourcesProps } from "../../../../../../components/problems/TopicResourcesItem";
 
 const IndexPage = () => {
   const topicResource: Array<TopicResourcesProps> = [

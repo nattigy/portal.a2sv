@@ -90,7 +90,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
   };
 
   return (
-    <div className="flex flex-1 bg-[#F6F6FC] min-h-screen">
+    <div className="flex flex-1 bg-[#F6F6FC] min-h-screen max-h-screen overflow-y-hidden">
       <div className="w-24 md:flex-col justify-between">
         <div className="min-h-full flex flex-col  flex-grow py-5 overflow-y-auto bg-white">
           <div className="flex justify-center items-center">

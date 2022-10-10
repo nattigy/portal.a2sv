@@ -5,8 +5,11 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 // import { ChevronDownIcon } from '@heroicons/react/20/solid'
 type Props = {
   onClick: () => void;
+  editTitle: string;
+  deleteTitle: string;
+
 };
-export default function MenuItem({ onClick }: Props) {
+export default function MenuItem({ onClick, editTitle, deleteTitle }: Props) {
   return (
     <div className="w-56 text-right">
       <Menu as="div" className="inline-block text-left">
@@ -45,7 +48,7 @@ export default function MenuItem({ onClick }: Props) {
                         aria-hidden="true"
                       />
                     )}
-                    Assign HoE
+                    {editTitle}
                   </button>
                 )}
               </Menu.Item>
@@ -70,7 +73,7 @@ export default function MenuItem({ onClick }: Props) {
                         aria-hidden="true"
                       />
                     )}
-                    Delete Group
+                    {deleteTitle}
                   </button>
                 )}
               </Menu.Item>

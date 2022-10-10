@@ -1,18 +1,18 @@
 import { useReactiveVar } from "@apollo/client";
 import React, { ReactNode, useEffect, useState } from "react";
-import BaseLayout from "../../components/common/BaseLayout";
+import BaseLayout from "../../../components/common/BaseLayout";
 import CustomDropdown, {
   CustomDropdownProps,
-} from "../../components/common/CustomDropdown";
-import HOATopicsPage from "../../components/common/HOATopicsPage";
-import HOETopicsPage from "../../components/common/HOETopicsPage";
-import AddTopicToGroupModal from "../../components/modals/AddTopicToGroupModal";
-import NewTopicModal from "../../components/modals/NewTopicModal";
-import SeasonSelecBox from "../../components/topics/SeasonSelecBox";
-import TopicList from "../../components/topics/TopicList";
-import TopicStruggledList from "../../components/topics/TopicStruggledList";
-import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
-import { GraphqlUserRole } from "../../types/user";
+} from "../../../components/common/CustomDropdown";
+import HOATopicsPage from "../../../components/common/HOATopicsPage";
+import HOETopicsPage from "../../../components/common/HOETopicsPage";
+import AddTopicToGroupModal from "../../../components/modals/AddTopicToGroupModal";
+import NewTopicModal from "../../../components/modals/NewTopicModal";
+import SeasonSelecBox from "../../../components/topics/SeasonSelecBox";
+import TopicList from "../../../components/topics/TopicList";
+import TopicStruggledList from "../../../components/topics/TopicStruggledList";
+import { authenticatedUser, AuthUser } from "../../../lib/constants/authenticated";
+import { GraphqlUserRole } from "../../../types/user";
 
 const IndexPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

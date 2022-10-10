@@ -5,7 +5,7 @@ import StatComponent from "./StatComponent";
 import StatSidebar from "./StatSidebar";
 import StudentSidebar from "./StudentSidebar";
 import GroupStudents from "./GroupStudents";
-import router from "next/router";
+import { useRouter } from "next/router";
 import useGroupDetail from "../../lib/hooks/useGroupDetail";
 import { GroupStudentsSidebarProps } from "./GroupStudentsSidebarItem";
 
@@ -20,6 +20,7 @@ const GroupInfo = (props: Props) => {
     useState(false);
 
   const { data, loading, error, refetch } = useGroupDetail(props.groupId);
+  const router = useRouter()
   // router.query["id"]?.toString()
   console.log(data, " is group data users");
   useEffect(() => {
