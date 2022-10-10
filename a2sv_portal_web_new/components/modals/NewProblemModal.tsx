@@ -9,6 +9,11 @@ import { BiCopy } from "react-icons/bi";
 import Tag from "../common/Tag";
 import { ApolloError, useMutation } from "@apollo/client";
 import { CREATE_PROBLEM_MUTATION } from "../../lib/apollo/Mutations/problemsMutations";
+import AutoCompleteProblems, {
+  AutoCompleteProblemsProps,
+} from "../common/AutoCompleteProblems";
+import useAllProblems from "../../lib/hooks/useAllProblems";
+import set from "date-fns/set";
 
 interface FormValues {
   search: string;
@@ -26,9 +31,21 @@ const NewProblemModal = (props: Props) => {
   const [addNewProblem] = useMutation(CREATE_PROBLEM_MUTATION);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const initialState: AutoCompleteProblemsProps = {
+    id: 0,
+    title: "",
+  };
+  const [display, setdisplay] = useState({
+    add: true,
+    create: true,
+  });
+  const [selected, setSelected] = useState(initialState);
+  const { loading, error, data } = useAllProblems();
   const [input, setInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
+
+  console.log("problems", loading, error, data);
+
   const INITIAL_VALUES = {
     // status: QuestionStatus.NOT_SOLVED,
     // time_spent: 0,
@@ -75,7 +92,6 @@ const NewProblemModal = (props: Props) => {
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
-            console.log(values, " is values");
             setIsLoading(true);
             await addNewProblem({
               variables: {
@@ -148,208 +164,204 @@ const NewProblemModal = (props: Props) => {
                 </div>
                 <div className="">
                   <div className="flex flex-col justify-start gap-y-4">
-                    <div className="flex items-center">
-                      <div className="bg-white dark:bg-gray-100 rounded-full w-full h-8 my-1 flex flex-shrink-0 justify-start items-center relative">
-                        <AiOutlineSearch className="absolute left-3" />
-                        <Field
-                          id="search"
-                          name="search"
-                          placeholder="Search for an existing problem"
-                          type="text"
-                          className={clsx(
-                            "w-full text-sm placeholder-[#949494] border bg-white rounded-md focus:outline-none py-3 px-4 pl-8 my-2",
-                            touched.search && errors.search
-                              ? "border-red-500"
-                              : "border-[#DCDCDC]"
-                          )}
-                        />
-                      </div>
-                    </div>
+                    {display.add && (
+                      <AutoCompleteProblems
+                        problems={data?.problems}
+                        selected={selected}
+                        setSelected={setSelected}
+                      />
+                    )}
                     {/* <p className="w-full text-xs text-red-500">
                           {errors.search}
                         </p> */}
                   </div>
-                  <div className="mt-4 mb-2 w-full flex justify-between items-center">
-                    <h2 className="font-bold">Create New</h2>
-                  </div>
-                  <div className="flex flex-row gap-x-3 my-3">
-                    <div className="flex flex-col w-3/5 justify-start gap-y-1">
-                      <h1>Name</h1>
-                      <div className="flex items-center">
-                        <div className="bg-white dark:bg-gray-100 rounded-full w-full h-8 my-1 flex flex-shrink-0 justify-start items-center relative">
-                          <Field
-                            id="name"
-                            name="name"
-                            placeholder="Enter problem name"
-                            type="text"
-                            className={clsx(
-                              "w-full text-sm placeholder-[#949494] border bg-white rounded-md focus:outline-none py-3 px-4 my-2",
-                              touched.name && errors.name
-                                ? "border-red-500"
-                                : "border-[#DCDCDC]"
-                            )}
-                          />
+                  {display.create && (
+                    <>
+                      <div className="mt-4 mb-2 w-full flex justify-between items-center">
+                        <h2 className="font-bold">Create New</h2>
+                      </div>
+                      <div className="flex flex-row gap-x-3 my-3">
+                        <div className="flex flex-col w-3/5 justify-start gap-y-1">
+                          <h1>Name</h1>
+                          <div className="flex items-center">
+                            <div className="bg-white dark:bg-gray-100 rounded-full w-full h-8 my-1 flex flex-shrink-0 justify-start items-center relative">
+                              <Field
+                                id="name"
+                                name="name"
+                                placeholder="Enter problem name"
+                                type="text"
+                                className={clsx(
+                                  "w-full text-sm placeholder-[#949494] border bg-white rounded-md focus:outline-none py-3 px-4 my-2",
+                                  touched.name && errors.name
+                                    ? "border-red-500"
+                                    : "border-[#DCDCDC]"
+                                )}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex flex-col flex-auto justify-start gap-y-1">
+                          <h1>Platform</h1>
+                          <div className="flex items-center">
+                            <div className="bg-white dark:bg-gray-100 rounded-full w-full h-8 my-1 flex flex-shrink-0 justify-start items-center relative">
+                              <img
+                                src="/icons/jira.svg"
+                                alt=""
+                                className="absolute left-3"
+                              />
+                              <Field
+                                as="select"
+                                name="platform"
+                                className={clsx(
+                                  "w-full text-sm placeholder-yellow-50 border bg-white rounded-md focus:outline-none py-3 pl-8 my-2",
+                                  touched.name && errors.name
+                                    ? "border-red-500"
+                                    : "border-[#DCDCDC]"
+                                )}
+                              >
+                                <option
+                                  className="h-20"
+                                  value=""
+                                  selected
+                                  disabled
+                                  hidden
+                                >
+                                  Select Platform
+                                </option>
+                                <option value="Leetcode">Leetcode</option>
+                                <option value="Hackerrank">Hackerrank</option>
+                                <option value="Codeforces">Codeforces</option>
+                              </Field>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="flex flex-col flex-auto justify-start gap-y-1">
-                      <h1>Platform</h1>
-                      <div className="flex items-center">
-                        <div className="bg-white dark:bg-gray-100 rounded-full w-full h-8 my-1 flex flex-shrink-0 justify-start items-center relative">
-                          <img
-                            src="/icons/jira.svg"
-                            alt=""
-                            className="absolute left-3"
-                          />
-                          <Field
-                            as="select"
-                            name="platform"
-                            className={clsx(
-                              "w-full text-sm placeholder-yellow-50 border bg-white rounded-md focus:outline-none py-3 pl-8 my-2",
-                              touched.name && errors.name
-                                ? "border-red-500"
-                                : "border-[#DCDCDC]"
-                            )}
+                      <div className="flex flex-row gap-y-4 my-2 gap-x-4">
+                        <div className="my-2">
+                          <h1 className="mr-6">Difficulty</h1>
+                        </div>
+                        <div className="flex items-center">
+                          <div className="bg-white dark:bg-gray-100 rounded-full w-5 h-5 flex flex-shrink-0 justify-center items-center relative">
+                            <Field
+                              id="easy"
+                              type="radio"
+                              name="difficulty"
+                              value={ProblemDifficultyType.EASY}
+                              className="peer checkbox appearance-none focus:outline-none rounded-full border-2 border-green-700 checked:border-green-700 absolute cursor-pointer w-full h-full"
+                            />
+                            <div className="check-icon border-4 peer-checked:border-white peer-checked:bg-green-700 rounded-full w-full h-full z-1" />
+                          </div>
+                          <label
+                            htmlFor="easy"
+                            className="ml-2 text-sm leading-4 font-normal"
                           >
-                            <option
-                              className="h-20"
-                              value=""
-                              selected
-                              disabled
-                              hidden
-                            >
-                              Select Platform
-                            </option>
-                            <option value="Leetcode">Leetcode</option>
-                            <option value="Hackerrank">Hackerrank</option>
-                            <option value="Codeforces">Codeforces</option>
-                          </Field>
+                            Easy
+                          </label>
+                        </div>
+                        <div className="flex items-center">
+                          <div className="bg-white dark:bg-gray-100 rounded-full w-5 h-5 flex flex-shrink-0 justify-center items-center relative">
+                            <Field
+                              id="medium"
+                              type="radio"
+                              value={ProblemDifficultyType.MEDIUM}
+                              checked
+                              name="difficulty"
+                              className="peer checkbox appearance-none focus:outline-none rounded-full border-2  border-yellow-400 checked:border-yellow-400 absolute cursor-pointer w-full h-full"
+                            />
+                            <div className="check-icon border-4 peer-checked:border-white peer-checked:bg-yellow-400 rounded-full w-full h-full z-1" />
+                          </div>
+                          <label
+                            htmlFor="medium"
+                            className="ml-2 text-sm leading-4 font-normal"
+                          >
+                            Medium
+                          </label>
+                        </div>
+                        <div className="flex items-center">
+                          <div className="bg-white dark:bg-gray-100 rounded-full w-5 h-5 flex flex-shrink-0 justify-center items-center relative">
+                            <Field
+                              id="hard"
+                              type="radio"
+                              value={ProblemDifficultyType.HARD}
+                              name="difficulty"
+                              className="peer checkbox appearance-none focus:outline-none rounded-full border-2  border-red-700 checked:border-red-700 absolute cursor-pointer w-full h-full"
+                            />
+                            <div className="check-icon border-4 peer-checked:border-white peer-checked:bg-red-700 rounded-full w-full h-full z-1" />
+                          </div>
+                          <label
+                            htmlFor="hard"
+                            className="ml-2 text-sm leading-4 font-normal"
+                          >
+                            Hard
+                          </label>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-row gap-y-4 my-2 gap-x-4">
-                    <div className="my-2">
-                      <h1 className="mr-6">Difficulty</h1>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="bg-white dark:bg-gray-100 rounded-full w-5 h-5 flex flex-shrink-0 justify-center items-center relative">
-                        <Field
-                          id="easy"
-                          type="radio"
-                          name="difficulty"
-                          value={ProblemDifficultyType.EASY}
-                          className="peer checkbox appearance-none focus:outline-none rounded-full border-2 border-green-700 checked:border-green-700 absolute cursor-pointer w-full h-full"
-                        />
-                        <div className="check-icon border-4 peer-checked:border-white peer-checked:bg-green-700 rounded-full w-full h-full z-1" />
-                      </div>
-                      <label
-                        htmlFor="easy"
-                        className="ml-2 text-sm leading-4 font-normal"
-                      >
-                        Easy
-                      </label>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="bg-white dark:bg-gray-100 rounded-full w-5 h-5 flex flex-shrink-0 justify-center items-center relative">
-                        <Field
-                          id="medium"
-                          type="radio"
-                          value={ProblemDifficultyType.MEDIUM}
-                          checked
-                          name="difficulty"
-                          className="peer checkbox appearance-none focus:outline-none rounded-full border-2  border-yellow-400 checked:border-yellow-400 absolute cursor-pointer w-full h-full"
-                        />
-                        <div className="check-icon border-4 peer-checked:border-white peer-checked:bg-yellow-400 rounded-full w-full h-full z-1" />
-                      </div>
-                      <label
-                        htmlFor="medium"
-                        className="ml-2 text-sm leading-4 font-normal"
-                      >
-                        Medium
-                      </label>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="bg-white dark:bg-gray-100 rounded-full w-5 h-5 flex flex-shrink-0 justify-center items-center relative">
-                        <Field
-                          id="hard"
-                          type="radio"
-                          value={ProblemDifficultyType.HARD}
-                          name="difficulty"
-                          className="peer checkbox appearance-none focus:outline-none rounded-full border-2  border-red-700 checked:border-red-700 absolute cursor-pointer w-full h-full"
-                        />
-                        <div className="check-icon border-4 peer-checked:border-white peer-checked:bg-red-700 rounded-full w-full h-full z-1" />
-                      </div>
-                      <label
-                        htmlFor="hard"
-                        className="ml-2 text-sm leading-4 font-normal"
-                      >
-                        Hard
-                      </label>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-x-3 my-3">
-                    <h2>Link</h2>
-                    <div className="flex flex-row justify-start gap-y-1 gap-x-2">
-                      <div className="flex items-center w-4/6 gap-x-2">
-                        <div className="bg-white dark:bg-gray-100 rounded-full w-full h-8 flex flex-shrink-0 justify-start items-center relative">
-                          <Field
-                            id="link"
-                            name="link"
-                            placeholder="Enter problem link"
-                            type="text"
-                            className={clsx(
-                              "w-full text-sm placeholder-[#949494] border bg-white rounded-md focus:outline-none py-3 px-4",
-                              touched.name && errors.name
-                                ? "border-red-500"
-                                : "border-[#DCDCDC]"
-                            )}
-                          />
+                      <div className="flex flex-col gap-x-3 my-3">
+                        <h2>Link</h2>
+                        <div className="flex flex-row justify-start gap-y-1 gap-x-2">
+                          <div className="flex items-center w-4/6 gap-x-2">
+                            <div className="bg-white dark:bg-gray-100 rounded-full w-full h-8 flex flex-shrink-0 justify-start items-center relative">
+                              <Field
+                                id="link"
+                                name="link"
+                                placeholder="Enter problem link"
+                                type="text"
+                                className={clsx(
+                                  "w-full text-sm placeholder-[#949494] border bg-white rounded-md focus:outline-none py-3 px-4",
+                                  touched.name && errors.name
+                                    ? "border-red-500"
+                                    : "border-[#DCDCDC]"
+                                )}
+                              />
+                            </div>
+                          </div>
+                          <div className="flex flex-row items-center rounded-md py-3 px-2 gap-x-2 border">
+                            <BiCopy />
+                            <button>Copy</button>
+                          </div>
                         </div>
                       </div>
-                      <div className="flex flex-row items-center rounded-md py-3 px-2 gap-x-2 border">
-                        <BiCopy />
-                        <button>Copy</button>
+                      <div className="flex flex-col justify-start gap-y-2">
+                        <h1>Tags</h1>
+                        <div className="flex flex-col items-start gap-y-4">
+                          <div className="bg-white dark:bg-gray-100 rounded-full w-3/6 h-8 my-1 flex flex-shrink-0 justify-start items-center relative">
+                            <AiOutlinePlus className="absolute left-3" />
+                            <Field
+                              id="tags"
+                              name="tags"
+                              placeholder="Add a tag and press Enter"
+                              value={input}
+                              onKeyDown={onKeyDown}
+                              onChange={onChange}
+                              type="text"
+                              className={clsx(
+                                "w-full text-xs placeholder-[#949494] border bg-white rounded-md focus:outline-none py-3 px-4 pl-8",
+                                touched.name && errors.name
+                                  ? "border-red-500"
+                                  : "border-[#DCDCDC]"
+                              )}
+                            />
+                          </div>
+                          <div className="flex flex-row flex-wrap gap-x-2">
+                            {tags.map((tag: any, index: number) => (
+                              <Tag value={tag} key={index}>
+                                <h1>{tag}</h1>
+                                <button onClick={() => deleteTag(index)}>
+                                  x
+                                </button>
+                              </Tag>
+                            ))}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col justify-start gap-y-2">
-                    <h1>Tags</h1>
-                    <div className="flex flex-col items-start gap-y-4">
-                      <div className="bg-white dark:bg-gray-100 rounded-full w-3/6 h-8 my-1 flex flex-shrink-0 justify-start items-center relative">
-                        <AiOutlinePlus className="absolute left-3" />
-                        <Field
-                          id="tags"
-                          name="tags"
-                          placeholder="Add a tag and press Enter"
-                          value={input}
-                          onKeyDown={onKeyDown}
-                          onChange={onChange}
-                          type="text"
-                          className={clsx(
-                            "w-full text-xs placeholder-[#949494] border bg-white rounded-md focus:outline-none py-3 px-4 pl-8",
-                            touched.name && errors.name
-                              ? "border-red-500"
-                              : "border-[#DCDCDC]"
-                          )}
-                        />
-                      </div>
-                      <div className="flex flex-row flex-wrap gap-x-2">
-                        {tags.map((tag: any, index: number) => (
-                          <Tag value={tag} key={index}>
-                            <h1>{tag}</h1>
-                            <button onClick={() => deleteTag(index)}>x</button>
-                          </Tag>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                  {errorMessage && (
-                    <div className="bg-[#E4646451] py-1 rounded-md">
-                      <span className="text-[#E46464] px-4 text-xs">
-                        {errorMessage}
-                      </span>
-                    </div>
+                      {errorMessage && (
+                        <div className="bg-[#E4646451] py-1 rounded-md">
+                          <span className="text-[#E46464] px-4 text-xs">
+                            {errorMessage}
+                          </span>
+                        </div>
+                      )}
+                    </>
                   )}
                   <div className="flex justify-end items-center gap-x-3">
                     <button
