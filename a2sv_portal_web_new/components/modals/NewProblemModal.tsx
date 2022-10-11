@@ -10,10 +10,8 @@ import Tag from "../common/Tag";
 import { ApolloError, useMutation } from "@apollo/client";
 import { CREATE_PROBLEM_MUTATION } from "../../lib/apollo/Mutations/problemsMutations";
 import AutoCompleteProblems, {
-  AutoCompleteProblemsProps,
+  AutoCompleteProblemsProps, ProblemType,
 } from "../common/AutoCompleteProblems";
-import useAllProblems from "../../lib/hooks/useAllProblems";
-import set from "date-fns/set";
 
 interface FormValues {
   search: string;
@@ -40,11 +38,10 @@ const NewProblemModal = (props: Props) => {
     create: true,
   });
   const [selected, setSelected] = useState(initialState);
-  const { loading, error, data } = useAllProblems();
   const [input, setInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
+  const [existingProblem, setExistingProblem] = useState<ProblemType | null>(null)
 
-  console.log("problems", loading, error, data);
 
   const INITIAL_VALUES = {
     // status: QuestionStatus.NOT_SOLVED,
@@ -52,6 +49,10 @@ const NewProblemModal = (props: Props) => {
     // total_attempts: 0,
     // wrong_submissions: 0
   } as FormValues;
+
+  const handleSearchProblem = (sel: ProblemType) => {
+    setExistingProblem(sel)
+  }
 
   const FORM_VALIDATION = yup.object().shape({
     search: yup.string(),
@@ -164,18 +165,14 @@ const NewProblemModal = (props: Props) => {
                 </div>
                 <div className="">
                   <div className="flex flex-col justify-start gap-y-4">
-                    {display.add && (
-                      <AutoCompleteProblems
-                        problems={data?.problems}
-                        selected={selected}
-                        setSelected={setSelected}
-                      />
-                    )}
+                    <AutoCompleteProblems
+                      handleSearchProblem={handleSearchProblem}
+                    />
                     {/* <p className="w-full text-xs text-red-500">
                           {errors.search}
                         </p> */}
                   </div>
-                  {display.create && (
+                  {existingProblem === null && (
                     <>
                       <div className="mt-4 mb-2 w-full flex justify-between items-center">
                         <h2 className="font-bold">Create New</h2>
@@ -189,6 +186,7 @@ const NewProblemModal = (props: Props) => {
                                 id="name"
                                 name="name"
                                 placeholder="Enter problem name"
+                                disabled={existingProblem !== null}
                                 type="text"
                                 className={clsx(
                                   "w-full text-sm placeholder-[#949494] border bg-white rounded-md focus:outline-none py-3 px-4 my-2",
