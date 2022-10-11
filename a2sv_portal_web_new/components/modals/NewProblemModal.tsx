@@ -6,11 +6,16 @@ import { ProblemDifficultyType } from "../../types/problems";
 import { PlatformInfo } from "../problems/ProblemsTable";
 import { AiOutlineSearch, AiOutlinePlus } from "react-icons/ai";
 import { BiCopy } from "react-icons/bi";
+import { IoMdClose } from "react-icons/io";
 import Tag from "../common/Tag";
 import { ApolloError, useMutation } from "@apollo/client";
-import { CREATE_PROBLEM_MUTATION } from "../../lib/apollo/Mutations/problemsMutations";
+import {
+  ADD_EXISTING_PROBLEM,
+  CREATE_PROBLEM_MUTATION,
+} from "../../lib/apollo/Mutations/problemsMutations";
 import AutoCompleteProblems, {
-  AutoCompleteProblemsProps, ProblemType,
+  AutoCompleteProblemsProps,
+  ProblemType,
 } from "../common/AutoCompleteProblems";
 
 interface FormValues {
@@ -24,9 +29,14 @@ interface FormValues {
 
 type Props = {
   onClose: () => void;
+  topicId: number;
+  seasonId: number;
+  groupId: number;
 };
 const NewProblemModal = (props: Props) => {
-  const [addNewProblem] = useMutation(CREATE_PROBLEM_MUTATION);
+  const [createNewProblem] = useMutation(CREATE_PROBLEM_MUTATION);
+  const [addExistingProblem] = useMutation(ADD_EXISTING_PROBLEM);
+
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const initialState: AutoCompleteProblemsProps = {
@@ -40,8 +50,9 @@ const NewProblemModal = (props: Props) => {
   const [selected, setSelected] = useState(initialState);
   const [input, setInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const [existingProblem, setExistingProblem] = useState<ProblemType | null>(null)
-
+  const [existingProblem, setExistingProblem] = useState<ProblemType | null>(
+    null
+  );
 
   const INITIAL_VALUES = {
     // status: QuestionStatus.NOT_SOLVED,
@@ -51,16 +62,19 @@ const NewProblemModal = (props: Props) => {
   } as FormValues;
 
   const handleSearchProblem = (sel: ProblemType) => {
-    setExistingProblem(sel)
+    setExistingProblem(sel);
+  };
+  let validationShape;
+  if(existingProblem === null){
+    validationShape = yup.object().shape({
+      name: yup.string().required(),
+      platform: yup.string().required(),
+      difficulty: yup.string().required(),
+      link: yup.string().required(),
+    });
   }
 
-  const FORM_VALIDATION = yup.object().shape({
-    search: yup.string(),
-    name: yup.string().required(),
-    platform: yup.string().required(),
-    difficulty: yup.string().required(),
-    link: yup.string().required(),
-  });
+  const FORM_VALIDATION = validationShape;
 
   const onChange = (e: any) => {
     const { value } = e.target;
@@ -94,29 +108,86 @@ const NewProblemModal = (props: Props) => {
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
             setIsLoading(true);
-            await addNewProblem({
-              variables: {
-                createProblemInput: {
-                  difficulty: values.difficulty,
-                  link: values.link,
-                  title: values.name,
-                  tags: tags.map((tag) => {
-                    return { name: tag };
-                  }),
-                  platform: values.platform,
+            if (existingProblem === null) {
+              console.log("values", values);
+              await createNewProblem({
+                variables: {
+                  createProblemInput: {
+                    difficulty: values.difficulty,
+                    link: values.link,
+                    title: values.name,
+                    tags: tags.map((tag) => {
+                      return { name: tag };
+                    }),
+                    platform: values.platform,
+                  },
                 },
-              },
-              refetchQueries: "active",
-              notifyOnNetworkStatusChange: true,
-              onCompleted: (data) => {
-                setIsLoading(false);
-                props.onClose();
-              },
-              onError: (error) => {
-                setErrorMessage((error as ApolloError).message);
-                setIsLoading(false);
-              },
-            });
+                refetchQueries: "active",
+                notifyOnNetworkStatusChange: true,
+                onCompleted: async (data) => {
+                  console.log(data);
+                  await addExistingProblem({
+                    variables: {
+                      updateGroupTopicSeasonInput: {
+                        groupId: parseInt(props.groupId.toString()),
+                        seasonId: parseInt(props.seasonId.toString()),
+                        topicId: parseInt(props.topicId.toString()),
+                        problems: [
+                          {
+                            problemId: parseInt(data.createProblem.id.toString()),
+                          },
+                        ],
+                      },
+                    },
+                    refetchQueries: "active",
+                    notifyOnNetworkStatusChange: true,
+                    onCompleted: (data) => {
+                      console.log("SUCCESS",data)
+                      setIsLoading(false);
+                      props.onClose();
+                    },
+                    onError: (error) => {
+                      console.log("error", error);
+                      setErrorMessage((error as ApolloError).message);
+                      setIsLoading(false);
+                    },
+                  });
+                  props.onClose();
+                },
+                onError: (error) => {
+                  setErrorMessage((error as ApolloError).message);
+                  setIsLoading(false);
+                },
+              });
+            }else{
+              console.log("existing p id",existingProblem.id.toString())
+              await addExistingProblem({
+                variables: {
+                  updateGroupTopicSeasonInput: {
+                    groupId: parseInt(props.groupId.toString()),
+                    seasonId: parseInt(props.seasonId.toString()),
+                    topicId: parseInt(props.topicId.toString()),
+                    problems: [
+                      {
+                        problemId: parseInt(existingProblem.id.toString()),
+                      },
+                    ],
+                  },
+                },
+                refetchQueries: "active",
+                notifyOnNetworkStatusChange: true,
+                onCompleted: (data) => {
+                  console.log("Add existing success", data)
+                  setIsLoading(false);
+                  props.onClose();
+                },
+                onError: (error) => {
+                  setErrorMessage((error as ApolloError).message);
+                  setIsLoading(false);
+                },
+              });
+            }
+
             actions.resetForm();
           }}
         >
@@ -126,6 +197,7 @@ const NewProblemModal = (props: Props) => {
                 role="alert"
                 className="flex flex-col gap-y-3 min-h-[400px] bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-10 py-5"
               >
+                {JSON.stringify(errors)}
                 <div className="w-full flex flex-col items-center">
                   <div className="my-3 w-full flex justify-between items-center">
                     <h2 className="font-bold">Add New Problem</h2>
@@ -343,10 +415,8 @@ const NewProblemModal = (props: Props) => {
                           <div className="flex flex-row flex-wrap gap-x-2">
                             {tags.map((tag: any, index: number) => (
                               <Tag value={tag} key={index}>
-                                <h1>{tag}</h1>
-                                <button onClick={() => deleteTag(index)}>
-                                  x
-                                </button>
+                                <p className="text-xs">{tag}</p>
+                                <IoMdClose onClick={() => deleteTag(index)}/>
                               </Tag>
                             ))}
                           </div>

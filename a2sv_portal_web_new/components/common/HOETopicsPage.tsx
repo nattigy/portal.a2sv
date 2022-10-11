@@ -16,22 +16,22 @@ type Props = {
   groupId: number;
 };
 
-const HOETopicsPage = (props: Props) => {
+const HOETopicsPage = ({groupId}: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddTopicToGroupModalOpen, setIsAddTopicToGroupModalOpen] =
     useState(false);
   const selectMenuItems = [
     {
-      value: 1,
-      label: "CAMP",
+      id: 1,
+      name: "CAMP",
     },
     {
-      value: 2,
-      label: "EDUCATION",
+      id: 2,
+      name: "EDUCATION",
     },
     {
-      value: 3,
-      label: "PROJECT",
+      id: 3,
+      name: "PROJECT",
     },
   ];
   const [selectedSeason, setSelectedSeason] = useState(selectMenuItems[0]);
@@ -43,11 +43,11 @@ const HOETopicsPage = (props: Props) => {
   };
 
   const [fetchTopics, { data, refetch, loading }] =
-    useGetAllTopicsByGroupAndSeasonIdQuery(selectedSeason.value, props.groupId);
+    useGetAllTopicsByGroupAndSeasonIdQuery(selectedSeason.id, groupId);
 
   useEffect(() => {
     fetchTopics();
-  }, [selectedSeason, refetch, props.groupId]);
+  }, [selectedSeason, refetch, groupId]);
 
 
   return (
@@ -56,7 +56,7 @@ const HOETopicsPage = (props: Props) => {
         <AddTopicToGroupModal
           onClose={() => setIsAddTopicToGroupModalOpen(false)}
           groupId={authUser?.headToGroup?.id}
-          seasonId = {selectedSeason.value}
+          seasonId = {selectedSeason.id}
         />
       )}
       {isModalOpen && <NewTopicModal onClose={() => setIsModalOpen(false)} />}
@@ -84,7 +84,7 @@ const HOETopicsPage = (props: Props) => {
               <LoaderSmall />
             </div>
           ) : (
-            <TopicList season={selectedSeason.label} topics={data?.topics} title="All Topics" />
+            <TopicList season={selectedSeason} topics={data?.topics} groupId={groupId} title="All Topics" />
           )}
         </div>
       </>

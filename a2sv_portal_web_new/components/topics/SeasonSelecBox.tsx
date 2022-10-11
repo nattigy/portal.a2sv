@@ -2,20 +2,20 @@ import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 
 type Props = {
-  label?: string;
+  name?: string;
   helperText?: string;
-  selectMenuItems: { value: number; label: string }[];
+  selectMenuItems: { id: number; name: string }[];
   handleSelect: (val: any) => void;
 };
 
 function SeasonSelecBox(props: Props) {
   const [seasonVal, setSeasonVal] = useState<{
-    value: number;
-    label: string;
+    id: number;
+    name: string;
   } | null>(null);
   const [showMenu, setShowMenu] = useState(false);
 
-  const onMenuSelect = (item: { value: number; label: string }) => {
+  const onMenuSelect = (item: { id: number; name: string }) => {
     setSeasonVal(item);
     setShowMenu(false);
     props.handleSelect(item);
@@ -42,7 +42,7 @@ function SeasonSelecBox(props: Props) {
           className="relative flex items-center justify-between w-full px-3 py-2 "
         >
           <span className="pr-4 text-sm font-medium text-gray-600">
-            {seasonVal ? seasonVal.label : "Select Season"}
+            {seasonVal ? seasonVal.name : "Select Season"}
           </span>
           <svg
             id="rotate"
@@ -75,7 +75,7 @@ function SeasonSelecBox(props: Props) {
                     className="p-3 text-sm leading-none text-gray-600 cursor-pointer hover:bg-indigo-100 hover:font-medium hover:text-indigo-700 hover:rounded"
                     onClick={() => onMenuSelect(menuItem)}
                   >
-                    {menuItem.label}
+                    {menuItem.name}
                   </p>
                 </a>
               );

@@ -31,7 +31,7 @@ type ProblemsPageProps = {
   topicId: number;
 };
 
-const ProblemsPage = () => {
+const ProblemsPage = (props:ProblemsPageProps) => {
   // const problems: Array<ProblemsInfo> = [
   //     {
   //         id: 1,
@@ -101,7 +101,7 @@ const ProblemsPage = () => {
 
   return (
     <>
-      {isModalOpen && <NewProblemModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && <NewProblemModal {...props} onClose={() => setIsModalOpen(false)} />}
       <div className="h-screen font-semibold text-[#565656]">
         <div className="flex flex-row items-center justify-between my-6 font-semibold text-xl text-[#565656]">
           <div className="p-2 pl-2">

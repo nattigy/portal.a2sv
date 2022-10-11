@@ -68,14 +68,14 @@ const IndexPage = () => {
   };
 
   const router = useRouter();
-  const pathname = router.query;
+  const query = router.query;
 
   return (
     <BaseLayout sidebar={<Sidebar sidebarProps={topicResource} />}>
       <div>
-        <h1 className="capitalize text-2xl font-semibold">{pathname?.name}</h1>
+        <h1 className="capitalize text-2xl font-semibold">{query?.name}</h1>
 
-        <ProblemsPage />
+        <ProblemsPage groupId={parseInt(query?.groupId as string)} seasonId={parseInt(query?.seasonId as string)} topicId={parseInt(query?.topicId as string)}/>
       </div>
     </BaseLayout>
   );

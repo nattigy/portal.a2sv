@@ -14,12 +14,12 @@ import { LoaderSmall } from "./Loaders";
 
 const selectMenuItems = [
   {
-    value: 3,
-    label: "Education",
+    id: 3,
+    name: "Education",
   },
   {
-    value: 4,
-    label: "Camp",
+    id: 4,
+    name: "Camp",
   },
 ];
 
@@ -29,7 +29,7 @@ const HOATopicsPage = () => {
     useState(false);
   const [selectedSeason, setSelectedSeason] = useState(selectMenuItems[0]);
   const [fetchUsers, { data, refetch, loading }] =
-    useGetAllTopicsBySeasonIdQuery(selectedSeason.value);
+    useGetAllTopicsBySeasonIdQuery(selectedSeason.id);
 
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
 
@@ -45,7 +45,7 @@ const HOATopicsPage = () => {
     <>
       {isAddTopicToGroupModalOpen && (
         <AddTopicToGroupModal
-          seasonId={selectedSeason.value}
+          seasonId={selectedSeason.id}
           onClose={() => setIsAddTopicToGroupModalOpen(false)}
           groupId={authUser?.headToGroup?.id}
         />
@@ -75,7 +75,7 @@ const HOATopicsPage = () => {
               <LoaderSmall />
             </div>
           ) : (
-            <TopicList season={selectedSeason.label} topics={data?.topics} title="All Topics" />
+            <TopicList  season={selectedSeason} topics={data?.topics} title="All Topics" />
           )}
         </div>
       </>
