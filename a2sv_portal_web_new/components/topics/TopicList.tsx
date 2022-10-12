@@ -6,8 +6,9 @@ import TopicItem from "./TopicItem";
 import TopicStruggledItem from "./TopicStruggledItem";
 
 type TopicListProps = {
+  groupId?:number;
   title: string;
-  season: string;
+  season: {id:number,name:string};
   topics: [];
 };
 
@@ -21,7 +22,7 @@ const TopicList = (props: TopicListProps) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 gap-x-12">
           {props.topics?.map((topic: any) => (
             <>
-              <TopicItem season={props.season} topic={topic} key={topic.id} title={props.title} />
+              <TopicItem season={props.season} topic={topic} key={topic.id} title={props.title} groupId={props.groupId} />
             </>
           ))}
         </div>

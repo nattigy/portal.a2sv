@@ -2,11 +2,13 @@ import React from "react";
 import { FiChevronRight } from "react-icons/fi";
 import { generateRandomColor } from "../../helpers/getReactIcon";
 import CustomLink from "../common/CustomLink";
+import SeasonItem from "../seasons/SeasonItem";
 
 export type TopicItemProps = {
   title: string;
-  season?: string;
+  season:{name:string,id:number};
   topic: any;
+  groupId?:number;
 };
 export type ColorSVG = {
   imgPath: string;
@@ -31,13 +33,21 @@ export const slugify = (...args: (string | number)[]): string => {
 };
 
 const TopicItem = (props: TopicItemProps) => {
-  console.log("hanna",props);
-  const link = `topics/${props?.season?.toLowerCase()}/${slugify(
+  const pathname = `topics/${props?.season?.name.toLowerCase()}/${slugify(
     props.topic.name
   )}/problems`;
+  
+  const href={
+    pathname: pathname,
+    query: {
+      seasonId : props.season.id ,
+      groupId : props.groupId,
+      topicId : props.topic.id,
+    }, // the data
+  }
   // console.log(link, props.seasonTopic.name, props?.seasonTopic?.season?.name, " ssfasf");
   return (
-    <CustomLink href={link}>
+    <CustomLink href={href}>
       <div className="h-[72px] flex w-full rounded-r-lg gap-x-3 bg-white items-center cursor-pointer">
         <div
           className={`w-1 h-full`}
