@@ -1,9 +1,5 @@
-import React, { useEffect } from "react";
-import useGetAllTopicsBySeasonIdQuery from "../../lib/hooks/useTopics";
-import useGetAllTopicsQuery from "../../lib/hooks/useTopics";
-import { LoaderSmall } from "../common/Loaders";
+import React from "react";
 import TopicItem from "./TopicItem";
-import TopicStruggledItem from "./TopicStruggledItem";
 
 type TopicListProps = {
   groupId?:number;

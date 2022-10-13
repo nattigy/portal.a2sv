@@ -1,9 +1,9 @@
 import { ApolloError, useMutation } from "@apollo/client";
-import { Formik, Form} from "formik";
+import { Formik, Form } from "formik";
 import React, { useState } from "react";
 import * as yup from "yup";
 import clsx from "clsx";
-import AutoCompleteSearch from "../common/AutocompleteSearch";
+import AutoCompleteSearch from "../topics/TopicsAutocomplete";
 import { ADD_TOPIC_UNDER_GROUP_AND_SEASON_ID } from "../../lib/apollo/Mutations/topicsMutations";
 import FormRejectButton from "../common/FormRejectButton";
 import FormAffirmativeButton from "../common/FormAffirmativeButton";
@@ -34,8 +34,7 @@ const AddTopicToGroupModal = (props: Props) => {
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [selectedTopic, setSelectedTopic] = useState<any|null>(null);
-
+  const [selectedTopic, setSelectedTopic] = useState<any | null>(null);
 
   const FORM_VALIDATION = yup.object().shape({
     topicId: yup.string().required("Required"),
@@ -114,10 +113,9 @@ const AddTopicToGroupModal = (props: Props) => {
                   <div className="mt-4">
                     <div className="flex flex-col justify-start gap-y-4">
                       <div className={clsx("flex items-center ")}>
-                          <AutoCompleteSearch
-                           handleSearchTopic={setSelectedTopic}
-                           />
-              
+                        <AutoCompleteSearch
+                          handleSearchTopic={setSelectedTopic}
+                        />
                       </div>
                     </div>
                   </div>
@@ -145,8 +143,11 @@ const AddTopicToGroupModal = (props: Props) => {
                   )}
 
                   <div className="flex justify-end items-center gap-x-3">
-                    <FormRejectButton onClick={() => props.onClose()} text="Cancel"/>
-                    <FormAffirmativeButton isLoading={isLoading} text="Save"/>
+                    <FormRejectButton
+                      onClick={() => props.onClose()}
+                      text="Cancel"
+                    />
+                    <FormAffirmativeButton isLoading={isLoading} text="Save" />
                   </div>
                 </div>
               </div>

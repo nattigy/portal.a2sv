@@ -4,7 +4,7 @@ import { BsChevronContract, BsCheck2 } from "react-icons/bs";
 import useAllProblems from "../../lib/hooks/useAllProblems";
 import { ProblemDifficultyType } from "../../types/problems";
 import { number } from "yup/lib/locale";
-import CommonAutocomplete from "./CommonAutocomplete";
+import CommonAutocomplete from "../common/CustomAutocomplete";
 
 type Props = {
   handleSearchProblem: (selected: any) => void;
@@ -30,7 +30,7 @@ export type ProblemType = {
   updatedAt: string;
 };
 
-export default function AutoCompleteProblems({ handleSearchProblem }: Props) {
+export default function ProblemsAutocomplete({ handleSearchProblem }: Props) {
   const [query, setQuery] = useState("");
   const { loading, error, data } = useAllProblems();
   const [problems, setProblems] = useState<Array<ProblemType>>([]);

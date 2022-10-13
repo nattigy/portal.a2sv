@@ -1,30 +1,29 @@
 import React, { useState, useEffect, Fragment, useCallback } from "react";
 import clsx from "clsx";
 import { Combobox, Transition } from "@headlessui/react";
-import { LoaderSmall } from "./Loaders";
-import CommonAutocomplete from "./CommonAutocomplete";
+import { LoaderSmall } from "../common/Loaders";
+import CommonAutocomplete from "../common/CustomAutocomplete";
 import { useGetAllTopicsForSearchQuery } from "../../lib/hooks/useTopics";
 
 type Props = {
   handleSearchTopic: (selected: any) => void;
 };
-
+export type TopicType = {
+  id:number;
+  name:string;
+}
 function AutoCompleteSearch({ handleSearchTopic }: Props) {
   const [query, setQuery] = useState("");
   const { loading, data, error } = useGetAllTopicsForSearchQuery();
   const [selectedTopic, setSelectedTopic] = useState(null);
-  const [filteredTopics, setFilteredTopics] = useState<[]>([]);
-
-
-
+  const [filteredTopics, setFilteredTopics] = useState<TopicType[]>([]);
 
   useEffect(() => {
     if (query.trim() !== "") {
-      const searchTopics = data?.topics
-        .filter((topic: any) => {
-          console.log(query, " is topic".includes(""));
-          return topic?.name.toLowerCase().includes(query.trim().toLowerCase());
-        });
+      const searchTopics = data?.topics.filter((topic: TopicType) => {
+        console.log(query, " is topic".includes(""));
+        return topic?.name.toLowerCase().includes(query.trim().toLowerCase());
+      });
       setFilteredTopics(searchTopics);
     } else {
       setFilteredTopics(data?.topics);

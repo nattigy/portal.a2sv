@@ -5,7 +5,7 @@ import NewTopicModal from "../modals/NewTopicModal";
 import TopicList from "../topics/TopicList";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../types/user";
-import useGetAllTopicsBySeasonIdQuery from "../../lib/hooks/useTopics";
+import {useGetAllTopicsBySeasonIdQuery} from "../../lib/hooks/useTopics";
 import { LoaderSmall } from "./Loaders";
 
 const selectMenuItems = [

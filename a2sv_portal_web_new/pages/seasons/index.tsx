@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import AutoCompleteField from "../../components/common/AutoCompleteField";
-import AutoCompleteSearch from "../../components/common/AutocompleteSearch";
+import AutoCompleteField from "../../components/users/HOEAutocomplete";
+import AutoCompleteSearch from "../../components/topics/TopicsAutocomplete";
 import BaseLayout from "../../components/common/BaseLayout";
 import Button from "../../components/common/Button";
 import NewSeasonModal from "../../components/modals/NewSeasonModal";
@@ -14,7 +14,7 @@ const IndexPage = () => {
   const handleModalOpen = () => {
     setIsModalOpen(true);
   };
-  
+
   const seasons: Array<SeasonItemProps> = [
     {
       seasonId: 1,
@@ -46,7 +46,7 @@ const IndexPage = () => {
         <div className="flex items-center justify-between rounded-md">
           <h1 className="font-bold text-2xl">Season</h1>
           <div className="flex gap-x-2">
-            <Button onClick={handleModalOpen} text="Create New"/>
+            <Button onClick={handleModalOpen} text="Create New" />
           </div>
         </div>
         <div className="flex flex-col gap-y-4">

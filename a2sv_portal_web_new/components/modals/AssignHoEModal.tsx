@@ -1,12 +1,10 @@
 import { ApolloError, useMutation } from "@apollo/client";
 import { Formik, Form } from "formik";
 import React, { useEffect, useState } from "react";
-import AutoCompleteField, {
-  AutoCompleteFieldProps,
-} from "../common/AutoCompleteField";
 import { ASSIGN_HOE_TO_GROUP } from "../../lib/apollo/Mutations/groupsMutations";
 import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormRejectButton from "../common/FormRejectButton";
+import HOEAutocomplete from "../users/HOEAutocomplete";
 
 type Props = {
   onClose: () => void;
@@ -18,8 +16,7 @@ const AssignHoEModal = (props: Props) => {
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [selected, setSelected] = useState<null|any>(null);
-
+  const [selected, setSelected] = useState<null | any>(null);
 
   return (
     <>
@@ -97,9 +94,7 @@ const AssignHoEModal = (props: Props) => {
                   <div className="">
                     <div className="flex flex-col justify-start gap-y-4">
                       <div>
-                        <AutoCompleteField
-                        handleSearchStudent={setSelected}
-                        />
+                        <HOEAutocomplete handleSearchStudent={setSelected} />
                         <p className="w-full text-xs text-red-500">
                           {errors.name}
                         </p>
@@ -120,7 +115,10 @@ const AssignHoEModal = (props: Props) => {
                       text="Cancel"
                       onClick={() => props.onClose()}
                     />
-                    <FormAffirmativeButton isLoading={isSubmitting} text="Save" />{" "}
+                    <FormAffirmativeButton
+                      isLoading={isSubmitting}
+                      text="Save"
+                    />{" "}
                   </div>
                 </div>
               </div>
