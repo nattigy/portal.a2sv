@@ -4,9 +4,7 @@ import { LoaderSmall } from "../../components/common/Loaders";
 import ProblemsTable from "../../components/problems/ProblemsTable";
 import useAllProblems from "../../lib/hooks/useAllProblems";
 import {
-  ProblemDifficultyType,
-  ProblemsInfo,
-  ProblemStatus,
+  ProblemsInfo
 } from "../../types/problems";
 
 const IndexPage = () => {

@@ -2,8 +2,6 @@ import React from "react";
 import { useState } from "react";
 import { useReactiveVar } from "@apollo/client";
 import { authenticatedUser } from "../../lib/constants/authenticated";
-import auth from "../../pages/auth";
-import { GraphqlUserRole } from "../../types/user";
 
 export type FilterItem = {
   title: string;
@@ -24,7 +22,6 @@ type Props = {
 };
 
 const DashboardFilter = (props: Props) => {
-  const [filterSelected, setFilterSelected] = useState(0);
   const authUser = useReactiveVar(authenticatedUser);
   return (
     <div className="flex flex-row bg-white rounded-sm w-full h-16 items-center my-2 mb-4 px-5">
@@ -46,16 +43,6 @@ const DashboardFilter = (props: Props) => {
           </div>
         ))}
       </div>
-      {/* {(authUser as any).role !== GraphqlUserRole.STUDENT && (
-        <div className="flex justify-end items-center px-5">
-          <button
-            onClick={props.handleModalOpen}
-            className="flex justify-center items-center min-w-min px-6 py-3 text-sm font-semibold text-white bg-primary rounded-lg"
-          >
-            Add New Student
-          </button>
-        </div>
-      )} */}
     </div>
   );
 };

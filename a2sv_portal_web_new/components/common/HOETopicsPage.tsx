@@ -1,16 +1,13 @@
 import { useReactiveVar } from "@apollo/client";
-import React, { ReactNode, useEffect, useState } from "react";
-import BaseLayout from "./BaseLayout";
-import CustomDropdown, { CustomDropdownProps } from "./CustomDropdown";
+import React, { useEffect, useState } from "react";
 import AddTopicToGroupModal from "../modals/AddTopicToGroupModal";
 import NewTopicModal from "../modals/NewTopicModal";
-import SeasonSelecBox from "../topics/SeasonSelecBox";
 import TopicList from "../topics/TopicList";
-import TopicStruggledList from "../topics/TopicStruggledList";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../types/user";
 import { useGetAllTopicsByGroupAndSeasonIdQuery } from "../../lib/hooks/useTopics";
 import { LoaderSmall } from "./Loaders";
+import Button from "./Button";
 
 type Props = {
   groupId: number;
@@ -64,18 +61,9 @@ const HOETopicsPage = ({groupId}: Props) => {
         <div className="w-full flex flex-col md:flex-row justify-between">
           <div className=" justify-between flex items-center mb-2 gap-x-5 ">
             <h1 className="text-2xl font-bold text-gray-700">Topics</h1>
-            <SeasonSelecBox
-              handleSelect={(val) => setSelectedSeason(val)}
-              selectMenuItems={selectMenuItems}
-            />
           </div>
           {authUser.role === GraphqlUserRole.HEAD_OF_EDUCATION && (
-            <button
-              onClick={handleAddTopicToGroupModalOpen}
-              className="flex justify-center items-center w-44 px-2 text-sm font-semibold text-white bg-primary rounded-lg"
-            >
-              Add Topic To Group
-            </button>
+            <Button onClick={handleAddTopicToGroupModalOpen} text="Add Topic to Group"/>
           )}
         </div>
         <div className="flex flex-col gap-y-4">

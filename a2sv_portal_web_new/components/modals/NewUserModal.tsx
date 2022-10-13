@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
-import clsx from "clsx";
 import { AiOutlineUser } from "react-icons/ai";
 import { ApolloError, useMutation, useReactiveVar } from "@apollo/client";
 import { CREATE_USER_MUTATION } from "../../lib/apollo/Mutations/usersMutations";
 import { GraphqlUserRole } from "../../types/user";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
+import FormAffirmativeButton from "../common/FormAffirmativeButton";
+import FormRejectButton from "../common/FormRejectButton";
+import FormField from "../common/FormField";
+import FormDropdown from "../common/FormDropdown";
 
 interface FormValues {
   name: string;
@@ -44,10 +47,6 @@ const NewUserModal = (props: Props) => {
   const authUser = useReactiveVar<AuthUser | any>(authenticatedUser);
 
   const INITIAL_VALUES = {
-    // status: QuestionStatus.NOT_SOLVED,
-    // time_spent: 0,
-    // total_attempts: 0,
-    // wrong_submissions: 0
   } as FormValues;
 
   return (
@@ -63,7 +62,6 @@ const NewUserModal = (props: Props) => {
               variables: {
                 createUserInput: {
                   email: values.email,
-                  // groupId: authUser,
                   password: values.password,
                   role:
                     authUser &&
@@ -124,127 +122,99 @@ const NewUserModal = (props: Props) => {
                       </svg>
                     </div>
                   </div>
-                  <p className="tracking-wider text-md font-normal text-start text-[#949494]">
+                  <p className="tracking-wider text-sm font-normal text-start text-[#949494]">
                     Add new user to the system and easily track everything.
                   </p>
                 </div>
                 <div className="flex flex-col gap-y-4 my-2">
-                  <div className="">
-                    <div className="flex flex-col justify-start gap-y-4">
-                      <div>
-                        <Field
-                          id="name"
-                          name="name"
-                          placeholder="Name"
-                          type="text"
-                          className={clsx(
-                            "w-full text-sm placeholder-[#949494] border bg-white rounded-md focus:outline-none py-3 px-4 my-2",
-                            touched.name && errors.name
-                              ? "border-red-500"
-                              : "border-[#DCDCDC]"
-                          )}
-                        />
-                        {touched.name && errors.name && (
-                          <p className="w-full text-xs text-red-500">
-                            {errors.name}
-                          </p>
-                        )}
-                      </div>
-                      <div>
-                        <Field
-                          id="email"
-                          name="email"
-                          placeholder="Email"
-                          type="text"
-                          className={clsx(
-                            "w-full text-sm placeholder-[#949494] border bg-white rounded-md focus:outline-none py-3 px-4 my-2",
-                            touched.email && errors.email
-                              ? "border-red-500"
-                              : "border-[#DCDCDC]"
-                          )}
-                        />
-                        {touched.email && errors.email && (
-                          <p className="w-full text-xs text-red-500">
-                            {errors.email}
-                          </p>
-                        )}
-                      </div>
-                      <div>
-                        <Field
-                          id="password"
-                          name="password"
-                          placeholder="Password"
-                          type="password"
-                          className={clsx(
-                            "w-full text-sm placeholder-[#949494] border bg-white rounded-md focus:outline-none py-3 px-4",
-                            touched.password && errors.password
-                              ? "border-red-500"
-                              : "border-[#DCDCDC]"
-                          )}
-                        />
-                        {touched.password && errors.password && (
-                          <p className="w-full text-xs text-red-500">
-                            {errors.password}
-                          </p>
-                        )}
-                      </div>
+                  <div className="flex flex-col justify-start gap-y-4">
+                    <div>
+                      <FormField
+                        id="name"
+                        name="name"
+                        placeholder="Name"
+                        error={errors.name}
+                        touched={touched.name}
+                      />
+                      {touched.name && errors.name && (
+                        <p className="w-full text-xs text-red-500">
+                          {errors.name}
+                        </p>
+                      )}
                     </div>
-                  </div>
-                  <div className="w-full flex flex-col items-center">
-                    <div className="my-3 w-full flex justify-between items-center">
-                      <h2 className="font-semibold text-lg">Roles</h2>
+                    <div>
+                      <FormField
+                        id="email"
+                        name="email"
+                        placeholder="Email"
+                        error={errors.email}
+                        touched={touched.email}
+                      />
+                      {touched.email && errors.email && (
+                        <p className="w-full text-xs text-red-500">
+                          {errors.email}
+                        </p>
+                      )}
                     </div>
-                    <p className="tracking-wider text-md text-start text-[#949494]">
-                      This role will be used to grant different permissions to
-                      different users.
-                    </p>
-                  </div>
-                  {authUser &&
-                    authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY && (
-                      <div className="">
-                        <div className="flex flex-col justify-start gap-y-4">
-                          <div className="flex items-center">
-                            <div className="bg-white dark:bg-gray-100 rounded-full w-full h-8 flex flex-shrink-0 justify-start items-center relative">
-                              <AiOutlineUser
-                                size={20}
-                                className="absolute left-2"
-                              />
-                              <Field
-                                as="select"
+                    <div>
+                      <FormField
+                        id="password"
+                        name="password"
+                        placeholder="Password"
+                        error={errors.password}
+                        touched={touched.password}
+                      />
+                      {touched.password && errors.password && (
+                        <p className="w-full text-xs text-red-500">
+                          {errors.password}
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex flex-col gap-y-4">
+                      <div>
+                        <div className="my-3 w-full flex justify-between items-center">
+                          <h2 className="font-semibold text-lg">Roles</h2>
+                        </div>
+                        <p className="tracking-wider text-md text-start text-[#949494]">
+                          This role will be used to grant different permissions
+                          to different users.
+                        </p>
+                      </div>
+                      {authUser &&
+                        authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY && (
+                          <div className="flex flex-col justify-start gap-y-4">
+                            <div className="flex items-center">
+                              <FormDropdown
                                 name="role"
-                                className={clsx(
-                                  "w-full h-12 px-8 border rounded-md",
-                                  touched.role && errors.role
-                                    ? "border-red-500"
-                                    : ""
-                                )}
-                              >
-                                <option
-                                  className="h-20"
-                                  value=""
-                                  selected
-                                  disabled
-                                  hidden
-                                >
-                                  Select Role
-                                </option>
-                                <option value={GraphqlUserRole.STUDENT}>
-                                  Student
-                                </option>
-                                <option value={GraphqlUserRole.ASSISTANT}>
-                                  Assistant
-                                </option>
-                                <option
-                                  value={GraphqlUserRole.HEAD_OF_EDUCATION}
-                                >
-                                  Head of Education
-                                </option>
-                              </Field>
+                                placeholder="Select Role"
+                                error={errors.role}
+                                touched={touched.role}
+                                icon={
+                                  <AiOutlineUser
+                                    size={20}
+                                    className="absolute left-2"
+                                  />
+                                }
+                                options={[
+                                  {
+                                    name: "Student",
+                                    value: GraphqlUserRole.STUDENT,
+                                  },
+                                  {
+                                    name: "Assistant",
+                                    value: GraphqlUserRole.ASSISTANT,
+                                  },
+                                  {
+                                    name: "Head of Education",
+                                    value: GraphqlUserRole.HEAD_OF_EDUCATION,
+                                  },
+                                ]}
+                              />
                             </div>
                           </div>
-                        </div>
-                      </div>
-                    )}
+                        )}
+                    </div>
+                  </div>
                   {errorMessage && (
                     <div className="bg-[#E4646451] py-1 rounded-md">
                       <span className="text-[#E46464] px-4 text-xs">
@@ -253,41 +223,11 @@ const NewUserModal = (props: Props) => {
                     </div>
                   )}
                   <div className="flex justify-end items-center gap-x-3">
-                    <button
+                    <FormRejectButton
+                      text="Cancel"
                       onClick={() => props.onClose()}
-                      className="min-w-min px-6 py-3 mt-4 text-sm font-semibold bg-primary bg-opacity-10 text-gray-600 rounded-lg"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="min-w-min flex px-6 py-3 mt-4 text-sm font-semibold text-white bg-primary rounded-lg"
-                    >
-                      {isLoading && (
-                        <svg
-                          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          ></circle>
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          ></path>
-                        </svg>
-                      )}
-                      Save
-                    </button>
+                    />
+                    <FormAffirmativeButton isLoading={isLoading} text="Save" />
                   </div>
                 </div>
               </div>

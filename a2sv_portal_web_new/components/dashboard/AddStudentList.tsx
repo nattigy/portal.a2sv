@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import CustomLink from "../common/CustomLink";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import AddStudentListItem, { StudentsInfo } from "./AddStudentListItem";
-import { UserRoleType } from "../../types/user";
-import {
-  useGetUsersWithNoGroup,
-  useUsersByGroupId,
-} from "../../lib/hooks/useUsers";
-import { LoaderSmall } from "../common/Loaders";
 import SearchField from "../common/SearchField";
 import { ApolloError, useMutation } from "@apollo/client";
 import { ADD_STUDENTS_TO_GROUP } from "../../lib/apollo/Mutations/usersMutations";
@@ -26,6 +18,9 @@ const AddStudentList = (props: Props) => {
     props.students
   );
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedStudent, setSelectedStudent] = useState<Set<number>>(
+    new Set([])
+  );
   const [selectedStudentCount, setSelectedStudentCount] = useState(0);
   const [addStudentsToGroup, { loading, data, error }] = useMutation(
     ADD_STUDENTS_TO_GROUP
@@ -37,9 +32,6 @@ const AddStudentList = (props: Props) => {
     setSearchStudents(props.students);
   }, [props.students]);
 
-  const [selectedStudent, setSelectedStudent] = useState<Set<number>>(
-    new Set([])
-  );
 
   const handleStudentCheck = (id: number) => {
     if (selectedStudent.has(id)) {

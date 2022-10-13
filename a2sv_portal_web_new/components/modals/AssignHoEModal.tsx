@@ -6,6 +6,8 @@ import AutoCompleteField, {
 } from "../common/AutoCompleteField";
 import { useFilteredUsers } from "../../lib/hooks/useUsers";
 import { ASSIGN_HOE_TO_GROUP } from "../../lib/apollo/Mutations/groupsMutations";
+import FormAffirmativeButton from "../common/FormAffirmativeButton";
+import FormRejectButton from "../common/FormRejectButton";
 
 type Props = {
   onClose: () => void;
@@ -131,41 +133,11 @@ const AssignHoEModal = (props: Props) => {
                   )}
 
                   <div className="flex justify-end items-center gap-x-3">
-                    <button
+                    <FormRejectButton
+                      text="Cancel"
                       onClick={() => props.onClose()}
-                      className="min-w-min px-6 py-3 mt-4 text-sm font-semibold bg-primary bg-opacity-10 text-gray-600 rounded-lg"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="flex justify-center items-center min-w-min px-6 py-3 mt-4 text-sm font-semibold text-white bg-primary rounded-lg"
-                    >
-                      {isLoading && (
-                        <svg
-                          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          ></circle>
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          ></path>
-                        </svg>
-                      )}
-                      Save
-                    </button>
+                    />
+                    <FormAffirmativeButton isLoading={isSubmitting} text="Save" />{" "}
                   </div>
                 </div>
               </div>

@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import BaseLayout from "../../../components/common/BaseLayout";
-import ContestSidebarItem from "../../../components/contests/ContestSidebarItem";
-import AddQuestionsList from "../../../components/newcontest/AddQuestionsList";
 import ContestInfoItem from "../../../components/newcontest/ContestInfoItem";
 import NewContestSidebarItem from "../../../components/newcontest/NewContestSidebarItem";
 import QuestionsItem, {

@@ -17,22 +17,6 @@ const INITIAL_VALUES = {
   password: "",
 } as FormValues;
 
-// const FORM_VALIDATION = yup.object().shape({
-//   email: yup
-//     .string()
-//     .required("Required")
-//     .email("email should have the format user@example.com"),
-//   password: yup
-//     .string()
-//     .min(8)
-//     .required("Required")
-//     .min(8, "Too Short!")
-//     .matches(
-//       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-//       "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-//     ),
-// });
-
 const LoginForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -51,7 +35,6 @@ const LoginForm = () => {
         </p>
         <Formik
           initialValues={INITIAL_VALUES}
-          // validationSchema={FORM_VALIDATION}
           onSubmit={async (values: any) => {
             setIsLoading(true);
             try {

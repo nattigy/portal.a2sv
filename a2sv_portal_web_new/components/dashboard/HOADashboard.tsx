@@ -3,9 +3,10 @@ import { BsPlus } from "react-icons/bs";
 import CustomDropdown, { CustomDropdownProps } from "../common/CustomDropdown";
 import SearchField from "../common/SearchField";
 import BaseLayout from "../common/BaseLayout";
-import NewGroupModal from "../modals/NewGroupModal";
 import GroupItemList from "./GroupItemList";
 import GroupStatList from "./GroupStatList";
+import Button from "../common/Button";
+import NewGroupModal from "../modals/NewGroupModal";
 
 type Props = {};
 
@@ -21,8 +22,9 @@ const HOADashboard = (props: Props) => {
   };
   return (
     <BaseLayout>
-
-
+      {isModalOpen && (
+        <NewGroupModal onClose={() => setIsModalOpen(false)} />
+      )}
       <div className="w-full h-screen pt-7 flex flex-col gap-y-6">
         <GroupStatList />
         <div className="flex flex-row justify-between ">
@@ -32,13 +34,11 @@ const HOADashboard = (props: Props) => {
               Here‘s the list of all groups{" "}
             </p>
           </div>
-          <div
+          <Button
+            icon={<BsPlus color="#ffffff" size={18} />}
             onClick={handleModalOpen}
-            className="flex flex-row gap-x-1 cursor-pointer bg-[#5956E9] rounded-md items-center px-3"
-          >
-            <BsPlus color="#ffffff" size={18} />
-            <p className="font-medium  text-white text-xs">New Group</p>
-          </div>
+            text="New Group"
+          />
         </div>
 
         <div className="grid grid-cols-12 gap-y-5 w-full">

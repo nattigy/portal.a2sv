@@ -1,11 +1,6 @@
 import React from "react";
 import { AiOutlineMinus } from "react-icons/ai";
 import { BiDownArrowAlt, BiUpArrowAlt } from "react-icons/bi";
-import { FaLongArrowAltUp, FaLongArrowAltDown } from "react-icons/fa";
-import { MdContentPaste } from "react-icons/md";
-import problems from "../../pages/problems";
-import { ProblemsInfo } from "../../types/problems";
-import { DifficultyChips } from "../problems/DifficultyChips";
 
 export type AcceptanceInfo = {
   id: number;

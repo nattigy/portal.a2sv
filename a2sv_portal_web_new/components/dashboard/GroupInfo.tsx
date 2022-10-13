@@ -24,21 +24,9 @@ const GroupInfo = (props: Props) => {
   // router.query["id"]?.toString()
   console.log(data, " is group data users");
   useEffect(() => {
-    // setCurrentPath(parseInt(router.query["id"]?.toString() || "1"))
     setCurrentPath(props.groupId);
     refetch();
   }, [router.pathname]);
-  //   const [loadUsers, { loading, data, error, refetch }] = useFilteredUsers(tabIndex);
-  //     useEffect(() => {
-  //       loadUsers();
-  //     }, [tabIndex]);
-
-  //     useEffect(() => {
-  //       if (data) {
-  //         console.log("data is ", data);
-  //         setUsersData(data.users);
-  //       }
-  //     }, [refetch, data]);
 
   const handleTabChange = (index: number) => {
     setTabIndex(index);
@@ -71,11 +59,6 @@ const GroupInfo = (props: Props) => {
           handleTabChange={handleTabChange}
           activeIndex={tabIndex}
         />
-        {/* {loading ? (
-          <div className="w-full flex justify-center">
-            <LoaderSmall color="#5956E9" />
-          </div>
-        ) : ( */}
         <div className="">
           {tabIndex == 0 && <StatComponent groupData={data} />}
           {tabIndex == 1 && (

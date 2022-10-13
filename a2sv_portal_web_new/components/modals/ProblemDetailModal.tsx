@@ -2,6 +2,8 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
 import clsx from "clsx";
+import FormAffirmativeButton from "../common/FormAffirmativeButton";
+import FormRejectButton from "../common/FormRejectButton";
 
 export enum QuestionStatus {
   SOLVED = "SOLVED",
@@ -195,19 +197,11 @@ const ProblemDetailModal = (props: Props) => {
                   </div>
 
                   <div className="flex justify-end items-center gap-x-3">
-                    <button
+                    <FormRejectButton
+                      text="Cancel"
                       onClick={() => props.onClose()}
-                      className="min-w-min px-6 py-2 mt-4 text-sm font-semibold bg-primary bg-opacity-10 text-gray-600 rounded-lg"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="min-w-min px-6 py-2 mt-4 text-sm font-semibold text-white bg-primary rounded-lg"
-                    >
-                      Submit
-                    </button>
+                    />
+                    <FormAffirmativeButton isLoading={isSubmitting} text="Save" />
                   </div>
                 </div>
               </div>

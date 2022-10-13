@@ -5,6 +5,10 @@ import clsx from "clsx";
 import { getNationality } from "../../helpers/getNationalityFlag";
 import { ApolloError, useMutation } from "@apollo/client";
 import { CREATE_GROUP_MUTATION } from "../../lib/apollo/Mutations/groupsMutations";
+import FormAffirmativeButton from "../common/FormAffirmativeButton";
+import FormRejectButton from "../common/FormRejectButton";
+import FormField from "../common/FormField";
+import FormDropdown from "../common/FormDropdown";
 
 export enum RoleTypes {
   STUDENT = "Student",
@@ -26,12 +30,7 @@ const NewGroupModal = (props: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const INITIAL_VALUES = {
-    // status: QuestionStatus.NOT_SOLVED,
-    // time_spent: 0,
-    // total_attempts: 0,
-    // wrong_submissions: 0
-  } as FormValues;
+  const INITIAL_VALUES = {} as FormValues;
 
   const FORM_VALIDATION = yup.object().shape({
     name: yup.string().required("Required").min(3).max(40),
@@ -75,7 +74,7 @@ const NewGroupModal = (props: Props) => {
             <Form>
               <div
                 role="alert"
-                className="flex flex-col gap-y-3 min-h-[400px] bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-8 py-5"
+                className="flex flex-col gap-y-3 min-h-fit bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-8 py-5"
               >
                 <div className="w-full flex flex-col items-center">
                   <div className="my-3 w-full flex justify-between items-center">
@@ -113,143 +112,76 @@ const NewGroupModal = (props: Props) => {
                     Add new group to the system and easily track everything.
                   </p>
                 </div>
-                <div className="flex flex-col gap-y-4 my-2">
-                  <div className="">
-                    <div className="flex flex-col justify-start gap-y-4">
-                      <div>
-                        <Field
-                          id="name"
-                          name="name"
-                          placeholder="Group name"
-                          type="text"
-                          onChange={handleChange}
-                          className={clsx(
-                            "w-full text-sm placeholder-[#949494] border bg-white rounded-md focus:outline-none py-3 px-4 my-2",
-                            touched.name && errors.name
-                              ? "border-red-500"
-                              : "border-[#DCDCDC]"
-                          )}
-                        />
-                        <p className="w-full text-xs text-red-500">
-                          {errors.name}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="">
-                    <div className="flex flex-col justify-start gap-y-4">
-                      <div className="flex items-center">
-                        <div className="bg-white dark:bg-gray-100 rounded-full w-full h-8 flex flex-shrink-0 justify-start items-center relative">
-                          <div className="absolute left-3">
-                            <img
-                              src={getNationality(values.country)}
-                              className="w-6 rounded-full"
-                              alt=""
-                            />
-                          </div>
-                          <Field
-                            as="select"
-                            name="country"
-                            className={clsx(
-                              "w-full h-12 px-10 border rounded-md text-sm text-[#949494]",
-                              touched.country && errors.country
-                                ? "border-red-500"
-                                : ""
-                            )}
-                          >
-                            <option
-                              className="h-20"
-                              value=""
-                              selected
-                              disabled
-                              hidden
-                            >
-                              Country
-                            </option>
-                            <option value="Ethiopia">Ethiopia</option>
-                            <option value="Ghana">Ghana</option>
-                            <option value="Turkey">Turkey</option>
-                          </Field>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-y-2">
-                    <div className="w-full flex flex-col items-center">
-                      <div className="my-3 w-full flex justify-between items-center">
-                        <h2 className="font-semibold text-lg">Institute</h2>
-                      </div>
-                      <p className="tracking-wider text-md text-start text-[#949494]">
-                        Enter the institute name where this group is located in.
+                <div className="w-full">
+                  <div className="flex flex-col justify-start">
+                    <div className="flex flex-col items-center">
+                      <FormField
+                        id="name"
+                        placeholder="Group Name"
+                        name="name"
+                        touched={touched.name}
+                        error={errors.name}
+                      />
+                      <p className="w-full text-xs text-red-500">
+                        {errors.name}
                       </p>
                     </div>
-                    <div className="">
-                      <div className="flex flex-col justify-start gap-y-4">
-                        <div>
-                          <Field
-                            id="school"
-                            name="school"
-                            placeholder="School"
-                            type="text"
-                            onChange={handleChange}
-                            className={clsx(
-                              "w-full text-sm placeholder-[#949494] border bg-white rounded-md focus:outline-none py-3 px-4 my-2",
-                              touched.school && errors.school
-                                ? "border-red-500"
-                                : "border-[#DCDCDC]"
-                            )}
-                          />
-                          <p className="w-full text-xs text-red-500">
-                            {errors.school}
-                          </p>
-                        </div>
+                  </div>
+                </div>
+                <div className="w-full">
+                  <div className="flex flex-col justify-start">
+                    <div className="flex items-center my-2 relative">
+                      <div className="absolute left-2 z-10">
+                        <img
+                          src={getNationality(values.country)}
+                          className="w-6 rounded-full"
+                          alt=""
+                        />
                       </div>
-                    </div>
-                    {errorMessage && (
-                      <div className="bg-[#E4646451] py-1 rounded-md">
-                        <span className="text-[#E46464] px-4 text-xs">
-                          {errorMessage}
-                        </span>
-                      </div>
-                    )}
-                    <div className="flex justify-end items-center gap-x-3">
-                      <button
-                        onClick={() => props.onClose()}
-                        className="min-w-min px-6 py-3 mt-4 text-sm font-semibold bg-primary bg-opacity-10 text-gray-600 rounded-lg"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="flex justify-center items-center min-w-min px-6 py-3 mt-4 text-sm font-semibold text-white bg-primary rounded-lg"
-                      >
-                        {isLoading && (
-                          <svg
-                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                          >
-                            <circle
-                              className="opacity-25"
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              stroke="currentColor"
-                              strokeWidth="4"
-                            ></circle>
-                            <path
-                              className="opacity-75"
-                              fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                            ></path>
-                          </svg>
-                        )}
-                        Save
-                      </button>
+                      <FormDropdown
+                        name="country"
+                        placeholder="Select Country"
+                        options={[
+                          { name: "Ethiopia", value: "Ethiopia" },
+                          { name: "Ghana", value: "Ghana" },
+                          { name: "Turkey", value: "Turkey" },
+                        ]}
+                      />
                     </div>
                   </div>
+                </div>
+                <div className="w-full my-2">
+                  <div className="flex justify-between items-center">
+                    <h2 className="font-semibold text-lg">Institute</h2>
+                  </div>
+                  <div className="flex flex-col justify-start">
+                    <div className="flex flex-col items-center">
+                      <FormField
+                        id="school"
+                        name="school"
+                        placeholder="School"
+                        error={errors.school}
+                        touched={touched.school}
+                      />
+                      <p className="w-full text-xs text-red-500">
+                        {errors.school}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                {errorMessage && (
+                  <div className="bg-[#E4646451] py-1 rounded-md">
+                    <span className="text-[#E46464] px-4 text-xs">
+                      {errorMessage}
+                    </span>
+                  </div>
+                )}
+                <div className="flex justify-end items-center gap-x-3">
+                  <FormRejectButton
+                    text="Cancel"
+                    onClick={() => props.onClose()}
+                  />
+                  <FormAffirmativeButton isLoading={isSubmitting} text="Save" />{" "}
                 </div>
               </div>
             </Form>

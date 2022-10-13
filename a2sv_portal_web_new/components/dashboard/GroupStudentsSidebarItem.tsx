@@ -1,11 +1,7 @@
 import React, { ReactNode, useState, useEffect } from "react";
 import clsx from "clsx";
-import { MdContentPaste } from "react-icons/md";
-import { getGoogleIcon } from "../../helpers/getGoogleIcon";
-import CustomLink from "../common/CustomLink";
 import AddStudentList from "./AddStudentList";
 import { useGetUsersWithNoGroup } from "../../lib/hooks/useUsers";
-import { StudentsInfo } from "./AddStudentListItem";
 import { LoaderSmall } from "../common/Loaders";
 
 export type GroupStudentsSidebarProps = {

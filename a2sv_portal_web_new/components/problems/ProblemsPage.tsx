@@ -1,25 +1,16 @@
 import React, { ReactNode, useEffect, useState } from "react";
-import { FaLongArrowAltUp, FaLongArrowAltDown } from "react-icons/fa";
-import { MdContentPaste } from "react-icons/md";
-import { DifficultyChips } from "./DifficultyChips";
-import { getIcon } from "../../helpers/getReactIcon";
 import {
   ProblemsInfo,
-  ProblemDifficultyType,
-  ProblemStatus,
 } from "../../types/problems";
-import CustomLink from "../common/CustomLink";
-import ProblemModalDetail from "../../components/modals/ProblemDetailModal";
 import ProblemsTable from "./ProblemsTable";
 import { useReactiveVar } from "@apollo/client";
 import { authenticatedUser } from "../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../types/user";
 import NewProblemModal from "../modals/NewProblemModal";
-import useAllGroups from "../../lib/hooks/useAllGroups";
 import useAllProblems, {
-  useGetProblemsByGroupSeasonTopic,
 } from "../../lib/hooks/useAllProblems";
 import { LoaderSmall } from "../common/Loaders";
+import Button from "../common/Button";
 
 export type PlatformInfo = {
   id: string;
@@ -32,54 +23,10 @@ type ProblemsPageProps = {
 };
 
 const ProblemsPage = (props:ProblemsPageProps) => {
-  // const problems: Array<ProblemsInfo> = [
-  //     {
-  //         id: 1,
-  //         name: "Min Cost Climbing Stairs",
-  //         difficulty: ProblemDifficultyType.EASY,
-  //         platform: {
-  //             id: "leetcode",
-  //             name: "Leetcode",
-  //         },
-  //         status: ProblemStatus.SOLVED,
-  //     },
-  //     {
-  //         id: 2,
-  //         name: "Min Cost Falling Stairs",
-  //         difficulty: ProblemDifficultyType.MEDIUM,
-  //         platform: {
-  //             id: "hackerrank",
-  //             name: "Hackerrank",
-  //         },
-  //         status: ProblemStatus.SOLVED,
-  //     },
-  //     {
-  //         id: 3,
-  //         name: "Min Cost Tripping Stairs",
-  //         difficulty: ProblemDifficultyType.HARD,
-  //         platform: {
-  //             id: "codeforces",
-  //             name: "Codeforces",
-  //         },
-  //         status: ProblemStatus.SOLVED,
-  //     },
-  //     {
-  //         id: 4,
-  //         name: "Max Cost Tripping Stairs",
-  //         difficulty: ProblemDifficultyType.HARD,
-  //         platform: {
-  //             id: "geeksforgeeks",
-  //             name: "GeeksForGeeks",
-  //         },
-  //         status: ProblemStatus.SOLVED,
-  //     },
-  // ];
-
   const authUser = useReactiveVar(authenticatedUser);
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { loading, data, refetch, error } = useAllProblems();
-  // const [getProblems, { loading, data, refetch }] = useGetProblemsByGroupSeasonTopic(seasonId,groupId,topicId);
   const [problems, setProblems] = useState<ProblemsInfo[]>([]);
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -88,10 +35,6 @@ const ProblemsPage = (props:ProblemsPageProps) => {
   const handleSearch = (e: any) => {
     setSearchQuery(e.target.value);
   };
-  // useEffect(()=>{
-  //   getProblems();
-
-  // },[refetch])
 
   useEffect(() => {
     if (data) {
@@ -136,12 +79,7 @@ const ProblemsPage = (props:ProblemsPageProps) => {
           <div>
             {(authUser as any).role !== GraphqlUserRole.STUDENT && (
               <div className="flex justify-end items-center px-5">
-                <button
-                  onClick={handleModalOpen}
-                  className="flex justify-center items-center min-w-min px-6 py-3 text-sm font-semibold text-white bg-primary rounded-lg"
-                >
-                  Add New Problem
-                </button>
+                <Button onClick={handleModalOpen} text="Add New Problem"/>
               </div>
             )}
           </div>

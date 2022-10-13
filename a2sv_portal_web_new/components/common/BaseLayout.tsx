@@ -1,12 +1,7 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { WithChildren } from "../../types/common";
 import { useRouter } from "next/router";
-import { useMutation, useReactiveVar } from "@apollo/client";
-
-import {
-  LOGOUT_MUTATION,
-  SIGN_IN_MUTATION,
-} from "../../lib/apollo/Mutations/authMutations";
+import { useReactiveVar } from "@apollo/client";
 import useLogout from "../../lib/hooks/useLogout";
 import authenticatedVar, {
   authenticatedUser,

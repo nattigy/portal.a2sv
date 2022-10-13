@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import React from "react";
-import BaseLayout from "../../../components/common/BaseLayout";
 import GroupInfo from "../../../components/dashboard/GroupInfo";
 
 type Props = {};

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import CustomLink from "../common/CustomLink";
-import { format, formatDistance, formatRelative, subDays } from "date-fns";
+import { format } from "date-fns";
 import MenuItem from "../common/MenuItem";
 import AssignHoEModal from "../modals/AssignHoEModal";
 export const StudentAvatar: React.FC<{ url: string }> = ({ url }: { url: string }) => {

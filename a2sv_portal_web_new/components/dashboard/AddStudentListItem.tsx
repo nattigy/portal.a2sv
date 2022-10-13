@@ -1,6 +1,4 @@
 import React, { ChangeEventHandler } from "react";
-import CustomLink from "../common/CustomLink";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import { UserRoleType } from "../../types/user";
 import clsx from "clsx";
 
@@ -29,8 +27,6 @@ const AddStudentListItem = ({ studentProps, handleStudentCheck }: Props) => {
     <div
       className={clsx(
         "flex gap-x-4 py-2 cursor-pointer"
-        // ? "bg-[#5956E91F]"
-        // : ""
       )}
     >
       <input

@@ -1,16 +1,13 @@
 import { useReactiveVar } from "@apollo/client";
-import React, { ReactNode, useEffect, useState } from "react";
-import { FaLongArrowAltUp, FaLongArrowAltDown } from "react-icons/fa";
-import ProblemModalDetail from "../../components/modals/ProblemDetailModal";
+import React, { useState } from "react";
+import { BsPlus } from "react-icons/bs";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import {
   useUsersByGroupId,
   useUsersOfSingleGroup,
 } from "../../lib/hooks/useUsers";
+import Button from "../common/Button";
 import { LoaderSmall } from "../common/Loaders";
-import NewUserModal from "../modals/NewUserModal";
-import AddStudentList from "./AddStudentList";
-import GroupStudentsSidebarItem from "./GroupStudentsSidebarItem";
 import StudentTable from "./StudentTable";
 
 type Props = {
@@ -54,9 +51,6 @@ const GroupStudents = (props: Props) => {
 
   return (
     <>
-      {/* {isModalOpen && (
-        <NewUserModal onClose={() => setIsModalOpen(false)} />
-      )} */}
       <div className="h-screen font-semibold text-[#565656]">
         <div className="flex justify-between items-center">
           <p className="text-[rgb(103,103,103)] font-semibold text-lg">
@@ -72,12 +66,11 @@ const GroupStudents = (props: Props) => {
                 Cancel
               </button>
             ) : (
-              <button
+              <Button
                 onClick={() => props.setIsAddStudentToGroupSidebarOpen(true)}
-                className="px-4 py-2 bg-[#5956E9] rounded-lg text-center text-white font-medium text-sm"
-              >
-                + Add Student
-              </button>
+                text="Add Student"
+                icon={<BsPlus color="#ffffff" size={18} />}
+              />
             )}
           </div>
         </div>

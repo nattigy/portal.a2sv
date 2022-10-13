@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { Formik, Form, Field, FormikValues } from "formik";
+import { Formik, Form } from "formik";
 import * as yup from "yup";
-import clsx from "clsx";
-import { AiOutlineUser } from "react-icons/ai";
-import { ApolloError, useMutation } from "@apollo/client";
 import DateView from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { BiCalendar, BiTime } from "react-icons/bi";
+import FormAffirmativeButton from "../common/FormAffirmativeButton";
+import FormRejectButton from "../common/FormRejectButton";
+import FormField from "../common/FormField";
 
 interface FormValues {
   season_name: string;
@@ -74,112 +73,92 @@ const NewSeasonModal = (props: Props) => {
                       </svg>
                     </div>
                   </div>
-                  <div>
-                    <div>
+                  <div className="w-full flex flex-col items-center">
+                    <p className="tracking-wider text-md text-start text-[#949494]">
+                      Add New Season where students can do specific activities
+                    </p>
+                  </div>
+                  <div className="w-full flex flex-col items-center gap-y-2">
+                    <div className="w-full my-2">
                       <div className="w-full flex flex-col items-center">
-                        <p className="tracking-wider text-md text-start text-[#949494]">
-                          Add New Season where students can do specific
-                          activities
-                        </p>
-                      </div>
-                    </div>
-                    <div className="my-4">
-                      <div className="my-4">
-                        <div className="w-full flex flex-col items-center">
-                          <div className="my-2 w-full flex justify-between items-center">
-                            <h2 className="font-semibold text-lg">
-                              Season Name
-                            </h2>
-                          </div>
+                        <div className="w-full flex justify-between items-center">
+                          <h2 className="font-semibold text-lg">Season Name</h2>
                         </div>
-                        <div className="">
-                          <div className="mt-4 flex flex-col justify-start gap-y-4">
-                            <div className="flex flex-col items-center gap-y-2">
-                              <div className="bg-white dark:bg-gray-100 rounded-full w-full h-8 flex flex-shrink-0 justify-start items-center relative">
-                                <Field
-                                  type="text"
-                                  id="season_name"
-                                  name="season_name"
-                                  placeholder="Name"
-                                  className={clsx(
-                                    "w-full h-12 px-4 border rounded-md text-xs",
-                                    touched.season_name && errors.season_name
-                                      ? "border-red-500"
-                                      : ""
-                                  )}
-                                />
-                              </div>
-                            </div>
-                          </div>
+                      </div>
+                      <div className="flex flex-col justify-start">
+                        <div className="flex items-center">
+                          <FormField
+                            id="season_name"
+                            name="season_name"
+                            placeholder="Name"
+                            error={errors.season_name}
+                            touched={touched.season_name}
+                          />
                         </div>
                       </div>
                     </div>
-                    <div className="my-4">
-                      <div className="w-full flex flex-row gap-x-8">
-                        <div className="w-1/2 flex flex-col items-center">
-                          <div className="my-2 w-full">
-                            <h2 className="font-semibold text-lg">
-                              Start Date
-                            </h2>
-                          </div>
-                          <div className="w-full flex justify-between items-center">
-                            <div className="mt-4 w-full flex flex-col justify-start gap-y-4">
-                              <div className="flex flex-col items-center gap-y-2">
-                                <div className="bg-white dark:bg-gray-100 rounded-full w-full h-8 flex flex-shrink-0 justify-start items-center relative">
-                                  <DateView
-                                    autoComplete="off"
-                                    className="w-full text-xs placeholder-[#767676] placeholder:text-xs rounded-md focus:outline-none border py-3 px-4 my-2"
-                                    name="start"
-                                    maxDate={values["end_date"] ? new Date(values["end_date"]) : null}
-                                    placeholderText="Enter Start Date"
-                                    selected={
-                                      values["start_date"]
-                                        ? new Date(values["start_date"])
-                                        : null
-                                    }
-                                    onChange={(e: any) =>
-                                      setFieldValue("start_date", e)
-                                    }
-                                    shouldCloseOnSelect={false}
-                                    dateFormat="MMMM dd, yyyy"
-                                    adjustDateOnChange
-                                    showYearDropdown
-                                  />
-                                </div>
-                              </div>
-                            </div>
+                    <div className="w-full flex flex-row gap-x-8 my-2">
+                      <div className="w-1/2 flex flex-col items-center">
+                        <div className="w-full">
+                          <h2 className="font-semibold text-lg">Start Date</h2>
+                        </div>
+                        <div className="flex flex-col justify-start">
+                          <div className="flex items-center my-2">
+                            <DateView
+                              autoComplete="off"
+                              className="w-full text-xs placeholder-[#767676] placeholder:text-xs rounded-md focus:outline-none border py-3 px-4"
+                              name="start"
+                              maxDate={
+                                values["end_date"]
+                                  ? new Date(values["end_date"])
+                                  : null
+                              }
+                              placeholderText="Enter Start Date"
+                              selected={
+                                values["start_date"]
+                                  ? new Date(values["start_date"])
+                                  : null
+                              }
+                              onChange={(e: any) =>
+                                setFieldValue("start_date", e)
+                              }
+                              shouldCloseOnSelect={false}
+                              dateFormat="MMMM dd, yyyy"
+                              adjustDateOnChange
+                              showYearDropdown
+                            />
                           </div>
                         </div>
-                        <div className="w-1/2 flex flex-col items-center">
-                          <div className="my-2 w-full">
-                            <h2 className="font-semibold text-lg">End Date</h2>
-                          </div>
-                          <div className="w-full flex justify-between items-center">
-                            <div className="mt-4 w-full flex flex-col justify-start gap-y-4">
-                              <div className="flex flex-col items-center gap-y-2">
-                                <div className="bg-white dark:bg-gray-100 rounded-full w-full h-8 flex flex-shrink-0 justify-start items-center relative">
-                                  <DateView
-                                    autoComplete="off"
-                                    className="w-full text-xs placeholder-[#767676] rounded-md focus:outline-none border py-3 px-4 my-2"
-                                    name="end"
-                                    minDate={values["start_date"] ? new Date(values["start_date"]) : null}
-                                    placeholderText="Enter End Date"
-                                    selected={
-                                      values["end_date"]
-                                        ? new Date(values["end_date"])
-                                        : null
-                                    }
-                                    onChange={(e: any) =>
-                                      setFieldValue("end_date", e)
-                                    }
-                                    shouldCloseOnSelect={false}
-                                    dateFormat="MMMM dd, yyyy"
-                                    adjustDateOnChange
-                                    showYearDropdown
-                                  />
-                                </div>
-                              </div>
-                            </div>
+                      </div>
+                      <div className="w-1/2 flex flex-col items-center">
+                        <div className="w-full">
+                          <h2 className="font-semibold text-lg">End Date</h2>
+                        </div>
+                        <div className="flex flex-col justify-start">
+                          <div className="flex items-center my-2">
+                            <DateView
+                              autoComplete="off"
+                              className="w-full text-xs placeholder-[#767676] rounded-md focus:outline-none border py-3 px-4"
+                              name="end"
+                              minDate={
+                                values["start_date"]
+                                  ? new Date(values["start_date"])
+                                  : null
+                              }
+                              placeholderText="Enter End Date"
+                              selected={
+                                values["end_date"]
+                                  ? new Date(values["end_date"])
+                                  : null
+                              }
+                              onChange={(e: any) =>
+                                setFieldValue("end_date", e)
+                              }
+                              shouldCloseOnSelect={false}
+                              dateFormat="MMMM dd, yyyy"
+                              adjustDateOnChange
+                              showYearDropdown
+                            />
                           </div>
                         </div>
                       </div>
@@ -193,41 +172,14 @@ const NewSeasonModal = (props: Props) => {
                     </div>
                   )}
                   <div className="flex justify-end items-center gap-x-3">
-                    <button
+                    <FormRejectButton
+                      text="Cancel"
                       onClick={() => props.onClose()}
-                      className="min-w-min px-6 py-3 mt-4 text-sm font-semibold bg-primary bg-opacity-10 text-gray-600 rounded-lg"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="min-w-min flex items-center px-6 py-3 mt-4 text-sm font-semibold text-white bg-primary rounded-lg"
-                    >
-                      {/* {loading && (
-                        <svg
-                          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          ></circle>
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          ></path>
-                        </svg>
-                      )} */}
-                      Save
-                    </button>
+                    />
+                    <FormAffirmativeButton
+                      isLoading={isSubmitting}
+                      text="Save"
+                    />
                   </div>
                 </div>
               </div>

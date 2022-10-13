@@ -1,7 +1,4 @@
 import React from "react";
-import CustomLink from "../common/CustomLink";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { UserRoleType } from "../../types/user";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 export type ProblemSolvedProps = {};
@@ -26,12 +23,9 @@ const ConsistencyDiagramItem = () => {
         className={`w-2 rounded-md flex flex-none bg-[#5956E9]`}
         key={i}
       >
-        {/* {Math.floor((height[i]/maxi)*100)} */}
       </div>
     );
   }
-  //     const months: Array<number> = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-  //   const Month = 31;
   return (
     <div className="no-scrollbar w-1/2 h-56 flex flex-col justify-between bg-white rounded-md p-6">
       <div className="flex justify-between">

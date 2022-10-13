@@ -1,10 +1,7 @@
 import React from "react";
 import CustomLink from "../common/CustomLink";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { UserRoleType } from "../../types/user";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { MdContentPaste } from "react-icons/md";
-import { getIcon } from "../../helpers/getReactIcon";
 import { ProblemDifficultyType, ProblemStatus } from "../../types/problems";
 import { DifficultyChips } from "../problems/DifficultyChips";
 

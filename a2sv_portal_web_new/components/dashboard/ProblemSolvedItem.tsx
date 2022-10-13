@@ -79,29 +79,6 @@ const ProblemSolvedItem = ({ p: problemSolvedProps }: Props) => {
           </div>
         </div>
       </div>
-      {/* <div className="flex flex-col p-4">
-        <div className="flex justify-between">
-          <h1>389 Problems Solved</h1>
-          <div className="flex items-center gap-x-2">
-            <div className="bg-[#3DAB3DB3] w-4 h-4"></div>
-            <h1>124 Problems</h1>
-          </div>
-        </div>
-        <div className="flex justify-between">
-          <h1>459 Wrong Submissions</h1>
-          <div className="flex items-center gap-x-2">
-            <div className="bg-[#FCBD5EE6] w-4 h-4"></div>
-            <h1>94 Problems</h1>
-          </div>
-        </div>
-        <div className="flex justify-between">
-          <h1>4554 minutes dedicated</h1>
-          <div className="flex items-center gap-x-2">
-            <div className="bg-[#5956E9E6] w-4 h-4"></div>
-            <h1>31 Problems</h1>
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 };

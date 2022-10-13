@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AutoCompleteField from "../../components/common/AutoCompleteField";
 import AutoCompleteSearch from "../../components/common/AutocompleteSearch";
 import BaseLayout from "../../components/common/BaseLayout";
+import Button from "../../components/common/Button";
 import NewSeasonModal from "../../components/modals/NewSeasonModal";
 import { SeasonItemProps } from "../../components/seasons/SeasonItem";
 import SeasonList from "../../components/seasons/SeasonList";
@@ -45,9 +46,7 @@ const IndexPage = () => {
         <div className="flex items-center justify-between rounded-md">
           <h1 className="font-bold text-2xl">Season</h1>
           <div className="flex gap-x-2">
-            <button onClick={handleModalOpen} className="h-8 bg-primary text-white w-24 p-2 text-xs rounded-md">
-              Create New
-            </button>
+            <Button onClick={handleModalOpen} text="Create New"/>
           </div>
         </div>
         <div className="flex flex-col gap-y-4">

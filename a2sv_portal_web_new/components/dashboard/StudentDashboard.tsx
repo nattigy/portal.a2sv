@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { UserRoleType } from "../../types/user";
 import BaseLayout from "../common/BaseLayout";
 import ConsistencyDiagramItem from "./ConsistencyDiagram";
 import ContestStatItem from "./ContestStatItem";
