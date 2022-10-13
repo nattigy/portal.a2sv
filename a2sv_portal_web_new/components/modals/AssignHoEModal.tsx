@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import AutoCompleteField, {
   AutoCompleteFieldProps,
 } from "../common/AutoCompleteField";
-import { useFilteredUsers } from "../../lib/hooks/useUsers";
 import { ASSIGN_HOE_TO_GROUP } from "../../lib/apollo/Mutations/groupsMutations";
 import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormRejectButton from "../common/FormRejectButton";
@@ -18,24 +17,9 @@ const AssignHoEModal = (props: Props) => {
   const [assignUser, { loading: isLoading }] = useMutation(ASSIGN_HOE_TO_GROUP);
 
   const [errorMessage, setErrorMessage] = useState("");
-  const initialState: AutoCompleteFieldProps = {
-    id: 0,
-    email: "",
-  };
-  const [selected, setSelected] = useState(initialState);
 
-  const [usersData, setUsersData] = useState([]);
-  const [loadUsers, { loading, data, error, refetch }] = useFilteredUsers(2);
+  const [selected, setSelected] = useState<null|any>(null);
 
-  useEffect(() => {
-    loadUsers();
-  }, []);
-
-  useEffect(() => {
-    if (data) {
-      setUsersData(data.users);
-    }
-  }, [refetch, data]);
 
   return (
     <>
@@ -74,6 +58,7 @@ const AssignHoEModal = (props: Props) => {
                 <div className="w-full flex flex-col items-cente">
                   <div className="mt-3 w-full flex justify-between items-center">
                     <h2 className="font-semibold text-lg">Assign User</h2>
+                    {JSON.stringify(selected)}
 
                     <div
                       className="cursor-pointer"
@@ -113,9 +98,7 @@ const AssignHoEModal = (props: Props) => {
                     <div className="flex flex-col justify-start gap-y-4">
                       <div>
                         <AutoCompleteField
-                          students={usersData}
-                          setSelected={setSelected}
-                          selected={selected}
+                        handleSearchStudent={setSelected}
                         />
                         <p className="w-full text-xs text-red-500">
                           {errors.name}
