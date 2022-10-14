@@ -14,7 +14,7 @@ import {
 import AutoCompleteProblems, {
   AutoCompleteProblemsProps,
   ProblemType,
-} from "../common/AutoCompleteProblems";
+} from "../problems/ProblemsAutocomplete";
 import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormRejectButton from "../common/FormRejectButton";
 import FormField from "../common/FormField";

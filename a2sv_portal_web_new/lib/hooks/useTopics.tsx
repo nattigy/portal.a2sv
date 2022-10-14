@@ -43,11 +43,11 @@ export const useGetAllTopicsByGroupAndSeasonIdQuery = (
   });
 };
 
-export const useGetAllTopicsByForSearchQuery = () => {
-  return useLazyQuery(GET_ALL_TOPIC_QUERY, {
-    notifyOnNetworkStatusChange: true,
-    errorPolicy: "all",
-  });
+export const useGetAllTopicsForSearchQuery = () => {
+  return useQuery(GET_ALL_TOPIC_QUERY, {
+            notifyOnNetworkStatusChange: true,
+            errorPolicy: 'all',
+        })
 };
 
 // export const useGetAllTopicsBySeasonIdForSearchQuery = (seasonId: any) => {
@@ -60,4 +60,3 @@ export const useGetAllTopicsByForSearchQuery = () => {
 //     })
 // }
 
-export default useGetAllTopicsBySeasonIdQuery;

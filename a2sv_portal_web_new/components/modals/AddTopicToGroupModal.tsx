@@ -1,11 +1,9 @@
 import { ApolloError, useMutation } from "@apollo/client";
-import { Formik, Form, Field } from "formik";
-import React, { useEffect, useState } from "react";
+import { Formik, Form } from "formik";
+import React, { useState } from "react";
 import * as yup from "yup";
 import clsx from "clsx";
-import AutoCompleteSearch from "../common/AutocompleteSearch";
-import { useGetAllTopicsByForSearchQuery } from "../../lib/hooks/useTopics";
-import { LoaderSmall } from "../common/Loaders";
+import AutoCompleteSearch from "../topics/TopicsAutocomplete";
 import { ADD_TOPIC_UNDER_GROUP_AND_SEASON_ID } from "../../lib/apollo/Mutations/topicsMutations";
 import FormRejectButton from "../common/FormRejectButton";
 import FormAffirmativeButton from "../common/FormAffirmativeButton";
@@ -35,26 +33,13 @@ const AddTopicToGroupModal = (props: Props) => {
   const INITIAL_VALUES = {} as FormValues;
 
   const [errorMessage, setErrorMessage] = useState("");
-  const initialState: AutoCompleteFieldProps = {
-    id: 0,
-    name: "",
-  };
-  const [selected, setSelected] = useState(initialState);
-  const [selectedTopic, setSelectedTopic] = useState(initialState);
-  const [fetchTopics, { loading, data: topicData, error, refetch }] =
-    useGetAllTopicsByForSearchQuery();
+
+  const [selectedTopic, setSelectedTopic] = useState<any | null>(null);
 
   const FORM_VALIDATION = yup.object().shape({
     topicId: yup.string().required("Required"),
   });
 
-  useEffect(() => {
-    fetchTopics();
-  }, [refetch]);
-
-  const handleSelect = (val: any) => {
-    setSelected(val);
-  };
   return (
     <>
       <div className=" transition-all duration-200 py-8 text-[#565656] w-screen h-screen absolute top-0 bottom-0 left-0 right-0 bg-gray-900 bg-opacity-30 z-50">
@@ -68,7 +53,7 @@ const AddTopicToGroupModal = (props: Props) => {
                 addTopicToGroupInput: {
                   groupId: parseInt(props.groupId?.toString()),
                   seasonId: parseInt(props.seasonId?.toString()),
-                  topicId: parseInt(values.topicId?.toString()),
+                  topicId: parseInt(selectedTopic?.id?.toString()),
                 },
               },
               refetchQueries: "active",
@@ -90,9 +75,10 @@ const AddTopicToGroupModal = (props: Props) => {
                 className="flex flex-col gap-y-2 min-h-[300px] bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-8 py-5"
               >
                 {JSON.stringify(props)}
+                {JSON.stringify(selectedTopic)}
                 <div className="w-full flex flex-col items-cente">
                   <div className="mt-3 w-full flex justify-between items-center">
-                    <h2 className="font-semibold text-lg">Assign User</h2>
+                    <h2 className="font-semibold text-lg">Add Topic</h2>
 
                     <div
                       className="cursor-pointer"
@@ -127,18 +113,9 @@ const AddTopicToGroupModal = (props: Props) => {
                   <div className="mt-4">
                     <div className="flex flex-col justify-start gap-y-4">
                       <div className={clsx("flex items-center ")}>
-                        {loading ? (
-                          <LoaderSmall />
-                        ) : (
-                          <AutoCompleteSearch
-                            selectedTopic={selectedTopic}
-                            setSelectedTopic={(val) => {
-                              setFieldValue("topicId", val.id);
-                              setSelectedTopic(val);
-                            }}
-                            topics={topicData?.topics || []}
-                          />
-                        )}
+                        <AutoCompleteSearch
+                          handleSearchTopic={setSelectedTopic}
+                        />
                       </div>
                     </div>
                   </div>
@@ -166,8 +143,11 @@ const AddTopicToGroupModal = (props: Props) => {
                   )}
 
                   <div className="flex justify-end items-center gap-x-3">
-                    <FormRejectButton onClick={() => props.onClose()} text="Cancel"/>
-                    <FormAffirmativeButton isLoading={isLoading} text="Save"/>
+                    <FormRejectButton
+                      onClick={() => props.onClose()}
+                      text="Cancel"
+                    />
+                    <FormAffirmativeButton isLoading={isLoading} text="Save" />
                   </div>
                 </div>
               </div>
