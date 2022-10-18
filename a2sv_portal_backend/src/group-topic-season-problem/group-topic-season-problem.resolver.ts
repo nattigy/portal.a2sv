@@ -1,9 +1,17 @@
-import {Resolver, Query, Mutation, Args, Int, ResolveField, Parent} from '@nestjs/graphql'
+import {
+    Resolver,
+    Query,
+    Mutation,
+    Args,
+    Int,
+    ResolveField,
+    Parent,
+} from '@nestjs/graphql'
 import {GroupTopicSeasonProblemService} from './group-topic-season-problem.service'
 import {GroupTopicSeasonProblem} from './entities/group-topic-season-problem.entity'
 import {CreateGroupTopicSeasonProblemInput} from './dto/create-group-topic-season-problem.input'
 import {UpdateGroupTopicSeasonProblemInput} from './dto/update-group-topic-season-problem.input'
-import {Problem} from "../problem/entities/problem.entity";
+import {Problem} from '../problem/entities/problem.entity'
 
 @Resolver(() => GroupTopicSeasonProblem)
 export class GroupTopicSeasonProblemResolver {
@@ -28,8 +36,8 @@ export class GroupTopicSeasonProblemResolver {
     }
 
     @Query(() => GroupTopicSeasonProblem, {name: 'groupTopicSeasonProblem'})
-    findOne(@Args('id', {type: () => Int}) id: number) {
-        return this.groupTopicSeasonProblemService.findOne(id)
+    findOne(@Args('findGroupTopicSeasonProblemInput', {type: () => UpdateGroupTopicSeasonProblemInput}) findUpdateGroupTopicSeasonProblemInput: UpdateGroupTopicSeasonProblemInput) {
+        return this.groupTopicSeasonProblemService.findOne(findUpdateGroupTopicSeasonProblemInput)
     }
 
     @Mutation(() => GroupTopicSeasonProblem)
@@ -37,10 +45,9 @@ export class GroupTopicSeasonProblemResolver {
         @Args('updateGroupTopicSeasonProblemInput')
             updateGroupTopicSeasonProblemInput: UpdateGroupTopicSeasonProblemInput,
     ) {
-        // return this.groupTopicSeasonProblemService.update(
-        //   updateGroupTopicSeasonProblemInput.id,
-        //   updateGroupTopicSeasonProblemInput,
-        // )
+        return this.groupTopicSeasonProblemService.update(
+            updateGroupTopicSeasonProblemInput,
+        )
     }
 
     @Mutation(() => GroupTopicSeasonProblem)

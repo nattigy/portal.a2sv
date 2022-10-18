@@ -5,18 +5,19 @@ import {CreateTopicInput} from './dto/create-topic.input'
 import {UpdateTopicInput} from './dto/update-topic.input'
 import {AddTopicToGroupInput} from './dto/add-topic-to-group-input'
 
+export interface TopicWhereInput {
+    skip?: number
+    take?: number
+    groupId?: number
+    seasonId?: number
+}
+
 @Injectable()
 export class TopicService {
     constructor(private readonly prismaService: PrismaService) {
     }
 
-    async getTopics(params: {
-        skip?: number
-        take?: number
-        groupId?: number
-        seasonId?: number
-    }): Promise<Topic[] | []> {
-        const {skip, take, groupId, seasonId} = params
+    async getTopics({skip, take, groupId, seasonId}: TopicWhereInput = {}): Promise<Topic[] | []> {
         return this.prismaService.topic.findMany({
             skip,
             take,
@@ -24,7 +25,7 @@ export class TopicService {
                 seasonGroups: {
                     some: {
                         groupId,
-                        seasonId
+                        seasonId,
                     },
                 },
             },
@@ -34,9 +35,9 @@ export class TopicService {
                         group: true,
                         problems: {
                             include: {
-                                problem: true
-                            }
-                        }
+                                problem: true,
+                            },
+                        },
                     },
                 },
             },
@@ -52,9 +53,9 @@ export class TopicService {
                         topic: true,
                         problems: {
                             include: {
-                                problem: true
-                            }
-                        }
+                                problem: true,
+                            },
+                        },
                     },
                 },
             },
@@ -76,9 +77,9 @@ export class TopicService {
                         group: true,
                         problems: {
                             include: {
-                                problem: true
-                            }
-                        }
+                                problem: true,
+                            },
+                        },
                     },
                 },
             },
@@ -100,9 +101,9 @@ export class TopicService {
                         group: true,
                         problems: {
                             include: {
-                                problem: true
-                            }
-                        }
+                                problem: true,
+                            },
+                        },
                     },
                 },
             },

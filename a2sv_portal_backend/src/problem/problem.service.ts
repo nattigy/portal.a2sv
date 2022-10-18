@@ -30,6 +30,12 @@ export class ProblemService {
         },
         include: {
           tags: true,
+          seasonGroupTopics: {
+            include: {
+              problem: true,
+              seasonGroupTopic: true,
+            },
+          },
         },
       })
     })
@@ -37,13 +43,29 @@ export class ProblemService {
   }
 
   async findAll(): Promise<Problem[]> {
-    return this.prismaService.problem.findMany({ include: { tags: true } })
+    return this.prismaService.problem.findMany({
+      include: {
+        tags: true,
+        seasonGroupTopics: {
+          include: {
+            problem: true,
+          },
+        },
+      },
+    })
   }
 
   async findOne(id: number): Promise<Problem> {
     return this.prismaService.problem.findUnique({
       where: { id },
-      include: { tags: true },
+      include: {
+        tags: true,
+        seasonGroupTopics: {
+          include: {
+            problem: true,
+          },
+        },
+      },
     })
   }
 
@@ -56,6 +78,11 @@ export class ProblemService {
       data: updateProblemInput,
       include: {
         tags: true,
+        seasonGroupTopics: {
+          include: {
+            problem: true,
+          },
+        },
       },
     })
   }

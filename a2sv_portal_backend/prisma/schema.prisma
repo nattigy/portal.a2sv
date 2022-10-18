@@ -21,9 +21,16 @@ model Group {
   head         User?              @relation("GroupHead", fields: [headId], references: [id])
 }
 
+enum SeasonType {
+  CAMP
+  EDUCATION
+  PROJECT
+}
+
 model Season {
   id          Int                @id @default(autoincrement())
-  name        String             @unique
+  name        String
+  seasonType  SeasonType         @default(EDUCATION)
   startDate   DateTime           @default(now())
   endDate     DateTime           @default(now())
   createdAt   DateTime?          @default(now())

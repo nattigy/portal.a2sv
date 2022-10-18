@@ -18,7 +18,7 @@ import { GroupTopicSeasonModule } from './group-topic-season/group-topic-season.
 import { GroupTopicSeasonProblemModule } from './group-topic-season-problem/group-topic-season-problem.module'
 import { GroupTopicSeasonProblemUserModule } from './group-topic-season-problem-user/group-topic-season-problem-user.module'
 import { UserProfileModule } from './user-profile/user-profile.module'
-import { UserTopicModule } from './user-topic/user-topic.module';
+import { UserTopicModule } from './user-topic/user-topic.module'
 
 @Module({
   imports: [

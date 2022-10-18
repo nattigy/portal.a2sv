@@ -7,4 +7,10 @@ export class UpdateGroupTopicSeasonProblemInput extends PartialType(
 ) {
     @Field(() => Int)
     problemId: number
+    @Field(() => Int)
+    groupId: number
+    @Field(() => Int)
+    topicId: number
+    @Field(() => Int)
+    seasonId: number
 }

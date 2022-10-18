@@ -1,8 +1,8 @@
 import { Field, InputType, Int } from '@nestjs/graphql'
 import { UpdateTopicInput } from 'src/topic/dto/update-topic.input'
 import { UpdateUserInput } from 'src/user/dto/update-user.input'
-import {UpdateSeasonInput} from "../../season/dto/update-season.input";
-import {UpdateGroupTopicSeasonInput} from "../../group-topic-season/dto/update-group-topic-season.input";
+import { UpdateSeasonInput } from '../../season/dto/update-season.input'
+import { UpdateGroupTopicSeasonInput } from '../../group-topic-season/dto/update-group-topic-season.input'
 
 @InputType()
 export class UpdateGroupInput {
