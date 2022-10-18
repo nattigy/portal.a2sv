@@ -21,10 +21,6 @@ type Props = {
 interface FormValues {
   topicId: string;
 }
-export type AutoCompleteFieldProps = {
-  id: number;
-  name: string;
-};
 
 const AddTopicToGroupModal = (props: Props) => {
   const [addTopicToGroupAndSeason, { loading: isLoading, data }] = useMutation(

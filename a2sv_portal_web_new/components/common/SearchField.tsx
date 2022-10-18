@@ -38,7 +38,7 @@ const SearchField = ({
         type="text"
         id={id}
         className={clsx(
-          "bg-white outline-none text-gray-400 font-regular text-xs rounded-full px-2 appearance-none dark:appearance-none dark:border-transparent border-transparent block w-80 pl-10 p-2.5  dark:bg-white  dark:placeholder-gray-400 dark:text-gray-400 ",
+          "bg-white outline-none placeholder:font-light  text-xs rounded-full px-2 appearance-none dark:appearance-none dark:border-transparent border-transparent block w-80 pl-10 p-2.5  dark:bg-white  dark:placeholder-gray-400 dark:text-gray-700 ",
           className
         )}
         onChange={(e: any) => onChange(e.target.value)}

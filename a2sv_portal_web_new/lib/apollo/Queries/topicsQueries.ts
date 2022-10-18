@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const GET_ALL_TOPIC_QUERY = gql`
+export const GET_ALL_TOPICS_QUERY = gql`
   query Query {
     topics {
       id

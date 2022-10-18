@@ -1,9 +1,6 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
-import { Combobox, Transition } from "@headlessui/react";
-import { BsChevronContract, BsCheck2 } from "react-icons/bs";
 import useAllProblems from "../../lib/hooks/useAllProblems";
 import { ProblemDifficultyType } from "../../types/problems";
-import { number } from "yup/lib/locale";
 import CommonAutocomplete from "../common/CustomAutocomplete";
 
 type Props = {
