@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useAllGroups from "../../lib/hooks/useAllGroups";
+import EmptyState from "../common/EmptyState";
 import { LoaderSmall } from "../common/Loaders";
 import GroupItem, { GroupItemProps } from "./GroupItem";
 
@@ -30,7 +31,13 @@ const GroupItemList = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
       {loading ? (
-        <h1>Loading</h1>
+        <div className="w-full flex h-full items-center justify-center min-w-full min-h-full">
+          <LoaderSmall />
+        </div>
+      ) : error ? (
+        <p>Something went wrong</p>
+      ) : data?.groups === 0 ? (
+        <EmptyState />
       ) : (
         groups &&
         groups.map((item: GroupItemProps, index: number) => (

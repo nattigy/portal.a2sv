@@ -41,15 +41,8 @@ const NewProblemModal = (props: Props) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const initialState: AutoCompleteProblemsProps = {
-    id: 0,
-    title: "",
-  };
-  const [display, setdisplay] = useState({
-    add: true,
-    create: true,
-  });
-  const [selected, setSelected] = useState(initialState);
+
+
   const [input, setInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [existingProblem, setExistingProblem] = useState<ProblemType | null>(

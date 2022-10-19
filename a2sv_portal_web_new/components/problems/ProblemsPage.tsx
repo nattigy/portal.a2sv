@@ -12,6 +12,7 @@ import useAllProblems, {
 import { LoaderSmall } from "../common/Loaders";
 import Button from "../common/Button";
 import SearchField from "../common/SearchField";
+import EmptyState from "../common/EmptyState";
 
 export type PlatformInfo = {
   id: string;
@@ -61,7 +62,7 @@ const ProblemsPage = (props:ProblemsPageProps) => {
           <div className="w-full flex items-center justify-center">
             <LoaderSmall />
           </div>
-        ) : (
+        ) : error?<p>Something went wrong</p>:problems.length===0?<EmptyState/>: (
           <ProblemsTable problems={problems} />
         )}
       </div>

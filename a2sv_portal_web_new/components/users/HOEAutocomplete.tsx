@@ -46,6 +46,7 @@ export default function HOEAutocomplete({ handleSearchStudent }: Props) {
 
   return (
     <CommonAutocomplete
+      placeholder="Search student"
       filteredValues={filteredStudents}
       query={query}
       selectedValue={selectedHOE}

@@ -8,12 +8,13 @@ import { GraphqlUserRole } from "../../types/user";
 import { useGetAllTopicsByGroupAndSeasonIdQuery } from "../../lib/hooks/useTopics";
 import { LoaderSmall } from "./Loaders";
 import Button from "./Button";
+import EmptyState from "./EmptyState";
 
 type Props = {
   groupId: number;
 };
 
-const HOETopicsPage = ({groupId}: Props) => {
+const HOETopicsPage = ({ groupId }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddTopicToGroupModalOpen, setIsAddTopicToGroupModalOpen] =
     useState(false);
@@ -39,13 +40,12 @@ const HOETopicsPage = ({groupId}: Props) => {
     setIsAddTopicToGroupModalOpen(true);
   };
 
-  const [fetchTopics, { data, refetch, loading }] =
+  const [fetchTopics, { data, refetch, loading, error }] =
     useGetAllTopicsByGroupAndSeasonIdQuery(selectedSeason.id, groupId);
 
   useEffect(() => {
     fetchTopics();
   }, [selectedSeason, refetch, groupId]);
-
 
   return (
     <>
@@ -53,7 +53,7 @@ const HOETopicsPage = ({groupId}: Props) => {
         <AddTopicToGroupModal
           onClose={() => setIsAddTopicToGroupModalOpen(false)}
           groupId={authUser?.headToGroup?.id}
-          seasonId = {selectedSeason.id}
+          seasonId={selectedSeason.id}
         />
       )}
       {isModalOpen && <NewTopicModal onClose={() => setIsModalOpen(false)} />}
@@ -63,7 +63,10 @@ const HOETopicsPage = ({groupId}: Props) => {
             <h1 className="text-2xl font-bold text-gray-700">Topics</h1>
           </div>
           {authUser.role === GraphqlUserRole.HEAD_OF_EDUCATION && (
-            <Button onClick={handleAddTopicToGroupModalOpen} text="Add Topic to Group"/>
+            <Button
+              onClick={handleAddTopicToGroupModalOpen}
+              text="Add Topic to Group"
+            />
           )}
         </div>
         <div className="flex flex-col gap-y-4">
@@ -71,8 +74,17 @@ const HOETopicsPage = ({groupId}: Props) => {
             <div className="w-full flex justify-center items-center">
               <LoaderSmall />
             </div>
+          ) : error ? (
+            <p>Something went wrong</p>
+          ) : data?.topics.length === 0 ? (
+            <EmptyState />
           ) : (
-            <TopicList season={selectedSeason} topics={data?.topics} groupId={groupId} title="All Topics" />
+            <TopicList
+              season={selectedSeason}
+              topics={data?.topics}
+              groupId={groupId}
+              title="All Topics"
+            />
           )}
         </div>
       </>

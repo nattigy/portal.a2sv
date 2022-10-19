@@ -6,9 +6,9 @@ type Props = {
   handleSearchTopic: (selected: any) => void;
 };
 export type TopicType = {
-  id:number;
-  name:string;
-}
+  id: number;
+  name: string;
+};
 function AutoCompleteSearch({ handleSearchTopic }: Props) {
   const [query, setQuery] = useState("");
   const { loading, data, error } = useGetAllTopics();
@@ -44,6 +44,7 @@ function AutoCompleteSearch({ handleSearchTopic }: Props) {
 
   return (
     <CommonAutocomplete
+      placeholder="Search existing topics"
       query={query}
       filteredValues={filteredTopics}
       selectedValue={selectedTopic}

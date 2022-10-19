@@ -79,6 +79,7 @@ export default function ProblemsAutocomplete({ handleSearchProblem }: Props) {
 
   return (
     <CommonAutocomplete
+      placeholder="Search existing problems"
       filteredValues={filteredProblems}
       handleSearchQuery={handleSearchQuery}
       handleSelectValue={handleSelectProblem}
