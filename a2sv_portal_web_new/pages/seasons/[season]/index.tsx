@@ -75,7 +75,7 @@ const IndexPage = () => {
   }) => {
     switch (user.role) {
       case GraphqlUserRole.STUDENT: {
-        return <HOETopicsPage groupId={authUser?.headToGroup?.id} />;
+        return <HOETopicsPage groupId={authUser?.id} />;
       }
       case GraphqlUserRole.HEAD_OF_EDUCATION: {
         return <HOETopicsPage groupId={authUser?.headToGroup?.id} />;
