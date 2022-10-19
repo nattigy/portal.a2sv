@@ -21,13 +21,9 @@ type Props = {
 interface FormValues {
   topicId: string;
 }
-export type AutoCompleteFieldProps = {
-  id: number;
-  name: string;
-};
 
 const AddTopicToGroupModal = (props: Props) => {
-  const [addTopicToGroupAndSeason, { loading: isLoading, data }] = useMutation(
+  const [addTopicToGroupAndSeason] = useMutation(
     ADD_TOPIC_UNDER_GROUP_AND_SEASON_ID
   );
   const INITIAL_VALUES = {} as FormValues;
@@ -37,7 +33,7 @@ const AddTopicToGroupModal = (props: Props) => {
   const [selectedTopic, setSelectedTopic] = useState<any | null>(null);
 
   const FORM_VALIDATION = yup.object().shape({
-    topicId: yup.string().required("Required"),
+    topicId: yup.string(),
   });
 
   return (
@@ -47,7 +43,6 @@ const AddTopicToGroupModal = (props: Props) => {
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
-            console.log(4, props.groupId?.toString());
             await addTopicToGroupAndSeason({
               variables: {
                 addTopicToGroupInput: {
@@ -76,6 +71,7 @@ const AddTopicToGroupModal = (props: Props) => {
               >
                 {JSON.stringify(props)}
                 {JSON.stringify(selectedTopic)}
+                {JSON.stringify(errors)}
                 <div className="w-full flex flex-col items-cente">
                   <div className="mt-3 w-full flex justify-between items-center">
                     <h2 className="font-semibold text-lg">Add Topic</h2>
@@ -109,10 +105,13 @@ const AddTopicToGroupModal = (props: Props) => {
                       </svg>
                     </div>
                   </div>
+                  <p className="tracking-wider text-sm font-normal text-start text-[#949494]">
+                  Add Topic to a group
+                </p>
 
                   <div className="mt-4">
                     <div className="flex flex-col justify-start gap-y-4">
-                      <div className={clsx("flex items-center ")}>
+                      <div className={clsx("flex items-center")}>
                         <AutoCompleteSearch
                           handleSearchTopic={setSelectedTopic}
                         />
@@ -120,9 +119,7 @@ const AddTopicToGroupModal = (props: Props) => {
                     </div>
                   </div>
                 </div>
-                <p className="tracking-wider text-sm font-normal text-start text-[#949494]">
-                  Add Topic to a group
-                </p>
+         
                 <div className="flex flex-col gap-y-4 my-2">
                   <div className="">
                     <div className="flex flex-col justify-start gap-y-4">
@@ -147,7 +144,7 @@ const AddTopicToGroupModal = (props: Props) => {
                       onClick={() => props.onClose()}
                       text="Cancel"
                     />
-                    <FormAffirmativeButton isLoading={isLoading} text="Save" />
+                    <FormAffirmativeButton isLoading={isSubmitting} text="Save" />
                   </div>
                 </div>
               </div>

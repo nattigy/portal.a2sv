@@ -1,20 +1,17 @@
 import React, { useState, useEffect, Fragment, useCallback } from "react";
-import clsx from "clsx";
-import { Combobox, Transition } from "@headlessui/react";
-import { LoaderSmall } from "../common/Loaders";
 import CommonAutocomplete from "../common/CustomAutocomplete";
-import { useGetAllTopicsForSearchQuery } from "../../lib/hooks/useTopics";
+import { useGetAllTopics } from "../../lib/hooks/useTopics";
 
 type Props = {
   handleSearchTopic: (selected: any) => void;
 };
 export type TopicType = {
-  id:number;
-  name:string;
-}
+  id: number;
+  name: string;
+};
 function AutoCompleteSearch({ handleSearchTopic }: Props) {
   const [query, setQuery] = useState("");
-  const { loading, data, error } = useGetAllTopicsForSearchQuery();
+  const { loading, data, error } = useGetAllTopics();
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [filteredTopics, setFilteredTopics] = useState<TopicType[]>([]);
 
@@ -47,6 +44,7 @@ function AutoCompleteSearch({ handleSearchTopic }: Props) {
 
   return (
     <CommonAutocomplete
+      placeholder="Search existing topics"
       query={query}
       filteredValues={filteredTopics}
       selectedValue={selectedTopic}

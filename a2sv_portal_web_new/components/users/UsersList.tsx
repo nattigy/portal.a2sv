@@ -13,7 +13,6 @@ type Props = {
 
 const UsersList = ({ users, selected, setSelected }: Props) => {
   let usersData: UserProps[] = [...users];
-  const [first, setFirst] = useState(0);
 
   usersData.sort((a, b) => {
     return a?.email < b.email ? -1 : a.email > b.email ? 1 : 0;

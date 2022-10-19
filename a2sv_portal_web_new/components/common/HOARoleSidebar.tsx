@@ -52,7 +52,7 @@ const HOARoleSidebar = (props: Props) => {
           <ImMakeGroup size={26} />
         </a>
       </CustomLink>
-      <CustomLink href="/seasons">
+      <CustomLink href="/topics">
         <a
           href="#"
           className={clsx(

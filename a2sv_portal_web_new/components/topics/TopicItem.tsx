@@ -6,7 +6,7 @@ import SeasonItem from "../seasons/SeasonItem";
 
 export type TopicItemProps = {
   title: string;
-  season:{name:string,id:number};
+  season?:{name:string,id:number};
   topic: any;
   groupId?:number;
 };
@@ -40,7 +40,7 @@ const TopicItem = (props: TopicItemProps) => {
   const href={
     pathname: pathname,
     query: {
-      seasonId : props.season.id ,
+      seasonId : props.season?.id ,
       groupId : props.groupId,
       topicId : props.topic.id,
     }, // the data

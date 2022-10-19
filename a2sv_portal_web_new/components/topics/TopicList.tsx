@@ -4,7 +4,7 @@ import TopicItem from "./TopicItem";
 type TopicListProps = {
   groupId?:number;
   title: string;
-  season: {id:number,name:string};
+  season?: {id:number,name:string};
   topics: [];
 };
 

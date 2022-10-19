@@ -33,7 +33,6 @@ const NewTopicModal = (props: Props) => {
   );
 
   const FORM_VALIDATION = yup.object().shape({
-    season: yup.string().required("Required"),
     topic_title: yup.string().required("Required"),
     description: yup.string().required("Required"),
   });
@@ -48,19 +47,18 @@ const NewTopicModal = (props: Props) => {
             await addNewTopic({
               variables: {
                 createTopicInput: {
-                  description: values.description,
                   name: values.topic_title,
-                  season: {
-                    name: values.season,
-                  },
+                  description: values.description,
                 },
               },
               refetchQueries: "active",
               notifyOnNetworkStatusChange: true,
-              onCompleted: (data) => {
+              onCompleted: () => {
+                console.log("create....",data)
                 props.onClose();
               },
               onError: (error) => {
+                console.log("create....err",error)
                 setErrorMessage((error as ApolloError).message);
               },
             });
@@ -68,11 +66,13 @@ const NewTopicModal = (props: Props) => {
           }}
         >
           {({ isSubmitting, values, errors, touched }) => (
+            
             <Form>
               <div
                 role="alert"
                 className="flex flex-col gap-y-3 min-h-[400px] bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-8 py-5"
               >
+                {JSON.stringify(errors)}
                 <div className="w-full flex flex-col">
                   <div className="my-3 w-full flex justify-between items-center">
                     <h2 className="font-semibold text-lg">Create New Topic</h2>
@@ -107,14 +107,14 @@ const NewTopicModal = (props: Props) => {
                   </div>
                   <div className="w-full flex flex-col items-center gap-y-2">
                     <div className="w-full">
-                      <div className="flex justify-between items-center">
+                      {/* <div className="flex justify-between items-center">
                         <h2 className="font-semibold text-lg">Seasons</h2>
                       </div>
                       <p className="tracking-wider text-md text-start text-[#949494]">
                         This season will be used to give students problems with
                         respect to the seasons
-                      </p>
-                      <div className="flex flex-col justify-start">
+                      </p> */}
+                      {/* <div className="flex flex-col justify-start">
                         <div className="flex items-center my-4">
                           <FormDropdown
                             name="season"
@@ -137,7 +137,7 @@ const NewTopicModal = (props: Props) => {
                         <p className="w-full text-xs text-red-500">
                           {touched.season && errors.season}
                         </p>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="w-full">
                       <div className="flex justify-between items-center">
@@ -188,7 +188,7 @@ const NewTopicModal = (props: Props) => {
                       text="Cancel"
                       onClick={() => props.onClose()}
                     />
-                    <FormAffirmativeButton text="Save" />
+                    <FormAffirmativeButton isLoading={isSubmitting} text="Save" />
                   </div>
                 </div>
               </div>

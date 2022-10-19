@@ -12,7 +12,7 @@ type Props = {
 };
 
 const AssignHoEModal = (props: Props) => {
-  const [assignUser, { loading: isLoading }] = useMutation(ASSIGN_HOE_TO_GROUP);
+  const [assignUser] = useMutation(ASSIGN_HOE_TO_GROUP);
 
   const [errorMessage, setErrorMessage] = useState("");
 
