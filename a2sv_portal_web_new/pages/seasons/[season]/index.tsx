@@ -1,38 +1,16 @@
 import { useReactiveVar } from "@apollo/client";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { useState } from "react";
 import BaseLayout from "../../../components/common/BaseLayout";
-import CustomDropdown, {
-  CustomDropdownProps,
-} from "../../../components/common/CustomDropdown";
-import HOATopicsPage from "../../../components/common/HOATopicsPage";
-import HOETopicsPage from "../../../components/common/HOETopicsPage";
-import AddTopicToGroupModal from "../../../components/modals/AddTopicToGroupModal";
-import NewTopicModal from "../../../components/modals/NewTopicModal";
-import SeasonSelecBox from "../../../components/topics/SeasonSelecBox";
-import TopicList from "../../../components/topics/TopicList";
+import HOATopicsPage from "../../../components/topics/HOATopicsPage";
 import TopicStruggledList from "../../../components/topics/TopicStruggledList";
-import { authenticatedUser, AuthUser } from "../../../lib/constants/authenticated";
+import {
+  authenticatedUser,
+  AuthUser,
+} from "../../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../../types/user";
+import HOETopicsPage from "../../../components/topics/HOETopicsPage";
 
 const IndexPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isAddTopicToGroupModalOpen, setIsAddTopicToGroupModalOpen] =
-    useState(false);
-  const selectMenuItems = [
-    {
-      value: 2,
-      label: "Education",
-    },
-    {
-      value: 1,
-      label: "Camp",
-    },
-  ];
-  const [selectedSeason, setSelectedSeason] = useState(selectMenuItems[0]);
-  const dropdown: CustomDropdownProps = {
-    label: "",
-    options: ["Education", "Camp"],
-  };
 
   const Sidebar: React.FC = () => {
     return (
@@ -54,14 +32,6 @@ const IndexPage = () => {
     );
   };
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
-
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleAddTopicToGroupModalOpen = () => {
-    setIsAddTopicToGroupModalOpen(true);
-  };
 
   const ActiveComponent = ({
     user,

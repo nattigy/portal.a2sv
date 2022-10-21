@@ -1,11 +1,12 @@
-import React from 'react'
+import React from "react";
 
-type Props = {}
-
-const EmptyState = (props: Props) => {
+const EmptyState = () => {
   return (
-    <div>EmptyState</div>
-  )
-}
+      <div className="m-auto w-fit">
+        <img src="/images/no-data.svg" width={180} alt="" />
+        <p>No records to display</p>
+    </div>
+  );
+};
 
-export default EmptyState
+export default EmptyState;

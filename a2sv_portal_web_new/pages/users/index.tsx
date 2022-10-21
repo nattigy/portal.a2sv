@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BaseLayout from "../../components/common/BaseLayout";
+import EmptyState from "../../components/common/EmptyState";
 import { LoaderSmall } from "../../components/common/Loaders";
 import NewUserModal from "../../components/modals/NewUserModal";
 import UserRank from "../../components/users/UserRank";
@@ -71,16 +72,16 @@ const UsersPage = (props: Props) => {
           <div className="w-full h-full flex justify-center items-center">
             <LoaderSmall color="#5956E9" />
           </div>
-        ) : (
+        ) : error? <p>Something went wrong</p>:(
           <>
-            {usersData && usersData.length > 0 ? (
+            {usersData?.length > 0 ? (
               <UsersList
                 selected={selected}
                 setSelected={setSelected}
                 users={usersData}
               />
             ) : (
-              <h1>No Users</h1>
+              <EmptyState/>
             )}
           </>
         )}

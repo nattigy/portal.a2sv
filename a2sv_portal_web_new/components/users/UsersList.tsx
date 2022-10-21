@@ -22,7 +22,6 @@ const UsersList = ({ users, selected, setSelected }: Props) => {
   let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
   usersData.reduce((r, e) => {
-    console.log(e, " is el");
     let alphabet = e.email[0].toUpperCase();
 
     if (!r[alphabet]) r[alphabet] = [e];

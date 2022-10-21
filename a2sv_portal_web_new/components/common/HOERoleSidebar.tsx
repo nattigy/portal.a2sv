@@ -94,7 +94,7 @@ const HOERoleSidebar = (props: Props) => {
           <svg
             className={clsx(
               "w-6 h-6 hover:text-white ",
-              activePath.includes("/settings") &&
+              activePath.includes("/contests") &&
                 "fill-current text-indigo-700 ",
               "hover:text-white "
             )}

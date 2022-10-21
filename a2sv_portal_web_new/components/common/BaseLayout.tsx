@@ -15,12 +15,6 @@ interface LayoutProps extends WithChildren {
   sidebar?: ReactNode;
 }
 
-type NavItem = {
-  id: string;
-  link: string;
-  icon: any;
-};
-
 const StudentLayout = ({ sidebar, children }: LayoutProps) => {
   const [activePath, setActivePath] = useState("");
   const authUser = useReactiveVar(authenticatedUser);
@@ -157,13 +151,11 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col flex-1 min-h-screen max-h-screen no-scrollbar overflow-auto">
-        <main>
-          <div className="bg-[#F6F6FC] p-4 max-w-full sm:px-6 md:px-8">
+        <main className="flex flex-col flex-1 min-h-screen max-h-screen no-scrollbar overflow-auto">
+          <div className="bg-[#F6F6FC] p-4 max-w-full relative sm:px-6 md:px-8 h-full">
             {children}
           </div>
         </main>
-      </div>
       {sidebar && (
         <div className="hidden bg-white shadow-lg px-5 py-10 drop-shadow-lg md:flex min-h-screen max-h-screen overflow-y-auto overflow-x-hidden custom-scrollbar flex-col w-1/5">
           {sidebar}
