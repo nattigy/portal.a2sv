@@ -1,36 +1,21 @@
 import { useReactiveVar } from "@apollo/client";
-import React, { useEffect, useState } from "react";
-import AddTopicToGroupModal from "../modals/AddTopicToGroupModal";
+import React, { useState } from "react";
 import NewTopicModal from "../modals/NewTopicModal";
-import TopicList from "../topics/TopicList";
+import TopicList from "./TopicList";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../types/user";
-import {useGetAllTopics, useGetAllTopicsBySeasonIdQuery} from "../../lib/hooks/useTopics";
-import { LoaderSmall } from "./Loaders";
+import {
+  useGetAllTopics,
+  
+} from "../../lib/hooks/useTopics";
+import { LoaderSmall } from "../common/Loaders";
 
-const selectMenuItems = [
-  {
-    id: 3,
-    name: "Education",
-  },
-  {
-    id: 4,
-    name: "Camp",
-  },
-];
 
 const HOATopicsPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isNewTopicModalOpen, setIsNewTopicModalOpen] =
-    useState(false);
+  const [isNewTopicModalOpen, setIsNewTopicModalOpen] = useState(false);
   const { data, refetch, loading } = useGetAllTopics();
 
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
-
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-  };
-
   // useEffect(() => {
   //   useGetAllTopics();
   // }, [refetch]);
@@ -38,11 +23,8 @@ const HOATopicsPage = () => {
   return (
     <>
       {isNewTopicModalOpen && (
-        <NewTopicModal
-          onClose={() => setIsNewTopicModalOpen(false)}
-        />
+        <NewTopicModal onClose={() => setIsNewTopicModalOpen(false)} />
       )}
-      {isModalOpen && <NewTopicModal onClose={() => setIsModalOpen(false)} />}
       <>
         <div className="w-full my-2  flex flex-col md:flex-row justify-between">
           <div className="my-2 justify-between flex items-center mb-2 gap-x-5 ">
@@ -50,7 +32,7 @@ const HOATopicsPage = () => {
           </div>
           {authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY && (
             <button
-              onClick={handleModalOpen}
+              onClick={()=>setIsNewTopicModalOpen(true)}
               className="flex w-full justify-center items-center md:w-44 p-2 text-sm font-semibold text-white bg-primary rounded-lg"
             >
               Add New Topic

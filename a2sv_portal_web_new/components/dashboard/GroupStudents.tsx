@@ -7,6 +7,7 @@ import {
   useUsersOfSingleGroup,
 } from "../../lib/hooks/useUsers";
 import Button from "../common/Button";
+import EmptyState from "../common/EmptyState";
 import { LoaderSmall } from "../common/Loaders";
 import StudentTable from "./StudentTable";
 
@@ -39,7 +40,9 @@ const GroupStudents = (props: Props) => {
   const authUser = useReactiveVar<AuthUser | any>(authenticatedUser);
 
   // const groupId = props.groupData?.group?.id || 0
-  const { data, refetch, loading } = useUsersOfSingleGroup(props.groupId);
+  const { data, refetch, loading, error } = useUsersOfSingleGroup(
+    props.groupId
+  );
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -51,7 +54,7 @@ const GroupStudents = (props: Props) => {
 
   return (
     <>
-      <div className="h-screen font-semibold text-[#565656]">
+      <div className="h-full w-full font-semibold text-[#565656]">
         <div className="flex justify-between items-center">
           <p className="text-[rgb(103,103,103)] font-semibold text-lg">
             {props.groupData?.group?.name}
@@ -75,13 +78,15 @@ const GroupStudents = (props: Props) => {
           </div>
         </div>
         {loading ? (
-          <div className="w-full h-full flex justify-center items-center">
+          <div className="w-full flex justify-center items-center">
             <LoaderSmall />
           </div>
-        ) : data && data.group.users ? (
+        ) : error ? (
+          <p>Something went wrong</p>
+        ) : data && data.group.users.length > 0 ? (
           <StudentTable students={data.group.users} />
         ) : (
-          <h1>Empty</h1>
+          <EmptyState />
         )}
       </div>
     </>
