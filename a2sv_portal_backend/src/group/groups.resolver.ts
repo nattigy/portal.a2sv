@@ -108,7 +108,7 @@ export class GroupsResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @ResolveField(() => [GroupStatResponse], { nullable: true })
+  @Query(() => [GroupStatResponse], { nullable: true })
   async getGroupsStat(): Promise<GroupStatResponse[]> {
     return this.groupsService.getGroupsStat()
   }

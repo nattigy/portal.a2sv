@@ -191,9 +191,9 @@ export class GroupsService {
     const groups = await this.prismaService.group.findMany({
       include: {
         users: {
-          select: {
-            id: true
-          },
+          // select: {
+          //   id: true
+          // },
           include: {
             seasonTopicProblems: {
               select: {
@@ -205,16 +205,16 @@ export class GroupsService {
           }
         },
         seasons: {
-          select: {
-            isActive: true,
-          },
+          // select: {
+          //   isActive: true,
+          // },
           include: {
             topics: {
               include: {
                 problems: {
-                  select: {
-                    problemId: true
-                  },
+                  // select: {
+                  //   problemId: true
+                  // },
                   include: {
                     problem: true,
                   },
@@ -230,6 +230,7 @@ export class GroupsService {
       let numberOfWrongSubmissions = 0
       let totalTimeDedicated = 0
       let numberOfTopicsCovered = 0
+      let numberOfProblems = 0
       groups[i].users.forEach(u => {
         u.seasonTopicProblems.forEach(g => {
           if (g.solved)
@@ -241,6 +242,9 @@ export class GroupsService {
       groups[i].seasons.forEach(s => {
         if (s.isActive)
           numberOfTopicsCovered += s.topics.length
+        s.topics.forEach(t => {
+          numberOfProblems += t.problems.length
+        })
       })
       groupStatResponses.push({
         id: groups[i].id,
@@ -254,8 +258,8 @@ export class GroupsService {
         numberOfAcceptedSubmissions: numberOfAcceptedSubmissions,
         numberOfWrongSubmissions: numberOfWrongSubmissions,
         totalTimeDedicated: totalTimeDedicated,
+        numberOfProblems: numberOfProblems,
         // contestsAttended: groups[i].id,
-        // numberOfProblems: groups[i].id,
         // rank: groups[i].id,
       })
     }

@@ -53,6 +53,6 @@ export class GroupStatResponse {
   // @Field(() => Int)
   // contestsAttended: number
   //
-  // @Field(() => Int)
-  // numberOfProblems: number
+  @Field(() => Int)
+  numberOfProblems: number
 }
