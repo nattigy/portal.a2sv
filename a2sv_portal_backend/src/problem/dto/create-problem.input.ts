@@ -1,6 +1,5 @@
 import { InputType, Int, Field } from '@nestjs/graphql'
 import { CreateTagInput } from '../../tag/dto/create-tag.input'
-import { Tag } from '../../tag/entities/tag.entity'
 
 @InputType()
 export class CreateProblemInput {

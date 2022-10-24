@@ -3,14 +3,13 @@ import { Status } from '@prisma/client'
 import { Group } from 'src/group/entities/group.entity'
 import { UserProfile } from 'src/user-profile/entities/user-profile.entity'
 import { RoleEnum } from '@prisma/client'
-import { GroupTopicSeasonProblemUser } from '../../group-topic-season-problem-user/entities/group-topic-season-problem-user.entity'
-import {Topic} from "../../topic/entities/topic.entity";
-import {UserTopic} from "../../user-topic/entities/user-topic.entity";
+import { UserTopic } from '../../user-topic/entities/user-topic.entity'
+import {SeasonTopicProblemUser} from "../../season-topic-problem-user/entities/season-topic-problem-user.entity";
 
 @ObjectType()
 export class User {
-  @Field(() => ID)
-  id: number
+  @Field(() => String)
+  id: string
   @Field(() => RoleEnum, { defaultValue: RoleEnum.STUDENT })
   role: RoleEnum
   @Field({})
@@ -19,17 +18,17 @@ export class User {
   status: Status
   @Field(() => Group, { nullable: true })
   group?: Group
-  @Field(() => Int, { nullable: true })
-  groupId?: number
-  @Field(() => [GroupTopicSeasonProblemUser], { nullable: true })
-  groupTopicSeasonProblems?: GroupTopicSeasonProblemUser[]
+  @Field(() => String, { nullable: true })
+  groupId?: string
+  @Field(() => [SeasonTopicProblemUser], { nullable: true })
+  seasonTopicProblems?: SeasonTopicProblemUser[]
   @Field(() => Group, { nullable: true })
   headToGroup?: Group
   @Field(() => Int, { nullable: true })
   userProfilesId?: number
   @Field(() => UserProfile, { nullable: true })
   userProfile?: UserProfile
-  @Field(() => [UserTopic], {nullable: true})
+  @Field(() => [UserTopic], { nullable: true })
   topics?: UserTopic[]
   @Field({ nullable: true })
   createdAt?: Date

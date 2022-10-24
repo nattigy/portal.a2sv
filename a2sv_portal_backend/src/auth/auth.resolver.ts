@@ -37,7 +37,7 @@ export class AuthResolver {
   async logout(@Context('res') response: Response): Promise<SignupOutput> {
     await this.authService.logout(response)
     return {
-      userId: -1,
+      userId: '-1',
     }
   }
 

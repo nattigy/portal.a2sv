@@ -3,8 +3,8 @@ import { Problem } from '../../problem/entities/problem.entity'
 
 @ObjectType()
 export class Tag {
-  @Field(() => Int)
-  id: number
+  @Field(() => String)
+  id: string
   @Field()
   name: string
   @Field(() => [Problem], { nullable: true })

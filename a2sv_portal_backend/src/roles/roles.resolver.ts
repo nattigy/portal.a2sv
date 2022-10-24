@@ -14,7 +14,7 @@ export class RolesResolver {
   }
 
   @Query((returns) => Role)
-  async role(@Args('id') id: number) {
+  async role(@Args('id') id: string) {
     return await this.rolesService.getRoleById(id)
   }
 
@@ -27,14 +27,14 @@ export class RolesResolver {
 
   @Mutation((returns) => Role)
   async updateRole(
-    @Args('id') id: number,
+    @Args('id') id: string,
     @Args('data', { type: () => UpdateRoleInput }) data: UpdateRoleInput,
   ) {
     return await this.rolesService.updateRole(id, data)
   }
 
   @Mutation((returns) => Role)
-  async deleteRole(@Args('id') id: number) {
+  async deleteRole(@Args('id') id: string) {
     return await this.rolesService.deleteRole(id)
   }
 }

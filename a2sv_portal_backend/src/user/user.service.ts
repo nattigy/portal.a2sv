@@ -5,7 +5,7 @@ import {UpdateUserInput} from './dto/update-user.input'
 import * as bcrypt from 'bcrypt'
 import {Parent} from '@nestjs/graphql'
 import {PrismaService} from '../prisma.service'
-import {ComfortLevel} from "./entities/comfort-level.enum";
+import {ComfortLevel} from './entities/comfort-level.enum'
 
 @Injectable()
 export class UserService {
@@ -20,12 +20,12 @@ export class UserService {
                 group: true,
                 headToGroup: true,
                 userProfile: true,
-                groupTopicSeasonProblems: true,
+                seasonTopicProblems: true,
                 topics: {
                     include: {
-                        topic: true
-                    }
-                }
+                        topic: true,
+                    },
+                },
             },
             where: {email},
         })
@@ -47,12 +47,12 @@ export class UserService {
                 group: true,
                 userProfile: true,
                 headToGroup: true,
-                groupTopicSeasonProblems: true,
+                seasonTopicProblems: true,
                 topics: {
                     include: {
-                        topic: true
-                    }
-                }
+                        topic: true,
+                    },
+                },
             },
         })
     }
@@ -62,7 +62,7 @@ export class UserService {
         take?: number
         status?: Status
         email?: string
-        groupId?: number
+        groupId?: string
         role?: RoleEnum
     }): Promise<User[] | []> {
         const {skip, take, status, email, groupId, role} = params
@@ -71,39 +71,39 @@ export class UserService {
             skip,
             take,
             where: {
+                groupId,
                 status,
                 email,
-                groupId,
                 role,
             },
             include: {
                 group: true,
                 userProfile: true,
                 headToGroup: true,
-                groupTopicSeasonProblems: true,
+                seasonTopicProblems: true,
                 topics: {
                     include: {
-                        topic: true
-                    }
-                }
+                        topic: true,
+                    },
+                },
             },
         })
 
         return result
     }
 
-    async findOne(id: number) {
+    async findOne(id: string) {
         const user = await this.prismaService.user.findUnique({
             include: {
                 group: true,
                 userProfile: true,
                 headToGroup: true,
-                groupTopicSeasonProblems: true,
+                seasonTopicProblems: true,
                 topics: {
                     include: {
-                        topic: true
-                    }
-                }
+                        topic: true,
+                    },
+                },
             },
             where: {
                 id: id,
@@ -114,24 +114,24 @@ export class UserService {
     }
 
     async getRole(@Parent() user: User) {
-        return this.prismaService.role.findFirst({where: {id: 1}})
+        return this.prismaService.role.findFirst({where: {id: '1'}})
     }
 
     async update(updateUserInput: UpdateUserInput): Promise<User> {
         // eslint-disable-next-line prefer-const
-        let {id, groupTopicProblems, groupId, userProfile, group, ...data} =
+        let {id, seasonTopicProblems, groupId, userProfile, ...data} =
             updateUserInput
         const queryData = data as any
 
-        if (group || groupId) {
+        if (groupId) {
             queryData.group = {
-                connect: {id: groupId || group.id},
+                connect: {id: groupId}
             }
         }
-        if (groupTopicProblems) {
+        if (seasonTopicProblems) {
             queryData.groupTopicProblems = {
-                upsert: groupTopicProblems.map((GroupTopicSeasonProblem) => {
-                    const {problemId, topicId, groupId, ...groupTopicProblemData} =
+                upsert: seasonTopicProblems.map((GroupTopicSeasonProblem) => {
+                    const {problemId, topicId, ...groupTopicProblemData} =
                         GroupTopicSeasonProblem
                     return {
                         where: {
@@ -187,19 +187,19 @@ export class UserService {
                 group: true,
                 userProfile: true,
                 headToGroup: true,
-                groupTopicSeasonProblems: true,
+                seasonTopicProblems: true,
                 topics: {
                     include: {
-                        topic: true
-                    }
-                }
+                        topic: true,
+                    },
+                },
             },
             data: queryData,
             where: {id},
         })
     }
 
-    async remove(id: number): Promise<User | null> {
+    async remove(id: string): Promise<User | null> {
         return await this.prismaService.user.delete({
             where: {id},
         })
@@ -214,14 +214,14 @@ export class UserService {
                 userProfile: true,
                 topics: {
                     include: {
-                        topic: true
-                    }
-                }
+                        topic: true,
+                    },
+                },
             },
         })
     }
 
-    async findById(id: number) {
+    async findById(id: string) {
         return await this.prismaService.user.findUnique({
             where: {
                 id: id,
@@ -232,18 +232,21 @@ export class UserService {
                 userProfile: true,
                 topics: {
                     include: {
-                        topic: true
-                    }
-                }
-
+                        topic: true,
+                    },
+                },
             },
         })
     }
 
-    async updateComfortLevel(topicId: number, userId: number, comfortLevel: ComfortLevel) {
+    async updateComfortLevel(
+        topicId: string,
+        userId: string,
+        comfortLevel: ComfortLevel,
+    ) {
         return await this.prismaService.user.update({
             where: {
-                id: userId
+                id: userId,
             },
             data: {
                 topics: {
@@ -251,26 +254,26 @@ export class UserService {
                         where: {
                             userId_topicId: {
                                 userId: userId,
-                                topicId: topicId
-                            }
+                                topicId: topicId,
+                            },
                         },
                         update: {
-                            comfortLevel: comfortLevel
+                            comfortLevel: comfortLevel,
                         },
                         create: {
                             topicId: topicId,
-                            comfortLevel: comfortLevel
-                        }
-                    }
-                }
+                            comfortLevel: comfortLevel,
+                        },
+                    },
+                },
             },
             include: {
                 topics: {
                     include: {
-                        topic: true
-                    }
-                }
-            }
+                        topic: true,
+                    },
+                },
+            },
         })
     }
 }

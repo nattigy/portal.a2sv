@@ -9,30 +9,39 @@ datasource db {
 }
 
 model Group {
-  id           Int                @id @default(autoincrement())
-  createdAt    DateTime?          @default(now())
-  updatedAt    DateTime?          @updatedAt
-  name         String
-  country      String?
-  school       String?
-  users        User[]
-  seasonTopics GroupTopicSeason[]
-  headId       Int?               @unique
-  head         User?              @relation("GroupHead", fields: [headId], references: [id])
+  id        String    @id @default(uuid())
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  name      String
+  country   String?
+  school    String?
+  users     User[]
+  seasons   Season[]
+  headId    String?   @unique
+  head      User?     @relation("GroupHead", fields: [headId], references: [id])
+}
+
+enum SeasonType {
+  CAMP
+  EDUCATION
+  PROJECT
 }
 
 model Season {
-  id          Int                @id @default(autoincrement())
-  name        String             @unique
-  startDate   DateTime           @default(now())
-  endDate     DateTime           @default(now())
-  createdAt   DateTime?          @default(now())
-  updatedAt   DateTime?          @updatedAt
-  groupTopics GroupTopicSeason[]
+  id         String        @id @default(uuid())
+  name       String
+  seasonType SeasonType    @default(EDUCATION)
+  startDate  DateTime      @default(now())
+  endDate    DateTime      @default(now())
+  createdAt  DateTime?     @default(now())
+  updatedAt  DateTime?     @updatedAt
+  topics     SeasonTopic[]
+  group      Group         @relation(fields: [groupId], references: [id])
+  groupId    String
 }
 
 model Permission {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   action      String
   description String?
   createdAt   DateTime? @default(now())
@@ -40,7 +49,7 @@ model Permission {
 }
 
 model Role {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   name        String
   description String?
   createdAt   DateTime? @default(now())
@@ -48,19 +57,19 @@ model Role {
 }
 
 model User {
-  id                       Int                           @id @default(autoincrement())
-  role                     RoleEnum
-  email                    String                        @unique
-  password                 String
-  userProfile              UserProfile?
-  status                   Status
-  group                    Group?                        @relation(fields: [groupId], references: [id])
-  groupId                  Int?
-  createdAt                DateTime?                     @default(now())
-  updatedAt                DateTime?
-  groupTopicSeasonProblems GroupTopicSeasonProblemUser[]
-  headToGroup              Group?                        @relation("GroupHead")
-  topics                   UserTopic[]
+  id                  String                   @id @default(uuid())
+  role                RoleEnum
+  email               String                   @unique
+  password            String
+  userProfile         UserProfile?
+  status              Status
+  group               Group?                   @relation(fields: [groupId], references: [id])
+  groupId             String?
+  createdAt           DateTime?                @default(now())
+  updatedAt           DateTime?
+  seasonTopicProblems SeasonTopicProblemUser[]
+  headToGroup         Group?                   @relation("GroupHead")
+  topics              UserTopic[]
 }
 
 enum ComfortLevel {
@@ -70,8 +79,8 @@ enum ComfortLevel {
 }
 
 model UserTopic {
-  userId       Int
-  topicId      Int
+  userId       String
+  topicId      String
   comfortLevel ComfortLevel @default(UNCOMFORTABLE)
   user         User         @relation(fields: [userId], references: [id])
   topic        Topic        @relation(fields: [topicId], references: [id])
@@ -80,8 +89,8 @@ model UserTopic {
 }
 
 model UserProfile {
-  id              Int       @id @default(autoincrement())
-  userId          Int       @unique
+  id              String    @id @default(uuid())
+  userId          String    @unique
   firstName       String?
   lastName        String?
   photoUrl        String?
@@ -111,13 +120,13 @@ model UserProfile {
 }
 
 model Topic {
-  id           Int                @id @default(autoincrement())
-  name         String
-  description  String?
-  createdAt    DateTime?          @default(now())
-  updatedAt    DateTime?          @updatedAt
-  seasonGroups GroupTopicSeason[]
-  users        UserTopic[]
+  id          String        @id @default(uuid())
+  name        String
+  description String?
+  createdAt   DateTime?     @default(now())
+  updatedAt   DateTime?     @updatedAt
+  users       UserTopic[]
+  seasons     SeasonTopic[]
 }
 
 enum Status {
@@ -126,19 +135,19 @@ enum Status {
 }
 
 model Problem {
-  id                Int                       @id @default(autoincrement())
-  title             String
-  platform          String
-  link              String
-  difficulty        String
-  tags              Tag[]
-  createdAt         DateTime?                 @default(now())
-  updatedAt         DateTime?                 @updatedAt
-  seasonGroupTopics GroupTopicSeasonProblem[]
+  id           String               @id @default(uuid())
+  title        String
+  platform     String
+  link         String
+  difficulty   String
+  tags         Tag[]
+  createdAt    DateTime?            @default(now())
+  updatedAt    DateTime?            @updatedAt
+  seasonTopics SeasonTopicProblem[]
 }
 
 model Tag {
-  id       Int       @id @default(autoincrement())
+  id       String    @id @default(uuid())
   name     String    @unique
   problems Problem[]
 }
@@ -151,49 +160,45 @@ enum RoleEnum {
   ADMIN
 }
 
-model GroupTopicSeason {
-  groupId   Int
-  topicId   Int
-  seasonId  Int
-  createdAt DateTime?                 @default(now())
-  updatedAt DateTime?                 @updatedAt
-  group     Group?                    @relation(fields: [groupId], references: [id])
-  topic     Topic?                    @relation(fields: [topicId], references: [id])
-  season    Season?                   @relation(fields: [seasonId], references: [id])
-  problems  GroupTopicSeasonProblem[]
+model SeasonTopic {
+  topicId   String
+  seasonId  String
+  createdAt DateTime?            @default(now())
+  updatedAt DateTime?            @updatedAt
+  topic     Topic?               @relation(fields: [topicId], references: [id])
+  season    Season?              @relation(fields: [seasonId], references: [id])
+  problems  SeasonTopicProblem[]
 
-  @@id([groupId, topicId, seasonId])
+  @@id([seasonId, topicId])
 }
 
-model GroupTopicSeasonProblem {
-  problemId        Int
-  groupId          Int
-  topicId          Int
-  seasonId         Int
-  createdAt        DateTime                      @default(now())
-  updatedAt        DateTime                      @updatedAt
-  seasonGroupTopic GroupTopicSeason              @relation(fields: [groupId, topicId, seasonId], references: [groupId, topicId, seasonId])
-  problem          Problem                       @relation(fields: [problemId], references: [id])
-  users            GroupTopicSeasonProblemUser[]
+model SeasonTopicProblem {
+  problemId   String
+  topicId     String
+  seasonId    String
+  createdAt   DateTime                 @default(now())
+  updatedAt   DateTime                 @updatedAt
+  seasonTopic SeasonTopic              @relation(fields: [topicId, seasonId], references: [topicId, seasonId])
+  problem     Problem                  @relation(fields: [problemId], references: [id])
+  users       SeasonTopicProblemUser[]
 
-  @@id([problemId, groupId, topicId, seasonId])
+  @@id([seasonId, topicId, problemId])
 }
 
-model GroupTopicSeasonProblemUser {
-  problemId               Int
-  groupId                 Int
-  topicId                 Int
-  userId                  Int
-  seasonId                Int
-  createdAt               DateTime                @default(now())
-  updatedAt               DateTime                @updatedAt
-  seasonGroupTopicProblem GroupTopicSeasonProblem @relation(fields: [groupId, topicId, problemId, seasonId], references: [groupId, topicId, problemId, seasonId])
-  user                    User                    @relation(fields: [userId], references: [id])
-  solved                  Boolean                 @default(false)
+model SeasonTopicProblemUser {
+  problemId               String
+  topicId                 String
+  userId                  String
+  seasonId                String
+  createdAt               DateTime           @default(now())
+  updatedAt               DateTime           @updatedAt
+  seasonTopicProblem      SeasonTopicProblem @relation(fields: [topicId, problemId, seasonId], references: [topicId, problemId, seasonId])
+  user                    User               @relation(fields: [userId], references: [id])
+  solved                  Boolean            @default(false)
   solutionLink            String?
   attempts                Int                     @default(0)
   timeDedicated           Int                     @default(0)
   needHelp                Boolean                 @default(false)
 
-  @@id([groupId, topicId, problemId, seasonId, userId])
+  @@id([seasonId, topicId, problemId, userId])
 }

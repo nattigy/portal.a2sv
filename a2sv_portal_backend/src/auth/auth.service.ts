@@ -22,7 +22,7 @@ export class AuthService {
     return null
   }
 
-  async getUser(id: number): Promise<User | null> {
+  async getUser(id: string): Promise<User | null> {
     const user = await this.usersService.findById(id)
     if (user) {
       return user
@@ -42,7 +42,7 @@ export class AuthService {
     return { accessToken, userId: user.id }
   }
 
-  async signUp(createUserInput: CreateUserInput): Promise<{ userId: number }> {
+  async signUp(createUserInput: CreateUserInput): Promise<{ userId: string }> {
     const user = await this.usersService.create(createUserInput)
     return {
       userId: user.id,

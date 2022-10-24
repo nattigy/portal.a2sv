@@ -8,9 +8,9 @@ export class GetTopicArgs {
   @Field(() => Int, { nullable: true })
   take: number
 
-  @Field(() => Int, { nullable: true })
-  seasonId?: number
+  @Field(() => String, { nullable: true })
+  seasonId?: string
 
-  @Field(() => Int, { nullable: true })
-  groupId?: number
+  @Field(() => String, { nullable: true })
+  groupId?: string
 }

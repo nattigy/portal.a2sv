@@ -13,7 +13,7 @@ import { CreateSeasonInput } from './dto/create-season.input'
 import { UpdateSeasonInput } from './dto/update-season.input'
 import { Season } from './entities/season.entity'
 import { SeasonService } from './season.service'
-import { GroupTopicSeason } from '../group-topic-season/entities/group-topic-season.entity'
+import {SeasonTopic} from "../season-topic/entities/season-topic.entity";
 
 @Resolver(() => Season)
 export class SeasonResolver {
@@ -33,26 +33,26 @@ export class SeasonResolver {
   }
 
   @Query(() => Season)
-  season(@Args('id', { type: () => Int }) id: number) {
+  season(@Args('id', { type: () => Int }) id: string) {
     return this.seasonService.getSeasonById(id)
   }
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @Mutation(() => Season)
   updateSeason(
-    @Args('id', { type: () => Int }) id: number,
+    @Args('id', { type: () => Int }) id: string,
     @Args('updateSeasonInput') updateSeasonInput: UpdateSeasonInput,
   ) {
     return this.seasonService.updateSeason(id, updateSeasonInput)
   }
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @Mutation(() => Season)
-  deleteSeason(@Args('id', { type: () => Int }) id: number) {
+  deleteSeason(@Args('id', { type: () => Int }) id: string) {
     return this.seasonService.deleteSeason(id)
   }
 
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
-  @ResolveField(() => [GroupTopicSeason])
-  groupTopics(@Parent() season: Season): GroupTopicSeason[] {
-    return season.groupTopics
+  @ResolveField(() => [SeasonTopic])
+  topics(@Parent() season: Season): SeasonTopic[] {
+    return season.topics
   }
 }

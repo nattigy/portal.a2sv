@@ -12,26 +12,32 @@ export class SeasonService {
     async getSeasons(): Promise<Season[]> {
         return this.prismaService.season.findMany({
             include: {
-                groupTopics: {
+                topics: {
                     include: {
-                        group: true,
-                        topic: true
-                    }
-                }
+                        problems: {
+                            include: {
+                                problem: true
+                            }
+                        }
+                    },
+                },
             },
         })
     }
 
-    async getSeasonById(id: number): Promise<Season> {
+    async getSeasonById(id: string): Promise<Season> {
         const season = await this.prismaService.season.findUnique({
             where: {id: id},
             include: {
-                groupTopics: {
+                topics: {
                     include: {
-                        topic: true,
-                        group: true
-                    }
-                }
+                        problems: {
+                            include: {
+                                problem: true
+                            }
+                        }
+                    },
+                },
             },
         })
         if (!season) {
@@ -44,45 +50,43 @@ export class SeasonService {
         return await this.prismaService.season.create({
             data: createSeasonInput,
             include: {
-                groupTopics: {
+                topics: {
                     include: {
-                        group: true,
-                        topic: true
-                    }
-                }
+                        problems: {
+                            include: {
+                                problem: true
+                            }
+                        }
+                    },
+                },
             },
         })
     }
 
     async updateSeason(
-        id: number,
+        id: string,
         updateSeasonInput: UpdateSeasonInput,
     ): Promise<Season> {
         return this.prismaService.season.update({
             where: {id: id},
             data: updateSeasonInput,
             include: {
-                groupTopics: {
+                topics: {
                     include: {
-                        group: true,
-                        topic: true
-                    }
-                }
+                        problems: {
+                            include: {
+                                problem: true
+                            }
+                        }
+                    },
+                },
             },
         })
     }
 
-    async deleteSeason(id: number): Promise<Season> {
+    async deleteSeason(id: string): Promise<Season> {
         return this.prismaService.season.delete({
             where: {id},
-            include: {
-                groupTopics: {
-                    include: {
-                        group: true,
-                        topic: true
-                    }
-                }
-            }
         })
     }
 }
