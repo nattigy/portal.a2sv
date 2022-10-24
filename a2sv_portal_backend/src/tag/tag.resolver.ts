@@ -42,7 +42,7 @@ export class TagResolver {
   }
 
   @Mutation(() => Tag)
-  async removeTag(@Args('id', { type: () => Int }) id: number): Promise<Tag> {
+  async removeTag(@Args('id', { type: () => Int }) id: string): Promise<Tag> {
     return await this.tagService.remove(id)
   }
 

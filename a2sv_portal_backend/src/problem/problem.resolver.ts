@@ -13,7 +13,7 @@ import { CreateProblemInput } from './dto/create-problem.input'
 import { UpdateProblemInput } from './dto/update-problem.input'
 import { Tag } from '@prisma/client'
 import { Roles } from 'src/auth/auth.decorator'
-import { GroupTopicSeasonProblem } from '../group-topic-season-problem/entities/group-topic-season-problem.entity'
+import {SeasonTopicProblem} from "../season-topic-problem/entities/season-topic-problem.entity";
 
 @Resolver(() => Problem)
 export class ProblemResolver {
@@ -66,7 +66,7 @@ export class ProblemResolver {
     name: 'problem',
     description: 'Find a unique problem by id',
   })
-  async problem(@Args('id', { type: () => Int }) id: number): Promise<Problem> {
+  async problem(@Args('id', { type: () => Int }) id: string): Promise<Problem> {
     return await this.problemService.findOne(id)
   }
 
@@ -87,7 +87,7 @@ export class ProblemResolver {
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
   @Mutation(() => Problem)
   async removeProblem(
-    @Args('id', { type: () => Int }) id: number,
+    @Args('id', { type: () => Int }) id: string,
   ): Promise<Problem> {
     return this.problemService.remove(id)
   }
@@ -111,8 +111,8 @@ export class ProblemResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @ResolveField(() => [GroupTopicSeasonProblem], { nullable: 'itemsAndList' })
-  groupTopics(@Parent() problem: Problem): GroupTopicSeasonProblem[] {
-    return problem.seasonGroupTopics
+  @ResolveField(() => [SeasonTopicProblem], { nullable: 'itemsAndList' })
+  seasonTopics(@Parent() problem: Problem): SeasonTopicProblem[] {
+    return problem.seasonTopics
   }
 }

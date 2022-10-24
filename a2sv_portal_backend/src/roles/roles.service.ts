@@ -18,7 +18,7 @@ export class RolesService {
     })
   }
 
-  async getRoleById(id: number): Promise<Role> {
+  async getRoleById(id: string): Promise<Role> {
     return await this.prismaService.role.findUnique({ where: { id } })
   }
 
@@ -26,11 +26,11 @@ export class RolesService {
     return await this.prismaService.role.findMany()
   }
 
-  async updateRole(id: number, data: UpdateRoleInput): Promise<Role> {
+  async updateRole(id: string, data: UpdateRoleInput): Promise<Role> {
     return await this.prismaService.role.update({ where: { id }, data })
   }
 
-  async deleteRole(id: number): Promise<Role> {
+  async deleteRole(id: string): Promise<Role> {
     return await this.prismaService.role.delete({ where: { id } })
   }
 }

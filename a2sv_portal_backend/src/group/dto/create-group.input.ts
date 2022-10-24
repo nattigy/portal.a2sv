@@ -1,12 +1,13 @@
-import { Field, InputType, Int } from '@nestjs/graphql'
-import { UpdateUserInput } from 'src/user/dto/update-user.input'
+import {Field, InputType, Int} from '@nestjs/graphql'
 
 @InputType()
 export class CreateGroupInput {
-  @Field()
-  name: string
-  @Field({ nullable: true })
-  country?: string
-  @Field({ nullable: true })
-  school?: string
+    @Field()
+    name: string
+    @Field({nullable: true})
+    country?: string
+    @Field({nullable: true})
+    school?: string
+    @Field({nullable: true})
+    headId?: string
 }

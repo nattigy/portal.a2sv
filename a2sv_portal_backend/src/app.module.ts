@@ -14,11 +14,11 @@ import { AuthModule } from './auth/auth.module'
 import { TagModule } from './tag/tag.module'
 import { ProblemModule } from './problem/problem.module'
 import { TopicModule } from './topic/topic.module'
-import { GroupTopicSeasonModule } from './group-topic-season/group-topic-season.module'
-import { GroupTopicSeasonProblemModule } from './group-topic-season-problem/group-topic-season-problem.module'
-import { GroupTopicSeasonProblemUserModule } from './group-topic-season-problem-user/group-topic-season-problem-user.module'
 import { UserProfileModule } from './user-profile/user-profile.module'
 import { UserTopicModule } from './user-topic/user-topic.module'
+import { SeasonTopicModule } from './season-topic/season-topic.module';
+import { SeasonTopicProblemModule } from './season-topic-problem/season-topic-problem.module';
+import { SeasonTopicProblemUserModule } from './season-topic-problem-user/season-topic-problem-user.module';
 
 @Module({
   imports: [
@@ -52,14 +52,11 @@ import { UserTopicModule } from './user-topic/user-topic.module'
     TagModule,
     ProblemModule,
     TopicModule,
-    GroupTopicSeasonModule,
     UserProfileModule,
-    GroupTopicSeasonProblemModule,
-    GroupTopicSeasonProblemUserModule,
-    GroupTopicSeasonModule,
-    GroupTopicSeasonProblemModule,
-    GroupTopicSeasonProblemUserModule,
     UserTopicModule,
+    SeasonTopicModule,
+    SeasonTopicProblemModule,
+    SeasonTopicProblemUserModule,
   ],
   providers: [AppService, AppResolver],
 })

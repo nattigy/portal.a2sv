@@ -21,14 +21,14 @@ export class TagService {
     })
   }
 
-  async findById(id: number): Promise<Tag> {
+  async findById(id: string): Promise<Tag> {
     return this.prismaService.tag.findUnique({
       where: { id },
       include: { problems: true },
     })
   }
 
-  async update(id: number, updateTagInput: UpdateTagInput): Promise<Tag> {
+  async update(id: string, updateTagInput: UpdateTagInput): Promise<Tag> {
     return this.prismaService.tag.update({
       where: { id },
       data: updateTagInput,
@@ -38,7 +38,7 @@ export class TagService {
     })
   }
 
-  async remove(id: number): Promise<Tag | null> {
+  async remove(id: string): Promise<Tag | null> {
     return this.prismaService.tag.delete({ where: { id } })
   }
 

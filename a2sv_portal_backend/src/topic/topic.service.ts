@@ -3,13 +3,13 @@ import {PrismaService} from 'src/prisma.service'
 import {Topic} from '@prisma/client'
 import {CreateTopicInput} from './dto/create-topic.input'
 import {UpdateTopicInput} from './dto/update-topic.input'
-import {AddTopicToGroupInput} from './dto/add-topic-to-group-input'
+import {AddTopicToSeasonInput} from './dto/add-topic-to-season-input'
 
 export interface TopicWhereInput {
     skip?: number
     take?: number
-    groupId?: number
-    seasonId?: number
+    groupId?: string
+    seasonId?: string
 }
 
 @Injectable()
@@ -18,21 +18,20 @@ export class TopicService {
     }
 
     async getTopics({skip, take, groupId, seasonId}: TopicWhereInput = {}): Promise<Topic[] | []> {
+        // console.log(groupId, seasonId)
         return this.prismaService.topic.findMany({
             skip,
             take,
             where: {
-                seasonGroups: {
-                    some: {
-                        groupId,
+                seasons: {
+                    some: seasonId && {
                         seasonId,
                     },
                 },
             },
             include: {
-                seasonGroups: {
+                seasons: {
                     include: {
-                        group: true,
                         problems: {
                             include: {
                                 problem: true,
@@ -44,11 +43,11 @@ export class TopicService {
         })
     }
 
-    async getTopicById(id: number): Promise<Topic> {
+    async getTopicById(id: string): Promise<Topic> {
         const topic = await this.prismaService.topic.findUnique({
             where: {id: id},
             include: {
-                seasonGroups: {
+                seasons: {
                     include: {
                         topic: true,
                         problems: {
@@ -72,9 +71,8 @@ export class TopicService {
         return await this.prismaService.topic.create({
             data: queryData,
             include: {
-                seasonGroups: {
+                seasons: {
                     include: {
-                        group: true,
                         problems: {
                             include: {
                                 problem: true,
@@ -87,7 +85,7 @@ export class TopicService {
     }
 
     async updateTopic(
-        givenId: number,
+        givenId: string,
         updateTopicInput: UpdateTopicInput,
     ): Promise<Topic> {
         const {id, ...data} = updateTopicInput
@@ -96,9 +94,8 @@ export class TopicService {
             where: {id: id},
             data: queryData,
             include: {
-                seasonGroups: {
+                seasons: {
                     include: {
-                        group: true,
                         problems: {
                             include: {
                                 problem: true,
@@ -110,13 +107,26 @@ export class TopicService {
         })
     }
 
-    async deleteTopic(id: number): Promise<Topic> {
+    async deleteTopic(id: string): Promise<Topic> {
         return this.prismaService.topic.delete({where: {id}})
     }
 
-    async addTopicToGroup(addTopicToGroupInput: AddTopicToGroupInput) {
-        return this.prismaService.groupTopicSeason.create({
-            data: addTopicToGroupInput,
+    async addTopicToSeason(addTopicToSeasonInput: AddTopicToSeasonInput) {
+        return this.prismaService.season.update({
+            data: {
+                topics: {
+                    create: {
+                        topic: {
+                            connect: {
+                                id: addTopicToSeasonInput.topicId
+                            }
+                        }
+                    }
+                }
+            },
+            where: {
+                id: addTopicToSeasonInput.seasonId
+            }
         })
     }
 }

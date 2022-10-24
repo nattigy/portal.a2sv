@@ -5,5 +5,5 @@ import { UserProfile } from '../entities/user-profile.entity'
 @InputType()
 export class CreateUserProfileInput extends PartialType(UserProfile) {
   @Field(() => Int)
-  userId: number
+  userId: string
 }

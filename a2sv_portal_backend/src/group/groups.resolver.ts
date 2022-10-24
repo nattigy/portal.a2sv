@@ -13,7 +13,7 @@ import { CreateGroupInput } from './dto/create-group.input'
 import { UpdateGroupInput } from './dto/update-group.input'
 import { Group } from './entities/group.entity'
 import { GroupsService, GroupWhereInput } from './groups.service'
-import { GroupTopicSeason } from '../group-topic-season/entities/group-topic-season.entity'
+import {Season} from "../season/entities/season.entity";
 
 @Resolver(() => Group)
 export class GroupsResolver {
@@ -48,7 +48,7 @@ export class GroupsResolver {
     'STUDENT',
   )
   @Query(() => Group)
-  group(@Args('id', { type: () => Int }) id: number) {
+  group(@Args('id', { type: () => Int }) id: string) {
     return this.groupsService.getGroupById(id)
   }
 
@@ -72,7 +72,7 @@ export class GroupsResolver {
     'STUDENT',
   )
   @Mutation(() => Group)
-  deleteGroup(@Args('id', { type: () => Int }) id: number) {
+  deleteGroup(@Args('id', { type: () => Int }) id: string) {
     return this.groupsService.deleteGroup(id)
   }
 
@@ -83,9 +83,9 @@ export class GroupsResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @ResolveField(() => [GroupTopicSeason], { nullable: 'itemsAndList' })
-  seasonTopics(@Parent() group: Group): GroupTopicSeason[] | null {
-    return group.seasonTopics
+  @ResolveField(() => [Season], { nullable: 'itemsAndList' })
+  seasons(@Parent() group: Group): Season[] | null {
+    return group.seasons
   }
 
   @Roles(

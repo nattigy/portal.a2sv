@@ -22,7 +22,7 @@ export class UserProfileResolver {
   }
 
   @Query(() => UserProfile, { name: 'userProfile' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => Int }) id: string) {
     return this.userProfileService.findOne(id)
   }
 
@@ -38,7 +38,7 @@ export class UserProfileResolver {
   }
 
   @Mutation(() => UserProfile)
-  removeUserProfile(@Args('id', { type: () => Int }) id: number) {
+  removeUserProfile(@Args('id', { type: () => Int }) id: string) {
     return this.userProfileService.remove(id)
   }
 }

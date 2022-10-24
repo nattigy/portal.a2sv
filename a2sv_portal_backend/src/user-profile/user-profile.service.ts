@@ -18,7 +18,7 @@ export class UserProfileService {
     return this.prismaService.userProfile.findMany()
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.prismaService.userProfile.findUnique({
       where: {
         id,
@@ -26,7 +26,7 @@ export class UserProfileService {
     })
   }
 
-  update(id: number, updateUserProfileInput: UpdateUserProfileInput) {
+  update(id: string, updateUserProfileInput: UpdateUserProfileInput) {
     return this.prismaService.userProfile.update({
       where: {
         id,
@@ -35,7 +35,7 @@ export class UserProfileService {
     })
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.prismaService.userProfile.delete({
       where: {
         id,

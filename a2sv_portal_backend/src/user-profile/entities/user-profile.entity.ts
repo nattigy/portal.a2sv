@@ -3,9 +3,9 @@ import { ObjectType, Field, Int } from '@nestjs/graphql'
 @ObjectType()
 export class UserProfile {
   @Field(() => Int)
-  id: number
+  id: string
   @Field(() => Int)
-  userId: number
+  userId: string
   @Field(() => String, { nullable: true })
   firstName?: string = 'John' // Courtesy of dany the sun!
   @Field(() => String, { nullable: true })

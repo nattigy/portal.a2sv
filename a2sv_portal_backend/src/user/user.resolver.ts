@@ -16,9 +16,9 @@ import { GetUserArgs } from './dto/get-users.args'
 import { Roles } from 'src/auth/auth.decorator'
 import { GroupsService } from 'src/group/groups.service'
 import { Group } from 'src/group/entities/group.entity'
-import { GroupTopicSeasonProblemUser } from '../group-topic-season-problem-user/entities/group-topic-season-problem-user.entity'
 import { UserTopic } from '../user-topic/entities/user-topic.entity'
 import { ComfortLevel } from './entities/comfort-level.enum'
+import {SeasonTopicProblemUser} from "../season-topic-problem-user/entities/season-topic-problem-user.entity";
 
 @Resolver(() => User)
 export class UserResolver {
@@ -29,8 +29,8 @@ export class UserResolver {
 
   @Mutation(() => User)
   async updateComfortLevel(
-    @Args('topicId', { type: () => Int }) topicId: number,
-    @Args('userId', { type: () => Int }) userId: number,
+    @Args('topicId', { type: () => Int }) topicId: string,
+    @Args('userId', { type: () => Int }) userId: string,
     @Args('comfortLevel', { type: () => ComfortLevel })
     comfortLevel: ComfortLevel,
   ) {
@@ -82,7 +82,7 @@ export class UserResolver {
     'STUDENT',
   )
   @Query(() => User, { name: 'user' })
-  async findOne(@Args('id', { type: () => Int }) id: number) {
+  async findOne(@Args('id', { type: () => Int }) id: string) {
     // const {...needed, password} = user
     try {
       return await this.userService.findOne(id)
@@ -111,7 +111,7 @@ export class UserResolver {
 
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @Mutation(() => User)
-  async removeUser(@Args('id', { type: () => Int }) id: number) {
+  async removeUser(@Args('id', { type: () => Int }) id: string) {
     try {
       return await this.userService.remove(id)
     } catch (e) {
@@ -174,9 +174,9 @@ export class UserResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @ResolveField(() => [GroupTopicSeasonProblemUser])
-  groupTopicProblems(@Parent() user: User): GroupTopicSeasonProblemUser[] {
-    return user.groupTopicSeasonProblems
+  @ResolveField(() => [SeasonTopicProblemUser])
+  seasonTopicProblems(@Parent() user: User): SeasonTopicProblemUser[] {
+    return user.seasonTopicProblems
   }
 
   @ResolveField(() => [UserTopic])
