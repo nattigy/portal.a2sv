@@ -4,6 +4,7 @@ import {Season} from '../../season/entities/season.entity'
 import {Topic} from '../../topic/entities/topic.entity'
 import {User} from "../../user/entities/user.entity";
 import {GroupTopicSeasonProblem} from "../../group-topic-season-problem/entities/group-topic-season-problem.entity";
+import {TopicStatusEnum} from "../../group/entities/group.enums.";
 
 @ObjectType()
 export class GroupTopicSeason {

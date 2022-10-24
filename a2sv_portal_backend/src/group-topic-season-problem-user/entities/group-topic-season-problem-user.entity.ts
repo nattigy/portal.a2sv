@@ -24,6 +24,8 @@ export class GroupTopicSeasonProblemUser {
     solutionLink?: string
     @Field(() => Int, {defaultValue: 0})
     attempts?: number
+    @Field(() => Int, {defaultValue: 0})
+    timeDedicated?: number
     @Field({defaultValue: false})
     needHelp?: boolean
 }

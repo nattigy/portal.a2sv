@@ -12,8 +12,9 @@ import {User} from 'src/user/entities/user.entity'
 import {CreateGroupInput} from './dto/create-group.input'
 import {UpdateGroupInput} from './dto/update-group.input'
 import {Group} from './entities/group.entity'
-import {GroupsService, GroupWhereInput} from './groups.service'
+import {GroupsService} from './groups.service'
 import {GroupTopicSeason} from '../group-topic-season/entities/group-topic-season.entity'
+import {GroupWhereInput} from "./dto/find-group.input";
 
 @Resolver(() => Group)
 export class GroupsResolver {

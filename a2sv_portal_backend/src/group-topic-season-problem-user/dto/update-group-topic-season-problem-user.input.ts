@@ -22,5 +22,7 @@ export class UpdateGroupTopicSeasonProblemUserInput extends PartialType(
     @Field({nullable: true})
     attempts?: number
     @Field({nullable: true})
+    timeDedicated?: number
+    @Field({nullable: true})
     needHelp?: boolean
 }
