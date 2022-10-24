@@ -67,7 +67,6 @@ export default function ProblemsAutocomplete({ handleSearchProblem }: Props) {
   }, [query]);
 
   const handleSelectProblem = (val: any) => {
-    console.log(val, " is value");
     setSelectedProblem(val);
     handleSearchProblem(val);
     // setQuery(val.title)

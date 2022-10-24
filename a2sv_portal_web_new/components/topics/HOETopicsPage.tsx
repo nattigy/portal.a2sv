@@ -1,6 +1,5 @@
 import { useReactiveVar } from "@apollo/client";
 import React, { useEffect, useState } from "react";
-import AddTopicToGroupModal from "../modals/AddTopicToGroupModal";
 import TopicList from "../topics/TopicList";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../types/user";
@@ -8,6 +7,7 @@ import { useGetAllTopicsByGroupAndSeasonIdQuery } from "../../lib/hooks/useTopic
 import Button from "../common/Button";
 import EmptyState from "../common/EmptyState";
 import { LoaderSmall } from "../common/Loaders";
+import NewTopicModal from "../modals/NewTopicModal";
 
 
 type Props = {
@@ -35,10 +35,10 @@ const HOETopicsPage = ({ groupId }: Props) => {
   return (
     <>
       {isAddTopicToGroupModalOpen && (
-        <AddTopicToGroupModal
+        <NewTopicModal
           onClose={() => setIsAddTopicToGroupModalOpen(false)}
           groupId={authUser?.headToGroup?.id}
-          seasonId={1}
+         seasonId={1}
         />
       )}
       <div className="h-full">

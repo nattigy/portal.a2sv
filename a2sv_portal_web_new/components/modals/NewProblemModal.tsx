@@ -19,6 +19,7 @@ import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormRejectButton from "../common/FormRejectButton";
 import FormField from "../common/FormField";
 import FormRadio from "../common/FormRadio";
+import ProblemsAutocomplete from "../problems/ProblemsAutocomplete";
 
 interface FormValues {
   search: string;
@@ -152,7 +153,6 @@ const NewProblemModal = (props: Props) => {
                 },
               });
             } else {
-              console.log("existing p id", existingProblem.id.toString());
               await addExistingProblem({
                 variables: {
                   updateGroupTopicSeasonInput: {
@@ -184,11 +184,14 @@ const NewProblemModal = (props: Props) => {
           }}
         >
           {({ isSubmitting, errors, touched }) => (
+            
             <Form>
               <div
                 role="alert"
                 className="flex flex-col gap-y-3 min-h-fit justify-between bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-10 py-5"
               >
+              {JSON.stringify(errors)}
+
                 <div className="w-full flex flex-col gap-y-2 items-center">
                   <div className="my-2 w-full flex justify-between items-center">
                     <h2 className="font-bold">Add New Problem</h2>
@@ -226,7 +229,7 @@ const NewProblemModal = (props: Props) => {
                     choose existing one
                   </p>
                   <div className="w-full flex flex-col justify-start gap-y-2">
-                    <AutoCompleteProblems
+                    <ProblemsAutocomplete
                       handleSearchProblem={handleSearchProblem}
                     />
                     {/* <p className="w-full text-xs text-red-500">

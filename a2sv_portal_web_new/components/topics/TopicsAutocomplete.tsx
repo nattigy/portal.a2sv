@@ -9,7 +9,7 @@ export type TopicType = {
   id: number;
   name: string;
 };
-function AutoCompleteSearch({ handleSearchTopic }: Props) {
+const TopicsAutocomplete = ({ handleSearchTopic }: Props) => {
   const [query, setQuery] = useState("");
   const { loading, data, error } = useGetAllTopics();
   const [selectedTopic, setSelectedTopic] = useState(null);
@@ -25,6 +25,8 @@ function AutoCompleteSearch({ handleSearchTopic }: Props) {
     } else {
       setFilteredTopics(data?.topics);
       setQuery("");
+      setSelectedTopic(null);
+      handleSearchTopic(null)
     }
   }, [query]);
 
@@ -52,6 +54,6 @@ function AutoCompleteSearch({ handleSearchTopic }: Props) {
       handleSearchQuery={handleSearchQuery}
     />
   );
-}
+};
 
-export default AutoCompleteSearch;
+export default TopicsAutocomplete;
