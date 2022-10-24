@@ -15,6 +15,8 @@ export class Season {
     group?: Group
     @Field()
     seasonType: SeasonType
+    @Field()
+    isActive?: boolean
     @Field(() => [SeasonTopic], {nullable: true})
     topics?: SeasonTopic[]
     @Field(() => GraphQLISODateTime)

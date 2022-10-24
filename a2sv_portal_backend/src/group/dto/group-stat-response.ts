@@ -15,7 +15,7 @@ export class GroupStatResponse {
   11. Number of contests attended */
 
   @Field(() => ID)
-  id: number
+  id: string
 
   @Field()
   name: string
@@ -47,12 +47,12 @@ export class GroupStatResponse {
   @Field(() => Int)
   totalTimeDedicated: number
 
-  @Field(() => Int)
-  rank: number
-
-  @Field(() => Int)
-  contestsAttended: number
-
-  @Field(() => Int)
-  numberOfProblems: number
+  // @Field(() => Int)
+  // rank: number
+  //
+  // @Field(() => Int)
+  // contestsAttended: number
+  //
+  // @Field(() => Int)
+  // numberOfProblems: number
 }

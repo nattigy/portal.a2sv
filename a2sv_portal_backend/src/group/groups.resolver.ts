@@ -14,6 +14,7 @@ import { UpdateGroupInput } from './dto/update-group.input'
 import { Group } from './entities/group.entity'
 import { GroupsService, GroupWhereInput } from './groups.service'
 import {Season} from "../season/entities/season.entity";
+import {GroupStatResponse} from "./dto/group-stat-response";
 
 @Resolver(() => Group)
 export class GroupsResolver {
@@ -98,5 +99,17 @@ export class GroupsResolver {
   @ResolveField(() => User, { nullable: true })
   head(@Parent() group: Group): User {
     return group.head
+  }
+
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
+  @ResolveField(() => [GroupStatResponse], { nullable: true })
+  async getGroupsStat(): Promise<GroupStatResponse[]> {
+    return this.groupsService.getGroupsStat()
   }
 }

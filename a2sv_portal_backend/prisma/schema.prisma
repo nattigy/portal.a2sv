@@ -38,6 +38,7 @@ model Season {
   topics     SeasonTopic[]
   group      Group         @relation(fields: [groupId], references: [id])
   groupId    String
+  isActive   Boolean       @default(false)
 }
 
 model Permission {
