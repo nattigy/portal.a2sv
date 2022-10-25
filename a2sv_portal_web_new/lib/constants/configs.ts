@@ -1,7 +1,9 @@
 const API_URL =
   process.env.API_URL || "https://a2sv-portal.herokuapp.com/graphql";
 
-const NEXT_PUBLIC_API_URL = `${process.env.NEXT_PUBLIC_API_URL}/graphql`;
+const NEXT_PUBLIC_API_URL =
+  "https://a2sv-portal.herokuapp.com/graphql" ||
+  `${process.env.NEXT_PUBLIC_API_URL}/graphql`;
 
 const APOLLO_STATE_PROPERTY_NAME =
   process.env.APOLLO_STATE_PROPERTY_NAME || "__APOLLO_STATE__";

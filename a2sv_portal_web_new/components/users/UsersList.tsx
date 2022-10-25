@@ -8,7 +8,7 @@ import UserItem, { UserProps } from "./UserItem";
 type Props = {
   users: UserProps[];
   selected: number;
-  setSelected: React.Dispatch<React.SetStateAction<number>>;
+  setSelected: React.Dispatch<React.SetStateAction<number | null>>;
 };
 
 const UsersList = ({ users, selected, setSelected }: Props) => {

@@ -6,6 +6,8 @@ import NewUserModal from "../../components/modals/NewUserModal";
 import UserRank from "../../components/users/UserRank";
 import UsersFilter from "../../components/users/UsersFilter";
 import UsersList from "../../components/users/UsersList";
+import { addApolloState, initializeApollo, useApollo } from "../../lib/apollo/apolloClient";
+import { GET_FILTERED_USERS } from "../../lib/apollo/Queries/usersQueries";
 import { useFilteredUsers } from "../../lib/hooks/useUsers";
 import { GraphqlUserRole } from "../../types/user";
 
@@ -20,11 +22,14 @@ type User = {
 const UsersPage = (props: Props) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [usersData, setUsersData] = useState([]);
+  const apolloClient = useApollo(props)
   const [loadUsers, { loading, data, error, refetch }] =
     useFilteredUsers(tabIndex);
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState<number | null>(null);
+
   useEffect(() => {
     loadUsers();
+    setSelected(0)
   }, [tabIndex, refetch]);
 
   useEffect(() => {
@@ -43,7 +48,9 @@ const UsersPage = (props: Props) => {
             <LoaderSmall />
           </div>
         ) : (
-          <UserRank selected={selected} />
+          selected && (
+            <UserRank selected={selected} />
+          )
         )}
       </div>
     );
@@ -72,16 +79,16 @@ const UsersPage = (props: Props) => {
           <div className="w-full h-full flex justify-center items-center">
             <LoaderSmall color="#5956E9" />
           </div>
-        ) : error? <p>Something went wrong</p>:(
+        ) : error ? <p>Something went wrong</p> : (
           <>
-            {usersData?.length > 0 ? (
+            {usersData?.length > 0 && selected !== null ? (
               <UsersList
                 selected={selected}
                 setSelected={setSelected}
                 users={usersData}
               />
             ) : (
-              <EmptyState/>
+              <EmptyState />
             )}
           </>
         )}
@@ -89,5 +96,19 @@ const UsersPage = (props: Props) => {
     </BaseLayout>
   );
 };
+
+export async function getStaticProps() {
+  const apolloClient = initializeApollo({})
+
+  await apolloClient.query({
+    query: GET_FILTERED_USERS,
+    errorPolicy: "all",
+    notifyOnNetworkStatusChange: true,
+  })
+
+  return addApolloState(apolloClient, {
+    props: {},
+  })
+}
 
 export default UsersPage;
