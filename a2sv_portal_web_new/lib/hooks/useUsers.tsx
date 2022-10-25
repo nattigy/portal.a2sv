@@ -67,12 +67,11 @@ export const useGetUsersWithNoGroup = () => {
 
 export const useGetSingleUser = (id: any) => {
   const userId = parseInt(id) || 0;
-  console.log(userId, "user id");
   return useLazyQuery(GET_SINGLE_USER_QUERY, {
     variables: {
       userId,
     },
-    errorPolicy: "all",
+    errorPolicy: "none",
     notifyOnNetworkStatusChange: true,
   });
 };

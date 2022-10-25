@@ -82,7 +82,7 @@ const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
   const { data, refetch, error } = useGetMe();
   user = data;
   if (!user || error) {
-    const mockUser = mockUsers[0];
+    const mockUser = mockUsers[1];
     user = {
       getMe: mockUser,
     };

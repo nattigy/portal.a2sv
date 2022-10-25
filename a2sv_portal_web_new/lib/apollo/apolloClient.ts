@@ -65,7 +65,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 const createApolloClient = (ctx?: GetServerSidePropsContext) => {
   const httpLink = new HttpLink({
-    uri: configs.NEXT_PUBLIC_API_URL,
+    uri: configs.NEXT_PUBLIC_API_URL, 
     credentials: "same-origin",
   });
 
@@ -131,3 +131,4 @@ export function useApollo(pageProps: any) {
   );
   return store;
 }
+

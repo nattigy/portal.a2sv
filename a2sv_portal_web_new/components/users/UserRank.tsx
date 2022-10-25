@@ -5,12 +5,17 @@ import { LoaderSmall } from "../common/Loaders";
 import { getRandomNumber } from "../../helpers/getReactIcon";
 
 export type UserRankProps = {
-  selected: any;
+  selected: number;
 };
 
 const UserRank = ({ selected }: UserRankProps) => {
   const [fetchUser, { refetch, data, loading, error }] =
     useGetSingleUser(selected);
+
+  useEffect(() => {
+    fetchUser();
+  }, [refetch, selected]);
+
   const rank: Array<RankItemProps> = [
     {
       id: 1,
@@ -41,9 +46,6 @@ const UserRank = ({ selected }: UserRankProps) => {
       totalStudents: 65,
     },
   ];
-  useEffect(() => {
-    fetchUser();
-  }, [refetch, selected]);
 
   // const UserRank = () => {
   return (
@@ -74,8 +76,8 @@ const UserRank = ({ selected }: UserRankProps) => {
                 <p className="font-semibold">
                   {data.user?.userProfile
                     ? data.user?.userProfile?.firstName +
-                      " " +
-                      data.user?.userProfile?.lastName
+                    " " +
+                    data.user?.userProfile?.lastName
                     : "No Name"}
                 </p>
                 <p className="font-semibold">{data.user && data.user.email}</p>
