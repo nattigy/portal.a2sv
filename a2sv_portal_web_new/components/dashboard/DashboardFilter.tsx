@@ -1,8 +1,6 @@
 import React from "react";
-import { useState } from "react";
 import { useReactiveVar } from "@apollo/client";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
-import index from "../../pages/topics";
 import { GraphqlUserRole } from "../../types/user";
 
 export type FilterItem = {

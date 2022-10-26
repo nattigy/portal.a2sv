@@ -9,12 +9,13 @@ export type TopicItemProps = {
   season?:{name:string,id:number};
   topic: any;
   groupId?:number;
+  idx:number
 };
 export type ColorSVG = {
   imgPath: string;
   color: string;
 };
-
+const colors = ["#5956E9", "#FFDC60", "#FFADAD", "#FFADAD"];
 export const titleToIcon: { [title: string]: ColorSVG } = {
   "Dynamic Programming": { imgPath: "/icons/dp-icon.svg", color: "#5956E9" },
   "Sliding Window": { imgPath: "/icons/sw-icon.svg", color: "#FFDC60" },
@@ -52,7 +53,7 @@ const TopicItem = (props: TopicItemProps) => {
         <div
           className={`w-1 h-full`}
           style={{
-            background: generateRandomColor(),
+            background: colors[props.idx% colors.length],
           }}
         ></div>
         {/* <img src={titleToIcon[props.title].imgPath} className="w-12" alt="" /> */}

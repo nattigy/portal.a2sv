@@ -2,27 +2,26 @@ import React, { useState } from "react";
 import { Formik, Form, Field, FormikValues } from "formik";
 import * as yup from "yup";
 import clsx from "clsx";
-import { AiOutlineUser } from "react-icons/ai";
 import { ApolloError, useMutation } from "@apollo/client";
-import { CREATE_TOPIC_MUTATION } from "../../lib/apollo/Mutations/topicsMutations";
+import {
+  ADD_TOPIC_UNDER_GROUP_AND_SEASON_ID,
+  CREATE_TOPIC_MUTATION,
+} from "../../lib/apollo/Mutations/topicsMutations";
 import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormRejectButton from "../common/FormRejectButton";
-import FormDropdown from "../common/FormDropdown";
 import FormField from "../common/FormField";
+import TopicsAutocomplete, { TopicType } from "../topics/TopicsAutocomplete";
 
-export enum SeasonTypes {
-  CAMP = "Camp",
-  EDUCATION = "Education",
-}
 
 interface FormValues {
-  season: SeasonTypes;
   topic_title: string;
   description: string;
 }
 
 type Props = {
   onClose: () => void;
+  groupId: number;
+  seasonId: number;
 };
 
 const NewTopicModal = (props: Props) => {
@@ -31,11 +30,19 @@ const NewTopicModal = (props: Props) => {
   const [addNewTopic, { loading, error, data }] = useMutation(
     CREATE_TOPIC_MUTATION
   );
+  const [addTopicToGroupAndSeason] = useMutation(
+    ADD_TOPIC_UNDER_GROUP_AND_SEASON_ID
+  );
+  const [existingTopic, setExistingTopic] = useState<TopicType | null>(null);
 
-  const FORM_VALIDATION = yup.object().shape({
-    topic_title: yup.string().required("Required"),
-    description: yup.string().required("Required"),
-  });
+  let validationShape;
+  if (existingTopic === null) {
+    validationShape = yup.object().shape({
+      topic_title: yup.string().required("Required"),
+      description: yup.string().required("Required"),
+    });
+  }
+  const FORM_VALIDATION = validationShape;
 
   return (
     <>
@@ -44,29 +51,52 @@ const NewTopicModal = (props: Props) => {
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
-            await addNewTopic({
-              variables: {
-                createTopicInput: {
-                  name: values.topic_title,
-                  description: values.description,
+            if(existingTopic === null){
+              await addNewTopic({
+                variables: {
+                  createTopicInput: {
+                    name: values.topic_title,
+                    description: values.description,
+                  },
                 },
-              },
-              refetchQueries: "active",
-              notifyOnNetworkStatusChange: true,
-              onCompleted: () => {
-                console.log("create....",data)
-                props.onClose();
-              },
-              onError: (error) => {
-                console.log("create....err",error)
-                setErrorMessage((error as ApolloError).message);
-              },
-            });
+                refetchQueries: "active",
+                notifyOnNetworkStatusChange: true,
+                onCompleted: () => {
+                  //another call here
+
+                  props.onClose();
+                },
+                onError: (error) => {
+                  setErrorMessage((error as ApolloError).message);
+                },
+              });
+            }
+            else{
+              await addTopicToGroupAndSeason({
+                variables: {
+                  addTopicToGroupInput: {
+                    groupId: parseInt(props.groupId?.toString()),
+                    seasonId: parseInt(props.seasonId?.toString()),
+                    topicId: parseInt(existingTopic?.id?.toString()),
+                  },
+                },
+                refetchQueries: "active",
+                notifyOnNetworkStatusChange: true,
+                onCompleted: (data) => {
+                  props.onClose();
+                },
+                onError: (error) => {
+                  setErrorMessage((error as ApolloError).message);
+                },
+              });
+              
+
+            }
+           
             actions.resetForm();
           }}
         >
           {({ isSubmitting, values, errors, touched }) => (
-            
             <Form>
               <div
                 role="alert"
@@ -75,7 +105,7 @@ const NewTopicModal = (props: Props) => {
                 {JSON.stringify(errors)}
                 <div className="w-full flex flex-col">
                   <div className="my-3 w-full flex justify-between items-center">
-                    <h2 className="font-semibold text-lg">Create New Topic</h2>
+                    <h2 className="font-semibold text-lg">Add Existing Topic</h2>
                     <div
                       className="cursor-pointer"
                       onClick={() => props.onClose()}
@@ -105,7 +135,8 @@ const NewTopicModal = (props: Props) => {
                       </svg>
                     </div>
                   </div>
-                  <div className="w-full flex flex-col items-center gap-y-2">
+                  <p className="text-sm">Add new problem under a topic. You can create new problem or choose existing one</p>
+                  <div className="w-full flex flex-col gap-y-2">
                     <div className="w-full">
                       {/* <div className="flex justify-between items-center">
                         <h2 className="font-semibold text-lg">Seasons</h2>
@@ -138,43 +169,60 @@ const NewTopicModal = (props: Props) => {
                           {touched.season && errors.season}
                         </p>
                       </div> */}
-                    </div>
-                    <div className="w-full">
-                      <div className="flex justify-between items-center">
-                        <h2 className="font-semibold text-lg">Topic Title</h2>
-                      </div>
-                      <div className="flex flex-col justify-start">
-                        <div className="flex items-center">
-                          <FormField
-                            id="topic_title"
-                            name="topic_title"
-                            placeholder="Add Title of the topic"
-                            error={errors.topic_title}
-                            touched={touched.topic_title}
-                          />
+                      <div className="mt-4">
+                        <div className="flex flex-col justify-start gap-y-4">
+                          <div className={clsx("flex items-center")}>
+                            <TopicsAutocomplete
+                              handleSearchTopic={setExistingTopic}
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div className="w-full">
-                      <div className="w-full flex flex-col items-center">
-                        <div className="w-full flex justify-between items-center">
-                          <h2 className="font-semibold text-lg">
-                            Topic Description
-                          </h2>
+                    {!existingTopic && (
+                      <>
+                    <h2 className="font-semibold text-lg">Create New Topic</h2>
+
+                        <div className="w-full">
+                          <div className="flex justify-between items-center">
+                            <h2 className="font-medium text-sm">
+                              Topic Title
+                            </h2>
+                          </div>
+                          <div className="flex flex-col justify-start">
+                            <div className="flex items-center">
+                              <FormField
+                                id="topic_title"
+                                name="topic_title"
+                                placeholder="Add Title of the topic"
+                                error={errors.topic_title}
+                                touched={touched.topic_title}
+                              />
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="flex flex-col justify-start">
-                        <div className="flex items-center">
-                          <FormField
-                            id="description"
-                            name="description"
-                            placeholder="Add description of the topic"
-                            error={errors.description}
-                            touched={touched.description}
-                          />
+                        <div className="w-full">
+                          <div className="w-full flex flex-col items-center">
+                            <div className="w-full flex justify-between items-center">
+                            <h2 className="font-medium text-sm">
+                                Topic Description
+                              </h2>
+                            </div>
+                          </div>
+                          <div className="flex flex-col justify-start">
+                            <div className="flex items-center">
+                              <FormField
+                                id="description"
+                                name="description"
+                                placeholder="Add description of the topic"
+                                error={errors.description}
+                                touched={touched.description}
+                              />
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
+                      </>
+                    )}
                   </div>
                   {errorMessage && (
                     <div className="bg-[#E4646451] py-1 rounded-md">
@@ -188,7 +236,10 @@ const NewTopicModal = (props: Props) => {
                       text="Cancel"
                       onClick={() => props.onClose()}
                     />
-                    <FormAffirmativeButton isLoading={isSubmitting} text="Save" />
+                    <FormAffirmativeButton
+                      isLoading={isSubmitting}
+                      text="Save"
+                    />
                   </div>
                 </div>
               </div>

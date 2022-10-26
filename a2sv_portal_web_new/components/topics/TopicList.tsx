@@ -16,9 +16,9 @@ const TopicList = (props: TopicListProps) => {
       </p>
       {
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 gap-x-12">
-          {props.topics?.map((topic: any) => (
+          {props.topics?.map((topic: any,idx:number) => (
             <>
-              <TopicItem season={props.season} topic={topic} key={topic.id} title={props.title} groupId={props.groupId} />
+              <TopicItem idx={idx} season={props.season} topic={topic} key={topic.id} title={props.title} groupId={props.groupId} />
             </>
           ))}
         </div>

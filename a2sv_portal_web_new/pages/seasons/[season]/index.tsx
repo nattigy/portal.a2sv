@@ -1,7 +1,6 @@
 import { useReactiveVar } from "@apollo/client";
 import React, { useState } from "react";
 import BaseLayout from "../../../components/common/BaseLayout";
-import HOATopicsPage from "../../../components/topics/HOATopicsPage";
 import TopicStruggledList from "../../../components/topics/TopicStruggledList";
 import {
   authenticatedUser,
@@ -51,7 +50,7 @@ const IndexPage = () => {
         return <HOETopicsPage groupId={authUser?.headToGroup?.id} />;
       }
       case GraphqlUserRole.HEAD_OF_ACADEMY: {
-        return <HOATopicsPage />;
+        return <></>;
       }
       default: {
         return <HOETopicsPage groupId={authUser?.headToGroup?.id} />;

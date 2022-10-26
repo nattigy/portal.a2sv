@@ -31,3 +31,38 @@ export const ADD_TOPIC_TO_GROUP = gql`
     }
   }
 `;
+
+export const DELETE_GROUP = gql`
+  mutation Mutation($deleteGroupId: Int!) {
+    deleteGroup(id: $deleteGroupId) {
+      id
+      name
+    }
+  }
+`;
+/*
+{
+  "deleteGroupId": null
+}
+ */
+
+export const EDIT_GROUP = gql`
+mutation Mutation($updateGroupInput: UpdateGroupInput!) {
+  updateGroup(updateGroupInput: $updateGroupInput) {
+    id
+  }
+}`
+/*
+{
+  "updateGroupInput": {
+    "id": null,
+    "name": null,
+    "country": null,
+    "school": null,
+    "head": {
+      "id": null
+    }
+  }
+}
+
+*/

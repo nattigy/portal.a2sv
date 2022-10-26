@@ -6,6 +6,7 @@ import NewSeasonModal from "../modals/NewSeasonModal";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import CustomLink from "../common/CustomLink";
 
 export type SeasonItemProps = {
   seasonId: number;
@@ -32,6 +33,7 @@ const SeasonItem = ({ seasonProps }: Props) => {
   ];
 
   const router = useRouter();
+  
   const handleClick = (e: any) => {
     router.push({
       pathname: `/seasons/${name}`,
@@ -40,7 +42,7 @@ const SeasonItem = ({ seasonProps }: Props) => {
   };
 
   return (
-    <Link href={"/seasons/" + seasonProps.seasonName}>
+    <CustomLink href={"/seasons/" + seasonProps.seasonName}>
       <div>
         {isSeasonMenuOpen && <NewSeasonModal onClose={() => false} />}
 
@@ -81,7 +83,7 @@ const SeasonItem = ({ seasonProps }: Props) => {
           {/* users */}
         </div>
       </div>
-    </Link>
+    </CustomLink>
   );
 };
 
