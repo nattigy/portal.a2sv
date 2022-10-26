@@ -1,4 +1,5 @@
 import React from "react";
+import ActivityItem from "./ActivityItem";
 
 type Props = {};
 
@@ -10,7 +11,6 @@ const CalendarItem = (props: Props) => {
           <h1 className="p-1 text-xl font-semibold">Calendar</h1>
           <div className="p-1 flex items-center justify-between">
             <span
-              tabIndex={0}
               className="focus:outline-none  text-md font-semibold text-gray-100 dark:text-gray-800"
             >
               October 2022
@@ -152,7 +152,7 @@ const CalendarItem = (props: Props) => {
                       <div className="flex items-center justify-center w-full rounded-full cursor-pointer">
                         <a
                           role="link"
-                          tabIndex={0}
+          
                           className="focus:outline-none  focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 focus:bg-indigo-500 hover:bg-indigo-500 w-8 h-8 flex items-center justify-center font-medium shadow-indigo-500 shadow-md text-white bg-indigo-700 rounded-full"
                         >
                           8
@@ -287,26 +287,10 @@ const CalendarItem = (props: Props) => {
             Upcoming Activities
           </h1>
           <div className="flex flex-col gap-y-4">
-            <div className="flex flex-col justify-between h-32 p-4 rounded-md bg-[#F1F0F9]">
-              <div className="flex items-center gap-x-2">
-                <div className="rounded-full bg-[#5956E9] w-4 h-4"></div>
-                <p className="text-xs font-light text-gray-300 dark:text-[#8A8A8A]">
-                  9:00: 10:00 AM
-                </p>
-              </div>
-              <div>
-                <a
-                  tabIndex={0}
-                  className="focus:outline-none text-sm font-medium leading-5 text-gray-100 dark:text-gray-900"
-                >
-                  Zoom call with design team
-                </a>
-                <p className="text-xs leading-4 text-gray-300 dark:text-[#636363]">
-                  Discussion on UX sprint and Wireframe review
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col h-32 p-4 rounded-md bg-[#FFF0F0]">
+            <ActivityItem/>
+    
+
+            <div className="flex flex-col h-fit p-4 rounded-md bg-[#FFF0F0]">
               <div className="flex items-center gap-x-2">
                 <div className="rounded-full bg-[#FFADAD] w-4 h-4"></div>
                 <p className="text-xs font-light text-gray-300 dark:text-[#8A8A8A]">
@@ -315,7 +299,7 @@ const CalendarItem = (props: Props) => {
               </div>
               <div>
                 <a
-                  tabIndex={0}
+  
                   className="focus:outline-none text-sm font-medium text-gray-100 dark:text-gray-900"
                 >
                   Orientation session with new hires
@@ -325,7 +309,8 @@ const CalendarItem = (props: Props) => {
                 </p>
               </div>
             </div>
-            <div className="flex flex-col justify-between p-4 h-32 rounded-md bg-[#FFF8DF]">
+
+            <div className="flex flex-col justify-between p-4 h-fit rounded-md bg-[#FFF8DF]">
               <div className="flex items-center gap-x-2">
                 <div className="rounded-full bg-[#FFDC60] w-4 h-4"></div>
                 <p className="text-xs font-light text-gray-300 dark:text-[#8A8A8A]">
@@ -334,7 +319,7 @@ const CalendarItem = (props: Props) => {
               </div>
               <div>
                 <a
-                  tabIndex={0}
+  
                   className="focus:outline-none text-sm font-medium text-gray-100 dark:text-gray-900"
                 >
                   Zoom call with design team
@@ -344,6 +329,7 @@ const CalendarItem = (props: Props) => {
                 </p>
               </div>
             </div>
+
           </div>
         </div>
       </div>

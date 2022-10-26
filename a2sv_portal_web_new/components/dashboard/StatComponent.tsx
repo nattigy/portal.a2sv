@@ -43,13 +43,7 @@ const rankList: DashboardRankItemProps[] = [
     activeColor: "#FCAB5E",
     inactiveColor: "#FFF0E1",
   },
-  {
-    rankType: "Overall",
-    totalStudents: 30,
-    userRank: 5,
-    activeColor: "#5956E9",
-    inactiveColor: "#E9E3FE99",
-  },
+
 ];
 
 const userList: Array<AcceptanceInfo> = [
@@ -137,7 +131,7 @@ const StatComponent = (props: Props) => {
         <p className="text-[rgb(103,103,103)] font-semibold text-lg">
           {props.groupData?.group.name}
         </p>
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 ">
           {rankList.map((item, index) => (
             <DashboardRankItem key={index} {...item} />
           ))}

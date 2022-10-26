@@ -30,8 +30,8 @@ const ContestSidebarItem = (props: Props) => {
       {(authUser as any).role === GraphqlUserRole.HEAD_OF_EDUCATION && (
         <div className="flex flex-col items-center gap-y-6">
           <img className="w-fit h-48" src="images/add-contest.svg" alt="" />
-          <button className="flex flex-col items-center w-52 p-2 bg-primary text-white rounded-md">
-            <p>+ Create New Contest</p>
+          <button className="flex flex-col items-center w-full p-2 bg-primary text-white rounded-md">
+            + Create New Contest
           </button>
           <p className="text-center text-xs">
             Create new contest to see the status of your group students.
