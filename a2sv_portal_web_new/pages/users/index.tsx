@@ -34,8 +34,9 @@ const UsersPage = (props: Props) => {
 
   useEffect(() => {
     if (data) {
-      setUsersData(data.users);
-      setSelected(data.users[0].id);
+      console.log("data is ", data.users[0]);
+      setUsersData(data?.users);
+      setSelected(data?.users[0]?.id);
     }
   }, [refetch, data]);
 

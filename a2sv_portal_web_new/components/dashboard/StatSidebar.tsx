@@ -33,7 +33,7 @@ const strugglingWith: { percent: number; name: string }[] = [
 
 const StatSidebar: React.FC = (props: Props) => {
   return (
-    <div className="flex flex-col gap-y-3">
+    <div className="flex flex-col gap-y-3 w-full">
       <p className="text-[#565656] font-semibold text-lg">Topics Covered</p>
       <div className="flex flex-row justify-between text-[#B2B2B2] text-xs">
         <p>Topic</p>
