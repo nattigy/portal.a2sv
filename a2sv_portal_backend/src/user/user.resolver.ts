@@ -29,8 +29,8 @@ export class UserResolver {
 
   @Mutation(() => User)
   async updateComfortLevel(
-    @Args('topicId', { type: () => Int }) topicId: string,
-    @Args('userId', { type: () => Int }) userId: string,
+    @Args('topicId', { type: () => String }) topicId: string,
+    @Args('userId', { type: () => String }) userId: string,
     @Args('comfortLevel', { type: () => ComfortLevel })
     comfortLevel: ComfortLevel,
   ) {
@@ -82,7 +82,7 @@ export class UserResolver {
     'STUDENT',
   )
   @Query(() => User, { name: 'user' })
-  async findOne(@Args('id', { type: () => Int }) id: string) {
+  async findOne(@Args('id', { type: () => String }) id: string) {
     // const {...needed, password} = user
     try {
       return await this.userService.findOne(id)
@@ -111,7 +111,7 @@ export class UserResolver {
 
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @Mutation(() => User)
-  async removeUser(@Args('id', { type: () => Int }) id: string) {
+  async removeUser(@Args('id', { type: () => String }) id: string) {
     try {
       return await this.userService.remove(id)
     } catch (e) {
