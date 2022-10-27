@@ -51,8 +51,6 @@ const GroupInfo = (props: Props) => {
 
   const { data, loading, error, refetch } = useGroupDetail(props.groupId);
   const router = useRouter();
-  // router.query["id"]?.toString()
-  console.log(data, " is group data users");
   useEffect(() => {
     setCurrentPath(props.groupId);
     refetch();

@@ -24,7 +24,6 @@ const AssignHoEModal = (props: Props) => {
         <Formik
           initialValues={{ name: "" }}
           onSubmit={async (values, actions) => {
-            console.log(selected.id.toString(), props.groupId.toString());
             await assignUser({
               variables: {
                 updateGroupInput: {

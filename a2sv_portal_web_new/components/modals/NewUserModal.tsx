@@ -28,6 +28,7 @@ const FORM_VALIDATION = yup.object().shape({
     .string()
     .required("Required")
     .email("email should have the format user@example.com"),
+
   password: yup
     .string()
     .min(8)
@@ -51,12 +52,11 @@ const NewUserModal = (props: Props) => {
 
   return (
     <>
-      <div className=" transition-all duration-200 py-8 text-[#565656] w-screen h-screen absolute top-0 bottom-0 left-0 right-0 bg-gray-900 bg-opacity-30 z-50">
+      <div className="transition-all duration-200 py-8 text-[#565656] w-screen h-screen absolute top-0 bottom-0 left-0 right-0 bg-gray-900 bg-opacity-30 z-50">
         <Formik
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
-            console.log(values, authUser.groupId, " is values");
             setIsLoading(true);
             await addNewUser({
               variables: {

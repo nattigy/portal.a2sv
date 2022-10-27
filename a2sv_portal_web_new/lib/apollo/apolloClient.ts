@@ -58,7 +58,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     // }
   }
   if (networkError) {
-    console.log(`[Network error]: ${networkError} nnnnnnnnnnn`);
+    console.log(`[Network error]: ${networkError}`);
     hasNetworkError(true);
   }
 });

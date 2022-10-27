@@ -14,7 +14,6 @@ export type FormInputProps = {
 };
 
 const CustomFormField: React.FC<FormInputProps> = (props: FormInputProps) => {
-  console.log("Errors", props.formik.errors);
   const isError =
     (props.formik.errors as any)[props.name] &&
     (props.formik.touched as any)[props.name];

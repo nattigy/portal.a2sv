@@ -51,48 +51,22 @@ const NewTopicModal = (props: Props) => {
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
-            if(existingTopic === null){
-              await addNewTopic({
-                variables: {
-                  createTopicInput: {
-                    name: values.topic_title,
-                    description: values.description,
-                  },
+            await addNewTopic({
+              variables: {
+                createTopicInput: {
+                  name: values.topic_title,
+                  description: values.description,
                 },
-                refetchQueries: "active",
-                notifyOnNetworkStatusChange: true,
-                onCompleted: () => {
-                  //another call here
-
-                  props.onClose();
-                },
-                onError: (error) => {
-                  setErrorMessage((error as ApolloError).message);
-                },
-              });
-            }
-            else{
-              await addTopicToGroupAndSeason({
-                variables: {
-                  addTopicToGroupInput: {
-                    groupId: parseInt(props.groupId?.toString()),
-                    seasonId: parseInt(props.seasonId?.toString()),
-                    topicId: parseInt(existingTopic?.id?.toString()),
-                  },
-                },
-                refetchQueries: "active",
-                notifyOnNetworkStatusChange: true,
-                onCompleted: (data) => {
-                  props.onClose();
-                },
-                onError: (error) => {
-                  setErrorMessage((error as ApolloError).message);
-                },
-              });
-              
-
-            }
-           
+              },
+              refetchQueries: "active",
+              notifyOnNetworkStatusChange: true,
+              onCompleted: () => {
+                props.onClose();
+              },
+              onError: (error) => {
+                setErrorMessage((error as ApolloError).message);
+              },
+            });
             actions.resetForm();
           }}
         >

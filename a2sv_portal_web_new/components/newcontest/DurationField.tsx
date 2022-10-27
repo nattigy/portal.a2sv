@@ -29,7 +29,6 @@ const DurationField = (props: DurationFieldProps) => {
     }
   }
 
-  console.log(props)
   return (
     <div className="w-full flex justify-between items-center">
       <div className="w-full flex justify-between">

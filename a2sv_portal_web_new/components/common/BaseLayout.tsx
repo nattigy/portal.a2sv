@@ -4,13 +4,14 @@ import { useRouter } from "next/router";
 import { useReactiveVar } from "@apollo/client";
 import useLogout from "../../lib/hooks/useLogout";
 import authenticatedVar, {
-  authenticatedUser,
+  authenticatedUser, hasNetworkError,
 } from "../../lib/constants/authenticated";
 import { useApollo } from "../../lib/apollo/apolloClient";
 import { GraphqlUserRole } from "../../types/user";
 import StudentRoleSidebar from "./StudentRoleSidebar";
 import HOARoleSidebar from "./HOARoleSidebar";
 import HOERoleSidebar from "./HOERoleSidebar";
+import NetworkErrorToaster from "../modals/NetworkErrorToaster";
 interface LayoutProps extends WithChildren {
   sidebar?: ReactNode;
 }
@@ -18,6 +19,8 @@ interface LayoutProps extends WithChildren {
 const StudentLayout = ({ sidebar, children }: LayoutProps) => {
   const [activePath, setActivePath] = useState("");
   const authUser = useReactiveVar(authenticatedUser);
+
+
 
   const apolloClient = useApollo({});
   const [logout] = useLogout();
@@ -36,7 +39,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
       await logout({
         errorPolicy: "all",
         variables: {},
-        onError: (error) => {},
+        onError: (error) => { },
         onCompleted: async () => {
           authenticatedUser({});
           authenticatedVar(false);
@@ -79,7 +82,8 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
   };
 
   return (
-    <div className="flex flex-1 bg-[#F6F6FC] min-h-screen max-h-screen overflow-y-hidden">
+    <div className="relative flex flex-1 bg-[#F6F6FC] min-h-screen max-h-screen overflow-y-hidden">
+      <NetworkErrorToaster />
       <div className="w-24 md:flex-col justify-between">
         <div className="min-h-full flex flex-col  flex-grow py-5 overflow-y-auto bg-white">
           <div className="flex justify-center items-center">
@@ -151,11 +155,11 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
           </div>
         </div>
       </div>
-        <main className="flex flex-col flex-1 min-h-screen max-h-screen no-scrollbar overflow-auto">
-          <div className="bg-[#F6F6FC] p-4 max-w-full relative sm:px-6 md:px-8 h-full">
-            {children}
-          </div>
-        </main>
+      <main className="flex flex-col flex-1 min-h-screen max-h-screen no-scrollbar overflow-auto">
+        <div className="bg-[#F6F6FC] p-4 max-w-full relative sm:px-6 md:px-8 h-full">
+          {children}
+        </div>
+      </main>
       {sidebar && (
         <div className="hidden bg-white shadow-lg px-5 py-10 drop-shadow-lg md:flex min-h-screen max-h-screen overflow-y-auto overflow-x-hidden custom-scrollbar flex-col w-1/5">
           {sidebar}

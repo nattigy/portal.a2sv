@@ -10,7 +10,6 @@ const url =
 
 const GroupItemList = () => {
   const { data, loading, error, refetch } = useAllGroups();
-  console.log(data, loading, error, " is fetching");
   let [groups, setGroups] = useState([]);
   useEffect(() => {
     if (data && data.groups) {

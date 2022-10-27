@@ -100,7 +100,6 @@ const NewProblemModal = (props: Props) => {
           onSubmit={async (values, actions) => {
             setIsLoading(true);
             if (existingProblem === null) {
-              console.log("values", values);
               await createNewProblem({
                 variables: {
                   createProblemInput: {
@@ -116,7 +115,6 @@ const NewProblemModal = (props: Props) => {
                 refetchQueries: "active",
                 notifyOnNetworkStatusChange: true,
                 onCompleted: async (data) => {
-                  console.log(data);
                   await addExistingProblem({
                     variables: {
                       updateGroupTopicSeasonInput: {
@@ -135,12 +133,10 @@ const NewProblemModal = (props: Props) => {
                     refetchQueries: "active",
                     notifyOnNetworkStatusChange: true,
                     onCompleted: (data) => {
-                      console.log("SUCCESS", data);
                       setIsLoading(false);
                       props.onClose();
                     },
                     onError: (error) => {
-                      console.log("error", error);
                       setErrorMessage((error as ApolloError).message);
                       setIsLoading(false);
                     },
@@ -169,7 +165,6 @@ const NewProblemModal = (props: Props) => {
                 refetchQueries: "active",
                 notifyOnNetworkStatusChange: true,
                 onCompleted: (data) => {
-                  console.log("Add existing success", data);
                   setIsLoading(false);
                   props.onClose();
                 },

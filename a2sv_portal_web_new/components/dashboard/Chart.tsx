@@ -117,9 +117,6 @@ const HOAChart = (props: Props) => {
     name: item.name,
     data: item.data,
   }));
-
-  console.log(defaultDataList);
-
   return (
     <div>
       <LineChart dataList={defaultDataList} />

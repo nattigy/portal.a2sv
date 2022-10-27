@@ -8,7 +8,6 @@ import { GraphqlUserRole } from "../../types/user";
 
 const IndexPage = () => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
-  console.log(authUser as any, " authUsers");
   const ActiveComponent = ({
     user,
   }: {
