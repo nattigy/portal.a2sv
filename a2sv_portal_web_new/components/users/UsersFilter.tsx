@@ -57,7 +57,7 @@ const UsersFilter = (props: Props) => {
         <div className="flex justify-end items-center px-5">
           <button
             onClick={props.handleModalOpen}
-            className="flex justify-center items-center min-w-min px-6 lg:py-3 text-sm font-semibold text-white bg-primary rounded-lg"
+            className="flex flex-none justify-center items-center px-6 py-3 text-sm font-semibold text-white bg-primary rounded-lg text-"
           >
             Add New User
           </button>
