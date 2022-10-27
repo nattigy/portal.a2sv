@@ -2,6 +2,6 @@ import { Field, Int, ObjectType } from '@nestjs/graphql'
 
 @ObjectType()
 export class SignupOutput {
-  @Field(() => Int)
+  @Field()
   userId: string
 }
