@@ -49,7 +49,7 @@ export class TopicResolver {
         'STUDENT',
     )
     @Query(() => Topic)
-    topic(@Args('id', {type: () => Int}) id: string) {
+    topic(@Args('id', {type: () => String}) id: string) {
         return this.topicService.getTopicById(id)
     }
 
@@ -62,7 +62,7 @@ export class TopicResolver {
     )
     @Mutation(() => Topic)
     updateTopic(
-        @Args('id', {type: () => Int}) id: string,
+        @Args('id', {type: () => String}) id: string,
         @Args('updateTopicInput') updateTopicInput: UpdateTopicInput,
     ) {
         return this.topicService.updateTopic(id, updateTopicInput)
@@ -70,7 +70,7 @@ export class TopicResolver {
 
     @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
     @Mutation(() => Topic)
-    deleteTopic(@Args('id', {type: () => Int}) id: string) {
+    deleteTopic(@Args('id', {type: () => String}) id: string) {
         return this.topicService.deleteTopic(id)
     }
 

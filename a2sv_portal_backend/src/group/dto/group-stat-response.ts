@@ -14,7 +14,7 @@ export class GroupStatResponse {
   9.# Contest stats
   11. Number of contests attended */
 
-  @Field(() => ID)
+  @Field(() => String)
   id: string
 
   @Field()

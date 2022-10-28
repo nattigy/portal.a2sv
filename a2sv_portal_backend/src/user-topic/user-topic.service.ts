@@ -12,15 +12,15 @@ export class UserTopicService {
     return `This action returns all userTopic`
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} userTopic`
   }
 
-  update(id: number, updateUserTopicInput: UpdateUserTopicInput) {
+  update(id: string, updateUserTopicInput: UpdateUserTopicInput) {
     return `This action updates a #${id} userTopic`
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} userTopic`
   }
 }

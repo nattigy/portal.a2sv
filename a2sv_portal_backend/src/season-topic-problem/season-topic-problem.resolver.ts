@@ -1,5 +1,5 @@
 import {Resolver, Query, Mutation, Args, Int, InputType, Field} from '@nestjs/graphql';
-import {SeasonTopicProblemService} from './season-topic-problem.service';
+import {SeasonTopicProblemFilter, SeasonTopicProblemService} from './season-topic-problem.service';
 import {SeasonTopicProblem} from './entities/season-topic-problem.entity';
 import {CreateSeasonTopicProblemInput} from './dto/create-season-topic-problem.input';
 import {UpdateSeasonTopicProblemInput} from './dto/update-season-topic-problem.input';
@@ -25,12 +25,12 @@ export class SeasonTopicProblemResolver {
     }
 
     @Query(() => [SeasonTopicProblem], {name: 'seasonTopicProblem'})
-    findAll() {
-        return this.seasonTopicProblemService.findAll();
+    seasonTopicProblems(@Args('seasonTopicProblemFilter', {type: () => SeasonTopicProblemFilter}) seasonTopicProblemFilter: SeasonTopicProblemFilter) {
+        return this.seasonTopicProblemService.findAll(seasonTopicProblemFilter);
     }
 
     @Query(() => SeasonTopicProblem, {name: 'seasonTopicProblem'})
-    findOne(@Args('id', {type: () => Int}) id: number) {
+    seasonTopicProblem(@Args('seasonTopicProblemId', {type: () => Int}) id: SeasonTopicProblemId) {
         return this.seasonTopicProblemService.findOne(id);
     }
 

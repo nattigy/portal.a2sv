@@ -49,7 +49,7 @@ export class GroupsResolver {
     'STUDENT',
   )
   @Query(() => Group)
-  group(@Args('id', { type: () => Int }) id: string) {
+  group(@Args('id', { type: () => String }) id: string) {
     return this.groupsService.getGroupById(id)
   }
 
@@ -73,7 +73,7 @@ export class GroupsResolver {
     'STUDENT',
   )
   @Mutation(() => Group)
-  deleteGroup(@Args('id', { type: () => Int }) id: string) {
+  deleteGroup(@Args('id', { type: () => String }) id: string) {
     return this.groupsService.deleteGroup(id)
   }
 

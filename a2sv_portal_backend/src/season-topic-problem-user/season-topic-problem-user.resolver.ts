@@ -15,12 +15,12 @@ export class SeasonTopicProblemUserResolver {
   }
 
   @Query(() => [SeasonTopicProblemUser], { name: 'seasonTopicProblemUser' })
-  findAll() {
+  seasonTopicProblemUsers() {
     return this.seasonTopicProblemUserService.findAll();
   }
 
   @Query(() => SeasonTopicProblemUser, { name: 'seasonTopicProblemUser' })
-  findOne(@Args('id', { type: () => Int }) id: UpdateSeasonTopicProblemUserInput) {
+  seasonTopicProblemUser(@Args('id', { type: () => Int }) id: UpdateSeasonTopicProblemUserInput) {
     return this.seasonTopicProblemUserService.findOne(id);
   }
 
