@@ -85,10 +85,10 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
   return (
     <div className="relative flex flex-1 bg-[#F6F6FC] min-h-screen max-h-screen overflow-y-hidden">
       <NetworkErrorToaster />
-      <div className="w-24 md:flex-col justify-between">
+      <div className="w-16 sm:w-20 md:w-24 md:flex-col justify-between">
         <div className="min-h-full flex flex-col  flex-grow py-5 overflow-y-auto bg-white">
           <div className="flex justify-center items-center">
-            <div className="border flex items-center justify-center w-14 h-14 rounded-xl bg-primary">
+            <div className="border flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-primary">
               <svg
                 width="20"
                 height="23"
