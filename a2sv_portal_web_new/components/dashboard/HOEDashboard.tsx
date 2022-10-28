@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import GroupInfo from "./GroupInfo";
 
 type Props = {
-  groupId: number;
+  groupId: string;
 };
 
 const HOEDashboard = (props: Props) => {

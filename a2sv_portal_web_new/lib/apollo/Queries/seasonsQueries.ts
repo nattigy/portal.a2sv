@@ -17,17 +17,15 @@ export const GET_SINGLE_PROBLEM_QUERY = gql`
 `;
 
 export const GET_ALL_SEASONS_QUERY = gql`
-  query Seasons {
-    seasons {
-      createdAt
-      endDate
-      id
-      name
-      startDate
-      topics {
+  query Group($groupId: Int!) {
+    group(id: $groupId) {
+      seasons {
         id
+        name
+        seasonType
+        startDate
+        endDate
       }
-      updatedAt
     }
   }
 `;

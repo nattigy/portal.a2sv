@@ -17,11 +17,11 @@ type Props = {
     React.SetStateAction<boolean>
   >;
   groupData?: any;
-  groupId: number;
+  groupId: string;
 };
 
 export type StudentsInfo = {
-  id: number;
+  id: string;
   name: string;
   photo: string;
   nationality: string;
@@ -43,6 +43,7 @@ const GroupStudents = (props: Props) => {
   const { data, refetch, loading, error } = useUsersOfSingleGroup(
     props.groupId
   );
+  
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -51,7 +52,7 @@ const GroupStudents = (props: Props) => {
   const handleSearch = (e: any) => {
     setSearchQuery(e.target.value);
   };
-
+console.log("group id props",props.groupId)
   return (
     <>
       <div className="h-full w-full font-semibold text-[#565656]">
@@ -82,7 +83,7 @@ const GroupStudents = (props: Props) => {
             <LoaderSmall />
           </div>
         ) : error ? (
-          <p>Something went wrong</p>
+          <p>Something went wrong{JSON.stringify(error)}</p>
         ) : data && data.group.users.length > 0 ? (
           <StudentTable students={data.group.users} />
         ) : (

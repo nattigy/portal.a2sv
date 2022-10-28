@@ -25,11 +25,11 @@ const UsersPage = (props: Props) => {
   const apolloClient = useApollo(props)
   const [loadUsers, { loading, data, error, refetch }] =
     useFilteredUsers(tabIndex);
-  const [selected, setSelected] = useState<number | null>(null);
+  const [selected, setSelected] = useState<string | null>(null);
 
   useEffect(() => {
     loadUsers();
-    setSelected(0)
+    setSelected("")
   }, [tabIndex, refetch]);
 
   useEffect(() => {

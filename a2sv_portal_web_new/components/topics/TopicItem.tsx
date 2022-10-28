@@ -8,7 +8,7 @@ export type TopicItemProps = {
   title: string;
   season?:{name:string,id:number};
   topic: any;
-  groupId?:number;
+  groupId?:string;
   idx:number
 };
 export type ColorSVG = {

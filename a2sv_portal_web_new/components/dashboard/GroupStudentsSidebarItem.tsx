@@ -14,7 +14,7 @@ export type GroupStudentsSidebarProps = {
 type Props = {
   groupHead?: GroupStudentsSidebarProps;
   showStudentList?: boolean;
-  groupId: number;
+  groupId: string;
 };
 
 const GroupStudentsSidebarItem = ({
@@ -51,7 +51,7 @@ const GroupStudentsSidebarItem = ({
               <LoaderSmall />
             </div>
           ) : (
-            <AddStudentList groupId={groupId || 0} students={data?.users} />
+            <AddStudentList groupId={groupId} students={data?.users} />
           )}
         </div>
       </div>

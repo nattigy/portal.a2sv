@@ -27,9 +27,9 @@ const AssignHoEModal = (props: Props) => {
             await assignUser({
               variables: {
                 updateGroupInput: {
-                  id: parseInt(props.groupId.toString()),
+                  id: props.groupId,
                   head: {
-                    id: parseInt(selected.id.toString()),
+                    id: selected.id.toString(),
                   },
                 },
               },

@@ -7,7 +7,7 @@ type Props = {};
 
 const Index = (props: Props) => {
   const router = useRouter();
-  const id = parseInt(router.query["id"]?.toString() || "1");
+  const id = router.query["id"]?.toString()||"";
   return (
     <HOAGuard>
     <div>

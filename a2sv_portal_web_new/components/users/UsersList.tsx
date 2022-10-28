@@ -7,8 +7,8 @@ import UserItem, { UserProps } from "./UserItem";
 
 type Props = {
   users: UserProps[];
-  selected: number;
-  setSelected: React.Dispatch<React.SetStateAction<number | null>>;
+  selected: string;
+  setSelected: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 const UsersList = ({ users, selected, setSelected }: Props) => {
@@ -45,7 +45,7 @@ const UsersList = ({ users, selected, setSelected }: Props) => {
                 {res[letter].map((user, index) => (
                   <div
                     className="cursor-pointer"
-                    onClick={() => setSelected(user.id || 0)}
+                    onClick={() => setSelected(user.id || "")}
                     key={index}
                   >
                     <UserItem key={user.id} {...user} />

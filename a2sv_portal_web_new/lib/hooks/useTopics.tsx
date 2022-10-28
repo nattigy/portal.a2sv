@@ -16,29 +16,29 @@ export const useGetAllTopicsBySeasonIdQuery = (seasonId: any) => {
   });
 };
 export const useGetAllGroupTopicsBySeasonIdQuery = (
-  seasonId: any,
-  groupId: any
+  seasonId: string,
+  groupId: string
 ) => {
   return useLazyQuery(GET_ALL_GROUP_TOPICS_BY_SEASON_ID_QUERY, {
     notifyOnNetworkStatusChange: true,
     errorPolicy: "all",
     variables: {
-      seasonId: parseInt(seasonId?.toString()) || 0,
-      groupId: parseInt(groupId?.toString()) || 0,
+      seasonId: seasonId,
+      groupId: groupId,
     },
   });
 };
 
 export const useGetAllTopicsByGroupAndSeasonIdQuery = (
-  seasonId: any,
-  groupId: any
+  seasonId: string,
+  groupId: string
 ) => {
   return useLazyQuery(GET_ALL_TOPICS_BY_GROUP_AND_SEASON_ID_QUERY, {
     notifyOnNetworkStatusChange: true,
     errorPolicy: "all",
     variables: {
-        groupId: parseInt(groupId?.toString()) || 0,
-        seasonId: parseInt(seasonId?.toString()) || 0,
+        groupId: groupId,
+        seasonId: seasonId,
     },
   });
 };

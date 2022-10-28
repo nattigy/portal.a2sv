@@ -11,7 +11,7 @@ import TopicList from "./TopicList";
 import TopicsFilter from "./TopicsFilter";
 
 type Props = {
-  groupId: number;
+  groupId: string;
 };
 const TopicsPage = (props: Props) => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;

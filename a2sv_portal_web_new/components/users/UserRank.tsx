@@ -5,7 +5,7 @@ import { LoaderSmall } from "../common/Loaders";
 import { getRandomNumber } from "../../helpers/getReactIcon";
 
 export type UserRankProps = {
-  selected: number;
+  selected: string;
 };
 
 const UserRank = ({ selected }: UserRankProps) => {

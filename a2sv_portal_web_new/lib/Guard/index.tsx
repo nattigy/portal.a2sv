@@ -42,7 +42,7 @@ const mockUsers = [
     groupId: null,
     groupTopicProblems: [],
     groupTopicSeasonProblems: [],
-    headToGroup: { id: 2 },
+    headToGroup: { id: "f882ded1-fa77-4ce1-bd96-febc6d8a2fe4" },
     id: "3",
     role: "HEAD_OF_EDUCATION",
     status: "ACTIVE",
@@ -84,7 +84,7 @@ const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
   if (!user || error) {
     const mockUser = mockUsers[2];
     user = {
-      getMe: mockUser,
+      getMe: mockUser
     };
     authenticatedUser(mockUser);
     authenticatedVar(true);

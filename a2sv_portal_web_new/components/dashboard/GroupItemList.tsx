@@ -33,7 +33,7 @@ const GroupItemList = () => {
     </div>
   ) : error ? (
     <p>Something went wrong</p>
-  ) : data?.groups === 0 ? (
+  ) : data?.groups.length === 0 ? (
     <EmptyState />
   ) : (
     <div className=" w-full h-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">

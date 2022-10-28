@@ -5,17 +5,17 @@ const authenticatedVar = makeVar(true);
 export type AuthUser = {
   group: {
     name: string;
-    id: number;
+    id: string;
   };
   createdAt: string;
-  id: number;
+  id: string;
   name: string;
   email: string;
-  groupId: number;
+  groupId: string;
   role: GraphqlUserRole;
   status: string;
   headToGroup: {
-    id: number;
+    id: string;
     name: string;
   };
 };

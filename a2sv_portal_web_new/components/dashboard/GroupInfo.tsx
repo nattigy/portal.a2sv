@@ -18,7 +18,7 @@ import SeasonList from "../seasons/SeasonList";
 import SidebarLayout from "../common/SidebarLayout";
 
 type Props = {
-  groupId: number;
+  groupId: string;
 };
 
 const seasons: Array<SeasonItemProps> = [
@@ -45,7 +45,7 @@ const seasons: Array<SeasonItemProps> = [
 
 const GroupInfo = (props: Props) => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
-  const [currentPath, setCurrentPath] = useState<number>(0);
+  const [currentPath, setCurrentPath] = useState("");
   const [tabIndex, setTabIndex] = useState(0);
   const [isAddStudentToGroupSidebarOpen, setIsAddStudentToGroupSidebarOpen] =
     useState(false);
