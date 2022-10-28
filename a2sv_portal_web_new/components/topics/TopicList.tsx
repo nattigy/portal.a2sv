@@ -2,7 +2,7 @@ import React from "react";
 import TopicItem from "./TopicItem";
 
 type TopicListProps = {
-  groupId?:number;
+  groupId?:string;
   title: string;
   season?: {id:number,name:string};
   topics: [];

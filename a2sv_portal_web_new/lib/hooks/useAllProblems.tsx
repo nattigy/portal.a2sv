@@ -11,9 +11,9 @@ const useAllProblems = () => {
 };
 
 export const useGetProblemsByGroupSeasonTopic = (
-  seasonId: number,
-  groupId: number,
-  topicId: number
+  seasonId: string,
+  groupId: string,
+  topicId: string
 ) => {
   return useLazyQuery(GET_PROBLEMS_BY_GROUP_SEASON_TOPIC, {
     notifyOnNetworkStatusChange: true,

@@ -34,9 +34,9 @@ type Props = {
   onClose: () => void;
   isEditing: boolean;
   values?: FormValues;
-  topicId: number;
-  seasonId: number;
-  groupId: number;
+  topicId: string;
+  seasonId: string;
+  groupId: string;
 };
 
 const ProblemModal = (props: Props) => {

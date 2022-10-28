@@ -35,7 +35,7 @@ export const useFilteredUsers = (tabIndex: number) => {
   });
 };
 
-export const useUsersByGroupId = (groupId: number) => {
+export const useUsersByGroupId = (groupId: string) => {
   return useLazyQuery(GET_USERS_BY_GROUP_ID_QUERY, {
     variables: {
       groupId,
@@ -45,8 +45,7 @@ export const useUsersByGroupId = (groupId: number) => {
   });
 };
 
-export const useUsersOfSingleGroup = (id: number) => {
-  const groupId = parseInt(id?.toString()) || 0;
+export const useUsersOfSingleGroup = (groupId: string) => {
   return useQuery(GET_SINGLE_GROUP_USERS_QUERY, {
     variables: {
       groupId,
@@ -65,11 +64,10 @@ export const useGetUsersWithNoGroup = () => {
   });
 };
 
-export const useGetSingleUser = (id: any) => {
-  const userId = parseInt(id) || 0;
+export const useGetSingleUser = (userId: string) => {
   return useLazyQuery(GET_SINGLE_USER_QUERY, {
     variables: {
-      userId,
+      userId:userId
     },
     errorPolicy: "none",
     notifyOnNetworkStatusChange: true,

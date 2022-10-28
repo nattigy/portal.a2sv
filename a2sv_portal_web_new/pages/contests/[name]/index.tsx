@@ -140,8 +140,8 @@ const IndexPage = () => {
   };
 
   const router = useRouter();
-  const name = router.query["name"] || "";
-  const div = parseInt(router.query["div"]?.toString() || "1");
+  const name = router.query["name"];
+  const div = router.query["div"];
 
   return (
     <BaseLayout sidebar={<Sidebar />}>

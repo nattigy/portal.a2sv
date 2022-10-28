@@ -7,6 +7,9 @@ import { SeasonItemProps } from "../../components/seasons/SeasonItem";
 import SeasonList from "../../components/seasons/SeasonList";
 import SeasonSidebarItem from "../../components/seasons/SeasonSidebarItem";
 import SeasonModal from "../../components/modals/SeasonModal";
+import { useGetGroupSeasons } from "../../lib/hooks/useSeasons";
+import { useReactiveVar } from "@apollo/client";
+import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 
 const IndexPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -14,6 +17,9 @@ const IndexPage = () => {
   const handleModalOpen = () => {
     setIsModalOpen(true);
   };
+  const authUser = useReactiveVar(authenticatedUser) as AuthUser;
+  const {data,loading,error} = useGetGroupSeasons(authUser?.headToGroup?.id);
+
 
   const seasons: Array<SeasonItemProps> = [
     {

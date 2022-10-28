@@ -10,7 +10,7 @@ import { LoaderSmall } from "../common/Loaders";
 import TopicModal from "../modals/TopicModal";
 
 type Props = {
-  groupId: number;
+  groupId: string;
 };
 //TODO: fix hardcoded values
 const HOETopicsPage = ({ groupId }: Props) => {
@@ -24,7 +24,7 @@ const HOETopicsPage = ({ groupId }: Props) => {
   };
 
   const [fetchTopics, { data, refetch, loading, error }] =
-    useGetAllTopicsByGroupAndSeasonIdQuery(1, groupId);
+    useGetAllTopicsByGroupAndSeasonIdQuery("", groupId);
 
   useEffect(() => {
     fetchTopics();
@@ -37,7 +37,7 @@ const HOETopicsPage = ({ groupId }: Props) => {
           isEditing={false}
           onClose={() => setIsAddTopicToGroupModalOpen(false)}
           groupId={authUser?.headToGroup?.id}
-          seasonId={1}
+         seasonId={""}
         />
       )}
       <div className="h-full">

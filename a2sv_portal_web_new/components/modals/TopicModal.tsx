@@ -20,8 +20,8 @@ type Props = {
   isEditing: boolean;
   values?: FormValues;
   onClose: () => void;
-  groupId: number;
-  seasonId: number;
+  groupId: string;
+  seasonId: string;
 };
 
 const TopicModal = (props: Props) => {

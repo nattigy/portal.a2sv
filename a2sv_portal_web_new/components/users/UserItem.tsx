@@ -8,7 +8,7 @@ import { useMutation, useReactiveVar } from "@apollo/client";
 import { PROMOTE_USER_TO_HOE_MUTATION } from "../../lib/apollo/Mutations/usersMutations";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 export type UserProps = {
-  id: number;
+  id: string;
   fullname: string;
   email: string;
   role: GraphqlUserRole;
@@ -29,7 +29,7 @@ const UserItem = ({ id, email, role }: UserProps) => {
     await promoteStudent({
       variables: {
         updateUserInput: {
-          id: parseInt(id?.toString()),
+          id: id,
           role: GraphqlUserRole.HEAD_OF_EDUCATION,
         },
       },

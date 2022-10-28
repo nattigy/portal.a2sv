@@ -5,7 +5,7 @@ import GroupStudentsSidebarItem, {
 } from "./GroupStudentsSidebarItem";
 
 const StudentSidebar: React.FC<{
-  groupId: number;
+  groupId: string;
   showStudentList: boolean;
   groupHead: GroupStudentsSidebarProps;
 }> = ({
@@ -14,7 +14,7 @@ const StudentSidebar: React.FC<{
   groupHead,
 }: {
   showStudentList: boolean;
-  groupId: number;
+  groupId: string;
   groupHead: GroupStudentsSidebarProps;
 }) => {
   const { data, loading, error, refetch } = useGetUsersWithNoGroup();

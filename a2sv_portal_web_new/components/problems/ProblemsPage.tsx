@@ -19,9 +19,9 @@ export type PlatformInfo = {
   name: string;
 };
 type ProblemsPageProps = {
-  seasonId: number;
-  groupId: number;
-  topicId: number;
+  seasonId: string;
+  groupId: string;
+  topicId: string;
 };
 
 const ProblemsPage = (props: ProblemsPageProps) => {
@@ -67,7 +67,7 @@ const ProblemsPage = (props: ProblemsPageProps) => {
       {isEditModalOpen && (
         <TopicModal
           isEditing={true}
-          onClose={() => setIsEditModalOpen(false)} groupId={0} seasonId={0}        />
+          onClose={() => setIsEditModalOpen(false)} groupId={""} seasonId={""} />
       )}
       {isDeleteModalOpen && (
         <DeletePopupModal
