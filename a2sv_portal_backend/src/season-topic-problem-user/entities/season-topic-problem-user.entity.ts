@@ -24,4 +24,6 @@ export class SeasonTopicProblemUser {
     needHelp: boolean
     @Field({nullable: true})
     solutionLink?: string
+    @Field(() => Int)
+    timeDedicated: number;
 }

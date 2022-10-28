@@ -33,20 +33,20 @@ export class SeasonResolver {
   }
 
   @Query(() => Season)
-  season(@Args('id', { type: () => Int }) id: string) {
+  season(@Args('id', { type: () => String }) id: string) {
     return this.seasonService.getSeasonById(id)
   }
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @Mutation(() => Season)
   updateSeason(
-    @Args('id', { type: () => Int }) id: string,
+    @Args('id', { type: () => String }) id: string,
     @Args('updateSeasonInput') updateSeasonInput: UpdateSeasonInput,
   ) {
     return this.seasonService.updateSeason(id, updateSeasonInput)
   }
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @Mutation(() => Season)
-  deleteSeason(@Args('id', { type: () => Int }) id: string) {
+  deleteSeason(@Args('id', { type: () => String }) id: string) {
     return this.seasonService.deleteSeason(id)
   }
 

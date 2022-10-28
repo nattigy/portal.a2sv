@@ -18,12 +18,12 @@ export class SeasonTopicResolver {
     }
 
     @Query(() => [SeasonTopic], {name: 'seasonTopic'})
-    findAll(@Args('seasonTopicFilter', {type: () => SeasonTopicFilter}) seasonTopicFilter: SeasonTopicFilter) {
+    seasonTopics(@Args('seasonTopicFilter', {type: () => SeasonTopicFilter}) seasonTopicFilter: SeasonTopicFilter) {
         return this.seasonTopicService.findAll(seasonTopicFilter);
     }
 
     @Query(() => SeasonTopic, {name: 'seasonTopic'})
-    findOne(@Args('seasonTopicId', {type: () => SeasonTopicId}) id: SeasonTopicId) {
+    seasonTopic(@Args('seasonTopicId', {type: () => SeasonTopicId}) id: SeasonTopicId) {
         return this.seasonTopicService.findOne(id);
     }
 

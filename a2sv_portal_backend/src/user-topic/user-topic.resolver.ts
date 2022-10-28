@@ -31,7 +31,7 @@ export class UserTopicResolver {
   }
 
   @Query(() => UserTopic, { name: 'userTopic' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.userTopicService.findOne(id)
   }
 
@@ -46,7 +46,7 @@ export class UserTopicResolver {
   }
 
   @Mutation(() => UserTopic)
-  removeUserTopic(@Args('id', { type: () => Int }) id: number) {
+  removeUserTopic(@Args('id', { type: () => String }) id: string) {
     return this.userTopicService.remove(id)
   }
 
