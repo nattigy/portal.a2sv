@@ -3,8 +3,13 @@ import { AiOutlineClockCircle } from "react-icons/ai";
 import CustomLink from "../common/CustomLink";
 import { format } from "date-fns";
 import MenuItem from "../common/MenuItem";
-import AssignHoEModal from "../modals/AssignHoEModal";
-export const StudentAvatar: React.FC<{ url: string }> = ({ url }: { url: string }) => {
+import DeletePopupModal from "../modals/DeletePopupModal";
+import GroupModal from "../modals/GroupModal";
+export const StudentAvatar: React.FC<{ url: string }> = ({
+  url,
+}: {
+  url: string;
+}) => {
   return (
     <img
       className="w-8 h-8 rounded-full object-cover border-solid border-white border-2"
@@ -25,16 +30,32 @@ export type GroupItemProps = {
 
 const GroupItem = (props: GroupItemProps) => {
   const [isAssignModalOpen, setIsAssignModalOpen] = useState<boolean>(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
   const handleAssignModalOpen = () => {
     setIsAssignModalOpen(true);
   };
+  const handleEditModalOpen = () => {
+    setIsEditModalOpen(true);
+  };
+  const handleDeleteModalOpen = () => {
+    setIsDeleteModalOpen(true);
+  };
+
   return (
     <>
-      {isAssignModalOpen && (
-        <AssignHoEModal
-          groupId={props.groupId}
-          onClose={() => setIsAssignModalOpen(false)}
+      {isEditModalOpen && (
+        <GroupModal
+          isEditing={true}
+          onClose={() => setIsEditModalOpen(false)}
+        />
+      )}
+      {isDeleteModalOpen && (
+        <DeletePopupModal
+          title="Delete Group"
+          description="This will delete the problem from problem set"
+          onClose={() => setIsDeleteModalOpen(false)}
         />
       )}
       <div className="w-64 h-32 bg-white rounded-lg">
@@ -45,7 +66,24 @@ const GroupItem = (props: GroupItemProps) => {
             alt=""
           />
           <div className="relative h-full w-full bg-[#00000070] rounded-t-lg pl-3">
-            <MenuItem onClick={handleAssignModalOpen} editTitle="Assign Hoe" deleteTitle="Delete Group"/>
+            <MenuItem
+              menuItems={[
+                {
+                  title: "Edit Group",
+                  onClick: (e: any) => {
+                    e.stopPropagation();
+                    handleEditModalOpen();
+                  },
+                },
+                {
+                  title: "Delete Group",
+                  onClick: (e: any) => {
+                    e.stopPropagation();
+                    handleDeleteModalOpen();
+                  },
+                },
+              ]}
+            />
             <div className="flex gap-x-3 items-center">
               <div className="w-12 h-12">
                 <svg

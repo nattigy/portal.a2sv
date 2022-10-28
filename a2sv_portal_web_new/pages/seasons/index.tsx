@@ -3,10 +3,10 @@ import AutoCompleteField from "../../components/users/HOEAutocomplete";
 import AutoCompleteSearch from "../../components/topics/TopicsAutocomplete";
 import BaseLayout from "../../components/common/BaseLayout";
 import Button from "../../components/common/Button";
-import NewSeasonModal from "../../components/modals/NewSeasonModal";
 import { SeasonItemProps } from "../../components/seasons/SeasonItem";
 import SeasonList from "../../components/seasons/SeasonList";
 import SeasonSidebarItem from "../../components/seasons/SeasonSidebarItem";
+import SeasonModal from "../../components/modals/SeasonModal";
 
 const IndexPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -41,12 +41,16 @@ const IndexPage = () => {
 
   return (
     <BaseLayout sidebar={<Sidebar />}>
-      {isModalOpen && <NewSeasonModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && <SeasonModal isEditing={false} onClose={() => setIsModalOpen(false)} />}
       <div className="flex flex-col gap-y-4">
         <div className="flex items-center justify-between rounded-md">
           <h1 className="font-bold text-2xl">Season</h1>
           <div className="flex gap-x-2">
-            <Button onClick={handleModalOpen} text="Create New" />
+            <Button
+              onClick={handleModalOpen}
+              text="Create New"
+              classname="bg-primary text-white text-xs"
+            />
           </div>
         </div>
         <div className="flex flex-col gap-y-4">

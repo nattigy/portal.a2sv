@@ -1,13 +1,13 @@
 import { useReactiveVar } from "@apollo/client";
 import React, { useState } from "react";
 import BaseLayout from "../../../components/common/BaseLayout";
+import TopicsPage from "../../../components/topics/TopicsPage";
 import TopicStruggledList from "../../../components/topics/TopicStruggledList";
 import {
   authenticatedUser,
   AuthUser,
 } from "../../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../../types/user";
-import HOETopicsPage from "../../../components/topics/HOETopicsPage";
 
 const IndexPage = () => {
 
@@ -44,16 +44,19 @@ const IndexPage = () => {
   }) => {
     switch (user.role) {
       case GraphqlUserRole.STUDENT: {
-        return <HOETopicsPage groupId={authUser?.id} />;
+        // return <HOETopicsPage groupId={authUser?.id} />;
+        return <TopicsPage groupId={authUser?.id} />
       }
       case GraphqlUserRole.HEAD_OF_EDUCATION: {
-        return <HOETopicsPage groupId={authUser?.headToGroup?.id} />;
+        // return <HOETopicsPage groupId={authUser?.headToGroup?.id} />;
+        return <TopicsPage groupId={authUser?.headToGroup?.id}/>
       }
       case GraphqlUserRole.HEAD_OF_ACADEMY: {
         return <></>;
       }
       default: {
-        return <HOETopicsPage groupId={authUser?.headToGroup?.id} />;
+        // return <HOETopicsPage groupId={authUser?.headToGroup?.id} />;
+        return <TopicsPage groupId={authUser?.headToGroup?.id}/>
       }
     }
   };

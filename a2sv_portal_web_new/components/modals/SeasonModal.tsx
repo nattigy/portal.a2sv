@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormRejectButton from "../common/FormRejectButton";
 import FormField from "../common/FormField";
+import { BiCalendar } from "react-icons/bi";
 
 interface FormValues {
   season_name: string;
@@ -14,13 +15,18 @@ interface FormValues {
 }
 
 type Props = {
+  isEditing: boolean;
+  values?: FormValues;
   onClose: () => void;
 };
 
-const NewSeasonModal = (props: Props) => {
-  const INITIAL_VALUES = {} as FormValues;
+const SeasonModal = (props: Props) => {
   const [errorMessage, setErrorMessage] = useState("");
-
+  const initialValues: FormValues = {
+    season_name: "",
+    start_date: "",
+    end_date: "",
+  };
   const FORM_VALIDATION = yup.object().shape({
     season_name: yup.string().required("Required"),
     start_date: yup.string().required("Required"),
@@ -31,9 +37,15 @@ const NewSeasonModal = (props: Props) => {
     <>
       <div className=" transition-all duration-200 py-8 text-[#565656] w-screen h-screen absolute top-0 bottom-0 left-0 right-0 bg-gray-900 bg-opacity-30 z-50">
         <Formik
-          initialValues={INITIAL_VALUES}
+          initialValues={props.values ? props.values : initialValues}
           validationSchema={FORM_VALIDATION}
-          onSubmit={async (values, actions) => {}}
+          onSubmit={() => {}}
+          // onSubmit={async (values, actions) => {
+          //   // is
+
+          //   // 
+
+          // }}
         >
           {({ setFieldValue, isSubmitting, values, errors, touched }) => (
             <Form>
@@ -43,7 +55,15 @@ const NewSeasonModal = (props: Props) => {
               >
                 <div className="w-full flex flex-col">
                   <div className="my-3 w-full flex justify-between items-center">
-                    <h2 className="font-semibold text-lg">Create New Season</h2>
+                    {props.isEditing ? (
+                      <h2 className="font-semibold text-lg">
+                        {props.values?.season_name}
+                      </h2>
+                    ) : (
+                      <h2 className="font-semibold text-lg">
+                        Create New Season
+                      </h2>
+                    )}
                     <div
                       className="cursor-pointer"
                       onClick={() => props.onClose()}
@@ -74,9 +94,16 @@ const NewSeasonModal = (props: Props) => {
                     </div>
                   </div>
                   <div className="w-full flex flex-col items-center">
-                    <p className="tracking-wider text-md text-start text-[#949494]">
-                      Add New Season where students can do specific activities
-                    </p>
+                    {props.isEditing ? (
+                      <p className="tracking-wider text-md text-start text-[#949494]">
+                        You can edit the information related to the season. Make
+                        sure to save inorder to see the changes.
+                      </p>
+                    ) : (
+                      <p className="tracking-wider text-md text-start text-[#949494]">
+                        Add New Season where students can do specific activities
+                      </p>
+                    )}
                   </div>
                   <div className="w-full flex flex-col items-center gap-y-2">
                     <div className="w-full my-2">
@@ -97,13 +124,13 @@ const NewSeasonModal = (props: Props) => {
                         </div>
                       </div>
                     </div>
-                    <div className="w-full flex flex-row gap-x-8 my-2">
+                    <div className="w-full flex flex-row gap-x-12 my-2">
                       <div className="w-1/2 flex flex-col items-center">
                         <div className="w-full">
                           <h2 className="font-semibold text-lg">Start Date</h2>
                         </div>
-                        <div className="flex flex-col justify-start">
-                          <div className="flex items-center my-2">
+                        <div className="w-full flex flex-col justify-start">
+                          <div className="flex items-center my-2 relative">
                             <DateView
                               autoComplete="off"
                               className="w-full text-xs placeholder-[#767676] placeholder:text-xs rounded-md focus:outline-none border py-3 px-4"
@@ -127,6 +154,9 @@ const NewSeasonModal = (props: Props) => {
                               adjustDateOnChange
                               showYearDropdown
                             />
+                            <div className="absolute right-2">
+                              <BiCalendar size={18} />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -134,8 +164,8 @@ const NewSeasonModal = (props: Props) => {
                         <div className="w-full">
                           <h2 className="font-semibold text-lg">End Date</h2>
                         </div>
-                        <div className="flex flex-col justify-start">
-                          <div className="flex items-center my-2">
+                        <div className="w-full flex flex-col justify-start">
+                          <div className="flex items-center my-2 relative">
                             <DateView
                               autoComplete="off"
                               className="w-full text-xs placeholder-[#767676] rounded-md focus:outline-none border py-3 px-4"
@@ -159,6 +189,9 @@ const NewSeasonModal = (props: Props) => {
                               adjustDateOnChange
                               showYearDropdown
                             />
+                            <div className="absolute right-2">
+                              <BiCalendar size={18} />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -191,4 +224,4 @@ const NewSeasonModal = (props: Props) => {
   );
 };
 
-export default NewSeasonModal;
+export default SeasonModal;

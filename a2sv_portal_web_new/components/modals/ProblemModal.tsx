@@ -32,17 +32,19 @@ interface FormValues {
 
 type Props = {
   onClose: () => void;
+  isEditing: boolean;
+  values?: FormValues;
   topicId: number;
   seasonId: number;
   groupId: number;
 };
-const NewProblemModal = (props: Props) => {
+
+const ProblemModal = (props: Props) => {
   const [createNewProblem] = useMutation(CREATE_PROBLEM_MUTATION);
   const [addExistingProblem] = useMutation(ADD_EXISTING_PROBLEM);
 
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
 
   const [input, setInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
@@ -50,7 +52,14 @@ const NewProblemModal = (props: Props) => {
     null
   );
 
-  const INITIAL_VALUES = {} as FormValues;
+  const INITIAL_VALUES: FormValues = {
+    name: "",
+    search: "",
+    difficulty: ProblemDifficultyType.MEDIUM,
+    link: "",
+    platform: "",
+    tags: [],
+  };
 
   const handleSearchProblem = (sel: ProblemType) => {
     setExistingProblem(sel);
@@ -95,101 +104,114 @@ const NewProblemModal = (props: Props) => {
     <>
       <div className=" transition-all duration-200 py-8 text-[#565656] w-screen h-screen absolute top-0 bottom-0 left-0 right-0 bg-gray-900 bg-opacity-30 z-50">
         <Formik
-          initialValues={INITIAL_VALUES}
+          initialValues={props.values ? props.values : INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
-            setIsLoading(true);
-            if (existingProblem === null) {
-              await createNewProblem({
-                variables: {
-                  createProblemInput: {
-                    difficulty: values.difficulty,
-                    link: values.link,
-                    title: values.name,
-                    tags: tags.map((tag) => {
-                      return { name: tag };
-                    }),
-                    platform: values.platform,
-                  },
-                },
-                refetchQueries: "active",
-                notifyOnNetworkStatusChange: true,
-                onCompleted: async (data) => {
-                  await addExistingProblem({
-                    variables: {
-                      updateGroupTopicSeasonInput: {
-                        groupId: parseInt(props.groupId.toString()),
-                        seasonId: parseInt(props.seasonId.toString()),
-                        topicId: parseInt(props.topicId.toString()),
-                        problems: [
-                          {
-                            problemId: parseInt(
-                              data.createProblem.id.toString()
-                            ),
-                          },
-                        ],
-                      },
-                    },
-                    refetchQueries: "active",
-                    notifyOnNetworkStatusChange: true,
-                    onCompleted: (data) => {
-                      setIsLoading(false);
-                      props.onClose();
-                    },
-                    onError: (error) => {
-                      setErrorMessage((error as ApolloError).message);
-                      setIsLoading(false);
-                    },
-                  });
-                  props.onClose();
-                },
-                onError: (error) => {
-                  setErrorMessage((error as ApolloError).message);
-                  setIsLoading(false);
-                },
-              });
+            if (props.isEditing) {
+              () => {};
             } else {
-              await addExistingProblem({
-                variables: {
-                  updateGroupTopicSeasonInput: {
-                    groupId: parseInt(props.groupId.toString()),
-                    seasonId: parseInt(props.seasonId.toString()),
-                    topicId: parseInt(props.topicId.toString()),
-                    problems: [
-                      {
-                        problemId: parseInt(existingProblem.id.toString()),
-                      },
-                    ],
+              setIsLoading(true);
+              if (existingProblem === null) {
+                console.log("values", values);
+                await createNewProblem({
+                  variables: {
+                    createProblemInput: {
+                      difficulty: values.difficulty,
+                      link: values.link,
+                      title: values.name,
+                      tags: tags.map((tag) => {
+                        return { name: tag };
+                      }),
+                      platform: values.platform,
+                    },
                   },
-                },
-                refetchQueries: "active",
-                notifyOnNetworkStatusChange: true,
-                onCompleted: (data) => {
-                  setIsLoading(false);
-                  props.onClose();
-                },
-                onError: (error) => {
-                  setErrorMessage((error as ApolloError).message);
-                  setIsLoading(false);
-                },
-              });
+                  refetchQueries: "active",
+                  notifyOnNetworkStatusChange: true,
+                  onCompleted: async (data) => {
+                    console.log(data);
+                    await addExistingProblem({
+                      variables: {
+                        updateGroupTopicSeasonInput: {
+                          groupId: parseInt(props.groupId.toString()),
+                          seasonId: parseInt(props.seasonId.toString()),
+                          topicId: parseInt(props.topicId.toString()),
+                          problems: [
+                            {
+                              problemId: parseInt(
+                                data.createProblem.id.toString()
+                              ),
+                            },
+                          ],
+                        },
+                      },
+                      refetchQueries: "active",
+                      notifyOnNetworkStatusChange: true,
+                      onCompleted: (data) => {
+                        console.log("SUCCESS", data);
+                        setIsLoading(false);
+                        props.onClose();
+                      },
+                      onError: (error) => {
+                        console.log("error", error);
+                        setErrorMessage((error as ApolloError).message);
+                        setIsLoading(false);
+                      },
+                    });
+                    props.onClose();
+                  },
+                  onError: (error) => {
+                    setErrorMessage((error as ApolloError).message);
+                    setIsLoading(false);
+                  },
+                });
+              } else {
+                await addExistingProblem({
+                  variables: {
+                    updateGroupTopicSeasonInput: {
+                      groupId: parseInt(props.groupId.toString()),
+                      seasonId: parseInt(props.seasonId.toString()),
+                      topicId: parseInt(props.topicId.toString()),
+                      problems: [
+                        {
+                          problemId: parseInt(existingProblem.id.toString()),
+                        },
+                      ],
+                    },
+                  },
+                  refetchQueries: "active",
+                  notifyOnNetworkStatusChange: true,
+                  onCompleted: (data) => {
+                    console.log("Add existing success", data);
+                    setIsLoading(false);
+                    props.onClose();
+                  },
+                  onError: (error) => {
+                    setErrorMessage((error as ApolloError).message);
+                    setIsLoading(false);
+                  },
+                });
+              }
             }
-
             actions.resetForm();
           }}
         >
           {({ isSubmitting, errors, touched }) => (
-            
             <Form>
               <div
                 role="alert"
                 className="flex flex-col gap-y-3 min-h-fit justify-between bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-10 py-5"
               >
-              {JSON.stringify(errors)}
+                {JSON.stringify(errors)}
 
                 <div className="w-full flex flex-col gap-y-2 items-center">
                   <div className="my-2 w-full flex justify-between items-center">
-                    <h2 className="font-bold">Add New Problem</h2>
+                    {props.isEditing ? (
+                      <h2 className="font-semibold text-lg">
+                        {props.values?.name}
+                      </h2>
+                    ) : (
+                      <h2 className="font-semibold text-lg">Add New Problem</h2>
+                    )}
                     <div
                       className="cursor-pointer"
                       onClick={() => props.onClose()}
@@ -219,10 +241,15 @@ const NewProblemModal = (props: Props) => {
                       </svg>
                     </div>
                   </div>
-                  <p className="tracking-wider text-sm text-start">
-                    Add new problem under a topic. You can create new problem or
-                    choose existing one
-                  </p>
+                  {props.isEditing ? (
+                    <p>You can replace the problem from the exisiting ones.</p>
+                  ) : (
+                    <p className="tracking-wider text-sm text-start">
+                      Add new problem under a topic. You can create new problem
+                      or choose existing one
+                    </p>
+                  )}
+
                   <div className="w-full flex flex-col justify-start gap-y-2">
                     <ProblemsAutocomplete
                       handleSearchProblem={handleSearchProblem}
@@ -237,9 +264,15 @@ const NewProblemModal = (props: Props) => {
                     <div>
                       {existingProblem === null && (
                         <div className="w-full flex flex-col items-center">
-                          <div className="my-3 w-full flex justify-between items-center">
-                            <h2 className="font-bold">Create New</h2>
-                          </div>
+                          {props.isEditing ? (
+                            <div className="my-3 w-full flex justify-between items-center">
+                              <h2 className="font-bold">Update Problem</h2>
+                            </div>
+                          ) : (
+                            <div className="my-3 w-full flex justify-between items-center">
+                              <h2 className="font-bold">Create New</h2>
+                            </div>
+                          )}
                           <div className="w-full">
                             <div className="flex flex-row gap-x-3 my-3">
                               <div className="flex flex-col w-3/5 justify-start gap-y-1">
@@ -422,4 +455,4 @@ const NewProblemModal = (props: Props) => {
   );
 };
 
-export default NewProblemModal;
+export default ProblemModal;

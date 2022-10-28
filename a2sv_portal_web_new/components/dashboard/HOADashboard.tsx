@@ -6,7 +6,7 @@ import BaseLayout from "../common/BaseLayout";
 import GroupItemList from "./GroupItemList";
 import GroupStatList from "./GroupStatList";
 import Button from "../common/Button";
-import NewGroupModal from "../modals/NewGroupModal";
+import GroupModal from "../modals/GroupModal";
 
 type Props = {};
 
@@ -23,7 +23,7 @@ const HOADashboard = (props: Props) => {
   return (
     <BaseLayout>
       {isModalOpen && (
-        <NewGroupModal onClose={() => setIsModalOpen(false)} />
+        <GroupModal isEditing={false} onClose={() => setIsModalOpen(false)} />
       )}
       <div className="w-full h-screen pt-7 flex flex-col gap-y-6">
         <GroupStatList />
@@ -37,6 +37,7 @@ const HOADashboard = (props: Props) => {
           <Button
             icon={<BsPlus color="#ffffff" size={18} />}
             onClick={handleModalOpen}
+            classname="bg-primary text-white text-xs" 
             text="New Group"
           />
         </div>

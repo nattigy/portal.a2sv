@@ -9,6 +9,7 @@ import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormRejectButton from "../common/FormRejectButton";
 import FormField from "../common/FormField";
 import FormDropdown from "../common/FormDropdown";
+import HOEAutocomplete from "../users/HOEAutocomplete";
 
 export enum RoleTypes {
   STUDENT = "Student",
@@ -23,14 +24,27 @@ interface FormValues {
 }
 
 type Props = {
+  isEditing: boolean;
+  values?: FormValues;
   onClose: () => void;
 };
-const NewGroupModal = (props: Props) => {
+
+const GroupModal = (props: Props) => {
   const [addNewGroup] = useMutation(CREATE_GROUP_MUTATION);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const INITIAL_VALUES = {} as FormValues;
+  const INITIAL_VALUES: FormValues = {
+    name: "",
+    country: "",
+    school: "",
+  };
+
+  // const INITIAL_VALUES = {
+  //   country: "Ethiopia",
+  //   name: "Group 32",
+  //   school: "Addis Ababa Institute of Technology"
+  // } as FormValues;
 
   const FORM_VALIDATION = yup.object().shape({
     name: yup.string().required("Required").min(3).max(40),
@@ -38,34 +52,36 @@ const NewGroupModal = (props: Props) => {
     school: yup.string().required("Required"),
   });
 
-  const [selected, setSelected] = useState("");
-  const onSelect = (e: any) => {
-    setSelected(e.target.value);
-  };
+  const [selected, setSelected] = useState<null | any>(null);
 
   return (
     <>
       <div className=" transition-all duration-200 py-8 text-[#565656] w-screen h-screen absolute top-0 bottom-0 left-0 right-0 bg-gray-900 bg-opacity-30 z-50">
         <Formik
-          initialValues={INITIAL_VALUES}
+          initialValues={props.values ? props.values : INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
-            setIsLoading(true);
-            await addNewGroup({
-              variables: {
-                createGroupInput: values,
-              },
-              refetchQueries: "active",
-              notifyOnNetworkStatusChange: true,
-              onCompleted: (data) => {
-                setIsLoading(false);
-                props.onClose();
-              },
-              onError: (error) => {
-                setErrorMessage((error as ApolloError).message);
-                setIsLoading(false);
-              },
-            });
+            if (props.isEditing) {
+              () => {};
+            } else {
+              console.log(values, " is values");
+              setIsLoading(true);
+              await addNewGroup({
+                variables: {
+                  createGroupInput: values,
+                },
+                refetchQueries: "active",
+                notifyOnNetworkStatusChange: true,
+                onCompleted: (data) => {
+                  setIsLoading(false);
+                  props.onClose();
+                },
+                onError: (error) => {
+                  setErrorMessage((error as ApolloError).message);
+                  setIsLoading(false);
+                },
+              });
+            }
             actions.resetForm();
           }}
         >
@@ -77,7 +93,15 @@ const NewGroupModal = (props: Props) => {
               >
                 <div className="w-full flex flex-col items-center">
                   <div className="my-3 w-full flex justify-between items-center">
-                    <h2 className="font-semibold text-lg">Create New Group</h2>
+                    {props.isEditing ? (
+                      <h2 className="font-semibold text-lg">
+                        Edit {props.values?.name}
+                      </h2>
+                    ) : (
+                      <h2 className="font-semibold text-lg">
+                        Create New Group
+                      </h2>
+                    )}
                     <div
                       className="cursor-pointer"
                       onClick={() => props.onClose()}
@@ -107,9 +131,16 @@ const NewGroupModal = (props: Props) => {
                       </svg>
                     </div>
                   </div>
-                  <p className="tracking-wider text-md font-normal text-start text-[#949494]">
-                    Add new group to the system and easily track everything.
-                  </p>
+                  {props.isEditing ? (
+                    <p className="tracking-wider text-md text-start text-[#949494]">
+                      You can edit the information related to the group. Make
+                      sure to save inorder to see the changes.
+                    </p>
+                  ) : (
+                    <p className="tracking-wider text-md text-start text-[#949494]">
+                      Add new group to the system and easily track everything.{" "}
+                    </p>
+                  )}
                 </div>
                 <div className="w-full">
                   <div className="flex flex-col justify-start">
@@ -146,6 +177,17 @@ const NewGroupModal = (props: Props) => {
                           { name: "Turkey", value: "Turkey" },
                         ]}
                       />
+                    </div>
+                  </div>
+                </div>
+                <div className="w-full">
+                  <div className="flex flex-col justify-start">
+                    <div className="flex flex-col items-center">
+                      <HOEAutocomplete handleSearchStudent={setSelected} />
+
+                      <p className="w-full text-xs text-red-500">
+                        {errors.name}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -191,4 +233,4 @@ const NewGroupModal = (props: Props) => {
   );
 };
 
-export default NewGroupModal;
+export default GroupModal;

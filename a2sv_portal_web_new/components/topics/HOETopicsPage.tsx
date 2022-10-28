@@ -7,8 +7,7 @@ import { useGetAllTopicsByGroupAndSeasonIdQuery } from "../../lib/hooks/useTopic
 import Button from "../common/Button";
 import EmptyState from "../common/EmptyState";
 import { LoaderSmall } from "../common/Loaders";
-import NewTopicModal from "../modals/NewTopicModal";
-
+import TopicModal from "../modals/TopicModal";
 
 type Props = {
   groupId: number;
@@ -17,7 +16,6 @@ type Props = {
 const HOETopicsPage = ({ groupId }: Props) => {
   const [isAddTopicToGroupModalOpen, setIsAddTopicToGroupModalOpen] =
     useState(false);
-
 
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
 
@@ -30,15 +28,16 @@ const HOETopicsPage = ({ groupId }: Props) => {
 
   useEffect(() => {
     fetchTopics();
-  }, [ refetch, groupId]);
+  }, [refetch, groupId]);
 
   return (
     <>
       {isAddTopicToGroupModalOpen && (
-        <NewTopicModal
+        <TopicModal
+          isEditing={false}
           onClose={() => setIsAddTopicToGroupModalOpen(false)}
           groupId={authUser?.headToGroup?.id}
-         seasonId={1}
+          seasonId={1}
         />
       )}
       <div className="h-full">
@@ -50,6 +49,7 @@ const HOETopicsPage = ({ groupId }: Props) => {
             <Button
               onClick={handleAddTopicToGroupModalOpen}
               text="Add Topic to Group"
+              classname="bg-primary text-white text-xs"
             />
           )}
         </div>
@@ -64,7 +64,7 @@ const HOETopicsPage = ({ groupId }: Props) => {
             <EmptyState />
           ) : (
             <TopicList
-              season={{id:1,name:"Camp"}}
+              season={{ id: 1, name: "Camp" }}
               topics={data?.topics}
               groupId={groupId}
               title="All Topics"

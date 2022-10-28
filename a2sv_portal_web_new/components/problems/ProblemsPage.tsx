@@ -4,12 +4,15 @@ import ProblemsTable from "./ProblemsTable";
 import { useReactiveVar } from "@apollo/client";
 import { authenticatedUser } from "../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../types/user";
-import NewProblemModal from "../modals/NewProblemModal";
 import useAllProblems from "../../lib/hooks/useAllProblems";
 import { LoaderSmall } from "../common/Loaders";
 import Button from "../common/Button";
 import SearchField from "../common/SearchField";
 import EmptyState from "../common/EmptyState";
+import ProblemModal from "../modals/ProblemModal";
+import MenuItem from "../common/MenuItem";
+import TopicModal from "../modals/TopicModal";
+import DeletePopupModal from "../modals/DeletePopupModal";
 
 export type PlatformInfo = {
   id: string;
@@ -24,11 +27,22 @@ type ProblemsPageProps = {
 const ProblemsPage = (props: ProblemsPageProps) => {
   const authUser = useReactiveVar(authenticatedUser);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isAddNewProblemModalOpen, setIsAddNewProblemModalOpen] =
+    useState<boolean>(false);
   const { loading, data, refetch, error } = useAllProblems();
   const [problems, setProblems] = useState<ProblemsInfo[]>([]);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+
+  const handleEditModalOpen = () => {
+    setIsEditModalOpen(true);
+  };
+  const handleDeleteModalOpen = () => {
+    setIsDeleteModalOpen(true);
+  };
+
   const handleModalOpen = () => {
-    setIsModalOpen(true);
+    setIsAddNewProblemModalOpen(true);
   };
 
   const handleSearch = (e: any) => {
@@ -43,20 +57,67 @@ const ProblemsPage = (props: ProblemsPageProps) => {
 
   return (
     <>
-      {isModalOpen && (
-        <NewProblemModal {...props} onClose={() => setIsModalOpen(false)} />
+      {isAddNewProblemModalOpen && (
+        <ProblemModal
+          isEditing={false}
+          {...props}
+          onClose={() => setIsAddNewProblemModalOpen(false)}
+        />
+      )}
+      {isEditModalOpen && (
+        <TopicModal
+          isEditing={true}
+          onClose={() => setIsEditModalOpen(false)} groupId={0} seasonId={0}        />
+      )}
+      {isDeleteModalOpen && (
+        <DeletePopupModal
+          title="Delete Topic"
+          description="This will delete the topic from topic set"
+          onClose={() => setIsDeleteModalOpen(false)}
+        />
       )}
       <div className="h-screen font-semibold text-[#565656]">
         <div className="flex flex-row items-center justify-between my-6 font-semibold text-xl text-[#565656]">
-          <SearchField
-            onChange={(e) => handleSearch}
-            placeholder="Search a problem"
-            id="problem"
-          />
           <div>
-            {(authUser as any).role !== GraphqlUserRole.STUDENT && (
-              <div className="flex justify-end items-center px-5">
-                <Button onClick={handleModalOpen} text="Add New Problem" />
+            <h1>{props.topicId}</h1>
+          </div>
+          <div>
+            <SearchField
+              onChange={(e) => handleSearch}
+              placeholder="Search a problem"
+              id="problem"
+            />
+            <div>
+              {(authUser as any).role !== GraphqlUserRole.STUDENT && (
+                <div className="flex justify-end items-center px-5">
+                  <Button
+                    onClick={handleModalOpen}
+                    text="Add New Problem"
+                    classname="bg-primary text-white text-xs"
+                  />
+                </div>
+              )}
+            </div>
+            {(authUser as any).role === GraphqlUserRole.HEAD_OF_ACADEMY && (
+              <div>
+                <MenuItem
+                  menuItems={[
+                    {
+                      title: "Edit Topic",
+                      onClick: (e: any) => {
+                        e.stopPropagation();
+                        handleEditModalOpen();
+                      },
+                    },
+                    {
+                      title: "Delete Topic",
+                      onClick: (e: any) => {
+                        e.stopPropagation();
+                        handleDeleteModalOpen();
+                      },
+                    },
+                  ]}
+                />
               </div>
             )}
           </div>

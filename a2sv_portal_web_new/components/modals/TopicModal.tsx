@@ -11,21 +11,21 @@ import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormRejectButton from "../common/FormRejectButton";
 import FormField from "../common/FormField";
 import TopicsAutocomplete, { TopicType } from "../topics/TopicsAutocomplete";
-
-
 interface FormValues {
   topic_title: string;
   description: string;
 }
 
 type Props = {
+  isEditing: boolean;
+  values?: FormValues;
   onClose: () => void;
   groupId: number;
   seasonId: number;
 };
 
-const NewTopicModal = (props: Props) => {
-  const INITIAL_VALUES = {} as FormValues;
+const TopicModal = (props: Props) => {
+  // const INITIAL_VALUES = {} as FormValues;
   const [errorMessage, setErrorMessage] = useState("");
   const [addNewTopic, { loading, error, data }] = useMutation(
     CREATE_TOPIC_MUTATION
@@ -35,38 +35,65 @@ const NewTopicModal = (props: Props) => {
   );
   const [existingTopic, setExistingTopic] = useState<TopicType | null>(null);
 
-  let validationShape;
-  if (existingTopic === null) {
-    validationShape = yup.object().shape({
-      topic_title: yup.string().required("Required"),
-      description: yup.string().required("Required"),
-    });
-  }
-  const FORM_VALIDATION = validationShape;
+  const INITIAL_VALUES: FormValues = {
+    topic_title: "",
+    description: "",
+  };
+
+  const FORM_VALIDATION = yup.object().shape({
+    topic_title: yup.string().required("Required"),
+    description: yup.string().required("Required"),
+  });
 
   return (
     <>
       <div className=" transition-all duration-200 py-8 text-[#565656] w-screen h-screen absolute top-0 bottom-0 left-0 right-0 bg-gray-900 bg-opacity-30 z-50">
         <Formik
-          initialValues={INITIAL_VALUES}
+          initialValues={props.values ? props.values : INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
-            await addNewTopic({
-              variables: {
-                createTopicInput: {
-                  name: values.topic_title,
-                  description: values.description,
-                },
-              },
-              refetchQueries: "active",
-              notifyOnNetworkStatusChange: true,
-              onCompleted: () => {
-                props.onClose();
-              },
-              onError: (error) => {
-                setErrorMessage((error as ApolloError).message);
-              },
-            });
+            if (props.isEditing) {
+              () => {};
+            } else {
+              if (existingTopic === null) {
+                await addNewTopic({
+                  variables: {
+                    createTopicInput: {
+                      name: values.topic_title,
+                      description: values.description,
+                    },
+                  },
+                  refetchQueries: "active",
+                  notifyOnNetworkStatusChange: true,
+                  onCompleted: () => {
+                    //another call here
+
+                    props.onClose();
+                  },
+                  onError: (error) => {
+                    setErrorMessage((error as ApolloError).message);
+                  },
+                });
+              } else {
+                await addTopicToGroupAndSeason({
+                  variables: {
+                    addTopicToGroupInput: {
+                      groupId: parseInt(props.groupId?.toString()),
+                      seasonId: parseInt(props.seasonId?.toString()),
+                      topicId: parseInt(existingTopic?.id?.toString()),
+                    },
+                  },
+                  refetchQueries: "active",
+                  notifyOnNetworkStatusChange: true,
+                  onCompleted: (data) => {
+                    props.onClose();
+                  },
+                  onError: (error) => {
+                    setErrorMessage((error as ApolloError).message);
+                  },
+                });
+              }
+            }
             actions.resetForm();
           }}
         >
@@ -79,7 +106,15 @@ const NewTopicModal = (props: Props) => {
                 {JSON.stringify(errors)}
                 <div className="w-full flex flex-col">
                   <div className="my-3 w-full flex justify-between items-center">
-                    <h2 className="font-semibold text-lg">Add Existing Topic</h2>
+                    {props.isEditing ? (
+                      <h2 className="font-semibold text-lg">
+                        Edit {props.values?.topic_title}
+                      </h2>
+                    ) : (
+                      <h2 className="font-semibold text-lg">
+                        Create New Topic
+                      </h2>
+                    )}
                     <div
                       className="cursor-pointer"
                       onClick={() => props.onClose()}
@@ -109,7 +144,10 @@ const NewTopicModal = (props: Props) => {
                       </svg>
                     </div>
                   </div>
-                  <p className="text-sm">Add new problem under a topic. You can create new problem or choose existing one</p>
+                  <p className="text-sm">
+                    Add new problem under a topic. You can create new problem or
+                    choose existing one
+                  </p>
                   <div className="w-full flex flex-col gap-y-2">
                     <div className="w-full">
                       {/* <div className="flex justify-between items-center">
@@ -155,13 +193,13 @@ const NewTopicModal = (props: Props) => {
                     </div>
                     {!existingTopic && (
                       <>
-                    <h2 className="font-semibold text-lg">Create New Topic</h2>
+                        <h2 className="font-semibold text-lg">
+                          Create New Topic
+                        </h2>
 
                         <div className="w-full">
                           <div className="flex justify-between items-center">
-                            <h2 className="font-medium text-sm">
-                              Topic Title
-                            </h2>
+                            <h2 className="font-medium text-sm">Topic Title</h2>
                           </div>
                           <div className="flex flex-col justify-start">
                             <div className="flex items-center">
@@ -178,7 +216,7 @@ const NewTopicModal = (props: Props) => {
                         <div className="w-full">
                           <div className="w-full flex flex-col items-center">
                             <div className="w-full flex justify-between items-center">
-                            <h2 className="font-medium text-sm">
+                              <h2 className="font-medium text-sm">
                                 Topic Description
                               </h2>
                             </div>
@@ -225,4 +263,4 @@ const NewTopicModal = (props: Props) => {
   );
 };
 
-export default NewTopicModal;
+export default TopicModal;
