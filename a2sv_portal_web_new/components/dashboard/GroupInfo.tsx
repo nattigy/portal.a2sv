@@ -15,6 +15,7 @@ import SeasonsTab from "./SeasonsTab";
 import SeasonSidebarItem from "../seasons/SeasonSidebarItem";
 import SeasonItem, { SeasonItemProps } from "../seasons/SeasonItem";
 import SeasonList from "../seasons/SeasonList";
+import SidebarLayout from "../common/SidebarLayout";
 
 type Props = {
   groupId: number;
@@ -51,8 +52,6 @@ const GroupInfo = (props: Props) => {
 
   const { data, loading, error, refetch } = useGroupDetail(props.groupId);
   const router = useRouter();
-  // router.query["id"]?.toString()
-  console.log(data, " is group data users");
   useEffect(() => {
     setCurrentPath(props.groupId);
     refetch();
@@ -80,7 +79,7 @@ const GroupInfo = (props: Props) => {
             groupHead={groupHeadData}
           />
         ) : (
-          <SeasonSidebarItem/>
+          <SeasonSidebarItem />
         )
       }
     >
@@ -104,7 +103,7 @@ const GroupInfo = (props: Props) => {
           )}
           {tabIndex == 2 && (
             <div>
-              <SeasonList seasons={seasons}/>
+              <SeasonList seasons={seasons} />
             </div>
           )}
         </div>

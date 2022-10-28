@@ -21,8 +21,6 @@ export type StudentsInfo = {
 };
 
 const AddStudentListItem = ({ studentProps, handleStudentCheck }: Props) => {
-  console.log(studentProps);
-
   return (
     <div
       className={clsx(

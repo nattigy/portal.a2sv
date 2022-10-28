@@ -20,7 +20,6 @@ const ContestTimeDateField = (props: ContestDateFieldProps) => {
     (props.formik.errors as any)[props.name] &&
     (props.formik.touched as any)[props.name];
   const errorMessage = (props.formik.errors as any)[props.name];
-  console.log(props.type);
   return (
     <div className="w-full flex justify-between items-center">
       <div className="w-full flex justify-between">

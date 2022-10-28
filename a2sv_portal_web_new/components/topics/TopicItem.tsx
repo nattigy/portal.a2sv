@@ -46,7 +46,6 @@ const TopicItem = (props: TopicItemProps) => {
       topicId : props.topic.id,
     }, // the data
   }
-  // console.log(link, props.seasonTopic.name, props?.seasonTopic?.season?.name, " ssfasf");
   return (
     <CustomLink href={href}>
       <div className="h-[72px] flex w-full rounded-r-lg gap-x-3 bg-white items-center cursor-pointer">

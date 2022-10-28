@@ -38,7 +38,6 @@ export default function HOEAutocomplete({ handleSearchStudent }: Props) {
     setQuery(event.target.value.trim());
   };
   const handleSelectHOE = (val: any) => {
-    console.log(val, " is value");
     setSelectedHOE(val);
     handleSearchStudent(val);
     // setQuery(val.title)

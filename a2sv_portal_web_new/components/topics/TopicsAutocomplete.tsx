@@ -18,7 +18,6 @@ const TopicsAutocomplete = ({ handleSearchTopic }: Props) => {
   useEffect(() => {
     if (query.trim() !== "") {
       const searchTopics = data?.topics.filter((topic: TopicType) => {
-        console.log(query, " is topic".includes(""));
         return topic?.name.toLowerCase().includes(query.trim().toLowerCase());
       });
       setFilteredTopics(searchTopics);

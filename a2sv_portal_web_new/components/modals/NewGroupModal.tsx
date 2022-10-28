@@ -50,7 +50,6 @@ const NewGroupModal = (props: Props) => {
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
-            console.log(values, " is values");
             setIsLoading(true);
             await addNewGroup({
               variables: {

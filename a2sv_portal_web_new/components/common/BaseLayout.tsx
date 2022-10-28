@@ -4,13 +4,15 @@ import { useRouter } from "next/router";
 import { useReactiveVar } from "@apollo/client";
 import useLogout from "../../lib/hooks/useLogout";
 import authenticatedVar, {
-  authenticatedUser,
+  authenticatedUser, hasNetworkError,
 } from "../../lib/constants/authenticated";
 import { useApollo } from "../../lib/apollo/apolloClient";
 import { GraphqlUserRole } from "../../types/user";
 import StudentRoleSidebar from "./StudentRoleSidebar";
 import HOARoleSidebar from "./HOARoleSidebar";
 import HOERoleSidebar from "./HOERoleSidebar";
+import NetworkErrorToaster from "../modals/NetworkErrorToaster";
+import SidebarLayout from "./SidebarLayout";
 interface LayoutProps extends WithChildren {
   sidebar?: ReactNode;
 }
@@ -18,6 +20,8 @@ interface LayoutProps extends WithChildren {
 const StudentLayout = ({ sidebar, children }: LayoutProps) => {
   const [activePath, setActivePath] = useState("");
   const authUser = useReactiveVar(authenticatedUser);
+
+
 
   const apolloClient = useApollo({});
   const [logout] = useLogout();
@@ -36,7 +40,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
       await logout({
         errorPolicy: "all",
         variables: {},
-        onError: (error) => {},
+        onError: (error) => { },
         onCompleted: async () => {
           authenticatedUser({});
           authenticatedVar(false);
@@ -79,11 +83,12 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
   };
 
   return (
-    <div className="flex flex-1 bg-[#F6F6FC] min-h-screen max-h-screen overflow-y-hidden">
-      <div className="w-24 md:flex-col justify-between">
+    <div className="relative flex flex-1 bg-[#F6F6FC] min-h-screen max-h-screen overflow-y-hidden">
+      <NetworkErrorToaster />
+      <div className="w-16 sm:w-20 md:w-24 md:flex-col justify-between">
         <div className="min-h-full flex flex-col  flex-grow py-5 overflow-y-auto bg-white">
           <div className="flex justify-center items-center">
-            <div className="border flex items-center justify-center w-14 h-14 rounded-xl bg-primary">
+            <div className="border flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-primary">
               <svg
                 width="20"
                 height="23"
@@ -151,16 +156,14 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
           </div>
         </div>
       </div>
-        <main className="flex flex-col flex-1 min-h-screen max-h-screen no-scrollbar overflow-auto">
-          <div className="bg-[#F6F6FC] p-4 max-w-full relative sm:px-6 md:px-8 h-full">
-            {children}
-            {/* <div className="flex lg:hidden">{sidebar}</div> */}
-          </div>
-        </main>
-      {sidebar && (
-        <div className="hidden bg-white shadow-lg px-5 py-10 drop-shadow-lg lg:flex min-h-screen max-h-screen overflow-y-auto overflow-x-hidden custom-scrollbar  w-1/5">
-          {sidebar}
+      <main className="flex flex-col flex-1 min-h-screen max-h-screen no-scrollbar overflow-auto">
+        <div className="bg-[#F6F6FC] p-4 max-w-full relative sm:px-6 md:px-8 h-full">
+          {children}
+          {/* <div className="flex lg:hidden">{sidebar}</div> */}
         </div>
+      </main>
+      {sidebar && (
+        <SidebarLayout sidebarItems={sidebar} />
       )}
     </div>
   );
