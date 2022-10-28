@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BaseLayout from "../common/BaseLayout";
+import SidebarLayout from "../common/SidebarLayout";
 import ConsistencyDiagramItem from "./ConsistencyDiagram";
 import ContestStatItem from "./ContestStatItem";
 import DashboardRankItem, { DashboardRankItemProps } from "./DashboardRankItem";
@@ -97,7 +98,7 @@ const StudentDashboard = (props: Props) => {
   };
 
   return (
-    <BaseLayout sidebar={<Sidebar />}>
+    <BaseLayout sidebar={<>hello </>}>
       <div className="flex flex-col gap-y-4">
         <p className="text-[#676767] font-semibold text-xl">Dashboard</p>
         <div className="flex flex-row gap-x-3">

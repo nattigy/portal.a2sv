@@ -15,6 +15,7 @@ import SeasonsTab from "./SeasonsTab";
 import SeasonSidebarItem from "../seasons/SeasonSidebarItem";
 import SeasonItem, { SeasonItemProps } from "../seasons/SeasonItem";
 import SeasonList from "../seasons/SeasonList";
+import SidebarLayout from "../common/SidebarLayout";
 
 type Props = {
   groupId: number;
@@ -78,7 +79,7 @@ const GroupInfo = (props: Props) => {
             groupHead={groupHeadData}
           />
         ) : (
-          <SeasonSidebarItem/>
+          <SeasonSidebarItem />
         )
       }
     >
@@ -102,7 +103,7 @@ const GroupInfo = (props: Props) => {
           )}
           {tabIndex == 2 && (
             <div>
-              <SeasonList seasons={seasons}/>
+              <SeasonList seasons={seasons} />
             </div>
           )}
         </div>
