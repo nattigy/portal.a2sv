@@ -324,6 +324,9 @@ export class UserService {
             throw new NotFoundException(`User with ${id} not found`)
         }
         const groupId = user.groupId
+        if (!groupId) {
+            throw new NotFoundException(`Group for User with ${id} not found`)
+        }
         const group = await this.groupService.getGroupById(groupId)
         const seasons = group.seasons
 
