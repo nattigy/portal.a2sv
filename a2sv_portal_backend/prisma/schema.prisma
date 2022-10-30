@@ -200,7 +200,6 @@ model SeasonTopicProblemUser {
   attempts                Int                     @default(0)
   timeDedicated           Int                     @default(0)
   needHelp                Boolean                 @default(false)
-  timeDedicated           Int                     @default(0)
 
   @@id([seasonId, topicId, problemId, userId])
 }
