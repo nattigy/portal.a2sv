@@ -331,11 +331,10 @@ export class UserService {
         const seasons = group.seasons
 
         let numberOfCorrectSubmissions = 0
-        let numberOfIncorrectSubmissions = 0
         let totalTimeDedicated = 0
         let totalAttempts = 0
         let unableToSolve = 0
-        let uncomfortablity = 0
+        let uncomfortablity = 100
         let acceptanceRate = 0
         let totalQuestions = 0
 
@@ -354,9 +353,15 @@ export class UserService {
                 }
             }
         }
-        uncomfortablity = (unableToSolve / numberOfCorrectSubmissions) * 100
-        numberOfIncorrectSubmissions = totalAttempts - numberOfCorrectSubmissions
-        acceptanceRate = (numberOfCorrectSubmissions / totalAttempts) * 100
+        if (numberOfCorrectSubmissions) {
+            uncomfortablity = (unableToSolve / numberOfCorrectSubmissions) * 100
+        }
+
+        const numberOfIncorrectSubmissions = totalAttempts - numberOfCorrectSubmissions
+        if (totalAttempts) {
+            acceptanceRate = (numberOfCorrectSubmissions / totalAttempts) * 100
+        }
+
 
         return {
             acceptanceRate,
@@ -364,7 +369,7 @@ export class UserService {
             numberOfIncorrectSubmissions,
             totalTimeDedicated,
             uncomfortablity
-        }
+        } as StudentStat
 
     }
 
