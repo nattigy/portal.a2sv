@@ -74,6 +74,7 @@ const ProblemsPage = (props: ProblemsPageProps) => {
           title="Delete Topic"
           description="This will delete the topic from topic set"
           onClose={() => setIsDeleteModalOpen(false)}
+          onDelete={()=>{}}
         />
       )}
       <div className="h-screen font-semibold text-[#565656]">

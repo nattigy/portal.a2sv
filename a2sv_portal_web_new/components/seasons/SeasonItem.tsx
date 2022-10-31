@@ -60,6 +60,7 @@ const SeasonItem = ({ seasonProps }: Props) => {
           title="Delete Season"
           description="This will delete this season"
           onClose={() => setIsDeleteModalOpen(false)}
+          onDelete={()=>{}}
         />
       )}
       <Link  href={"/seasons/" + seasonProps.seasonName}>

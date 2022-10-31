@@ -56,6 +56,7 @@ const GroupItem = (props: GroupItemProps) => {
           title="Delete Group"
           description="This will delete the problem from problem set"
           onClose={() => setIsDeleteModalOpen(false)}
+          onDelete={()=>{}}
         />
       )}
       <div className="w-64 h-32 bg-white rounded-lg">
