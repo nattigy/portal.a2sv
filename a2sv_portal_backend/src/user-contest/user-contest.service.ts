@@ -9,7 +9,9 @@ export class UserContestService {
   }
 
   create(createUserContestInput: CreateUserContestInput) {
-    return 'This action adds a new userContest';
+    return this.prismaService.userContest.create({
+      data: createUserContestInput
+    });
   }
 
   findAll() {

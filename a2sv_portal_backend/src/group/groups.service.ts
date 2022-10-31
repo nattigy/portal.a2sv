@@ -226,7 +226,7 @@ export class GroupsService {
         school: groups[i].school,
         numberOfStudents: groups[i].users?.length,
         numberOfTopicsCovered: numberOfTopicsCovered,
-        topicsCoverage: (numberOfTopicsCovered / topics.length) * 100,
+        topicsCoverage: topics.length ? (numberOfTopicsCovered / topics.length) * 100 : 0,
         numberOfAcceptedSubmissions: numberOfAcceptedSubmissions,
         numberOfWrongSubmissions: numberOfWrongSubmissions,
         totalTimeDedicated: totalTimeDedicated,
