@@ -24,8 +24,8 @@ export class User {
   seasonTopicProblems?: SeasonTopicProblemUser[]
   @Field(() => Group, { nullable: true })
   headToGroup?: Group
-  @Field(() => Int, { nullable: true })
-  userProfilesId?: number
+  @Field(() => String, { nullable: true })
+  userProfilesId?: string
   @Field(() => UserProfile, { nullable: true })
   userProfile?: UserProfile
   @Field(() => [UserTopic], { nullable: true })

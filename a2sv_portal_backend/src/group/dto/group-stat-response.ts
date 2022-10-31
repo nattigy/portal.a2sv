@@ -49,10 +49,10 @@ export class GroupStatResponse {
 
   // @Field(() => Int)
   // rank: number
-  //
-  // @Field(() => Int)
-  // contestsAttended: number
-  //
+
+  @Field(() => Int)
+  contestsAttended: number
+
   @Field(() => Int)
   numberOfProblems: number
 }

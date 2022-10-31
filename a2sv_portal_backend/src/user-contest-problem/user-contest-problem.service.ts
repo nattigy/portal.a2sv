@@ -1,11 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserContestProblemInput } from './dto/create-user-contest-problem.input';
 import { UpdateUserContestProblemInput } from './dto/update-user-contest-problem.input';
+import {PrismaService} from "../prisma.service";
 
 @Injectable()
 export class UserContestProblemService {
+  constructor(private readonly prismaService: PrismaService) {
+  }
+
   create(createUserContestProblemInput: CreateUserContestProblemInput) {
-    return 'This action adds a new userContestProblem';
+    return this.prismaService.userContestProblem.create({
+      data: createUserContestProblemInput
+    })
   }
 
   findAll() {
@@ -16,8 +22,8 @@ export class UserContestProblemService {
     return `This action returns a #${id} userContestProblem`;
   }
 
-  update(id: number, updateUserContestProblemInput: UpdateUserContestProblemInput) {
-    return `This action updates a #${id} userContestProblem`;
+  update(updateUserContestProblemInput: UpdateUserContestProblemInput) {
+    return `This action updates a userContestProblem`;
   }
 
   remove(id: number) {

@@ -9,22 +9,81 @@ datasource db {
 }
 
 model Group {
-  id        String    @id @default(uuid())
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
-  name      String
-  country   String?
-  school    String?
-  users     User[]
-  seasons   Season[]
-  headId    String?   @unique
-  head      User?     @relation("GroupHead", fields: [headId], references: [id])
+  id            String         @id @default(uuid())
+  createdAt     DateTime?      @default(now())
+  updatedAt     DateTime?      @updatedAt
+  name          String
+  country       String?
+  school        String?
+  users         User[]
+  groupContests GroupContest[]
+  seasons       Season[]
+  headId        String?        @unique
+  head          User?          @relation("GroupHead", fields: [headId], references: [id])
+  //  UserGroupContest        UserGroupContest[]
+  //  UserGroupContestProblem UserGroupContestProblem[]
+}
+
+model GroupContest {
+  groupId           String
+  contestId         String
+  contest           Contest @relation(fields: [contestId], references: [id])
+  group             Group   @relation(fields: [groupId], references: [id])
+  contestAttendance Int     @default(0)
+
+  @@id([groupId, contestId])
+}
+
+model UserContest {
+  contestId           String
+  contest             Contest              @relation(fields: [contestId], references: [id])
+  userContestProblems UserContestProblem[]
+  userId              String
+  problemsSolved      Int                  @default(0)
+  wrongSubmissions    Int                  @default(0)
+  user                User                 @relation(fields: [userId], references: [id])
+
+  @@id([userId, contestId])
+}
+
+model UserContestProblem {
+  userId           String
+  contestId        String
+  problemId        String
+  problem          Problem                  @relation(fields: [problemId], references: [id])
+  status           UserContestProblemStatus
+  numberOfAttempts Int
+  numberOfMinutes  Int
+  userContest      UserContest?             @relation(fields: [userId, contestId], references: [userId, contestId])
+  Contest          Contest                  @relation(fields: [contestId], references: [id])
+  User             User                     @relation(fields: [userId], references: [id])
+
+  @@id([userId, contestId, problemId])
+}
+
+model Contest {
+  id                 String               @id @default(uuid())
+  name               String
+  link               String
+  div                String?
+  startTime          DateTime
+  endTime            DateTime
+  problems           Problem[]
+  groupContests      GroupContest[]
+  userContests       UserContest[]
+  userContestProblem UserContestProblem[]
 }
 
 enum SeasonType {
   CAMP
   EDUCATION
   PROJECT
+}
+
+enum UserContestProblemStatus {
+  SOLVED
+  NOT_SOLVED
+  ATTEMPTED
 }
 
 model Season {
@@ -71,6 +130,8 @@ model User {
   seasonTopicProblems SeasonTopicProblemUser[]
   headToGroup         Group?                   @relation("GroupHead")
   topics              UserTopic[]
+  userContest         UserContest[]
+  userContestProblem  UserContestProblem[]
 }
 
 enum ComfortLevel {
@@ -136,15 +197,17 @@ enum Status {
 }
 
 model Problem {
-  id           String               @id @default(uuid())
-  title        String
-  platform     String
-  link         String
-  difficulty   String
-  tags         Tag[]
-  createdAt    DateTime?            @default(now())
-  updatedAt    DateTime?            @updatedAt
-  seasonTopics SeasonTopicProblem[]
+  id                  String               @id @default(uuid())
+  title               String
+  platform            String
+  link                String
+  difficulty          String
+  tags                Tag[]
+  createdAt           DateTime?            @default(now())
+  updatedAt           DateTime?            @updatedAt
+  seasonTopics        SeasonTopicProblem[]
+  contests            Contest[]
+  userContestProblems UserContestProblem[]
 }
 
 model Tag {
@@ -187,19 +250,19 @@ model SeasonTopicProblem {
 }
 
 model SeasonTopicProblemUser {
-  problemId               String
-  topicId                 String
-  userId                  String
-  seasonId                String
-  createdAt               DateTime           @default(now())
-  updatedAt               DateTime           @updatedAt
-  seasonTopicProblem      SeasonTopicProblem @relation(fields: [topicId, problemId, seasonId], references: [topicId, problemId, seasonId])
-  user                    User               @relation(fields: [userId], references: [id])
-  solved                  Boolean            @default(false)
-  solutionLink            String?
-  attempts                Int                     @default(0)
-  timeDedicated           Int                     @default(0)
-  needHelp                Boolean                 @default(false)
+  problemId          String
+  topicId            String
+  userId             String
+  seasonId           String
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  seasonTopicProblem SeasonTopicProblem @relation(fields: [topicId, problemId, seasonId], references: [topicId, problemId, seasonId])
+  user               User               @relation(fields: [userId], references: [id])
+  solved             Boolean            @default(false)
+  solutionLink       String?
+  attempts           Int                @default(0)
+  timeDedicated      Int                @default(0)
+  needHelp           Boolean            @default(false)
 
   @@id([seasonId, topicId, problemId, userId])
 }

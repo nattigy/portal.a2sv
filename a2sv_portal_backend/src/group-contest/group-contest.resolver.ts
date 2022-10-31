@@ -3,6 +3,7 @@ import { GroupContestService } from './group-contest.service';
 import { GroupContest } from './entities/group-contest.entity';
 import { CreateGroupContestInput } from './dto/create-group-contest.input';
 import { UpdateGroupContestInput } from './dto/update-group-contest.input';
+import {GroupStatResponse} from "../group/dto/group-stat-response";
 
 @Resolver(() => GroupContest)
 export class GroupContestResolver {

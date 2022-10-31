@@ -5,28 +5,7 @@ import {UpdateGroupInput} from './dto/update-group.input'
 import {PrismaService} from '../prisma.service'
 import {Field, InputType, Int} from '@nestjs/graphql'
 import {GroupStatResponse} from "./dto/group-stat-response";
-
-@InputType()
-export class GroupWhereInput {
-  @Field(() => Int, {nullable: true})
-  id?: number
-  @Field({nullable: true})
-  name?: string
-  @Field({nullable: true})
-  country?: string
-  @Field({nullable: true})
-  school?: string
-  @Field(() => Int, {nullable: true})
-  seasonId?: number
-  @Field(() => Int, {nullable: true})
-  topicId?: number
-  @Field(() => Int, {nullable: true})
-  headId?: number
-  @Field(() => Int, {nullable: true})
-  take?: number
-  @Field(() => Int, {nullable: true})
-  skip?: number
-}
+import {GroupWhereInput} from "./dto/find-group.input";
 
 @Injectable()
 export class GroupsService {
@@ -191,9 +170,6 @@ export class GroupsService {
     const groups = await this.prismaService.group.findMany({
       include: {
         users: {
-          // select: {
-          //   id: true
-          // },
           include: {
             seasonTopicProblems: {
               select: {
@@ -205,16 +181,10 @@ export class GroupsService {
           }
         },
         seasons: {
-          // select: {
-          //   isActive: true,
-          // },
           include: {
             topics: {
               include: {
                 problems: {
-                  // select: {
-                  //   problemId: true
-                  // },
                   include: {
                     problem: true,
                   },
@@ -223,6 +193,7 @@ export class GroupsService {
             },
           },
         },
+        groupContests: true,
       }
     })
     for (let i = 0; i < groups.length; i++) {
@@ -231,6 +202,7 @@ export class GroupsService {
       let totalTimeDedicated = 0
       let numberOfTopicsCovered = 0
       let numberOfProblems = 0
+      const contestsAttended = groups[i].groupContests.length
       groups[i].users.forEach(u => {
         u.seasonTopicProblems.forEach(g => {
           if (g.solved)
@@ -259,7 +231,7 @@ export class GroupsService {
         numberOfWrongSubmissions: numberOfWrongSubmissions,
         totalTimeDedicated: totalTimeDedicated,
         numberOfProblems: numberOfProblems,
-        // contestsAttended: groups[i].id,
+        contestsAttended: contestsAttended,
         // rank: groups[i].id,
       })
     }

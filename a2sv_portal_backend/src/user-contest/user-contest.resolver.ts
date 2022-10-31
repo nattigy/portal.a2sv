@@ -25,7 +25,7 @@ export class UserContestResolver {
 
   @Mutation(() => UserContest)
   updateUserContest(@Args('updateUserContestInput') updateUserContestInput: UpdateUserContestInput) {
-    return this.userContestService.update(updateUserContestInput.id, updateUserContestInput);
+    return this.userContestService.update(updateUserContestInput);
   }
 
   @Mutation(() => UserContest)
