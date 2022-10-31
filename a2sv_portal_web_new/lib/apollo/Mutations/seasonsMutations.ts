@@ -1,17 +1,33 @@
 import { gql } from "@apollo/client";
 
-export const CREATE_PROBLEM_MUTATION = gql`
-  mutation Mutation($createProblemInput: CreateProblemInput!) {
-    createProblem(createProblemInput: $createProblemInput) {
-      difficulty
+export const CREATE_SEASON = gql`
+  mutation CreateSeason($createSeasonInput: CreateSeasonInput!) {
+    createSeason(createSeasonInput: $createSeasonInput) {
+      groupId
       id
-      link
-      platform
-      tags {
-        id
-        name
-      }
-      title
+      name
+      seasonType
+    }
+  }
+`;
+export const DELETE_SEASON = gql`
+  mutation DeleteSeason($deleteSeasonId: String!) {
+    deleteSeason(id: $deleteSeasonId) {
+      id
+      groupId
+    }
+  }
+`;
+
+export const EDIT_SEASON = gql`
+  mutation UpdateSeason(
+    $updateSeasonInput: UpdateSeasonInput!
+    $updateSeasonId: String!
+  ) {
+    updateSeason(updateSeasonInput: $updateSeasonInput, id: $updateSeasonId) {
+      id
+      name
+      seasonType
     }
   }
 `;

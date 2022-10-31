@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import BaseLayout from "../common/BaseLayout";
 import DashboardFilter from "./DashboardFilter";
 import StatComponent from "./StatComponent";
@@ -10,50 +10,57 @@ import useGroupDetail from "../../lib/hooks/useGroupDetail";
 import { GroupStudentsSidebarProps } from "./GroupStudentsSidebarItem";
 import { useReactiveVar } from "@apollo/client";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
-import { GraphqlUserRole } from "../../types/user";
-import SeasonsTab from "./SeasonsTab";
 import SeasonSidebarItem from "../seasons/SeasonSidebarItem";
-import SeasonItem, { SeasonItemProps } from "../seasons/SeasonItem";
 import SeasonList from "../seasons/SeasonList";
-import SidebarLayout from "../common/SidebarLayout";
+import { Season, SeasonType } from "../../types/season";
 
 type Props = {
   groupId: string;
 };
 
-const seasons: Array<SeasonItemProps> = [
+const seasons: Array<Season> = [
   {
-    seasonId: 1,
-    seasonName: "Camp 2021",
-    seasonDescription: "Description about the season",
-    students: [],
+    id: "1",
+    name: "Camp 2021",
+    startDate:new Date(),
+    endDate:new Date(),
+    groupId:"1",
+    seasonType:SeasonType.CAMP
+
   },
   {
-    seasonId: 2,
-    seasonName: "Camp 2021",
-    seasonDescription: "Description about the season",
-    students: [],
+    id: "2",
+    name: "Camp 2021",
+    startDate:new Date(),
+    endDate:new Date(),
+    groupId:"1",
+    seasonType:SeasonType.CAMP
+
   },
   {
-    seasonId: 3,
-    seasonName: "Camp 2021",
-    seasonDescription: "Description about the season",
-    students: [],
+    id: "3",
+    name: "Camp 2021",
+    startDate:new Date(),
+    endDate:new Date(),
+    groupId:"1",
+    seasonType:SeasonType.CAMP
+
   },
+
 ];
 
 
-const GroupInfo = (props: Props) => {
+const GroupInfo = ({groupId}: Props) => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
   const [currentPath, setCurrentPath] = useState("");
   const [tabIndex, setTabIndex] = useState(0);
   const [isAddStudentToGroupSidebarOpen, setIsAddStudentToGroupSidebarOpen] =
     useState(false);
 
-  const { data, loading, error, refetch } = useGroupDetail(props.groupId);
+  const { data, loading, error, refetch } = useGroupDetail(groupId);
   const router = useRouter();
   useEffect(() => {
-    setCurrentPath(props.groupId);
+    setCurrentPath(groupId);
     refetch();
   }, [router.pathname]);
 
@@ -74,7 +81,7 @@ const GroupInfo = (props: Props) => {
           <StatSidebar />
         ) : tabIndex == 1 ? (
           <StudentSidebar
-            groupId={props.groupId}
+            groupId={groupId}
             showStudentList={isAddStudentToGroupSidebarOpen}
             groupHead={groupHeadData}
           />
@@ -93,7 +100,7 @@ const GroupInfo = (props: Props) => {
           {tabIndex == 0 && <StatComponent groupData={data} />}
           {tabIndex == 1 && (
             <GroupStudents
-              groupId={props.groupId}
+              groupId={groupId}
               groupData={data?.group}
               isAddStudentToGroupSidebarOpen={isAddStudentToGroupSidebarOpen}
               setIsAddStudentToGroupSidebarOpen={
@@ -103,7 +110,7 @@ const GroupInfo = (props: Props) => {
           )}
           {tabIndex == 2 && (
             <div>
-              <SeasonList seasons={seasons} />
+              <SeasonList groupId={groupId} />
             </div>
           )}
         </div>
