@@ -1,15 +1,15 @@
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { ImMakeGroup } from "react-icons/im";
 import { getSVGIcon } from "../../helpers/getSVGPath";
 import CustomLink from "./CustomLink";
 
-type Props = {};
+type Props = {
+  routes: string[];
+};
 
-const HOARoleSidebar = (props: Props) => {
+const LeftSidebar = (props: Props) => {
   const [activePath, setActivePath] = useState("");
-  const routes: string[] = ["/dashboard", "/users", "/contests", "/settings"];
   const router = useRouter();
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const HOARoleSidebar = (props: Props) => {
   return (
     <nav className="flex-1 space-y-2">
       <>
-        {routes.map((route,index) => {
+        {props.routes.map((route, index) => {
           return (
             <CustomLink key={index} href={route}>
               <a
@@ -52,4 +52,4 @@ const HOARoleSidebar = (props: Props) => {
   );
 };
 
-export default HOARoleSidebar;
+export default LeftSidebar;

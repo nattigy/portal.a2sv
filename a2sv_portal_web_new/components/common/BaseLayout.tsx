@@ -4,15 +4,14 @@ import { useRouter } from "next/router";
 import { useReactiveVar } from "@apollo/client";
 import useLogout from "../../lib/hooks/useLogout";
 import authenticatedVar, {
-  authenticatedUser, hasNetworkError,
+  authenticatedUser,
+  hasNetworkError,
 } from "../../lib/constants/authenticated";
 import { useApollo } from "../../lib/apollo/apolloClient";
 import { GraphqlUserRole } from "../../types/user";
-import StudentRoleSidebar from "./StudentRoleSidebar";
-import HOARoleSidebar from "./HOARoleSidebar";
-import HOERoleSidebar from "./HOERoleSidebar";
 import NetworkErrorToaster from "../modals/NetworkErrorToaster";
 import SidebarLayout from "./SidebarLayout";
+import LeftSidebar from "./LeftSidebar";
 interface LayoutProps extends WithChildren {
   sidebar?: ReactNode;
 }
@@ -20,8 +19,6 @@ interface LayoutProps extends WithChildren {
 const StudentLayout = ({ sidebar, children }: LayoutProps) => {
   const [activePath, setActivePath] = useState("");
   const authUser = useReactiveVar(authenticatedUser);
-
-
 
   const apolloClient = useApollo({});
   const [logout] = useLogout();
@@ -40,7 +37,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
       await logout({
         errorPolicy: "all",
         variables: {},
-        onError: (error) => { },
+        onError: (error) => {},
         onCompleted: async () => {
           authenticatedUser({});
           authenticatedVar(false);
@@ -68,16 +65,56 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
     const userRole: string = user.role;
     switch (userRole) {
       case GraphqlUserRole.STUDENT: {
-        return <StudentRoleSidebar />;
+        return (
+          <LeftSidebar
+            routes={[
+              "/dashboard",
+              "/seasons",
+              "/users",
+              "/contests",
+              "/settings",
+            ]}
+          />
+        );
       }
       case GraphqlUserRole.HEAD_OF_EDUCATION: {
-        return <HOERoleSidebar />;
+        return (
+          <LeftSidebar
+            routes={[
+              "/dashboard",
+              "/seasons",
+              "/users",
+              "/contests",
+              "/settings",
+            ]}
+          />
+        );
       }
       case GraphqlUserRole.HEAD_OF_ACADEMY: {
-        return <HOARoleSidebar />;
+        return (
+          <LeftSidebar
+            routes={[
+              "/dashboard",
+              "/problems",
+              "/users",
+              "/contests",
+              "/settings",
+            ]}
+          />
+        );
       }
       default: {
-        return <StudentRoleSidebar />;
+        return (
+          <LeftSidebar
+            routes={[
+              "/dashboard",
+              "/seasons",
+              "/users",
+              "/contests",
+              "/settings",
+            ]}
+          />
+        );
       }
     }
   };
@@ -162,9 +199,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
           {/* <div className="flex lg:hidden">{sidebar}</div> */}
         </div>
       </main>
-      {sidebar && (
-        <SidebarLayout sidebarItems={sidebar} />
-      )}
+      {sidebar && <SidebarLayout sidebarItems={sidebar} />}
     </div>
   );
 };
