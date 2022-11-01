@@ -35,16 +35,16 @@ const UsersList = ({ users, selected, setSelected }: Props) => {
       <LoaderSmall />
     </div>
   ) : (
-    <div>
+    <div className="">
       {chars.split("").map((letter, index) => {
         return (
           res[letter] && (
-            <div key={index} className="my-10">
+            <div key={index} className="my-10 ">
               <p className="font-semibold text-2xl  text-black ">{letter}</p>
-              <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4">
+              <div className="w-full grid  grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 ">
                 {res[letter].map((user, index) => (
                   <div
-                    className="cursor-pointer"
+                    className="cursor-pointer min-w-max w-full relative"
                     onClick={() => setSelected(user.id || "")}
                     key={index}
                   >

@@ -37,7 +37,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
       await logout({
         errorPolicy: "all",
         variables: {},
-        onError: (error) => {},
+        onError: (error) => { },
         onCompleted: async () => {
           authenticatedUser({});
           authenticatedVar(false);
@@ -120,7 +120,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
   };
 
   return (
-    <div className="relative flex flex-1 bg-[#F6F6FC] min-h-screen max-h-screen overflow-y-hidden">
+    <div className="relative flex flex-1 bg-[#F6F6FC] min-h-screen max-h-screen overflow-hidden">
       <NetworkErrorToaster />
       <div className="w-16 sm:w-20 md:w-24 md:flex-col justify-between">
         <div className="min-h-full flex flex-col  flex-grow py-5 overflow-y-auto bg-white">
@@ -194,7 +194,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
         </div>
       </div>
       <main className="flex flex-col flex-1 min-h-screen max-h-screen no-scrollbar overflow-auto">
-        <div className="bg-[#F6F6FC] p-4 max-w-full relative sm:px-6 md:px-8 h-full">
+        <div className="bg-[#F6F6FC] p-2 max-w-full relative sm:px-5 md:px-8 h-full">
           {children}
           {/* <div className="flex lg:hidden">{sidebar}</div> */}
         </div>

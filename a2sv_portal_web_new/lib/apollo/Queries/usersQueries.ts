@@ -31,6 +31,11 @@ export const GET_ALL_USER_QUERY = gql`
       group {
         id
       }
+      userProfile {
+        id
+        firstName
+        lastName
+      }
     }
   }
 `;
@@ -42,6 +47,10 @@ export const GET_FILTERED_USERS = gql`
       id
       role
       status
+      userProfile {
+        firstName
+        lastName
+      }
     }
   }
 `;
@@ -56,6 +65,11 @@ export const GET_USERS_BY_GROUP_ID_QUERY = gql`
         country
         school
       }
+      userProfile {
+        id
+        firstName
+        lastName
+      }
     }
   }
 `;
@@ -66,6 +80,11 @@ export const GET_STUDENTS_WITH_NO_GROUP_QUERY = gql`
       id
       email
       role
+      userProfile {
+        id
+        firstName
+        lastName
+      }
     }
   }
 `;
