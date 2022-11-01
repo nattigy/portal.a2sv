@@ -1,6 +1,8 @@
 import {Field, Int, ObjectType, registerEnumType} from '@nestjs/graphql';
 import {Problem} from "../../problem/entities/problem.entity";
 import {UserContest} from "../../user-contest/entities/user-contest.entity";
+import {Contest} from "../../contest/entities/contest.entity";
+import {User} from "../../user/entities/user.entity";
 
 @ObjectType()
 export class UserContestProblem {
@@ -12,6 +14,10 @@ export class UserContestProblem {
   problemId: string
   @Field(() => Problem)
   problem: Problem
+  @Field(() => User)
+  user: User
+  @Field(() => Contest)
+  contest: Contest
   @Field(() => UserContestProblemEnum)
   status: UserContestProblemEnum
   @Field(() => Int)

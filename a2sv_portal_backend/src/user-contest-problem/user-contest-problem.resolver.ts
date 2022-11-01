@@ -8,10 +8,10 @@ import { UpdateUserContestProblemInput } from './dto/update-user-contest-problem
 export class UserContestProblemResolver {
   constructor(private readonly userContestProblemService: UserContestProblemService) {}
 
-  @Mutation(() => UserContestProblem)
-  createUserContestProblem(@Args('createUserContestProblemInput') createUserContestProblemInput: CreateUserContestProblemInput) {
-    return this.userContestProblemService.create(createUserContestProblemInput);
-  }
+  // @Mutation(() => UserContestProblem)
+  // createUserContestProblem(@Args('createUserContestProblemInput') createUserContestProblemInput: CreateUserContestProblemInput) {
+  //   return this.userContestProblemService.create(createUserContestProblemInput);
+  // }
 
   @Query(() => [UserContestProblem], { name: 'userContestProblem' })
   findAll() {

@@ -22,7 +22,7 @@ export class UserContestService {
     return `This action returns a #${id} userContest`;
   }
 
-  update({userId, contestId, ...updates}: UpdateUserContestInput) {
+  async update({userId, contestId, ...updates}: UpdateUserContestInput) {
     return this.prismaService.userContest.upsert({
       where: {
         userId_contestId: {
@@ -33,12 +33,12 @@ export class UserContestService {
       create: {
         contest: {
           connect: {
-            id: userId
+            id: contestId
           }
         },
         user: {
           connect: {
-            id: contestId
+            id: userId
           }
         }
       },

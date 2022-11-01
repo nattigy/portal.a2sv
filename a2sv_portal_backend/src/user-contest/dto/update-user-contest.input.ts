@@ -1,10 +1,9 @@
-import { CreateUserContestInput } from './create-user-contest.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import {Field, InputType} from '@nestjs/graphql';
 
 @InputType()
-export class UpdateUserContestInput extends PartialType(CreateUserContestInput) {
+export class UpdateUserContestInput {
   @Field()
   contestId: string
-  @Field(() => String)
+  @Field()
   userId: string
 }

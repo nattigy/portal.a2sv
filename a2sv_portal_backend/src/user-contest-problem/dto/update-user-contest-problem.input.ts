@@ -1,9 +1,8 @@
-import { CreateUserContestProblemInput } from './create-user-contest-problem.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import {Field, InputType, Int} from '@nestjs/graphql';
 import {UserContestProblemEnum} from "../entities/user-contest-problem.entity";
 
 @InputType()
-export class UpdateUserContestProblemInput extends PartialType(CreateUserContestProblemInput) {
+export class UpdateUserContestProblemInput {
   @Field(() => String)
   userId: string
   @Field(() => String)

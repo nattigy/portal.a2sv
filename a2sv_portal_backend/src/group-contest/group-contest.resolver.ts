@@ -4,24 +4,31 @@ import { GroupContest } from './entities/group-contest.entity';
 import { CreateGroupContestInput } from './dto/create-group-contest.input';
 import { UpdateGroupContestInput } from './dto/update-group-contest.input';
 import {GroupStatResponse} from "../group/dto/group-stat-response";
+import {FindGroupContestInput} from "./dto/find-group-contest.input";
+import { GroupContestStat } from './dto/group-contest-stat-response';
 
 @Resolver(() => GroupContest)
 export class GroupContestResolver {
   constructor(private readonly groupContestService: GroupContestService) {}
 
-  @Mutation(() => GroupContest)
-  createGroupContest(@Args('createGroupContestInput') createGroupContestInput: CreateGroupContestInput) {
-    return this.groupContestService.create(createGroupContestInput);
-  }
+  // @Mutation(() => GroupContest)
+  // createGroupContest(@Args('createGroupContestInput') createGroupContestInput: CreateGroupContestInput) {
+  //   return this.groupContestService.create(createGroupContestInput);
+  // }
 
-  @Query(() => [GroupContest], { name: 'groupContest' })
-  findAll() {
-    return this.groupContestService.findAll();
+  // @Query(() => [GroupContest], { name: 'groupContests' })
+  // async findAll() {
+  //   return this.groupContestService.findAll();
+  // }
+
+  @Query(() => GroupContestStat)
+  async groupContestStat(@Args('findGroupContestInput') findGroupContestInput: FindGroupContestInput): Promise<GroupContestStat> {
+    return this.groupContestService.groupContestStat(findGroupContestInput);
   }
 
   @Query(() => GroupContest, { name: 'groupContest' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.groupContestService.findOne(id);
+  async findOne(@Args('findGroupContestInput') findGroupContestInput: FindGroupContestInput) {
+    return this.groupContestService.findOne(findGroupContestInput);
   }
 
   @Mutation(() => GroupContest)

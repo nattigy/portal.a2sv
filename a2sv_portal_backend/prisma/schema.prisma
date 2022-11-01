@@ -20,8 +20,6 @@ model Group {
   seasons       Season[]
   headId        String?        @unique
   head          User?          @relation("GroupHead", fields: [headId], references: [id])
-  //  UserGroupContest        UserGroupContest[]
-  //  UserGroupContestProblem UserGroupContestProblem[]
 }
 
 model GroupContest {
@@ -55,8 +53,8 @@ model UserContestProblem {
   numberOfAttempts Int
   numberOfMinutes  Int
   userContest      UserContest?             @relation(fields: [userId, contestId], references: [userId, contestId])
-  Contest          Contest                  @relation(fields: [contestId], references: [id])
-  User             User                     @relation(fields: [userId], references: [id])
+  contest          Contest                  @relation(fields: [contestId], references: [id])
+  user             User                     @relation(fields: [userId], references: [id])
 
   @@id([userId, contestId, problemId])
 }
@@ -71,7 +69,7 @@ model Contest {
   problems           Problem[]
   groupContests      GroupContest[]
   userContests       UserContest[]
-  userContestProblem UserContestProblem[]
+  userContestProblems UserContestProblem[]
 }
 
 enum SeasonType {
