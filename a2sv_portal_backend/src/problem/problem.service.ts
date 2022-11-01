@@ -14,9 +14,9 @@ export class ProblemService {
         const {tags, ...problem} = createProblemInput
         const problemTags = tags.map(async ({name}) => {
             const tag = await this.prismaService.tag.upsert({
-                where: {name},
-                update: {name},
-                create: {name},
+                where: {name: name.toUpperCase()},
+                update: {name: name.toUpperCase()},
+                create: {name: name.toUpperCase()},
             })
             return {id: tag.id}
         })
