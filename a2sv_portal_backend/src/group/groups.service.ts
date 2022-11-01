@@ -144,29 +144,15 @@ export class GroupsService {
   }
 
   async getGroupsStat(): Promise<GroupStatResponse[]> {
-    // Topics_Coverage = sum_of_each_topic’s_coverage_in_percent / total_topics
-    /*
-        id: number
-        name: string
-        createdAt: Date
-        country?: string
-        school?: string
-        numberOfStudents: number
-        numberOfTopicsCovered: number
-        topicsCoverage: number
-        numberOfAcceptedSubmissions: number
-        numberOfWrongSubmissions: number
-        totalTimeDedicated: number
-        rank: number
-        contestsAttended: number
-        numberOfProblems: number
-    * */
     const groupStatResponses: GroupStatResponse[] = []
     const topics = await this.prismaService.topic.findMany({
       select: {
         id: true
       }
     })
+    if (!topics) {
+      throw new NotFoundException(`No topics found`)
+    }
     const groups = await this.prismaService.group.findMany({
       include: {
         users: {
@@ -196,6 +182,9 @@ export class GroupsService {
         groupContests: true,
       }
     })
+    if (!groups) {
+      throw new NotFoundException(`No groups found`)
+    }
     for (let i = 0; i < groups.length; i++) {
       let numberOfAcceptedSubmissions = 0
       let numberOfWrongSubmissions = 0
