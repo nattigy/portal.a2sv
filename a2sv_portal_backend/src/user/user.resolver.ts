@@ -82,12 +82,11 @@ export class UserResolver {
     'STUDENT',
   )
   @Query(() => User, { name: 'user' })
-  async findOne(@Args('id', { type: () => Int }) id: string) {
+  async findOne(@Args('id') id: string) {
     // const {...needed, password} = user
     try {
       return await this.userService.findOne(id)
     } catch (e) {
-      console.log(e)
       return e.message
     }
   }
