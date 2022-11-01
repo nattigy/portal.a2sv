@@ -192,6 +192,6 @@ export class UserResolver {
 
     @Query(() => TopicCoverageStat)
     topicStudentStats(@Args('topicStudentStateInput', {type: () => TopicStudentStatInput}) topicStudentStatInput: TopicStudentStatInput) {
-        return this.userService.topicStudentStats(topicStudentStatInput)
+        return this.userService.studentTopicStats(topicStudentStatInput)
     }
 }

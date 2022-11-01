@@ -20,6 +20,13 @@ export class StudentStat {
     totalTimeDedicated: number
     @Field(() => Float)
     uncomfortablity: number
+    @Field(() => Int)
+    easyCount: number
+    @Field(() => Int)
+    mediumCount: number
+    @Field(() => Int)
+    hardCount: number
+
 }
 
 @InputType()
@@ -337,6 +344,9 @@ export class UserService {
         let uncomfortablity = 100
         let acceptanceRate = 0
         let totalQuestions = 0
+        let easyCount = 0;
+        let mediumCount = 0;
+        let hardCount = 0
 
         for (const season of seasons) {
             for (const topic of season.topics) {
@@ -344,7 +354,19 @@ export class UserService {
                 for (const p of topic.problems) {
                     for (const userProblem of p.users) {
                         if (userProblem.userId === id) {
-                            if (userProblem.solved) numberOfCorrectSubmissions++
+                            if (userProblem.solved) {
+                                numberOfCorrectSubmissions++
+                                switch (userProblem.seasonTopicProblem.problem.difficulty.toUpperCase()) {
+                                    case 'EASY':
+                                        easyCount++
+                                        break
+                                    case 'HARD':
+                                        hardCount++
+                                        break
+                                    default:
+                                        mediumCount++
+                                }
+                            }
                             totalAttempts += userProblem.attempts
                             totalTimeDedicated += userProblem.timeDedicated
                             if (userProblem.needHelp) unableToSolve++
@@ -368,12 +390,15 @@ export class UserService {
             numberOfCorrectSubmissions,
             numberOfIncorrectSubmissions,
             totalTimeDedicated,
-            uncomfortablity
+            uncomfortablity,
+            easyCount,
+            mediumCount,
+            hardCount
         } as StudentStat
 
     }
 
-    async topicStudentStats({studentId, seasonId}: TopicStudentStatInput): Promise<TopicCoverageStat> {
+    async studentTopicStats({studentId, seasonId}: TopicStudentStatInput): Promise<TopicCoverageStat> {
         const eachTopicCoverageStat = []
         let totalTopicCoverage = 0
         let totalNumberOfTopics = 0
@@ -408,6 +433,7 @@ export class UserService {
 
             eachTopicCoverageStat.push({
                 topicId: seasonTopic.topicId,
+                questionCoverage: 0,
                 topicCoverage: (numberOfSolvedProblems / totalTopicQuestions) * 100
             })
             sumOfEachTopicsCoverage += eachTopicCoverageStat[seasonTopic.topicId]
