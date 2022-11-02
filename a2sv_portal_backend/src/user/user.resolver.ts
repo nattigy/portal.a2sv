@@ -1,11 +1,11 @@
 import {
-  Resolver,
-  Query,
-  Mutation,
   Args,
   Int,
-  ResolveField,
+  Mutation,
   Parent,
+  Query,
+  ResolveField,
+  Resolver,
 } from '@nestjs/graphql'
 import { UserService } from './user.service'
 import { User } from './entities/user.entity'
@@ -18,7 +18,7 @@ import { GroupsService } from 'src/group/groups.service'
 import { Group } from 'src/group/entities/group.entity'
 import { UserTopic } from '../user-topic/entities/user-topic.entity'
 import { ComfortLevel } from './entities/comfort-level.enum'
-import {SeasonTopicProblemUser} from "../season-topic-problem-user/entities/season-topic-problem-user.entity";
+import { SeasonTopicProblemUser } from '../season-topic-problem-user/entities/season-topic-problem-user.entity'
 
 @Resolver(() => User)
 export class UserResolver {

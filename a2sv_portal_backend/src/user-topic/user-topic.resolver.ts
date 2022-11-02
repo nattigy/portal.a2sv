@@ -1,11 +1,10 @@
 import {
-  Resolver,
-  Query,
-  Mutation,
   Args,
-  Int,
-  ResolveField,
+  Mutation,
   Parent,
+  Query,
+  ResolveField,
+  Resolver,
 } from '@nestjs/graphql'
 import { UserTopicService } from './user-topic.service'
 import { UserTopic } from './entities/user-topic.entity'

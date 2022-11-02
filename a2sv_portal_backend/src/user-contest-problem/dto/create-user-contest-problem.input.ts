@@ -1,7 +1,5 @@
-import {Field, InputType, Int} from '@nestjs/graphql';
-import {UserContestProblemEnum} from "../entities/user-contest-problem.entity";
-import {Problem} from "../../problem/entities/problem.entity";
-import {UserContest} from "../../user-contest/entities/user-contest.entity";
+import { Field, InputType, Int } from '@nestjs/graphql'
+import { UserContestProblemEnum } from '../entities/user-contest-problem.entity'
 
 @InputType()
 export class CreateUserContestProblemInput {

@@ -1,5 +1,4 @@
-import { Field, InputType, Int, PartialType } from '@nestjs/graphql'
-import { UpdateGroupInput } from 'src/group/dto/update-group.input'
+import { Field, InputType, PartialType } from '@nestjs/graphql'
 import { CreateTopicInput } from './create-topic.input'
 
 @InputType()

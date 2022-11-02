@@ -1,9 +1,9 @@
-import {registerEnumType} from "@nestjs/graphql";
+import { registerEnumType } from '@nestjs/graphql'
 
 export enum SeasonType {
-    CAMP = 'CAMP',
-    EDUCATION = 'EDUCATION',
-    PROJECT = 'PROJECT'
+  CAMP = 'CAMP',
+  EDUCATION = 'EDUCATION',
+  PROJECT = 'PROJECT',
 }
 
-registerEnumType(SeasonType, {name: 'SeasonType'})
+registerEnumType(SeasonType, { name: 'SeasonType' })

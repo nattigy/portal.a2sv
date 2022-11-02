@@ -1,5 +1,5 @@
 import { CreateUserTopicInput } from './create-user-topic.input'
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql'
+import { Field, InputType, PartialType } from '@nestjs/graphql'
 
 @InputType()
 export class UpdateUserTopicInput extends PartialType(CreateUserTopicInput) {

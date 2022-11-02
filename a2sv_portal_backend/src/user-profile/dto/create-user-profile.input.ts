@@ -1,4 +1,4 @@
-import { InputType, Int, Field } from '@nestjs/graphql'
+import { Field, InputType, Int } from '@nestjs/graphql'
 import { PartialType } from '@nestjs/mapped-types'
 import { UserProfile } from '../entities/user-profile.entity'
 

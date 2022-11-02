@@ -1,7 +1,7 @@
-import { Field, ID, Int, ObjectType } from '@nestjs/graphql'
+import { Field, ObjectType } from '@nestjs/graphql'
 import { User } from 'src/user/entities/user.entity'
-import {Season} from "../../season/entities/season.entity";
-import {GroupContest} from "../../group-contest/entities/group-contest.entity";
+import { Season } from '../../season/entities/season.entity'
+import { GroupContest } from '../../group-contest/entities/group-contest.entity'
 
 @ObjectType()
 export class Group {

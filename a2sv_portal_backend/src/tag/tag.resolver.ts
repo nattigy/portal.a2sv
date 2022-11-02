@@ -1,11 +1,11 @@
 import {
-  Resolver,
-  Query,
-  Mutation,
   Args,
   Int,
-  ResolveField,
+  Mutation,
   Parent,
+  Query,
+  ResolveField,
+  Resolver,
 } from '@nestjs/graphql'
 import { TagService } from './tag.service'
 import { Tag } from './entities/tag.entity'

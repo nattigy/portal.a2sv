@@ -1,8 +1,8 @@
-import {Field, InputType, Int, PartialType} from '@nestjs/graphql'
-import {CreateSeasonInput} from './create-season.input'
+import { Field, InputType, PartialType } from '@nestjs/graphql'
+import { CreateSeasonInput } from './create-season.input'
 
 @InputType()
 export class UpdateSeasonInput extends PartialType(CreateSeasonInput) {
-    @Field()
-    id: string
+  @Field()
+  id: string
 }

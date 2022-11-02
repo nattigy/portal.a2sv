@@ -7,4 +7,5 @@ export enum RoleEnum {
   ASSISTANT = 'ASSISTANT',
   ADMIN = 'ADMIN',
 }
+
 registerEnumType(RoleEnum, { name: 'RoleEnum' })

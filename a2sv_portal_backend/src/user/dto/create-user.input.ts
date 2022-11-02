@@ -1,26 +1,24 @@
-import {InputType, Int, Field, registerEnumType} from '@nestjs/graphql'
-import {Status} from '@prisma/client'
-import {UpdateGroupInput} from 'src/group/dto/update-group.input'
-import {RoleEnum} from '@prisma/client'
+import { Field, InputType, registerEnumType } from '@nestjs/graphql'
+import { RoleEnum, Status } from '@prisma/client'
 
 @InputType()
 export class CreateUserInput {
-    @Field({})
-    email: string
+  @Field({})
+  email: string
 
-    @Field({})
-    password: string
+  @Field({})
+  password: string
 
-    @Field(() => RoleEnum, {defaultValue: RoleEnum.STUDENT})
-    role: RoleEnum
+  @Field(() => RoleEnum, { defaultValue: RoleEnum.STUDENT })
+  role: RoleEnum
 
-    @Field({nullable: true})
-    groupId?: string
+  @Field({ nullable: true })
+  groupId?: string
 
-    @Field(() => Status, {nullable: true, defaultValue: 'ACTIVE'})
-    status?: Status
+  @Field(() => Status, { nullable: true, defaultValue: 'ACTIVE' })
+  status?: Status
 }
 
 registerEnumType(Status, {
-    name: 'Status',
+  name: 'Status',
 })

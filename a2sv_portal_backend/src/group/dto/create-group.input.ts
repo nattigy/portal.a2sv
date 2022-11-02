@@ -1,13 +1,13 @@
-import {Field, InputType} from '@nestjs/graphql'
+import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
 export class CreateGroupInput {
   @Field()
   name: string
-  @Field({nullable: true})
+  @Field({ nullable: true })
   country?: string
-  @Field({nullable: true})
+  @Field({ nullable: true })
   school?: string
-  @Field({nullable: true})
+  @Field({ nullable: true })
   headId?: string
 }

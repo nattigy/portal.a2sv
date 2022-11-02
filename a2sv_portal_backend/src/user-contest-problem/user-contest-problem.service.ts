@@ -1,13 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserContestProblemInput } from './dto/create-user-contest-problem.input';
-import { UpdateUserContestProblemInput } from './dto/update-user-contest-problem.input';
-import {PrismaService} from "../prisma.service";
-import {UserContestProblemEnum} from "./entities/user-contest-problem.entity";
+import { Injectable } from '@nestjs/common'
+import { UpdateUserContestProblemInput } from './dto/update-user-contest-problem.input'
+import { PrismaService } from '../prisma.service'
 
 @Injectable()
 export class UserContestProblemService {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   // create(createUserContestProblemInput: CreateUserContestProblemInput) {
   //   return this.prismaService.userContestProblem.create({
@@ -16,14 +13,19 @@ export class UserContestProblemService {
   // }
 
   findAll() {
-    return `This action returns all userContestProblem`;
+    return `This action returns all userContestProblem`
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} userContestProblem`;
+    return `This action returns a #${id} userContestProblem`
   }
 
-  async update({userId, contestId, problemId, ...update}: UpdateUserContestProblemInput) {
+  async update({
+    userId,
+    contestId,
+    problemId,
+    ...update
+  }: UpdateUserContestProblemInput) {
     return this.prismaService.userContestProblem.upsert({
       include: {
         problem: true,
@@ -35,33 +37,33 @@ export class UserContestProblemService {
           userId,
           contestId,
           problemId,
-        }
+        },
       },
       create: {
         contest: {
           connect: {
-            id: contestId
-          }
+            id: contestId,
+          },
         },
         user: {
           connect: {
-            id: userId
-          }
+            id: userId,
+          },
         },
         problem: {
           connect: {
-            id: problemId
-          }
+            id: problemId,
+          },
         },
         numberOfAttempts: update.numberOfAttempts,
         numberOfMinutes: update.numberOfMinutes,
         status: update.status,
       },
       update: update,
-    });
+    })
   }
 
   remove(id: number) {
-    return `This action removes a #${id} userContestProblem`;
+    return `This action removes a #${id} userContestProblem`
   }
 }

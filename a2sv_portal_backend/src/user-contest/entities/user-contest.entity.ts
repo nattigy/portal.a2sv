@@ -1,8 +1,7 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
-import {GroupContest} from "../../group-contest/entities/group-contest.entity";
-import {User} from "../../user/entities/user.entity";
-import {UserContestProblem} from "../../user-contest-problem/entities/user-contest-problem.entity";
-import {Contest} from "../../contest/entities/contest.entity";
+import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { User } from '../../user/entities/user.entity'
+import { UserContestProblem } from '../../user-contest-problem/entities/user-contest-problem.entity'
+import { Contest } from '../../contest/entities/contest.entity'
 
 @ObjectType()
 export class UserContest {
@@ -13,9 +12,9 @@ export class UserContest {
   @Field(() => String)
   userId: string
   @Field(() => Int)
-  problemsSolved:number
+  problemsSolved: number
   @Field(() => Int)
-  wrongSubmissions:number
+  wrongSubmissions: number
   @Field(() => User)
   user: User
   @Field(() => Contest)

@@ -1,11 +1,11 @@
 import {
-  Resolver,
-  Query,
-  Mutation,
   Args,
   Int,
-  ResolveField,
+  Mutation,
   Parent,
+  Query,
+  ResolveField,
+  Resolver,
 } from '@nestjs/graphql'
 import { ProblemService } from './problem.service'
 import { Problem } from './entities/problem.entity'
@@ -13,7 +13,7 @@ import { CreateProblemInput } from './dto/create-problem.input'
 import { UpdateProblemInput } from './dto/update-problem.input'
 import { Tag } from '@prisma/client'
 import { Roles } from 'src/auth/auth.decorator'
-import {SeasonTopicProblem} from "../season-topic-problem/entities/season-topic-problem.entity";
+import { SeasonTopicProblem } from '../season-topic-problem/entities/season-topic-problem.entity'
 
 @Resolver(() => Problem)
 export class ProblemResolver {

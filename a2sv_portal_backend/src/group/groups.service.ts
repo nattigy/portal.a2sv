@@ -1,16 +1,14 @@
-import {Injectable, NotFoundException} from '@nestjs/common'
-import {CreateGroupInput} from './dto/create-group.input'
-import {Group} from './entities/group.entity'
-import {UpdateGroupInput} from './dto/update-group.input'
-import {PrismaService} from '../prisma.service'
-import {Field, InputType, Int} from '@nestjs/graphql'
-import {GroupStatResponse} from "./dto/group-stat-response";
-import {GroupWhereInput} from "./dto/find-group.input";
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { CreateGroupInput } from './dto/create-group.input'
+import { Group } from './entities/group.entity'
+import { UpdateGroupInput } from './dto/update-group.input'
+import { PrismaService } from '../prisma.service'
+import { GroupStatResponse } from './dto/group-stat-response'
+import { GroupWhereInput } from './dto/find-group.input'
 
 @Injectable()
 export class GroupsService {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async createGroup(createGroupInput: CreateGroupInput): Promise<Group> {
     return this.prismaService.group.create({
@@ -19,7 +17,7 @@ export class GroupsService {
         head: true,
         seasons: {
           include: {
-            topics: true
+            topics: true,
           },
         },
       },
@@ -49,7 +47,7 @@ export class GroupsService {
   }
 
   async getGroups(filter?: GroupWhereInput): Promise<Group[]> {
-    const {skip, take, topicId, ...where} = filter || {}
+    const { skip, take, topicId, ...where } = filter || {}
     return this.prismaService.group.findMany({
       skip,
       take,
@@ -65,8 +63,8 @@ export class GroupsService {
                     problem: true,
                   },
                 },
-              }
-            }
+              },
+            },
           },
         },
       },
@@ -119,15 +117,15 @@ export class GroupsService {
     }
 
     return this.prismaService.group.update({
-      where: {id: id},
+      where: { id: id },
       data: queryData,
       include: {
         seasons: {
           include: {
             topics: {
               include: {
-                problems: true
-              }
+                problems: true,
+              },
             },
           },
         },
@@ -139,7 +137,7 @@ export class GroupsService {
 
   async deleteGroup(id: string): Promise<Group> {
     return this.prismaService.group.delete({
-      where: {id},
+      where: { id },
     })
   }
 
@@ -147,8 +145,8 @@ export class GroupsService {
     const groupStatResponses: GroupStatResponse[] = []
     const topics = await this.prismaService.topic.findMany({
       select: {
-        id: true
-      }
+        id: true,
+      },
     })
     if (!topics) {
       throw new NotFoundException(`No topics found`)
@@ -162,9 +160,9 @@ export class GroupsService {
                 attempts: true,
                 solved: true,
                 timeDedicated: true,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         seasons: {
           include: {
@@ -175,12 +173,12 @@ export class GroupsService {
                     problem: true,
                   },
                 },
-              }
+              },
             },
           },
         },
         groupContests: true,
-      }
+      },
     })
     if (!groups) {
       throw new NotFoundException(`No groups found`)
@@ -192,18 +190,16 @@ export class GroupsService {
       let numberOfTopicsCovered = 0
       let numberOfProblems = 0
       const contestsAttended = groups[i].groupContests.length
-      groups[i].users.forEach(u => {
-        u.seasonTopicProblems.forEach(g => {
-          if (g.solved)
-            numberOfAcceptedSubmissions += 1
+      groups[i].users.forEach((u) => {
+        u.seasonTopicProblems.forEach((g) => {
+          if (g.solved) numberOfAcceptedSubmissions += 1
           numberOfWrongSubmissions += g.attempts
           totalTimeDedicated += g.timeDedicated
         })
       })
-      groups[i].seasons.forEach(s => {
-        if (s.isActive)
-          numberOfTopicsCovered += s.topics.length
-        s.topics.forEach(t => {
+      groups[i].seasons.forEach((s) => {
+        if (s.isActive) numberOfTopicsCovered += s.topics.length
+        s.topics.forEach((t) => {
           numberOfProblems += t.problems.length
         })
       })
@@ -215,7 +211,9 @@ export class GroupsService {
         school: groups[i].school,
         numberOfStudents: groups[i].users?.length,
         numberOfTopicsCovered: numberOfTopicsCovered,
-        topicsCoverage: topics.length ? (numberOfTopicsCovered / topics.length) * 100 : 0,
+        topicsCoverage: topics.length
+          ? (numberOfTopicsCovered / topics.length) * 100
+          : 0,
         numberOfAcceptedSubmissions: numberOfAcceptedSubmissions,
         numberOfWrongSubmissions: numberOfWrongSubmissions,
         totalTimeDedicated: totalTimeDedicated,

@@ -1,14 +1,16 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
-import {UpdateGroupContestInput} from './dto/update-group-contest.input';
-import {PrismaService} from "../prisma.service";
-import {FindGroupContestInput} from "./dto/find-group-contest.input";
-import {GroupContestStat, ProblemsStat} from './dto/group-contest-stat-response';
-import {UserContestProblemEnum} from "../user-contest-problem/entities/user-contest-problem.entity";
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { UpdateGroupContestInput } from './dto/update-group-contest.input'
+import { PrismaService } from '../prisma.service'
+import { FindGroupContestInput } from './dto/find-group-contest.input'
+import {
+  GroupContestStat,
+  ProblemsStat,
+} from './dto/group-contest-stat-response'
+import { UserContestProblemEnum } from '../user-contest-problem/entities/user-contest-problem.entity'
 
 @Injectable()
 export class GroupContestService {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   // create(createGroupContestInput: CreateGroupContestInput) {
   //   return this.prismaService.groupContest.create({
@@ -20,20 +22,23 @@ export class GroupContestService {
   //   return ""
   // }
 
-  async groupContestStat({groupId, contestId}: FindGroupContestInput): Promise<GroupContestStat> {
+  async groupContestStat({
+    groupId,
+    contestId,
+  }: FindGroupContestInput): Promise<GroupContestStat> {
     const problemStats: ProblemsStat[] = []
     const groupContestStat: GroupContestStat = {
       contestAttendance: 0,
       contestId: contestId,
       groupId: groupId,
-      problemsStat: problemStats
+      problemsStat: problemStats,
     }
     const groupContest = await this.prismaService.groupContest.findUnique({
       where: {
         groupId_contestId: {
           groupId,
-          contestId
-        }
+          contestId,
+        },
       },
       include: {
         contest: {
@@ -42,14 +47,14 @@ export class GroupContestService {
               include: {
                 userContestProblems: {
                   include: {
-                    problem: true
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                    problem: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     })
     //Number of students solved a problem {problemId: numberOfStudents}
     const probSolved: { [key: string]: number } = {}
@@ -62,20 +67,16 @@ export class GroupContestService {
       throw new NotFoundException(`No groups and contests found`)
     }
 
-    groupContest.contest.userContests.map(uc => {
+    groupContest.contest.userContests.map((uc) => {
       let problemsSolved = 0
       let wrongSubmissions = 0
-      uc.userContestProblems.map(up => {
+      uc.userContestProblems.map((up) => {
         if (up.status == UserContestProblemEnum.SOLVED) {
           problemsSolved += 1
-          if (!userProb[up.userId])
-            probSolved[up.problemId] = 1
-          else
-            probSolved[up.problemId] += 1
-          if (!userProb[up.userId])
-            userProb[up.userId] = 1
-          else
-            userProb[up.userId] += 1
+          if (!userProb[up.userId]) probSolved[up.problemId] = 1
+          else probSolved[up.problemId] += 1
+          if (!userProb[up.userId]) userProb[up.userId] = 1
+          else userProb[up.userId] += 1
         }
         wrongSubmissions += up.numberOfAttempts
       })
@@ -83,28 +84,26 @@ export class GroupContestService {
       uc.wrongSubmissions = wrongSubmissions
     })
     for (const [, value] of Object.entries(userProb)) {
-      if (!probsNum[value])
-        probsNum[value] = 1
-      else
-        probsNum[value] += 1
+      if (!probsNum[value]) probsNum[value] = 1
+      else probsNum[value] += 1
     }
     for (const [key, value] of Object.entries(probsNum)) {
       problemStats.push({
         numberOfProblems: parseInt(key, 10),
         numberOfStudents: value,
-        problems: []
+        problems: [],
       })
     }
     return groupContestStat
   }
 
-  async findOne({contestId, groupId}: FindGroupContestInput) {
+  async findOne({ contestId, groupId }: FindGroupContestInput) {
     const groupContest = await this.prismaService.groupContest.findUnique({
       where: {
         groupId_contestId: {
           contestId,
-          groupId
-        }
+          groupId,
+        },
       },
       include: {
         group: true,
@@ -112,22 +111,22 @@ export class GroupContestService {
           include: {
             userContests: {
               include: {
-                userContestProblems: true
-              }
-            }
-          }
-        }
-      }
+                userContestProblems: true,
+              },
+            },
+          },
+        },
+      },
     })
     groupContest.contestAttendance = groupContest.contest.userContests.length
     return groupContest
   }
 
   update(id: number, updateGroupContestInput: UpdateGroupContestInput) {
-    return `This action updates a #${id} groupContest`;
+    return `This action updates a #${id} groupContest`
   }
 
   remove(id: number) {
-    return `This action removes a #${id} groupContest`;
+    return `This action removes a #${id} groupContest`
   }
 }
