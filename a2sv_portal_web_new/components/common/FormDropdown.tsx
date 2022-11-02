@@ -18,7 +18,7 @@ type Props = {
 
 const FormDropdown = (props: Props) => {
   return (
-    <div className=" rounded-full w-full h-8 flex flex-shrink-0 justify-start items-center relative">
+    <div className=" rounded-full w-full h-8 flex flex-shrink-0 justify-start items-center relative outline-none focus:outline-none appearance-none">
       {props.icon}
       <Field
         as="select"

@@ -7,45 +7,95 @@ import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormRejectButton from "../common/FormRejectButton";
 import FormField from "../common/FormField";
 import { BiCalendar } from "react-icons/bi";
+import { ApolloError, useMutation } from "@apollo/client";
+import {
+  CREATE_SEASON,
+  EDIT_SEASON,
+} from "../../lib/apollo/Mutations/seasonsMutations";
+import { Season, SeasonType } from "../../types/season";
+import FormDropdown from "../common/FormDropdown";
 
 interface FormValues {
-  season_name: string;
-  start_date: string;
-  end_date: string;
+  name: string;
+  type: string;
+  startDate: string;
+  endDate: string;
 }
 
 type Props = {
   isEditing: boolean;
-  values?: FormValues;
+  season?: Season;
+  groupId?: string;
   onClose: () => void;
 };
 
-const SeasonModal = (props: Props) => {
+const SeasonModal = ({ isEditing, season, onClose, groupId }: Props) => {
   const [errorMessage, setErrorMessage] = useState("");
+  const [createSeason] = useMutation(CREATE_SEASON);
+  const [editSeason] = useMutation(EDIT_SEASON);
   const initialValues: FormValues = {
-    season_name: "",
-    start_date: "",
-    end_date: "",
+    type: season?.seasonType || "",
+    name: season?.name || "",
+    startDate: season?.startDate.toString() || "",
+    endDate: season?.endDate.toString() || "",
   };
   const FORM_VALIDATION = yup.object().shape({
-    season_name: yup.string().required("Required"),
-    start_date: yup.string().required("Required"),
-    end_date: yup.string().required("Required"),
+    name: yup.string().required("Required"),
+    startDate: yup.string().required("Required"),
+    endDate: yup.string().required("Required"),
+    type: yup.string().required("Required"),
   });
 
   return (
     <>
       <div className=" transition-all duration-200 py-8 text-[#565656] w-screen h-screen absolute top-0 bottom-0 left-0 right-0 bg-gray-900 bg-opacity-30 z-50">
         <Formik
-          initialValues={props.values ? props.values : initialValues}
+          initialValues={initialValues}
           validationSchema={FORM_VALIDATION}
-          onSubmit={() => {}}
-          // onSubmit={async (values, actions) => {
-          //   // is
-
-          //   //
-
-          // }}
+          onSubmit={async (values, actions) => {
+            if (!isEditing) {
+              await createSeason({
+                variables: {
+                  createSeasonInput: {
+                    name: values.name,
+                    groupId: groupId,
+                    seasonType: values.type,
+                    endDate: values.endDate,
+                    startDate: values.startDate,
+                  },
+                },
+                refetchQueries: "active",
+                notifyOnNetworkStatusChange: true,
+                onCompleted: (data) => {
+                  onClose();
+                },
+                onError: (error) => {
+                  setErrorMessage((error as ApolloError).message);
+                },
+              });
+            } else {
+              await editSeason({
+                variables: {
+                  updateSeasonId: season?.id,
+                  updateSeasonInput: {
+                    endDate: values.endDate,
+                    id: season?.id,
+                    name: values.name,
+                    seasonType: values.type,
+                    startDate: values.startDate,
+                  },
+                },
+                refetchQueries: "active",
+                notifyOnNetworkStatusChange: true,
+                onCompleted: (data) => {
+                  onClose();
+                },
+                onError: (error) => {
+                  setErrorMessage((error as ApolloError).message);
+                },
+              });
+            }
+          }}
         >
           {({ setFieldValue, isSubmitting, values, errors, touched }) => (
             <Form>
@@ -53,21 +103,17 @@ const SeasonModal = (props: Props) => {
                 role="alert"
                 className="flex flex-col gap-y-3 min-h-[400px] bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-8 py-5"
               >
+                {JSON.stringify(errors)}
                 <div className="w-full flex flex-col">
                   <div className="my-3 w-full flex justify-between items-center">
-                    {props.isEditing ? (
-                      <h2 className="font-semibold text-lg">
-                        {props.values?.season_name}
-                      </h2>
+                    {isEditing ? (
+                      <h2 className="font-semibold text-lg">{season?.name}</h2>
                     ) : (
                       <h2 className="font-semibold text-lg">
                         Create New Season
                       </h2>
                     )}
-                    <div
-                      className="cursor-pointer"
-                      onClick={() => props.onClose()}
-                    >
+                    <div className="cursor-pointer" onClick={() => onClose()}>
                       <svg
                         className="font-bold text-gray-600"
                         width={24}
@@ -94,7 +140,7 @@ const SeasonModal = (props: Props) => {
                     </div>
                   </div>
                   <div className="w-full flex flex-col items-center">
-                    {props.isEditing ? (
+                    {isEditing ? (
                       <p className="tracking-wider text-md text-start text-[#949494]">
                         You can edit the information related to the season. Make
                         sure to save inorder to see the changes.
@@ -115,13 +161,42 @@ const SeasonModal = (props: Props) => {
                       <div className="flex flex-col justify-start">
                         <div className="flex items-center">
                           <FormField
-                            id="season_name"
-                            name="season_name"
+                            id="name"
+                            name="name"
                             placeholder="Name"
-                            error={errors.season_name}
-                            touched={touched.season_name}
+                            error={errors.name}
+                            touched={touched.name}
                           />
                         </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col justify-start gap-y-4 w-full">
+                      <div className="w-full flex flex-col items-center">
+                        <div className="w-full flex justify-between items-center">
+                          <h2 className="font-semibold text-lg">Season Type</h2>
+                        </div>
+                      </div>
+                      <div className="flex items-center">
+                        <FormDropdown
+                          name="type"
+                          placeholder="Select Season"
+                          error={errors.type}
+                          touched={touched.type}
+                          options={[
+                            {
+                              name: "Camp",
+                              value: SeasonType.CAMP,
+                            },
+                            {
+                              name: "Education",
+                              value: SeasonType.EDUCATION,
+                            },
+                            {
+                              name: "Project",
+                              value: SeasonType.PROJECT,
+                            },
+                          ]}
+                        />
                       </div>
                     </div>
                     <div className="w-full flex flex-row gap-x-12 my-2">
@@ -136,18 +211,18 @@ const SeasonModal = (props: Props) => {
                               className="w-full text-xs placeholder-[#767676] placeholder:text-xs rounded-md focus:outline-none border py-3 px-4"
                               name="start"
                               maxDate={
-                                values["end_date"]
-                                  ? new Date(values["end_date"])
+                                values["endDate"]
+                                  ? new Date(values["endDate"])
                                   : null
                               }
                               placeholderText="Enter Start Date"
                               selected={
-                                values["start_date"]
-                                  ? new Date(values["start_date"])
+                                values["startDate"]
+                                  ? new Date(values["startDate"])
                                   : null
                               }
                               onChange={(e: any) =>
-                                setFieldValue("start_date", e)
+                                setFieldValue("startDate", e)
                               }
                               shouldCloseOnSelect={false}
                               dateFormat="MMMM dd, yyyy"
@@ -171,19 +246,17 @@ const SeasonModal = (props: Props) => {
                               className="w-full text-xs placeholder-[#767676] rounded-md focus:outline-none border py-3 px-4"
                               name="end"
                               minDate={
-                                values["start_date"]
-                                  ? new Date(values["start_date"])
+                                values["startDate"]
+                                  ? new Date(values["startDate"])
                                   : null
                               }
                               placeholderText="Enter End Date"
                               selected={
-                                values["end_date"]
-                                  ? new Date(values["end_date"])
+                                values["endDate"]
+                                  ? new Date(values["endDate"])
                                   : null
                               }
-                              onChange={(e: any) =>
-                                setFieldValue("end_date", e)
-                              }
+                              onChange={(e: any) => setFieldValue("endDate", e)}
                               shouldCloseOnSelect={false}
                               dateFormat="MMMM dd, yyyy"
                               adjustDateOnChange
@@ -205,10 +278,7 @@ const SeasonModal = (props: Props) => {
                     </div>
                   )}
                   <div className="flex justify-end items-center gap-x-3">
-                    <FormRejectButton
-                      text="Cancel"
-                      onClick={() => props.onClose()}
-                    />
+                    <FormRejectButton text="Cancel" onClick={() => onClose()} />
                     <FormAffirmativeButton
                       isLoading={isSubmitting}
                       text="Save"

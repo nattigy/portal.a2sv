@@ -8,22 +8,23 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import DeletePopupModal from "../modals/DeletePopupModal";
 import SeasonModal from "../modals/SeasonModal";
-
-export type SeasonItemProps = {
-  seasonId: number;
-  seasonName: string;
-  seasonDescription: string;
-  students: [];
-};
+import { Season } from "../../types/season";
+import { ApolloError, useMutation } from "@apollo/client";
+import { DELETE_SEASON } from "../../lib/apollo/Mutations/seasonsMutations";
+import WithPermission from "../../lib/Guard/WithPermission";
+import { GraphqlUserRole } from "../../types/user";
 
 type Props = {
-  seasonProps: SeasonItemProps;
+  seasonProps: Season;
 };
 
 const SeasonItem = ({ seasonProps }: Props) => {
   const [isSeasonMenuOpen, setIsSeasonMenuOpen] = useState<boolean>(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [deleteSeason, { loading }] = useMutation(DELETE_SEASON);
 
   const handleEditModalOpen = () => {
     setIsEditModalOpen(true);
@@ -42,7 +43,7 @@ const SeasonItem = ({ seasonProps }: Props) => {
   ];
 
   const router = useRouter();
-  
+
   const handleClick = (e: any) => {
     router.push({
       pathname: `/seasons/${name}`,
@@ -53,38 +54,65 @@ const SeasonItem = ({ seasonProps }: Props) => {
   return (
     <>
       {isEditModalOpen && (
-        <SeasonModal isEditing onClose={() => setIsEditModalOpen(false)} />
+        <SeasonModal
+          isEditing
+          onClose={() => setIsEditModalOpen(false)}
+          season={seasonProps}
+        />
       )}
       {isDeleteModalOpen && (
         <DeletePopupModal
           title="Delete Season"
           description="This will delete this season"
+          errorMessage={errorMessage}
+          isLoading={loading}
           onClose={() => setIsDeleteModalOpen(false)}
-          onDelete={()=>{}}
+          onDelete={async () => {
+            await deleteSeason({
+              variables: {
+                deleteSeasonId: seasonProps.id,
+              },
+              notifyOnNetworkStatusChange: true,
+              refetchQueries: "active",
+              onCompleted: (data) => {
+                setIsDeleteModalOpen(false);
+              },
+              onError: (error) => {
+                setErrorMessage((error as ApolloError).message);
+              },
+            });
+          }}
         />
       )}
-      <Link  href={"/seasons/" + seasonProps.seasonName}>
+      <Link href={"/seasons/" + seasonProps.name}>
         <div className="cursor-pointer">
           <div className="h-36 relative">
             <div className="absolute top-2 right-2 z-30 ">
-              <MenuItem
-                menuItems={[
-                  {
-                    title: "Edit Season",
-                    onClick: (e: any) => {
-                      e.stopPropagation();
-                      handleEditModalOpen();
-                    },
-                  },
-                  {
-                    title: "Delete Season",
-                    onClick: (e: any) => {
-                      e.stopPropagation();
-                      handleDeleteModalOpen();
-                    },
-                  },
+              <WithPermission
+                allowedRoles={[
+                  GraphqlUserRole.HEAD_OF_ACADEMY,
+                  GraphqlUserRole.HEAD_OF_EDUCATION,
                 ]}
-              />
+              >
+                <MenuItem
+                  menuItems={[
+                    {
+                      title: "Edit Season",
+                      onClick: (e: any) => {
+                        e.stopPropagation();
+                        handleEditModalOpen();
+                      },
+                    },
+                    {
+                      title: "Delete Season",
+                      onClick: (e: any) => {
+                        e.stopPropagation();
+                        handleDeleteModalOpen();
+                      },
+                    },
+                  ]}
+                />
+              </WithPermission>
             </div>
             <div className="h-full w-full bg-gradient-to-t from-black/75 absolute z-10"></div>
             <Image
@@ -96,9 +124,9 @@ const SeasonItem = ({ seasonProps }: Props) => {
             <div className="flex flex-col justify-between gap-y-2 absolute z-20 h-full p-4">
               <div className="rounded-t-md">
                 <h1 className="text-md font-semibold text-white">
-                  {seasonProps.seasonName}
+                  {seasonProps.name}
                 </h1>
-                <h1 className="text-white">{seasonProps.seasonDescription}</h1>
+                <h1 className="text-white">{seasonProps.name}</h1>
               </div>
               <div className="flex gap-x-2">
                 <div className="p-2 w-20 bg-[#E4E3F0] rounded-md text-sm text-primary text-center">

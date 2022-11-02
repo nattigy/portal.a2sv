@@ -78,9 +78,9 @@ const TopicModal = (props: Props) => {
                 await addTopicToGroupAndSeason({
                   variables: {
                     addTopicToGroupInput: {
-                      groupId: parseInt(props.groupId?.toString()),
-                      seasonId: parseInt(props.seasonId?.toString()),
-                      topicId: parseInt(existingTopic?.id?.toString()),
+                      groupId: props.groupId,
+                      seasonId: props.seasonId,
+                      topicId: existingTopic?.id,
                     },
                   },
                   refetchQueries: "active",

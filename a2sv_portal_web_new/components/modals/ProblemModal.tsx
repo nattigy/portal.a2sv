@@ -112,7 +112,6 @@ const ProblemModal = (props: Props) => {
             } else {
               setIsLoading(true);
               if (existingProblem === null) {
-                console.log("values", values);
                 await createNewProblem({
                   variables: {
                     createProblemInput: {
@@ -128,18 +127,17 @@ const ProblemModal = (props: Props) => {
                   refetchQueries: "active",
                   notifyOnNetworkStatusChange: true,
                   onCompleted: async (data) => {
-                    console.log(data);
                     await addExistingProblem({
                       variables: {
                         updateGroupTopicSeasonInput: {
-                          groupId: parseInt(props.groupId.toString()),
-                          seasonId: parseInt(props.seasonId.toString()),
-                          topicId: parseInt(props.topicId.toString()),
+                          groupId: props.groupId.toString,
+                          seasonId: props.seasonId.toString(),
+                          topicId: props.topicId.toString(),
                           problems: [
                             {
-                              problemId: parseInt(
-                                data.createProblem.id.toString()
-                              ),
+                              problemId: 
+                                data.createProblem.id
+                              ,
                             },
                           ],
                         },
@@ -147,14 +145,10 @@ const ProblemModal = (props: Props) => {
                       refetchQueries: "active",
                       notifyOnNetworkStatusChange: true,
                       onCompleted: (data) => {
-                        console.log("SUCCESS", data);
-                        setIsLoading(false);
                         props.onClose();
                       },
                       onError: (error) => {
-                        console.log("error", error);
                         setErrorMessage((error as ApolloError).message);
-                        setIsLoading(false);
                       },
                     });
                     props.onClose();
@@ -168,12 +162,12 @@ const ProblemModal = (props: Props) => {
                 await addExistingProblem({
                   variables: {
                     updateGroupTopicSeasonInput: {
-                      groupId: parseInt(props.groupId.toString()),
-                      seasonId: parseInt(props.seasonId.toString()),
-                      topicId: parseInt(props.topicId.toString()),
+                      groupId: props.groupId.toString(),
+                      seasonId: props.seasonId.toString(),
+                      topicId: props.topicId.toString(),
                       problems: [
                         {
-                          problemId: parseInt(existingProblem.id.toString()),
+                          problemId: existingProblem.id.toString(),
                         },
                       ],
                     },

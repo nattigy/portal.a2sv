@@ -54,6 +54,8 @@ const GroupItem = (props: GroupItemProps) => {
       {isDeleteModalOpen && (
         <DeletePopupModal
           title="Delete Group"
+          errorMessage=""
+          isLoading={false}
           description="This will delete the problem from problem set"
           onClose={() => setIsDeleteModalOpen(false)}
           onDelete={()=>{}}

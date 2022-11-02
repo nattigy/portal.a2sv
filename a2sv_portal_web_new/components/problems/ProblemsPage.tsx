@@ -72,6 +72,8 @@ const ProblemsPage = (props: ProblemsPageProps) => {
       {isDeleteModalOpen && (
         <DeletePopupModal
           title="Delete Topic"
+          errorMessage=""
+          isLoading = {false}
           description="This will delete the topic from topic set"
           onClose={() => setIsDeleteModalOpen(false)}
           onDelete={()=>{}}

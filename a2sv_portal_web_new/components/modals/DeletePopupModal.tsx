@@ -9,8 +9,10 @@ import { BiTrash } from "react-icons/bi";
 type Props = {
   onClose: () => void;
   onDelete: () => void;
+  isLoading:boolean;
   title: string;
   description: string;
+  errorMessage:string;
 };
 
 const DeletePopupModal = (props: Props) => {
@@ -42,11 +44,19 @@ const DeletePopupModal = (props: Props) => {
                   onClick={() => props.onClose()}
                 />
                 <Button
+                  isLoading={props.isLoading}
                   text="Delete"
                   onClick={() => props.onDelete()}
                   classname="text-white bg-[#D72B2B] font-semibold text-sm h-10"
                 />
               </div>
+              {props.errorMessage && (
+                    <div className="bg-[#E4646451] py-1 rounded-md">
+                      <span className="text-[#E46464] px-4 text-xs">
+                        {props.errorMessage}
+                      </span>
+                    </div>
+                  )}
             </div>
           </div>
         </div>

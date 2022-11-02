@@ -194,7 +194,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
         </div>
       </div>
       <main className="flex flex-col flex-1 min-h-screen max-h-screen no-scrollbar overflow-auto">
-        <div className="bg-[#F6F6FC] p-4 max-w-full relative sm:px-6 md:px-8 h-full">
+        <div className="bg-[#F6F6FC] p-4 max-w-full sm:px-6 md:px-8 h-full">
           {children}
           {/* <div className="flex lg:hidden">{sidebar}</div> */}
         </div>
