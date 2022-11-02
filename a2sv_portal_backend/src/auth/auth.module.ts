@@ -7,8 +7,6 @@ import { JwtModule } from '@nestjs/jwt'
 import { jwtConstants } from './auth.constants'
 import { LocalStrategy } from './strategies/local.strategy'
 import { JwtStrategy } from './strategies/jwt.strategy'
-import { GqlAuthGuard } from './guards/gql-auth.guard'
-import { RolesGuard } from './guards/role.guard'
 
 @Module({
   imports: [

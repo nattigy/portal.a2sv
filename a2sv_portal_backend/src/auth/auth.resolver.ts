@@ -4,8 +4,7 @@ import { LoginInput } from './dto/login-input.dto'
 import { CreateUserInput } from '../user/dto/create-user.input'
 import { SignupOutput } from './dto/signup-output.dto'
 import { LoginOutput } from './dto/login-output.dto'
-import { Res, UseGuards } from '@nestjs/common'
-import { GqlAuthGuard } from './guards/gql-auth.guard'
+import { UseGuards } from '@nestjs/common'
 import { Response } from 'express'
 import { User } from '../user/entities/user.entity'
 import { CurrentUser, Public } from './auth.decorator'
@@ -25,6 +24,7 @@ export class AuthResolver {
     const { accessToken, userId } = await this.authService.login(context)
     return { accessToken, userId }
   }
+
   @Public()
   @Mutation(() => SignupOutput)
   async signUp(
