@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import BaseLayout from "../../components/common/BaseLayout";
 import EmptyState from "../../components/common/EmptyState";
 import { LoaderSmall } from "../../components/common/Loaders";
@@ -26,6 +26,8 @@ const UsersPage = (props: Props) => {
   const [loadUsers, { loading, data, error, refetch }] =
     useFilteredUsers(tabIndex);
   const [selected, setSelected] = useState<string | null>(null);
+  const [userSearchText, setUserSearchText] = useState<string>("")
+  const [filteredUsersData, setFilteredUsersData] = useState([])
 
   useEffect(() => {
     loadUsers();
@@ -36,6 +38,7 @@ const UsersPage = (props: Props) => {
     if (data) {
       console.log("data is ", data.users[0]);
       setUsersData(data?.users);
+      setFilteredUsersData(data?.users)
       setSelected(data?.users[0]?.id);
     }
   }, [refetch, data]);
@@ -58,6 +61,32 @@ const UsersPage = (props: Props) => {
   const handleTabChange = (index: number) => {
     setTabIndex(index);
   };
+  const filterUser = useCallback(
+    () => {
+      setFilteredUsersData(prevUsersData => {
+        return prevUsersData.filter((user: any) => {
+          return user.email.toLowerCase().includes(userSearchText.toLowerCase())
+            || user.userProfile?.firstName.toLowerCase().includes(userSearchText.toLowerCase())
+            || user.userProfile?.lastName.toLowerCase().includes(userSearchText.toLowerCase())
+        });
+      })
+    },
+    [userSearchText],
+  )
+
+
+  useEffect(() => {
+    if (userSearchText !== "") {
+      filterUser()
+    } else {
+      setFilteredUsersData(usersData)
+    }
+  }, [userSearchText])
+
+
+  const handleSearchUser = (query: string) => {
+    setUserSearchText(query)
+  }
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -71,6 +100,7 @@ const UsersPage = (props: Props) => {
       <div className="flex flex-col relative">
         <h1 className="text-2xl font-bold mb-2">Users</h1>
         <UsersFilter
+          handleSearchUser={handleSearchUser}
           handleModalOpen={handleModalOpen}
           handleTabChange={handleTabChange}
           activeIndex={tabIndex}
@@ -81,11 +111,11 @@ const UsersPage = (props: Props) => {
           </div>
         ) : error ? <p>Something went wrong</p> : (
           <>
-            {usersData?.length > 0 && selected !== null ? (
+            {filteredUsersData?.length > 0 && selected !== null ? (
               <UsersList
                 selected={selected}
                 setSelected={setSelected}
-                users={usersData}
+                users={filteredUsersData}
               />
             ) : (
               <EmptyState />
