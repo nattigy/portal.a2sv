@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { Field, ID, Int, ObjectType } from '@nestjs/graphql'
 
 @ObjectType()
 export class GroupStatResponse {
@@ -49,10 +49,10 @@ export class GroupStatResponse {
 
   // @Field(() => Int)
   // rank: number
-
-  @Field(() => Int)
-  contestsAttended: number
-
-  @Field(() => Int)
-  numberOfProblems: number
+  //
+  // @Field(() => Int)
+  // contestsAttended: number
+  //
+  // @Field(() => Int)
+  // numberOfProblems: number
 }

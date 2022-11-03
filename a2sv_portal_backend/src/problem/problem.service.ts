@@ -3,6 +3,7 @@ import { CreateProblemInput } from './dto/create-problem.input'
 import { UpdateProblemInput } from './dto/update-problem.input'
 import { PrismaService } from '../prisma.service'
 import { Problem } from '@prisma/client'
+import { TagService } from '../tag/tag.service'
 
 @Injectable()
 export class ProblemService {

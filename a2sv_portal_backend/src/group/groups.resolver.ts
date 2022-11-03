@@ -1,5 +1,6 @@
 import {
   Args,
+  Int,
   Mutation,
   Parent,
   Query,
@@ -11,10 +12,9 @@ import { User } from 'src/user/entities/user.entity'
 import { CreateGroupInput } from './dto/create-group.input'
 import { UpdateGroupInput } from './dto/update-group.input'
 import { Group } from './entities/group.entity'
-import { GroupsService } from './groups.service'
+import { GroupsService, GroupWhereInput } from './groups.service'
 import { Season } from '../season/entities/season.entity'
 import { GroupStatResponse } from './dto/group-stat-response'
-import { GroupWhereInput } from './dto/find-group.input'
 
 @Resolver(() => Group)
 export class GroupsResolver {
@@ -108,7 +108,7 @@ export class GroupsResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Query(() => [GroupStatResponse])
+  @ResolveField(() => [GroupStatResponse], { nullable: true })
   async getGroupsStat(): Promise<GroupStatResponse[]> {
     return this.groupsService.getGroupsStat()
   }

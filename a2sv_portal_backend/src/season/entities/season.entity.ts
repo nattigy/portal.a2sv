@@ -1,4 +1,4 @@
-import { Field, GraphQLISODateTime, ObjectType } from '@nestjs/graphql'
+import { Field, ObjectType, GraphQLISODateTime } from '@nestjs/graphql'
 import { Group } from '../../group/entities/group.entity'
 import { SeasonTopic } from '../../season-topic/entities/season-topic.entity'
 import { SeasonType } from '@prisma/client'
@@ -15,8 +15,8 @@ export class Season {
   group?: Group
   @Field()
   seasonType: SeasonType
-  @Field({ defaultValue: false })
-  isActive: boolean
+  @Field()
+  isActive?: boolean
   @Field(() => [SeasonTopic], { nullable: true })
   topics?: SeasonTopic[]
   @Field(() => GraphQLISODateTime)
