@@ -3,13 +3,16 @@ import AutoCompleteField from "../../components/users/HOEAutocomplete";
 import AutoCompleteSearch from "../../components/topics/TopicsAutocomplete";
 import BaseLayout from "../../components/common/BaseLayout";
 import Button from "../../components/common/Button";
-import { SeasonItemProps } from "../../components/seasons/SeasonItem";
 import SeasonList from "../../components/seasons/SeasonList";
 import SeasonSidebarItem from "../../components/seasons/SeasonSidebarItem";
 import SeasonModal from "../../components/modals/SeasonModal";
 import { useGetGroupSeasons } from "../../lib/hooks/useSeasons";
 import { useReactiveVar } from "@apollo/client";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
+import { LoaderSmall } from "../../components/common/Loaders";
+import EmptyState from "../../components/common/EmptyState";
+import { GraphqlUserRole } from "../../types/user";
+import WithPermission from "../../lib/Guard/WithPermission";
 
 const IndexPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -18,55 +21,44 @@ const IndexPage = () => {
     setIsModalOpen(true);
   };
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
-  const {data,loading,error} = useGetGroupSeasons(authUser?.headToGroup?.id);
 
-
-  const seasons: Array<SeasonItemProps> = [
-    {
-      seasonId: 1,
-      seasonName: "Camp 2021",
-      seasonDescription: "Description about the season",
-      students: [],
-    },
-    {
-      seasonId: 2,
-      seasonName: "Camp 2021",
-      seasonDescription: "Description about the season",
-      students: [],
-    },
-    {
-      seasonId: 3,
-      seasonName: "Camp 2021",
-      seasonDescription: "Description about the season",
-      students: [],
-    },
-  ];
   const Sidebar: React.FC = () => {
     return <SeasonSidebarItem />;
   };
 
   return (
     <BaseLayout sidebar={<Sidebar />}>
-      {isModalOpen && <SeasonModal isEditing={false} onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <SeasonModal
+          groupId={authUser?.headToGroup?.id}
+          isEditing={false}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
       <div className="flex flex-col gap-y-4">
         <div className="flex items-center justify-between rounded-md">
           <h1 className="font-bold text-2xl">Season</h1>
           <div className="flex gap-x-2">
-            <Button
-              onClick={handleModalOpen}
-              text="Create New"
-              classname="bg-primary text-white text-xs"
-            />
+            <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_ACADEMY,GraphqlUserRole.HEAD_OF_EDUCATION]}>
+              <Button
+                onClick={handleModalOpen}
+                text="Create New"
+                classname="bg-primary text-white text-xs"
+              />
+              </WithPermission>
+
           </div>
         </div>
+
         <div className="flex flex-col gap-y-4">
           <h1 className="font-semibold text-md">Current</h1>
-          <SeasonList seasons={seasons} />
+            <SeasonList groupId={authUser.headToGroup?.id || authUser.groupId} />
         </div>
-        <div className="flex flex-col gap-y-4">
+
+        {/* <div className="flex flex-col gap-y-4">
           <h1 className="font-semibold text-md">Previous</h1>
-          <SeasonList seasons={seasons} />
-        </div>
+          <SeasonList seasons={data?.group?.seasons} />
+        </div> */}
       </div>
     </BaseLayout>
   );

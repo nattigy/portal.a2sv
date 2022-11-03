@@ -56,11 +56,11 @@ const mockUsers = [
     createdAt: "2022-10-04T14:07:55.152Z",
     email: "student@a2sv.org",
     group: null,
-    groupId: null,
+    groupId: "f882ded1-fa77-4ce1-bd96-febc6d8a2fe4",
     groupTopicProblems: [],
     groupTopicSeasonProblems: [],
     headToGroup: null,
-    id: "2",
+    id: null,
     role: "STUDENT",
     status: "ACTIVE",
     topics: [
@@ -84,7 +84,7 @@ const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
   if (!user || error) {
     const mockUser = mockUsers[0];
     user = {
-      getMe: mockUser
+      getMe: mockUser,
     };
     authenticatedUser(mockUser);
     authenticatedVar(true);
