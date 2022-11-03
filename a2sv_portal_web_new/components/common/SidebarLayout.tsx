@@ -9,12 +9,11 @@ const SidebarLayout = (props: Props) => {
     const [sidebarHandler, setSidebarHandler] = useState<boolean>(true)
     return (
         <div className={clsx(
-            "bg-white flex min-h-screen md:w-72 drop-shadow-xl relative z-[100]",
+            "bg-white flex min-h-screen lg:w-72 drop-shadow-xl relative z-[100]",
         )}>
-
             <div className={
                 clsx(
-                    "w-full p-5 absolute right-0 md:relative shadow md:h-full flex-col justify-between hidden md:flex ",
+                    "w-full p-5 absolute right-0 lg:relative shadow lg:h-full flex-col justify-between hidden lg:flex ",
                 )
             }
             >
@@ -23,7 +22,7 @@ const SidebarLayout = (props: Props) => {
 
             <div className={
                 clsx(
-                    "w-72 z-40 absolute p-5 right-0 md:relative bg-white shadow md:h-full flex-col justify-between md:hidden transition duration-150 ease-in-out",
+                    "w-72 z-40 absolute p-5 right-0 lg:relative bg-white shadow lg:h-full flex-col justify-between lg:hidden transition duration-150 ease-in-out",
                     sidebarHandler ? "transition duration-150  ease-in-out translate-x-72" : ""
                 )
             } id="mobile-nav">
@@ -57,7 +56,7 @@ const SidebarLayout = (props: Props) => {
                 >
                     <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/light_with_icons_at_bottom_alternate_style-svg7.svg" alt="toggler" />
                 </div>
-                <div className="min-h-screen md:hidden ">
+                <div className="min-h-screen lg:hidden ">
                     {props.sidebarItems}
                 </div>
             </div>

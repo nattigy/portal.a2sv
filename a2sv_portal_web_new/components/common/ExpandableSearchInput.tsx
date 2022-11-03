@@ -10,7 +10,10 @@ type Props = {
 
 const ExpandableSearchInput = (props: Props) => {
     return (
-        <div className="relative mx-auto w-max">
+        <div className={clsx(
+            "relative w-max",
+            props.className
+        )}>
             <input type="search"
                 placeholder={props.placeholder}
                 name={props.name}
