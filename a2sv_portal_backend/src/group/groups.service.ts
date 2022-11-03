@@ -1,36 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
-import { CreateGroupInput } from './dto/create-group.input'
-import { Group } from './entities/group.entity'
-import { UpdateGroupInput } from './dto/update-group.input'
-import { PrismaService } from '../prisma.service'
-import { Field, InputType, Int } from '@nestjs/graphql'
-import { GroupStatResponse } from './dto/group-stat-response'
-
-@InputType()
-export class GroupWhereInput {
-  @Field(() => Int, { nullable: true })
-  id?: number
-  @Field({ nullable: true })
-  name?: string
-  @Field({ nullable: true })
-  country?: string
-  @Field({ nullable: true })
-  school?: string
-  @Field(() => Int, { nullable: true })
-  seasonId?: number
-  @Field(() => Int, { nullable: true })
-  topicId?: number
-  @Field(() => Int, { nullable: true })
-  headId?: number
-  @Field(() => Int, { nullable: true })
-  take?: number
-  @Field(() => Int, { nullable: true })
-  skip?: number
-}
+import {Injectable, NotFoundException} from '@nestjs/common'
+import {CreateGroupInput} from './dto/create-group.input'
+import {Group} from './entities/group.entity'
+import {UpdateGroupInput} from './dto/update-group.input'
+import {PrismaService} from '../prisma.service'
+import {GroupStatResponse} from './dto/group-stat-response'
+import {GroupWhereInput} from './dto/find-group.input'
+import {GroupsPaginated, GroupsUsersPaginated} from './dto/groups-return-dto'
 
 @Injectable()
 export class GroupsService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async createGroup(createGroupInput: CreateGroupInput): Promise<Group> {
     return this.prismaService.group.create({
@@ -77,7 +57,7 @@ export class GroupsService {
   }
 
   async getGroups(filter?: GroupWhereInput): Promise<Group[]> {
-    const { skip, take, topicId, ...where } = filter || {}
+    const {skip, take, topicId, ...where} = filter || {}
     return this.prismaService.group.findMany({
       skip,
       take,
@@ -99,6 +79,65 @@ export class GroupsService {
         },
       },
     })
+  }
+
+  async groupsPagination(filter?: GroupWhereInput): Promise<GroupsPaginated> {
+    const {skip, take, topicId, ...where} = filter || {}
+    const groups = await this.prismaService.group.findMany({
+      skip,
+      take,
+      include: {
+        users: true,
+        head: true,
+        seasons: {
+          include: {
+            topics: {
+              include: {
+                problems: {
+                  include: {
+                    problem: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    })
+
+    const groupsUsersPaginated: GroupsUsersPaginated[] = []
+
+    for (let i = 0; i < groups.length; i++) {
+      const users = (
+        await this.prismaService.group.findUnique({
+          where: {
+            id: groups[i].id,
+          },
+          include: {
+            users: true,
+          },
+        })
+      ).users
+      groupsUsersPaginated.push({
+        group: groups[i],
+        pageInfo: {
+          skip: 0,
+          userCount: users.length,
+          limit: 3,
+          count: 0,
+        },
+      })
+    }
+
+    return {
+      items: groupsUsersPaginated,
+      pageInfo: {
+        skip,
+        limit: take,
+        count: groups.length,
+        userCount: 0,
+      },
+    }
   }
 
   async updateGroup(updateGroupInput: UpdateGroupInput): Promise<Group> {
@@ -147,7 +186,7 @@ export class GroupsService {
     }
 
     return this.prismaService.group.update({
-      where: { id: id },
+      where: {id: id},
       data: queryData,
       include: {
         seasons: {
@@ -167,34 +206,20 @@ export class GroupsService {
 
   async deleteGroup(id: string): Promise<Group> {
     return this.prismaService.group.delete({
-      where: { id },
+      where: {id},
     })
   }
 
   async getGroupsStat(): Promise<GroupStatResponse[]> {
-    // Topics_Coverage = sum_of_each_topic’s_coverage_in_percent / total_topics
-    /*
-            id: number
-            name: string
-            createdAt: Date
-            country?: string
-            school?: string
-            numberOfStudents: number
-            numberOfTopicsCovered: number
-            topicsCoverage: number
-            numberOfAcceptedSubmissions: number
-            numberOfWrongSubmissions: number
-            totalTimeDedicated: number
-            rank: number
-            contestsAttended: number
-            numberOfProblems: number
-        * */
     const groupStatResponses: GroupStatResponse[] = []
     const topics = await this.prismaService.topic.findMany({
       select: {
         id: true,
       },
     })
+    if (!topics) {
+      throw new NotFoundException(`No topics found`)
+    }
     const groups = await this.prismaService.group.findMany({
       include: {
         users: {
@@ -230,13 +255,19 @@ export class GroupsService {
             },
           },
         },
+        groupContests: true,
       },
     })
+    if (!groups) {
+      throw new NotFoundException(`No groups found`)
+    }
     for (let i = 0; i < groups.length; i++) {
       let numberOfAcceptedSubmissions = 0
       let numberOfWrongSubmissions = 0
       let totalTimeDedicated = 0
       let numberOfTopicsCovered = 0
+      let numberOfProblems = 0
+      const contestsAttended = groups[i].groupContests.length
       groups[i].users.forEach((u) => {
         u.seasonTopicProblems.forEach((g) => {
           if (g.solved) numberOfAcceptedSubmissions += 1
@@ -246,6 +277,9 @@ export class GroupsService {
       })
       groups[i].seasons.forEach((s) => {
         if (s.isActive) numberOfTopicsCovered += s.topics.length
+        s.topics.forEach((t) => {
+          numberOfProblems += t.problems.length
+        })
       })
       groupStatResponses.push({
         id: groups[i].id,
@@ -255,12 +289,14 @@ export class GroupsService {
         school: groups[i].school,
         numberOfStudents: groups[i].users?.length,
         numberOfTopicsCovered: numberOfTopicsCovered,
-        topicsCoverage: (numberOfTopicsCovered / topics.length) * 100,
+        topicsCoverage: topics.length
+          ? (numberOfTopicsCovered / topics.length) * 100
+          : 0,
         numberOfAcceptedSubmissions: numberOfAcceptedSubmissions,
         numberOfWrongSubmissions: numberOfWrongSubmissions,
         totalTimeDedicated: totalTimeDedicated,
-        // contestsAttended: groups[i].id,
-        // numberOfProblems: groups[i].id,
+        numberOfProblems: numberOfProblems,
+        contestsAttended: contestsAttended,
         // rank: groups[i].id,
       })
     }

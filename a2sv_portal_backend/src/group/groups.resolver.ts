@@ -1,24 +1,19 @@
-import {
-  Args,
-  Int,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql'
-import { Roles } from 'src/auth/auth.decorator'
-import { User } from 'src/user/entities/user.entity'
-import { CreateGroupInput } from './dto/create-group.input'
-import { UpdateGroupInput } from './dto/update-group.input'
-import { Group } from './entities/group.entity'
-import { GroupsService, GroupWhereInput } from './groups.service'
-import { Season } from '../season/entities/season.entity'
-import { GroupStatResponse } from './dto/group-stat-response'
+import {Args, Mutation, Parent, Query, ResolveField, Resolver,} from '@nestjs/graphql'
+import {Roles} from 'src/auth/auth.decorator'
+import {User} from 'src/user/entities/user.entity'
+import {CreateGroupInput} from './dto/create-group.input'
+import {UpdateGroupInput} from './dto/update-group.input'
+import {Group} from './entities/group.entity'
+import {GroupsService} from './groups.service'
+import {Season} from '../season/entities/season.entity'
+import {GroupStatResponse} from './dto/group-stat-response'
+import {GroupWhereInput} from './dto/find-group.input'
+import {GroupsPaginated} from './dto/groups-return-dto'
 
 @Resolver(() => Group)
 export class GroupsResolver {
-  constructor(private readonly groupsService: GroupsService) {}
+  constructor(private readonly groupsService: GroupsService) {
+  }
 
   @Roles('ADMIN', 'HEAD_OF_ACADEMY')
   @Mutation(() => Group)
@@ -35,8 +30,8 @@ export class GroupsResolver {
   )
   @Query(() => [Group])
   groups(
-    @Args('filter', { type: () => GroupWhereInput, nullable: true })
-    where?: GroupWhereInput,
+    @Args('filter', {type: () => GroupWhereInput, nullable: true})
+      where?: GroupWhereInput,
   ) {
     return this.groupsService.getGroups(where)
   }
@@ -48,8 +43,23 @@ export class GroupsResolver {
     'ASSISTANT',
     'STUDENT',
   )
+  @Query(() => GroupsPaginated)
+  async groupsPagination(
+    @Args('filter', {type: () => GroupWhereInput, nullable: true})
+      where?: GroupWhereInput,
+  ): Promise<GroupsPaginated> {
+    return this.groupsService.groupsPagination(where)
+  }
+
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
   @Query(() => Group)
-  group(@Args('id', { type: () => String }) id: string) {
+  group(@Args('id', {type: () => String}) id: string) {
     return this.groupsService.getGroupById(id)
   }
 
@@ -73,7 +83,7 @@ export class GroupsResolver {
     'STUDENT',
   )
   @Mutation(() => Group)
-  deleteGroup(@Args('id', { type: () => String }) id: string) {
+  deleteGroup(@Args('id', {type: () => String}) id: string) {
     return this.groupsService.deleteGroup(id)
   }
 
@@ -84,7 +94,7 @@ export class GroupsResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @ResolveField(() => [Season], { nullable: 'itemsAndList' })
+  @ResolveField(() => [Season], {nullable: 'itemsAndList'})
   seasons(@Parent() group: Group): Season[] | null {
     return group.seasons
   }
@@ -96,7 +106,7 @@ export class GroupsResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @ResolveField(() => User, { nullable: true })
+  @ResolveField(() => User, {nullable: true})
   head(@Parent() group: Group): User {
     return group.head
   }
@@ -108,7 +118,7 @@ export class GroupsResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @ResolveField(() => [GroupStatResponse], { nullable: true })
+  @ResolveField(() => [GroupStatResponse], {nullable: true})
   async getGroupsStat(): Promise<GroupStatResponse[]> {
     return this.groupsService.getGroupsStat()
   }
