@@ -15,6 +15,7 @@ import { GroupsService } from './groups.service'
 import { Season } from '../season/entities/season.entity'
 import { GroupStatResponse } from './dto/group-stat-response'
 import { GroupWhereInput } from './dto/find-group.input'
+import { GroupsPaginated } from './dto/groups-return-dto'
 
 @Resolver(() => Group)
 export class GroupsResolver {
@@ -39,6 +40,21 @@ export class GroupsResolver {
     where?: GroupWhereInput,
   ) {
     return this.groupsService.getGroups(where)
+  }
+
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
+  @Query(() => GroupsPaginated)
+  async groupsPagination(
+    @Args('filter', { type: () => GroupWhereInput, nullable: true })
+    where?: GroupWhereInput,
+  ): Promise<GroupsPaginated> {
+    return this.groupsService.groupsPagination(where)
   }
 
   @Roles(

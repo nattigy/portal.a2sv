@@ -5,6 +5,9 @@ import { UpdateGroupInput } from './dto/update-group.input'
 import { PrismaService } from '../prisma.service'
 import { GroupStatResponse } from './dto/group-stat-response'
 import { GroupWhereInput } from './dto/find-group.input'
+import { PageInfoInput } from '../common/page/page-info.input'
+import { GroupsPaginated, GroupsUsersPaginated } from './dto/groups-return-dto'
+import { PageInfo } from '../common/page/page-info'
 
 @Injectable()
 export class GroupsService {
@@ -69,6 +72,65 @@ export class GroupsService {
         },
       },
     })
+  }
+
+  async groupsPagination(filter?: GroupWhereInput): Promise<GroupsPaginated> {
+    const { skip, take, topicId, ...where } = filter || {}
+    const groups = await this.prismaService.group.findMany({
+      skip,
+      take,
+      include: {
+        users: true,
+        head: true,
+        seasons: {
+          include: {
+            topics: {
+              include: {
+                problems: {
+                  include: {
+                    problem: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    })
+
+    const groupsUsersPaginated: GroupsUsersPaginated[] = []
+
+    for (let i = 0; i < groups.length; i++) {
+      const users = (
+        await this.prismaService.group.findUnique({
+          where: {
+            id: groups[i].id,
+          },
+          include: {
+            users: true,
+          },
+        })
+      ).users
+      groupsUsersPaginated.push({
+        group: groups[i],
+        pageInfo: {
+          skip: 0,
+          userCount: users.length,
+          limit: 3,
+          count: 0,
+        },
+      })
+    }
+
+    return {
+      items: groupsUsersPaginated,
+      pageInfo: {
+        skip,
+        limit: take,
+        count: groups.length,
+        userCount: 0,
+      },
+    }
   }
 
   async updateGroup(updateGroupInput: UpdateGroupInput): Promise<Group> {
