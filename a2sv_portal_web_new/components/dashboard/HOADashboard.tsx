@@ -51,10 +51,10 @@ const HOADashboard = (props: Props) => {
             />
             <CustomDropdown customProps={dropdown} />
           </div>
-          <div className="col-span-9">
+          <div className="col-span-10 lg:col-span-9">
             <GroupItemList />
           </div>
-          <div className="col-span-3 w-full h-full ">
+          <div className="hidden lg:block col-span-3 w-full h-full ">
             <div className="flex flex-col items-center p-4 justify-center gap-y-2">
               <img src="/images/group-image.svg" className="" alt="" />
               <p className="text-[#ACACAC] justify-self-center text-xs">
