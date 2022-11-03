@@ -4,7 +4,7 @@ import { Group } from 'src/group/entities/group.entity'
 import { UserProfile } from 'src/user-profile/entities/user-profile.entity'
 import { RoleEnum } from '@prisma/client'
 import { UserTopic } from '../../user-topic/entities/user-topic.entity'
-import {SeasonTopicProblemUser} from "../../season-topic-problem-user/entities/season-topic-problem-user.entity";
+import { SeasonTopicProblemUser } from '../../season-topic-problem-user/entities/season-topic-problem-user.entity'
 
 @ObjectType()
 export class User {

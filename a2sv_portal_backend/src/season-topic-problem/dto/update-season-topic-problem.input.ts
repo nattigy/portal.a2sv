@@ -1,12 +1,14 @@
-import { CreateSeasonTopicProblemInput } from './create-season-topic-problem.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import { CreateSeasonTopicProblemInput } from './create-season-topic-problem.input'
+import { InputType, Field, Int, PartialType } from '@nestjs/graphql'
 
 @InputType()
-export class UpdateSeasonTopicProblemInput extends PartialType(CreateSeasonTopicProblemInput) {
-  @Field( )
+export class UpdateSeasonTopicProblemInput extends PartialType(
+  CreateSeasonTopicProblemInput,
+) {
+  @Field()
   seasonId: string
-  @Field( )
+  @Field()
   topicId: string
-  @Field( )
+  @Field()
   problemId: string
 }

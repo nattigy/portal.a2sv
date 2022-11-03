@@ -1,11 +1,11 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, Int, Field } from '@nestjs/graphql'
 
 @InputType()
 export class CreateSeasonTopicProblemInput {
-  @Field( )
+  @Field()
   seasonId: string
-  @Field( )
+  @Field()
   topicId: string
-  @Field( )
+  @Field()
   problemId: string
 }

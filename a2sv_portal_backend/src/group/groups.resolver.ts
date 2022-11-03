@@ -13,8 +13,8 @@ import { CreateGroupInput } from './dto/create-group.input'
 import { UpdateGroupInput } from './dto/update-group.input'
 import { Group } from './entities/group.entity'
 import { GroupsService, GroupWhereInput } from './groups.service'
-import {Season} from "../season/entities/season.entity";
-import {GroupStatResponse} from "./dto/group-stat-response";
+import { Season } from '../season/entities/season.entity'
+import { GroupStatResponse } from './dto/group-stat-response'
 
 @Resolver(() => Group)
 export class GroupsResolver {

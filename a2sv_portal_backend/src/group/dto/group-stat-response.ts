@@ -1,4 +1,4 @@
-import {Field, ID, Int, ObjectType} from "@nestjs/graphql";
+import { Field, ID, Int, ObjectType } from '@nestjs/graphql'
 
 @ObjectType()
 export class GroupStatResponse {
@@ -23,10 +23,10 @@ export class GroupStatResponse {
   @Field()
   createdAt: Date
 
-  @Field({nullable: true})
+  @Field({ nullable: true })
   country?: string
 
-  @Field({nullable: true})
+  @Field({ nullable: true })
   school?: string
 
   @Field(() => Int)

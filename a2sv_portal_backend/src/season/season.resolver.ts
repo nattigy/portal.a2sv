@@ -13,7 +13,7 @@ import { CreateSeasonInput } from './dto/create-season.input'
 import { UpdateSeasonInput } from './dto/update-season.input'
 import { Season } from './entities/season.entity'
 import { SeasonService } from './season.service'
-import {SeasonTopic} from "../season-topic/entities/season-topic.entity";
+import { SeasonTopic } from '../season-topic/entities/season-topic.entity'
 
 @Resolver(() => Season)
 export class SeasonResolver {
