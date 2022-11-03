@@ -20,7 +20,13 @@ import { SeasonTopicProblemUser } from '@prisma/client'
 export enum StatTimeRange {
   MONTH,
   WEEK,
+  ALL,
 }
+
+type sortComparator = (
+  a: User & { seasonTopicProblems: SeasonTopicProblemUser[] },
+  b: User & { seasonTopicProblems: SeasonTopicProblemUser[] },
+) => number
 
 registerEnumType(StatTimeRange, { name: 'StatTimeRange' })
 
@@ -45,7 +51,11 @@ export class StudentStat {
   @Field(() => Int)
   totalUsers: number
   @Field(() => Int)
-  rank: number
+  weeklyRank
+  @Field(() => Int)
+  monthlyRank
+  @Field(() => Int)
+  allTimeRank
 }
 
 @InputType()
@@ -346,10 +356,7 @@ export class UserService {
     })
   }
 
-  async studentStats(
-    id: string,
-    timeRange?: StatTimeRange,
-  ): Promise<StudentStat> {
+  async studentStats(id: string): Promise<StudentStat> {
     const user = await this.findById(id)
     if (!user) {
       throw new NotFoundException(`User with ${id} not found`)
@@ -359,17 +366,7 @@ export class UserService {
       throw new NotFoundException(`Group for User with ${id} not found`)
     }
     const group = await this.groupService.getGroupById(groupId)
-    let after = new Date()
-    switch (timeRange) {
-      case StatTimeRange.MONTH:
-        after.setMonth(after.getMonth() - 1)
-        break
-      case StatTimeRange.WEEK:
-        after.setHours(7 * 24)
-        break
-      default:
-        after = null
-    }
+
     const users = await this.prismaService.user.findMany({
       where: {
         role: RoleEnum.STUDENT,
@@ -380,27 +377,76 @@ export class UserService {
       },
     })
 
+    const monthAgo = new Date()
+    monthAgo.setMonth(monthAgo.getMonth() - 1)
+    const weekAgo = new Date()
+    weekAgo.setHours(weekAgo.getHours() - 24 * 7)
+
+    function getSortFunction(
+      timeRange: StatTimeRange = StatTimeRange.MONTH,
+    ): sortComparator {
+      const after = new Date()
+
+      function solvedCounter(
+        // first entry all time count, 2nd entry within month count, and 3rd entry within week count
+        previous: number,
+        current: SeasonTopicProblemUser,
+      ) {
+        if (current.solved) {
+        }
+        return previous
+      }
+
+      switch (timeRange) {
+        case StatTimeRange.WEEK:
+          after.setHours(after.getHours() - 24 * 7)
+          break
+        case StatTimeRange.MONTH:
+          after.setMonth(after.getMonth() - 1)
+          break
+        case StatTimeRange.ALL:
+          after.setMonth(after.getMonth() - 12)
+      }
+      const comparator = (
+        a: User & { seasonTopicProblems: SeasonTopicProblemUser[] },
+        b: User & { seasonTopicProblems: SeasonTopicProblemUser[] },
+      ) => {
+        const cnt1 = a.seasonTopicProblems.reduce(solvedCounter, 0)
+        const cnt2 = b.seasonTopicProblems.reduce(solvedCounter, 0)
+        if (cnt1 > cnt2) {
+          return 1
+        } else if (cnt1 < cnt2) {
+          return -1
+        }
+        return 0
+      }
+      return comparator
+    }
+
     function sortFunction(
       a: User & { seasonTopicProblems: SeasonTopicProblemUser[] },
       b: User & { seasonTopicProblems: SeasonTopicProblemUser[] },
     ): number {
       function solvedCounter(
-        previous: number,
+        // first entry all time count, 2nd entry within month count, and 3rd entry within week count
+        previous: [number, number, number],
         current: SeasonTopicProblemUser,
       ) {
         if (current.solved) {
-          if (!after) {
-            return ++previous
+          previous[0]++
+          if (current.updatedAt >= monthAgo) {
+            previous[1]++
+            previous[2]++
           }
-          if (current.updatedAt >= after) {
-            return ++previous
+          if (current.updatedAt >= weekAgo) {
+            previous[2]++
           }
         }
         return previous
       }
 
-      const cnt1 = a.seasonTopicProblems.reduce(solvedCounter, 0)
-      const cnt2 = b.seasonTopicProblems.reduce(solvedCounter, 0)
+      const cnt1 = a.seasonTopicProblems.reduce(solvedCounter, [0, 0, 0])
+      const cnt2 = b.seasonTopicProblems.reduce(solvedCounter, [0, 0, 0])
       if (cnt1 > cnt2) {
         return 1
       } else if (cnt1 < cnt2) {
@@ -409,16 +455,22 @@ export class UserService {
       return 0
     }
 
-    users.sort(sortFunction)
+    function getRank(comparator): number {
+      users.sort(comparator)
 
-    const userIndex = users.findIndex(
-      (curUser: User & { seasonTopicProblems: SeasonTopicProblemUser[] }) =>
-        user.id == curUser.id,
-    )
-    if (userIndex < 0) {
-      throw new NotFoundException(`User with id ${user.id} not found`)
+      const userIndex = users.findIndex(
+        (curUser: User & { seasonTopicProblems: SeasonTopicProblemUser[] }) =>
+          user.id == curUser.id,
+      )
+      if (userIndex < 0) {
+        throw new NotFoundException(`User with id ${user.id} not found`)
+      }
+      return userIndex + 1
     }
-    const rank = userIndex + 1
+
+    const monthlyRank = getRank(getSortFunction(StatTimeRange.MONTH))
+    const weeklyRank = getRank(getSortFunction(StatTimeRange.WEEK))
+    const allTimeRank = getRank(getSortFunction(StatTimeRange.ALL))
     const totalUsers = users.length
 
     const seasons = group.seasons
@@ -480,7 +532,9 @@ export class UserService {
       easyCount,
       mediumCount,
       hardCount,
-      rank,
+      weeklyRank,
+      monthlyRank,
+      allTimeRank,
       totalUsers,
     } as StudentStat
   }
