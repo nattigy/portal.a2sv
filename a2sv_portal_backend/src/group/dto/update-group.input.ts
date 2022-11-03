@@ -1,5 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql'
 import { UpdateUserInput } from 'src/user/dto/update-user.input'
+import { Season } from '../../season/entities/season.entity'
 import { UpdateSeasonInput } from '../../season/dto/update-season.input'
 
 @InputType()

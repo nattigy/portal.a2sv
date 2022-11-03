@@ -3,8 +3,30 @@ import { CreateGroupInput } from './dto/create-group.input'
 import { Group } from './entities/group.entity'
 import { UpdateGroupInput } from './dto/update-group.input'
 import { PrismaService } from '../prisma.service'
+import { Field, InputType, Int } from '@nestjs/graphql'
 import { GroupStatResponse } from './dto/group-stat-response'
-import { GroupWhereInput } from './dto/find-group.input'
+
+@InputType()
+export class GroupWhereInput {
+  @Field(() => Int, { nullable: true })
+  id?: number
+  @Field({ nullable: true })
+  name?: string
+  @Field({ nullable: true })
+  country?: string
+  @Field({ nullable: true })
+  school?: string
+  @Field(() => Int, { nullable: true })
+  seasonId?: number
+  @Field(() => Int, { nullable: true })
+  topicId?: number
+  @Field(() => Int, { nullable: true })
+  headId?: number
+  @Field(() => Int, { nullable: true })
+  take?: number
+  @Field(() => Int, { nullable: true })
+  skip?: number
+}
 
 @Injectable()
 export class GroupsService {
@@ -32,7 +54,15 @@ export class GroupsService {
         head: true,
         seasons: {
           include: {
-            topics: true,
+            topics: {
+              include: {
+                problems: {
+                  include: {
+                    problem: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
@@ -142,18 +172,35 @@ export class GroupsService {
   }
 
   async getGroupsStat(): Promise<GroupStatResponse[]> {
+    // Topics_Coverage = sum_of_each_topic’s_coverage_in_percent / total_topics
+    /*
+            id: number
+            name: string
+            createdAt: Date
+            country?: string
+            school?: string
+            numberOfStudents: number
+            numberOfTopicsCovered: number
+            topicsCoverage: number
+            numberOfAcceptedSubmissions: number
+            numberOfWrongSubmissions: number
+            totalTimeDedicated: number
+            rank: number
+            contestsAttended: number
+            numberOfProblems: number
+        * */
     const groupStatResponses: GroupStatResponse[] = []
     const topics = await this.prismaService.topic.findMany({
       select: {
         id: true,
       },
     })
-    if (!topics) {
-      throw new NotFoundException(`No topics found`)
-    }
     const groups = await this.prismaService.group.findMany({
       include: {
         users: {
+          select: {
+            id: true,
+          },
           include: {
             seasonTopicProblems: {
               select: {
@@ -165,10 +212,16 @@ export class GroupsService {
           },
         },
         seasons: {
+          select: {
+            isActive: true,
+          },
           include: {
             topics: {
               include: {
                 problems: {
+                  select: {
+                    problemId: true,
+                  },
                   include: {
                     problem: true,
                   },
@@ -177,19 +230,13 @@ export class GroupsService {
             },
           },
         },
-        groupContests: true,
       },
     })
-    if (!groups) {
-      throw new NotFoundException(`No groups found`)
-    }
     for (let i = 0; i < groups.length; i++) {
       let numberOfAcceptedSubmissions = 0
       let numberOfWrongSubmissions = 0
       let totalTimeDedicated = 0
       let numberOfTopicsCovered = 0
-      let numberOfProblems = 0
-      const contestsAttended = groups[i].groupContests.length
       groups[i].users.forEach((u) => {
         u.seasonTopicProblems.forEach((g) => {
           if (g.solved) numberOfAcceptedSubmissions += 1
@@ -199,9 +246,6 @@ export class GroupsService {
       })
       groups[i].seasons.forEach((s) => {
         if (s.isActive) numberOfTopicsCovered += s.topics.length
-        s.topics.forEach((t) => {
-          numberOfProblems += t.problems.length
-        })
       })
       groupStatResponses.push({
         id: groups[i].id,
@@ -211,14 +255,12 @@ export class GroupsService {
         school: groups[i].school,
         numberOfStudents: groups[i].users?.length,
         numberOfTopicsCovered: numberOfTopicsCovered,
-        topicsCoverage: topics.length
-          ? (numberOfTopicsCovered / topics.length) * 100
-          : 0,
+        topicsCoverage: (numberOfTopicsCovered / topics.length) * 100,
         numberOfAcceptedSubmissions: numberOfAcceptedSubmissions,
         numberOfWrongSubmissions: numberOfWrongSubmissions,
         totalTimeDedicated: totalTimeDedicated,
-        numberOfProblems: numberOfProblems,
-        contestsAttended: contestsAttended,
+        // contestsAttended: groups[i].id,
+        // numberOfProblems: groups[i].id,
         // rank: groups[i].id,
       })
     }

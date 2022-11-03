@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { RoleEnum, Status, User } from '@prisma/client'
+import { Status, RoleEnum, User } from '@prisma/client'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import * as bcrypt from 'bcrypt'
@@ -10,10 +10,19 @@ import {
   Int,
   ObjectType,
   Parent,
+  registerEnumType,
 } from '@nestjs/graphql'
 import { PrismaService } from '../prisma.service'
 import { ComfortLevel } from './entities/comfort-level.enum'
 import { GroupsService } from '../group/groups.service'
+import { SeasonTopicProblemUser } from '@prisma/client'
+
+export enum StatTimeRange {
+  MONTH,
+  WEEK,
+}
+
+registerEnumType(StatTimeRange, { name: 'StatTimeRange' })
 
 @ObjectType()
 export class StudentStat {
@@ -33,6 +42,10 @@ export class StudentStat {
   mediumCount: number
   @Field(() => Int)
   hardCount: number
+  @Field(() => Int)
+  totalUsers: number
+  @Field(() => Int)
+  rank: number
 }
 
 @InputType()
@@ -98,7 +111,6 @@ export class UserService {
         status: Status.ACTIVE,
         role: createUserInput.role,
         updatedAt: new Date().toISOString(),
-        groupId: createUserInput.groupId,
       },
       include: {
         group: true,
@@ -334,7 +346,10 @@ export class UserService {
     })
   }
 
-  async studentStats(id: string): Promise<StudentStat> {
+  async studentStats(
+    id: string,
+    timeRange?: StatTimeRange,
+  ): Promise<StudentStat> {
     const user = await this.findById(id)
     if (!user) {
       throw new NotFoundException(`User with ${id} not found`)
@@ -344,6 +359,68 @@ export class UserService {
       throw new NotFoundException(`Group for User with ${id} not found`)
     }
     const group = await this.groupService.getGroupById(groupId)
+    let after = new Date()
+    switch (timeRange) {
+      case StatTimeRange.MONTH:
+        after.setMonth(after.getMonth() - 1)
+        break
+      case StatTimeRange.WEEK:
+        after.setHours(7 * 24)
+        break
+      default:
+        after = null
+    }
+    const users = await this.prismaService.user.findMany({
+      where: {
+        role: RoleEnum.STUDENT,
+        groupId: user.groupId,
+      },
+      include: {
+        seasonTopicProblems: true,
+      },
+    })
+
+    function sortFunction(
+      a: User & { seasonTopicProblems: SeasonTopicProblemUser[] },
+      b: User & { seasonTopicProblems: SeasonTopicProblemUser[] },
+    ): number {
+      function solvedCounter(
+        previous: number,
+        current: SeasonTopicProblemUser,
+      ) {
+        if (current.solved) {
+          if (!after) {
+            return ++previous
+          }
+          if (current.updatedAt >= after) {
+            return ++previous
+          }
+        }
+        return previous
+      }
+
+      const cnt1 = a.seasonTopicProblems.reduce(solvedCounter, 0)
+      const cnt2 = b.seasonTopicProblems.reduce(solvedCounter, 0)
+      if (cnt1 > cnt2) {
+        return 1
+      } else if (cnt1 < cnt2) {
+        return -1
+      }
+      return 0
+    }
+
+    users.sort(sortFunction)
+
+    const userIndex = users.findIndex(
+      (curUser: User & { seasonTopicProblems: SeasonTopicProblemUser[] }) =>
+        user.id == curUser.id,
+    )
+    if (userIndex < 0) {
+      throw new NotFoundException(`User with id ${user.id} not found`)
+    }
+    const rank = userIndex + 1
+    const totalUsers = users.length
+
     const seasons = group.seasons
 
     let numberOfCorrectSubmissions = 0
@@ -352,14 +429,12 @@ export class UserService {
     let unableToSolve = 0
     let uncomfortablity = 100
     let acceptanceRate = 0
-    let totalQuestions = 0
     let easyCount = 0
     let mediumCount = 0
     let hardCount = 0
 
     for (const season of seasons) {
       for (const topic of season.topics) {
-        totalQuestions += topic.problems.length
         for (const p of topic.problems) {
           for (const userProblem of p.users) {
             if (userProblem.userId === id) {
@@ -405,6 +480,8 @@ export class UserService {
       easyCount,
       mediumCount,
       hardCount,
+      rank,
+      totalUsers,
     } as StudentStat
   }
 
@@ -416,7 +493,6 @@ export class UserService {
     let totalTopicCoverage = 0
     let totalNumberOfTopics = 0
     let sumOfEachTopicsCoverage = 0
-
     const user = await this.findById(studentId)
     const group = await this.groupService.getGroupById(user.groupId)
     const seasonIndex = group.seasons.findIndex((s, index) => s.id === seasonId)
@@ -429,13 +505,12 @@ export class UserService {
     let totalNotSolved = 0
 
     for (const seasonTopic of season.topics) {
-      let totalTopicQuestions = 0
+      const totalTopicQuestions = seasonTopic.problems?.length
       let numberOfSolvedProblems = 0
       totalNumberOfTopics++
       for (const problem of seasonTopic.problems) {
         for (const userProblem of problem.users) {
           if (userProblem.userId === studentId) {
-            totalTopicQuestions++
             if (userProblem.solved) numberOfSolvedProblems++
             if (userProblem.needHelp) unableToSolve++
           }
@@ -446,7 +521,9 @@ export class UserService {
 
       eachTopicCoverageStat.push({
         topicId: seasonTopic.topicId,
-        questionCoverage: 0,
+        questionCoverage: totalQuestions
+          ? (numberOfSolvedProblems / totalTopicQuestions) * 100
+          : 0,
         topicCoverage: (numberOfSolvedProblems / totalTopicQuestions) * 100,
       })
       sumOfEachTopicsCoverage += eachTopicCoverageStat[seasonTopic.topicId]

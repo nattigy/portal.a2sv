@@ -1,5 +1,5 @@
 import { CreateSeasonTopicInput } from './create-season-topic.input'
-import { Field, InputType, PartialType } from '@nestjs/graphql'
+import { InputType, Field, Int, PartialType } from '@nestjs/graphql'
 import { UpdateSeasonTopicProblemInput } from '../../season-topic-problem/dto/update-season-topic-problem.input'
 
 @InputType()
