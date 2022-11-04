@@ -30,7 +30,7 @@ const DurationField = (props: DurationFieldProps) => {
   }
 
   return (
-    <div className="w-full flex justify-between items-center">
+    <div className="w-fit flex justify-between items-center">
       <div className="w-full flex justify-between">
         <div className="w-full px-2">
           <div className="relative">
@@ -40,10 +40,12 @@ const DurationField = (props: DurationFieldProps) => {
                 isError ? "border border-red-500" : "border border-[#D2D2D2]"
               )}
               name={props.name}
+              placeholder= "HH"
+            
               value={zeroPad(value, 2)}
               type="text"
             />
-            <div className="flex flex-col absolute top-1 right-1">
+            <div className="flex flex-col absolute top-1 right-0 pr-1">
               <FiChevronUp onClick={increment} size={16} />
               <FiChevronDown onClick={decrement} size={16} />
             </div>
