@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import BaseLayout from "../../../components/common/BaseLayout";
+import Button from "../../../components/common/Button";
 import ContestInfoItem from "../../../components/newcontest/ContestInfoItem";
 import NewContestSidebarItem from "../../../components/newcontest/NewContestSidebarItem";
 import QuestionsItem, {
@@ -48,9 +49,7 @@ const IndexPage = () => {
       <div className="flex flex-col gap-y-4">
         <div className="flex justify-between py-2">
           <h1 className="font-bold text-2xl">Create New Contest</h1>
-          <button className="p-2 px-8 bg-primary text-white rounded-md">
-            Create
-          </button>
+          <Button text="Create" onClick={()=>{}} classname="p-2 px-8 bg-primary text-white rounded-md"/>
         </div>
         <ContestInfoItem />
         <QuestionsItem questions={questions} />

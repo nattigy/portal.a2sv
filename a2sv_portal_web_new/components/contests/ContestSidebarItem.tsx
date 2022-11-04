@@ -1,5 +1,6 @@
 import { useReactiveVar } from "@apollo/client";
 import clsx from "clsx";
+import { useRouter } from "next/router";
 import React from "react";
 import { authenticatedUser } from "../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../types/user";
@@ -12,6 +13,7 @@ type Props = {
 
 const ContestSidebarItem = (props: Props) => {
   const authUser = useReactiveVar(authenticatedUser);
+  const router = useRouter();
   return (
     <div className={clsx("h-full flex flex-col justify-between")}>
       <div className={clsx("flex flex-col gap-y-2 transition-all")}>
@@ -30,7 +32,7 @@ const ContestSidebarItem = (props: Props) => {
       {(authUser as any).role === GraphqlUserRole.HEAD_OF_EDUCATION && (
         <div className="flex flex-col items-center gap-y-6">
           <img className="w-fit h-48" src="images/add-contest.svg" alt="" />
-          <button className="flex flex-col items-center w-full p-2 bg-primary text-white rounded-md">
+          <button onClick={()=>router.push('contests/new')} className="flex flex-col items-center w-full p-2 bg-primary text-white rounded-md">
             + Create New Contest
           </button>
           <p className="text-center text-xs">
