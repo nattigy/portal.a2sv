@@ -33,7 +33,51 @@ export class UserResolver {
     private readonly groupService: GroupsService,
   ) {}
 
-  @Mutation(() => User)
+  @Mutation(() => User, {
+    description: `
+  Arguments\n
+  - topicId : An id of the topic which the user is updating their comfort level on.\n
+  - userId :  An id of the user updating their comfort level.\n
+  - comfortLevel : The user's comfort level on the current topic.\n
+  Example \n
+mutation\n
+  {\n
+    updateComfortLevel(comfortLevel: UNCOMFORTABLE, topicId: "c20a71a0-0db8-46f2-a6d2-92350f05f9f5", userId: "a9531ef8-0f0d-4d37-b16d-ba0ce049df13") 
+      {
+        topics 
+          {
+            topic 
+              {
+                id
+                name
+              }
+            comfortLevel
+          }
+      }
+ }
+Return Type\n
+  {\n
+    "data": 
+      {
+        "updateComfortLevel":
+          {
+            "topics":
+              [
+                {
+                  "topic":
+                    {
+                      "id": "c20a71a0-0db8-46f2-a6d2-92350f05f9f5",
+                      "name": "BFS"
+                    },
+                  "comfortLevel": "UNCOMFORTABLE"
+                }
+              ]
+          }
+      }
+  }
+  
+  `,
+  })
   async updateComfortLevel(
     @Args('topicId', { type: () => String }) topicId: string,
     @Args('userId', { type: () => String }) userId: string,
