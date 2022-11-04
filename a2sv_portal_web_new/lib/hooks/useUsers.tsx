@@ -64,7 +64,7 @@ export const useGetUsersWithNoGroup = () => {
   });
 };
 
-export const useGetSingleUser = (userId: string) => {
+export const useGetSingleUser = (userId: String) => {
   return useLazyQuery(GET_SINGLE_USER_QUERY, {
     variables: {
       userId:userId

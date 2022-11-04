@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_SINGLE_USER_QUERY = gql`
-  query Query($userId: Int!) {
+  query Query($userId: String!) {
     user(id: $userId) {
       email
       groupId
@@ -56,7 +56,7 @@ export const GET_FILTERED_USERS = gql`
 `;
 
 export const GET_USERS_BY_GROUP_ID_QUERY = gql`
-  query Users($groupId: Float) {
+  query Users($groupId: String) {
     users(groupId: $groupId) {
       email
       id
@@ -75,7 +75,7 @@ export const GET_USERS_BY_GROUP_ID_QUERY = gql`
 `;
 
 export const GET_STUDENTS_WITH_NO_GROUP_QUERY = gql`
-  query UsersQuery($role: String, $groupId: Float) {
+  query UsersQuery($role: String, $groupId: String) {
     users(role: $role, groupId: $groupId) {
       id
       email
@@ -90,7 +90,7 @@ export const GET_STUDENTS_WITH_NO_GROUP_QUERY = gql`
 `;
 
 export const GET_SINGLE_GROUP_USERS_QUERY = gql`
-  query Users($groupId: Int!) {
+  query Users($groupId: String!) {
     group(id: $groupId) {
       users {
         email

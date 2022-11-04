@@ -1,19 +1,22 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import CommonAutocomplete from "../common/CustomAutocomplete";
 import { useFilteredUsers } from "../../lib/hooks/useUsers";
 
 type Props = {
   handleSearchStudent: (value: any) => void;
+  user?:any;
 };
+
 export type UserType = {
   id: number;
   email: string;
 };
-export default function HOEAutocomplete({ handleSearchStudent }: Props) {
-  const [query, setQuery] = useState("");
+
+export default function HOEAutocomplete({ handleSearchStudent, user}: Props) {
   const [usersData, setUsersData] = useState([]);
   const [loadUsers, { loading, data, error, refetch }] = useFilteredUsers(2);
-  const [selectedHOE, setSelectedHOE] = useState(null);
+  const [selectedHOE, setSelectedHOE] = useState(user);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     loadUsers();

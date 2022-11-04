@@ -70,11 +70,10 @@ const UserRank = ({ selected }: UserRankProps) => {
         </div>
       ) : (
         <div>
-          {JSON.stringify(data)}
-          <div className="grid grid-cols-2 items-center m-2 my-4">
+          <div className="flex flex-col items-center m-2 my-4">
             {data && (
-              <div className="">
-                <p className="font-semibold">
+              <div className="flex flex-col">
+                <p className="text-center font-semibold">
                   {data.user?.userProfile
                     ? data.user?.userProfile?.firstName +
                     " " +

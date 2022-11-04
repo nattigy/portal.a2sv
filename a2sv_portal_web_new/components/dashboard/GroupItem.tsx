@@ -3,36 +3,46 @@ import { AiOutlineClockCircle } from "react-icons/ai";
 import CustomLink from "../common/CustomLink";
 import { format } from "date-fns";
 import MenuItem from "../common/MenuItem";
-import Image from "next/image";
+import { DELETE_GROUP } from "../../lib/apollo/Mutations/groupsMutations";
 import DeletePopupModal from "../modals/DeletePopupModal";
 import GroupModal from "../modals/GroupModal";
+import { useMutation, ApolloError } from "@apollo/client";
+import { DELETE_SEASON } from "../../lib/apollo/Mutations/seasonsMutations";
+import WithPermission from "../../lib/Guard/WithPermission";
+import { GraphqlUserRole } from "../../types/user";
+import { Group } from "../../types/group";
+
+type Props = {
+  color?: string;
+  groupProps: Group;
+};
+
 export const StudentAvatar: React.FC<{ url: string }> = ({
   url,
 }: {
-  url: string;
+  url?: string;
 }) => {
   return (
     <img
       className="w-8 h-8 rounded-full object-cover border-solid border-white border-2"
-      src="https://images.unsplash.com/photo-1491349174775-aaafddd81942?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
+      src={
+        url
+          ? url
+          : "https://images.unsplash.com/photo-1491349174775-aaafddd81942?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
+      }
+      // src="https://images.unsplash.com/photo-1491349174775-aaafddd81942?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
       alt=""
     />
   );
 };
-export type GroupItemProps = {
-  groupId: number;
-  groupName: string;
-  groupLocation: string;
-  createdAt: string;
-  studentsImage: string[];
-  totalStudents: number;
-  color?: string;
-};
 
-const GroupItem = (props: GroupItemProps) => {
+const GroupItem = ({ groupProps, color }: Props) => {
   const [isAssignModalOpen, setIsAssignModalOpen] = useState<boolean>(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [deleteGroup, { loading }] = useMutation(DELETE_GROUP);
 
   const handleAssignModalOpen = () => {
     setIsAssignModalOpen(true);
@@ -50,40 +60,62 @@ const GroupItem = (props: GroupItemProps) => {
         <GroupModal
           isEditing={true}
           onClose={() => setIsEditModalOpen(false)}
+          group={groupProps}
         />
       )}
       {isDeleteModalOpen && (
         <DeletePopupModal
           title="Delete Group"
-          errorMessage=""
-          isLoading={false}
-          description="This will delete the problem from problem set"
+          errorMessage={errorMessage}
+          isLoading={loading}
+          description="This will delete the group"
           onClose={() => setIsDeleteModalOpen(false)}
-          onDelete={() => {}}
+          onDelete={async () => {
+            await deleteGroup({
+              variables: {
+                deleteGroupId: groupProps.groupId,
+              },
+              notifyOnNetworkStatusChange: true,
+              refetchQueries: "active",
+              onCompleted: (data) => {
+                setIsDeleteModalOpen(false);
+              },
+              onError: (error) => {
+                setErrorMessage((error as ApolloError).message);
+              },
+            });
+          }}
         />
       )}
       <div className="flex flex-col w-full lg:w-64 h-40 lg:h-36 bg-white rounded-lg">
         <div className="cursor-pointer">
           <div className="w-full h-28 lg:h-24 relative">
             <div className="absolute top-2 right-2 z-30 ">
-              <MenuItem
-                menuItems={[
-                  {
-                    title: "Edit Season",
-                    onClick: (e: any) => {
-                      e.stopPropagation();
-                      handleEditModalOpen();
-                    },
-                  },
-                  {
-                    title: "Delete Season",
-                    onClick: (e: any) => {
-                      e.stopPropagation();
-                      handleDeleteModalOpen();
-                    },
-                  },
+              <WithPermission
+                allowedRoles={[
+                  GraphqlUserRole.HEAD_OF_ACADEMY,
+                  GraphqlUserRole.HEAD_OF_EDUCATION,
                 ]}
-              />
+              >
+                <MenuItem
+                  menuItems={[
+                    {
+                      title: "Edit Group",
+                      onClick: (e: any) => {
+                        e.stopPropagation();
+                        handleEditModalOpen();
+                      },
+                    },
+                    {
+                      title: "Delete Group",
+                      onClick: (e: any) => {
+                        e.stopPropagation();
+                        handleDeleteModalOpen();
+                      },
+                    },
+                  ]}
+                />
+              </WithPermission>
             </div>
             <div className="h-full w-full bg-gradient-to-t from-black/75 absolute z-10"></div>
             {/* <Image
@@ -114,7 +146,7 @@ const GroupItem = (props: GroupItemProps) => {
                       width="65.5034"
                       height="64"
                       rx="20"
-                      fill={props.color}
+                      fill={color}
                     />
                     <path
                       fillRule="evenodd"
@@ -131,34 +163,34 @@ const GroupItem = (props: GroupItemProps) => {
 
                 <div className="flex flex-col rounded-t-md">
                   <h1 className="text-sm font-semibold text-white">
-                    {props.groupName}
+                    {groupProps.groupName}
                   </h1>
-                  <h1 className="text-xs text-white">{props.groupLocation}</h1>
+                  <h1 className="text-xs text-white">{groupProps.groupCountry}</h1>
                 </div>
               </div>
               <div className="flex justify-end items-center mt-1 gap-x-1">
                 <AiOutlineClockCircle color="white" size={12} />
                 <p className="text-white text-[10px]">
-                  {format(new Date(props.createdAt), "MMM, d uuuu")}
+                  {format(new Date(groupProps.createdAt), "MMM, d uuuu")}
                 </p>
               </div>
             </div>
           </div>
-          <div className="flex flex-row justify-between items-center px-2  h-1/3">
-            <div className="flex relative flex-row -space-x-2 items-center ">
-              {props.studentsImage.map((item, index) => (
-                <StudentAvatar url={item} key={index} />
-              ))}
-              <div className="w-8 h-8 rounded-full bg-[#D9D9D9] text-[#000] border-solid border-white border-2 text-[10px] font-semibold flex items-center justify-center">
-                +{props.totalStudents}
-              </div>
+        </div>
+        <div className="flex flex-row justify-between items-center px-2  h-1/3">
+          <div className="flex flex-row -space-x-2 items-center ">
+            {groupProps.students.map((item, index) => (
+              <StudentAvatar url={item.userProfile?.photoUrl} key={index} />
+            ))}
+            <div className="w-8 h-8 rounded-full bg-[#D9D9D9] text-[#000] border-solid border-white border-2 text-[10px] font-semibold flex items-center justify-center">
+              +{groupProps.totalStudentsCount}
             </div>
-            <CustomLink href={`/dashboard/${props.groupId}`}>
-              <p className="text-[#5956E9] text-xs font-semibold cursor-pointer">
-                View Details
-              </p>
-            </CustomLink>
           </div>
+          <CustomLink href={`/dashboard/${groupProps.groupId}`}>
+            <p className="text-[#5956E9] text-xs font-semibold cursor-pointer">
+              View Details
+            </p>
+          </CustomLink>
         </div>
       </div>
     </>
