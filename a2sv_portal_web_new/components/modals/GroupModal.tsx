@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
-import clsx from "clsx";
 import { getNationality } from "../../helpers/getNationalityFlag";
 import { ApolloError, useMutation } from "@apollo/client";
-import { CREATE_GROUP_MUTATION } from "../../lib/apollo/Mutations/groupsMutations";
+import {
+  CREATE_GROUP_MUTATION,
+  EDIT_GROUP,
+} from "../../lib/apollo/Mutations/groupsMutations";
 import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormRejectButton from "../common/FormRejectButton";
 import FormField from "../common/FormField";
 import FormDropdown from "../common/FormDropdown";
 import HOEAutocomplete from "../users/HOEAutocomplete";
+import { Group } from "../../types/group";
 
 export enum RoleTypes {
   STUDENT = "Student",
@@ -21,30 +24,28 @@ interface FormValues {
   name: string;
   country: string;
   school: string;
+  headId?: string;
 }
 
 type Props = {
   isEditing: boolean;
-  values?: FormValues;
+  group?: Group;
   onClose: () => void;
 };
 
-const GroupModal = (props: Props) => {
-  const [addNewGroup] = useMutation(CREATE_GROUP_MUTATION);
-  const [isLoading, setIsLoading] = useState(false);
+const GroupModal = ({ isEditing, group, onClose }: Props) => {
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [addNewGroup] = useMutation(CREATE_GROUP_MUTATION);
+  const [editGroup] = useMutation(EDIT_GROUP);
 
+  console.log(group, "Group");
   const INITIAL_VALUES: FormValues = {
-    name: "",
-    country: "",
-    school: "",
+    name: group?.groupName || "",
+    country: group?.groupCountry || "",
+    school: group?.groupSchool || "",
+    headId: group?.head?.id,
   };
-
-  // const INITIAL_VALUES = {
-  //   country: "Ethiopia",
-  //   name: "Group 32",
-  //   school: "Addis Ababa Institute of Technology"
-  // } as FormValues;
 
   const FORM_VALIDATION = yup.object().shape({
     name: yup.string().required("Required").min(3).max(40),
@@ -52,19 +53,38 @@ const GroupModal = (props: Props) => {
     school: yup.string().required("Required"),
   });
 
-  const [selected, setSelected] = useState<null | any>(null);
+  const [selected, setSelected] = useState<null | any>();
 
   return (
     <>
       <div className=" transition-all duration-200 py-8 text-[#565656] w-screen h-screen absolute top-0 bottom-0 left-0 right-0 bg-gray-900 bg-opacity-30 z-50">
         <Formik
-          initialValues={props.values ? props.values : INITIAL_VALUES}
+          initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
-            if (props.isEditing) {
-              () => {};
+            if (isEditing) {
+              await editGroup({
+                variables: {
+                  updateGroupInput: {
+                    id: group?.groupId,
+                    name: values.name,
+                    school: values.school,
+                    country: values.country,
+                    head: {
+                      id: selected.id,
+                    },
+                  },
+                },
+                refetchQueries: "active",
+                notifyOnNetworkStatusChange: true,
+                onCompleted: (data) => {
+                  onClose();
+                },
+                onError: (error) => {
+                  setErrorMessage((error as ApolloError).message);
+                },
+              });
             } else {
-              console.log(values, " is values");
               setIsLoading(true);
               await addNewGroup({
                 variables: {
@@ -74,7 +94,7 @@ const GroupModal = (props: Props) => {
                 notifyOnNetworkStatusChange: true,
                 onCompleted: (data) => {
                   setIsLoading(false);
-                  props.onClose();
+                  onClose();
                 },
                 onError: (error) => {
                   setErrorMessage((error as ApolloError).message);
@@ -93,19 +113,16 @@ const GroupModal = (props: Props) => {
               >
                 <div className="w-full flex flex-col items-center">
                   <div className="my-3 w-full flex justify-between items-center">
-                    {props.isEditing ? (
+                    {isEditing ? (
                       <h2 className="font-semibold text-lg">
-                        Edit {props.values?.name}
+                        Edit {group?.groupName}
                       </h2>
                     ) : (
                       <h2 className="font-semibold text-lg">
                         Create New Group
                       </h2>
                     )}
-                    <div
-                      className="cursor-pointer"
-                      onClick={() => props.onClose()}
-                    >
+                    <div className="cursor-pointer" onClick={() => onClose()}>
                       <svg
                         className="font-bold text-gray-600"
                         width={24}
@@ -131,7 +148,7 @@ const GroupModal = (props: Props) => {
                       </svg>
                     </div>
                   </div>
-                  {props.isEditing ? (
+                  {isEditing ? (
                     <p className="tracking-wider text-md text-start text-[#949494]">
                       You can edit the information related to the group. Make
                       sure to save inorder to see the changes.
@@ -183,8 +200,10 @@ const GroupModal = (props: Props) => {
                 <div className="w-full">
                   <div className="flex flex-col justify-start">
                     <div className="flex flex-col items-center">
-                      <HOEAutocomplete handleSearchStudent={setSelected} />
-
+                      <HOEAutocomplete
+                        user={group?.head}
+                        handleSearchStudent={setSelected}
+                      />
                       <p className="w-full text-xs text-red-500">
                         {errors.name}
                       </p>
@@ -218,11 +237,11 @@ const GroupModal = (props: Props) => {
                   </div>
                 )}
                 <div className="flex justify-end items-center gap-x-3">
-                  <FormRejectButton
-                    text="Cancel"
-                    onClick={() => props.onClose()}
-                  />
-                  <FormAffirmativeButton isLoading={isSubmitting} text="Save" />{" "}
+                  <FormRejectButton text="Cancel" onClick={() => onClose()} />
+                  <FormAffirmativeButton
+                    isLoading={isSubmitting}
+                    text="Save"
+                  />{" "}
                 </div>
               </div>
             </Form>

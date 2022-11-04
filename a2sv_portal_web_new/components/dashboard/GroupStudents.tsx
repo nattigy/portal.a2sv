@@ -43,7 +43,6 @@ const GroupStudents = (props: Props) => {
   const { data, refetch, loading, error } = useUsersOfSingleGroup(
     props.groupId
   );
-  
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -52,7 +51,7 @@ const GroupStudents = (props: Props) => {
   const handleSearch = (e: any) => {
     setSearchQuery(e.target.value);
   };
-console.log("group id props",props.groupId)
+  console.log("group id props", props.groupId);
   return (
     <>
       <div className="h-full w-full font-semibold text-[#565656]">
@@ -63,17 +62,17 @@ console.log("group id props",props.groupId)
 
           <div className="flex flex-row items-center justify-end my-6 font-semibold text-xl text-[#565656]">
             {props.isAddStudentToGroupSidebarOpen ? (
-              <button
+              <Button
+                text="Cancel"
                 onClick={() => props.setIsAddStudentToGroupSidebarOpen(false)}
-                className="px-4 py-2 bg-[#5956E9] rounded-lg text-center text-white font-medium text-sm"
-              >
-                Cancel
-              </button>
+                classname="px-4 py-2 bg-[#5956E9] rounded-lg text-center text-white font-medium text-sm"
+              />
             ) : (
               <Button
                 onClick={() => props.setIsAddStudentToGroupSidebarOpen(true)}
                 text="Add Student"
                 icon={<BsPlus color="#ffffff" size={18} />}
+                classname="px-4 py-2 bg-[#5956E9] rounded-lg text-center text-white font-medium text-sm"
               />
             )}
           </div>

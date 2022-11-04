@@ -31,27 +31,22 @@ export const ADD_TOPIC_TO_GROUP = gql`
     }
   }
 `;
-
 export const DELETE_GROUP = gql`
-  mutation Mutation($deleteGroupId: Int!) {
+mutation DeleteGroup($deleteGroupId: String!) {
     deleteGroup(id: $deleteGroupId) {
       id
-      name
     }
   }
 `;
-/*
-{
-  "deleteGroupId": null
-}
- */
 
 export const EDIT_GROUP = gql`
-mutation Mutation($updateGroupInput: UpdateGroupInput!) {
-  updateGroup(updateGroupInput: $updateGroupInput) {
-    id
+  mutation UpdateGroup($updateGroupInput: UpdateGroupInput!) {
+    updateGroup(updateGroupInput: $updateGroupInput) {
+      id
+    }
   }
-}`
+`;
+
 /*
 {
   "updateGroupInput": {
