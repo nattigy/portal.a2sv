@@ -19,7 +19,7 @@ const DivisionDropdownField = (props: DurationFieldProps) => {
     <div className="w-full flex justify-between items-center">
       <div className="w-full flex justify-between">
         <div className="w-full px-2">
-          <div className="bg-white dark:bg-gray-100 rounded-full w-full h-8 flex flex-shrink-0 justify-start items-center relative">
+          <div className="bg-white dark:bg-gray-100 rounded-full w-full flex flex-shrink-0 justify-start items-center relative">
             <Field
               as="select"
               name={props.name}
@@ -28,7 +28,7 @@ const DivisionDropdownField = (props: DurationFieldProps) => {
                 isError ? "border border-red-500" : "border border-[#D2D2D2]"
               )}
             >
-              <option className="h-20" value="" selected disabled hidden>
+              <option className="w-full h-20" value="" selected disabled hidden>
                 Select Division
               </option>
               <option value="Div 1">Div 1</option>

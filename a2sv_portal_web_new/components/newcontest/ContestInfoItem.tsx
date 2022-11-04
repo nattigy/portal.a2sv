@@ -38,8 +38,8 @@ const ContestInfoItem = () => {
   } as ContestInfoValues;
 
   return (
-    <div className="flex flex-col gap-2 bg-white p-4">
-      <h1 className="px-2 font-semibold">Contest Info</h1>
+    <div className="bg-white p-4 rounded-md">
+      <h1 className="p-2 font-semibold">Contest Info</h1>
       <div>
         <Formik
           initialValues={INITIAL_VALUES}
@@ -50,9 +50,15 @@ const ContestInfoItem = () => {
         >
           {(formik) => (
             <div>
-              <Form id="profile-form" className="w-full flex gap-y-2">
+              <Form id="profile-form" className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-y-3">
+                <DivisionDropdownField
+                  className="w-full text-xs placeholder-[#767676] rounded-md focus:outline-none py-3 px-8 "
+                  formik={formik}
+                  placeholder="Select Division"
+                  name="division"
+                />
                 <ContestTimeDateField
-                  className="w-full text-xs placeholder-[#767676] rounded-md focus:outline-none py-3 px-8 my-2"
+                  className="w-full text-xs placeholder-[#767676] rounded-md focus:outline-none py-3 px-8"
                   formik={formik}
                   onChange={(e: any) => formik.setFieldValue("date", e)}
                   name="date"
@@ -60,14 +66,14 @@ const ContestInfoItem = () => {
                   placeholder="Enter Date"
                 />
                 <ContestTimeDateField
-                  className="w-full text-xs placeholder-[#767676] rounded-md focus:outline-none py-3 px-8 my-2 overflow-y-scroll"
+                  className="w-full text-xs placeholder-[#767676] rounded-md focus:outline-none py-3 px-8 overflow-y-scroll"
                   formik={formik}
                   onChange={(e: any) => formik.setFieldValue("time", e)}
                   name="time"
                   type="time"
                   placeholder="Enter Time"
                 />
-                <div className="flex ">
+                <div className="flex">
                   <DurationField
                     className="w-16 text-xs font-semibold placeholder-[#767676] rounded-md focus:outline-none py-3 px-4"
                     formik={formik}
@@ -79,12 +85,6 @@ const ContestInfoItem = () => {
                     name="minute"
                   />
                 </div>
-                <DivisionDropdownField
-                  className="w-full text-xs placeholder-[#767676] rounded-md focus:outline-none py-3 px-8 my-2"
-                  formik={formik}
-                  placeholder="Select Division"
-                  name="division"
-                />
               </Form>
             </div>
           )}

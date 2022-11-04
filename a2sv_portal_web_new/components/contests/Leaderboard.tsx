@@ -1,7 +1,5 @@
 import React from "react";
-import { AiOutlineMinus } from "react-icons/ai";
-import { BiDownArrowAlt, BiUpArrowAlt } from "react-icons/bi";
-import { ContestInfo } from "../dashboard/ContestRating";
+
 
 export type LeaderboardProps = {
   id: number;

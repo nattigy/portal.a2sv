@@ -30,7 +30,7 @@ const UpcomingContestItem = (props: Props) => {
   return (
     <div className="flex flex-col gap-y-2">
       <h1 className="font-semibold text-lg">Upcoming Contest</h1>
-      <div className="flex gap-x-8">
+      <div className="grid xs:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
         {props.upcomingContests ? (
           props.upcomingContests.map((contest) => {
             return (
@@ -41,7 +41,7 @@ const UpcomingContestItem = (props: Props) => {
                     images[Math.floor(Math.random() * images.length)]
                   })`,
                 }}
-                className="flex flex-col w-1/3 h-48 justify-between rounded-md items-end"
+                className="flex flex-col h-48 justify-between rounded-md bg-cover bg-no-repeat"
                 onClick={() => handleClick(contest)}
               >
                 <div className="self-end p-2">
