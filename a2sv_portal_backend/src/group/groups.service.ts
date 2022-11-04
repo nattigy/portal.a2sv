@@ -1,16 +1,17 @@
-import {Injectable, NotFoundException} from '@nestjs/common'
-import {CreateGroupInput} from './dto/create-group.input'
-import {Group} from './entities/group.entity'
-import {UpdateGroupInput} from './dto/update-group.input'
-import {PrismaService} from '../prisma.service'
-import {GroupStatResponse} from './dto/group-stat-response'
-import {GroupWhereInput} from './dto/find-group.input'
-import {GroupsPaginated, GroupsUsersPaginated} from './dto/groups-return-dto'
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { CreateGroupInput } from './dto/create-group.input'
+import { Group } from './entities/group.entity'
+import { UpdateGroupInput } from './dto/update-group.input'
+import { PrismaService } from '../prisma.service'
+import { GroupStatResponse } from './dto/group-stat-response'
+import { GroupWhereInput } from './dto/find-group.input'
+import { GroupsPaginated, GroupsUsersPaginated } from './dto/groups-return-dto'
+import { PageInfoInput } from '../common/page/page-info.input'
+import { GroupsPage, GroupStatResponsePage } from '../common/page/page-info'
 
 @Injectable()
 export class GroupsService {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async createGroup(createGroupInput: CreateGroupInput): Promise<Group> {
     return this.prismaService.group.create({
@@ -56,11 +57,15 @@ export class GroupsService {
     return group
   }
 
-  async getGroups(filter?: GroupWhereInput): Promise<Group[]> {
-    const {skip, take, topicId, ...where} = filter || {}
-    return this.prismaService.group.findMany({
-      skip,
-      take,
+  async getGroups(
+    filter?: GroupWhereInput,
+    pageInfoInput?: PageInfoInput,
+  ): Promise<GroupsPage<Group>> {
+    const { topicId, ...where } = filter || {}
+    const groupsCount = (await this.prismaService.group.findMany({})).length
+    const groups = await this.prismaService.group.findMany({
+      skip: pageInfoInput.skip,
+      take: pageInfoInput.limit,
       include: {
         users: true,
         head: true,
@@ -79,15 +84,36 @@ export class GroupsService {
         },
       },
     })
+    return {
+      items: groups,
+      pageInfo: {
+        skip: pageInfoInput.skip,
+        count: groupsCount,
+        limit: pageInfoInput.limit,
+      },
+    }
   }
 
-  async groupsPagination(filter?: GroupWhereInput): Promise<GroupsPaginated> {
-    const {skip, take, topicId, ...where} = filter || {}
+  async groupsPagination(
+    filter?: GroupWhereInput,
+    pageInfoInput?: PageInfoInput,
+    userPaginationInput?: PageInfoInput,
+  ): Promise<GroupsPaginated> {
+    const { topicId, ...where } = filter || {}
+    const groupsCount = (
+      await this.prismaService.group.findMany({
+        where,
+      })
+    ).length
     const groups = await this.prismaService.group.findMany({
-      skip,
-      take,
+      where,
+      skip: pageInfoInput.skip,
+      take: pageInfoInput.limit,
       include: {
-        users: true,
+        users: {
+          take: userPaginationInput.limit,
+          skip: userPaginationInput.skip,
+        },
         head: true,
         seasons: {
           include: {
@@ -121,10 +147,9 @@ export class GroupsService {
       groupsUsersPaginated.push({
         group: groups[i],
         pageInfo: {
-          skip: 0,
-          userCount: users.length,
-          limit: 3,
-          count: 0,
+          skip: userPaginationInput.skip,
+          limit: userPaginationInput.limit,
+          count: users.length,
         },
       })
     }
@@ -132,10 +157,9 @@ export class GroupsService {
     return {
       items: groupsUsersPaginated,
       pageInfo: {
-        skip,
-        limit: take,
-        count: groups.length,
-        userCount: 0,
+        skip: pageInfoInput.skip,
+        limit: pageInfoInput.limit,
+        count: groupsCount,
       },
     }
   }
@@ -186,7 +210,7 @@ export class GroupsService {
     }
 
     return this.prismaService.group.update({
-      where: {id: id},
+      where: { id: id },
       data: queryData,
       include: {
         seasons: {
@@ -206,11 +230,13 @@ export class GroupsService {
 
   async deleteGroup(id: string): Promise<Group> {
     return this.prismaService.group.delete({
-      where: {id},
+      where: { id },
     })
   }
 
-  async getGroupsStat(): Promise<GroupStatResponse[]> {
+  async getGroupsStat(
+    pageInfoInput?: PageInfoInput,
+  ): Promise<GroupStatResponsePage<GroupStatResponse>> {
     const groupStatResponses: GroupStatResponse[] = []
     const topics = await this.prismaService.topic.findMany({
       select: {
@@ -220,7 +246,10 @@ export class GroupsService {
     if (!topics) {
       throw new NotFoundException(`No topics found`)
     }
+    const groupCount = (await this.prismaService.group.findMany({})).length
     const groups = await this.prismaService.group.findMany({
+      skip: pageInfoInput.skip,
+      take: pageInfoInput.limit,
       include: {
         users: {
           select: {
@@ -300,6 +329,13 @@ export class GroupsService {
         // rank: groups[i].id,
       })
     }
-    return groupStatResponses
+    return {
+      items: groupStatResponses,
+      pageInfo: {
+        skip: pageInfoInput.skip,
+        limit: pageInfoInput.limit,
+        count: groupCount,
+      },
+    }
   }
 }

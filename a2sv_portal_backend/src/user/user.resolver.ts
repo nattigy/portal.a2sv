@@ -1,18 +1,12 @@
 import {
-  Resolver,
-  Query,
-  Mutation,
   Args,
-  Int,
-  ResolveField,
+  Mutation,
   Parent,
+  Query,
+  ResolveField,
+  Resolver,
 } from '@nestjs/graphql'
-import {
-  StudentStat,
-  TopicCoverageStat,
-  TopicStudentStatInput,
-  UserService,
-} from './user.service'
+import { UserService } from './user.service'
 import { User } from './entities/user.entity'
 import { UserProfile } from 'src/user-profile/entities/user-profile.entity'
 import { CreateUserInput } from './dto/create-user.input'
@@ -24,6 +18,13 @@ import { Group } from 'src/group/entities/group.entity'
 import { UserTopic } from '../user-topic/entities/user-topic.entity'
 import { ComfortLevel } from './entities/comfort-level.enum'
 import { SeasonTopicProblemUser } from '../season-topic-problem-user/entities/season-topic-problem-user.entity'
+import { PageInfoInput } from '../common/page/page-info.input'
+import { UsersPage } from '../common/page/page-info'
+import {
+  StudentStat,
+  TopicCoverageStat,
+  TopicStudentStatInput,
+} from './dto/user-dtos'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -69,10 +70,14 @@ export class UserResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Query(() => [User], { name: 'users' })
-  async findAll(@Args() args: GetUserArgs) {
+  @Query(() => UsersPage<User>, { name: 'users' })
+  async findAll(
+    @Args() args: GetUserArgs,
+    @Args('pageInfoInput', { type: () => PageInfoInput, nullable: true })
+    pageInfoInput?: PageInfoInput,
+  ) {
     try {
-      return await this.userService.findAll(args)
+      return await this.userService.findAll(args, pageInfoInput)
     } catch (e) {
       console.log(e)
       return e.message

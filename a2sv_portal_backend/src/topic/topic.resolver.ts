@@ -1,6 +1,5 @@
 import {
   Args,
-  Int,
   Mutation,
   Parent,
   Query,
@@ -17,6 +16,8 @@ import { AddTopicToSeasonInput } from './dto/add-topic-to-season-input'
 import { TopicActionStatus } from './entities/topic-action-status'
 import { UserTopic } from '../user-topic/entities/user-topic.entity'
 import { SeasonTopic } from '../season-topic/entities/season-topic.entity'
+import { PageInfoInput } from '../common/page/page-info.input'
+import { TopicsPage } from '../common/page/page-info'
 
 @Resolver(() => Topic)
 export class TopicResolver {
@@ -35,9 +36,13 @@ export class TopicResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Query(() => [Topic], { name: 'topics' })
-  topics(@Args() args: GetTopicArgs) {
-    return this.topicService.getTopics(args)
+  @Query(() => TopicsPage<Topic>, { name: 'topics' })
+  topics(
+    @Args() args: GetTopicArgs,
+    @Args('pageInfoInput', { type: () => PageInfoInput, nullable: true })
+    pageInfoInput?: PageInfoInput,
+  ) {
+    return this.topicService.getTopics(args, pageInfoInput)
   }
 
   @Roles(
@@ -73,13 +78,6 @@ export class TopicResolver {
     return this.topicService.deleteTopic(id)
   }
 
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
   @Roles(
     'ADMIN',
     'HEAD_OF_ACADEMY',
