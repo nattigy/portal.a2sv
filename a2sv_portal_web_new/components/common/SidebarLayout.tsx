@@ -9,7 +9,7 @@ const SidebarLayout = (props: Props) => {
     const [sidebarHandler, setSidebarHandler] = useState<boolean>(true)
     return (
         <div className={clsx(
-            "bg-white flex min-h-screen lg:w-72 drop-shadow-xl relative z-20",
+            "bg-white flex min-h-screen lg:w-72 drop-shadow-xl relative z-40",
         )}>
             <div className={
                 clsx(
