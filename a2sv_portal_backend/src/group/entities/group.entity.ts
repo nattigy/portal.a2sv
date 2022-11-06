@@ -4,22 +4,22 @@ import { Season } from '../../season/entities/season.entity'
 
 @ObjectType()
 export class Group {
-  @Field()
+  @Field({description:"Id of the group"})
   id: string
-  @Field()
+  @Field({description:"Name of the group"})
   name: string
   @Field()
   createdAt: Date
-  @Field({ nullable: true })
+  @Field({ nullable: true, description:"The country a group is belonging" })
   country?: string
-  @Field({ nullable: true })
+  @Field({ nullable: true, description:"The school a group is belonging "})
   school?: string
-  @Field(() => [User], { nullable: true })
+  @Field(() => [User], { nullable: true, description:"Users that belong to that group" })
   users?: User[]
-  @Field(() => [Season], { nullable: true })
+  @Field(() => [Season], { nullable: true, description:"Seasons the group have" })
   seasons?: Season[]
-  @Field({ nullable: true })
+  @Field({ nullable: true, description:"User id of the user that is a head to the group"})
   headId?: string
-  @Field(() => User, { nullable: true })
+  @Field(() => User, { nullable: true, description:"User object of the head user to the group" })
   head?: User
 }

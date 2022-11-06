@@ -18,13 +18,14 @@ import { GroupWhereInput } from './dto/find-group.input'
 import { GroupsPaginated } from './dto/groups-return-dto'
 import { PageInfoInput } from '../common/page/page-info.input'
 import { GroupsPage, GroupStatResponsePage } from '../common/page/page-info'
+import descriptions from './group.doc'
 
 @Resolver(() => Group)
 export class GroupsResolver {
   constructor(private readonly groupsService: GroupsService) {}
 
   @Roles('ADMIN', 'HEAD_OF_ACADEMY')
-  @Mutation(() => Group)
+  @Mutation(() => Group,{description:descriptions.createGroup})
   async createGroup(
     @Args('createGroupInput') createGroupInput: CreateGroupInput,
   ) {
@@ -78,7 +79,7 @@ export class GroupsResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Query(() => Group)
+  @Query(() => Group,{description:descriptions.group})
   group(@Args('id', { type: () => String }) id: string) {
     return this.groupsService.getGroupById(id)
   }
@@ -90,7 +91,7 @@ export class GroupsResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Mutation(() => Group)
+  @Mutation(() => Group,{description:descriptions.updateGroup})
   updateGroup(@Args('updateGroupInput') updateGroupInput: UpdateGroupInput) {
     return this.groupsService.updateGroup(updateGroupInput)
   }
@@ -102,7 +103,7 @@ export class GroupsResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Mutation(() => Group)
+  @Mutation(() => Group,{description:descriptions.deleteGroup})
   deleteGroup(@Args('id', { type: () => String }) id: string) {
     return this.groupsService.deleteGroup(id)
   }
