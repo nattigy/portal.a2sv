@@ -16,6 +16,7 @@ import { Roles } from 'src/auth/auth.decorator'
 import { SeasonTopicProblem } from '../season-topic-problem/entities/season-topic-problem.entity'
 import { PageInfoInput } from '../common/page/page-info.input'
 import { ProblemsPage } from '../common/page/page-info'
+import descriptions from './problem.doc'
 
 @Resolver(() => Problem)
 export class ProblemResolver {
@@ -28,7 +29,7 @@ export class ProblemResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Mutation(() => Problem)
+  @Mutation(() => Problem,{description: descriptions.createProblem})
   async createProblem(
     @Args('createProblemInput') createProblemInput: CreateProblemInput,
   ): Promise<Problem> {
@@ -62,9 +63,9 @@ export class ProblemResolver {
   )
   @Query(() => Problem, {
     name: 'problem',
-    description: 'Find a unique problem by id',
+    description: descriptions.problem,
   })
-  async problem(@Args('id', { type: () => Int }) id: string): Promise<Problem> {
+  async problem(@Args('id') id: string): Promise<Problem> {
     return await this.problemService.findOne(id)
   }
 
@@ -75,7 +76,7 @@ export class ProblemResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Mutation(() => Problem)
+  @Mutation(() => Problem,{description:descriptions.updateProblem})
   async updateProblem(
     @Args('updateProblemInput') updateProblemInput: UpdateProblemInput,
   ): Promise<Problem> {
@@ -83,7 +84,7 @@ export class ProblemResolver {
   }
 
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
-  @Mutation(() => Problem)
+  @Mutation(() => Problem,{description:descriptions.removeProblem})
   async removeProblem(
     @Args('id', { type: () => Int }) id: string,
   ): Promise<Problem> {
