@@ -24,7 +24,7 @@ export class UserTopicResolver {
     return this.userTopicService.create(createUserTopicInput)
   }
 
-  @Query(() => [UserTopic], { name: 'userTopic' })
+  @Query(() => [UserTopic], { name: 'userTopics' })
   findAll() {
     return this.userTopicService.findAll()
   }
