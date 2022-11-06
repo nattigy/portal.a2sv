@@ -13,7 +13,7 @@ import { CreateProblemInput } from './dto/create-problem.input'
 import { UpdateProblemInput } from './dto/update-problem.input'
 import { Tag } from '@prisma/client'
 import { Roles } from 'src/auth/auth.decorator'
-import {SeasonTopicProblem} from "../season-topic-problem/entities/season-topic-problem.entity";
+import { SeasonTopicProblem } from '../season-topic-problem/entities/season-topic-problem.entity'
 
 @Resolver(() => Problem)
 export class ProblemResolver {
@@ -66,7 +66,7 @@ export class ProblemResolver {
     name: 'problem',
     description: 'Find a unique problem by id',
   })
-  async problem(@Args('id', { type: () => Int }) id: string): Promise<Problem> {
+  async problem(@Args('id') id: string): Promise<Problem> {
     return await this.problemService.findOne(id)
   }
 
