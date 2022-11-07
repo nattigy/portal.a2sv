@@ -38,7 +38,7 @@ export class ContestService {
     return `This action removes a #${id} contest`
   }
 
-  async getGroupStats(id: string): Promise<GroupContest[]> {
+  async groupContestStats(id: string): Promise<GroupContest[]> {
     const contest = await this.prismaService.contest.findUnique({
       where: {
         id: id,
