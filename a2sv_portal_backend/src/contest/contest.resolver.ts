@@ -30,9 +30,9 @@ export class ContestResolver {
     return this.contestService.findAll()
   }
 
-  @Query(() => [GroupContest], { name: 'getGroupStats' })
-  getGroupStats(@Args('groupId') id: string) {
-    return this.contestService.getGroupStats(id)
+  @Query(() => [GroupContest], { name: 'groupContestStats' })
+  groupContestStats(@Args('groupId') id: string) {
+    return this.contestService.groupContestStats(id)
   }
 
   @Query(() => Contest, { name: 'contest' })

@@ -16,6 +16,13 @@ import { PrismaService } from '../prisma.service'
 import { ComfortLevel } from './entities/comfort-level.enum'
 import { GroupsService } from '../group/groups.service'
 import { SeasonTopicProblemUser } from '@prisma/client'
+import { PageInfoInput } from '../common/page/page-info.input'
+import { UsersPage } from '../common/page/page-info'
+import {
+  StudentStat,
+  TopicCoverageStat,
+  TopicStudentStatInput,
+} from './dto/user-dtos'
 
 export enum StatTimeRange {
   MONTH,
@@ -29,60 +36,6 @@ type sortComparator = (
 ) => number
 
 registerEnumType(StatTimeRange, { name: 'StatTimeRange' })
-
-@ObjectType()
-export class StudentStat {
-  @Field(() => Float)
-  acceptanceRate: number
-  @Field(() => Int)
-  numberOfCorrectSubmissions: number
-  @Field(() => Int)
-  numberOfIncorrectSubmissions: number
-  @Field(() => Int)
-  totalTimeDedicated: number
-  @Field(() => Float)
-  uncomfortablity: number
-  @Field(() => Int)
-  easyCount: number
-  @Field(() => Int)
-  mediumCount: number
-  @Field(() => Int)
-  hardCount: number
-  @Field(() => Int)
-  totalUsers: number
-  @Field(() => Int)
-  weeklyRank
-  @Field(() => Int)
-  monthlyRank
-  @Field(() => Int)
-  allTimeRank
-}
-
-@InputType()
-export class TopicStudentStatInput {
-  @Field()
-  studentId: string
-  @Field()
-  seasonId: string
-}
-
-@ObjectType()
-export class EachTopicCoverageStat {
-  @Field()
-  topicId: string
-  @Field(() => Float)
-  topicCoverage: number
-}
-
-@ObjectType()
-export class TopicCoverageStat {
-  @Field(() => [EachTopicCoverageStat])
-  eachTopicCoverageStat: EachTopicCoverageStat[]
-  @Field(() => Float)
-  totalTopicCoverage: number
-  @Field(() => Float)
-  uncomfortability: number
-}
 
 @Injectable()
 export class UserService {
@@ -136,19 +89,31 @@ export class UserService {
     })
   }
 
-  async findAll(params: {
-    skip?: number
-    take?: number
-    status?: Status
-    email?: string
-    groupId?: string
-    role?: RoleEnum
-  }): Promise<User[] | []> {
-    const { skip, take, status, email, groupId, role } = params
-
+  async findAll(
+    params: {
+      skip?: number
+      take?: number
+      status?: Status
+      email?: string
+      groupId?: string
+      role?: RoleEnum
+    },
+    pageInfoInput?: PageInfoInput,
+  ): Promise<UsersPage<User>> {
+    const { status, email, groupId, role } = params
+    const usersCount = (
+      await this.prismaService.user.findMany({
+        where: {
+          groupId,
+          status,
+          email,
+          role,
+        },
+      })
+    ).length
     const result = await this.prismaService.user.findMany({
-      skip,
-      take,
+      skip: pageInfoInput.skip,
+      take: pageInfoInput.limit,
       where: {
         groupId,
         status,
@@ -168,7 +133,14 @@ export class UserService {
       },
     })
 
-    return result
+    return {
+      items: result,
+      pageInfo: {
+        skip: pageInfoInput.skip,
+        limit: pageInfoInput.limit,
+        count: usersCount,
+      },
+    }
   }
 
   async findOne(id: string) {

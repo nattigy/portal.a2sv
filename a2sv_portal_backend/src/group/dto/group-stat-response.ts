@@ -1,19 +1,7 @@
-import { Field, ID, Int, ObjectType } from '@nestjs/graphql'
+import { Field, Int, ObjectType } from '@nestjs/graphql'
 
 @ObjectType()
 export class GroupStatResponse {
-  /*
-  1. Topics covered
-  2. Number of problems solved
-  3. Topics students struggling with
-  4. Total time dedicated
-  5. Number of correct submission
-  6. Number of incorrect submission
-  7.# Consistency chart of each group
-  8. Rank of group
-  9.# Contest stats
-  11. Number of contests attended */
-
   @Field(() => String)
   id: string
 

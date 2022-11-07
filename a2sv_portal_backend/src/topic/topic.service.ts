@@ -4,6 +4,8 @@ import { Topic } from '@prisma/client'
 import { CreateTopicInput } from './dto/create-topic.input'
 import { UpdateTopicInput } from './dto/update-topic.input'
 import { AddTopicToSeasonInput } from './dto/add-topic-to-season-input'
+import { PageInfoInput } from '../common/page/page-info.input'
+import { TopicsPage } from '../common/page/page-info'
 
 export interface TopicWhereInput {
   skip?: number
@@ -16,16 +18,24 @@ export interface TopicWhereInput {
 export class TopicService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getTopics({
-    skip,
-    take,
-    groupId,
-    seasonId,
-  }: TopicWhereInput = {}): Promise<Topic[] | []> {
-    // console.log(groupId, seasonId)
-    return this.prismaService.topic.findMany({
-      skip,
-      take,
+  async getTopics(
+    { groupId, seasonId }: TopicWhereInput = {},
+    pageInfoInput?: PageInfoInput,
+  ): Promise<TopicsPage<Topic>> {
+    const topicsCount = (
+      await this.prismaService.topic.findMany({
+        where: {
+          seasons: {
+            some: seasonId && {
+              seasonId,
+            },
+          },
+        },
+      })
+    ).length
+    const topics = await this.prismaService.topic.findMany({
+      skip: pageInfoInput.skip,
+      take: pageInfoInput.limit,
       where: {
         seasons: {
           some: seasonId && {
@@ -45,6 +55,14 @@ export class TopicService {
         },
       },
     })
+    return {
+      items: topics,
+      pageInfo: {
+        skip: pageInfoInput.skip,
+        limit: pageInfoInput.limit,
+        count: topicsCount,
+      },
+    }
   }
 
   async getTopicById(id: string): Promise<Topic> {
