@@ -19,6 +19,10 @@ import { UserTopicModule } from './user-topic/user-topic.module'
 import { SeasonTopicModule } from './season-topic/season-topic.module'
 import { SeasonTopicProblemModule } from './season-topic-problem/season-topic-problem.module'
 import { SeasonTopicProblemUserModule } from './season-topic-problem-user/season-topic-problem-user.module'
+import {ContestModule} from "./contest/contest.module";
+import {UserContestModule} from "./user-contest/user-contest.module";
+import {UserContestProblemModule} from "./user-contest-problem/user-contest-problem.module";
+import {GroupContestModule} from "./group-contest/group-contest.module";
 
 @Module({
   imports: [
@@ -57,6 +61,10 @@ import { SeasonTopicProblemUserModule } from './season-topic-problem-user/season
     SeasonTopicModule,
     SeasonTopicProblemModule,
     SeasonTopicProblemUserModule,
+    ContestModule,
+    UserContestModule,
+    UserContestProblemModule,
+    GroupContestModule,
   ],
   providers: [AppService, AppResolver],
 })

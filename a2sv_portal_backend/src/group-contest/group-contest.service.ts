@@ -67,33 +67,33 @@ export class GroupContestService {
       throw new NotFoundException(`No groups and contests found`)
     }
 
-    groupContest.contest.userContests.map((uc) => {
-      let problemsSolved = 0
-      let wrongSubmissions = 0
-      uc.userContestProblems.map((up) => {
-        if (up.status == UserContestProblemEnum.SOLVED) {
-          problemsSolved += 1
-          if (!userProb[up.userId]) probSolved[up.problemId] = 1
-          else probSolved[up.problemId] += 1
-          if (!userProb[up.userId]) userProb[up.userId] = 1
-          else userProb[up.userId] += 1
-        }
-        wrongSubmissions += up.numberOfAttempts
-      })
-      uc.problemsSolved = problemsSolved
-      uc.wrongSubmissions = wrongSubmissions
-    })
-    for (const [, value] of Object.entries(userProb)) {
-      if (!probsNum[value]) probsNum[value] = 1
-      else probsNum[value] += 1
-    }
-    for (const [key, value] of Object.entries(probsNum)) {
-      problemStats.push({
-        numberOfProblems: parseInt(key, 10),
-        numberOfStudents: value,
-        problems: [],
-      })
-    }
+    // groupContest.contest.userContests.map((uc) => {
+    //   let problemsSolved = 0
+    //   let wrongSubmissions = 0
+    //   uc.userContestProblems.map((up) => {
+    //     if (up.status == UserContestProblemEnum.SOLVED) {
+    //       problemsSolved += 1
+    //       if (!userProb[up.userId]) probSolved[up.problemId] = 1
+    //       else probSolved[up.problemId] += 1
+    //       if (!userProb[up.userId]) userProb[up.userId] = 1
+    //       else userProb[up.userId] += 1
+    //     }
+    //     wrongSubmissions += up.numberOfAttempts
+    //   })
+    //   uc.problemsSolved = problemsSolved
+    //   uc.wrongSubmissions = wrongSubmissions
+    // })
+    // for (const [, value] of Object.entries(userProb)) {
+    //   if (!probsNum[value]) probsNum[value] = 1
+    //   else probsNum[value] += 1
+    // }
+    // for (const [key, value] of Object.entries(probsNum)) {
+    //   problemStats.push({
+    //     numberOfProblems: parseInt(key, 10),
+    //     numberOfStudents: value,
+    //     problems: [],
+    //   })
+    // }
     return groupContestStat
   }
 
