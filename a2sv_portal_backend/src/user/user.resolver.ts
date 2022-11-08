@@ -70,7 +70,12 @@ export class UserResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Query(() => UsersPage<User>, { name: 'users' })
+  @Query(
+    () => {
+      return UsersPage<User>
+    },
+    { name: 'users' },
+  )
   async findAll(
     @Args() args: GetUserArgs,
     @Args('pageInfoInput', { type: () => PageInfoInput, nullable: true })

@@ -64,8 +64,8 @@ export class GroupsService {
     const { topicId, ...where } = filter || {}
     const groupsCount = (await this.prismaService.group.findMany({})).length
     const groups = await this.prismaService.group.findMany({
-      skip: pageInfoInput.skip,
-      take: pageInfoInput.limit,
+      skip: pageInfoInput?.skip,
+      take: pageInfoInput?.limit,
       include: {
         users: true,
         head: true,
@@ -87,9 +87,9 @@ export class GroupsService {
     return {
       items: groups,
       pageInfo: {
-        skip: pageInfoInput.skip,
+        skip: pageInfoInput?.skip,
         count: groupsCount,
-        limit: pageInfoInput.limit,
+        limit: pageInfoInput?.limit,
       },
     }
   }
