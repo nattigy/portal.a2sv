@@ -34,8 +34,8 @@ export class TopicService {
       })
     ).length
     const topics = await this.prismaService.topic.findMany({
-      skip: pageInfoInput.skip,
-      take: pageInfoInput.limit,
+      skip: pageInfoInput?.skip,
+      take: pageInfoInput?.limit,
       where: {
         seasons: {
           some: seasonId && {
@@ -58,8 +58,8 @@ export class TopicService {
     return {
       items: topics,
       pageInfo: {
-        skip: pageInfoInput.skip,
-        limit: pageInfoInput.limit,
+        skip: pageInfoInput?.skip,
+        limit: pageInfoInput?.limit,
         count: topicsCount,
       },
     }

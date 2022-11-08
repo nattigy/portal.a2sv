@@ -58,8 +58,8 @@ export class ProblemService {
     return {
       items: problems,
       pageInfo: {
-        skip: pageInfoInput.skip,
-        limit: pageInfoInput.limit,
+        skip: pageInfoInput?.skip,
+        limit: pageInfoInput?.limit,
         count: problemsCount,
       },
     }
