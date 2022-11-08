@@ -112,8 +112,8 @@ export class UserService {
       })
     ).length
     const result = await this.prismaService.user.findMany({
-      skip: pageInfoInput.skip,
-      take: pageInfoInput.limit,
+      skip: pageInfoInput?.skip,
+      take: pageInfoInput?.limit,
       where: {
         groupId,
         status,
@@ -136,8 +136,8 @@ export class UserService {
     return {
       items: result,
       pageInfo: {
-        skip: pageInfoInput.skip,
-        limit: pageInfoInput.limit,
+        skip: pageInfoInput?.skip,
+        limit: pageInfoInput?.limit,
         count: usersCount,
       },
     }
@@ -169,84 +169,16 @@ export class UserService {
   }
 
   async update(updateUserInput: UpdateUserInput): Promise<User> {
-    // eslint-disable-next-line prefer-const
-    let { id, seasonTopicProblems, groupId, userProfile, ...data } =
-      updateUserInput
-    const queryData = data as any
-
-    if (groupId) {
-      queryData.group = {
-        connect: { id: groupId },
-      }
-    }
-    if (seasonTopicProblems) {
-      queryData.groupTopicProblems = {
-        upsert: seasonTopicProblems.map((GroupTopicSeasonProblem) => {
-          const { problemId, topicId, ...groupTopicProblemData } =
-            GroupTopicSeasonProblem
-          return {
-            where: {
-              groupId_topicId_problemId_userId: {
-                groupId,
-                topicId,
-                problemId,
-                id,
-              },
-            },
-            create: {
-              // user: {
-              //   connect: {
-              //     id: id,
-              //   },
-              // },
-              GroupTopicSeasonProblem: {
-                connect: {
-                  problemId_groupId_topicId: {
-                    groupId,
-                    topicId,
-                    problemId,
-                  },
-                },
-              },
-              ...groupTopicProblemData,
-            },
-            update: groupTopicProblemData,
-          }
-        }),
-      }
-      // queryData.groupTopicProblems = groupTopicProblems.map(
-      //   (GroupTopicSeasonProblem) => {
-
-      //     return {
-
-      //     }
-      //   },
-      // )
-    }
-    if (userProfile) {
-      {
-        queryData.userProfile = {
-          upsert: {
-            update: userProfile,
-            create: userProfile,
-          },
-        }
-      }
-    }
-    return await this.prismaService.user.update({
-      include: {
-        group: true,
-        userProfile: true,
-        headToGroup: true,
-        seasonTopicProblems: true,
-        topics: {
-          include: {
-            topic: true,
-          },
-        },
+    const { id, ...updates } = updateUserInput
+    return this.prismaService.user.update({
+      where: {
+        id,
       },
-      data: queryData,
-      where: { id },
+      data: updates,
+      include: {
+        headToGroup: true,
+        userProfile: true,
+      },
     })
   }
 
@@ -260,7 +192,6 @@ export class UserService {
     return await this.prismaService.user.findFirst({
       where: { email },
       include: {
-        group: true,
         headToGroup: true,
         userProfile: true,
         topics: {
@@ -278,7 +209,6 @@ export class UserService {
         id: id,
       },
       include: {
-        group: true,
         headToGroup: true,
         userProfile: true,
         topics: {
