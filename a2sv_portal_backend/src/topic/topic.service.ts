@@ -4,8 +4,8 @@ import { Topic } from '@prisma/client'
 import { CreateTopicInput } from './dto/create-topic.input'
 import { UpdateTopicInput } from './dto/update-topic.input'
 import { AddTopicToSeasonInput } from './dto/add-topic-to-season-input'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PageInfoInput } from '../common/page/page-info.input'
+import { TopicsPage } from '../common/page/page-info'
 
 export interface TopicWhereInput {
   skip?: number
@@ -20,8 +20,8 @@ export class TopicService {
 
   async getTopics(
     { groupId, seasonId }: TopicWhereInput = {},
-    pageInfoInput?: PaginationInfoInput,
-  ): Promise<PaginationOutput<Topic>> {
+    pageInfoInput?: PageInfoInput,
+  ): Promise<TopicsPage<Topic>> {
     const topicsCount = (
       await this.prismaService.topic.findMany({
         where: {
@@ -34,8 +34,8 @@ export class TopicService {
       })
     ).length
     const topics = await this.prismaService.topic.findMany({
-      skip: pageInfoInput.skip,
-      take: pageInfoInput.take,
+      skip: pageInfoInput?.skip,
+      take: pageInfoInput?.limit,
       where: {
         seasons: {
           some: seasonId && {
@@ -58,8 +58,8 @@ export class TopicService {
     return {
       items: topics,
       pageInfo: {
-        skip: pageInfoInput.skip,
-        take: pageInfoInput.take,
+        skip: pageInfoInput?.skip,
+        limit: pageInfoInput?.limit,
         count: topicsCount,
       },
     }

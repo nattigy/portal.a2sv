@@ -1,10 +1,11 @@
 import { CreateSeasonTopicProblemUserInput } from './create-season-topic-problem-user.input'
-import { Field, InputType, Int, PartialType } from '@nestjs/graphql'
+import { InputType, Field, Int, PartialType } from '@nestjs/graphql'
+import { SeasonTopicProblemUserId } from './season-topic-problem-user.id'
 
 @InputType()
-export class UpdateSeasonTopicProblemUserInput extends PartialType(
-  CreateSeasonTopicProblemUserInput,
-) {
+export class UpdateSeasonTopicProblemUserInput {
+  @Field()
+  id: SeasonTopicProblemUserId
   @Field({ nullable: true })
   solved?: boolean
   @Field(() => Int, { nullable: true })

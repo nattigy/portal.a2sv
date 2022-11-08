@@ -9,19 +9,8 @@ export class UpdateUserInput {
   id: string
   @Field(() => String, { nullable: true })
   groupId?: string
-
   @Field({ nullable: true })
   email?: string
-
-  @Field({ nullable: true })
-  password?: string
-
   @Field(() => RoleEnum, { nullable: true })
   role?: RoleEnum
-
-  @Field(() => UpdateUserProfileInput, { nullable: true })
-  userProfile?: UpdateUserProfileInput
-
-  @Field(() => [UpdateSeasonTopicProblemUserInput], { nullable: true })
-  seasonTopicProblems?: UpdateSeasonTopicProblemUserInput[]
 }
