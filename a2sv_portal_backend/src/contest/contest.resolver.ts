@@ -13,7 +13,7 @@ import { CreateContestInput } from './dto/create-contest.input'
 import { UpdateContestInput } from './dto/update-contest.input'
 import { Problem } from '../problem/entities/problem.entity'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationContest } from '../common/page/pagination-info'
 
 @Resolver(() => Contest)
 export class ContestResolver {
@@ -26,11 +26,11 @@ export class ContestResolver {
     return this.contestService.create(createContestInput)
   }
 
-  @Query(() => PaginationOutput<Contest>)
+  @Query(() => PaginationContest)
   async contests(
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
     pageInfoInput: PaginationInfoInput = { skip: 0, take: 10 },
-  ): Promise<PaginationOutput<Contest>> {
+  ): Promise<PaginationContest> {
     return this.contestService.findAll(pageInfoInput)
   }
 

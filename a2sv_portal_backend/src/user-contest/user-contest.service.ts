@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { CreateUserContestInput } from './dto/create-user-contest.input'
 import { UpdateUserContestInput } from './dto/update-user-contest.input'
 import { PrismaService } from '../prisma.service'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationUserContests } from '../common/page/pagination-info'
 import { UserContest } from './entities/user-contest.entity'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 
@@ -35,7 +35,7 @@ export class UserContestService {
   async userContests(
     userId: string,
     { skip, take }: PaginationInfoInput,
-  ): Promise<PaginationOutput<UserContest>> {
+  ): Promise<PaginationUserContests> {
     const count = (await this.prismaService.userContest.findMany({})).length
     const userContests: UserContest[] =
       await this.prismaService.userContest.findMany({

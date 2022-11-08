@@ -1,8 +1,10 @@
-import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql'
+import { Field, Int, ObjectType } from '@nestjs/graphql'
 import { Problem } from '../../problem/entities/problem.entity'
 import { UserContest } from '../../user-contest/entities/user-contest.entity'
 import { Contest } from '../../contest/entities/contest.entity'
 import { User } from '../../user/entities/user.entity'
+import { UserContestProblemStatus } from '@prisma/client'
+import { UserContestProblemEnum } from './user-contest-problem-status.enum'
 
 @ObjectType()
 export class UserContestProblem {
@@ -18,8 +20,8 @@ export class UserContestProblem {
   user?: User
   @Field(() => Contest, { nullable: true })
   contest?: Contest
-  // @Field(() => UserContestProblemEnum)
-  // status: UserContestProblemEnum
+  @Field(() => UserContestProblemEnum)
+  status: UserContestProblemStatus
   @Field(() => Int)
   numberOfAttempts: number
   @Field(() => Int)
@@ -27,13 +29,3 @@ export class UserContestProblem {
   @Field(() => UserContest, { nullable: true })
   userContest?: UserContest
 }
-
-export enum UserContestProblemEnum {
-  SOLVED = 'SOLVED',
-  NOT_SOLVED = 'NOT_SOLVED',
-  ATTEMPTED = 'ATTEMPTED',
-}
-
-registerEnumType(UserContestProblemEnum, {
-  name: 'UserContestProblemEnum',
-})

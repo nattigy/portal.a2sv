@@ -3,27 +3,27 @@ import { GroupContestService } from './group-contest.service'
 import { GroupContest } from './entities/group-contest.entity'
 import { UpdateGroupContestInput } from './dto/update-group-contest.input'
 import { FindGroupContestInput } from './dto/find-group-contest.input'
-import { PaginationOutput } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationGroupContest } from '../common/page/pagination-info'
 
 @Resolver(() => GroupContest)
 export class GroupContestResolver {
   constructor(private readonly groupContestService: GroupContestService) {}
 
-  @Query(() => PaginationOutput<GroupContest>)
+  @Query(() => PaginationGroupContest)
   async allGroupContests(
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
     pageInfoInput: PaginationInfoInput = { skip: 0, take: 10 },
-  ): Promise<PaginationOutput<GroupContest>> {
+  ): Promise<PaginationGroupContest> {
     return this.groupContestService.findAll(pageInfoInput)
   }
 
-  @Query(() => PaginationOutput<GroupContest>)
+  @Query(() => PaginationGroupContest)
   async groupContests(
     @Args('groupId') groupId: string,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
     pageInfoInput: PaginationInfoInput = { skip: 0, take: 10 },
-  ): Promise<PaginationOutput<GroupContest>> {
+  ): Promise<PaginationGroupContest> {
     return this.groupContestService.groupContests(groupId, pageInfoInput)
   }
 

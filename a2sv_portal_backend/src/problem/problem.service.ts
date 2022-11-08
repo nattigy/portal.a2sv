@@ -4,7 +4,7 @@ import { UpdateProblemInput } from './dto/update-problem.input'
 import { PrismaService } from '../prisma.service'
 import { Problem } from '@prisma/client'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationProblem } from '../common/page/pagination-info'
 
 @Injectable()
 export class ProblemService {
@@ -44,9 +44,9 @@ export class ProblemService {
 
   async findAll(
     pageInfoInput?: PaginationInfoInput,
-  ): Promise<PaginationOutput<Problem>> {
+  ): Promise<PaginationProblem> {
     const problemsCount = (await this.prismaService.problem.findMany({})).length
-    const problems = await this.prismaService.problem.findMany({
+    const problems: Problem[] = await this.prismaService.problem.findMany({
       include: {
         tags: true,
         seasonTopics: {

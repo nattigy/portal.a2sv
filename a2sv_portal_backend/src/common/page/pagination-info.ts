@@ -6,9 +6,8 @@ import { Contest } from '../../contest/entities/contest.entity'
 import { Problem } from '../../problem/entities/problem.entity'
 import { GroupStatResponse } from '../../group/dto/group-stat-response'
 import { Topic } from '../../topic/entities/topic.entity'
-import { GroupContest } from '../../group-contest/entities/group-contest.entity'
 import { UserContest } from '../../user-contest/entities/user-contest.entity'
-import { UserContestProblem } from '../../user-contest-problem/entities/user-contest-problem.entity'
+import { GroupContest } from '../../group-contest/entities/group-contest.entity'
 
 @ObjectType()
 export class PaginationInfo {
@@ -22,21 +21,73 @@ export class PaginationInfo {
   count: number
 }
 
-const GENERIC_TYPE: any =
-  User ||
-  Group ||
-  Season ||
-  Contest ||
-  Problem ||
-  Topic ||
-  GroupContest ||
-  UserContest ||
-  UserContestProblem
+@ObjectType()
+export class PaginationUserContests {
+  @Field(() => [UserContest])
+  items: UserContest[]
+
+  @Field(() => PaginationInfo)
+  pageInfo: PaginationInfo
+}
 
 @ObjectType()
-export class PaginationOutput<T> {
-  @Field(() => [GENERIC_TYPE])
-  items: T[]
+export class PaginationUser {
+  @Field(() => [User])
+  items: User[]
+
+  @Field(() => PaginationInfo)
+  pageInfo: PaginationInfo
+}
+
+@ObjectType()
+export class PaginationSeason {
+  @Field(() => [Season])
+  items: Season[]
+
+  @Field(() => PaginationInfo)
+  pageInfo: PaginationInfo
+}
+
+@ObjectType()
+export class PaginationTopic {
+  @Field(() => [Topic])
+  items: Topic[]
+
+  @Field(() => PaginationInfo)
+  pageInfo: PaginationInfo
+}
+
+@ObjectType()
+export class PaginationContest {
+  @Field(() => [Contest])
+  items: Contest[]
+
+  @Field(() => PaginationInfo)
+  pageInfo: PaginationInfo
+}
+
+@ObjectType()
+export class PaginationProblem {
+  @Field(() => [Problem])
+  items: Problem[]
+
+  @Field(() => PaginationInfo)
+  pageInfo: PaginationInfo
+}
+
+@ObjectType()
+export class PaginationGroup {
+  @Field(() => [Group])
+  items: Group[]
+
+  @Field(() => PaginationInfo)
+  pageInfo: PaginationInfo
+}
+
+@ObjectType()
+export class PaginationGroupContest {
+  @Field(() => [GroupContest])
+  items: GroupContest[]
 
   @Field(() => PaginationInfo)
   pageInfo: PaginationInfo

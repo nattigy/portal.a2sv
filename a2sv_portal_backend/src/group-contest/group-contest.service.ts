@@ -2,10 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { UpdateGroupContestInput } from './dto/update-group-contest.input'
 import { PrismaService } from '../prisma.service'
 import { FindGroupContestInput } from './dto/find-group-contest.input'
-import { UserContestProblemEnum } from '../user-contest-problem/entities/user-contest-problem.entity'
 import { GroupContest, ProblemsStat } from './entities/group-contest.entity'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationGroupContest } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { UserContestProblemEnum } from '../user-contest-problem/entities/user-contest-problem-status.enum'
 
 @Injectable()
 export class GroupContestService {
@@ -14,7 +14,7 @@ export class GroupContestService {
   async findAll({
     skip,
     take,
-  }: PaginationInfoInput): Promise<PaginationOutput<GroupContest>> {
+  }: PaginationInfoInput): Promise<PaginationGroupContest> {
     const groupContests: GroupContest[] =
       await this.prismaService.groupContest.findMany({
         skip,
@@ -34,7 +34,7 @@ export class GroupContestService {
   async groupContests(
     groupId: string,
     { skip, take }: PaginationInfoInput,
-  ): Promise<PaginationOutput<GroupContest>> {
+  ): Promise<PaginationGroupContest> {
     const count = (
       await this.prismaService.groupContest.findMany({
         where: {

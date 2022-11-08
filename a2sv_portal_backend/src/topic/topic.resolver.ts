@@ -17,7 +17,7 @@ import { TopicActionStatus } from './entities/topic-action-status'
 import { UserTopic } from '../user-topic/entities/user-topic.entity'
 import { SeasonTopic } from '../season-topic/entities/season-topic.entity'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationTopic } from '../common/page/pagination-info'
 
 @Resolver(() => Topic)
 export class TopicResolver {
@@ -36,7 +36,7 @@ export class TopicResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Query(() => PaginationOutput<Topic>, { name: 'topics' })
+  @Query(() => PaginationTopic, { name: 'topics' })
   topics(
     @Args() args: GetTopicArgs,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })

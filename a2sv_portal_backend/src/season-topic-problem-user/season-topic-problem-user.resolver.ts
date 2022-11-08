@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { SeasonTopicProblemFilter } from '../season-topic-problem/season-topic-problem.service'
 import { SeasonTopicProblemUserFilter } from './dto/season-topic-problem-user.filter'
 import { SeasonTopicProblemUserId } from './dto/season-topic-problem-user.id'
@@ -6,7 +6,6 @@ import { SeasonTopicProblemUserService } from './season-topic-problem-user.servi
 import { SeasonTopicProblemUser } from './entities/season-topic-problem-user.entity'
 import { CreateSeasonTopicProblemUserInput } from './dto/create-season-topic-problem-user.input'
 import { UpdateSeasonTopicProblemUserInput } from './dto/update-season-topic-problem-user.input'
-import { UpdateSeasonTopicProblemInput } from '../season-topic-problem/dto/update-season-topic-problem.input'
 
 @Resolver(() => SeasonTopicProblemUser)
 export class SeasonTopicProblemUserResolver {

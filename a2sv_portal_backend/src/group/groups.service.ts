@@ -9,7 +9,7 @@ import { GroupsPaginated, GroupsUsersPaginated } from './dto/groups-return-dto'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import {
   GroupStatResponsePage,
-  PaginationOutput,
+  PaginationGroup,
 } from '../common/page/pagination-info'
 
 @Injectable()
@@ -63,7 +63,7 @@ export class GroupsService {
   async groups(
     pageInfoInput: PaginationInfoInput,
     filter?: GroupWhereInput,
-  ): Promise<PaginationOutput<Group>> {
+  ): Promise<PaginationGroup> {
     const { topicId, ...where } = filter || {}
     const groupsCount = (await this.prismaService.group.findMany({})).length
     const groups = await this.prismaService.group.findMany({

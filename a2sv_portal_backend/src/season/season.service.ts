@@ -4,7 +4,7 @@ import { CreateSeasonInput } from './dto/create-season.input'
 import { UpdateSeasonInput } from './dto/update-season.input'
 import { Season } from '@prisma/client'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationSeason } from '../common/page/pagination-info'
 
 @Injectable()
 export class SeasonService {
@@ -12,7 +12,7 @@ export class SeasonService {
 
   async getSeasons(
     pageInfoInput?: PaginationInfoInput,
-  ): Promise<PaginationOutput<Season>> {
+  ): Promise<PaginationSeason> {
     const seasonsCount = (await this.prismaService.season.findMany({})).length
     const seasons = await this.prismaService.season.findMany({
       include: {

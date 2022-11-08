@@ -19,12 +19,12 @@ import { UserTopic } from '../user-topic/entities/user-topic.entity'
 import { ComfortLevel } from './entities/comfort-level.enum'
 import { SeasonTopicProblemUser } from '../season-topic-problem-user/entities/season-topic-problem-user.entity'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { PaginationOutput } from '../common/page/pagination-info'
 import {
   StudentStat,
   TopicCoverageStat,
   TopicStudentStatInput,
 } from './dto/user-dtos'
+import { PaginationUser } from '../common/page/pagination-info'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -69,12 +69,12 @@ export class UserResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Query(() => PaginationOutput<User>, { name: 'users' })
+  @Query(() => PaginationUser, { name: 'users' })
   async findAll(
     @Args() args: GetUserArgs,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
     pageInfoInput?: PaginationInfoInput,
-  ): Promise<PaginationOutput<User>> {
+  ): Promise<PaginationUser> {
     try {
       return await this.userService.findAll(args, pageInfoInput)
     } catch (e) {

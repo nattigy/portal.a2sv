@@ -19,7 +19,7 @@ import { GroupsPaginated } from './dto/groups-return-dto'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import {
   GroupStatResponsePage,
-  PaginationOutput,
+  PaginationGroup,
 } from '../common/page/pagination-info'
 
 @Resolver(() => Group)
@@ -53,13 +53,13 @@ export class GroupsResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Query(() => PaginationOutput<Group>)
+  @Query(() => PaginationGroup)
   async groups(
     @Args('filter', { type: () => GroupWhereInput, nullable: true })
     where?: GroupWhereInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
     pageInfoInput: PaginationInfoInput = { skip: 0, take: 10 },
-  ): Promise<PaginationOutput<Group>> {
+  ): Promise<PaginationGroup> {
     return this.groupsService.groups(pageInfoInput, where)
   }
 

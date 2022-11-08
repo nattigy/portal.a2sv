@@ -15,7 +15,7 @@ import { Tag } from '@prisma/client'
 import { Roles } from 'src/auth/auth.decorator'
 import { SeasonTopicProblem } from '../season-topic-problem/entities/season-topic-problem.entity'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationProblem } from '../common/page/pagination-info'
 
 @Resolver(() => Problem)
 export class ProblemResolver {
@@ -42,7 +42,7 @@ export class ProblemResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Query(() => PaginationOutput<Problem>, {
+  @Query(() => PaginationProblem, {
     name: 'problems',
     description: 'Find all problems with populated tags',
   })

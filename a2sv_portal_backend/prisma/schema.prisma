@@ -52,7 +52,7 @@ model UserContestProblem {
   contestId        String
   problemId        String
   problem          Problem                  @relation(fields: [problemId], references: [id])
-  status           UserContestProblemStatus
+  status           UserContestProblemStatus @default(UNATTEMPTED)
   numberOfAttempts Int
   numberOfMinutes  Int
   userContest      UserContest?             @relation(fields: [userId, contestId], references: [userId, contestId])
@@ -84,7 +84,7 @@ enum SeasonType {
 enum UserContestProblemStatus {
   SOLVED
   NOT_SOLVED
-  ATTEMPTED
+  UNATTEMPTED
 }
 
 model Season {

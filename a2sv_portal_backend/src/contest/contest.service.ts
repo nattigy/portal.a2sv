@@ -4,7 +4,7 @@ import { UpdateContestInput } from './dto/update-contest.input'
 import { PrismaService } from '../prisma.service'
 import { Contest } from './entities/contest.entity'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationContest } from '../common/page/pagination-info'
 
 @Injectable()
 export class ContestService {
@@ -31,7 +31,7 @@ export class ContestService {
   async findAll({
     skip,
     take,
-  }: PaginationInfoInput): Promise<PaginationOutput<Contest>> {
+  }: PaginationInfoInput): Promise<PaginationContest> {
     const count = (await this.prismaService.contest.findMany({})).length
     const contests: Contest[] = await this.prismaService.contest.findMany({
       skip,
