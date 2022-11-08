@@ -39,6 +39,9 @@ model UserContest {
   userId              String
   problemsSolved      Int                  @default(0)
   wrongSubmissions    Int                  @default(0)
+  rank                Int                  @default(0)
+  timeSpent           Int                  @default(0)
+  contestAttended     Boolean              @default(false)
   user                User                 @relation(fields: [userId], references: [id])
 
   @@id([userId, contestId])
@@ -53,22 +56,22 @@ model UserContestProblem {
   numberOfAttempts Int
   numberOfMinutes  Int
   userContest      UserContest?             @relation(fields: [userId, contestId], references: [userId, contestId])
-  contest          Contest                  @relation(fields: [contestId], references: [id])
-  user             User                     @relation(fields: [userId], references: [id])
+  contest          Contest?                 @relation(fields: [contestId], references: [id])
+  user             User?                    @relation(fields: [userId], references: [id])
 
   @@id([userId, contestId, problemId])
 }
 
 model Contest {
-  id                 String               @id @default(uuid())
-  name               String
-  link               String
-  div                String?
-  startTime          DateTime
-  endTime            DateTime
-  problems           Problem[]
-  groupContests      GroupContest[]
-  userContests       UserContest[]
+  id                  String               @id @default(uuid())
+  name                String
+  link                String
+  div                 String?
+  startTime           DateTime
+  endTime             DateTime
+  problems            Problem[]
+  groupContests       GroupContest[]
+  userContests        UserContest[]
   userContestProblems UserContestProblem[]
 }
 

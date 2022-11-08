@@ -6,8 +6,11 @@ import { PrismaService } from '../prisma.service'
 import { GroupStatResponse } from './dto/group-stat-response'
 import { GroupWhereInput } from './dto/find-group.input'
 import { GroupsPaginated, GroupsUsersPaginated } from './dto/groups-return-dto'
-import { PageInfoInput } from '../common/page/page-info.input'
-import { GroupsPage, GroupStatResponsePage } from '../common/page/page-info'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import {
+  GroupStatResponsePage,
+  PaginationOutput,
+} from '../common/page/pagination-info'
 
 @Injectable()
 export class GroupsService {
@@ -28,7 +31,7 @@ export class GroupsService {
     })
   }
 
-  async getGroupById(id: string): Promise<Group> {
+  async group(id: string): Promise<Group> {
     const group = await this.prismaService.group.findUnique({
       include: {
         users: true,
@@ -57,15 +60,15 @@ export class GroupsService {
     return group
   }
 
-  async getGroups(
+  async groups(
+    pageInfoInput: PaginationInfoInput,
     filter?: GroupWhereInput,
-    pageInfoInput?: PageInfoInput,
-  ): Promise<GroupsPage<Group>> {
+  ): Promise<PaginationOutput<Group>> {
     const { topicId, ...where } = filter || {}
     const groupsCount = (await this.prismaService.group.findMany({})).length
     const groups = await this.prismaService.group.findMany({
-      skip: pageInfoInput?.skip,
-      take: pageInfoInput?.limit,
+      skip: pageInfoInput.skip,
+      take: pageInfoInput.take,
       include: {
         users: true,
         head: true,
@@ -87,17 +90,17 @@ export class GroupsService {
     return {
       items: groups,
       pageInfo: {
-        skip: pageInfoInput?.skip,
+        skip: pageInfoInput.skip,
         count: groupsCount,
-        limit: pageInfoInput?.limit,
+        take: pageInfoInput.take,
       },
     }
   }
 
   async groupsPagination(
     filter?: GroupWhereInput,
-    pageInfoInput?: PageInfoInput,
-    userPaginationInput?: PageInfoInput,
+    pageInfoInput?: PaginationInfoInput,
+    userPaginationInput?: PaginationInfoInput,
   ): Promise<GroupsPaginated> {
     const { topicId, ...where } = filter || {}
     const groupsCount = (
@@ -108,10 +111,10 @@ export class GroupsService {
     const groups = await this.prismaService.group.findMany({
       where,
       skip: pageInfoInput.skip,
-      take: pageInfoInput.limit,
+      take: pageInfoInput.take,
       include: {
         users: {
-          take: userPaginationInput.limit,
+          take: userPaginationInput.take,
           skip: userPaginationInput.skip,
         },
         head: true,
@@ -148,7 +151,7 @@ export class GroupsService {
         group: groups[i],
         pageInfo: {
           skip: userPaginationInput.skip,
-          limit: userPaginationInput.limit,
+          take: userPaginationInput.take,
           count: users.length,
         },
       })
@@ -158,7 +161,7 @@ export class GroupsService {
       items: groupsUsersPaginated,
       pageInfo: {
         skip: pageInfoInput.skip,
-        limit: pageInfoInput.limit,
+        take: pageInfoInput.take,
         count: groupsCount,
       },
     }
@@ -235,7 +238,7 @@ export class GroupsService {
   }
 
   async getGroupsStat(
-    pageInfoInput?: PageInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ): Promise<GroupStatResponsePage<GroupStatResponse>> {
     const groupStatResponses: GroupStatResponse[] = []
     const topics = await this.prismaService.topic.findMany({
@@ -249,7 +252,7 @@ export class GroupsService {
     const groupCount = (await this.prismaService.group.findMany({})).length
     const groups = await this.prismaService.group.findMany({
       skip: pageInfoInput.skip,
-      take: pageInfoInput.limit,
+      take: pageInfoInput.take,
       include: {
         users: {
           select: {
@@ -333,7 +336,7 @@ export class GroupsService {
       items: groupStatResponses,
       pageInfo: {
         skip: pageInfoInput.skip,
-        limit: pageInfoInput.limit,
+        take: pageInfoInput.take,
         count: groupCount,
       },
     }

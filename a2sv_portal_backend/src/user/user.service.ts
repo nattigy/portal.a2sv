@@ -1,28 +1,19 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { Status, RoleEnum, User } from '@prisma/client'
+import { RoleEnum, SeasonTopicProblemUser, Status, User } from '@prisma/client'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import * as bcrypt from 'bcrypt'
-import {
-  Field,
-  Float,
-  InputType,
-  Int,
-  ObjectType,
-  Parent,
-  registerEnumType,
-} from '@nestjs/graphql'
+import { Parent, registerEnumType } from '@nestjs/graphql'
 import { PrismaService } from '../prisma.service'
 import { ComfortLevel } from './entities/comfort-level.enum'
 import { GroupsService } from '../group/groups.service'
-import { SeasonTopicProblemUser } from '@prisma/client'
-import { PageInfoInput } from '../common/page/page-info.input'
-import { UsersPage } from '../common/page/page-info'
 import {
   StudentStat,
   TopicCoverageStat,
   TopicStudentStatInput,
 } from './dto/user-dtos'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationOutput } from '../common/page/pagination-info'
 
 export enum StatTimeRange {
   MONTH,
@@ -98,8 +89,8 @@ export class UserService {
       groupId?: string
       role?: RoleEnum
     },
-    pageInfoInput?: PageInfoInput,
-  ): Promise<UsersPage<User>> {
+    pageInfoInput?: PaginationInfoInput,
+  ): Promise<PaginationOutput<User>> {
     const { status, email, groupId, role } = params
     const usersCount = (
       await this.prismaService.user.findMany({
@@ -113,7 +104,7 @@ export class UserService {
     ).length
     const result = await this.prismaService.user.findMany({
       skip: pageInfoInput?.skip,
-      take: pageInfoInput?.limit,
+      take: pageInfoInput?.take,
       where: {
         groupId,
         status,
@@ -137,7 +128,7 @@ export class UserService {
       items: result,
       pageInfo: {
         skip: pageInfoInput?.skip,
-        limit: pageInfoInput?.limit,
+        take: pageInfoInput?.take,
         count: usersCount,
       },
     }
@@ -267,7 +258,7 @@ export class UserService {
     if (!groupId) {
       throw new NotFoundException(`Group for User with ${id} not found`)
     }
-    const group = await this.groupService.getGroupById(groupId)
+    const group = await this.groupService.group(groupId)
 
     const users = await this.prismaService.user.findMany({
       where: {
@@ -450,7 +441,7 @@ export class UserService {
     let totalNumberOfTopics = 0
     let sumOfEachTopicsCoverage = 0
     const user = await this.findById(studentId)
-    const group = await this.groupService.getGroupById(user.groupId)
+    const group = await this.groupService.group(user.groupId)
     const seasonIndex = group.seasons.findIndex((s, index) => s.id === seasonId)
     if (seasonIndex == -1) {
       throw new NotFoundException(`Season with ${seasonId} not found`)

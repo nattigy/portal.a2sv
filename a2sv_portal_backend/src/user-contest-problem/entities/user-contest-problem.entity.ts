@@ -14,18 +14,18 @@ export class UserContestProblem {
   problemId: string
   @Field(() => Problem)
   problem: Problem
-  @Field(() => User)
-  user: User
-  @Field(() => Contest)
-  contest: Contest
-  @Field(() => UserContestProblemEnum)
-  status: UserContestProblemEnum
+  @Field(() => User, { nullable: true })
+  user?: User
+  @Field(() => Contest, { nullable: true })
+  contest?: Contest
+  // @Field(() => UserContestProblemEnum)
+  // status: UserContestProblemEnum
   @Field(() => Int)
   numberOfAttempts: number
   @Field(() => Int)
   numberOfMinutes: number
-  @Field(() => UserContest)
-  userContest: UserContest
+  @Field(() => UserContest, { nullable: true })
+  userContest?: UserContest
 }
 
 export enum UserContestProblemEnum {

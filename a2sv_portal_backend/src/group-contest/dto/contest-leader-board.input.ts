@@ -1,9 +1,9 @@
 import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
-export class CreateGroupContestInput {
-  @Field(() => String)
-  groupId: string
+export class contestLeaderboardInput {
+  @Field(() => String, { nullable: true })
+  groupId?: string
   @Field(() => String)
   contestId: string
 }

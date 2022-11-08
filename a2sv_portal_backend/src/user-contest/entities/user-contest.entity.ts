@@ -8,13 +8,19 @@ export class UserContest {
   @Field(() => String)
   contestId: string
   @Field(() => [UserContestProblem])
-  userContestProblem: UserContestProblem[]
+  userContestProblems: UserContestProblem[]
   @Field(() => String)
   userId: string
+  @Field(() => Boolean)
+  contestAttended: boolean
   @Field(() => Int)
   problemsSolved: number
   @Field(() => Int)
   wrongSubmissions: number
+  @Field(() => Int)
+  rank: number
+  @Field(() => Int)
+  timeSpent: number
   @Field(() => User)
   user: User
   @Field(() => Contest)
