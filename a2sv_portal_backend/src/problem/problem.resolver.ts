@@ -14,8 +14,8 @@ import { UpdateProblemInput } from './dto/update-problem.input'
 import { Tag } from '@prisma/client'
 import { Roles } from 'src/auth/auth.decorator'
 import { SeasonTopicProblem } from '../season-topic-problem/entities/season-topic-problem.entity'
-import { PageInfoInput } from '../common/page/page-info.input'
-import { ProblemsPage } from '../common/page/page-info'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationOutput } from '../common/page/pagination-info'
 
 @Resolver(() => Problem)
 export class ProblemResolver {
@@ -42,13 +42,13 @@ export class ProblemResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Query(() => ProblemsPage<Problem>, {
+  @Query(() => PaginationOutput<Problem>, {
     name: 'problems',
     description: 'Find all problems with populated tags',
   })
   async problems(
-    @Args('pageInfoInput', { type: () => PageInfoInput, nullable: true })
-    pageInfoInput?: PageInfoInput,
+    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
+    pageInfoInput?: PaginationInfoInput,
   ) {
     return await this.problemService.findAll(pageInfoInput)
   }

@@ -1,4 +1,4 @@
-import { Field, InputType, Int } from '@nestjs/graphql'
+import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
 export class GroupWhereInput {
@@ -16,8 +16,4 @@ export class GroupWhereInput {
   topicId?: string
   @Field(() => String, { nullable: true })
   headId?: string
-  @Field(() => Int, { nullable: true })
-  take?: number
-  @Field(() => Int, { nullable: true })
-  skip?: number
 }

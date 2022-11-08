@@ -1,4 +1,4 @@
-import { Field, ObjectType, GraphQLISODateTime } from '@nestjs/graphql'
+import { Field, GraphQLISODateTime, ObjectType } from '@nestjs/graphql'
 import { Group } from '../../group/entities/group.entity'
 import { SeasonTopic } from '../../season-topic/entities/season-topic.entity'
 import { SeasonType } from '@prisma/client'

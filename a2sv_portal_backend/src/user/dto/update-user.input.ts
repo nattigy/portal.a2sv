@@ -1,4 +1,4 @@
-import { InputType, Field, Int } from '@nestjs/graphql'
+import { Field, InputType } from '@nestjs/graphql'
 import { RoleEnum } from '@prisma/client'
 import { UpdateUserProfileInput } from 'src/user-profile/dto/update-user-profile.input'
 import { UpdateSeasonTopicProblemUserInput } from '../../season-topic-problem-user/dto/update-season-topic-problem-user.input'

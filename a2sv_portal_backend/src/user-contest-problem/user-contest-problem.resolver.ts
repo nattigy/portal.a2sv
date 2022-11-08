@@ -14,14 +14,18 @@ export class UserContestProblemResolver {
   //   return this.userContestProblemService.create(createUserContestProblemInput);
   // }
 
-  @Query(() => [UserContestProblem], { name: 'userContestProblem' })
-  findAll() {
+  @Query(() => [UserContestProblem])
+  userContestProblems() {
     return this.userContestProblemService.findAll()
   }
 
-  @Query(() => UserContestProblem, { name: 'userContestProblem' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.userContestProblemService.findOne(id)
+  @Query(() => UserContestProblem)
+  userContestProblem(
+    @Args('userId') userId: string,
+    @Args('contestId') contestId: string,
+    @Args('problemId') problemId: string,
+  ) {
+    return this.userContestProblemService.findOne(userId, contestId, problemId)
   }
 
   @Mutation(() => UserContestProblem)
