@@ -39,7 +39,7 @@ export class SeasonTopicProblemResolver {
     return this.seasonTopicProblemService.create(createSeasonTopicProblemInput)
   }
 
-  @Query(() => [SeasonTopicProblem], { name: 'seasonTopicProblem' })
+  @Query(() => [SeasonTopicProblem], { name: 'seasonTopicProblems' })
   seasonTopicProblems(
     @Args('seasonTopicProblemFilter', { type: () => SeasonTopicProblemFilter })
     seasonTopicProblemFilter: SeasonTopicProblemFilter,

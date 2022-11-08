@@ -3,11 +3,11 @@ import { Field, InputType } from '@nestjs/graphql'
 @InputType()
 export class SeasonTopicProblemUserId {
   @Field()
-  seasonId?: string
+  seasonId: string
   @Field()
-  topicId?: string
+  topicId: string
   @Field()
-  problemId?: string
+  problemId: string
   @Field()
-  userId?: string
+  userId: string
 }

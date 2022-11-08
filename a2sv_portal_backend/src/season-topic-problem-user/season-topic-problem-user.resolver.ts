@@ -24,7 +24,7 @@ export class SeasonTopicProblemUserResolver {
     )
   }
 
-  @Query(() => [SeasonTopicProblemUser], { name: 'seasonTopicProblemUser' })
+  @Query(() => [SeasonTopicProblemUser], { name: 'seasonTopicProblemUsers' })
   seasonTopicProblemUsers(
     @Args('seasonTopicProblemUserFilter', {
       type: () => SeasonTopicProblemUserFilter,
