@@ -1,11 +1,18 @@
 import { Module } from '@nestjs/common'
+import { CaslModule } from '../casl/casl.module'
 import { UserService } from './user.service'
 import { UserResolver } from './user.resolver'
 import { GroupsService } from 'src/group/groups.service'
 import { PrismaService } from '../prisma.service'
 
 @Module({
-  providers: [UserResolver, UserService, PrismaService, GroupsService],
+  providers: [
+    UserResolver,
+    UserService,
+    PrismaService,
+    GroupsService,
+    CaslModule,
+  ],
   exports: [UserService],
 })
 export class UserModule {}

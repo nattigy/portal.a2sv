@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, UseGuards } from '@nestjs/common'
 import { PrismaService } from 'src/prisma.service'
 import { Action } from '../auth/action.enum'
-import { ReadSeasonAbilityHandler } from '../casl/handler/season-abilities.handler'
+import { SeasonAbilities } from '../casl/handler/season-abilities.handler'
 import { CheckPolicies } from '../casl/policy/policy.decorator'
 import { PoliciesGuard } from '../casl/policy/policy.guard'
 import { CreateSeasonInput } from './dto/create-season.input'
@@ -10,10 +10,12 @@ import { Season } from '@prisma/client'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { PaginationSeason } from '../common/page/pagination-info'
 
+@UseGuards(PoliciesGuard)
 @Injectable()
 export class SeasonService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  @CheckPolicies(SeasonAbilities.read)
   async getSeasons(
     pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationSeason> {
@@ -41,6 +43,7 @@ export class SeasonService {
     }
   }
 
+  @CheckPolicies(SeasonAbilities.read)
   async getSeasonById(id: string): Promise<Season> {
     const season = await this.prismaService.season.findUnique({
       where: { id: id },
@@ -62,6 +65,7 @@ export class SeasonService {
     return season
   }
 
+  @CheckPolicies(SeasonAbilities.create)
   async createSeason(createSeasonInput: CreateSeasonInput): Promise<Season> {
     return await this.prismaService.season.create({
       data: createSeasonInput,
@@ -79,6 +83,7 @@ export class SeasonService {
     })
   }
 
+  @CheckPolicies(SeasonAbilities.update)
   async updateSeason(
     id: string,
     updateSeasonInput: UpdateSeasonInput,
@@ -100,6 +105,7 @@ export class SeasonService {
     })
   }
 
+  @CheckPolicies(SeasonAbilities.delete)
   async deleteSeason(id: string): Promise<Season> {
     return this.prismaService.season.delete({
       where: { id },
