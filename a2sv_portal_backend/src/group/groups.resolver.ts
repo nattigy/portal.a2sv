@@ -16,8 +16,11 @@ import { Season } from '../season/entities/season.entity'
 import { GroupStatResponse } from './dto/group-stat-response'
 import { GroupWhereInput } from './dto/find-group.input'
 import { GroupsPaginated } from './dto/groups-return-dto'
-import { PageInfoInput } from '../common/page/page-info.input'
-import { GroupsPage, GroupStatResponsePage } from '../common/page/page-info'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import {
+  GroupStatResponsePage,
+  PaginationGroup,
+} from '../common/page/pagination-info'
 
 @Resolver(() => Group)
 export class GroupsResolver {
@@ -27,7 +30,7 @@ export class GroupsResolver {
   @Mutation(() => Group)
   async createGroup(
     @Args('createGroupInput') createGroupInput: CreateGroupInput,
-  ) {
+  ): Promise<Group> {
     return this.groupsService.createGroup(createGroupInput)
   }
 
@@ -38,14 +41,26 @@ export class GroupsResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Query(() => GroupsPage<Group>)
+  @Query(() => Group)
+  async group(@Args('groupId') groupId: string): Promise<Group> {
+    return this.groupsService.group(groupId)
+  }
+
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
+  @Query(() => PaginationGroup)
   async groups(
     @Args('filter', { type: () => GroupWhereInput, nullable: true })
     where?: GroupWhereInput,
-    @Args('pageInfoInput', { type: () => PageInfoInput, nullable: true })
-    pageInfoInput?: PageInfoInput,
-  ) {
-    return this.groupsService.getGroups(where, pageInfoInput)
+    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
+    pageInfoInput: PaginationInfoInput = { skip: 0, take: 10 },
+  ): Promise<PaginationGroup> {
+    return this.groupsService.groups(pageInfoInput, where)
   }
 
   @Roles(
@@ -59,10 +74,13 @@ export class GroupsResolver {
   async groupsPagination(
     @Args('filter', { type: () => GroupWhereInput, nullable: true })
     where?: GroupWhereInput,
-    @Args('pageInfoInput', { type: () => PageInfoInput, nullable: true })
-    pageInfoInput?: PageInfoInput,
-    @Args('userPaginationInput', { type: () => PageInfoInput, nullable: true })
-    userPaginationInput?: PageInfoInput,
+    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
+    pageInfoInput?: PaginationInfoInput,
+    @Args('userPaginationInput', {
+      type: () => PaginationInfoInput,
+      nullable: true,
+    })
+    userPaginationInput?: PaginationInfoInput,
   ): Promise<GroupsPaginated> {
     return this.groupsService.groupsPagination(
       where,
@@ -78,20 +96,10 @@ export class GroupsResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Query(() => Group)
-  group(@Args('id', { type: () => String }) id: string) {
-    return this.groupsService.getGroupById(id)
-  }
-
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
   @Mutation(() => Group)
-  updateGroup(@Args('updateGroupInput') updateGroupInput: UpdateGroupInput) {
+  async updateGroup(
+    @Args('updateGroupInput') updateGroupInput: UpdateGroupInput,
+  ): Promise<Group> {
     return this.groupsService.updateGroup(updateGroupInput)
   }
 
@@ -102,20 +110,8 @@ export class GroupsResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Mutation(() => Group)
-  deleteGroup(@Args('id', { type: () => String }) id: string) {
-    return this.groupsService.deleteGroup(id)
-  }
-
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
   @ResolveField(() => [Season], { nullable: 'itemsAndList' })
-  seasons(@Parent() group: Group): Season[] | null {
+  async seasons(@Parent() group: Group): Promise<Season[] | null> {
     return group.seasons
   }
 
@@ -127,7 +123,7 @@ export class GroupsResolver {
     'STUDENT',
   )
   @ResolveField(() => User, { nullable: true })
-  head(@Parent() group: Group): User {
+  async head(@Parent() group: Group): Promise<User | null> {
     return group.head
   }
 
@@ -140,9 +136,21 @@ export class GroupsResolver {
   )
   @Query(() => GroupStatResponsePage<GroupStatResponse>)
   async getGroupsStat(
-    @Args('pageInfoInput', { type: () => PageInfoInput, nullable: true })
-    pageInfoInput?: PageInfoInput,
+    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
+    pageInfoInput?: PaginationInfoInput,
   ) {
     return this.groupsService.getGroupsStat(pageInfoInput)
+  }
+
+  @Roles(
+    'ADMIN',
+    'HEAD_OF_ACADEMY',
+    'HEAD_OF_EDUCATION',
+    'ASSISTANT',
+    'STUDENT',
+  )
+  @Mutation(() => Group)
+  async deleteGroup(@Args('groupId') groupId: string) {
+    return this.groupsService.deleteGroup(groupId)
   }
 }

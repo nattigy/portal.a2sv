@@ -16,8 +16,8 @@ import { AddTopicToSeasonInput } from './dto/add-topic-to-season-input'
 import { TopicActionStatus } from './entities/topic-action-status'
 import { UserTopic } from '../user-topic/entities/user-topic.entity'
 import { SeasonTopic } from '../season-topic/entities/season-topic.entity'
-import { PageInfoInput } from '../common/page/page-info.input'
-import { TopicsPage } from '../common/page/page-info'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationTopic } from '../common/page/pagination-info'
 
 @Resolver(() => Topic)
 export class TopicResolver {
@@ -36,11 +36,11 @@ export class TopicResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Query(() => TopicsPage<Topic>, { name: 'topics' })
+  @Query(() => PaginationTopic, { name: 'topics' })
   topics(
     @Args() args: GetTopicArgs,
-    @Args('pageInfoInput', { type: () => PageInfoInput, nullable: true })
-    pageInfoInput?: PageInfoInput,
+    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
+    pageInfoInput?: PaginationInfoInput,
   ) {
     return this.topicService.getTopics(args, pageInfoInput)
   }

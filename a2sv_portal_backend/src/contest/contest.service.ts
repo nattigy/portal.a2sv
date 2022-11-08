@@ -2,16 +2,22 @@ import { Injectable } from '@nestjs/common'
 import { CreateContestInput } from './dto/create-contest.input'
 import { UpdateContestInput } from './dto/update-contest.input'
 import { PrismaService } from '../prisma.service'
-import { GroupContest } from '../group-contest/entities/group-contest.entity'
+import { Contest } from './entities/contest.entity'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationContest } from '../common/page/pagination-info'
 
 @Injectable()
 export class ContestService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create({ problems, ...createInput }: CreateContestInput) {
+  async create({
+    problems,
+    ...createInput
+  }: CreateContestInput): Promise<Contest> {
     return this.prismaService.contest.create({
       include: {
         problems: true,
+        groupContests: true,
       },
       data: {
         ...createInput,
@@ -22,31 +28,57 @@ export class ContestService {
     })
   }
 
-  findAll() {
-    return `This action returns all contest`
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} contest`
-  }
-
-  update(id: number, updateContestInput: UpdateContestInput) {
-    return `This action updates a #${id} contest`
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} contest`
-  }
-
-  async groupContestStats(id: string): Promise<GroupContest[]> {
-    const contest = await this.prismaService.contest.findUnique({
-      where: {
-        id: id,
-      },
+  async findAll({
+    skip,
+    take,
+  }: PaginationInfoInput): Promise<PaginationContest> {
+    const count = (await this.prismaService.contest.findMany({})).length
+    const contests: Contest[] = await this.prismaService.contest.findMany({
+      skip,
+      take,
       include: {
+        problems: true,
         groupContests: true,
       },
     })
-    return contest.groupContests
+    return {
+      items: contests,
+      pageInfo: {
+        skip,
+        take,
+        count,
+      },
+    }
+  }
+
+  async findOne(contestId: string): Promise<Contest> {
+    return this.prismaService.contest.findUnique({
+      where: {
+        id: contestId,
+      },
+      include: {
+        problems: true,
+        groupContests: true,
+      },
+    })
+  }
+
+  async update(updateContestInput: UpdateContestInput): Promise<Contest> {
+    return this.prismaService.contest.update({
+      where: {
+        id: updateContestInput.contestId,
+      },
+      data: {
+        ...updateContestInput,
+      },
+      include: {
+        problems: true,
+        groupContests: true,
+      },
+    })
+  }
+
+  async remove(contestId: string): Promise<number> {
+    return 0
   }
 }

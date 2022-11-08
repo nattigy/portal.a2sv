@@ -3,16 +3,16 @@ import { PrismaService } from 'src/prisma.service'
 import { CreateSeasonInput } from './dto/create-season.input'
 import { UpdateSeasonInput } from './dto/update-season.input'
 import { Season } from '@prisma/client'
-import { PageInfoInput } from '../common/page/page-info.input'
-import { SeasonsPage } from '../common/page/page-info'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationSeason } from '../common/page/pagination-info'
 
 @Injectable()
 export class SeasonService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async getSeasons(
-    pageInfoInput?: PageInfoInput,
-  ): Promise<SeasonsPage<Season>> {
+    pageInfoInput?: PaginationInfoInput,
+  ): Promise<PaginationSeason> {
     const seasonsCount = (await this.prismaService.season.findMany({})).length
     const seasons = await this.prismaService.season.findMany({
       include: {
@@ -31,7 +31,7 @@ export class SeasonService {
       items: seasons,
       pageInfo: {
         skip: pageInfoInput.skip,
-        limit: pageInfoInput.limit,
+        take: pageInfoInput.take,
         count: seasonsCount,
       },
     }

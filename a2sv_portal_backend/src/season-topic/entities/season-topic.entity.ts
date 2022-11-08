@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql'
+import { Field, ObjectType } from '@nestjs/graphql'
 import { Season } from '../../season/entities/season.entity'
 import { SeasonTopicProblem } from '../../season-topic-problem/entities/season-topic-problem.entity'
 import { Topic } from '../../topic/entities/topic.entity'

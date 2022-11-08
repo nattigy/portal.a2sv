@@ -1,6 +1,5 @@
 import { ArgsType, Field, Int, registerEnumType } from '@nestjs/graphql'
 import { RoleEnum, Status } from '@prisma/client'
-import { WhereUserFilter } from './where-user.filter'
 
 @ArgsType()
 export class GetUserArgs {

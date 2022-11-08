@@ -3,49 +3,65 @@ import { GroupContestService } from './group-contest.service'
 import { GroupContest } from './entities/group-contest.entity'
 import { UpdateGroupContestInput } from './dto/update-group-contest.input'
 import { FindGroupContestInput } from './dto/find-group-contest.input'
-import { GroupContestStat } from './dto/group-contest-stat-response'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationGroupContest } from '../common/page/pagination-info'
 
 @Resolver(() => GroupContest)
 export class GroupContestResolver {
   constructor(private readonly groupContestService: GroupContestService) {}
 
-  // @Mutation(() => GroupContest)
-  // createGroupContest(@Args('createGroupContestInput') createGroupContestInput: CreateGroupContestInput) {
-  //   return this.groupContestService.create(createGroupContestInput);
-  // }
-
-  // @Query(() => [GroupContest], { name: 'groupContests' })
-  // async findAll() {
-  //   return this.groupContestService.findAll();
-  // }
-
-  @Query(() => GroupContestStat)
-  async groupContestStat(
-    @Args('findGroupContestInput') findGroupContestInput: FindGroupContestInput,
-  ): Promise<GroupContestStat> {
-    return this.groupContestService.groupContestStat(findGroupContestInput)
+  @Query(() => PaginationGroupContest)
+  async allGroupContests(
+    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
+    pageInfoInput: PaginationInfoInput = { skip: 0, take: 10 },
+  ): Promise<PaginationGroupContest> {
+    return this.groupContestService.findAll(pageInfoInput)
   }
 
-  @Query(() => GroupContest, { name: 'groupContest' })
-  async findOne(
+  @Query(() => PaginationGroupContest)
+  async groupContests(
+    @Args('groupId') groupId: string,
+    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
+    pageInfoInput: PaginationInfoInput = { skip: 0, take: 10 },
+  ): Promise<PaginationGroupContest> {
+    return this.groupContestService.groupContests(groupId, pageInfoInput)
+  }
+
+  // @Query(() => GroupContest)
+  // async contestLeaderboard(
+  //   @Args('contestId') contestId: string, @Args('groupId') groupId: string
+  // ): Promise<GroupContest> {
+  //   return this.groupContestService.contestLeaderboard(contestId, groupId)
+  // }
+
+  // @Query(() => GroupContestStat)
+  // async contestTopStudents(
+  //   @Args('contestId') contestId: string, @Context() context
+  // ): Promise<GroupContestStat> {
+  //   const groupId = context.user.groupId;
+  //   return this.groupContestService.contestLeaderboard(contestId, groupId)
+  // }
+
+  @Query(() => GroupContest)
+  async groupContest(
     @Args('findGroupContestInput') findGroupContestInput: FindGroupContestInput,
-  ) {
-    return this.groupContestService.findOne(findGroupContestInput)
+  ): Promise<GroupContest> {
+    return this.groupContestService.groupContest(findGroupContestInput)
   }
 
   @Mutation(() => GroupContest)
-  updateGroupContest(
+  async updateGroupContest(
     @Args('updateGroupContestInput')
     updateGroupContestInput: UpdateGroupContestInput,
-  ) {
-    return this.groupContestService.update(
-      updateGroupContestInput.id,
-      updateGroupContestInput,
-    )
+  ): Promise<GroupContest> {
+    return this.groupContestService.update(updateGroupContestInput)
   }
 
-  @Mutation(() => GroupContest)
-  removeGroupContest(@Args('id', { type: () => Int }) id: number) {
-    return this.groupContestService.remove(id)
+  @Mutation(() => Int)
+  async removeGroupContest(
+    @Args('groupId') groupId: string,
+    @Args('contestId') contestId: string,
+  ): Promise<number> {
+    return this.groupContestService.remove(groupId, contestId)
   }
 }

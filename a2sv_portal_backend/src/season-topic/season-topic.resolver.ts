@@ -1,12 +1,11 @@
 import {
-  Resolver,
-  Query,
-  Mutation,
   Args,
   Int,
-  ResolveField,
+  Mutation,
   Parent,
-  InputType,
+  Query,
+  ResolveField,
+  Resolver,
 } from '@nestjs/graphql'
 import {
   SeasonTopicFilter,

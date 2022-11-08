@@ -12,8 +12,8 @@ import { UpdateSeasonInput } from './dto/update-season.input'
 import { Season } from './entities/season.entity'
 import { SeasonService } from './season.service'
 import { SeasonTopic } from '../season-topic/entities/season-topic.entity'
-import { PageInfoInput } from '../common/page/page-info.input'
-import { SeasonsPage } from '../common/page/page-info'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationSeason } from '../common/page/pagination-info'
 
 @Resolver(() => Season)
 export class SeasonResolver {
@@ -27,10 +27,10 @@ export class SeasonResolver {
     return this.seasonService.createSeason(createSeasonInput)
   }
 
-  @Query(() => SeasonsPage<Season>)
+  @Query(() => PaginationSeason)
   async seasons(
-    @Args('pageInfoInput', { type: () => PageInfoInput, nullable: true })
-    pageInfoInput?: PageInfoInput,
+    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
+    pageInfoInput?: PaginationInfoInput,
   ) {
     return this.seasonService.getSeasons(pageInfoInput)
   }

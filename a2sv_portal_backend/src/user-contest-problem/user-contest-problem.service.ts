@@ -13,11 +13,19 @@ export class UserContestProblemService {
   // }
 
   findAll() {
-    return `This action returns all userContestProblem`
+    return this.prismaService.userContestProblem.findMany({})
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} userContestProblem`
+  findOne(userId: string, contestId: string, problemId: string) {
+    return this.prismaService.userContestProblem.findUnique({
+      where: {
+        userId_contestId_problemId: {
+          userId,
+          contestId,
+          problemId,
+        },
+      },
+    })
   }
 
   async update({

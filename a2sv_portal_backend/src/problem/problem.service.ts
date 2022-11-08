@@ -3,9 +3,8 @@ import { CreateProblemInput } from './dto/create-problem.input'
 import { UpdateProblemInput } from './dto/update-problem.input'
 import { PrismaService } from '../prisma.service'
 import { Problem } from '@prisma/client'
-import { TagService } from '../tag/tag.service'
-import { PageInfoInput } from '../common/page/page-info.input'
-import { ProblemsPage } from '../common/page/page-info'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationProblem } from '../common/page/pagination-info'
 
 @Injectable()
 export class ProblemService {
@@ -43,9 +42,11 @@ export class ProblemService {
     return newProblem
   }
 
-  async findAll(pageInfoInput?: PageInfoInput): Promise<ProblemsPage<Problem>> {
+  async findAll(
+    pageInfoInput?: PaginationInfoInput,
+  ): Promise<PaginationProblem> {
     const problemsCount = (await this.prismaService.problem.findMany({})).length
-    const problems = await this.prismaService.problem.findMany({
+    const problems: Problem[] = await this.prismaService.problem.findMany({
       include: {
         tags: true,
         seasonTopics: {
@@ -58,8 +59,8 @@ export class ProblemService {
     return {
       items: problems,
       pageInfo: {
-        skip: pageInfoInput?.skip,
-        limit: pageInfoInput?.limit,
+        skip: pageInfoInput.skip,
+        take: pageInfoInput.take,
         count: problemsCount,
       },
     }

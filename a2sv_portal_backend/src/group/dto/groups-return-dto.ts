@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql'
-import { PageInfo } from '../../common/page/page-info'
+import { PaginationInfo } from '../../common/page/pagination-info'
 import { Group } from '../entities/group.entity'
 
 @ObjectType()
@@ -7,8 +7,8 @@ export class GroupsPaginated {
   @Field(() => [GroupsUsersPaginated])
   items: GroupsUsersPaginated[]
 
-  @Field(() => PageInfo)
-  pageInfo: PageInfo
+  @Field(() => PaginationInfo)
+  pageInfo: PaginationInfo
 }
 
 @ObjectType()
@@ -16,8 +16,8 @@ export class GroupsUsersPaginated {
   @Field(() => Group)
   group: Group
 
-  @Field(() => PageInfo, { nullable: true })
-  pageInfo?: PageInfo
+  @Field(() => PaginationInfo, { nullable: true })
+  pageInfo?: PaginationInfo
 }
 
 // @ObjectType()
@@ -25,6 +25,6 @@ export class GroupsUsersPaginated {
 //   @Field(() => [User])
 //   items: User[]
 //
-//   @Field(() => PageInfo)
-//   pageInfo: PageInfo
+//   @Field(() => PaginationInfo)
+//   pageInfo: PaginationInfo
 // }

@@ -18,13 +18,13 @@ import { Group } from 'src/group/entities/group.entity'
 import { UserTopic } from '../user-topic/entities/user-topic.entity'
 import { ComfortLevel } from './entities/comfort-level.enum'
 import { SeasonTopicProblemUser } from '../season-topic-problem-user/entities/season-topic-problem-user.entity'
-import { PageInfoInput } from '../common/page/page-info.input'
-import { UsersPage } from '../common/page/page-info'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import {
   StudentStat,
   TopicCoverageStat,
   TopicStudentStatInput,
 } from './dto/user-dtos'
+import { PaginationUser } from '../common/page/pagination-info'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -58,7 +58,6 @@ export class UserResolver {
     try {
       return await this.userService.create(createUserInput)
     } catch (e) {
-      console.log(e)
       return e.message
     }
   }
@@ -70,21 +69,15 @@ export class UserResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Query(
-    () => {
-      return UsersPage<User>
-    },
-    { name: 'users' },
-  )
+  @Query(() => PaginationUser, { name: 'users' })
   async findAll(
     @Args() args: GetUserArgs,
-    @Args('pageInfoInput', { type: () => PageInfoInput, nullable: true })
-    pageInfoInput?: PageInfoInput,
-  ) {
+    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
+    pageInfoInput?: PaginationInfoInput,
+  ): Promise<PaginationUser> {
     try {
       return await this.userService.findAll(args, pageInfoInput)
     } catch (e) {
-      console.log(e)
       return e.message
     }
   }
@@ -146,7 +139,7 @@ export class UserResolver {
   async group(@Parent() user: User) {
     try {
       const { groupId } = user
-      return this.groupService.getGroupById(groupId)
+      return this.groupService.group(groupId)
     } catch (e) {
       console.error(e)
       return e.message
