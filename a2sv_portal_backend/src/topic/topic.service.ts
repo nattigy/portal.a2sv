@@ -5,7 +5,10 @@ import { CreateTopicInput } from './dto/create-topic.input'
 import { UpdateTopicInput } from './dto/update-topic.input'
 import { AddTopicToSeasonInput } from './dto/add-topic-to-season-input'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { PaginationTopic } from '../common/page/pagination-info'
+import {
+  PaginationOutput,
+  PaginationTopic,
+} from '../common/page/pagination-info'
 
 export interface TopicWhereInput {
   skip?: number
@@ -21,7 +24,7 @@ export class TopicService {
   async getTopics(
     { groupId, seasonId }: TopicWhereInput = {},
     pageInfoInput?: PaginationInfoInput,
-  ): Promise<PaginationTopic> {
+  ): Promise<PaginationOutput<Topic>> {
     const topicsCount = (
       await this.prismaService.topic.findMany({
         where: {

@@ -24,7 +24,10 @@ import {
   TopicCoverageStat,
   TopicStudentStatInput,
 } from './dto/user-dtos'
-import { PaginationUser } from '../common/page/pagination-info'
+import {
+  PaginationOutput,
+  PaginationUser,
+} from '../common/page/pagination-info'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -69,12 +72,12 @@ export class UserResolver {
     'ASSISTANT',
     'STUDENT',
   )
-  @Query(() => PaginationUser, { name: 'users' })
+  @Query(() => PaginationOutput<User>, { name: 'users' })
   async findAll(
     @Args() args: GetUserArgs,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
     pageInfoInput?: PaginationInfoInput,
-  ): Promise<PaginationUser> {
+  ): Promise<PaginationOutput<User>> {
     try {
       return await this.userService.findAll(args, pageInfoInput)
     } catch (e) {

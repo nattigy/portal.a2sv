@@ -8,6 +8,7 @@ import { GroupStatResponse } from '../../group/dto/group-stat-response'
 import { Topic } from '../../topic/entities/topic.entity'
 import { UserContest } from '../../user-contest/entities/user-contest.entity'
 import { GroupContest } from '../../group-contest/entities/group-contest.entity'
+import { Entity } from './entity.type'
 
 @ObjectType()
 export class PaginationInfo {
@@ -96,6 +97,15 @@ export class PaginationGroupContest {
 @ObjectType()
 export class GroupStatResponsePage<T> {
   @Field(() => [GroupStatResponse])
+  items: T[]
+
+  @Field(() => PaginationInfo)
+  pageInfo: PaginationInfo
+}
+
+@ObjectType()
+export class PaginationOutput<T> {
+  @Field(() => [Entity])
   items: T[]
 
   @Field(() => PaginationInfo)

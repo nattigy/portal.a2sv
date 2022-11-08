@@ -33,6 +33,10 @@ export class User {
   createdAt?: Date
   @Field({ nullable: true })
   updatedAt?: Date
+
+  static isTypeOf(value) {
+    return value.email != undefined
+  }
 }
 
 registerEnumType(Status, {

@@ -11,7 +11,7 @@ export class Group {
   @Field()
   createdAt: Date
   @Field({ nullable: true })
-  country?: string
+  country: string
   @Field({ nullable: true })
   school?: string
   @Field(() => [User], { nullable: true })

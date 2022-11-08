@@ -3,13 +3,15 @@ import { CreateSeasonTopicProblemInput } from './dto/create-season-topic-problem
 import { UpdateSeasonTopicProblemInput } from './dto/update-season-topic-problem.input'
 import { SeasonTopicProblemId } from './season-topic-problem.resolver'
 import { PrismaService } from '../prisma.service'
-import { InputType } from '@nestjs/graphql'
-import { PaginationEntity } from '../pagination.entity'
+import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
-export class SeasonTopicProblemFilter extends PaginationEntity {
+export class SeasonTopicProblemFilter {
+  @Field()
   seasonId?: string
+  @Field()
   topicId?: string
+  @Field()
   problemId?: string
 }
 
@@ -23,16 +25,8 @@ export class SeasonTopicProblemService {
     })
   }
 
-  findAll({
-    take,
-    skip,
-    seasonId,
-    topicId,
-    problemId,
-  }: SeasonTopicProblemFilter) {
+  findAll({ seasonId, topicId, problemId }: SeasonTopicProblemFilter) {
     return this.prismaService.seasonTopicProblem.findMany({
-      take,
-      skip,
       where: {
         seasonId,
         problemId,

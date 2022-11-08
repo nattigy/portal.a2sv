@@ -9,7 +9,7 @@ export class Topic {
   @Field()
   name: string
   @Field({ nullable: true })
-  description?: string
+  description: string
   @Field(() => [SeasonTopic], { nullable: true })
   seasons?: SeasonTopic[]
   @Field(() => [UserTopic], { nullable: true })

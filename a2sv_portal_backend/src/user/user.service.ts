@@ -13,7 +13,10 @@ import {
   TopicStudentStatInput,
 } from './dto/user-dtos'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { PaginationUser } from '../common/page/pagination-info'
+import {
+  PaginationOutput,
+  PaginationUser,
+} from '../common/page/pagination-info'
 
 export enum StatTimeRange {
   MONTH,
@@ -90,7 +93,7 @@ export class UserService {
       role?: RoleEnum
     },
     pageInfoInput?: PaginationInfoInput,
-  ): Promise<PaginationUser> {
+  ): Promise<PaginationOutput<User>> {
     const { status, email, groupId, role } = params
     const usersCount = (
       await this.prismaService.user.findMany({
