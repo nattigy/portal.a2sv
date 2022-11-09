@@ -145,7 +145,7 @@ export class UserResolver {
   async group(@Parent() user: User) {
     try {
       const { groupId } = user
-      return this.groupService.getGroupById(groupId)
+      return this.groupService.group(groupId)
     } catch (e) {
       console.error(e)
       return e.message
