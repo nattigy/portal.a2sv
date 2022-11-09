@@ -4,7 +4,7 @@ import {
   PaginationGroup,
 } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { PrismaService } from '../prisma.service'
+import { PrismaService } from '../prisma/prisma.service'
 import { CreateGroupInput } from './dto/create-group.input'
 import { GroupWhereInput } from './dto/find-group.input'
 import { GroupStatResponse } from './dto/group-stat-response'

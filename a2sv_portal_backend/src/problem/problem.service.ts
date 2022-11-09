@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { Problem } from '@prisma/client'
 import { PaginationProblem } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { PrismaService } from '../prisma.service'
+import { PrismaService } from '../prisma/prisma.service'
 import { CreateProblemInput } from './dto/create-problem.input'
 import { UpdateProblemInput } from './dto/update-problem.input'
 

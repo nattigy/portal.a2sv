@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { PaginationUserContests } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { PrismaService } from '../prisma.service'
+import { PrismaService } from '../prisma/prisma.service'
 import { CreateUserContestInput } from './dto/create-user-contest.input'
 import { UpdateUserContestInput } from './dto/update-user-contest.input'
 import { UserContest } from './entities/user-contest.entity'

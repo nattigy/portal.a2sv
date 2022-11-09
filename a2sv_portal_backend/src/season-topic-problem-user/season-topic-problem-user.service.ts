@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../prisma.service'
+import { PrismaService } from '../prisma/prisma.service'
 import { CreateSeasonTopicProblemUserInput } from './dto/create-season-topic-problem-user.input'
 import { SeasonTopicProblemUserFilter } from './dto/season-topic-problem-user.filter'
 import { SeasonTopicProblemUserId } from './dto/season-topic-problem-user.id'

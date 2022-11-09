@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt'
 import { PaginationOutput } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { GroupsService } from '../group/groups.service'
-import { PrismaService } from '../prisma.service'
+import { PrismaService } from '../prisma/prisma.service'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import {

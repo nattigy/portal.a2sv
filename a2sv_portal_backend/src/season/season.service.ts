@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException, UseGuards } from '@nestjs/common'
 import { Season } from '@prisma/client'
-import { PrismaService } from 'src/prisma.service'
 import { SeasonAbilities } from '../casl/handler/season-abilities.handler'
 import { CheckPolicies } from '../casl/policy/policy.decorator'
 import { PoliciesGuard } from '../casl/policy/policy.guard'
 import { PaginationSeason } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PrismaService } from '../prisma/prisma.service'
 import { CreateSeasonInput } from './dto/create-season.input'
 import { UpdateSeasonInput } from './dto/update-season.input'
 

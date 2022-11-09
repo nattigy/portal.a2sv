@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { PaginationGroupContest } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { PrismaService } from '../prisma.service'
+import { PrismaService } from '../prisma/prisma.service'
 import { UserContestProblemEnum } from '../user-contest-problem/entities/user-contest-problem-status.enum'
 import { FindGroupContestInput } from './dto/find-group-contest.input'
 import { UpdateGroupContestInput } from './dto/update-group-contest.input'

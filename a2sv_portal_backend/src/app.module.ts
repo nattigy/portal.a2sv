@@ -7,6 +7,7 @@ import { join } from 'path'
 import { AppResolver } from './app.resolver'
 import { AppService } from './app.service'
 import { AuthModule } from './auth/auth.module'
+import { CaslModule } from './casl/casl.module'
 import { PoliciesGuard } from './casl/policy/policy.guard'
 import { ContestModule } from './contest/contest.module'
 import { GroupContestModule } from './group-contest/group-contest.module'
@@ -24,6 +25,7 @@ import { UserContestModule } from './user-contest/user-contest.module'
 import { UserProfileModule } from './user-profile/user-profile.module'
 import { UserTopicModule } from './user-topic/user-topic.module'
 import { UserModule } from './user/user.module'
+import { PrismaModule } from './prisma/prisma.module'
 
 @Module({
   imports: [
@@ -66,6 +68,8 @@ import { UserModule } from './user/user.module'
     UserContestModule,
     UserContestProblemModule,
     GroupContestModule,
+    PrismaModule,
+    CaslModule,
   ],
   providers: [
     AppService,
