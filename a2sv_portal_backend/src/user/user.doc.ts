@@ -169,3 +169,4 @@ deleteUser:
     }
   `
 }
+export default descriptions
