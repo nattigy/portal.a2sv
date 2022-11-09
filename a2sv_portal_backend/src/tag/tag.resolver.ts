@@ -7,11 +7,11 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql'
-import { TagService } from './tag.service'
-import { Tag } from './entities/tag.entity'
+import { Problem } from 'src/problem/entities/problem.entity'
 import { CreateTagInput } from './dto/create-tag.input'
 import { UpdateTagInput } from './dto/update-tag.input'
-import { Problem } from 'src/problem/entities/problem.entity'
+import { Tag } from './entities/tag.entity'
+import { TagService } from './tag.service'
 
 @Resolver(() => Tag)
 export class TagResolver {

@@ -1,10 +1,10 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { UserContestService } from './user-contest.service'
-import { UserContest } from './entities/user-contest.entity'
-import { CreateUserContestInput } from './dto/create-user-contest.input'
-import { UpdateUserContestInput } from './dto/update-user-contest.input'
 import { PaginationUserContests } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { CreateUserContestInput } from './dto/create-user-contest.input'
+import { UpdateUserContestInput } from './dto/update-user-contest.input'
+import { UserContest } from './entities/user-contest.entity'
+import { UserContestService } from './user-contest.service'
 
 @Resolver(() => UserContest)
 export class UserContestResolver {

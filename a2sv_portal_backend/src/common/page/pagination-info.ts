@@ -1,13 +1,13 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
-import { User } from '../../user/entities/user.entity'
-import { Group } from '../../group/entities/group.entity'
-import { Season } from '../../season/entities/season.entity'
 import { Contest } from '../../contest/entities/contest.entity'
-import { Problem } from '../../problem/entities/problem.entity'
+import { GroupContest } from '../../group-contest/entities/group-contest.entity'
 import { GroupStatResponse } from '../../group/dto/group-stat-response'
+import { Group } from '../../group/entities/group.entity'
+import { Problem } from '../../problem/entities/problem.entity'
+import { Season } from '../../season/entities/season.entity'
 import { Topic } from '../../topic/entities/topic.entity'
 import { UserContest } from '../../user-contest/entities/user-contest.entity'
-import { GroupContest } from '../../group-contest/entities/group-contest.entity'
+import { User } from '../../user/entities/user.entity'
 import { Entity } from './entity.type'
 
 @ObjectType()

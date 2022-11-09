@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common'
-import { CaslModule } from '../casl/casl.module'
-import { ContestService } from './contest.service'
 import { ContestResolver } from './contest.resolver'
-import { PrismaService } from '../prisma.service'
+import { ContestService } from './contest.service'
 
 @Module({
-  providers: [ContestResolver, ContestService, PrismaService, CaslModule],
+  providers: [ContestResolver, ContestService],
 })
 export class ContestModule {}

@@ -1,16 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { CreateGroupInput } from './dto/create-group.input'
-import { Group } from './entities/group.entity'
-import { UpdateGroupInput } from './dto/update-group.input'
-import { PrismaService } from '../prisma.service'
-import { GroupStatResponse } from './dto/group-stat-response'
-import { GroupWhereInput } from './dto/find-group.input'
-import { GroupsPaginated, GroupsUsersPaginated } from './dto/groups-return-dto'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import {
   GroupStatResponsePage,
   PaginationGroup,
 } from '../common/page/pagination-info'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PrismaService } from '../prisma.service'
+import { CreateGroupInput } from './dto/create-group.input'
+import { GroupWhereInput } from './dto/find-group.input'
+import { GroupStatResponse } from './dto/group-stat-response'
+import { GroupsPaginated, GroupsUsersPaginated } from './dto/groups-return-dto'
+import { UpdateGroupInput } from './dto/update-group.input'
+import { Group } from './entities/group.entity'
 
 @Injectable()
 export class GroupsService {

@@ -7,13 +7,13 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql'
+import { PaginationContest } from '../common/page/pagination-info'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { Problem } from '../problem/entities/problem.entity'
 import { ContestService } from './contest.service'
-import { Contest } from './entities/contest.entity'
 import { CreateContestInput } from './dto/create-contest.input'
 import { UpdateContestInput } from './dto/update-contest.input'
-import { Problem } from '../problem/entities/problem.entity'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { PaginationContest } from '../common/page/pagination-info'
+import { Contest } from './entities/contest.entity'
 
 @Resolver(() => Contest)
 export class ContestResolver {

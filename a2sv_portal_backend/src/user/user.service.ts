@@ -1,22 +1,19 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
+import { Parent, registerEnumType } from '@nestjs/graphql'
 import { RoleEnum, SeasonTopicProblemUser, Status, User } from '@prisma/client'
+import * as bcrypt from 'bcrypt'
+import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { GroupsService } from '../group/groups.service'
+import { PrismaService } from '../prisma.service'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
-import * as bcrypt from 'bcrypt'
-import { Parent, registerEnumType } from '@nestjs/graphql'
-import { PrismaService } from '../prisma.service'
-import { ComfortLevel } from './entities/comfort-level.enum'
-import { GroupsService } from '../group/groups.service'
 import {
   StudentStat,
   TopicCoverageStat,
   TopicStudentStatInput,
 } from './dto/user-dtos'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import {
-  PaginationOutput,
-  PaginationUser,
-} from '../common/page/pagination-info'
+import { ComfortLevel } from './entities/comfort-level.enum'
 
 export enum StatTimeRange {
   MONTH,

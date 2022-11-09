@@ -7,13 +7,13 @@ import {
   Resolver,
 } from '@nestjs/graphql'
 import { Roles } from 'src/auth/auth.decorator'
+import { PaginationSeason } from '../common/page/pagination-info'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { SeasonTopic } from '../season-topic/entities/season-topic.entity'
 import { CreateSeasonInput } from './dto/create-season.input'
 import { UpdateSeasonInput } from './dto/update-season.input'
 import { Season } from './entities/season.entity'
 import { SeasonService } from './season.service'
-import { SeasonTopic } from '../season-topic/entities/season-topic.entity'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { PaginationSeason } from '../common/page/pagination-info'
 
 @Resolver(() => Season)
 export class SeasonResolver {

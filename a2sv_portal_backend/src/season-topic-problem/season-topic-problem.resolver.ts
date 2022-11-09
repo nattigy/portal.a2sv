@@ -7,13 +7,13 @@ import {
   Query,
   Resolver,
 } from '@nestjs/graphql'
+import { CreateSeasonTopicProblemInput } from './dto/create-season-topic-problem.input'
+import { UpdateSeasonTopicProblemInput } from './dto/update-season-topic-problem.input'
+import { SeasonTopicProblem } from './entities/season-topic-problem.entity'
 import {
   SeasonTopicProblemFilter,
   SeasonTopicProblemService,
 } from './season-topic-problem.service'
-import { SeasonTopicProblem } from './entities/season-topic-problem.entity'
-import { CreateSeasonTopicProblemInput } from './dto/create-season-topic-problem.input'
-import { UpdateSeasonTopicProblemInput } from './dto/update-season-topic-problem.input'
 
 @InputType()
 export class SeasonTopicProblemId {

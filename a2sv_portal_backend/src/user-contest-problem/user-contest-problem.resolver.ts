@@ -1,7 +1,7 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { UserContestProblemService } from './user-contest-problem.service'
-import { UserContestProblem } from './entities/user-contest-problem.entity'
 import { UpdateUserContestProblemInput } from './dto/update-user-contest-problem.input'
+import { UserContestProblem } from './entities/user-contest-problem.entity'
+import { UserContestProblemService } from './user-contest-problem.service'
 
 @Resolver(() => UserContestProblem)
 export class UserContestProblemResolver {

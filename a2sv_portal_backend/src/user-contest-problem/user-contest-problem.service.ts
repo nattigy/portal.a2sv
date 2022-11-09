@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { UpdateUserContestProblemInput } from './dto/update-user-contest-problem.input'
 import { PrismaService } from '../prisma.service'
+import { UpdateUserContestProblemInput } from './dto/update-user-contest-problem.input'
 
 @Injectable()
 export class UserContestProblemService {

@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common'
 import {
   Args,
   Int,
@@ -7,27 +8,24 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql'
-import { ProblemService } from './problem.service'
-import { Problem } from './entities/problem.entity'
+import { Tag } from '@prisma/client'
+import { ProblemAbilities } from '../casl/handler/problem-abilities.handler'
+import { CheckPolicies } from '../casl/policy/policy.decorator'
+import { PoliciesGuard } from '../casl/policy/policy.guard'
+import { PaginationProblem } from '../common/page/pagination-info'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { SeasonTopicProblem } from '../season-topic-problem/entities/season-topic-problem.entity'
 import { CreateProblemInput } from './dto/create-problem.input'
 import { UpdateProblemInput } from './dto/update-problem.input'
-import { Tag } from '@prisma/client'
-import { Roles } from 'src/auth/auth.decorator'
-import { SeasonTopicProblem } from '../season-topic-problem/entities/season-topic-problem.entity'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { PaginationProblem } from '../common/page/pagination-info'
+import { Problem } from './entities/problem.entity'
+import { ProblemService } from './problem.service'
 
 @Resolver(() => Problem)
 export class ProblemResolver {
   constructor(private readonly problemService: ProblemService) {}
 
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(ProblemAbilities.create)
   @Mutation(() => Problem)
   async createProblem(
     @Args('createProblemInput') createProblemInput: CreateProblemInput,
@@ -35,13 +33,8 @@ export class ProblemResolver {
     return await this.problemService.create(createProblemInput)
   }
 
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(ProblemAbilities.read)
   @Query(() => PaginationProblem, {
     name: 'problems',
     description: 'Find all problems with populated tags',
@@ -53,13 +46,8 @@ export class ProblemResolver {
     return await this.problemService.findAll(pageInfoInput)
   }
 
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(ProblemAbilities.read)
   @Query(() => Problem, {
     name: 'problem',
     description: 'Find a unique problem by id',
@@ -68,13 +56,8 @@ export class ProblemResolver {
     return await this.problemService.findOne(id)
   }
 
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(ProblemAbilities.update)
   @Mutation(() => Problem)
   async updateProblem(
     @Args('updateProblemInput') updateProblemInput: UpdateProblemInput,
@@ -82,7 +65,8 @@ export class ProblemResolver {
     return this.problemService.update(updateProblemInput.id, updateProblemInput)
   }
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION', 'ASSISTANT')
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(ProblemAbilities.delete)
   @Mutation(() => Problem)
   async removeProblem(
     @Args('id', { type: () => Int }) id: string,
@@ -90,25 +74,15 @@ export class ProblemResolver {
     return this.problemService.remove(id)
   }
 
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(ProblemAbilities.read)
   @ResolveField()
   async tags(@Parent() problem: Problem): Promise<Tag[]> {
     return problem.tags
   }
 
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(ProblemAbilities.read)
   @ResolveField(() => [SeasonTopicProblem], { nullable: 'itemsAndList' })
   seasonTopics(@Parent() problem: Problem): SeasonTopicProblem[] {
     return problem.seasonTopics

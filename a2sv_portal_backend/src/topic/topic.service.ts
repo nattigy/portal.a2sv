@@ -1,14 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { PrismaService } from 'src/prisma.service'
 import { Topic } from '@prisma/client'
+import { PrismaService } from 'src/prisma.service'
+import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { AddTopicToSeasonInput } from './dto/add-topic-to-season-input'
 import { CreateTopicInput } from './dto/create-topic.input'
 import { UpdateTopicInput } from './dto/update-topic.input'
-import { AddTopicToSeasonInput } from './dto/add-topic-to-season-input'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import {
-  PaginationOutput,
-  PaginationTopic,
-} from '../common/page/pagination-info'
 
 export interface TopicWhereInput {
   skip?: number

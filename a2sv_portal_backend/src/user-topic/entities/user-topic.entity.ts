@@ -1,7 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { Topic } from '../../topic/entities/topic.entity'
 import { ComfortLevel } from '../../user/entities/comfort-level.enum'
 import { User } from '../../user/entities/user.entity'
-import { Topic } from '../../topic/entities/topic.entity'
 
 @ObjectType()
 export class UserTopic {

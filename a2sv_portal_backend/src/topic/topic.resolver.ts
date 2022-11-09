@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common'
 import {
   Args,
   Mutation,
@@ -7,26 +8,27 @@ import {
   Resolver,
 } from '@nestjs/graphql'
 import { Roles } from 'src/auth/auth.decorator'
+import { TopicAbilities } from '../casl/handler/topic-abilities.handler'
+import { CheckPolicies } from '../casl/policy/policy.decorator'
+import { PoliciesGuard } from '../casl/policy/policy.guard'
+import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { SeasonTopic } from '../season-topic/entities/season-topic.entity'
+import { UserTopic } from '../user-topic/entities/user-topic.entity'
+import { AddTopicToSeasonInput } from './dto/add-topic-to-season-input'
 import { CreateTopicInput } from './dto/create-topic.input'
 import { GetTopicArgs } from './dto/get-topic.args'
 import { UpdateTopicInput } from './dto/update-topic.input'
+import { TopicActionStatus } from './entities/topic-action-status'
 import { Topic } from './entities/topic.entity'
 import { TopicService } from './topic.service'
-import { AddTopicToSeasonInput } from './dto/add-topic-to-season-input'
-import { TopicActionStatus } from './entities/topic-action-status'
-import { UserTopic } from '../user-topic/entities/user-topic.entity'
-import { SeasonTopic } from '../season-topic/entities/season-topic.entity'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import {
-  PaginationOutput,
-  PaginationTopic,
-} from '../common/page/pagination-info'
 
 @Resolver(() => Topic)
 export class TopicResolver {
   constructor(private readonly topicService: TopicService) {}
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(TopicAbilities.create)
   @Mutation(() => Topic)
   createTopic(@Args('createTopicInput') createTopicInput: CreateTopicInput) {
     return this.topicService.createTopic(createTopicInput)
@@ -39,6 +41,8 @@ export class TopicResolver {
     'ASSISTANT',
     'STUDENT',
   )
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(TopicAbilities.read)
   @Query(() => PaginationOutput<Topic>, { name: 'topics' })
   topics(
     @Args() args: GetTopicArgs,
@@ -48,25 +52,15 @@ export class TopicResolver {
     return this.topicService.getTopics(args, pageInfoInput)
   }
 
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(TopicAbilities.read)
   @Query(() => Topic)
   topic(@Args('id', { type: () => String }) id: string) {
     return this.topicService.getTopicById(id)
   }
 
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(TopicAbilities.update)
   @Mutation(() => Topic)
   updateTopic(
     @Args('id', { type: () => String }) id: string,
@@ -75,24 +69,22 @@ export class TopicResolver {
     return this.topicService.updateTopic(id, updateTopicInput)
   }
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(TopicAbilities.delete)
   @Mutation(() => Topic)
   deleteTopic(@Args('id', { type: () => String }) id: string) {
     return this.topicService.deleteTopic(id)
   }
 
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(TopicAbilities.read)
   @ResolveField(() => [SeasonTopic], { nullable: 'itemsAndList' })
   seasons(@Parent() topic: Topic): SeasonTopic[] {
     return topic.seasons
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(TopicAbilities.update)
   @Mutation(() => TopicActionStatus)
   async addTopicToGroup(
     @Args('addTopicToGroupInput', { type: () => AddTopicToSeasonInput })
@@ -107,6 +99,8 @@ export class TopicResolver {
     }
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(TopicAbilities.read)
   @ResolveField(() => [UserTopic])
   users(@Parent() topic: Topic): UserTopic[] {
     return topic.users

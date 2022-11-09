@@ -1,10 +1,10 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { GroupContestService } from './group-contest.service'
-import { GroupContest } from './entities/group-contest.entity'
-import { UpdateGroupContestInput } from './dto/update-group-contest.input'
-import { FindGroupContestInput } from './dto/find-group-contest.input'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { PaginationGroupContest } from '../common/page/pagination-info'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { FindGroupContestInput } from './dto/find-group-contest.input'
+import { UpdateGroupContestInput } from './dto/update-group-contest.input'
+import { GroupContest } from './entities/group-contest.entity'
+import { GroupContestService } from './group-contest.service'
 
 @Resolver(() => GroupContest)
 export class GroupContestResolver {

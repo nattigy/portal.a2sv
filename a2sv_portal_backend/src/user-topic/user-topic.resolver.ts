@@ -6,12 +6,12 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql'
-import { UserTopicService } from './user-topic.service'
-import { UserTopic } from './entities/user-topic.entity'
+import { Topic } from '../topic/entities/topic.entity'
+import { User } from '../user/entities/user.entity'
 import { CreateUserTopicInput } from './dto/create-user-topic.input'
 import { UpdateUserTopicInput } from './dto/update-user-topic.input'
-import { User } from '../user/entities/user.entity'
-import { Topic } from '../topic/entities/topic.entity'
+import { UserTopic } from './entities/user-topic.entity'
+import { UserTopicService } from './user-topic.service'
 
 @Resolver(() => UserTopic)
 export class UserTopicResolver {

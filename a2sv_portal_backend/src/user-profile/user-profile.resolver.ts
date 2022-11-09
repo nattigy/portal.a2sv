@@ -1,8 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { UserProfileService } from './user-profile.service'
-import { UserProfile } from './entities/user-profile.entity'
 import { CreateUserProfileInput } from './dto/create-user-profile.input'
 import { UpdateUserProfileInput } from './dto/update-user-profile.input'
+import { UserProfile } from './entities/user-profile.entity'
+import { UserProfileService } from './user-profile.service'
 
 @Resolver(() => UserProfile)
 export class UserProfileResolver {

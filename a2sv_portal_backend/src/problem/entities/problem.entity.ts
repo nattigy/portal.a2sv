@@ -1,6 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql'
-import { Tag } from '../../tag/entities/tag.entity'
 import { SeasonTopicProblem } from '../../season-topic-problem/entities/season-topic-problem.entity'
+import { Tag } from '../../tag/entities/tag.entity'
 
 @ObjectType()
 export class Problem {

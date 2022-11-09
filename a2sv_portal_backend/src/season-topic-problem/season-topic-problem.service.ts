@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common'
+import { Field, InputType } from '@nestjs/graphql'
+import { PrismaService } from '../prisma.service'
 import { CreateSeasonTopicProblemInput } from './dto/create-season-topic-problem.input'
 import { UpdateSeasonTopicProblemInput } from './dto/update-season-topic-problem.input'
 import { SeasonTopicProblemId } from './season-topic-problem.resolver'
-import { PrismaService } from '../prisma.service'
-import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
 export class SeasonTopicProblemFilter {

@@ -6,28 +6,25 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql'
-import { UserService } from './user.service'
-import { User } from './entities/user.entity'
-import { UserProfile } from 'src/user-profile/entities/user-profile.entity'
-import { CreateUserInput } from './dto/create-user.input'
-import { UpdateUserInput } from './dto/update-user.input'
-import { GetUserArgs } from './dto/get-users.args'
 import { Roles } from 'src/auth/auth.decorator'
-import { GroupsService } from 'src/group/groups.service'
 import { Group } from 'src/group/entities/group.entity'
-import { UserTopic } from '../user-topic/entities/user-topic.entity'
-import { ComfortLevel } from './entities/comfort-level.enum'
-import { SeasonTopicProblemUser } from '../season-topic-problem-user/entities/season-topic-problem-user.entity'
+import { GroupsService } from 'src/group/groups.service'
+import { UserProfile } from 'src/user-profile/entities/user-profile.entity'
+import { PaginationOutput } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { SeasonTopicProblemUser } from '../season-topic-problem-user/entities/season-topic-problem-user.entity'
+import { UserTopic } from '../user-topic/entities/user-topic.entity'
+import { CreateUserInput } from './dto/create-user.input'
+import { GetUserArgs } from './dto/get-users.args'
+import { UpdateUserInput } from './dto/update-user.input'
 import {
   StudentStat,
   TopicCoverageStat,
   TopicStudentStatInput,
 } from './dto/user-dtos'
-import {
-  PaginationOutput,
-  PaginationUser,
-} from '../common/page/pagination-info'
+import { ComfortLevel } from './entities/comfort-level.enum'
+import { User } from './entities/user.entity'
+import { UserService } from './user.service'
 
 @Resolver(() => User)
 export class UserResolver {

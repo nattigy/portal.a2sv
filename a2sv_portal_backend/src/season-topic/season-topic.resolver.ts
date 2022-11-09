@@ -7,17 +7,17 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql'
+import { SeasonTopicProblem } from '../season-topic-problem/entities/season-topic-problem.entity'
+import { Season } from '../season/entities/season.entity'
+import { Topic } from '../topic/entities/topic.entity'
+import { CreateSeasonTopicInput } from './dto/create-season-topic.input'
+import { UpdateSeasonTopicInput } from './dto/update-season-topic.input'
+import { SeasonTopic } from './entities/season-topic.entity'
 import {
   SeasonTopicFilter,
   SeasonTopicId,
   SeasonTopicService,
 } from './season-topic.service'
-import { SeasonTopic } from './entities/season-topic.entity'
-import { CreateSeasonTopicInput } from './dto/create-season-topic.input'
-import { UpdateSeasonTopicInput } from './dto/update-season-topic.input'
-import { Topic } from '../topic/entities/topic.entity'
-import { Season } from '../season/entities/season.entity'
-import { SeasonTopicProblem } from '../season-topic-problem/entities/season-topic-problem.entity'
 
 @Resolver(() => SeasonTopic)
 export class SeasonTopicResolver {

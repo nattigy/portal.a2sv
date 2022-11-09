@@ -1,5 +1,5 @@
-export const tags =[
-    {
-        "name": "Strings"
-    }
+export const tags = [
+  {
+    'name': 'Strings',
+  },
 ]
