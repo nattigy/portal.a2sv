@@ -71,13 +71,6 @@ import { PrismaModule } from './prisma/prisma.module'
     PrismaModule,
     CaslModule,
   ],
-  providers: [
-    AppService,
-    AppResolver,
-    {
-      provide: 'APP_GUARD',
-      useClass: PoliciesGuard,
-    },
-  ],
+  providers: [AppService, AppResolver],
 })
 export class AppModule {}

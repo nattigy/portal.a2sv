@@ -1,6 +1,7 @@
 import { Ability } from '@casl/ability'
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
+import { GqlExecutionContext } from '@nestjs/graphql'
 import { Action } from '../../auth/action.enum'
 import { CaslAbilityFactory, Subjects } from '../casl-ability.factory'
 import { PolicyHandler } from './policy-handler.type'
@@ -17,9 +18,13 @@ export class PoliciesGuard implements CanActivate {
     const policyHandlers =
       this.reflector.get<PolicyHandler[]>(
         CHECK_POLICIES_KEY,
-        context.getHandler,
+        context.getHandler(),
       ) || []
-    const { user } = context.switchToHttp().getRequest()
+    if (!policyHandlers) {
+      return true
+    }
+    const ctx = GqlExecutionContext.create(context)
+    const { user } = ctx.getContext().req
     const ability = this.caslAbilityFactory.createForUser(user)
     return policyHandlers.every((handler) =>
       this.execPolicyHandler(handler, ability),

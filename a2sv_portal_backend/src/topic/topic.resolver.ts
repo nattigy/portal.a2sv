@@ -8,6 +8,7 @@ import {
   Resolver,
 } from '@nestjs/graphql'
 import { Roles } from 'src/auth/auth.decorator'
+import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
 import { TopicAbilities } from '../casl/handler/topic-abilities.handler'
 import { CheckPolicies } from '../casl/policy/policy.decorator'
 import { PoliciesGuard } from '../casl/policy/policy.guard'
@@ -27,21 +28,14 @@ import { TopicService } from './topic.service'
 export class TopicResolver {
   constructor(private readonly topicService: TopicService) {}
 
-  @UseGuards(PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.create)
   @Mutation(() => Topic)
   createTopic(@Args('createTopicInput') createTopicInput: CreateTopicInput) {
     return this.topicService.createTopic(createTopicInput)
   }
 
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
-  @UseGuards(PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.read)
   @Query(() => PaginationOutput<Topic>, { name: 'topics' })
   topics(
@@ -52,14 +46,14 @@ export class TopicResolver {
     return this.topicService.getTopics(args, pageInfoInput)
   }
 
-  @UseGuards(PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.read)
   @Query(() => Topic)
   topic(@Args('id', { type: () => String }) id: string) {
     return this.topicService.getTopicById(id)
   }
 
-  @UseGuards(PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.update)
   @Mutation(() => Topic)
   updateTopic(
@@ -69,21 +63,21 @@ export class TopicResolver {
     return this.topicService.updateTopic(id, updateTopicInput)
   }
 
-  @UseGuards(PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.delete)
   @Mutation(() => Topic)
   deleteTopic(@Args('id', { type: () => String }) id: string) {
     return this.topicService.deleteTopic(id)
   }
 
-  @UseGuards(PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.read)
   @ResolveField(() => [SeasonTopic], { nullable: 'itemsAndList' })
   seasons(@Parent() topic: Topic): SeasonTopic[] {
     return topic.seasons
   }
 
-  @UseGuards(PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.update)
   @Mutation(() => TopicActionStatus)
   async addTopicToGroup(
@@ -94,12 +88,11 @@ export class TopicResolver {
       await this.topicService.addTopicToSeason(addTopicToGroupInput)
       return TopicActionStatus.SUCCESS
     } catch (e) {
-      console.error(e)
       return TopicActionStatus.FAILED
     }
   }
 
-  @UseGuards(PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.read)
   @ResolveField(() => [UserTopic])
   users(@Parent() topic: Topic): UserTopic[] {

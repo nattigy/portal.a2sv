@@ -11,7 +11,7 @@ export class SeasonTopic {
   topicId: string
   @Field(() => Season, { nullable: true })
   season?: Season
-  @Field({ nullable: true })
+  @Field(() => Topic, { nullable: true })
   topic?: Topic
   @Field(() => [SeasonTopicProblem], { nullable: true })
   problems?: SeasonTopicProblem[]

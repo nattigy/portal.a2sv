@@ -1,12 +1,12 @@
 import { Global, Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
+import { PoliciesGuard } from '../casl/policy/policy.guard'
 import { UserModule } from '../user/user.module'
 import { jwtConstants } from './auth.constants'
 import { AuthResolver } from './auth.resolver'
 import { AuthService } from './auth.service'
-import { GqlAuthGuard } from './guards/gql-auth.guard'
-import { RolesGuard } from './guards/role.guard'
+import { JwtAuthGuard } from './guards/jwt-auth-guard.service'
 import { JwtStrategy } from './strategies/jwt.strategy'
 import { LocalStrategy } from './strategies/local.strategy'
 
@@ -27,11 +27,11 @@ import { LocalStrategy } from './strategies/local.strategy'
     JwtStrategy,
     {
       provide: 'APP_GUARD',
-      useClass: GqlAuthGuard,
+      useClass: JwtAuthGuard,
     },
     {
       provide: 'APP_GUARD',
-      useClass: RolesGuard,
+      useClass: PoliciesGuard,
     },
   ],
 })

@@ -9,6 +9,7 @@ import {
   Resolver,
 } from '@nestjs/graphql'
 import { Tag } from '@prisma/client'
+import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
 import { ProblemAbilities } from '../casl/handler/problem-abilities.handler'
 import { CheckPolicies } from '../casl/policy/policy.decorator'
 import { PoliciesGuard } from '../casl/policy/policy.guard'
@@ -24,7 +25,7 @@ import { ProblemService } from './problem.service'
 export class ProblemResolver {
   constructor(private readonly problemService: ProblemService) {}
 
-  @UseGuards(PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.create)
   @Mutation(() => Problem)
   async createProblem(
@@ -33,7 +34,7 @@ export class ProblemResolver {
     return await this.problemService.create(createProblemInput)
   }
 
-  @UseGuards(PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.read)
   @Query(() => PaginationProblem, {
     name: 'problems',
@@ -46,7 +47,7 @@ export class ProblemResolver {
     return await this.problemService.findAll(pageInfoInput)
   }
 
-  @UseGuards(PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.read)
   @Query(() => Problem, {
     name: 'problem',
@@ -56,7 +57,7 @@ export class ProblemResolver {
     return await this.problemService.findOne(id)
   }
 
-  @UseGuards(PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.update)
   @Mutation(() => Problem)
   async updateProblem(
@@ -65,7 +66,7 @@ export class ProblemResolver {
     return this.problemService.update(updateProblemInput.id, updateProblemInput)
   }
 
-  @UseGuards(PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.delete)
   @Mutation(() => Problem)
   async removeProblem(
@@ -74,14 +75,14 @@ export class ProblemResolver {
     return this.problemService.remove(id)
   }
 
-  @UseGuards(PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.read)
   @ResolveField()
   async tags(@Parent() problem: Problem): Promise<Tag[]> {
     return problem.tags
   }
 
-  @UseGuards(PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.read)
   @ResolveField(() => [SeasonTopicProblem], { nullable: 'itemsAndList' })
   seasonTopics(@Parent() problem: Problem): SeasonTopicProblem[] {

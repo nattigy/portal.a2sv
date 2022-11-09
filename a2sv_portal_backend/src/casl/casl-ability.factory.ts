@@ -44,36 +44,21 @@ export type AppAbility = Ability<[Action, Subjects]>
 
 export class CaslAbilityFactory {
   createForUser(user: User) {
-    const { can, cannot, build } = new AbilityBuilder<
-      Ability<[Action, Subjects]>
-    >(createMongoAbility)
+    const { can, build } = new AbilityBuilder<Ability<[Action, Subjects]>>(
+      createMongoAbility,
+    )
     switch (user.role) {
       case RoleEnum.STUDENT:
-        can(
-          Action.Update || Action.Read || Action.Create,
-          UserContest ||
-            UserTopic ||
-            UserContestProblem ||
-            UserProfile ||
-            SeasonTopicProblemUser,
-        )
+        can(Action.Manage, 'all')
         break
       case RoleEnum.HEAD_OF_ACADEMY || RoleEnum.ADMIN:
         can(Action.Manage, 'all')
         break
       case RoleEnum.HEAD_OF_EDUCATION:
-        can(Action.Manage, User || Season, { groupId: user.headToGroup.id })
-        can(Action.Manage, Contest)
+        can(Action.Manage, 'all')
         break
       case RoleEnum.ASSISTANT:
-        can(
-          Action.Update || Action.Read || Action.Create || Action.Delete,
-          UserContest ||
-            UserTopic ||
-            UserContestProblem ||
-            UserProfile ||
-            SeasonTopicProblemUser,
-        )
+        can(Action.Manage, 'all')
         break
     }
     return build()

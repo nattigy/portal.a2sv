@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common'
 import {
   Args,
   Mutation,
@@ -10,6 +11,10 @@ import { Roles } from 'src/auth/auth.decorator'
 import { Group } from 'src/group/entities/group.entity'
 import { GroupsService } from 'src/group/groups.service'
 import { UserProfile } from 'src/user-profile/entities/user-profile.entity'
+import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
+import { UserAbilities } from '../casl/handler/user-abilities.handler'
+import { CheckPolicies } from '../casl/policy/policy.decorator'
+import { PoliciesGuard } from '../casl/policy/policy.guard'
 import { PaginationOutput } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { SeasonTopicProblemUser } from '../season-topic-problem-user/entities/season-topic-problem-user.entity'
@@ -33,6 +38,8 @@ export class UserResolver {
     private readonly groupService: GroupsService,
   ) {}
 
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.read)
   @Mutation(() => User)
   async updateComfortLevel(
     @Args('topicId', { type: () => String }) topicId: string,
@@ -52,7 +59,7 @@ export class UserResolver {
     }
   }
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
+  @CheckPolicies(UserAbilities.create)
   @Mutation(() => User)
   async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     try {
@@ -62,13 +69,8 @@ export class UserResolver {
     }
   }
 
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.read)
   @Query(() => PaginationOutput<User>, { name: 'users' })
   async findAll(
     @Args() args: GetUserArgs,
@@ -89,6 +91,8 @@ export class UserResolver {
     'ASSISTANT',
     'STUDENT',
   )
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.read)
   @Query(() => User, { name: 'user' })
   async findOne(@Args('id', { type: () => String }) id: string) {
     // const {...needed, password} = user
@@ -100,13 +104,8 @@ export class UserResolver {
     }
   }
 
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.update)
   @Mutation(() => User)
   async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     try {
@@ -117,7 +116,8 @@ export class UserResolver {
     }
   }
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.delete)
   @Mutation(() => User)
   async removeUser(@Args('id', { type: () => String }) id: string) {
     try {
@@ -128,13 +128,8 @@ export class UserResolver {
     }
   }
 
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.read)
   @ResolveField()
   async group(@Parent() user: User) {
     try {
@@ -146,13 +141,8 @@ export class UserResolver {
     }
   }
 
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.read)
   @ResolveField(() => UserProfile)
   userProfile(@Parent() user: User): UserProfile {
     try {
@@ -163,40 +153,34 @@ export class UserResolver {
     }
   }
 
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.read)
   @ResolveField(() => Group)
   headToGroup(@Parent() user: User): Group {
     return user.headToGroup
   }
 
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.read)
   @ResolveField(() => [SeasonTopicProblemUser])
   seasonTopicProblems(@Parent() user: User): SeasonTopicProblemUser[] {
     return user.seasonTopicProblems
   }
-
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.read)
   @ResolveField(() => [UserTopic])
   topics(@Parent() user: User): UserTopic[] {
     return user.topics
   }
-
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.read)
   @Query(() => StudentStat)
   studentStats(@Args('id', { type: () => String }) id: string) {
     return this.userService.studentStats(id)
   }
 
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.read)
   @Query(() => TopicCoverageStat)
   topicStudentStats(
     @Args('topicStudentStateInput', { type: () => TopicStudentStatInput })

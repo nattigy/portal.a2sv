@@ -8,19 +8,21 @@ import { AuthService } from './auth.service'
 import { LoginInput } from './dto/login-input.dto'
 import { LoginOutput } from './dto/login-output.dto'
 import { SignupOutput } from './dto/signup-output.dto'
+import { JwtAuthGuard } from './guards/jwt-auth-guard.service'
 import { LocalAuthGuard } from './guards/local-auth.guard'
 
 @Resolver()
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Public()
+  // @Public()
   @Mutation(() => LoginOutput)
   @UseGuards(LocalAuthGuard)
   async login(
     @Args('loginInput') loginInput: LoginInput,
     @Context() context,
   ): Promise<LoginOutput> {
+    console.log('here')
     const { accessToken, userId } = await this.authService.login(context)
     return { accessToken, userId }
   }
@@ -42,6 +44,7 @@ export class AuthResolver {
   }
 
   @Query(() => User)
+  @UseGuards(JwtAuthGuard)
   getMe(@CurrentUser() user: User): User {
     return user
   }

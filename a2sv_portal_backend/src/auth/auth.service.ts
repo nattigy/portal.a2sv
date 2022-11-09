@@ -32,7 +32,7 @@ export class AuthService {
 
   async login(
     @Context() context,
-  ): Promise<{ accessToken: string; userId: number }> {
+  ): Promise<{ accessToken: string; userId: string }> {
     const user = context.req.user
     const payload = { email: user.email, sub: user.id }
     const accessToken = this.jwtService.sign(payload)

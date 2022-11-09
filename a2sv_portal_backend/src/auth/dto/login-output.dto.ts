@@ -4,6 +4,6 @@ import { Field, Int, ObjectType } from '@nestjs/graphql'
 export class LoginOutput {
   @Field()
   accessToken: string
-  @Field(() => Int)
-  userId: number
+  @Field()
+  userId: string
 }
