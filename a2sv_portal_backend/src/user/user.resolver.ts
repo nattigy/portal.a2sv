@@ -25,6 +25,7 @@ import {
   TopicCoverageStat,
   TopicStudentStatInput,
 } from './dto/user-dtos'
+import descriptions from './user.doc'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -145,7 +146,7 @@ export class UserResolver {
   async group(@Parent() user: User) {
     try {
       const { groupId } = user
-      return this.groupService.group(groupId)
+      return this.groupService.getGroupById(groupId)
     } catch (e) {
       console.error(e)
       return e.message
