@@ -184,104 +184,105 @@ export class GroupsService {
     pageInfoInput?: PaginationInfoInput,
   ): Promise<GroupStatResponsePage<GroupStatResponse>> {
     const groupStatResponses: GroupStatResponse[] = []
-    const topics = await this.prismaService.topic.findMany({
-      select: {
-        id: true,
-      },
-    })
-    if (!topics) {
-      throw new NotFoundException(`No topics found`)
-    }
-    const groupCount = (await this.prismaService.group.findMany({})).length
-    const groups = await this.prismaService.group.findMany({
-      skip: pageInfoInput.skip,
-      take: pageInfoInput.take,
-      include: {
-        users: {
-          select: {
-            id: true,
-          },
-          include: {
-            seasonTopicProblems: {
-              select: {
-                attempts: true,
-                solved: true,
-                timeDedicated: true,
-              },
-            },
-          },
-        },
-        seasons: {
-          select: {
-            isActive: true,
-          },
-          include: {
-            topics: {
-              include: {
-                problems: {
-                  select: {
-                    problemId: true,
-                  },
-                  include: {
-                    problem: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-        groupContests: true,
-      },
-    })
-    if (!groups) {
-      throw new NotFoundException(`No groups found`)
-    }
-    for (let i = 0; i < groups.length; i++) {
-      let numberOfAcceptedSubmissions = 0
-      let numberOfWrongSubmissions = 0
-      let totalTimeDedicated = 0
-      let numberOfTopicsCovered = 0
-      let numberOfProblems = 0
-      const contestsAttended = groups[i].groupContests.length
-      groups[i].users.forEach((u) => {
-        u.seasonTopicProblems.forEach((g) => {
-          if (g.solved) numberOfAcceptedSubmissions += 1
-          numberOfWrongSubmissions += g.attempts
-          totalTimeDedicated += g.timeDedicated
-        })
-      })
-      groups[i].seasons.forEach((s) => {
-        if (s.isActive) numberOfTopicsCovered += s.topics.length
-        s.topics.forEach((t) => {
-          numberOfProblems += t.problems.length
-        })
-      })
-      groupStatResponses.push({
-        id: groups[i].id,
-        name: groups[i].name,
-        createdAt: groups[i].createdAt,
-        country: groups[i].country,
-        school: groups[i].school,
-        numberOfStudents: groups[i].users?.length,
-        numberOfTopicsCovered: numberOfTopicsCovered,
-        topicsCoverage: topics.length
-          ? (numberOfTopicsCovered / topics.length) * 100
-          : 0,
-        numberOfAcceptedSubmissions: numberOfAcceptedSubmissions,
-        numberOfWrongSubmissions: numberOfWrongSubmissions,
-        totalTimeDedicated: totalTimeDedicated,
-        numberOfProblems: numberOfProblems,
-        contestsAttended: contestsAttended,
-        // rank: groups[i].id,
-      })
-    }
-    return {
-      items: groupStatResponses,
-      pageInfo: {
-        skip: pageInfoInput.skip,
-        take: pageInfoInput.take,
-        count: groupCount,
-      },
-    }
+
+    // const topics = await this.prismaService.topic.findMany({
+    //   select: {
+    //     id: true,
+    //   },
+    // })
+    // if (!topics) {
+    //   throw new NotFoundException(`No topics found`)
+    // }
+    // const groupCount = (await this.prismaService.group.findMany({})).length
+    // const groups = await this.prismaService.group.findMany({
+    //   skip: pageInfoInput.skip,
+    //   take: pageInfoInput.take,
+    //   include: {
+    //     users: {
+    //       select: {
+    //         id: true,
+    //       },
+    //       include: {
+    //         seasonTopicProblems: {
+    //           select: {
+    //             attempts: true,
+    //             solved: true,
+    //             timeDedicated: true,
+    //           },
+    //         },
+    //       },
+    //     },
+    //     seasons: {
+    //       select: {
+    //         isActive: true,
+    //       },
+    //       include: {
+    //         topics: {
+    //           include: {
+    //             problems: {
+    //               select: {
+    //                 problemId: true,
+    //               },
+    //               include: {
+    //                 problem: true,
+    //               },
+    //             },
+    //           },
+    //         },
+    //       },
+    //     },
+    //     groupContests: true,
+    //   },
+    // })
+    // if (!groups) {
+    //   throw new NotFoundException(`No groups found`)
+    // }
+    // for (let i = 0; i < groups.length; i++) {
+    //   let numberOfAcceptedSubmissions = 0
+    //   let numberOfWrongSubmissions = 0
+    //   let totalTimeDedicated = 0
+    //   let numberOfTopicsCovered = 0
+    //   let numberOfProblems = 0
+    //   const contestsAttended = groups[i].groupContests.length
+    //   groups[i].users.forEach((u) => {
+    //     u.seasonTopicProblems.forEach((g) => {
+    //       if (g.solved) numberOfAcceptedSubmissions += 1
+    //       numberOfWrongSubmissions += g.attempts
+    //       totalTimeDedicated += g.timeDedicated
+    //     })
+    //   })
+    //   groups[i].seasons.forEach((s) => {
+    //     if (s.isActive) numberOfTopicsCovered += s.topics.length
+    //     s.topics.forEach((t) => {
+    //       numberOfProblems += t.problems.length
+    //     })
+    //   })
+    //   groupStatResponses.push({
+    //     id: groups[i].id,
+    //     name: groups[i].name,
+    //     createdAt: groups[i].createdAt,
+    //     country: groups[i].country,
+    //     school: groups[i].school,
+    //     numberOfStudents: groups[i].users?.length,
+    //     numberOfTopicsCovered: numberOfTopicsCovered,
+    //     topicsCoverage: topics.length
+    //       ? (numberOfTopicsCovered / topics.length) * 100
+    //       : 0,
+    //     numberOfAcceptedSubmissions: numberOfAcceptedSubmissions,
+    //     numberOfWrongSubmissions: numberOfWrongSubmissions,
+    //     totalTimeDedicated: totalTimeDedicated,
+    //     numberOfProblems: numberOfProblems,
+    //     contestsAttended: contestsAttended,
+    //     // rank: groups[i].id,
+    //   })
+    // }
+    // return {
+    //   items: groupStatResponses,
+    //   pageInfo: {
+    //     skip: pageInfoInput.skip,
+    //     take: pageInfoInput.take,
+    //     // count: groupCount,
+    //   },
+    return null
   }
 }
