@@ -86,10 +86,20 @@ export class SeasonTopicService {
         ...updates,
         problems: {
           createMany: {
-            data: problems,
+            skipDuplicates: true,
+            data: problems.map(({ problemId }) => ({
+              problemId,
+            })),
           },
         },
       },
+      include: {
+        problems: {
+          include: {
+            problem: true
+          }
+        }
+      }
     })
   }
 

@@ -10,36 +10,22 @@ import { UpdateProblemInput } from './dto/update-problem.input'
 export class ProblemService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(createProblemInput: CreateProblemInput): Promise<Problem> {
-    const { tags, ...problem } = createProblemInput
-    const problemTags = tags.map(async ({ name }) => {
-      const tag = await this.prismaService.tag.upsert({
-        where: { name: name.toUpperCase() },
-        update: { name: name.toUpperCase() },
-        create: { name: name.toUpperCase() },
-      })
-      return { id: tag.id }
-    })
-    let newProblem: any
-    await Promise.all(problemTags).then((results) => {
-      newProblem = this.prismaService.problem.create({
-        data: {
-          ...problem,
-          tags: {
-            connect: results,
-          },
-        },
-        include: {
-          tags: true,
-          seasonTopics: {
-            include: {
-              problem: true,
+  async create({ tags, ...createInput }: CreateProblemInput): Promise<Problem> {
+    return this.prismaService.problem.create({
+      data: {
+        ...createInput,
+        tags: {
+          connectOrCreate: tags.map(({ name }) => ({
+            where: {
+              name,
             },
-          },
+            create: {
+              name,
+            },
+          })),
         },
-      })
+      },
     })
-    return newProblem
   }
 
   async findAll(

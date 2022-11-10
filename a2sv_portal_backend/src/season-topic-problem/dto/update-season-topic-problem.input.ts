@@ -6,9 +6,5 @@ export class UpdateSeasonTopicProblemInput extends PartialType(
   CreateSeasonTopicProblemInput,
 ) {
   @Field()
-  seasonId: string
-  @Field()
-  topicId: string
-  @Field()
   problemId: string
 }
