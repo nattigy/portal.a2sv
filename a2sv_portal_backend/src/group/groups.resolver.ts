@@ -104,11 +104,22 @@ export class GroupsResolver {
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.read)
   @Query(() => GroupStatResponsePage<GroupStatResponse>)
-  async getGroupsStat(
+  async groupsStat(
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
     pageInfoInput?: PaginationInfoInput,
   ) {
-    return this.groupsService.getGroupsStat(pageInfoInput)
+    return this.groupsService.groupsStat(pageInfoInput)
+  }
+
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(GroupAbilities.read)
+  @Query(() => GroupStatResponse)
+  async groupStat(
+    @Args('groupId') groupId: string,
+    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
+    pageInfoInput?: PaginationInfoInput,
+  ) {
+    return this.groupsService.groupStat(groupId, pageInfoInput)
   }
 
   @UseGuards(PoliciesGuard)

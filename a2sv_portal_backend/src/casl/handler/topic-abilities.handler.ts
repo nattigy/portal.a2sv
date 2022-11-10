@@ -8,18 +8,32 @@ export class TopicAbilities {
   }
 
   static update(ability: AppAbility) {
-    return ability.can(Action.Update, Topic) || ability.can(Action.Manage, Topic) || ability.can(Action.Manage, 'all')
+    return (
+      ability.can(Action.Update, Topic) ||
+      ability.can(Action.Manage, Topic) ||
+      ability.can(Action.Manage, 'all')
+    )
   }
 
   static create(ability: AppAbility) {
-    return ability.can(Action.Create, Topic) || ability.can(Action.Manage, Topic) || ability.can(Action.Manage, 'all')
+    return (
+      ability.can(Action.Create, Topic) ||
+      ability.can(Action.Manage, Topic) ||
+      ability.can(Action.Manage, 'all')
+    )
   }
 
   static delete(ability: AppAbility) {
-    return ability.can(Action.Delete, Topic) || ability.can(Action.Manage, Topic) || ability.can(Action.Manage, 'all')
+    return (
+      ability.can(Action.Delete, Topic) ||
+      ability.can(Action.Manage, Topic) ||
+      ability.can(Action.Manage, 'all')
+    )
   }
 
   static manage(ability: AppAbility) {
-    return ability.can(Action.Manage, Topic) || ability.can(Action.Manage, 'all')
+    return (
+      ability.can(Action.Manage, Topic) || ability.can(Action.Manage, 'all')
+    )
   }
 }
