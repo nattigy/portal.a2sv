@@ -15,7 +15,7 @@ import { LocalAuthGuard } from './guards/local-auth.guard'
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  // @Public()
+  @Public()
   @Mutation(() => LoginOutput)
   @UseGuards(LocalAuthGuard)
   async login(

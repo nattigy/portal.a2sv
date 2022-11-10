@@ -25,6 +25,9 @@ export class PoliciesGuard implements CanActivate {
     }
     const ctx = GqlExecutionContext.create(context)
     const { user } = ctx.getContext().req
+    if (user == undefined) {
+      return false
+    }
     const ability = this.caslAbilityFactory.createForUser(user)
     return policyHandlers.every((handler) =>
       this.execPolicyHandler(handler, ability),
