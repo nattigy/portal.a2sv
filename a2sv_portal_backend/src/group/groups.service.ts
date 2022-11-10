@@ -167,67 +167,10 @@ export class GroupsService {
     }
   }
 
-  async updateGroup(updateGroupInput: UpdateGroupInput): Promise<Group> {
-    const {
-      currentSeasonId,
-      id,
-      seasons: topics,
-      users,
-      head,
-      headId,
-      ...groupData
-    } = updateGroupInput
-    const queryData = groupData as any
-    if (users) {
-      queryData.users = {
-        connect: users,
-      }
-    }
-    if (topics) {
-      queryData.seasonTopics = {
-        connectOrCreate: topics.map((topic) => {
-          return {
-            where: {
-              seasonId_topicId: {
-                groupId: id,
-                seasonId: currentSeasonId,
-              },
-            },
-            create: {
-              season: {
-                connect: {
-                  id: currentSeasonId,
-                },
-              },
-            },
-          }
-        }),
-      }
-    }
-    if (head || headId) {
-      queryData.head = {
-        connect: {
-          id: head.id || headId,
-        },
-      }
-    }
-
+  async updateGroup({id, ...updates}: UpdateGroupInput): Promise<Group> {
     return this.prismaService.group.update({
-      where: { id: id },
-      data: queryData,
-      include: {
-        seasons: {
-          include: {
-            topics: {
-              include: {
-                problems: true,
-              },
-            },
-          },
-        },
-        users: true,
-        head: true,
-      },
+      where: { id },
+      data: updates
     })
   }
 

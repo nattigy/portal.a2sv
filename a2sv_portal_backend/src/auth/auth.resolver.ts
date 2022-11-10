@@ -22,7 +22,6 @@ export class AuthResolver {
     @Args('loginInput') loginInput: LoginInput,
     @Context() context,
   ): Promise<LoginOutput> {
-    console.log('here')
     const { accessToken, userId } = await this.authService.login(context)
     return { accessToken, userId }
   }

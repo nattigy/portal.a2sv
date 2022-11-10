@@ -28,6 +28,7 @@ export class SeasonService {
                 problem: true,
               },
             },
+            topic: true
           },
         },
       },

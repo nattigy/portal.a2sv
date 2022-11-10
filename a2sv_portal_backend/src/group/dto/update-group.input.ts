@@ -12,14 +12,6 @@ export class UpdateGroupInput {
   country?: string
   @Field({ nullable: true })
   school?: string
-  @Field(() => [UpdateSeasonInput], { nullable: true })
-  seasons?: UpdateSeasonInput[]
-  @Field(() => [UpdateUserInput], { nullable: true })
-  users?: UpdateUserInput[]
   @Field({ nullable: true })
   headId?: string
-  @Field(() => UpdateUserInput, { nullable: true })
-  head?: UpdateUserInput
-  @Field({ nullable: true })
-  currentSeasonId?: string
 }

@@ -27,10 +27,6 @@ import { LocalStrategy } from './strategies/local.strategy'
     JwtStrategy,
     {
       provide: 'APP_GUARD',
-      useClass: JwtAuthGuard,
-    },
-    {
-      provide: 'APP_GUARD',
       useClass: PoliciesGuard,
     },
   ],

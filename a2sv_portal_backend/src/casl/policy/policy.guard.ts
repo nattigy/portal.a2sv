@@ -20,7 +20,7 @@ export class PoliciesGuard implements CanActivate {
         CHECK_POLICIES_KEY,
         context.getHandler(),
       ) || []
-    if (!policyHandlers) {
+    if (policyHandlers.length == 0) {
       return true
     }
     const ctx = GqlExecutionContext.create(context)
