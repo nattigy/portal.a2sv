@@ -5,7 +5,7 @@ export class CreateGroupInput {
   @Field()
   name: string
   @Field({ nullable: true })
-  country?: string
+  country: string
   @Field({ nullable: true })
   school?: string
   @Field({ nullable: true })

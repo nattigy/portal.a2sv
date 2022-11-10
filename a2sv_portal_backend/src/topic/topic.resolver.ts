@@ -37,7 +37,7 @@ export class TopicResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.read)
-  @Query(() => (PaginationOutput<Topic>), { name: 'topics' })
+  @Query(() => PaginationOutput<Topic>, { name: 'topics' })
   topics(
     @Args() args: GetTopicArgs,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
