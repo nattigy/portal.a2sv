@@ -13,7 +13,7 @@ export class GroupContestService {
 
   async findAll(
     filterGroupContestInput: FilterGroupContestInput,
-    { skip, take }: PaginationInfoInput,
+    { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
   ): Promise<PaginationOutput<GroupContest>> {
     const groupContests: GroupContest[] = await this.prismaService.groupContest.findMany({
       skip,

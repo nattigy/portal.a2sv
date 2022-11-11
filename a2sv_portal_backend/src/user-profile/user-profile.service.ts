@@ -19,7 +19,7 @@ export class UserProfileService {
 
   async findAll(
     filterUserProfileInput: FilterUserProfileInput,
-    { take, skip }: PaginationInfoInput,
+    { take, skip }: PaginationInfoInput = { take: 50, skip: 0 },
   ): Promise<PaginationOutput<UserProfile>> {
     const count = (
       await this.prismaService.userProfile.findMany({

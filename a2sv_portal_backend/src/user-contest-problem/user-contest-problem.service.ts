@@ -18,7 +18,7 @@ export class UserContestProblemService {
 
   async findAll(
     filterUserContestInput: FilterUserContestProblemInput,
-    { skip, take }: PaginationInfoInput,
+    { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
   ): Promise<PaginationOutput<UserContestProblem>> {
     const count = (
       await this.prismaService.userContestProblem.findMany({

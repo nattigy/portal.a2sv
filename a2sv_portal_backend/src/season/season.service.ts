@@ -18,7 +18,7 @@ export class SeasonService {
   @CheckPolicies(SeasonAbilities.read)
   async findAll(
     filterSeasonInput: FilterSeasonInput,
-    { take, skip }: PaginationInfoInput,
+    { take, skip }: PaginationInfoInput = { take: 50, skip: 0 },
   ): Promise<PaginationOutput<Season>> {
     const seasonsCount = (
       await this.prismaService.season.findMany({

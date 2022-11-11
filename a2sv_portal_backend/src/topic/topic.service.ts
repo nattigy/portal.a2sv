@@ -14,7 +14,7 @@ export class TopicService {
 
   async findAll(
     filterTopicInput: FilterTopicInput,
-    { take, skip }: PaginationInfoInput,
+    { take, skip }: PaginationInfoInput = { take: 50, skip: 0 },
   ): Promise<PaginationOutput<Topic>> {
     const topicsCount = (
       await this.prismaService.topic.findMany({

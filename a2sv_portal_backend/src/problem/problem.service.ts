@@ -31,7 +31,7 @@ export class ProblemService {
 
   async findAll(
     filterProblemInput: FilterProblemInput,
-    { skip, take }: PaginationInfoInput,
+    { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
   ): Promise<PaginationOutput<Problem>> {
     const problemsCount = (
       await this.prismaService.problem.findMany({

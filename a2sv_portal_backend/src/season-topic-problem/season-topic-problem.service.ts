@@ -36,7 +36,7 @@ export class SeasonTopicProblemService {
 
   async findAll(
     seasonTopicProblemFilter: SeasonTopicProblemFilter,
-    { skip, take }: PaginationInfoInput,
+    { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
   ): Promise<PaginationOutput<SeasonTopicProblem>> {
     const count = (
       await this.prismaService.seasonTopicProblem.findMany({

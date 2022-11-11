@@ -59,7 +59,7 @@ export class GroupsService {
 
   async findAll(
     filterGroupInput: FilterGroupInput,
-    { skip, take }: PaginationInfoInput,
+    { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
   ): Promise<PaginationOutput<Group>> {
     const count = (
       await this.prismaService.group.findMany({
