@@ -41,28 +41,26 @@ export const GET_ALL_GROUPS_QUERY = gql`
   }
 `;
 
-export const GET_ALL_PAGINATED_GROUPS_QUERY= gql` query GroupsPagination($filter: GroupWhereInput) {
-  groupsPagination(filter: $filter) {
-    items {
-      group {
+export const GET_ALL_PAGINATED_GROUPS_QUERY = gql`
+  query GroupsPagination(
+    $filter: GroupWhereInput
+    $pageInfoInput: PaginationInfoInput
+  ) {
+    groups(filter: $filter, pageInfoInput: $pageInfoInput) {
+      items {
         id
         name
-        school
-        country
-        createdAt
         head {
           id
-          email
         }
-        users {
-          userProfile {
-            photoUrl
-          }
-        }
+        headId
+        school
       }
       pageInfo {
-        userCount
+        count
+        skip
+        take
       }
     }
   }
-}`
+`;

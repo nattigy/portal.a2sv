@@ -48,10 +48,13 @@ const LoginForm = () => {
                   setErrorMessage(error.message);
                   setIsLoading(false);
                 },
-                onCompleted: (data) => {
-                  authenticatedVar(true);
+                onCompleted: async ({ login }) => {
+                  const { accessToken, userId } = login
+                  await localStorage.setItem("access-token", accessToken)
+                  await localStorage.setItem("userId", userId)
                   setIsLoading(false);
-                  router.replace("/");
+                  authenticatedVar(true);
+                  router.replace("/dashboard");
                 },
               });
             } catch (error) {
