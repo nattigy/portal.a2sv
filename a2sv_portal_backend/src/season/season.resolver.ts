@@ -1,19 +1,13 @@
-import {
-  Args,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql'
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { Roles } from 'src/auth/auth.decorator'
-import { PaginationSeason } from '../common/page/pagination-info'
+import { PaginationOutput } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { SeasonTopic } from '../season-topic/entities/season-topic.entity'
 import { CreateSeasonInput } from './dto/create-season.input'
 import { UpdateSeasonInput } from './dto/update-season.input'
 import { Season } from './entities/season.entity'
 import { SeasonService } from './season.service'
+import { FilterSeasonInput } from './dto/filter-season-input'
 
 @Resolver(() => Season)
 export class SeasonResolver {
@@ -21,43 +15,45 @@ export class SeasonResolver {
 
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @Mutation(() => Season)
-  createSeason(
+  async createSeason(
     @Args('createSeasonInput') createSeasonInput: CreateSeasonInput,
-  ) {
+  ): Promise<Season> {
     return this.seasonService.createSeason(createSeasonInput)
   }
 
-  @Query(() => PaginationSeason)
+  @Query(() => PaginationOutput<Season>)
   async seasons(
+    @Args('filterSeasonInput', { type: () => PaginationInfoInput, nullable: true })
+    filterSeasonInput?: FilterSeasonInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
     pageInfoInput?: PaginationInfoInput,
-  ) {
-    return this.seasonService.getSeasons(pageInfoInput)
+  ): Promise<PaginationOutput<Season>> {
+    return this.seasonService.findAll(filterSeasonInput, pageInfoInput)
   }
 
   @Query(() => Season)
-  season(@Args('id', { type: () => String }) id: string) {
-    return this.seasonService.getSeasonById(id)
+  async season(@Args('seasonId', { type: () => String }) seasonId: string) {
+    return this.seasonService.findOne(seasonId)
   }
 
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @Mutation(() => Season)
-  updateSeason(
-    @Args('id', { type: () => String }) id: string,
+  async updateSeason(
+    @Args('seasonId', { type: () => String }) seasonId: string,
     @Args('updateSeasonInput') updateSeasonInput: UpdateSeasonInput,
-  ) {
-    return this.seasonService.updateSeason(id, updateSeasonInput)
+  ): Promise<Season> {
+    return this.seasonService.update(seasonId, updateSeasonInput)
   }
 
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @Mutation(() => Season)
-  deleteSeason(@Args('id', { type: () => String }) id: string) {
-    return this.seasonService.deleteSeason(id)
+  async deleteSeason(@Args('seasonId', { type: () => String }) seasonId: string) {
+    return this.seasonService.deleteSeason(seasonId)
   }
 
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @ResolveField(() => [SeasonTopic])
-  topics(@Parent() season: Season): SeasonTopic[] {
+  async topics(@Parent() season: Season): Promise<SeasonTopic[]> {
     return season.topics
   }
 }

@@ -1,15 +1,16 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { Field, ObjectType } from '@nestjs/graphql'
 import { Topic } from '../../topic/entities/topic.entity'
-import { ComfortLevel } from '../../user/entities/comfort-level.enum'
 import { User } from '../../user/entities/user.entity'
+import { ComfortLevel } from '@prisma/client'
+import { ComfortLevelEnum } from '../../user/entities/comfort-level.enum'
 
 @ObjectType()
 export class UserTopic {
-  @Field(() => Int)
-  userId: number
-  @Field(() => Int)
-  topicId: number
-  @Field(() => ComfortLevel, { defaultValue: ComfortLevel.UNCOMFORTABLE })
+  @Field()
+  userId: string
+  @Field()
+  topicId: string
+  @Field(() => ComfortLevelEnum, { defaultValue: ComfortLevel.UNCOMFORTABLE })
   comfortLevel: ComfortLevel = ComfortLevel.UNCOMFORTABLE
   @Field(() => Topic, { nullable: true })
   topic?: Topic

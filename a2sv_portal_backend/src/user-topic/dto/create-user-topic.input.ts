@@ -1,7 +1,12 @@
-import { Field, InputType, Int } from '@nestjs/graphql'
+import { Field, InputType } from '@nestjs/graphql'
+import { ComfortLevelEnum } from '../../user/entities/comfort-level.enum'
 
 @InputType()
 export class CreateUserTopicInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number
+  @Field()
+  userId: string
+  @Field()
+  topicId: string
+  @Field(() => ComfortLevelEnum, { defaultValue: ComfortLevelEnum.UNCOMFORTABLE })
+  comfortLevel: ComfortLevelEnum = ComfortLevelEnum.UNCOMFORTABLE
 }

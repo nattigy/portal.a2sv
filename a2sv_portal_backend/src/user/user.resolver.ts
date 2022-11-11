@@ -1,13 +1,5 @@
 import { UseGuards } from '@nestjs/common'
-import {
-  Args,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql'
-import { Roles } from 'src/auth/auth.decorator'
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { Group } from 'src/group/entities/group.entity'
 import { GroupsService } from 'src/group/groups.service'
 import { UserProfile } from 'src/user-profile/entities/user-profile.entity'
@@ -20,16 +12,12 @@ import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { SeasonTopicProblemUser } from '../season-topic-problem-user/entities/season-topic-problem-user.entity'
 import { UserTopic } from '../user-topic/entities/user-topic.entity'
 import { CreateUserInput } from './dto/create-user.input'
-import { GetUserArgs } from './dto/get-users.args'
 import { UpdateUserInput } from './dto/update-user.input'
-import {
-  StudentStat,
-  TopicCoverageStat,
-  TopicStudentStatInput,
-} from './dto/user-dtos'
-import { ComfortLevel } from './entities/comfort-level.enum'
+import { StudentStat, TopicCoverageStat, TopicStudentStatInput } from './dto/user-dtos'
+import { ComfortLevelEnum } from './entities/comfort-level.enum'
 import { User } from './entities/user.entity'
 import { UserService } from './user.service'
+import { FilterUserInput } from './dto/filter-user-input'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -44,17 +32,12 @@ export class UserResolver {
   async updateComfortLevel(
     @Args('topicId', { type: () => String }) topicId: string,
     @Args('userId', { type: () => String }) userId: string,
-    @Args('comfortLevel', { type: () => ComfortLevel })
-    comfortLevel: ComfortLevel,
+    @Args('comfortLevel', { type: () => ComfortLevelEnum })
+    comfortLevel: ComfortLevelEnum,
   ) {
     try {
-      return await this.userService.updateComfortLevel(
-        topicId,
-        userId,
-        comfortLevel,
-      )
+      return await this.userService.updateComfortLevel(topicId, userId, comfortLevel)
     } catch (e) {
-      console.log(e)
       return e.message
     }
   }
@@ -71,35 +54,27 @@ export class UserResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.read)
-  @Query(() => PaginationOutput<User>, { name: 'users' })
-  async findAll(
-    @Args() args: GetUserArgs,
+  @Query(() => PaginationOutput<User>)
+  async users(
+    @Args('filterUserInput', { type: () => FilterUserInput, nullable: true })
+    filterUserInput?: FilterUserInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
     pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationOutput<User>> {
     try {
-      return await this.userService.findAll(args, pageInfoInput)
+      return await this.userService.findAll(filterUserInput, pageInfoInput)
     } catch (e) {
       return e.message
     }
   }
 
-  @Roles(
-    'ADMIN',
-    'HEAD_OF_ACADEMY',
-    'HEAD_OF_EDUCATION',
-    'ASSISTANT',
-    'STUDENT',
-  )
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.read)
-  @Query(() => User, { name: 'user' })
-  async findOne(@Args('id', { type: () => String }) id: string) {
-    // const {...needed, password} = user
+  @Query(() => User)
+  async user(@Args('id', { type: () => String }) id: string) {
     try {
       return await this.userService.findOne(id)
     } catch (e) {
-      console.log(e)
       return e.message
     }
   }
@@ -111,7 +86,6 @@ export class UserResolver {
     try {
       return await this.userService.update(updateUserInput)
     } catch (e) {
-      console.log(e)
       return e.message
     }
   }
@@ -123,7 +97,6 @@ export class UserResolver {
     try {
       return await this.userService.remove(id)
     } catch (e) {
-      console.log(e)
       return e.message
     }
   }
@@ -134,9 +107,8 @@ export class UserResolver {
   async group(@Parent() user: User) {
     try {
       const { groupId } = user
-      return this.groupService.group(groupId)
+      return this.groupService.findOne(groupId)
     } catch (e) {
-      console.error(e)
       return e.message
     }
   }
@@ -148,7 +120,6 @@ export class UserResolver {
     try {
       return user.userProfile
     } catch (e) {
-      console.error(e)
       return e.message
     }
   }
@@ -166,12 +137,14 @@ export class UserResolver {
   seasonTopicProblems(@Parent() user: User): SeasonTopicProblemUser[] {
     return user.seasonTopicProblems
   }
+
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.read)
   @ResolveField(() => [UserTopic])
   topics(@Parent() user: User): UserTopic[] {
     return user.topics
   }
+
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.read)
   @Query(() => StudentStat)

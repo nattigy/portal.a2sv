@@ -1,19 +1,17 @@
 import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
-export class GroupWhereInput {
+export class FilterContestInput {
   @Field(() => String, { nullable: true })
   id?: string
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   name?: string
-  @Field({ nullable: true })
-  country?: string
-  @Field({ nullable: true })
-  school?: string
   @Field(() => String, { nullable: true })
-  seasonId?: string
+  link?: string
   @Field(() => String, { nullable: true })
-  topicId?: string
-  @Field(() => String, { nullable: true })
-  headId?: string
+  div?: string
+  @Field(() => Date, { nullable: true })
+  startTime?: Date
+  @Field(() => Date, { nullable: true })
+  endTime?: Date
 }

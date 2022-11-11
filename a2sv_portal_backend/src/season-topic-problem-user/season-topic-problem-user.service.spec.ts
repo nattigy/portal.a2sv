@@ -9,9 +9,7 @@ describe('SeasonTopicProblemUserService', () => {
       providers: [SeasonTopicProblemUserService],
     }).compile()
 
-    service = module.get<SeasonTopicProblemUserService>(
-      SeasonTopicProblemUserService,
-    )
+    service = module.get<SeasonTopicProblemUserService>(SeasonTopicProblemUserService)
   })
 
   it('should be defined', () => {

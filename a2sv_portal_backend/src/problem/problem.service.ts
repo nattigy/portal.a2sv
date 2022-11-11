@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common'
 import { Problem } from '@prisma/client'
-import { PaginationProblem } from '../common/page/pagination-info'
+import { PaginationOutput } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateProblemInput } from './dto/create-problem.input'
 import { UpdateProblemInput } from './dto/update-problem.input'
+import { FilterProblemInput } from './dto/filter-problem-input'
 
 @Injectable()
 export class ProblemService {
@@ -29,10 +30,21 @@ export class ProblemService {
   }
 
   async findAll(
-    pageInfoInput?: PaginationInfoInput,
-  ): Promise<PaginationProblem> {
-    const problemsCount = (await this.prismaService.problem.findMany({})).length
+    filterProblemInput: FilterProblemInput,
+    { skip, take }: PaginationInfoInput,
+  ): Promise<PaginationOutput<Problem>> {
+    const problemsCount = (
+      await this.prismaService.problem.findMany({
+        where: filterProblemInput,
+        select: {
+          id: true,
+        },
+      })
+    ).length
     const problems: Problem[] = await this.prismaService.problem.findMany({
+      skip,
+      take,
+      where: filterProblemInput,
       include: {
         tags: true,
         seasonTopics: {
@@ -45,8 +57,8 @@ export class ProblemService {
     return {
       items: problems,
       pageInfo: {
-        skip: pageInfoInput.skip,
-        take: pageInfoInput.take,
+        skip,
+        take,
         count: problemsCount,
       },
     }
@@ -66,10 +78,7 @@ export class ProblemService {
     })
   }
 
-  async update(
-    id: string,
-    updateProblemInput: UpdateProblemInput,
-  ): Promise<Problem> {
+  async update(id: string, updateProblemInput: UpdateProblemInput): Promise<Problem> {
     return this.prismaService.problem.update({
       where: { id },
       data: updateProblemInput,

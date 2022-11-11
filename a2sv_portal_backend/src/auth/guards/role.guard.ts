@@ -9,14 +9,14 @@ export class RolesGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
     const ctx = GqlExecutionContext.create(context)
-    const requiredRoles = this.reflector.getAllAndOverride<string[]>(
-      ROLES_KEY,
-      [ctx.getHandler(), ctx.getClass()],
-    )
+    const requiredRoles = this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
+      ctx.getHandler(),
+      ctx.getClass(),
+    ])
     if (!requiredRoles) {
       return true
     }
     const user = ctx.getContext().req.user
-    return requiredRoles.some((role) => user?.role === role)
+    return requiredRoles.some(role => user?.role === role)
   }
 }

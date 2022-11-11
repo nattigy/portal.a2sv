@@ -8,8 +8,6 @@ export class Group {
   id: string
   @Field()
   name: string
-  @Field()
-  createdAt: Date
   @Field({ nullable: true })
   country: string
   @Field({ nullable: true })
@@ -22,4 +20,6 @@ export class Group {
   headId?: string
   @Field(() => User, { nullable: true })
   head?: User
+  @Field()
+  createdAt: Date
 }

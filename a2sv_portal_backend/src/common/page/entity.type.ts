@@ -13,11 +13,6 @@ import { UserContest } from '../../user-contest/entities/user-contest.entity'
 import { UserTopic } from '../../user-topic/entities/user-topic.entity'
 import { User } from '../../user/entities/user.entity'
 
-export class PaginationEntity {
-  take?: number
-  skip?: number
-}
-
 export const Entity = createUnionType({
   name: 'Entity',
   types: () => [

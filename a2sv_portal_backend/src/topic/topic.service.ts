@@ -6,43 +6,28 @@ import { PrismaService } from '../prisma/prisma.service'
 import { AddTopicToSeasonInput } from './dto/add-topic-to-season-input'
 import { CreateTopicInput } from './dto/create-topic.input'
 import { UpdateTopicInput } from './dto/update-topic.input'
-
-export interface TopicWhereInput {
-  skip?: number
-  take?: number
-  groupId?: string
-  seasonId?: string
-}
+import { FilterTopicInput } from './dto/filter-topic-input'
 
 @Injectable()
 export class TopicService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getTopics(
-    { groupId, seasonId }: TopicWhereInput = {},
-    pageInfoInput?: PaginationInfoInput,
+  async findAll(
+    filterTopicInput: FilterTopicInput,
+    { take, skip }: PaginationInfoInput,
   ): Promise<PaginationOutput<Topic>> {
     const topicsCount = (
       await this.prismaService.topic.findMany({
-        where: {
-          seasons: {
-            some: seasonId && {
-              seasonId,
-            },
-          },
+        where: filterTopicInput,
+        select: {
+          id: true,
         },
       })
     ).length
     const topics = await this.prismaService.topic.findMany({
-      skip: pageInfoInput?.skip,
-      take: pageInfoInput?.take,
-      where: {
-        seasons: {
-          some: seasonId && {
-            seasonId,
-          },
-        },
-      },
+      skip,
+      take,
+      where: filterTopicInput,
       include: {
         seasons: {
           include: {
@@ -58,14 +43,14 @@ export class TopicService {
     return {
       items: topics,
       pageInfo: {
-        skip: pageInfoInput?.skip,
-        take: pageInfoInput?.take,
+        skip,
+        take,
         count: topicsCount,
       },
     }
   }
 
-  async getTopicById(id: string): Promise<Topic> {
+  async findOne(id: string): Promise<Topic> {
     const topic = await this.prismaService.topic.findUnique({
       where: { id: id },
       include: {
@@ -87,7 +72,7 @@ export class TopicService {
     return topic
   }
 
-  async createTopic(createTopicInput: CreateTopicInput): Promise<Topic> {
+  async create(createTopicInput: CreateTopicInput): Promise<Topic> {
     const { ...data } = createTopicInput
     const queryData = data as any
     return await this.prismaService.topic.create({
@@ -106,10 +91,7 @@ export class TopicService {
     })
   }
 
-  async updateTopic(
-    givenId: string,
-    updateTopicInput: UpdateTopicInput,
-  ): Promise<Topic> {
+  async update(givenId: string, updateTopicInput: UpdateTopicInput): Promise<Topic> {
     const { id, ...data } = updateTopicInput
     const queryData = data as any
     return this.prismaService.topic.update({

@@ -8,7 +8,7 @@ export class UserContest {
   @Field(() => String)
   contestId: string
   @Field(() => [UserContestProblem])
-  userContestProblems: UserContestProblem[]
+  userContestProblems?: UserContestProblem[]
   @Field(() => String)
   userId: string
   @Field(() => Boolean)

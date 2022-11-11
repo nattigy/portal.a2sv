@@ -1,9 +1,4 @@
-import {
-  Ability,
-  AbilityBuilder,
-  createMongoAbility,
-  InferSubjects,
-} from '@casl/ability'
+import { Ability, AbilityBuilder, createMongoAbility, InferSubjects } from '@casl/ability'
 import { Action } from '../auth/action.enum'
 import { Contest } from '../contest/entities/contest.entity'
 import { GroupContest } from '../group-contest/entities/group-contest.entity'
@@ -46,9 +41,7 @@ export type AppAbility = Ability<[Action, Subjects]>
 
 export class CaslAbilityFactory {
   createForUser(user: User) {
-    const { can, build } = new AbilityBuilder<Ability<[Action, Subjects]>>(
-      createMongoAbility,
-    )
+    const { can, build } = new AbilityBuilder<Ability<[Action, Subjects]>>(createMongoAbility)
     switch (user.role) {
       case RoleEnum.STUDENT:
         can(Action.Manage, Topic)

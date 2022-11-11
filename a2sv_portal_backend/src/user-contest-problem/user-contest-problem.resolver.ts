@@ -2,25 +2,32 @@ import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { UpdateUserContestProblemInput } from './dto/update-user-contest-problem.input'
 import { UserContestProblem } from './entities/user-contest-problem.entity'
 import { UserContestProblemService } from './user-contest-problem.service'
+import { FilterGroupInput } from '../group/dto/filter-group.input'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { FilterUserContestProblemInput } from './dto/filter-user-contest-problem'
+import { PaginationOutput } from '../common/page/pagination-info'
 
 @Resolver(() => UserContestProblem)
 export class UserContestProblemResolver {
-  constructor(
-    private readonly userContestProblemService: UserContestProblemService,
-  ) {}
+  constructor(private readonly userContestProblemService: UserContestProblemService) {}
 
   // @Mutation(() => UserContestProblem)
   // createUserContestProblem(@Args('createUserContestProblemInput') createUserContestProblemInput: CreateUserContestProblemInput) {
   //   return this.userContestProblemService.create(createUserContestProblemInput);
   // }
 
-  @Query(() => [UserContestProblem])
-  userContestProblems() {
-    return this.userContestProblemService.findAll()
+  @Query(() => PaginationOutput<UserContestProblem>)
+  async userContestProblems(
+    @Args('filterUserContestProblemInput', { type: () => FilterGroupInput, nullable: true })
+    filterUserContestProblemInput?: FilterUserContestProblemInput,
+    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
+    pageInfoInput?: PaginationInfoInput,
+  ) {
+    return this.userContestProblemService.findAll(filterUserContestProblemInput, pageInfoInput)
   }
 
   @Query(() => UserContestProblem)
-  userContestProblem(
+  async userContestProblem(
     @Args('userId') userId: string,
     @Args('contestId') contestId: string,
     @Args('problemId') problemId: string,
@@ -29,7 +36,7 @@ export class UserContestProblemResolver {
   }
 
   @Mutation(() => UserContestProblem)
-  updateUserContestProblem(
+  async updateUserContestProblem(
     @Args('updateUserContestProblemInput')
     updateUserContestProblemInput: UpdateUserContestProblemInput,
   ) {
@@ -37,7 +44,7 @@ export class UserContestProblemResolver {
   }
 
   @Mutation(() => UserContestProblem)
-  removeUserContestProblem(@Args('id', { type: () => Int }) id: number) {
+  async removeUserContestProblem(@Args('id', { type: () => Int }) id: number) {
     return this.userContestProblemService.remove(id)
   }
 }

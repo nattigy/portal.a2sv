@@ -32,8 +32,6 @@ export class TopicAbilities {
   }
 
   static manage(ability: AppAbility) {
-    return (
-      ability.can(Action.Manage, Topic) || ability.can(Action.Manage, 'all')
-    )
+    return ability.can(Action.Manage, Topic) || ability.can(Action.Manage, 'all')
   }
 }

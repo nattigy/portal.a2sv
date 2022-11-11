@@ -1,11 +1,11 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { Field, InputType, Int } from '@nestjs/graphql'
 
-@ObjectType()
-export class UserProfile {
-  @Field()
-  id: string
-  @Field()
-  userId: string
+@InputType()
+export class FilterUserProfileInput {
+  @Field({ nullable: true })
+  id?: string
+  @Field({ nullable: true })
+  userId?: string
   @Field({ nullable: true })
   firstName?: string
   @Field({ nullable: true })
@@ -52,8 +52,4 @@ export class UserProfile {
   twitter?: string
   @Field({ nullable: true })
   facebook?: string
-  @Field({ nullable: true })
-  createdAt?: Date
-  @Field({ nullable: true })
-  updatedAt?: Date
 }

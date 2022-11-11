@@ -30,15 +30,13 @@ export class AuthService {
     return null
   }
 
-  async login(
-    @Context() context,
-  ): Promise<{ accessToken: string; userId: string }> {
+  async login(@Context() context): Promise<{ accessToken: string; userId: string }> {
     const user = context.req.user
     const payload = { email: user.email, sub: user.id }
     const accessToken = this.jwtService.sign(payload)
     const expires = new Date()
     expires.setHours(expires.getHours() + 120)
-    context.res.cookie('Authentication', accessToken, { httpOnly: true })
+    context.res.cookie('Authentication', accessToken, { httpOnly: true, expires })
     return { accessToken, userId: user.id }
   }
 
@@ -50,6 +48,6 @@ export class AuthService {
   }
 
   async logout(@Context('res') response: Response) {
-    response.cookie('Authentication', '', { expires: new Date() })
+    response.cookie('Authentication', '', { httpOnly: true, expires: new Date() })
   }
 }

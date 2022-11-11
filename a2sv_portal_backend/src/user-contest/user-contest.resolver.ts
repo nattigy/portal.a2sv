@@ -1,10 +1,11 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { PaginationUserContests } from '../common/page/pagination-info'
+import { PaginationOutput } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { CreateUserContestInput } from './dto/create-user-contest.input'
 import { UpdateUserContestInput } from './dto/update-user-contest.input'
 import { UserContest } from './entities/user-contest.entity'
 import { UserContestService } from './user-contest.service'
+import { FilterUserContestInput } from './dto/filter-user-contest.input'
 
 @Resolver(() => UserContest)
 export class UserContestResolver {
@@ -14,32 +15,33 @@ export class UserContestResolver {
   async createUserContest(
     @Args('createUserContestInput')
     createUserContestInput: CreateUserContestInput,
-  ) {
+  ): Promise<UserContest> {
     return this.userContestService.create(createUserContestInput)
   }
 
-  @Query(() => PaginationUserContests)
+  @Query(() => PaginationOutput<UserContest>)
   async userContests(
-    @Args('userId') userId: string,
+    @Args('filterUserContestInput', { type: () => FilterUserContestInput, nullable: true })
+    filterUserContestInput?: FilterUserContestInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput: PaginationInfoInput = { skip: 0, take: 10 },
-  ): Promise<PaginationUserContests> {
-    return this.userContestService.userContests(userId, pageInfoInput)
+    pageInfoInput?: PaginationInfoInput,
+  ): Promise<PaginationOutput<UserContest>> {
+    return this.userContestService.findAll(filterUserContestInput, pageInfoInput)
   }
 
   @Query(() => UserContest)
   async userContest(
     @Args('userId') userId: string,
     @Args('contestId') contestId: string,
-  ) {
-    return this.userContestService.userContest(userId, contestId)
+  ): Promise<UserContest> {
+    return this.userContestService.findOne(userId, contestId)
   }
 
   @Mutation(() => UserContest)
   async updateUserContest(
     @Args('updateUserContestInput')
     updateUserContestInput: UpdateUserContestInput,
-  ) {
+  ): Promise<UserContest> {
     return this.userContestService.update(updateUserContestInput)
   }
 

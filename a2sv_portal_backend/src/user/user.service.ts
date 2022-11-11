@@ -8,12 +8,9 @@ import { GroupsService } from '../group/groups.service'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
-import {
-  StudentStat,
-  TopicCoverageStat,
-  TopicStudentStatInput,
-} from './dto/user-dtos'
-import { ComfortLevel } from './entities/comfort-level.enum'
+import { StudentStat, TopicCoverageStat, TopicStudentStatInput } from './dto/user-dtos'
+import { ComfortLevelEnum } from './entities/comfort-level.enum'
+import { FilterUserInput } from './dto/filter-user-input'
 
 export enum StatTimeRange {
   MONTH,
@@ -81,36 +78,21 @@ export class UserService {
   }
 
   async findAll(
-    params: {
-      skip?: number
-      take?: number
-      status?: Status
-      email?: string
-      groupId?: string
-      role?: RoleEnum
-    },
-    pageInfoInput?: PaginationInfoInput,
+    filterUserInput: FilterUserInput,
+    { take, skip }: PaginationInfoInput,
   ): Promise<PaginationOutput<User>> {
-    const { status, email, groupId, role } = params
     const usersCount = (
       await this.prismaService.user.findMany({
-        where: {
-          groupId,
-          status,
-          email,
-          role,
+        where: filterUserInput,
+        select: {
+          id: true,
         },
       })
     ).length
     const users: User[] = await this.prismaService.user.findMany({
-      skip: pageInfoInput?.skip,
-      take: pageInfoInput?.take,
-      where: {
-        groupId,
-        status,
-        email,
-        role,
-      },
+      skip,
+      take,
+      where: filterUserInput,
       include: {
         group: true,
         userProfile: true,
@@ -127,14 +109,14 @@ export class UserService {
     return {
       items: users,
       pageInfo: {
-        skip: pageInfoInput?.skip,
-        take: pageInfoInput?.take,
+        skip,
+        take,
         count: usersCount,
       },
     }
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<User> {
     const user = await this.prismaService.user.findUnique({
       include: {
         group: true,
@@ -211,11 +193,7 @@ export class UserService {
     })
   }
 
-  async updateComfortLevel(
-    topicId: string,
-    userId: string,
-    comfortLevel: ComfortLevel,
-  ) {
+  async updateComfortLevel(topicId: string, userId: string, comfortLevel: ComfortLevelEnum) {
     return await this.prismaService.user.update({
       where: {
         id: userId,
@@ -258,7 +236,7 @@ export class UserService {
     if (!groupId) {
       throw new NotFoundException(`Group for User with ${id} not found`)
     }
-    const group = await this.groupService.group(groupId)
+    const group = await this.groupService.findOne(groupId)
 
     const users = await this.prismaService.user.findMany({
       where: {
@@ -275,9 +253,7 @@ export class UserService {
     const weekAgo = new Date()
     weekAgo.setHours(weekAgo.getHours() - 24 * 7)
 
-    function getSortFunction(
-      timeRange: StatTimeRange = StatTimeRange.MONTH,
-    ): sortComparator {
+    function getSortFunction(timeRange: StatTimeRange = StatTimeRange.MONTH): sortComparator {
       const after = new Date()
 
       function solvedCounter(
@@ -385,9 +361,7 @@ export class UserService {
             if (userProblem.userId === id) {
               if (userProblem.solved) {
                 numberOfCorrectSubmissions++
-                switch (
-                  userProblem.seasonTopicProblem.problem.difficulty.toUpperCase()
-                ) {
+                switch (userProblem.seasonTopicProblem.problem.difficulty.toUpperCase()) {
                   case 'EASY':
                     easyCount++
                     break
@@ -410,8 +384,7 @@ export class UserService {
       uncomfortablity = (unableToSolve / numberOfCorrectSubmissions) * 100
     }
 
-    const numberOfIncorrectSubmissions =
-      totalAttempts - numberOfCorrectSubmissions
+    const numberOfIncorrectSubmissions = totalAttempts - numberOfCorrectSubmissions
     if (totalAttempts) {
       acceptanceRate = (numberOfCorrectSubmissions / totalAttempts) * 100
     }
@@ -441,8 +414,8 @@ export class UserService {
     let totalNumberOfTopics = 0
     let sumOfEachTopicsCoverage = 0
     const user = await this.findById(studentId)
-    const group = await this.groupService.group(user.groupId)
-    const seasonIndex = group.seasons.findIndex((s, index) => s.id === seasonId)
+    const group = await this.groupService.findOne(user.groupId)
+    const seasonIndex = group.seasons.findIndex(s => s.id === seasonId)
     if (seasonIndex == -1) {
       throw new NotFoundException(`Season with ${seasonId} not found`)
     }
@@ -477,8 +450,7 @@ export class UserService {
     }
 
     totalTopicCoverage = sumOfEachTopicsCoverage / totalNumberOfTopics
-    const uncomfortability =
-      (unableToSolve / (totalQuestions - totalNotSolved)) * 100
+    const uncomfortability = (unableToSolve / (totalQuestions - totalNotSolved)) * 100
     return {
       eachTopicCoverageStat,
       totalTopicCoverage,

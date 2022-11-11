@@ -13,4 +13,6 @@ export class UpdateSeasonTopicProblemUserInput {
   needHelp?: boolean
   @Field({ nullable: true })
   solutionLink?: string
+  @Field(() => Int, { nullable: true })
+  timeDedicated?: number
 }

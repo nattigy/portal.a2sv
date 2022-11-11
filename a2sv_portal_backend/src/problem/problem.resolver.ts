@@ -1,25 +1,18 @@
 import { UseGuards } from '@nestjs/common'
-import {
-  Args,
-  Int,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql'
+import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { Tag } from '@prisma/client'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
 import { ProblemAbilities } from '../casl/handler/problem-abilities.handler'
 import { CheckPolicies } from '../casl/policy/policy.decorator'
 import { PoliciesGuard } from '../casl/policy/policy.guard'
-import { PaginationProblem } from '../common/page/pagination-info'
+import { PaginationOutput } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { SeasonTopicProblem } from '../season-topic-problem/entities/season-topic-problem.entity'
 import { CreateProblemInput } from './dto/create-problem.input'
 import { UpdateProblemInput } from './dto/update-problem.input'
 import { Problem } from './entities/problem.entity'
 import { ProblemService } from './problem.service'
+import { FilterProblemInput } from './dto/filter-problem-input'
 
 @Resolver(() => Problem)
 export class ProblemResolver {
@@ -36,15 +29,16 @@ export class ProblemResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.read)
-  @Query(() => PaginationProblem, {
-    name: 'problems',
+  @Query(() => PaginationOutput<Problem>, {
     description: 'Find all problems with populated tags',
   })
   async problems(
+    @Args('filterProblemInput', { type: () => PaginationInfoInput, nullable: true })
+    filterProblemInput: FilterProblemInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
     pageInfoInput?: PaginationInfoInput,
-  ) {
-    return await this.problemService.findAll(pageInfoInput)
+  ): Promise<PaginationOutput<Problem>> {
+    return await this.problemService.findAll(filterProblemInput, pageInfoInput)
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
@@ -69,9 +63,7 @@ export class ProblemResolver {
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.delete)
   @Mutation(() => Problem)
-  async removeProblem(
-    @Args('id', { type: () => Int }) id: string,
-  ): Promise<Problem> {
+  async removeProblem(@Args('id', { type: () => Int }) id: string): Promise<Problem> {
     return this.problemService.remove(id)
   }
 

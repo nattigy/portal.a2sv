@@ -1,13 +1,14 @@
 import { Injectable, NotFoundException, UseGuards } from '@nestjs/common'
-import { Season } from '@prisma/client'
 import { SeasonAbilities } from '../casl/handler/season-abilities.handler'
 import { CheckPolicies } from '../casl/policy/policy.decorator'
 import { PoliciesGuard } from '../casl/policy/policy.guard'
-import { PaginationSeason } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateSeasonInput } from './dto/create-season.input'
 import { UpdateSeasonInput } from './dto/update-season.input'
+import { Season } from './entities/season.entity'
+import { FilterSeasonInput } from './dto/filter-season-input'
+import { PaginationOutput } from '../common/page/pagination-info'
 
 @UseGuards(PoliciesGuard)
 @Injectable()
@@ -15,11 +16,22 @@ export class SeasonService {
   constructor(private readonly prismaService: PrismaService) {}
 
   @CheckPolicies(SeasonAbilities.read)
-  async getSeasons(
-    pageInfoInput?: PaginationInfoInput,
-  ): Promise<PaginationSeason> {
-    const seasonsCount = (await this.prismaService.season.findMany({})).length
+  async findAll(
+    filterSeasonInput: FilterSeasonInput,
+    { take, skip }: PaginationInfoInput,
+  ): Promise<PaginationOutput<Season>> {
+    const seasonsCount = (
+      await this.prismaService.season.findMany({
+        where: filterSeasonInput,
+        select: {
+          id: true,
+        },
+      })
+    ).length
     const seasons = await this.prismaService.season.findMany({
+      skip,
+      take,
+      where: filterSeasonInput,
       include: {
         topics: {
           include: {
@@ -36,17 +48,17 @@ export class SeasonService {
     return {
       items: seasons,
       pageInfo: {
-        skip: pageInfoInput.skip,
-        take: pageInfoInput.take,
+        skip,
+        take,
         count: seasonsCount,
       },
     }
   }
 
   @CheckPolicies(SeasonAbilities.read)
-  async getSeasonById(id: string): Promise<Season> {
+  async findOne(id: string): Promise<Season> {
     const season = await this.prismaService.season.findUnique({
-      where: { id: id },
+      where: { id },
       include: {
         topics: {
           include: {
@@ -84,10 +96,7 @@ export class SeasonService {
   }
 
   @CheckPolicies(SeasonAbilities.update)
-  async updateSeason(
-    id: string,
-    updateSeasonInput: UpdateSeasonInput,
-  ): Promise<Season> {
+  async update(id: string, updateSeasonInput: UpdateSeasonInput): Promise<Season> {
     return this.prismaService.season.update({
       where: { id: id },
       data: updateSeasonInput,

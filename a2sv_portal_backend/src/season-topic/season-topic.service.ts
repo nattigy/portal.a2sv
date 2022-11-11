@@ -1,34 +1,17 @@
 import { Injectable } from '@nestjs/common'
-import { Field, InputType, Int } from '@nestjs/graphql'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateSeasonTopicInput } from './dto/create-season-topic.input'
 import { UpdateSeasonTopicInput } from './dto/update-season-topic.input'
-
-@InputType()
-export class SeasonTopicFilter {
-  @Field(() => Int)
-  skip?: number
-  @Field(() => Int)
-  take?: number
-  @Field()
-  seasonId?: string
-  @Field()
-  topicId?: string
-}
-
-@InputType()
-export class SeasonTopicId {
-  @Field()
-  seasonId: string
-  @Field()
-  topicId: string
-}
+import { FilterSeasonTopicInput } from './dto/filter-season-topic.input'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { SeasonTopic } from '@prisma/client'
+import { PaginationOutput } from '../common/page/pagination-info'
 
 @Injectable()
 export class SeasonTopicService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  create(createSeasonTopicInput: CreateSeasonTopicInput) {
+  async create(createSeasonTopicInput: CreateSeasonTopicInput): Promise<SeasonTopic> {
     return this.prismaService.seasonTopic.create({
       data: createSeasonTopicInput,
       include: {
@@ -43,18 +26,40 @@ export class SeasonTopicService {
     })
   }
 
-  findAll({ take, skip, topicId, seasonId }: SeasonTopicFilter) {
-    return this.prismaService.seasonTopic.findMany({
+  async findAll(
+    filterSeasonTopicInput: FilterSeasonTopicInput,
+    { skip, take }: PaginationInfoInput,
+  ): Promise<PaginationOutput<SeasonTopic>> {
+    const count = (
+      await this.prismaService.seasonTopic.findMany({
+        where: filterSeasonTopicInput,
+        select: {
+          seasonId: true,
+        },
+      })
+    ).length
+    const seasonTopics: SeasonTopic[] = await this.prismaService.seasonTopic.findMany({
       take,
       skip,
-      where: {
-        topicId,
-        seasonId,
+      where: filterSeasonTopicInput,
+      include: {
+        season: true,
+        topic: true,
+        problems: true,
       },
     })
+
+    return {
+      items: seasonTopics,
+      pageInfo: {
+        take,
+        skip,
+        count,
+      },
+    }
   }
 
-  findOne({ seasonId, topicId }: SeasonTopicId) {
+  async findOne(seasonId, topicId): Promise<SeasonTopic> {
     return this.prismaService.seasonTopic.findUnique({
       where: {
         seasonId_topicId: {
@@ -74,7 +79,12 @@ export class SeasonTopicService {
     })
   }
 
-  update({ seasonId, topicId, problems, ...updates }: UpdateSeasonTopicInput) {
+  async update({
+    seasonId,
+    topicId,
+    problems,
+    ...updates
+  }: UpdateSeasonTopicInput): Promise<SeasonTopic> {
     return this.prismaService.seasonTopic.update({
       where: {
         seasonId_topicId: {
@@ -96,14 +106,14 @@ export class SeasonTopicService {
       include: {
         problems: {
           include: {
-            problem: true
-          }
-        }
-      }
+            problem: true,
+          },
+        },
+      },
     })
   }
 
-  remove({ seasonId, topicId }: SeasonTopicId) {
+  async remove(seasonId, topicId) {
     return this.prismaService.seasonTopic.delete({
       where: {
         seasonId_topicId: {

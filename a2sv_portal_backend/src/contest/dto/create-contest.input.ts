@@ -7,8 +7,8 @@ export class CreateContestInput {
   name: string
   @Field(() => String)
   link: string
-  @Field(() => String)
-  div: string
+  @Field(() => String, { nullable: true })
+  div?: string
   @Field(() => Date)
   startTime: Date
   @Field(() => Date)

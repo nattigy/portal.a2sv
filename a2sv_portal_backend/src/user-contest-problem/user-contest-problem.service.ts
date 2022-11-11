@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
 import { UpdateUserContestProblemInput } from './dto/update-user-contest-problem.input'
+import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { UserContestProblem } from './entities/user-contest-problem.entity'
+import { FilterUserContestProblemInput } from './dto/filter-user-contest-problem'
 
 @Injectable()
 export class UserContestProblemService {
@@ -12,11 +16,36 @@ export class UserContestProblemService {
   //   })
   // }
 
-  findAll() {
-    return this.prismaService.userContestProblem.findMany({})
+  async findAll(
+    filterUserContestInput: FilterUserContestProblemInput,
+    { skip, take }: PaginationInfoInput,
+  ): Promise<PaginationOutput<UserContestProblem>> {
+    const count = (
+      await this.prismaService.userContestProblem.findMany({
+        where: filterUserContestInput,
+      })
+    ).length
+    const userContests = await this.prismaService.userContestProblem.findMany({
+      where: filterUserContestInput,
+      include: {
+        problem: true,
+      },
+    })
+    return {
+      items: userContests,
+      pageInfo: {
+        skip,
+        take,
+        count,
+      },
+    }
   }
 
-  findOne(userId: string, contestId: string, problemId: string) {
+  async findOne(
+    userId: string,
+    contestId: string,
+    problemId: string,
+  ): Promise<UserContestProblem> {
     return this.prismaService.userContestProblem.findUnique({
       where: {
         userId_contestId_problemId: {
@@ -25,15 +54,13 @@ export class UserContestProblemService {
           problemId,
         },
       },
+      include: {
+        problem: true,
+      },
     })
   }
 
-  async update({
-    userId,
-    contestId,
-    problemId,
-    ...update
-  }: UpdateUserContestProblemInput) {
+  async update({ userId, contestId, problemId, ...update }: UpdateUserContestProblemInput) {
     return this.prismaService.userContestProblem.upsert({
       include: {
         problem: true,
@@ -71,7 +98,7 @@ export class UserContestProblemService {
     })
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} userContestProblem`
   }
 }

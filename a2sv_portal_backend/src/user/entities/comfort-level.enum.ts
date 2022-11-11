@@ -1,9 +1,9 @@
 import { registerEnumType } from '@nestjs/graphql'
 
-export enum ComfortLevel {
+export enum ComfortLevelEnum {
   COMFORTABLE = 'COMFORTABLE',
   UNCOMFORTABLE = 'UNCOMFORTABLE',
   MEDIOCRE = 'MEDIOCRE',
 }
 
-registerEnumType(ComfortLevel, { name: 'ComfortLevel' })
+registerEnumType(ComfortLevelEnum, { name: 'ComfortLevel' })

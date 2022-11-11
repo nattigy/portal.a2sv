@@ -1,19 +1,12 @@
-import {
-  Args,
-  Int,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql'
-import { PaginationContest } from '../common/page/pagination-info'
+import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { Problem } from '../problem/entities/problem.entity'
 import { ContestService } from './contest.service'
 import { CreateContestInput } from './dto/create-contest.input'
 import { UpdateContestInput } from './dto/update-contest.input'
 import { Contest } from './entities/contest.entity'
+import { FilterContestInput } from './dto/filter-contest.input'
+import { PaginationOutput } from '../common/page/pagination-info'
 
 @Resolver(() => Contest)
 export class ContestResolver {
@@ -26,12 +19,14 @@ export class ContestResolver {
     return this.contestService.create(createContestInput)
   }
 
-  @Query(() => PaginationContest)
+  @Query(() => PaginationOutput<Contest>)
   async contests(
+    @Args('filterContestInput', { type: () => FilterContestInput, nullable: true })
+    filterContestInput?: FilterContestInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput: PaginationInfoInput = { skip: 0, take: 10 },
-  ): Promise<PaginationContest> {
-    return this.contestService.findAll(pageInfoInput)
+    pageInfoInput?: PaginationInfoInput,
+  ): Promise<PaginationOutput<Contest>> {
+    return this.contestService.findAll(filterContestInput, pageInfoInput)
   }
 
   @Query(() => Contest)

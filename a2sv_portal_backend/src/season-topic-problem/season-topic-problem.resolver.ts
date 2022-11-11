@@ -1,12 +1,4 @@
-import {
-  Args,
-  Field,
-  InputType,
-  Int,
-  Mutation,
-  Query,
-  Resolver,
-} from '@nestjs/graphql'
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { CreateSeasonTopicProblemInput } from './dto/create-season-topic-problem.input'
 import { UpdateSeasonTopicProblemInput } from './dto/update-season-topic-problem.input'
 import { SeasonTopicProblem } from './entities/season-topic-problem.entity'
@@ -14,48 +6,42 @@ import {
   SeasonTopicProblemFilter,
   SeasonTopicProblemService,
 } from './season-topic-problem.service'
-
-@InputType()
-export class SeasonTopicProblemId {
-  @Field()
-  seasonId: string
-  @Field()
-  problemId: string
-  @Field()
-  topicId: string
-}
+import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { SeasonTopicProblemId } from '../season-topic/dto/filter-season-topic.input'
+import { PaginationOutput } from '../common/page/pagination-info'
 
 @Resolver(() => SeasonTopicProblem)
 export class SeasonTopicProblemResolver {
-  constructor(
-    private readonly seasonTopicProblemService: SeasonTopicProblemService,
-  ) {}
+  constructor(private readonly seasonTopicProblemService: SeasonTopicProblemService) {}
 
   @Mutation(() => SeasonTopicProblem)
-  createSeasonTopicProblem(
+  async createSeasonTopicProblem(
     @Args('createSeasonTopicProblemInput')
     createSeasonTopicProblemInput: CreateSeasonTopicProblemInput,
   ) {
     return this.seasonTopicProblemService.create(createSeasonTopicProblemInput)
   }
 
-  @Query(() => [SeasonTopicProblem], { name: 'seasonTopicProblems' })
-  seasonTopicProblems(
+  @Query(() => PaginationOutput<SeasonTopicProblem>)
+  async seasonTopicProblems(
     @Args('seasonTopicProblemFilter', { type: () => SeasonTopicProblemFilter })
     seasonTopicProblemFilter: SeasonTopicProblemFilter,
-  ) {
-    return this.seasonTopicProblemService.findAll(seasonTopicProblemFilter)
+    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
+    pageInfoInput?: PaginationInfoInput,
+  ): Promise<PaginationOutput<SeasonTopicProblem>> {
+    return this.seasonTopicProblemService.findAll(seasonTopicProblemFilter, pageInfoInput)
   }
 
-  @Query(() => SeasonTopicProblem, { name: 'seasonTopicProblem' })
-  seasonTopicProblem(
-    @Args('seasonTopicProblemId', { type: () => Int }) id: SeasonTopicProblemId,
+  @Query(() => SeasonTopicProblem)
+  async seasonTopicProblem(
+    @Args('seasonTopicProblemId', { type: () => SeasonTopicProblemId })
+    id: SeasonTopicProblemId,
   ) {
     return this.seasonTopicProblemService.findOne(id)
   }
 
   @Mutation(() => SeasonTopicProblem)
-  updateSeasonTopicProblem(
+  async updateSeasonTopicProblem(
     @Args('updateSeasonTopicProblemInput')
     updateSeasonTopicProblemInput: UpdateSeasonTopicProblemInput,
   ) {
@@ -63,7 +49,7 @@ export class SeasonTopicProblemResolver {
   }
 
   @Mutation(() => SeasonTopicProblem)
-  removeSeasonTopicProblem(
+  async removeSeasonTopicProblem(
     @Args('seasonTopicProblemId', { type: () => Int }) id: SeasonTopicProblemId,
   ) {
     return this.seasonTopicProblemService.remove(id)

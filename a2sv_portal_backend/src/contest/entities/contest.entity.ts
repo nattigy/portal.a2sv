@@ -10,10 +10,10 @@ export class Contest {
   name: string
   @Field(() => String)
   link: string
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   div?: string
   @Field(() => [GroupContest], { nullable: true })
-  groupContests: GroupContest[]
+  groupContests?: GroupContest[]
   @Field(() => Date)
   startTime: Date
   @Field(() => Date)

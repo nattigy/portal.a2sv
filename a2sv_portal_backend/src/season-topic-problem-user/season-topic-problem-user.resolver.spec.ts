@@ -7,15 +7,10 @@ describe('SeasonTopicProblemUserResolver', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        SeasonTopicProblemUserResolver,
-        SeasonTopicProblemUserService,
-      ],
+      providers: [SeasonTopicProblemUserResolver, SeasonTopicProblemUserService],
     }).compile()
 
-    resolver = module.get<SeasonTopicProblemUserResolver>(
-      SeasonTopicProblemUserResolver,
-    )
+    resolver = module.get<SeasonTopicProblemUserResolver>(SeasonTopicProblemUserResolver)
   })
 
   it('should be defined', () => {

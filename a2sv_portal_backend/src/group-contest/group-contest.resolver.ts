@@ -1,7 +1,7 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { PaginationGroupContest } from '../common/page/pagination-info'
+import { PaginationOutput } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { FindGroupContestInput } from './dto/find-group-contest.input'
+import { FilterGroupContestInput } from './dto/filter-group-contest.input'
 import { UpdateGroupContestInput } from './dto/update-group-contest.input'
 import { GroupContest } from './entities/group-contest.entity'
 import { GroupContestService } from './group-contest.service'
@@ -10,21 +10,14 @@ import { GroupContestService } from './group-contest.service'
 export class GroupContestResolver {
   constructor(private readonly groupContestService: GroupContestService) {}
 
-  @Query(() => PaginationGroupContest)
-  async allGroupContests(
-    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput: PaginationInfoInput = { skip: 0, take: 10 },
-  ): Promise<PaginationGroupContest> {
-    return this.groupContestService.findAll(pageInfoInput)
-  }
-
-  @Query(() => PaginationGroupContest)
+  @Query(() => PaginationOutput<GroupContest>)
   async groupContests(
-    @Args('groupId') groupId: string,
+    @Args('filterGroupContestInput', { type: () => FilterGroupContestInput, nullable: true })
+    filterGroupContestInput: FilterGroupContestInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput: PaginationInfoInput = { skip: 0, take: 10 },
-  ): Promise<PaginationGroupContest> {
-    return this.groupContestService.groupContests(groupId, pageInfoInput)
+    pageInfoInput: PaginationInfoInput,
+  ): Promise<PaginationOutput<GroupContest>> {
+    return this.groupContestService.findAll(filterGroupContestInput, pageInfoInput)
   }
 
   // @Query(() => GroupContest)
@@ -44,9 +37,10 @@ export class GroupContestResolver {
 
   @Query(() => GroupContest)
   async groupContest(
-    @Args('findGroupContestInput') findGroupContestInput: FindGroupContestInput,
+    @Args('groupId') groupId: string,
+    @Args('groupId') contestId: string,
   ): Promise<GroupContest> {
-    return this.groupContestService.groupContest(findGroupContestInput)
+    return this.groupContestService.findOne(groupId, contestId)
   }
 
   @Mutation(() => GroupContest)
