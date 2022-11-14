@@ -5,11 +5,11 @@ import { User } from '../../user/entities/user.entity'
 
 @ObjectType()
 export class UserContest {
-  @Field(() => String)
+  @Field()
   contestId: string
-  @Field(() => [UserContestProblem])
+  @Field(() => [UserContestProblem], { nullable: true })
   userContestProblems?: UserContestProblem[]
-  @Field(() => String)
+  @Field()
   userId: string
   @Field(() => Boolean)
   contestAttended: boolean
@@ -21,8 +21,8 @@ export class UserContest {
   rank: number
   @Field(() => Int)
   timeSpent: number
-  @Field(() => User)
-  user: User
-  @Field(() => Contest)
-  contest: Contest
+  @Field(() => User, { nullable: true })
+  user?: User
+  @Field(() => Contest, { nullable: true })
+  contest?: Contest
 }

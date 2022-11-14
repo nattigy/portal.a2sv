@@ -62,7 +62,7 @@ export class UserResolver {
     pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationOutput<User>> {
     try {
-      console.log("here")
+      console.log('here')
       return this.userService.findAll(filterUserInput, pageInfoInput)
     } catch (e) {
       return e.message

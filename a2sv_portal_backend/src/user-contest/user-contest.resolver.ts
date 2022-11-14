@@ -1,32 +1,30 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { PaginationOutput } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { CreateUserContestInput } from './dto/create-user-contest.input'
 import { UpdateUserContestInput } from './dto/update-user-contest.input'
 import { UserContest } from './entities/user-contest.entity'
 import { UserContestService } from './user-contest.service'
-import { FilterUserContestInput } from './dto/filter-user-contest.input'
+import { FilterGroupContestUsersInput } from './dto/filter-group-contest-users.input'
 
 @Resolver(() => UserContest)
 export class UserContestResolver {
   constructor(private readonly userContestService: UserContestService) {}
 
-  @Mutation(() => UserContest)
-  async createUserContest(
-    @Args('createUserContestInput')
-    createUserContestInput: CreateUserContestInput,
-  ): Promise<UserContest> {
-    return this.userContestService.create(createUserContestInput)
-  }
+  // @Mutation(() => UserContest)
+  // async createUserContest(
+  //   @Args('createUserContestInput')
+  //     createUserContestInput: CreateUserContestInput,
+  // ): Promise<UserContest> {
+  //   return this.userContestService.create(createUserContestInput)
+  // }
 
   @Query(() => PaginationOutput<UserContest>)
   async userContests(
-    @Args('filterUserContestInput', { type: () => FilterUserContestInput, nullable: true })
-    filterUserContestInput?: FilterUserContestInput,
+    @Args('userId') userId: string,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
     pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationOutput<UserContest>> {
-    return this.userContestService.findAll(filterUserContestInput, pageInfoInput)
+    return this.userContestService.findAll(userId, pageInfoInput)
   }
 
   @Query(() => UserContest)
@@ -34,7 +32,20 @@ export class UserContestResolver {
     @Args('userId') userId: string,
     @Args('contestId') contestId: string,
   ): Promise<UserContest> {
-    return this.userContestService.findOne(userId, contestId)
+    return this.userContestService.userGroupContest(userId, contestId)
+  }
+
+  @Query(() => PaginationOutput<UserContest>)
+  async groupContestUsers(
+    @Args('filterGroupContestUsersInput', { type: () => FilterGroupContestUsersInput })
+    filterGroupContestUsersInput: FilterGroupContestUsersInput,
+    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
+    pageInfoInput?: PaginationInfoInput,
+  ): Promise<PaginationOutput<UserContest>> {
+    return this.userContestService.groupContestUsers(
+      filterGroupContestUsersInput,
+      pageInfoInput,
+    )
   }
 
   @Mutation(() => UserContest)
