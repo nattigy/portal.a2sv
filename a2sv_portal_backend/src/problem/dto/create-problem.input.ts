@@ -13,8 +13,4 @@ export class CreateProblemInput {
   difficulty: string
   @Field(() => [CreateTagInput], { nullable: true })
   tags?: CreateTagInput[]
-  @Field({ nullable: true })
-  createdAt?: Date
-  @Field({ nullable: true })
-  updatedAt?: Date
 }

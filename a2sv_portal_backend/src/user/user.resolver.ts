@@ -52,7 +52,7 @@ export class UserResolver {
     }
   }
 
-  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  // @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.read)
   @Query(() => PaginationOutput<User>)
   async users(
@@ -62,7 +62,6 @@ export class UserResolver {
     pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationOutput<User>> {
     try {
-      console.log('here')
       return this.userService.findAll(filterUserInput, pageInfoInput)
     } catch (e) {
       return e.message

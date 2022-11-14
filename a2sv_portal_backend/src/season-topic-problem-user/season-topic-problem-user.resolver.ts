@@ -12,13 +12,13 @@ import { PaginationOutput } from '../common/page/pagination-info'
 export class SeasonTopicProblemUserResolver {
   constructor(private readonly seasonTopicProblemUserService: SeasonTopicProblemUserService) {}
 
-  @Mutation(() => SeasonTopicProblemUser)
-  async createSeasonTopicProblemUser(
-    @Args('createSeasonTopicProblemUserInput')
-    createSeasonTopicProblemUserInput: CreateSeasonTopicProblemUserInput,
-  ): Promise<SeasonTopicProblemUser> {
-    return this.seasonTopicProblemUserService.create(createSeasonTopicProblemUserInput)
-  }
+  // @Mutation(() => SeasonTopicProblemUser)
+  // async createSeasonTopicProblemUser(
+  //   @Args('createSeasonTopicProblemUserInput')
+  //   createSeasonTopicProblemUserInput: CreateSeasonTopicProblemUserInput,
+  // ): Promise<SeasonTopicProblemUser> {
+  //   return this.seasonTopicProblemUserService.create(createSeasonTopicProblemUserInput)
+  // }
 
   @Query(() => PaginationOutput<SeasonTopicProblemUser>)
   async seasonTopicProblemUsers(

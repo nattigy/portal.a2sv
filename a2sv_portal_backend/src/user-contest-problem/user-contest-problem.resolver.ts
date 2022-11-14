@@ -6,13 +6,14 @@ import { FilterGroupInput } from '../group/dto/filter-group.input'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { FilterUserContestProblemInput } from './dto/filter-user-contest-problem'
 import { PaginationOutput } from '../common/page/pagination-info'
+import { CreateUserContestProblemInput } from './dto/create-user-contest-problem.input'
 
 @Resolver(() => UserContestProblem)
 export class UserContestProblemResolver {
   constructor(private readonly userContestProblemService: UserContestProblemService) {}
 
   // @Mutation(() => UserContestProblem)
-  // createUserContestProblem(@Args('createUserContestProblemInput') createUserContestProblemInput: CreateUserContestProblemInput) {
+  // async createUserContestProblem(@Args('createUserContestProblemInput') createUserContestProblemInput: CreateUserContestProblemInput) {
   //   return this.userContestProblemService.create(createUserContestProblemInput);
   // }
 

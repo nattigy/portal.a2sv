@@ -73,10 +73,10 @@ export class TopicService {
   }
 
   async create(createTopicInput: CreateTopicInput): Promise<Topic> {
-    const { ...data } = createTopicInput
-    const queryData = data as any
-    return await this.prismaService.topic.create({
-      data: queryData,
+    // const { ...data } = createTopicInput
+    // const queryData = data as any
+    return this.prismaService.topic.create({
+      data: createTopicInput,
       include: {
         seasons: {
           include: {

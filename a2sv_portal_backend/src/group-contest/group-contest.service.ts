@@ -1,24 +1,36 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationGroupContests, PaginationOutput } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { PrismaService } from '../prisma/prisma.service'
 import { UserContestProblemEnum } from '../user-contest-problem/entities/user-contest-problem-status.enum'
 import { FilterGroupContestInput } from './dto/filter-group-contest.input'
 import { UpdateGroupContestInput } from './dto/update-group-contest.input'
 import { GroupContest, ProblemsStat } from './entities/group-contest.entity'
+import { UserContestService } from '../user-contest/user-contest.service'
 
 @Injectable()
 export class GroupContestService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly userContestService: UserContestService,
+    ) {}
 
   async findAll(
     filterGroupContestInput: FilterGroupContestInput,
     { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
-  ): Promise<PaginationOutput<GroupContest>> {
+  ): Promise<PaginationGroupContests> {
     const groupContests: GroupContest[] = await this.prismaService.groupContest.findMany({
       skip,
       take,
       where: filterGroupContestInput,
+      include: {
+        group:true,
+        contest: {
+          include: {
+            problems: true
+          }
+        },
+      }
     })
     const count = (
       await this.prismaService.groupContest.findMany({
@@ -107,15 +119,17 @@ export class GroupContestService {
     contestId,
     ...updates
   }: UpdateGroupContestInput): Promise<GroupContest> {
-    return this.prismaService.groupContest.update({
+    return this.prismaService.groupContest.upsert({
       where: {
         groupId_contestId: {
           groupId,
           contestId,
         },
       },
-      data: {
-        ...updates,
+      update: updates,
+      create: {
+        contestId,
+        groupId
       },
       include: {
         contest: {

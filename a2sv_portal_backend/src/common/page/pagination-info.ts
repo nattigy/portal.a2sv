@@ -15,6 +15,15 @@ export class PaginationInfo {
   count: number
 }
 
+@ObjectType()
+export class PaginationGroupContests {
+  @Field(() => [GroupContest])
+  items: GroupContest[]
+
+  @Field(() => PaginationInfo)
+  pageInfo: PaginationInfo
+}
+//
 // @ObjectType()
 // export class PaginationUserContests {
 //   @Field(() => [UserContest])

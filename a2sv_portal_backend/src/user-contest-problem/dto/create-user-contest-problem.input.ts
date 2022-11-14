@@ -3,11 +3,11 @@ import { UserContestProblemEnum } from '../entities/user-contest-problem-status.
 
 @InputType()
 export class CreateUserContestProblemInput {
-  @Field(() => String)
+  @Field()
   userId: string
-  @Field(() => String)
+  @Field()
   contestId: string
-  @Field(() => String)
+  @Field()
   problemId: string
   @Field(() => UserContestProblemEnum)
   status: UserContestProblemEnum

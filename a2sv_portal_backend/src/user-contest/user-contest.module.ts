@@ -4,5 +4,7 @@ import { UserContestService } from './user-contest.service'
 
 @Module({
   providers: [UserContestResolver, UserContestService],
+  exports: [UserContestService],
 })
-export class UserContestModule {}
+export class UserContestModule {
+}

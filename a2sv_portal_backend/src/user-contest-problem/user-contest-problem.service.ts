@@ -8,7 +8,8 @@ import { FilterUserContestProblemInput } from './dto/filter-user-contest-problem
 
 @Injectable()
 export class UserContestProblemService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   // create(createUserContestProblemInput: CreateUserContestProblemInput) {
   //   return this.prismaService.userContestProblem.create({
@@ -61,6 +62,30 @@ export class UserContestProblemService {
   }
 
   async update({ userId, contestId, problemId, ...update }: UpdateUserContestProblemInput) {
+    await this.prismaService.userContest.upsert({
+      where: {
+        userId_contestId: {
+          userId,
+          contestId,
+        },
+      },
+      create: {
+        contest: {
+          connect: {
+            id: contestId,
+          },
+        },
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+      update: {
+        contestId,
+        userId,
+      },
+    })
     return this.prismaService.userContestProblem.upsert({
       include: {
         problem: true,
@@ -75,21 +100,24 @@ export class UserContestProblemService {
         },
       },
       create: {
-        contest: {
-          connect: {
-            id: contestId,
-          },
-        },
-        user: {
-          connect: {
-            id: userId,
-          },
-        },
-        problem: {
-          connect: {
-            id: problemId,
-          },
-        },
+        contestId,
+        userId,
+        problemId,
+        // contest: {
+        //   connect: {
+        //     id: contestId,
+        //   },
+        // },
+        // user: {
+        //   connect: {
+        //     id: userId,
+        //   },
+        // },
+        // problem: {
+        //   connect: {
+        //     id: problemId,
+        //   },
+        // },
         numberOfAttempts: update.numberOfAttempts,
         numberOfMinutes: update.numberOfMinutes,
         status: update.status,
@@ -101,4 +129,5 @@ export class UserContestProblemService {
   async remove(id: number) {
     return `This action removes a #${id} userContestProblem`
   }
+
 }

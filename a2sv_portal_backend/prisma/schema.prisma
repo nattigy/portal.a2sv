@@ -5,7 +5,7 @@ generator client {
 datasource db {
   provider          = "postgresql"
   url               = env("LOCAL_DB_URL")
-//  url               = env("DB_URL")
+  //  url               = env("DB_URL")
   shadowDatabaseUrl = env("SHADOW_DB_URL")
 }
 
@@ -49,16 +49,18 @@ model UserContest {
 }
 
 model UserContestProblem {
-  userId           String
-  contestId        String
-  problemId        String
-  problem          Problem                  @relation(fields: [problemId], references: [id])
-  status           UserContestProblemStatus @default(UNATTEMPTED)
-  numberOfAttempts Int
-  numberOfMinutes  Int
-  userContest      UserContest?             @relation(fields: [userId, contestId], references: [userId, contestId])
-  contest          Contest?                 @relation(fields: [contestId], references: [id])
-  user             User?                    @relation(fields: [userId], references: [id])
+  userId               String
+  contestId            String
+  problemId            String
+  problem              Problem                  @relation(fields: [problemId], references: [id])
+  status               UserContestProblemStatus @default(UNATTEMPTED)
+  numberOfAttempts     Int
+  numberOfMinutes      Int
+  userContest          UserContest?             @relation(fields: [userId, contestId], references: [userId, contestId])
+  contest              Contest?                 @relation(fields: [contestId], references: [id])
+  user                 User?                    @relation(fields: [userId], references: [id])
+  userContestUserId    String?
+  userContestContestId String?
 
   @@id([userId, contestId, problemId])
 }

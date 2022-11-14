@@ -6,6 +6,7 @@ import { UserContest } from './entities/user-contest.entity'
 import { PaginationOutput } from '../common/page/pagination-info'
 import { FilterGroupContestUsersInput } from './dto/filter-group-contest-users.input'
 import { UserContestProblemStatus } from '@prisma/client'
+import { UserContestProblem } from '../user-contest-problem/entities/user-contest-problem.entity'
 
 @Injectable()
 export class UserContestService {
@@ -59,7 +60,7 @@ export class UserContestService {
     })
     const userContests: UserContest[] = []
     for (const groupContest of groupContests) {
-      const userContest = await this.userGroupContest(userId, groupContest.contestId)
+      const userContest = await this.userContest(userId, groupContest.contestId)
       userContests.push(userContest)
     }
     return {
@@ -104,7 +105,7 @@ export class UserContestService {
     return userContest
   }
 
-  async userGroupContest(userId: string, contestId: string): Promise<UserContest | null> {
+  async userContest(userId: string, contestId: string): Promise<UserContest | null> {
     let userContest = await this.findOne(userId, contestId)
     if (userContest == null) {
       const user = await this.prismaService.user.findUnique({
@@ -143,6 +144,24 @@ export class UserContestService {
         }
       } else {
         // TODO: throw an error, contest id not found
+      }
+      for (const problem of contest.problems) {
+        let userContestProblem:UserContestProblem = null
+        for (const userContestProblem1 of userContest.userContestProblems) {
+          userContestProblem = userContestProblem1
+        }
+        if(userContestProblem == null){
+          userContestProblem = {
+            contestId,
+            userId,
+            problemId: problem.id,
+            numberOfMinutes: 0,
+            numberOfAttempts: 0,
+            status: UserContestProblemStatus.UNATTEMPTED,
+            problem: problem
+          }
+        }
+        userContest.userContestProblems.push(userContestProblem)
       }
     }
     return userContest

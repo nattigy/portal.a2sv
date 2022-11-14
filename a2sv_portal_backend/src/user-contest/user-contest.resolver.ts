@@ -32,7 +32,7 @@ export class UserContestResolver {
     @Args('userId') userId: string,
     @Args('contestId') contestId: string,
   ): Promise<UserContest> {
-    return this.userContestService.userGroupContest(userId, contestId)
+    return this.userContestService.userContest(userId, contestId)
   }
 
   @Query(() => PaginationOutput<UserContest>)
@@ -48,13 +48,13 @@ export class UserContestResolver {
     )
   }
 
-  @Mutation(() => UserContest)
-  async updateUserContest(
-    @Args('updateUserContestInput')
-    updateUserContestInput: UpdateUserContestInput,
-  ): Promise<UserContest> {
-    return this.userContestService.update(updateUserContestInput)
-  }
+  // @Mutation(() => UserContest)
+  // async updateUserContest(
+  //   @Args('updateUserContestInput')
+  //   updateUserContestInput: UpdateUserContestInput,
+  // ): Promise<UserContest> {
+  //   return this.userContestService.update(updateUserContestInput)
+  // }
 
   @Mutation(() => Int)
   async removeUserContest(@Args('id') id: string): Promise<number> {
