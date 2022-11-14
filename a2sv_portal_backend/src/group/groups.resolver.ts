@@ -20,7 +20,7 @@ export class GroupsResolver {
   constructor(private readonly groupsService: GroupsService) {
   }
 
-  // @UseGuards(PoliciesGuard)
+  @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.create)
   @Mutation(() => Group)
   async createGroup(
@@ -36,7 +36,7 @@ export class GroupsResolver {
     return this.groupsService.findOne(groupId)
   }
 
-  // @UseGuards(PoliciesGuard)
+  @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.read)
   @Query(() => PaginationGroup)
   async groups(

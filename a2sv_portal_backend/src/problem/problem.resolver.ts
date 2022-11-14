@@ -19,7 +19,7 @@ export class ProblemResolver {
   constructor(private readonly problemService: ProblemService) {
   }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.create)
   @Mutation(() => Problem)
   async createProblem(
@@ -28,7 +28,7 @@ export class ProblemResolver {
     return await this.problemService.create(createProblemInput)
   }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.read)
   @Query(() => PaginationProblem, {
     description: 'Find all problems with populated tags',

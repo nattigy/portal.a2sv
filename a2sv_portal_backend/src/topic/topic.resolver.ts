@@ -21,7 +21,7 @@ export class TopicResolver {
   constructor(private readonly topicService: TopicService) {
   }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.create)
   @Mutation(() => Topic)
   async createTopic(

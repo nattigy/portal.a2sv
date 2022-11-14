@@ -53,7 +53,7 @@ export class UserResolver {
     }
   }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.read)
   @Query(() => PaginationUser)
   async users(
