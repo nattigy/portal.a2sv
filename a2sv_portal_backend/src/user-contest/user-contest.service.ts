@@ -158,7 +158,9 @@ export class UserContestService {
             numberOfMinutes: 0,
             numberOfAttempts: 0,
             status: UserContestProblemStatus.UNATTEMPTED,
-            problem: problem
+            problem: problem,
+            user,
+            contest,
           }
         }
         userContest.userContestProblems.push(userContestProblem)
