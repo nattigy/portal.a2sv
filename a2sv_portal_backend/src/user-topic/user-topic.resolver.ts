@@ -5,7 +5,7 @@ import { CreateUserTopicInput } from './dto/create-user-topic.input'
 import { UpdateUserTopicInput } from './dto/update-user-topic.input'
 import { UserTopic } from './entities/user-topic.entity'
 import { UserTopicService } from './user-topic.service'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationUserTopic } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { FilterUserTopicInput } from './dto/filter-user-topic-input'
 
@@ -20,7 +20,7 @@ export class UserTopicResolver {
     return this.userTopicService.create(createUserTopicInput)
   }
 
-  @Query(() => PaginationOutput<UserTopic>)
+  @Query(() => PaginationUserTopic)
   async userTopics(
     @Args('filterUserTopicInput', { type: () => FilterUserTopicInput, nullable: true })
     filterUserTopicInput?: FilterUserTopicInput,

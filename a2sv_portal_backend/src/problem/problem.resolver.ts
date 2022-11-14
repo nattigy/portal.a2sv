@@ -5,7 +5,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
 import { ProblemAbilities } from '../casl/handler/problem-abilities.handler'
 import { CheckPolicies } from '../casl/policy/policy.decorator'
 import { PoliciesGuard } from '../casl/policy/policy.guard'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationProblem } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { SeasonTopicProblem } from '../season-topic-problem/entities/season-topic-problem.entity'
 import { CreateProblemInput } from './dto/create-problem.input'
@@ -16,7 +16,8 @@ import { FilterProblemInput } from './dto/filter-problem-input'
 
 @Resolver(() => Problem)
 export class ProblemResolver {
-  constructor(private readonly problemService: ProblemService) {}
+  constructor(private readonly problemService: ProblemService) {
+  }
 
   // @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.create)
@@ -29,15 +30,15 @@ export class ProblemResolver {
 
   // @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.read)
-  @Query(() => (PaginationOutput<Problem>), {
+  @Query(() => PaginationProblem, {
     description: 'Find all problems with populated tags',
   })
   async problems(
     @Args('filterProblemInput', { type: () => PaginationInfoInput, nullable: true })
-    filterProblemInput: FilterProblemInput,
+      filterProblemInput: FilterProblemInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput?: PaginationInfoInput,
-  ): Promise<PaginationOutput<Problem>> {
+      pageInfoInput?: PaginationInfoInput,
+  ): Promise<PaginationProblem> {
     return await this.problemService.findAll(filterProblemInput, pageInfoInput)
   }
 

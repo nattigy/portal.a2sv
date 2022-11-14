@@ -5,11 +5,12 @@ import { CreateContestInput } from './dto/create-contest.input'
 import { UpdateContestInput } from './dto/update-contest.input'
 import { Contest } from './entities/contest.entity'
 import { FilterContestInput } from './dto/filter-contest.input'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationContest } from '../common/page/pagination-info'
 
 @Injectable()
 export class ContestService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create({ problems, ...createInput }: CreateContestInput): Promise<Contest> {
     return this.prismaService.contest.create({
@@ -29,7 +30,7 @@ export class ContestService {
   async findAll(
     filterContestInput: FilterContestInput,
     { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
-  ): Promise<PaginationOutput<Contest>> {
+  ): Promise<PaginationContest> {
     const count = (
       await this.prismaService.contest.findMany({
         where: filterContestInput,

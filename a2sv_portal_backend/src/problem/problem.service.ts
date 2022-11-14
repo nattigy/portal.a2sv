@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { Problem } from '@prisma/client'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationProblem } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateProblemInput } from './dto/create-problem.input'
@@ -9,7 +9,8 @@ import { FilterProblemInput } from './dto/filter-problem-input'
 
 @Injectable()
 export class ProblemService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create({ tags, ...createInput }: CreateProblemInput): Promise<Problem> {
     return this.prismaService.problem.create({
@@ -32,7 +33,7 @@ export class ProblemService {
   async findAll(
     filterProblemInput: FilterProblemInput,
     { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
-  ): Promise<PaginationOutput<Problem>> {
+  ): Promise<PaginationProblem> {
     const problemsCount = (
       await this.prismaService.problem.findMany({
         where: filterProblemInput,

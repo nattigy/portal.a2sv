@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { GroupStatResponsePage, PaginationOutput } from '../common/page/pagination-info'
+import { GroupStatResponsePage, PaginationGroup } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateGroupInput } from './dto/create-group.input'
@@ -11,7 +11,8 @@ import { Group } from './entities/group.entity'
 
 @Injectable()
 export class GroupsService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(createGroupInput: CreateGroupInput): Promise<Group> {
     return this.prismaService.group.create({
@@ -60,7 +61,7 @@ export class GroupsService {
   async findAll(
     filterGroupInput: FilterGroupInput,
     { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
-  ): Promise<PaginationOutput<Group>> {
+  ): Promise<PaginationGroup> {
     const count = (
       await this.prismaService.group.findMany({
         where: filterGroupInput,

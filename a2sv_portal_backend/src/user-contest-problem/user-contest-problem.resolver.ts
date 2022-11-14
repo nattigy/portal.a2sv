@@ -5,24 +5,24 @@ import { UserContestProblemService } from './user-contest-problem.service'
 import { FilterGroupInput } from '../group/dto/filter-group.input'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { FilterUserContestProblemInput } from './dto/filter-user-contest-problem'
-import { PaginationOutput } from '../common/page/pagination-info'
-import { CreateUserContestProblemInput } from './dto/create-user-contest-problem.input'
+import { PaginationUserContestProblem } from '../common/page/pagination-info'
 
 @Resolver(() => UserContestProblem)
 export class UserContestProblemResolver {
-  constructor(private readonly userContestProblemService: UserContestProblemService) {}
+  constructor(private readonly userContestProblemService: UserContestProblemService) {
+  }
 
   // @Mutation(() => UserContestProblem)
   // async createUserContestProblem(@Args('createUserContestProblemInput') createUserContestProblemInput: CreateUserContestProblemInput) {
   //   return this.userContestProblemService.create(createUserContestProblemInput);
   // }
 
-  @Query(() => PaginationOutput<UserContestProblem>)
+  @Query(() => PaginationUserContestProblem)
   async userContestProblems(
     @Args('filterUserContestProblemInput', { type: () => FilterGroupInput, nullable: true })
-    filterUserContestProblemInput?: FilterUserContestProblemInput,
+      filterUserContestProblemInput?: FilterUserContestProblemInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput?: PaginationInfoInput,
+      pageInfoInput?: PaginationInfoInput,
   ) {
     return this.userContestProblemService.findAll(filterUserContestProblemInput, pageInfoInput)
   }
@@ -39,7 +39,7 @@ export class UserContestProblemResolver {
   @Mutation(() => UserContestProblem)
   async updateUserContestProblem(
     @Args('updateUserContestProblemInput')
-    updateUserContestProblemInput: UpdateUserContestProblemInput,
+      updateUserContestProblemInput: UpdateUserContestProblemInput,
   ) {
     return this.userContestProblemService.update(updateUserContestProblemInput)
   }

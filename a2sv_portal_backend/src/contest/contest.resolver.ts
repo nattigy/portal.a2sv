@@ -6,11 +6,12 @@ import { CreateContestInput } from './dto/create-contest.input'
 import { UpdateContestInput } from './dto/update-contest.input'
 import { Contest } from './entities/contest.entity'
 import { FilterContestInput } from './dto/filter-contest.input'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationContest } from '../common/page/pagination-info'
 
 @Resolver(() => Contest)
 export class ContestResolver {
-  constructor(private readonly contestService: ContestService) {}
+  constructor(private readonly contestService: ContestService) {
+  }
 
   @Mutation(() => Contest)
   async createContest(
@@ -19,13 +20,13 @@ export class ContestResolver {
     return this.contestService.create(createContestInput)
   }
 
-  @Query(() => PaginationOutput<Contest>)
+  @Query(() => PaginationContest)
   async contests(
     @Args('filterContestInput', { type: () => FilterContestInput, nullable: true })
-    filterContestInput?: FilterContestInput,
+      filterContestInput?: FilterContestInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput?: PaginationInfoInput,
-  ): Promise<PaginationOutput<Contest>> {
+      pageInfoInput?: PaginationInfoInput,
+  ): Promise<PaginationContest> {
     return this.contestService.findAll(filterContestInput, pageInfoInput)
   }
 

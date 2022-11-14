@@ -3,13 +3,14 @@ import { PrismaService } from '../prisma/prisma.service'
 import { CreateUserProfileInput } from './dto/create-user-profile.input'
 import { UpdateUserProfileInput } from './dto/update-user-profile.input'
 import { UserProfile } from './entities/user-profile.entity'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationUserProfile } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { FilterUserProfileInput } from './dto/filter-user-profile.input'
 
 @Injectable()
 export class UserProfileService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(createUserProfileInput: CreateUserProfileInput): Promise<UserProfile> {
     return this.prismaService.userProfile.create({
@@ -20,7 +21,7 @@ export class UserProfileService {
   async findAll(
     filterUserProfileInput: FilterUserProfileInput,
     { take, skip }: PaginationInfoInput = { take: 50, skip: 0 },
-  ): Promise<PaginationOutput<UserProfile>> {
+  ): Promise<PaginationUserProfile> {
     const count = (
       await this.prismaService.userProfile.findMany({
         where: filterUserProfileInput,

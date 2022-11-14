@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { Parent, registerEnumType } from '@nestjs/graphql'
 import { RoleEnum, SeasonTopicProblemUser, Status, User } from '@prisma/client'
 import * as bcrypt from 'bcrypt'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationUser } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { GroupsService } from '../group/groups.service'
 import { PrismaService } from '../prisma/prisma.service'
@@ -30,7 +30,8 @@ export class UserService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly groupService: GroupsService,
-  ) {}
+  ) {
+  }
 
   async create(createUserInput: CreateUserInput): Promise<User> {
     const { email, password } = createUserInput
@@ -80,7 +81,7 @@ export class UserService {
   async findAll(
     filterUserInput: FilterUserInput,
     { take, skip }: PaginationInfoInput = { take: 50, skip: 0 },
-  ): Promise<PaginationOutput<User>> {
+  ): Promise<PaginationUser> {
     const usersCount = (
       await this.prismaService.user.findMany({
         where: filterUserInput,
@@ -406,9 +407,9 @@ export class UserService {
   }
 
   async studentTopicStats({
-    studentId,
-    seasonId,
-  }: TopicStudentStatInput): Promise<TopicCoverageStat> {
+                            studentId,
+                            seasonId,
+                          }: TopicStudentStatInput): Promise<TopicCoverageStat> {
     const eachTopicCoverageStat = []
     let totalTopicCoverage = 0
     let totalNumberOfTopics = 0

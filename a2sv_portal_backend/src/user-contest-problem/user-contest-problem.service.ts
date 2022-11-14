@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
 import { UpdateUserContestProblemInput } from './dto/update-user-contest-problem.input'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationUserContestProblem } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { UserContestProblem } from './entities/user-contest-problem.entity'
 import { FilterUserContestProblemInput } from './dto/filter-user-contest-problem'
@@ -20,7 +20,7 @@ export class UserContestProblemService {
   async findAll(
     filterUserContestInput: FilterUserContestProblemInput,
     { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
-  ): Promise<PaginationOutput<UserContestProblem>> {
+  ): Promise<PaginationUserContestProblem> {
     const count = (
       await this.prismaService.userContestProblem.findMany({
         where: filterUserContestInput,

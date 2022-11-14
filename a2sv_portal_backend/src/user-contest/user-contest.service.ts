@@ -3,14 +3,15 @@ import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { PrismaService } from '../prisma/prisma.service'
 import { UpdateUserContestInput } from './dto/update-user-contest.input'
 import { UserContest } from './entities/user-contest.entity'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationUserContest } from '../common/page/pagination-info'
 import { FilterGroupContestUsersInput } from './dto/filter-group-contest-users.input'
 import { UserContestProblemStatus } from '@prisma/client'
 import { UserContestProblem } from '../user-contest-problem/entities/user-contest-problem.entity'
 
 @Injectable()
 export class UserContestService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   // async create(createUserContestInput: CreateUserContestInput): Promise<UserContest> {
   //   return this.prismaService.userContest.create({
@@ -38,7 +39,7 @@ export class UserContestService {
       take: 50,
       skip: 0,
     },
-  ): Promise<PaginationOutput<UserContest>> {
+  ): Promise<PaginationUserContest> {
     const user = await this.prismaService.user.findUnique({
       where: {
         id: userId,
@@ -146,11 +147,11 @@ export class UserContestService {
         // TODO: throw an error, contest id not found
       }
       for (const problem of contest.problems) {
-        let userContestProblem:UserContestProblem = null
+        let userContestProblem: UserContestProblem = null
         for (const userContestProblem1 of userContest.userContestProblems) {
           userContestProblem = userContestProblem1
         }
-        if(userContestProblem == null){
+        if (userContestProblem == null) {
           userContestProblem = {
             contestId,
             userId,
@@ -172,7 +173,7 @@ export class UserContestService {
   async groupContestUsers(
     { groupId, contestId }: FilterGroupContestUsersInput,
     { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
-  ): Promise<PaginationOutput<UserContest>> {
+  ): Promise<PaginationUserContest> {
     const count = (
       await this.prismaService.user.findMany({
         where: {
@@ -203,10 +204,10 @@ export class UserContestService {
   }
 
   async update({
-    userId,
-    contestId,
-    ...updates
-  }: UpdateUserContestInput): Promise<UserContest> {
+                 userId,
+                 contestId,
+                 ...updates
+               }: UpdateUserContestInput): Promise<UserContest> {
     return this.prismaService.userContest.upsert({
       where: {
         userId_contestId: {

@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { PaginationGroupContests, PaginationOutput } from '../common/page/pagination-info'
+import { PaginationGroupContests } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { PrismaService } from '../prisma/prisma.service'
 import { UserContestProblemEnum } from '../user-contest-problem/entities/user-contest-problem-status.enum'
@@ -13,7 +13,8 @@ export class GroupContestService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly userContestService: UserContestService,
-    ) {}
+  ) {
+  }
 
   async findAll(
     filterGroupContestInput: FilterGroupContestInput,
@@ -24,13 +25,13 @@ export class GroupContestService {
       take,
       where: filterGroupContestInput,
       include: {
-        group:true,
+        group: true,
         contest: {
           include: {
-            problems: true
-          }
+            problems: true,
+          },
         },
-      }
+      },
     })
     const count = (
       await this.prismaService.groupContest.findMany({
@@ -115,10 +116,10 @@ export class GroupContestService {
   }
 
   async update({
-    groupId,
-    contestId,
-    ...updates
-  }: UpdateGroupContestInput): Promise<GroupContest> {
+                 groupId,
+                 contestId,
+                 ...updates
+               }: UpdateGroupContestInput): Promise<GroupContest> {
     return this.prismaService.groupContest.upsert({
       where: {
         groupId_contestId: {
@@ -129,7 +130,7 @@ export class GroupContestService {
       update: updates,
       create: {
         contestId,
-        groupId
+        groupId,
       },
       include: {
         contest: {

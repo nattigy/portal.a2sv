@@ -4,7 +4,7 @@ import { PrismaService } from '../prisma/prisma.service'
 import { CreateSeasonTopicProblemInput } from './dto/create-season-topic-problem.input'
 import { UpdateSeasonTopicProblemInput } from './dto/update-season-topic-problem.input'
 import { SeasonTopicProblem } from './entities/season-topic-problem.entity'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationSeasonTopicProblem } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { SeasonTopicProblemId } from '../season-topic/dto/filter-season-topic.input'
 
@@ -20,7 +20,8 @@ export class SeasonTopicProblemFilter {
 
 @Injectable()
 export class SeasonTopicProblemService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(
     createSeasonTopicProblemInput: CreateSeasonTopicProblemInput,
@@ -37,7 +38,7 @@ export class SeasonTopicProblemService {
   async findAll(
     seasonTopicProblemFilter: SeasonTopicProblemFilter,
     { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
-  ): Promise<PaginationOutput<SeasonTopicProblem>> {
+  ): Promise<PaginationSeasonTopicProblem> {
     const count = (
       await this.prismaService.seasonTopicProblem.findMany({
         where: seasonTopicProblemFilter,
@@ -62,10 +63,10 @@ export class SeasonTopicProblemService {
   }
 
   async findOne({
-    seasonId,
-    topicId,
-    problemId,
-  }: SeasonTopicProblemId): Promise<SeasonTopicProblem> {
+                  seasonId,
+                  topicId,
+                  problemId,
+                }: SeasonTopicProblemId): Promise<SeasonTopicProblem> {
     return this.prismaService.seasonTopicProblem.findUnique({
       where: {
         seasonId_topicId_problemId: {
@@ -82,11 +83,11 @@ export class SeasonTopicProblemService {
   }
 
   async update({
-    seasonId,
-    topicId,
-    problemId,
-    ...updates
-  }: UpdateSeasonTopicProblemInput): Promise<SeasonTopicProblem> {
+                 seasonId,
+                 topicId,
+                 problemId,
+                 ...updates
+               }: UpdateSeasonTopicProblemInput): Promise<SeasonTopicProblem> {
     return this.prismaService.seasonTopicProblem.update({
       where: {
         seasonId_topicId_problemId: {

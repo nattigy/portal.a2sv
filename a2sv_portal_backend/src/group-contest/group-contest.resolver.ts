@@ -1,5 +1,5 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { PaginationGroupContests, PaginationOutput } from '../common/page/pagination-info'
+import { PaginationGroupContests } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { FilterGroupContestInput } from './dto/filter-group-contest.input'
 import { UpdateGroupContestInput } from './dto/update-group-contest.input'
@@ -8,14 +8,15 @@ import { GroupContestService } from './group-contest.service'
 
 @Resolver(() => GroupContest)
 export class GroupContestResolver {
-  constructor(private readonly groupContestService: GroupContestService) {}
+  constructor(private readonly groupContestService: GroupContestService) {
+  }
 
   @Query(() => PaginationGroupContests)
   async groupContests(
     @Args('filterGroupContestInput', { type: () => FilterGroupContestInput, nullable: true })
-    filterGroupContestInput: FilterGroupContestInput,
+      filterGroupContestInput: FilterGroupContestInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput: PaginationInfoInput,
+      pageInfoInput: PaginationInfoInput,
   ): Promise<PaginationGroupContests> {
     return this.groupContestService.findAll(filterGroupContestInput, pageInfoInput)
   }
@@ -46,7 +47,7 @@ export class GroupContestResolver {
   @Mutation(() => GroupContest)
   async updateGroupContest(
     @Args('updateGroupContestInput')
-    updateGroupContestInput: UpdateGroupContestInput,
+      updateGroupContestInput: UpdateGroupContestInput,
   ): Promise<GroupContest> {
     return this.groupContestService.update(updateGroupContestInput)
   }

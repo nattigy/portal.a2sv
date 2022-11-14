@@ -5,11 +5,12 @@ import { UpdateSeasonTopicInput } from './dto/update-season-topic.input'
 import { FilterSeasonTopicInput } from './dto/filter-season-topic.input'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { SeasonTopic } from '@prisma/client'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationSeasonTopic } from '../common/page/pagination-info'
 
 @Injectable()
 export class SeasonTopicService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(createSeasonTopicInput: CreateSeasonTopicInput): Promise<SeasonTopic> {
     return this.prismaService.seasonTopic.create({
@@ -29,7 +30,7 @@ export class SeasonTopicService {
   async findAll(
     filterSeasonTopicInput: FilterSeasonTopicInput,
     { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
-  ): Promise<PaginationOutput<SeasonTopic>> {
+  ): Promise<PaginationSeasonTopic> {
     const count = (
       await this.prismaService.seasonTopic.findMany({
         where: filterSeasonTopicInput,
@@ -80,11 +81,11 @@ export class SeasonTopicService {
   }
 
   async update({
-    seasonId,
-    topicId,
-    problems,
-    ...updates
-  }: UpdateSeasonTopicInput): Promise<SeasonTopic> {
+                 seasonId,
+                 topicId,
+                 problems,
+                 ...updates
+               }: UpdateSeasonTopicInput): Promise<SeasonTopic> {
     return this.prismaService.seasonTopic.update({
       where: {
         seasonId_topicId: {

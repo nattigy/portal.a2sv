@@ -3,29 +3,30 @@ import { CreateUserProfileInput } from './dto/create-user-profile.input'
 import { UpdateUserProfileInput } from './dto/update-user-profile.input'
 import { UserProfile } from './entities/user-profile.entity'
 import { UserProfileService } from './user-profile.service'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationUserProfile } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { FilterUserProfileInput } from './dto/filter-user-profile.input'
 
 @Resolver(() => UserProfile)
 export class UserProfileResolver {
-  constructor(private readonly userProfileService: UserProfileService) {}
+  constructor(private readonly userProfileService: UserProfileService) {
+  }
 
   @Mutation(() => UserProfile)
   async createUserProfile(
     @Args('createUserProfileInput')
-    createUserProfileInput: CreateUserProfileInput,
+      createUserProfileInput: CreateUserProfileInput,
   ) {
     return this.userProfileService.create(createUserProfileInput)
   }
 
-  @Query(() => PaginationOutput<UserProfile>)
+  @Query(() => PaginationUserProfile)
   async userProfiles(
     @Args('filterUserProfileInput', { type: () => FilterUserProfileInput, nullable: true })
-    filterUserProfileInput?: FilterUserProfileInput,
+      filterUserProfileInput?: FilterUserProfileInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput?: PaginationInfoInput,
-  ): Promise<PaginationOutput<UserProfile>> {
+      pageInfoInput?: PaginationInfoInput,
+  ): Promise<PaginationUserProfile> {
     return this.userProfileService.findAll(filterUserProfileInput, pageInfoInput)
   }
 
@@ -37,7 +38,7 @@ export class UserProfileResolver {
   @Mutation(() => UserProfile)
   async updateUserProfile(
     @Args('updateUserProfileInput')
-    updateUserProfileInput: UpdateUserProfileInput,
+      updateUserProfileInput: UpdateUserProfileInput,
   ) {
     return this.userProfileService.update(updateUserProfileInput)
   }

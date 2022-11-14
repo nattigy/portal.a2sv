@@ -8,18 +8,19 @@ import { CreateSeasonInput } from './dto/create-season.input'
 import { UpdateSeasonInput } from './dto/update-season.input'
 import { Season } from './entities/season.entity'
 import { FilterSeasonInput } from './dto/filter-season-input'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationSeason } from '../common/page/pagination-info'
 
 @UseGuards(PoliciesGuard)
 @Injectable()
 export class SeasonService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   @CheckPolicies(SeasonAbilities.read)
   async findAll(
     filterSeasonInput: FilterSeasonInput,
     { take, skip }: PaginationInfoInput = { take: 50, skip: 0 },
-  ): Promise<PaginationOutput<Season>> {
+  ): Promise<PaginationSeason> {
     const seasonsCount = (
       await this.prismaService.season.findMany({
         where: filterSeasonInput,

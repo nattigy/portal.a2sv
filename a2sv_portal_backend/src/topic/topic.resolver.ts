@@ -4,7 +4,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
 import { TopicAbilities } from '../casl/handler/topic-abilities.handler'
 import { CheckPolicies } from '../casl/policy/policy.decorator'
 import { PoliciesGuard } from '../casl/policy/policy.guard'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationTopic } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { SeasonTopic } from '../season-topic/entities/season-topic.entity'
 import { UserTopic } from '../user-topic/entities/user-topic.entity'
@@ -18,7 +18,8 @@ import { FilterTopicInput } from './dto/filter-topic-input'
 
 @Resolver(() => Topic)
 export class TopicResolver {
-  constructor(private readonly topicService: TopicService) {}
+  constructor(private readonly topicService: TopicService) {
+  }
 
   // @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.create)
@@ -31,13 +32,13 @@ export class TopicResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.read)
-  @Query(() => PaginationOutput<Topic>)
+  @Query(() => PaginationTopic)
   async topics(
     @Args('filterTopicInput', { type: () => FilterTopicInput, nullable: true })
-    filterTopicInput?: FilterTopicInput,
+      filterTopicInput?: FilterTopicInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput?: PaginationInfoInput,
-  ): Promise<PaginationOutput<Topic>> {
+      pageInfoInput?: PaginationInfoInput,
+  ): Promise<PaginationTopic> {
     return this.topicService.findAll(filterTopicInput, pageInfoInput)
   }
 
@@ -77,7 +78,7 @@ export class TopicResolver {
   @Mutation(() => TopicActionStatus)
   async addTopicToGroup(
     @Args('addTopicToGroupInput', { type: () => AddTopicToSeasonInput })
-    addTopicToGroupInput: AddTopicToSeasonInput,
+      addTopicToGroupInput: AddTopicToSeasonInput,
   ): Promise<TopicActionStatus> {
     try {
       await this.topicService.addTopicToSeason(addTopicToGroupInput)

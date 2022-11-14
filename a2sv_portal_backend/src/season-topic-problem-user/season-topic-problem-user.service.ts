@@ -6,11 +6,12 @@ import { UpdateSeasonTopicProblemUserInput } from './dto/update-season-topic-pro
 import { SeasonTopicProblemUser } from './entities/season-topic-problem-user.entity'
 import { FilterSeasonTopicProblemUserInput } from './dto/filter-season-topic-problem-user.input'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { PaginationOutput } from '../common/page/pagination-info'
+import { PaginationSeasonTopicProblemUser } from '../common/page/pagination-info'
 
 @Injectable()
 export class SeasonTopicProblemUserService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(
     createSeasonTopicProblemUserInput: CreateSeasonTopicProblemUserInput,
@@ -32,7 +33,7 @@ export class SeasonTopicProblemUserService {
   async findAll(
     filterSeasonTopicProblemUserInput: FilterSeasonTopicProblemUserInput,
     { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
-  ): Promise<PaginationOutput<SeasonTopicProblemUser>> {
+  ): Promise<PaginationSeasonTopicProblemUser> {
     const count = (
       await this.prismaService.seasonTopicProblemUser.findMany({
         where: filterSeasonTopicProblemUserInput,
@@ -62,11 +63,11 @@ export class SeasonTopicProblemUserService {
   }
 
   async findOne({
-    seasonId,
-    topicId,
-    problemId,
-    userId,
-  }: SeasonTopicProblemUserId): Promise<SeasonTopicProblemUser> {
+                  seasonId,
+                  topicId,
+                  problemId,
+                  userId,
+                }: SeasonTopicProblemUserId): Promise<SeasonTopicProblemUser> {
     return this.prismaService.seasonTopicProblemUser.findUnique({
       where: {
         seasonId_topicId_problemId_userId: {
@@ -89,9 +90,9 @@ export class SeasonTopicProblemUserService {
   }
 
   async update({
-    id,
-    ...updates
-  }: UpdateSeasonTopicProblemUserInput): Promise<SeasonTopicProblemUser> {
+                 id,
+                 ...updates
+               }: UpdateSeasonTopicProblemUserInput): Promise<SeasonTopicProblemUser> {
     const { seasonId, problemId, userId, topicId } = id
     return this.prismaService.seasonTopicProblemUser.upsert({
       where: {
