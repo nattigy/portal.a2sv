@@ -1,7 +1,28 @@
 export const groups = [
   {
-    'country': 'Ghana',
-    'name': 'G-1',
-    'school': 'Legos University',
+      "country": "Ethiopia",
+      "name": "Group-12",
+      "school": "AAiT"
   },
+  {
+      "country": "Ethiopia",
+      "name": "Group-31",
+      "school": "AAiT"
+  },
+  {
+      "country": "Ethiopia",
+      "name": "Group-32",
+      "school": "AAiT"
+  },
+  {
+      "country": "Ethiopia",
+      "name": "Group-33",
+      "school": "AASTU"
+  },
+  {
+      "country": "Ghana",
+      "name": "Group-44",
+      "school": "Legos University"
+  }
 ]
+export default groups
