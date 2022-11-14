@@ -1,4 +1,10 @@
-import { ApolloClient, from, HttpLink, InMemoryCache } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloLink,
+  from,
+  HttpLink,
+  InMemoryCache,
+} from "@apollo/client";
 import type { GetServerSidePropsContext } from "next";
 import type { NormalizedCacheObject } from "@apollo/client";
 import { useMemo } from "react";
@@ -28,10 +34,29 @@ const logoutLink = onError(({ graphQLErrors }) => {
   }
 });
 
-const authLink = setContext((_, { headers }) => {
+const httpLink = new HttpLink({
+  uri: configs.NEXT_PUBLIC_API_URL,
+  credentials: "same-origin",
+});
+
+const middlewareLink = new ApolloLink((operation, forward) => {
+  // ation token from local storage if it exists
+  const tokenValue = localStorage.getItem("access-token");
+  operation.setContext({
+    headers: {
+      Authorization: tokenValue ? `Bearer ${tokenValue}` : "",
+    },
+  });
+  return forward(operation);
+});
+
+const authLink = setContext(async (_, { headers }) => {
   // get the authentication token from local storage if it exists
   const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : "";
+    typeof window !== "undefined"
+      ? await localStorage.getItem("access-token")
+      : "";
+  console.log(token);
   // return the headers to the context so httpLink can read them
   return {
     headers: {
@@ -64,15 +89,10 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 const createApolloClient = (ctx?: GetServerSidePropsContext) => {
-  const httpLink = new HttpLink({
-    uri: configs.NEXT_PUBLIC_API_URL, 
-    credentials: "same-origin",
-  });
-
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
     cache: new InMemoryCache(),
-    link: from([logoutLink, authLink, errorLink, httpLink]),
+    link: from([middlewareLink, logoutLink, errorLink, httpLink]),
     // connectToDevTools: true,
   });
 };
@@ -131,4 +151,3 @@ export function useApollo(pageProps: any) {
   );
   return store;
 }
-

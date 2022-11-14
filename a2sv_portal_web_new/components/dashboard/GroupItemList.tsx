@@ -15,16 +15,17 @@ const GroupItemList = () => {
 
   let [groups, setGroups] = useState([]);
   useEffect(() => {
-    if (data && data.groupsPagination.items) {
-      const datas = data.groupsPagination.items.map((item: any) => {
+    console.log("data is ssss", data)
+    if (data && data.groups.items) {
+      const datas = data.groups.items.map((item: any) => {
         return {
-          groupId: item.group.id,
-          groupName: item.group.name,
-          groupCountry: item.group.country,
-          groupSchool: item.group.school,
-          head: item.group.head,
-          createdAt: item.group.createdAt,
-          students: item.group.users,
+          groupId: item.id,
+          groupName: item.name,
+          groupCountry: item.country,
+          groupSchool: item.school,
+          head: item.head,
+          createdAt: item.createdAt,
+          students: item.users,
           totalStudentsCount: item.pageInfo.userCount,
         };
       });
@@ -43,7 +44,7 @@ const GroupItemList = () => {
     //   });
     //   setGroups(datas);
     // }
-  }, [data]);
+  }, [data, refetch]);
 
   console.log(groups)
   return loading ? (

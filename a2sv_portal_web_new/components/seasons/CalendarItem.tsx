@@ -29,8 +29,8 @@ const CalendarItem = (props: Props) => {
                   stroke-width="1.5"
                   stroke="currentColor"
                   fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                   <polyline points="15 6 9 12 15 18" />
@@ -49,8 +49,8 @@ const CalendarItem = (props: Props) => {
                   stroke-width="1.5"
                   stroke="currentColor"
                   fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                   <polyline points="9 6 15 12 9 18" />
@@ -152,7 +152,7 @@ const CalendarItem = (props: Props) => {
                       <div className="flex items-center justify-center w-full rounded-full cursor-pointer">
                         <a
                           role="link"
-          
+
                           className="focus:outline-none  focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 focus:bg-indigo-500 hover:bg-indigo-500 w-8 h-8 flex items-center justify-center font-medium shadow-indigo-500 shadow-md text-white bg-indigo-700 rounded-full"
                         >
                           8
@@ -287,8 +287,8 @@ const CalendarItem = (props: Props) => {
             Upcoming Activities
           </h1>
           <div className="flex flex-col gap-y-4">
-            <ActivityItem/>
-    
+            <ActivityItem />
+
 
             <div className="flex flex-col h-fit p-4 rounded-md bg-[#FFF0F0]">
               <div className="flex items-center gap-x-2">
@@ -299,7 +299,7 @@ const CalendarItem = (props: Props) => {
               </div>
               <div>
                 <a
-  
+
                   className="focus:outline-none text-sm font-medium text-gray-100 dark:text-gray-900"
                 >
                   Orientation session with new hires
@@ -319,7 +319,7 @@ const CalendarItem = (props: Props) => {
               </div>
               <div>
                 <a
-  
+
                   className="focus:outline-none text-sm font-medium text-gray-100 dark:text-gray-900"
                 >
                   Zoom call with design team
