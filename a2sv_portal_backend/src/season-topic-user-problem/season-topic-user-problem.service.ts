@@ -7,6 +7,7 @@ import { FilterSeasonTopicUserProblemInput } from './dto/filter-season-topic-use
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { PaginationSeasonTopicProblemUser } from '../common/page/pagination-info'
 import { SeasonTopicProblem } from '../season-topic-problem/entities/season-topic-problem.entity'
+import { User } from '../user/entities/user.entity'
 
 @Injectable()
 export class SeasonTopicUserProblemService {
@@ -126,6 +127,8 @@ export class SeasonTopicUserProblemService {
     const count = 0
     const seasonTopicUserProblems: SeasonTopicUserProblem[] = []
     const seasonTopicProblems: SeasonTopicProblem[] = await this.prismaService.seasonTopicProblem.findMany({
+      skip,
+      take,
       where: {
         seasonId,
         topicId,
@@ -155,17 +158,50 @@ export class SeasonTopicUserProblemService {
   }
 
   async seasonTopicUsersProblem(
-    seasonId: string, topicId: string,
+    seasonId: string, topicId: string, groupId: string,
     { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
   ): Promise<PaginationSeasonTopicProblemUser> {
-    const count = 0
+    const count = (await this.prismaService.user.findMany({
+      where: {
+        groupId,
+      }
+    })).length
+    const seasonTopicUserProblems: SeasonTopicUserProblem[] = []
+    const seasonTopicProblems: SeasonTopicProblem[] = await this.prismaService.seasonTopicProblem.findMany({
+      where: {
+        seasonId,
+        topicId,
+      },
+      include: {
+        problem: true,
+        seasonTopic: true,
+      },
+    })
+    const users:User[] = await this.prismaService.user.findMany({
+      take,
+      skip,
+      where: {
+        groupId,
+      }
+    })
+    for (const user of users) {
+      for (const seasonTopicProblem of seasonTopicProblems) {
+        const seasonTopicUserProblem:SeasonTopicUserProblem = await this.findOne({
+          userId: user.id,
+          seasonId,
+          topicId,
+          problemId: seasonTopicProblem.problemId,
+        })
+        seasonTopicUserProblems.push(seasonTopicUserProblem)
+      }
+    }
     return {
-      items: [],
+      items: seasonTopicUserProblems,
       pageInfo: {
         skip,
         take,
         count,
-      }
+      },
     }
   }
 

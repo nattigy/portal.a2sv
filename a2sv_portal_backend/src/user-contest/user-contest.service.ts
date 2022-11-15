@@ -33,47 +33,6 @@ export class UserContestService {
   //   })
   // }
 
-  async findAll(
-    userId: string,
-    { skip, take }: PaginationInfoInput = {
-      take: 50,
-      skip: 0,
-    },
-  ): Promise<PaginationUserContest> {
-    const user = await this.prismaService.user.findUnique({
-      where: {
-        id: userId,
-      },
-    })
-    const count = (
-      await this.prismaService.groupContest.findMany({
-        where: {
-          groupId: user.groupId,
-        },
-      })
-    ).length
-    const groupContests = await this.prismaService.groupContest.findMany({
-      skip,
-      take,
-      where: {
-        groupId: user.groupId,
-      },
-    })
-    const userContests: UserContest[] = []
-    for (const groupContest of groupContests) {
-      const userContest = await this.findOne(userId, groupContest.contestId)
-      userContests.push(userContest)
-    }
-    return {
-      items: userContests,
-      pageInfo: {
-        skip,
-        take,
-        count,
-      },
-    }
-  }
-
   async findOne(userId: string, contestId: string): Promise<UserContest> {
     const userContest: UserContest = await this.prismaService.userContest.findUnique({
       where: {
@@ -142,6 +101,47 @@ export class UserContestService {
       }
     }
     return userContest
+  }
+
+  async findAll(
+    userId: string,
+    { skip, take }: PaginationInfoInput = {
+      take: 50,
+      skip: 0,
+    },
+  ): Promise<PaginationUserContest> {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        id: userId,
+      },
+    })
+    const count = (
+      await this.prismaService.groupContest.findMany({
+        where: {
+          groupId: user.groupId,
+        },
+      })
+    ).length
+    const groupContests = await this.prismaService.groupContest.findMany({
+      skip,
+      take,
+      where: {
+        groupId: user.groupId,
+      },
+    })
+    const userContests: UserContest[] = []
+    for (const groupContest of groupContests) {
+      const userContest = await this.findOne(userId, groupContest.contestId)
+      userContests.push(userContest)
+    }
+    return {
+      items: userContests,
+      pageInfo: {
+        skip,
+        take,
+        count,
+      },
+    }
   }
 
   async groupContestUsers(
