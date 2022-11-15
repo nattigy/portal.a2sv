@@ -1,5 +1,4 @@
 import { useReactiveVar } from "@apollo/client";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import WithPermission from "../../lib/Guard/WithPermission";
@@ -12,9 +11,9 @@ import TopicList from "./TopicList";
 import TopicsFilter from "./TopicsFilter";
 
 type Props = {
-  groupId: string;
+  seasonId: string;
 };
-const TopicsPage = (props: Props) => {
+const TopicsPage = ({seasonId}: Props) => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
   const [isAddTopicToGroupModalOpen, setIsAddTopicToGroupModalOpen] =
     useState(false);
@@ -23,10 +22,8 @@ const TopicsPage = (props: Props) => {
     setIsAddTopicToGroupModalOpen(true);
   };
 
-  const router = useRouter();
-  const seasonId = router.query.season
 
-  const [fetchSeasonTopics, { data, refetch, loading }] = useGetAllGroupTopicsBySeasonIdQuery(seasonId ? seasonId.toString() : "");
+  const [fetchSeasonTopics, { data, refetch, loading }] = useGetAllGroupTopicsBySeasonIdQuery(seasonId);
   const [seasonTopics, setSeasonTopics] = useState([]);
   const [tabIndex, setTabIndex] = useState(0);
     useEffect(() => {
@@ -95,7 +92,6 @@ const TopicsPage = (props: Props) => {
             <TopicList
               season={{ id: 1, name: "Camp" }}
               topics={seasonTopics}
-              groupId={props.groupId}
               title="All Topics"
             />
           )}

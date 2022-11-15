@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { ProblemDifficultyType } from "../../types/problems";
 import BaseLayout from "../common/BaseLayout";
 import SidebarLayout from "../common/SidebarLayout";
 import ConsistencyDiagramItem from "./ConsistencyDiagram";
@@ -9,6 +10,9 @@ import DashboardTopicItem, {
   DashboardTopicItemProps,
 } from "./DashboardTopicItem";
 import ProblemSolvedItem, { ProblemSolvedProps } from "./ProblemSolvedItem";
+import RadialBar from "./RadialBar";
+import StatComponent from "./StatComponent";
+import TotalRadialBar from "./TotalRadialBar";
 
 type Props = {};
 
@@ -101,14 +105,43 @@ const StudentDashboard = (props: Props) => {
     <BaseLayout sidebar={<>hello </>}>
       <div className="flex flex-col gap-y-4">
         <p className="text-[#676767] font-semibold text-xl">Dashboard</p>
-        <div className="flex flex-row gap-x-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
           {rankList.map((item, index) => (
             <DashboardRankItem key={index} {...item} />
           ))}
         </div>
-        <div className="flex gap-x-2 my-4 ">
-          <ConsistencyDiagramItem />
-          <ProblemSolvedItem p={problemStat} />
+        <div className="w-full grid grid-cols-12 justify-between relative gap-2 lg:gap-5 my-4 h-full ">
+          <div className="col-span-12 md:col-span-8 w-full h-full bg-white rounded-lg">
+            <ConsistencyDiagramItem />
+          </div>
+          <div className="col-span-12 md:col-span-4  w-full h-full bg-white rounded-lg">
+            <div className="flex flex-col justify-start p-4 items-center gap-y-4">
+              <p className="text-[#454343] font-semibold">Solved Problems</p>
+              <TotalRadialBar />
+              <p className="text-[#454343] font-bold">220/300</p>
+              <p className="text-[#B2B2B2] text-[10px] font-semibold">
+                Acceptance Rate
+              </p>
+              <div className="grid grid-cols-3 md:grid-cols-2 xl:grid-cols-3 gap-2">
+                <RadialBar
+                  difficulty={ProblemDifficultyType.EASY}
+                  solvedProblems={147}
+                  totalProblems={220}
+                />
+                <RadialBar
+                  difficulty={ProblemDifficultyType.MEDIUM}
+                  solvedProblems={37}
+                  totalProblems={120}
+                />
+                <RadialBar
+                  difficulty={ProblemDifficultyType.HARD}
+                  solvedProblems={37}
+                  totalProblems={420}
+                />
+              </div>
+            </div>
+          </div>
+
         </div>
         <ContestStatItem />
       </div>

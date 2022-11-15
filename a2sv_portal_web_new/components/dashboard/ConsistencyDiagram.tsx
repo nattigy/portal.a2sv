@@ -1,5 +1,6 @@
 import React from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import CustomConsistencyChart from "../consistency/CustomConsistencyChart";
 
 export type ProblemSolvedProps = {};
 
@@ -27,24 +28,34 @@ const ConsistencyDiagramItem = () => {
     );
   }
   return (
-    <div className="no-scrollbar w-1/2 h-56 flex flex-col justify-between bg-white rounded-md p-6">
-      <div className="flex justify-between">
-        <h1 className="font-semibold">Consistency Diagram</h1>
-        <div className="flex">
-          <div className="flex items-center gap-x-2">
+    <div className="no-scrollbar w-full h-full flex flex-row-reverse flex-col  justify-between bg-white rounded-md p-6">
+      <div className="flex flex-col">
+        <h1 className="font-semibold">Consistency Chart</h1>
+        <div className="flex justify-end py-2">
+          {/* <div className="flex items-center gap-x-2">
             <FaChevronLeft />
             <h1 className="font-semibold text-sm text-[#787878]">2022</h1>
             <FaChevronRight />
-          </div>
-          <div className="flex items-center gap-x-2">
+          </div> */}
+          {/* <div className="flex items-center gap-x-2">
             <FaChevronLeft />
             <h1 className="font-semibold text-sm text-[#787878]">May</h1>
             <FaChevronRight />
+          </div> */}
+          <div className="flex flex-col justify-end items-end">
+            <div className="flex items-center gap-x-2 ">
+              <div className="text-sm  w-3 h-3 relative flex flex-col bg-primary rounded-sm items-center group">
+              </div>
+              <p className="text-xs">Total Submissions</p>
+            </div>
+            <p className="text-2xl font-semibold">1882</p>
           </div>
+
         </div>
       </div>
-      <div className="flex flex-row gap-x-3 items-end overflow-x-auto no-scrollbar">
-        {months}
+      <div className="flex flex-row gap-x-3 items-end no-scrollbar">
+        {/* <ConsistencyDiagramItem /> */}
+        <CustomConsistencyChart />
       </div>
     </div>
   );

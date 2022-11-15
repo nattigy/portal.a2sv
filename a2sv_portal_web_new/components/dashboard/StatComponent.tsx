@@ -1,4 +1,5 @@
 import React from "react";
+import useGroupStatsDetail from "../../lib/hooks/useGroupStats";
 import { ProblemDifficultyType } from "../../types/problems";
 import AcceptanceRate, { AcceptanceInfo } from "./AcceptanceRate";
 import Chart from "./Chart";
@@ -125,11 +126,18 @@ const contestUserList: Array<ContestInfo> = [
 ];
 
 const StatComponent = (props: Props) => {
+
+
+  const { data, loading, error, refetch } = useGroupStatsDetail(props.groupData?.id);
+
   return (
     <div className="">
       <div className="flex flex-col gap-y-4 w-full">
         <p className="text-[rgb(103,103,103)] font-semibold text-lg">
           {props.groupData?.group.name}
+          {JSON.stringify(props.groupData)}
+          
+
         </p>
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 ">
           {rankList.map((item, index) => (

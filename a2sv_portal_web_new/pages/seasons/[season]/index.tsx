@@ -1,4 +1,5 @@
 import { useReactiveVar } from "@apollo/client";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import BaseLayout from "../../../components/common/BaseLayout";
 import TopicsPage from "../../../components/topics/TopicsPage";
@@ -10,7 +11,6 @@ import {
 import { GraphqlUserRole } from "../../../types/user";
 
 const IndexPage = () => {
-
   const Sidebar: React.FC = () => {
     return (
       <div className="flex flex-col justify-between h-full">
@@ -31,7 +31,7 @@ const IndexPage = () => {
     );
   };
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
-
+  const router = useRouter();
   const ActiveComponent = ({
     user,
   }: {
@@ -45,18 +45,24 @@ const IndexPage = () => {
     switch (user.role) {
       case GraphqlUserRole.STUDENT: {
         // return <HOETopicsPage groupId={authUser?.id} />;
-        return <TopicsPage groupId={authUser?.id} />
+        return (
+          <TopicsPage seasonId={router.query.seasonId?.toString() || ""} />
+        );
       }
       case GraphqlUserRole.HEAD_OF_EDUCATION: {
         // return <HOETopicsPage groupId={authUser?.headToGroup?.id} />;
-        return <TopicsPage groupId={authUser?.headToGroup?.id}/>
+        return (
+          <TopicsPage seasonId={router.query.seasonId?.toString() || ""} />
+        );
       }
       case GraphqlUserRole.HEAD_OF_ACADEMY: {
         return <></>;
       }
       default: {
         // return <HOETopicsPage groupId={authUser?.headToGroup?.id} />;
-        return <TopicsPage groupId={authUser?.headToGroup?.id}/>
+        return (
+          <TopicsPage seasonId={router.query.seasonId?.toString() || ""} />
+        );
       }
     }
   };

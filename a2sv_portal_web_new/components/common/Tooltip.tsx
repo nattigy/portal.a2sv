@@ -6,7 +6,7 @@ export const Tooltip = ({
     children?: ReactNode
 }) => {
     return (
-        <div className="cursor-pointer w-3 h-3 relative flex flex-col items-center group">
+        <div className="cursor-pointer w-3 h-3 relative flex flex-col border-1 items-center group">
             {children}
             {
                 message && (

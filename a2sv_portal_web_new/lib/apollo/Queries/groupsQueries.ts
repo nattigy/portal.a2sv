@@ -32,7 +32,7 @@ export const GET_SINGLE_GROUP_QUERY = gql`
 export const GET_ALL_GROUPS_QUERY = gql`
   query GET_ALL_GROUPS_QUERY {
     groups {
-      items { 
+      items {
         country
         createdAt
         id
@@ -44,7 +44,7 @@ export const GET_ALL_GROUPS_QUERY = gql`
 `;
 
 export const GET_ALL_PAGINATED_GROUPS_QUERY = gql`
-      query GroupsPagination(
+  query GroupsPagination(
     $filterGroupInput: FilterGroupInput
     $pageInfoInput: PaginationInfoInput
   ) {
@@ -70,6 +70,26 @@ export const GET_ALL_PAGINATED_GROUPS_QUERY = gql`
         skip
         take
       }
+    }
+  }
+`;
+
+export const GET_SINGLE_GROUP_STATS = gql`
+  query GroupStat($groupId: String!) {
+    groupStat(groupId: $groupId) {
+      id
+      name
+      numberOfAcceptedSubmissions
+      numberOfProblems
+      numberOfStudents
+      numberOfTopicsCovered
+      numberOfWrongSubmissions
+      school
+      country
+      contestsAttended
+      createdAt
+      topicsCoverage
+      totalTimeDedicated
     }
   }
 `;
