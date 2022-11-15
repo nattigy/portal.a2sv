@@ -11,7 +11,7 @@ import { Problem } from '../../problem/entities/problem.entity'
 import { Group } from '../../group/entities/group.entity'
 import { SeasonTopic } from '../../season-topic/entities/season-topic.entity'
 import { SeasonTopicProblem } from '../../season-topic-problem/entities/season-topic-problem.entity'
-import { SeasonTopicProblemUser } from '../../season-topic-problem-user/entities/season-topic-problem-user.entity'
+import { SeasonTopicUserProblem } from '../../season-topic-user-problem/entities/season-topic-user-problem.entity'
 import { UserContestProblem } from '../../user-contest-problem/entities/user-contest-problem.entity'
 import { UserProfile } from '../../user-profile/entities/user-profile.entity'
 import { UserTopic } from '../../user-topic/entities/user-topic.entity'
@@ -102,8 +102,8 @@ export class PaginationSeasonTopicProblem {
 
 @ObjectType()
 export class PaginationSeasonTopicProblemUser {
-  @Field(() => [SeasonTopicProblemUser])
-  items: SeasonTopicProblemUser[]
+  @Field(() => [SeasonTopicUserProblem])
+  items: SeasonTopicUserProblem[]
 
   @Field(() => PaginationInfo)
   pageInfo: PaginationInfo

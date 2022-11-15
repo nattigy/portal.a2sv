@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { SeasonTopicProblemUserService } from './season-topic-problem-user.service'
+import { SeasonTopicUserProblemService } from './season-topic-user-problem.service'
 
 describe('SeasonTopicProblemUserService', () => {
-  let service: SeasonTopicProblemUserService
+  let service: SeasonTopicUserProblemService
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [SeasonTopicProblemUserService],
+      providers: [SeasonTopicUserProblemService],
     }).compile()
 
-    service = module.get<SeasonTopicProblemUserService>(SeasonTopicProblemUserService)
+    service = module.get<SeasonTopicUserProblemService>(SeasonTopicUserProblemService)
   })
 
   it('should be defined', () => {
