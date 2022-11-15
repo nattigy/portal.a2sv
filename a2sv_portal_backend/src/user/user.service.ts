@@ -30,7 +30,8 @@ export class UserService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly groupService: GroupsService,
-  ) {}
+  ) {
+  }
 
   async create(createUserInput: CreateUserInput): Promise<User> {
     const { email, password } = createUserInput
@@ -163,7 +164,7 @@ export class UserService {
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    return await this.prismaService.user.findFirst({
+    return this.prismaService.user.findFirst({
       where: { email },
       include: {
         headToGroup: true,
@@ -407,9 +408,9 @@ export class UserService {
   }
 
   async studentTopicStats({
-    studentId,
-    seasonId,
-  }: TopicStudentStatInput): Promise<TopicCoverageStat> {
+                            studentId,
+                            seasonId,
+                          }: TopicStudentStatInput): Promise<TopicCoverageStat> {
     const eachTopicCoverageStat = []
     let totalTopicCoverage = 0
     let totalNumberOfTopics = 0

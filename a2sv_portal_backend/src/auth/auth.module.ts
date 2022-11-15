@@ -21,18 +21,18 @@ import { LocalStrategy } from './strategies/local.strategy'
     }),
   ],
   providers: [
-    AuthService,
     LocalStrategy,
-    AuthResolver,
     JwtStrategy,
-    // {
-    //   provide: 'APP_GUARD',
-    //   useClass: JwtAuthGuard,
-    // },
-    // {
-    //   provide: 'APP_GUARD',
-    //   useClass: PoliciesGuard,
-    // },
+    AuthResolver,
+    AuthService,
+    {
+      provide: 'APP_GUARD',
+      useClass: JwtAuthGuard,
+    },
+    {
+      provide: 'APP_GUARD',
+      useClass: PoliciesGuard,
+    },
   ],
 })
 export class AuthModule {}

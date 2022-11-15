@@ -42,8 +42,8 @@ export class AuthResolver {
     }
   }
 
-  @Query(() => User)
   @UseGuards(JwtAuthGuard)
+  @Query(() => User)
   getMe(@CurrentUser() user: User): User {
     return user
   }
