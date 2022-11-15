@@ -32,7 +32,7 @@ export class UserContestResolver {
     @Args('userId') userId: string,
     @Args('contestId') contestId: string,
   ): Promise<UserContest> {
-    return this.userContestService.userContest(userId, contestId)
+    return this.userContestService.findOne(userId, contestId)
   }
 
   @Query(() => PaginationUserContest)

@@ -43,6 +43,7 @@ export class UserResolver {
     }
   }
 
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.create)
   @Mutation(() => User)
   async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
@@ -53,7 +54,7 @@ export class UserResolver {
     }
   }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.read)
   @Query(() => PaginationUser)
   async users(

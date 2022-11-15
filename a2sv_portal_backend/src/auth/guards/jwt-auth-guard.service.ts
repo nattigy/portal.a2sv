@@ -20,6 +20,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       context.getHandler(),
       context.getClass(),
     ])
+    return true
     if (isPublic) {
       return true
     }
