@@ -9,7 +9,7 @@ import { CheckPolicies } from '../casl/policy/policy.decorator'
 import { PoliciesGuard } from '../casl/policy/policy.guard'
 import { PaginationUser } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { SeasonTopicProblemUser } from '../season-topic-problem-user/entities/season-topic-problem-user.entity'
+import { SeasonTopicUserProblem } from '../season-topic-user-problem/entities/season-topic-user-problem.entity'
 import { UserTopic } from '../user-topic/entities/user-topic.entity'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
@@ -135,8 +135,8 @@ export class UserResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.read)
-  @ResolveField(() => [SeasonTopicProblemUser])
-  seasonTopicProblems(@Parent() user: User): SeasonTopicProblemUser[] {
+  @ResolveField(() => [SeasonTopicUserProblem])
+  seasonTopicProblems(@Parent() user: User): SeasonTopicUserProblem[] {
     return user.seasonTopicProblems
   }
 

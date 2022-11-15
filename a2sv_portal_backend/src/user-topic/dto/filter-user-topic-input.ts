@@ -7,6 +7,8 @@ export class FilterUserTopicInput {
   userId?: string
   @Field({ nullable: true })
   topicId?: string
+  @Field({ nullable: true })
+  groupId?: string
   @Field(() => ComfortLevelEnum, {
     defaultValue: ComfortLevelEnum.UNCOMFORTABLE,
     nullable: true,

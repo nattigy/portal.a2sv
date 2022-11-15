@@ -3,7 +3,7 @@ import { SeasonTopicProblem } from '../../season-topic-problem/entities/season-t
 import { User } from '../../user/entities/user.entity'
 
 @ObjectType()
-export class SeasonTopicProblemUser {
+export class SeasonTopicUserProblem {
   @Field()
   seasonId: string
   @Field()

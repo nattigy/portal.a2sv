@@ -13,7 +13,7 @@ import { GroupContestModule } from './group-contest/group-contest.module'
 import { GroupsModule } from './group/groups.module'
 import { ProblemModule } from './problem/problem.module'
 import { RolesModule } from './roles/roles.module'
-import { SeasonTopicProblemUserModule } from './season-topic-problem-user/season-topic-problem-user.module'
+import { SeasonTopicUserProblemModule } from './season-topic-user-problem/season-topic-user-problem.module'
 import { SeasonTopicProblemModule } from './season-topic-problem/season-topic-problem.module'
 import { SeasonTopicModule } from './season-topic/season-topic.module'
 import { SeasonModule } from './season/season.module'
@@ -62,7 +62,7 @@ import { PrismaModule } from './prisma/prisma.module'
     UserTopicModule,
     SeasonTopicModule,
     SeasonTopicProblemModule,
-    SeasonTopicProblemUserModule,
+    SeasonTopicUserProblemModule,
     ContestModule,
     UserContestModule,
     UserContestProblemModule,
