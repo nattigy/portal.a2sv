@@ -90,7 +90,7 @@ const GroupInfo = ({groupId}: Props) => {
         )
       }
     >
-      <div className="flex flex-col relative">
+      <div className="flex flex-col">
         <h1 className="text-2xl font-bold mb-2">Dashboard</h1>
         <DashboardFilter
           handleTabChange={handleTabChange}

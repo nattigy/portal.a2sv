@@ -13,6 +13,7 @@ import { ApolloError, useMutation } from "@apollo/client";
 import { DELETE_SEASON } from "../../lib/apollo/Mutations/seasonsMutations";
 import WithPermission from "../../lib/Guard/WithPermission";
 import { GraphqlUserRole } from "../../types/user";
+import { slugify } from "../topics/TopicItem";
 
 type Props = {
   seasonProps: Season;
@@ -42,14 +43,21 @@ const SeasonItem = ({ seasonProps }: Props) => {
     "/images/season-item.svg",
   ];
 
-  const router = useRouter();
+ 
 
-  const handleClick = (e: any) => {
-    router.push({
-      pathname: `/seasons/${seasonProps.name}`,
-      query: { div: e.div },
-    });
-  };
+  // const handleClick = (e: any) => {
+  //   router.push({
+  //     pathname: `/seasons/${seasonProps.name}`,
+  //     query: { seasonId: seasonProps.id },
+  //   });
+  // };
+  const pathname = `seasons/${slugify(seasonProps.name)}`;
+  const href={
+    pathname,
+    query: {
+      seasonId : seasonProps.id ,
+    }, // the data
+  }
 
   return (
     <>
@@ -84,7 +92,10 @@ const SeasonItem = ({ seasonProps }: Props) => {
           }}
         />
       )}
-      <Link href={"/seasons/" + seasonProps.id}>
+      <Link
+        href={href}
+        as={pathname}
+      >
         <div className="cursor-pointer">
           <div className="h-36 relative">
             <div className="absolute top-2 right-2 z-30 ">
