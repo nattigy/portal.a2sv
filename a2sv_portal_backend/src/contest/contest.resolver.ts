@@ -10,8 +10,7 @@ import { PaginationContest } from '../common/page/pagination-info'
 
 @Resolver(() => Contest)
 export class ContestResolver {
-  constructor(private readonly contestService: ContestService) {
-  }
+  constructor(private readonly contestService: ContestService) {}
 
   @Mutation(() => Contest)
   async createContest(
@@ -23,9 +22,9 @@ export class ContestResolver {
   @Query(() => PaginationContest)
   async contests(
     @Args('filterContestInput', { type: () => FilterContestInput, nullable: true })
-      filterContestInput?: FilterContestInput,
+    filterContestInput?: FilterContestInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationContest> {
     return this.contestService.findAll(filterContestInput, pageInfoInput)
   }

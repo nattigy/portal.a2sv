@@ -17,8 +17,7 @@ import { GroupsService } from './groups.service'
 
 @Resolver(() => Group)
 export class GroupsResolver {
-  constructor(private readonly groupsService: GroupsService) {
-  }
+  constructor(private readonly groupsService: GroupsService) {}
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.create)
@@ -41,9 +40,9 @@ export class GroupsResolver {
   @Query(() => PaginationGroup)
   async groups(
     @Args('filterGroupInput', { type: () => FilterGroupInput, nullable: true })
-      filterGroupInput?: FilterGroupInput,
+    filterGroupInput?: FilterGroupInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationGroup> {
     return this.groupsService.findAll(filterGroupInput, pageInfoInput)
   }
@@ -53,14 +52,14 @@ export class GroupsResolver {
   @Query(() => GroupsPaginated)
   async groupsPagination(
     @Args('filterGroupInput', { type: () => FilterGroupInput, nullable: true })
-      filterGroupInput?: FilterGroupInput,
+    filterGroupInput?: FilterGroupInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
     @Args('userPaginationInput', {
       type: () => PaginationInfoInput,
       nullable: true,
     })
-      userPaginationInput?: PaginationInfoInput,
+    userPaginationInput?: PaginationInfoInput,
   ): Promise<GroupsPaginated> {
     return this.groupsService.groupsPagination(
       filterGroupInput,
@@ -97,9 +96,9 @@ export class GroupsResolver {
   @Query(() => GroupStatResponsePage<GroupStatResponse>)
   async groupsStat(
     @Args('filterGroupInput', { type: () => FilterGroupInput, nullable: true })
-      filterGroupInput?: FilterGroupInput,
+    filterGroupInput?: FilterGroupInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ) {
     return this.groupsService.groupsStat(filterGroupInput, pageInfoInput)
   }

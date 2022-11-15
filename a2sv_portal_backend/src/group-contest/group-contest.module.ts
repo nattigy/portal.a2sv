@@ -7,5 +7,4 @@ import { UserContestModule } from '../user-contest/user-contest.module'
   imports: [UserContestModule],
   providers: [GroupContestResolver, GroupContestService],
 })
-export class GroupContestModule {
-}
+export class GroupContestModule {}

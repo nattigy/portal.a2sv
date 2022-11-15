@@ -6,5 +6,4 @@ import { UserContestService } from './user-contest.service'
   providers: [UserContestResolver, UserContestService],
   exports: [UserContestService],
 })
-export class UserContestModule {
-}
+export class UserContestModule {}

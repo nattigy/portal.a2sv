@@ -16,8 +16,7 @@ import { FilterProblemInput } from './dto/filter-problem-input'
 
 @Resolver(() => Problem)
 export class ProblemResolver {
-  constructor(private readonly problemService: ProblemService) {
-  }
+  constructor(private readonly problemService: ProblemService) {}
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.create)
@@ -35,9 +34,9 @@ export class ProblemResolver {
   })
   async problems(
     @Args('filterProblemInput', { type: () => PaginationInfoInput, nullable: true })
-      filterProblemInput: FilterProblemInput,
+    filterProblemInput: FilterProblemInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationProblem> {
     return await this.problemService.findAll(filterProblemInput, pageInfoInput)
   }

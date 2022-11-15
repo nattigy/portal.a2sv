@@ -9,8 +9,7 @@ import { FilterUserProfileInput } from './dto/filter-user-profile.input'
 
 @Injectable()
 export class UserProfileService {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(createUserProfileInput: CreateUserProfileInput): Promise<UserProfile> {
     return this.prismaService.userProfile.create({

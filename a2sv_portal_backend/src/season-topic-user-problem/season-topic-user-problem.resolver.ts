@@ -8,8 +8,7 @@ import { PaginationSeasonTopicProblemUser } from '../common/page/pagination-info
 
 @Resolver(() => SeasonTopicUserProblem)
 export class SeasonTopicUserProblemResolver {
-  constructor(private readonly seasonTopicUserProblemService: SeasonTopicUserProblemService) {
-  }
+  constructor(private readonly seasonTopicUserProblemService: SeasonTopicUserProblemService) {}
 
   // @Mutation(() => SeasonTopicProblemUser)
   // async createSeasonTopicProblemUser(
@@ -40,7 +39,7 @@ export class SeasonTopicUserProblemResolver {
     @Args('userId') userId: string,
     @Args('topicId') topicId: string,
     @Args('paginationInfoInput', { nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationSeasonTopicProblemUser> {
     return this.seasonTopicUserProblemService.seasonTopicUserProblems(
       seasonId,
@@ -56,7 +55,7 @@ export class SeasonTopicUserProblemResolver {
     @Args('topicId') topicId: string,
     @Args('groupId') groupId: string,
     @Args('paginationInfoInput', { nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationSeasonTopicProblemUser> {
     return this.seasonTopicUserProblemService.seasonTopicUsersProblem(
       seasonId,
@@ -69,7 +68,7 @@ export class SeasonTopicUserProblemResolver {
   @Mutation(() => SeasonTopicUserProblem)
   async updateSeasonTopicProblemUser(
     @Args('updateSeasonTopicProblemUserInput')
-      updateSeasonTopicProblemUserInput: UpdateSeasonTopicProblemUserInput,
+    updateSeasonTopicProblemUserInput: UpdateSeasonTopicProblemUserInput,
   ): Promise<SeasonTopicUserProblem> {
     return this.seasonTopicUserProblemService.update(updateSeasonTopicProblemUserInput)
   }
@@ -77,7 +76,7 @@ export class SeasonTopicUserProblemResolver {
   @Mutation(() => SeasonTopicUserProblem)
   async removeSeasonTopicProblemUser(
     @Args('id', { type: () => SeasonTopicProblemUserId })
-      id: SeasonTopicProblemUserId,
+    id: SeasonTopicProblemUserId,
   ) {
     return this.seasonTopicUserProblemService.remove(id)
   }

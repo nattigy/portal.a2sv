@@ -9,8 +9,7 @@ import { PaginationContest } from '../common/page/pagination-info'
 
 @Injectable()
 export class ContestService {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create({ problems, ...createInput }: CreateContestInput): Promise<Contest> {
     return this.prismaService.contest.create({

@@ -9,8 +9,7 @@ import { PaginationSeasonTopic } from '../common/page/pagination-info'
 
 @Injectable()
 export class SeasonTopicService {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(createSeasonTopicInput: CreateSeasonTopicInput): Promise<SeasonTopic> {
     return this.prismaService.seasonTopic.create({
@@ -81,11 +80,11 @@ export class SeasonTopicService {
   }
 
   async update({
-                 seasonId,
-                 topicId,
-                 problems,
-                 ...updates
-               }: UpdateSeasonTopicInput): Promise<SeasonTopic> {
+    seasonId,
+    topicId,
+    problems,
+    ...updates
+  }: UpdateSeasonTopicInput): Promise<SeasonTopic> {
     return this.prismaService.seasonTopic.update({
       where: {
         seasonId_topicId: {

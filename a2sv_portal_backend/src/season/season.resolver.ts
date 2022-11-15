@@ -11,8 +11,7 @@ import { FilterSeasonInput } from './dto/filter-season-input'
 
 @Resolver(() => Season)
 export class SeasonResolver {
-  constructor(private readonly seasonService: SeasonService) {
-  }
+  constructor(private readonly seasonService: SeasonService) {}
 
   @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @Mutation(() => Season)
@@ -25,9 +24,9 @@ export class SeasonResolver {
   @Query(() => PaginationSeason)
   async seasons(
     @Args('filterSeasonInput', { type: () => PaginationInfoInput, nullable: true })
-      filterSeasonInput?: FilterSeasonInput,
+    filterSeasonInput?: FilterSeasonInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationSeason> {
     return this.seasonService.findAll(filterSeasonInput, pageInfoInput)
   }

@@ -7,8 +7,7 @@ import { FilterGroupContestUsersInput } from './dto/filter-group-contest-users.i
 
 @Resolver(() => UserContest)
 export class UserContestResolver {
-  constructor(private readonly userContestService: UserContestService) {
-  }
+  constructor(private readonly userContestService: UserContestService) {}
 
   // @Mutation(() => UserContest)
   // async createUserContest(
@@ -22,7 +21,7 @@ export class UserContestResolver {
   async userContests(
     @Args('userId') userId: string,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationUserContest> {
     return this.userContestService.findAll(userId, pageInfoInput)
   }
@@ -38,9 +37,9 @@ export class UserContestResolver {
   @Query(() => PaginationUserContest)
   async groupContestUsers(
     @Args('filterGroupContestUsersInput', { type: () => FilterGroupContestUsersInput })
-      filterGroupContestUsersInput: FilterGroupContestUsersInput,
+    filterGroupContestUsersInput: FilterGroupContestUsersInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationUserContest> {
     return this.userContestService.groupContestUsers(
       filterGroupContestUsersInput,

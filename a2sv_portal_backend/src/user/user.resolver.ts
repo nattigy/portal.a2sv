@@ -24,8 +24,7 @@ export class UserResolver {
   constructor(
     private readonly userService: UserService,
     private readonly groupService: GroupsService,
-  ) {
-  }
+  ) {}
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.read)
@@ -34,7 +33,7 @@ export class UserResolver {
     @Args('topicId', { type: () => String }) topicId: string,
     @Args('userId', { type: () => String }) userId: string,
     @Args('comfortLevel', { type: () => ComfortLevelEnum })
-      comfortLevel: ComfortLevelEnum,
+    comfortLevel: ComfortLevelEnum,
   ) {
     try {
       return await this.userService.updateComfortLevel(topicId, userId, comfortLevel)
@@ -59,9 +58,9 @@ export class UserResolver {
   @Query(() => PaginationUser)
   async users(
     @Args('filterUserInput', { type: () => FilterUserInput, nullable: true })
-      filterUserInput?: FilterUserInput,
+    filterUserInput?: FilterUserInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationUser> {
     try {
       return this.userService.findAll(filterUserInput, pageInfoInput)
@@ -159,7 +158,7 @@ export class UserResolver {
   @Query(() => TopicCoverageStat)
   topicStudentStats(
     @Args('topicStudentStateInput', { type: () => TopicStudentStatInput })
-      topicStudentStatInput: TopicStudentStatInput,
+    topicStudentStatInput: TopicStudentStatInput,
   ) {
     return this.userService.studentTopicStats(topicStudentStatInput)
   }
