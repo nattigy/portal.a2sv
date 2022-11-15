@@ -12,13 +12,12 @@ import { PaginationSeasonTopic } from '../common/page/pagination-info'
 
 @Resolver(() => SeasonTopic)
 export class SeasonTopicResolver {
-  constructor(private readonly seasonTopicService: SeasonTopicService) {
-  }
+  constructor(private readonly seasonTopicService: SeasonTopicService) {}
 
   @Mutation(() => SeasonTopic)
   async createSeasonTopic(
     @Args('createSeasonTopicInput')
-      createSeasonTopicInput: CreateSeasonTopicInput,
+    createSeasonTopicInput: CreateSeasonTopicInput,
   ): Promise<SeasonTopic> {
     return this.seasonTopicService.create(createSeasonTopicInput)
   }
@@ -26,9 +25,9 @@ export class SeasonTopicResolver {
   @Query(() => PaginationSeasonTopic)
   async seasonTopics(
     @Args('filterSeasonTopicInput', { type: () => FilterSeasonTopicInput })
-      filterSeasonTopicInput: FilterSeasonTopicInput,
+    filterSeasonTopicInput: FilterSeasonTopicInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationSeasonTopic> {
     return this.seasonTopicService.findAll(filterSeasonTopicInput, pageInfoInput)
   }
@@ -44,7 +43,7 @@ export class SeasonTopicResolver {
   @Mutation(() => SeasonTopic)
   async updateSeasonTopic(
     @Args('updateSeasonTopicInput')
-      updateSeasonTopicInput: UpdateSeasonTopicInput,
+    updateSeasonTopicInput: UpdateSeasonTopicInput,
   ): Promise<SeasonTopic> {
     return this.seasonTopicService.update(updateSeasonTopicInput)
   }

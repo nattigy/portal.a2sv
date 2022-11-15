@@ -8,8 +8,7 @@ import { FilterUserContestProblemInput } from './dto/filter-user-contest-problem
 
 @Injectable()
 export class UserContestProblemService {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   // create(createUserContestProblemInput: CreateUserContestProblemInput) {
   //   return this.prismaService.userContestProblem.create({
@@ -129,5 +128,4 @@ export class UserContestProblemService {
   async remove(id: number) {
     return `This action removes a #${id} userContestProblem`
   }
-
 }

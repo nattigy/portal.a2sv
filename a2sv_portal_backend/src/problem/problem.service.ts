@@ -9,8 +9,7 @@ import { FilterProblemInput } from './dto/filter-problem-input'
 
 @Injectable()
 export class ProblemService {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create({ tags, ...createInput }: CreateProblemInput): Promise<Problem> {
     return this.prismaService.problem.create({

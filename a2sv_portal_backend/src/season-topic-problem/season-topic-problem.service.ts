@@ -20,8 +20,7 @@ export class SeasonTopicProblemFilter {
 
 @Injectable()
 export class SeasonTopicProblemService {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(
     createSeasonTopicProblemInput: CreateSeasonTopicProblemInput,
@@ -63,10 +62,10 @@ export class SeasonTopicProblemService {
   }
 
   async findOne({
-                  seasonId,
-                  topicId,
-                  problemId,
-                }: SeasonTopicProblemId): Promise<SeasonTopicProblem> {
+    seasonId,
+    topicId,
+    problemId,
+  }: SeasonTopicProblemId): Promise<SeasonTopicProblem> {
     return this.prismaService.seasonTopicProblem.findUnique({
       where: {
         seasonId_topicId_problemId: {
@@ -83,11 +82,11 @@ export class SeasonTopicProblemService {
   }
 
   async update({
-                 seasonId,
-                 topicId,
-                 problemId,
-                 ...updates
-               }: UpdateSeasonTopicProblemInput): Promise<SeasonTopicProblem> {
+    seasonId,
+    topicId,
+    problemId,
+    ...updates
+  }: UpdateSeasonTopicProblemInput): Promise<SeasonTopicProblem> {
     return this.prismaService.seasonTopicProblem.update({
       where: {
         seasonId_topicId_problemId: {

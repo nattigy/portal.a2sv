@@ -13,8 +13,7 @@ export class GroupContestService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly userContestService: UserContestService,
-  ) {
-  }
+  ) {}
 
   async findAll(
     filterGroupContestInput: FilterGroupContestInput,
@@ -116,10 +115,10 @@ export class GroupContestService {
   }
 
   async update({
-                 groupId,
-                 contestId,
-                 ...updates
-               }: UpdateGroupContestInput): Promise<GroupContest> {
+    groupId,
+    contestId,
+    ...updates
+  }: UpdateGroupContestInput): Promise<GroupContest> {
     return this.prismaService.groupContest.upsert({
       where: {
         groupId_contestId: {
