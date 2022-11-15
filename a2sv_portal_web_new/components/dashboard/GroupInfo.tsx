@@ -18,36 +18,36 @@ type Props = {
   groupId: string;
 };
 
-const seasons: Array<Season> = [
-  {
-    id: "1",
-    name: "Camp 2021",
-    startDate:new Date(),
-    endDate:new Date(),
-    groupId:"1",
-    seasonType:SeasonType.CAMP
+// const seasons: Array<Season> = [
+//   {
+//     id: "1",
+//     name: "Camp 2021",
+//     startDate:new Date(),
+//     endDate:new Date(),
+//     groupId:"1",
+//     seasonType:SeasonType.CAMP
 
-  },
-  {
-    id: "2",
-    name: "Camp 2021",
-    startDate:new Date(),
-    endDate:new Date(),
-    groupId:"1",
-    seasonType:SeasonType.CAMP
+//   },
+//   {
+//     id: "2",
+//     name: "Camp 2021",
+//     startDate:new Date(),
+//     endDate:new Date(),
+//     groupId:"1",
+//     seasonType:SeasonType.CAMP
 
-  },
-  {
-    id: "3",
-    name: "Camp 2021",
-    startDate:new Date(),
-    endDate:new Date(),
-    groupId:"1",
-    seasonType:SeasonType.CAMP
+//   },
+//   {
+//     id: "3",
+//     name: "Camp 2021",
+//     startDate:new Date(),
+//     endDate:new Date(),
+//     groupId:"1",
+//     seasonType:SeasonType.CAMP
 
-  },
+//   },
 
-];
+// ];
 
 
 const GroupInfo = ({groupId}: Props) => {

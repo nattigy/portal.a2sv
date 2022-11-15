@@ -6,6 +6,7 @@ export type Season = {
     startDate:Date;
     endDate:Date;
     groupId:string
+    isActive:boolean;
   };
 
   export enum SeasonType {

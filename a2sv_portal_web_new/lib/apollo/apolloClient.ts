@@ -92,7 +92,7 @@ const createApolloClient = (ctx?: GetServerSidePropsContext) => {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
     cache: new InMemoryCache(),
-    link: from([middlewareLink, logoutLink, errorLink, httpLink]),
+    link: from([authLink, logoutLink, errorLink, httpLink]),
     // connectToDevTools: true,
   });
 };

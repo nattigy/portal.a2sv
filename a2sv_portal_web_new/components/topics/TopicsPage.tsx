@@ -1,8 +1,9 @@
 import { useReactiveVar } from "@apollo/client";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
-import { useGetAllTopics } from "../../lib/hooks/useTopics";
+import WithPermission from "../../lib/Guard/WithPermission";
+import { useGetAllGroupTopicsBySeasonIdQuery, useGetAllTopics } from "../../lib/hooks/useTopics";
 import { GraphqlUserRole } from "../../types/user";
 import Button from "../common/Button";
 import EmptyState from "../common/EmptyState";
@@ -21,24 +22,23 @@ const TopicsPage = (props: Props) => {
   const handleAddTopicToGroupModalOpen = () => {
     setIsAddTopicToGroupModalOpen(true);
   };
-  const { data, refetch, loading } = useGetAllTopics();
-  const [currentPath, setCurrentPath] = useState<number>(0);
-  const [tabIndex, setTabIndex] = useState(0);
-  const router = useRouter();
-  //   const [loadUsers, { loading, data, error, refetch }] =
-  //     useFilteredUsers(tabIndex);
-  const [selected, setSelected] = useState(0);
-  //   useEffect(() => {
-  //     loadUsers();
-  //   }, [tabIndex, refetch]);
 
-  //   useEffect(() => {
-  //     if (data) {
-  //       console.log("data is ", data.users[0]);
-  //       setUsersData(data.users);
-  //       setSelected(data.users[0].id);
-  //     }
-  //   }, [refetch, data]);
+  const router = useRouter();
+  const seasonId = router.query.season
+
+  const [fetchSeasonTopics, { data, refetch, loading }] = useGetAllGroupTopicsBySeasonIdQuery(seasonId ? seasonId.toString() : "");
+  const [seasonTopics, setSeasonTopics] = useState([]);
+  const [tabIndex, setTabIndex] = useState(0);
+    useEffect(() => {
+      fetchSeasonTopics();
+    }, [tabIndex, refetch, fetchSeasonTopics]);
+
+    console.log("Data", data)
+    useEffect(() => {
+      if (data) {
+        setSeasonTopics(data?.seasonTopics?.items);
+      }
+    }, [refetch, data]);
 
   const handleTabChange = (index: number) => {
     setTabIndex(index);
@@ -58,20 +58,20 @@ const TopicsPage = (props: Props) => {
           <div className=" justify-between flex items-center mb-2 gap-x-5 ">
             <h1 className="text-2xl font-bold text-gray-700">Topics</h1>
           </div>
-          {authUser.role === GraphqlUserRole.HEAD_OF_EDUCATION && (
+          <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION]}>
             <Button
               onClick={handleAddTopicToGroupModalOpen}
               text="Add Topic to Group"
               classname="bg-primary text-white text-xs"
             />
-          )}
+          </WithPermission>
         </div>
-        {authUser.role === GraphqlUserRole.HEAD_OF_EDUCATION && (
+        <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION]}>
           <TopicsFilter
             handleTabChange={handleTabChange}
             activeIndex={tabIndex}
           />
-        )}
+        </WithPermission>
 
         {/* {loading ? (
         <div className="w-full h-full flex justify-center items-center">
@@ -86,14 +86,15 @@ const TopicsPage = (props: Props) => {
             <div className=" h-full w-full flex justify-center items-center">
               <LoaderSmall />
             </div>
-          // ) : error ? (
+          ) : // ) : error ? (
           //   <p>Something went wrong</p>
-          ) : data?.topics.length === 0 ? (
+          data?.seasonTopics?.length === 0 ? (
             <EmptyState />
-          ) : (
+          ) 
+          : (
             <TopicList
               season={{ id: 1, name: "Camp" }}
-              topics={data?.topics}
+              topics={seasonTopics}
               groupId={props.groupId}
               title="All Topics"
             />

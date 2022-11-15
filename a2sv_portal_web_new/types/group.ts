@@ -1,11 +1,11 @@
 export type Group = {    
-    groupId: number;
-    groupName: string;
-    groupCountry: string;
-    groupSchool: string;
+    id: number;
+    name: string;
+    country: string;
+    school: string;
     createdAt: string;
     head?: {id: string, email: string}
-    students: any[];
+    users?: any[];
     totalStudentsCount: number;
 };
 

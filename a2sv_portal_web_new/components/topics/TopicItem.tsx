@@ -59,7 +59,7 @@ const TopicItem = (props: TopicItemProps) => {
         <div className="flex flex-row justify-between w-full items-center pr-3">
           <div className="flex flex-col justify-center">
             <p className="font-Poppins font-semibold text-sm">
-              {props.topic.name}
+              {props.title}
             </p>
             <p className="font-Poppins font-medium text-xs text-[#8A8A8A]">
               Solved 12/32

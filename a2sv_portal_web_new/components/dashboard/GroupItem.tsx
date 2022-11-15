@@ -73,7 +73,7 @@ const GroupItem = ({ groupProps, color }: Props) => {
           onDelete={async () => {
             await deleteGroup({
               variables: {
-                deleteGroupId: groupProps.groupId,
+                deleteGroupId: groupProps.id,
               },
               notifyOnNetworkStatusChange: true,
               refetchQueries: "active",
@@ -163,9 +163,9 @@ const GroupItem = ({ groupProps, color }: Props) => {
 
                 <div className="flex flex-col rounded-t-md">
                   <h1 className="text-sm font-semibold text-white">
-                    {groupProps.groupName}
+                    {groupProps.name}
                   </h1>
-                  <h1 className="text-xs text-white">{groupProps.groupCountry}</h1>
+                  <h1 className="text-xs text-white">{groupProps.country}</h1>
                 </div>
               </div>
               <div className="flex justify-end items-center mt-1 gap-x-1">
@@ -179,14 +179,14 @@ const GroupItem = ({ groupProps, color }: Props) => {
         </div>
         <div className="flex flex-row justify-between items-center px-2  h-1/3">
           <div className="flex flex-row -space-x-2 items-center ">
-            {groupProps.students.map((item, index) => (
+            {groupProps.users?.map((item, index) => (
               <StudentAvatar url={item.userProfile?.photoUrl} key={index} />
             ))}
             <div className="w-8 h-8 rounded-full bg-[#D9D9D9] text-[#000] border-solid border-white border-2 text-[10px] font-semibold flex items-center justify-center">
               +{groupProps.totalStudentsCount}
             </div>
           </div>
-          <CustomLink href={`/dashboard/${groupProps.groupId}`}>
+          <CustomLink href={`/dashboard/${groupProps.id}`}>
             <p className="text-[#5956E9] text-xs font-semibold cursor-pointer">
               View Details
             </p>

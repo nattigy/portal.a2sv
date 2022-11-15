@@ -41,9 +41,9 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
 
   console.log(group, "Group");
   const INITIAL_VALUES: FormValues = {
-    name: group?.groupName || "",
-    country: group?.groupCountry || "",
-    school: group?.groupSchool || "",
+    name: group?.name || "",
+    country: group?.country || "",
+    school: group?.school || "",
     headId: group?.head?.id,
   };
 
@@ -66,13 +66,11 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
               await editGroup({
                 variables: {
                   updateGroupInput: {
-                    id: group?.groupId,
+                    id: group?.id,
                     name: values.name,
                     school: values.school,
                     country: values.country,
-                    head: {
-                      id: selected.id,
-                    },
+                    headId: selected?.id
                   },
                 },
                 refetchQueries: "active",
@@ -111,11 +109,12 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
                 role="alert"
                 className="flex flex-col gap-y-3 min-h-fit bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-8 py-5"
               >
+                {JSON.stringify(errors)}
                 <div className="w-full flex flex-col items-center">
                   <div className="my-3 w-full flex justify-between items-center">
                     {isEditing ? (
                       <h2 className="font-semibold text-lg">
-                        Edit {group?.groupName}
+                        Edit {group?.name}
                       </h2>
                     ) : (
                       <h2 className="font-semibold text-lg">

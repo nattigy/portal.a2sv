@@ -56,15 +56,21 @@ export const GET_ALL_TOPICS_BY_SEASON_ID_QUERY = gql`
 `;
 
 export const GET_ALL_GROUP_TOPICS_BY_SEASON_ID_QUERY = gql`
-  query Query($seasonId: Int) {
-    topics(seasonId: $seasonId) {
-      id
-      name
-      description
-      createdAt
+query SeasonTopics($filterSeasonTopicInput: FilterSeasonTopicInput!) {
+  seasonTopics(filterSeasonTopicInput: $filterSeasonTopicInput) {
+    items {
+      topicId
+      topic {
+        id
+        name
+        description
+        createdAt
+      }
       season {
+        id
         name
       }
     }
   }
+}
 `;

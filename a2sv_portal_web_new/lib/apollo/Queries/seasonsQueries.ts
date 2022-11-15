@@ -2,16 +2,16 @@ import { gql } from "@apollo/client";
 
 
 export const GET_ALL_SEASONS_QUERY = gql`
-  query Seasons($groupId: String!) {
-  group(id: $groupId) {
-    seasons {
-      name
+query Seasons($filterSeasonInput: FilterSeasonInput) {
+  seasons(filterSeasonInput: $filterSeasonInput) {
+    items {
       id
-      seasonType
+      name
+      groupId
       startDate
       endDate
-      groupId
+      isActive
+      seasonType
     }
   }
-}
-`;
+}`;

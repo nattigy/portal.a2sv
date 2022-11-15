@@ -17,14 +17,14 @@ export const useGetAllTopicsBySeasonIdQuery = (seasonId: any) => {
 };
 export const useGetAllGroupTopicsBySeasonIdQuery = (
   seasonId: string,
-  groupId: string
 ) => {
   return useLazyQuery(GET_ALL_GROUP_TOPICS_BY_SEASON_ID_QUERY, {
     notifyOnNetworkStatusChange: true,
     errorPolicy: "all",
     variables: {
-      seasonId: seasonId,
-      groupId: groupId,
+      filterSeasonTopicInput: {
+        seasonId
+      }
     },
   });
 };

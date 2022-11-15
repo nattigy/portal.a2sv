@@ -46,7 +46,7 @@ const SeasonItem = ({ seasonProps }: Props) => {
 
   const handleClick = (e: any) => {
     router.push({
-      pathname: `/seasons/${name}`,
+      pathname: `/seasons/${seasonProps.name}`,
       query: { div: e.div },
     });
   };
@@ -84,7 +84,7 @@ const SeasonItem = ({ seasonProps }: Props) => {
           }}
         />
       )}
-      <Link href={"/seasons/" + seasonProps.name}>
+      <Link href={"/seasons/" + seasonProps.id}>
         <div className="cursor-pointer">
           <div className="h-36 relative">
             <div className="absolute top-2 right-2 z-30 ">

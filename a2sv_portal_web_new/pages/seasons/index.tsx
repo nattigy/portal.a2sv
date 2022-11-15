@@ -51,7 +51,7 @@ const IndexPage = () => {
         </div>
 
         <div className="flex flex-col gap-y-4">
-          <h1 className="font-semibold text-md">Current</h1>
+          {/* <h1 className="font-semibold text-md">Current</h1> */}
             <SeasonList groupId={authUser.headToGroup?.id || authUser.groupId} />
         </div>
 

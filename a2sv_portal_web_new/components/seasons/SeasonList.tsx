@@ -3,35 +3,34 @@ import { useGetGroupSeasons } from "../../lib/hooks/useSeasons";
 import { Season } from "../../types/season";
 import EmptyState from "../common/EmptyState";
 import { LoaderSmall } from "../common/Loaders";
-import SeasonItem  from "./SeasonItem";
+import SeasonItem from "./SeasonItem";
 
 type SeasonListProps = {
-  groupId:string;
+  groupId: string;
 };
 
+const SeasonList = ({ groupId }: SeasonListProps) => {
+  const { data, loading, error } = useGetGroupSeasons(groupId);
 
-
-const SeasonList = ({groupId}: SeasonListProps) => {
-  const { data, loading, error } = useGetGroupSeasons(
-    groupId
-  );
-
-  return (
-    loading ? (
-      <div className="w-full flex h-full items-center justify-center min-w-full min-h-full">
-        <LoaderSmall />
-      </div>
-    ) : error ? (
-      <p> Something went wrong</p>
-    ) : data?.group?.seasons.length == 0 ? (
+  return !groupId ? (
+    <div className="h-full flex items-center">
       <EmptyState />
-    ) : (
+    </div>
+  ) : loading ? (
+    <div className="w-full flex h-full items-center justify-center min-w-full min-h-full">
+      <LoaderSmall />
+    </div>
+  ) : error ? (
+    <p>Something went wrong</p>
+  ) : data?.seasons?.items.length == 0 ? (
+    <EmptyState />
+  ) : (
     <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-6">
-      {data?.group.seasons?.map((season: any, index: number) => (
-        <SeasonItem key={index} seasonProps={season} />
+      {data?.seasons?.items?.map((item: any, index: number) => (
+        <SeasonItem key={index} seasonProps={item} />
       ))}
     </div>
-  ));
+  );
 };
 
 export default SeasonList;

@@ -44,8 +44,7 @@ export const EDIT_GROUP = gql`
     updateGroup(updateGroupInput: $updateGroupInput) {
       id
     }
-  }
-`;
+}`;
 
 /*
 {

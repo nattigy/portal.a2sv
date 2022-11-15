@@ -19,14 +19,14 @@ const GroupItemList = () => {
     if (data && data.groups.items) {
       const datas = data.groups.items.map((item: any) => {
         return {
-          groupId: item.id,
-          groupName: item.name,
-          groupCountry: item.country,
-          groupSchool: item.school,
+          id: item.id,
+          name: item.name,
+          country: item.country,
+          school: item.school,
           head: item.head,
           createdAt: item.createdAt,
           students: item.users,
-          totalStudentsCount: item.pageInfo.userCount,
+          totalStudentsCount: item.pageInfo?.count,
         };
       });
       setGroups(datas);

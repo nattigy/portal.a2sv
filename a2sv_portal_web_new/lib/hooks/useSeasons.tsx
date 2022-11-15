@@ -6,7 +6,9 @@ export const useGetGroupSeasons = (groupId: string) => {
     notifyOnNetworkStatusChange: true,
     errorPolicy: "all",
     variables: {
-      groupId: groupId,
+      filterUserInput: {
+        groupId
+      }    
     },
   });
 };

@@ -28,7 +28,9 @@ export const useFilteredUsers = (tabIndex: number) => {
 
   return useLazyQuery(GET_FILTERED_USERS, {
     variables: {
-      role,
+      filterUserInput: {
+        role
+      }
     },
     errorPolicy: "all",
     notifyOnNetworkStatusChange: true,

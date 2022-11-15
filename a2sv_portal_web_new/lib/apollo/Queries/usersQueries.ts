@@ -41,10 +41,11 @@ export const GET_ALL_USER_QUERY = gql`
 `;
 
 export const GET_FILTERED_USERS = gql`
-  query Users($role: String) {
-    users(role: $role) {
-      email
+query Users($filterUserInput: FilterUserInput) {
+  users(filterUserInput: $filterUserInput) {
+    items {
       id
+      email
       role
       status
       userProfile {
@@ -53,7 +54,7 @@ export const GET_FILTERED_USERS = gql`
       }
     }
   }
-`;
+}`;
 
 export const GET_USERS_BY_GROUP_ID_QUERY = gql`
   query Users($groupId: String) {

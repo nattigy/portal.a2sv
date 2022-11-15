@@ -46,9 +46,9 @@ export default function MonthlyConsistency(props: any) {
             {
                 monthData.map((day_data: any, index: number) => {
                     if (day_data === null) {
-                        return <Tooltip />
+                        return <Tooltip key={index}/>
                     } else {
-                        return <Tooltip message={`${day_data.y} Submissions on ${format(new Date(day_data.date), "yyyy-MM-dd")}`}>
+                        return <Tooltip key={index} message={`${day_data.y} Submissions on ${format(new Date(day_data.date), "yyyy-MM-dd")}`}>
                             <div
                                 style={{
                                     background: getBgColorBySubmission(day_data.y || 0),
