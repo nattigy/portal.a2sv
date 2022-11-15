@@ -53,8 +53,8 @@ export class UserResolver {
     }
   }
 
-  @UseGuards(JwtAuthGuard, PoliciesGuard)
-  @CheckPolicies(UserAbilities.read)
+  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  // @CheckPolicies(UserAbilities.read)
   @Query(() => PaginationUser)
   async users(
     @Args('filterUserInput', { type: () => FilterUserInput, nullable: true })
