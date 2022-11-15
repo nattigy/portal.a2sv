@@ -54,12 +54,14 @@ export class SeasonTopicUserProblemResolver {
   async seasonTopicUsersProblem(
     @Args('seasonId') seasonId: string,
     @Args('topicId') topicId: string,
+    @Args('groupId') groupId: string,
     @Args('paginationInfoInput', { nullable: true })
       pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationSeasonTopicProblemUser> {
     return this.seasonTopicUserProblemService.seasonTopicUsersProblem(
       seasonId,
       topicId,
+      groupId,
       pageInfoInput,
     )
   }
