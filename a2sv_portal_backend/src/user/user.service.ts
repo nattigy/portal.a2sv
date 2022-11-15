@@ -63,6 +63,7 @@ export class UserService {
         status: Status.ACTIVE,
         role: createUserInput.role,
         updatedAt: new Date().toISOString(),
+        groupId: createUserInput.groupId,
       },
       include: {
         group: true,
