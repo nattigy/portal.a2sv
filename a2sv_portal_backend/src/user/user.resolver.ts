@@ -18,6 +18,7 @@ import { ComfortLevelEnum } from './entities/comfort-level.enum'
 import { User } from './entities/user.entity'
 import { UserService } from './user.service'
 import { FilterUserInput } from './dto/filter-user-input'
+import descriptions from './user.doc'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -28,7 +29,9 @@ export class UserResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.read)
-  @Mutation(() => User)
+  @Mutation(() => User, {
+    description:descriptions.updateComfortLevel,
+  })
   async updateComfortLevel(
     @Args('topicId', { type: () => String }) topicId: string,
     @Args('userId', { type: () => String }) userId: string,
@@ -44,7 +47,9 @@ export class UserResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.create)
-  @Mutation(() => User)
+  @Mutation(() => User,{
+    description:descriptions.createUser
+  })
   async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     try {
       return await this.userService.create(createUserInput)
@@ -53,8 +58,8 @@ export class UserResolver {
     }
   }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(UserAbilities.read)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.read)
   @Query(() => PaginationUser)
   async users(
     @Args('filterUserInput', { type: () => FilterUserInput, nullable: true })
@@ -71,7 +76,7 @@ export class UserResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.read)
-  @Query(() => User)
+  @Query(() => User, { description:descriptions.findOne})
   async user(@Args('id', { type: () => String }) id: string) {
     try {
       return await this.userService.findOne(id)
@@ -82,7 +87,7 @@ export class UserResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.update)
-  @Mutation(() => User)
+  @Mutation(() => User, {description:descriptions.updateUser})
   async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     try {
       return await this.userService.update(updateUserInput)
@@ -93,7 +98,7 @@ export class UserResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.delete)
-  @Mutation(() => User)
+  @Mutation(() => User, {description:descriptions.deleteUser})
   async removeUser(@Args('id', { type: () => String }) id: string) {
     try {
       return await this.userService.remove(id)
