@@ -78,10 +78,22 @@ export class ProblemService {
     })
   }
 
-  async update(id: string, updateProblemInput: UpdateProblemInput): Promise<Problem> {
+  async update(id: string, { tags, ...updateInput }: UpdateProblemInput): Promise<Problem> {
     return this.prismaService.problem.update({
       where: { id },
-      data: updateProblemInput,
+      data: {
+        ...updateInput,
+        tags: {
+          connectOrCreate: tags.map(({ name }) => ({
+            where: {
+              name,
+            },
+            create: {
+              name,
+            },
+          })),
+        },
+      },
       include: {
         tags: true,
         seasonTopics: {
