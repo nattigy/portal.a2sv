@@ -30,11 +30,9 @@ export class ProblemResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.read)
-  @Query(() => PaginationProblem, {
-    description: 'Find all problems with populated tags',
-  })
+  @Query(() => PaginationProblem, { description: 'Find all problems with populated tags'})
   async problems(
-    @Args('filterProblemInput', { type: () => PaginationInfoInput, nullable: true })
+    @Args('filterProblemInput', { type: () => FilterProblemInput, nullable: true })
     filterProblemInput: FilterProblemInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
     pageInfoInput?: PaginationInfoInput,
@@ -44,10 +42,7 @@ export class ProblemResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.read)
-  @Query(() => Problem, {
-    name: 'problem',
-    description: descriptions.problem,
-  })
+  @Query(() => Problem, { description: descriptions.problem})
   async problem(@Args('id') id: string): Promise<Problem> {
     return await this.problemService.findOne(id)
   }

@@ -18,7 +18,7 @@ export class UserContestProblemResolver {
 
   @Query(() => PaginationUserContestProblem)
   async userContestProblems(
-    @Args('filterUserContestProblemInput', { type: () => FilterGroupInput, nullable: true })
+    @Args('filterUserContestProblemInput', { type: () => FilterUserContestProblemInput, nullable: true })
     filterUserContestProblemInput?: FilterUserContestProblemInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
     pageInfoInput?: PaginationInfoInput,

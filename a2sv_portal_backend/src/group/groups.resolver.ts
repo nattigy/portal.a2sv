@@ -56,10 +56,7 @@ export class GroupsResolver {
     filterGroupInput?: FilterGroupInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
     pageInfoInput?: PaginationInfoInput,
-    @Args('userPaginationInput', {
-      type: () => PaginationInfoInput,
-      nullable: true,
-    })
+    @Args('userPaginationInput', { type: () => PaginationInfoInput, nullable: true})
     userPaginationInput?: PaginationInfoInput,
   ): Promise<GroupsPaginated> {
     return this.groupsService.groupsPagination(

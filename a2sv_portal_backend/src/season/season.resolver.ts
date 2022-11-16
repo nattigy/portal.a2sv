@@ -13,7 +13,6 @@ import { FilterSeasonInput } from './dto/filter-season-input'
 export class SeasonResolver {
   constructor(private readonly seasonService: SeasonService) {}
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @Mutation(() => Season)
   async createSeason(
     @Args('createSeasonInput') createSeasonInput: CreateSeasonInput,
@@ -23,7 +22,7 @@ export class SeasonResolver {
 
   @Query(() => PaginationSeason)
   async seasons(
-    @Args('filterSeasonInput', { type: () => PaginationInfoInput, nullable: true })
+    @Args('filterSeasonInput', { type: () => FilterSeasonInput, nullable: true })
     filterSeasonInput?: FilterSeasonInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
     pageInfoInput?: PaginationInfoInput,
@@ -36,7 +35,6 @@ export class SeasonResolver {
     return this.seasonService.findOne(seasonId)
   }
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @Mutation(() => Season)
   async updateSeason(
     @Args('seasonId', { type: () => String }) seasonId: string,
@@ -45,13 +43,11 @@ export class SeasonResolver {
     return this.seasonService.update(seasonId, updateSeasonInput)
   }
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @Mutation(() => Season)
   async deleteSeason(@Args('seasonId', { type: () => String }) seasonId: string) {
     return this.seasonService.deleteSeason(seasonId)
   }
 
-  @Roles('ADMIN', 'HEAD_OF_ACADEMY', 'HEAD_OF_EDUCATION')
   @ResolveField(() => [SeasonTopic])
   async topics(@Parent() season: Season): Promise<SeasonTopic[]> {
     return season.topics
