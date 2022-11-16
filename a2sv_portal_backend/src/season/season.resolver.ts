@@ -7,19 +7,20 @@ import { UpdateSeasonInput } from './dto/update-season.input'
 import { Season } from './entities/season.entity'
 import { SeasonService } from './season.service'
 import { FilterSeasonInput } from './dto/filter-season-input'
+import descriptions from './season.doc'
 
 @Resolver(() => Season)
 export class SeasonResolver {
   constructor(private readonly seasonService: SeasonService) {}
 
-  @Mutation(() => Season)
+  @Mutation(() => Season,{description:descriptions.createSeason})
   async createSeason(
     @Args('createSeasonInput') createSeasonInput: CreateSeasonInput,
   ): Promise<Season> {
     return this.seasonService.createSeason(createSeasonInput)
   }
 
-  @Query(() => PaginationSeason)
+  @Query(() => PaginationSeason,{description:descriptions.seasons})
   async seasons(
     @Args('filterSeasonInput', { type: () => FilterSeasonInput, nullable: true })
     filterSeasonInput?: FilterSeasonInput,
@@ -29,12 +30,12 @@ export class SeasonResolver {
     return this.seasonService.findAll(filterSeasonInput, pageInfoInput)
   }
 
-  @Query(() => Season)
+  @Query(() => Season,{description:descriptions.season})
   async season(@Args('seasonId', { type: () => String }) seasonId: string) {
     return this.seasonService.findOne(seasonId)
   }
 
-  @Mutation(() => Season)
+  @Mutation(() => Season,{description:descriptions.updateSeason})
   async updateSeason(
     @Args('seasonId', { type: () => String }) seasonId: string,
     @Args('updateSeasonInput') updateSeasonInput: UpdateSeasonInput,
@@ -42,7 +43,7 @@ export class SeasonResolver {
     return this.seasonService.update(seasonId, updateSeasonInput)
   }
 
-  @Mutation(() => Season)
+  @Mutation(() => Season,{description:descriptions.deleteSeason})
   async deleteSeason(@Args('seasonId', { type: () => String }) seasonId: string) {
     return this.seasonService.deleteSeason(seasonId)
   }
