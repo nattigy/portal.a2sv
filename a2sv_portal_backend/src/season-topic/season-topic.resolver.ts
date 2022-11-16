@@ -9,12 +9,13 @@ import { SeasonTopicService } from './season-topic.service'
 import { FilterSeasonTopicInput } from './dto/filter-season-topic.input'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { PaginationSeasonTopic } from '../common/page/pagination-info'
+import descriptions from './season-topic.doc'
 
 @Resolver(() => SeasonTopic)
 export class SeasonTopicResolver {
   constructor(private readonly seasonTopicService: SeasonTopicService) {}
 
-  @Mutation(() => SeasonTopic)
+  @Mutation(() => SeasonTopic, { description: descriptions.createSeasonTopic })
   async createSeasonTopic(
     @Args('createSeasonTopicInput')
     createSeasonTopicInput: CreateSeasonTopicInput,
@@ -22,7 +23,7 @@ export class SeasonTopicResolver {
     return this.seasonTopicService.create(createSeasonTopicInput)
   }
 
-  @Query(() => PaginationSeasonTopic)
+  @Query(() => PaginationSeasonTopic, {    description: descriptions.seasonTopics, })
   async seasonTopics(
     @Args('filterSeasonTopicInput', { type: () => FilterSeasonTopicInput })
     filterSeasonTopicInput: FilterSeasonTopicInput,
@@ -32,7 +33,7 @@ export class SeasonTopicResolver {
     return this.seasonTopicService.findAll(filterSeasonTopicInput, pageInfoInput)
   }
 
-  @Query(() => SeasonTopic, { name: 'seasonTopic' })
+  @Query(() => SeasonTopic, {     description: descriptions.seasonTopic, })
   async seasonTopic(
     @Args('seasonId') seasonId: string,
     @Args('topicId') topicId: string,
@@ -40,7 +41,7 @@ export class SeasonTopicResolver {
     return this.seasonTopicService.findOne(seasonId, topicId)
   }
 
-  @Mutation(() => SeasonTopic)
+  @Mutation(() => SeasonTopic, { description: descriptions.updateSeasonTopic })
   async updateSeasonTopic(
     @Args('updateSeasonTopicInput')
     updateSeasonTopicInput: UpdateSeasonTopicInput,
@@ -48,7 +49,7 @@ export class SeasonTopicResolver {
     return this.seasonTopicService.update(updateSeasonTopicInput)
   }
 
-  @Mutation(() => SeasonTopic)
+  @Mutation(() => SeasonTopic, { description: descriptions.removeSeasonTopic })
   async removeSeasonTopic(
     @Args('seasonId') seasonId: string,
     @Args('topicId') topicId: string,
