@@ -1,6 +1,5 @@
 const descriptions = {
-updateComfortLevel: 
-`
+  updateComfortLevel: `
     Arguments\n
         - topicId : An id of the topic which the user is updating their comfort level on.\n
         - userId :  An id of the user updating their comfort level.\n
@@ -48,8 +47,7 @@ updateComfortLevel:
             }
         }
 `,
-createUser:
-`
+  createUser: `
     Creates a user\n
     Arguments\n
         - email: email of the user we want to register to the system\n
@@ -82,8 +80,7 @@ createUser:
           }
       }
 `,
-findOne:
-`
+  findOne: `
     Returns a user data  filtred by id\n
     Argument\n
         - id: id of the user \n
@@ -122,8 +119,7 @@ findOne:
         }
     }
 `,
-updateUser:
-`
+  updateUser: `
     updates the user data\n
     Argument\n
         - a data the user wants to update\n
@@ -150,8 +146,7 @@ updateUser:
     }
     
 `,
-deleteUser:
-`
+  deleteUser: `
   Deletes a user\n
   Argument\n
     - id: id of the user \n
@@ -167,6 +162,6 @@ deleteUser:
     {\n
       "removeUserId": "8a17f9cb-b175-44f5-94d3-17ac9ee4f3f1"
     }
-  `
+  `,
 }
 export default descriptions

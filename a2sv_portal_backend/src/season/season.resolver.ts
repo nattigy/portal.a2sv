@@ -1,5 +1,4 @@
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
-import { Roles } from 'src/auth/auth.decorator'
 import { PaginationSeason } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { SeasonTopic } from '../season-topic/entities/season-topic.entity'

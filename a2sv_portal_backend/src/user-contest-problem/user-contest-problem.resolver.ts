@@ -2,7 +2,6 @@ import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { UpdateUserContestProblemInput } from './dto/update-user-contest-problem.input'
 import { UserContestProblem } from './entities/user-contest-problem.entity'
 import { UserContestProblemService } from './user-contest-problem.service'
-import { FilterGroupInput } from '../group/dto/filter-group.input'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { FilterUserContestProblemInput } from './dto/filter-user-contest-problem'
 import { PaginationUserContestProblem } from '../common/page/pagination-info'
@@ -18,7 +17,10 @@ export class UserContestProblemResolver {
 
   @Query(() => PaginationUserContestProblem)
   async userContestProblems(
-    @Args('filterUserContestProblemInput', { type: () => FilterUserContestProblemInput, nullable: true })
+    @Args('filterUserContestProblemInput', {
+      type: () => FilterUserContestProblemInput,
+      nullable: true,
+    })
     filterUserContestProblemInput?: FilterUserContestProblemInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
     pageInfoInput?: PaginationInfoInput,

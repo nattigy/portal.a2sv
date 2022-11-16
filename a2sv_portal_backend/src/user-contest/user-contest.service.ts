@@ -98,7 +98,7 @@ export class UserContestService {
         rank: 0,
         userContestProblems,
         user,
-        contest
+        contest,
       }
     }
     return userContest

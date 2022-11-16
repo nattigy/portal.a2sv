@@ -3,19 +3,19 @@ import { SeasonType } from '@prisma/client'
 
 @InputType()
 export class FilterSeasonInput {
-  @Field({nullable: true})
+  @Field({ nullable: true })
   id?: string
-  @Field({nullable: true})
+  @Field({ nullable: true })
   name?: string
-  @Field({nullable: true})
+  @Field({ nullable: true })
   groupId?: string
-  @Field({nullable: true})
+  @Field({ nullable: true })
   seasonType?: SeasonType
-  @Field({nullable: true})
+  @Field({ nullable: true })
   isActive?: boolean
-  @Field(() => GraphQLISODateTime,{nullable: true})
+  @Field(() => GraphQLISODateTime, { nullable: true })
   startDate?: Date
-  @Field(() => GraphQLISODateTime,{nullable: true})
+  @Field(() => GraphQLISODateTime, { nullable: true })
   endDate?: Date
   @Field({ nullable: true })
   createdAt?: Date

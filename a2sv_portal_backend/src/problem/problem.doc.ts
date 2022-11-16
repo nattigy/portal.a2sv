@@ -1,6 +1,5 @@
 const descriptions = {
-    createProblem:
-    `
+  createProblem: `
     Creates a problem\n
     Arguments\n
         - title: title of the problem
@@ -51,9 +50,8 @@ const descriptions = {
         }
       }
     `,
-    problems:``,
-    problem:
-    `
+  problems: ``,
+  problem: `
     Argument\n
       - id: id of the problem we want to see
     Example\n
@@ -91,8 +89,7 @@ const descriptions = {
         }
       }    
     `,
-    updateProblem:
-    `
+  updateProblem: `
     Update a problem\n
     Argument\n
       - id: id of the problem we want to update
@@ -122,8 +119,7 @@ const descriptions = {
       }
     
     `,
-    removeProblem:
-    `
+  removeProblem: `
     Delete a problem\n
     Argument\n
       -id: id of the problem to be deleted
@@ -137,9 +133,6 @@ const descriptions = {
     {\n
         "removeProblemId":"c9a3db19-cd27-4080-9b07-0d03ec5f2592"
       }
-    `
-
-
-
+    `,
 }
 export default descriptions

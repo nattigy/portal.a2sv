@@ -23,7 +23,7 @@ export class SeasonTopicResolver {
     return this.seasonTopicService.create(createSeasonTopicInput)
   }
 
-  @Query(() => PaginationSeasonTopic, {    description: descriptions.seasonTopics, })
+  @Query(() => PaginationSeasonTopic, { description: descriptions.seasonTopics })
   async seasonTopics(
     @Args('filterSeasonTopicInput', { type: () => FilterSeasonTopicInput })
     filterSeasonTopicInput: FilterSeasonTopicInput,
@@ -33,7 +33,7 @@ export class SeasonTopicResolver {
     return this.seasonTopicService.findAll(filterSeasonTopicInput, pageInfoInput)
   }
 
-  @Query(() => SeasonTopic, {     description: descriptions.seasonTopic, })
+  @Query(() => SeasonTopic, { description: descriptions.seasonTopic })
   async seasonTopic(
     @Args('seasonId') seasonId: string,
     @Args('topicId') topicId: string,

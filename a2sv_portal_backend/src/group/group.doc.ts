@@ -1,6 +1,5 @@
 const descriptions = {
-    createGroup:
-    `
+  createGroup: `
     Create a group \n
     Arguement\n
         - name: Name of the Group
@@ -44,8 +43,7 @@ const descriptions = {
     }
 
     `,
-    groups:
-    `
+  groups: `
     Get the groups filtered by the following \n
       - country: groups that are in the specified country\n
       - headId: groups that have the sepecified user as a head\n
@@ -56,8 +54,7 @@ const descriptions = {
       
 
     `,
-    group:
-    `
+  group: `
     Get a group filtered by id\n
     Argument\n
         - id: group id \n
@@ -98,8 +95,7 @@ const descriptions = {
     }
     
     `,
-    updateGroup:
-    `
+  updateGroup: `
     Update group entities \n
     Argument\n
         - id: id of the group to be updated
@@ -150,8 +146,7 @@ const descriptions = {
       }
     
     `,
-    deleteGroup:
-    `
+  deleteGroup: `
     Deletes the group filtered by id\n
     Argument\n
       - id: id of the group to be deleted\n
@@ -167,7 +162,6 @@ const descriptions = {
         "deleteGroupId": "340b9d12-b757-47c4-a475-4a3db103de82"
     } 
     
-    `
-
-  }
-  export default descriptions
+    `,
+}
+export default descriptions

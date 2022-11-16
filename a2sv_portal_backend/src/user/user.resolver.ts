@@ -30,7 +30,7 @@ export class UserResolver {
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.read)
   @Mutation(() => User, {
-    description:descriptions.updateComfortLevel,
+    description: descriptions.updateComfortLevel,
   })
   async updateComfortLevel(
     @Args('topicId', { type: () => String }) topicId: string,
@@ -47,8 +47,8 @@ export class UserResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.create)
-  @Mutation(() => User,{
-    description:descriptions.createUser
+  @Mutation(() => User, {
+    description: descriptions.createUser,
   })
   async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     try {
@@ -76,7 +76,7 @@ export class UserResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.read)
-  @Query(() => User, { description:descriptions.findOne})
+  @Query(() => User, { description: descriptions.findOne })
   async user(@Args('id', { type: () => String }) id: string) {
     try {
       return await this.userService.findOne(id)
@@ -87,7 +87,7 @@ export class UserResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.update)
-  @Mutation(() => User, {description:descriptions.updateUser})
+  @Mutation(() => User, { description: descriptions.updateUser })
   async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     try {
       return await this.userService.update(updateUserInput)
@@ -98,7 +98,7 @@ export class UserResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.delete)
-  @Mutation(() => User, {description:descriptions.deleteUser})
+  @Mutation(() => User, { description: descriptions.deleteUser })
   async removeUser(@Args('id', { type: () => String }) id: string) {
     try {
       return await this.userService.remove(id)
