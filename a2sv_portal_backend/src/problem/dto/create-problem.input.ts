@@ -11,6 +11,6 @@ export class CreateProblemInput {
   link: string
   @Field()
   difficulty: string
-  @Field(() => [CreateTagInput], { nullable: true })
-  tags?: CreateTagInput[]
+  @Field(() => [CreateTagInput])
+  tags: CreateTagInput[]
 }
