@@ -13,21 +13,22 @@ import { UpdateProblemInput } from './dto/update-problem.input'
 import { Problem } from './entities/problem.entity'
 import { ProblemService } from './problem.service'
 import { FilterProblemInput } from './dto/filter-problem-input'
+import descriptions from './problem.doc'
 
 @Resolver(() => Problem)
 export class ProblemResolver {
   constructor(private readonly problemService: ProblemService) {}
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.create)
-  @Mutation(() => Problem)
+  @Mutation(() => Problem,{description: descriptions.createProblem})
   async createProblem(
     @Args('createProblemInput') createProblemInput: CreateProblemInput,
   ): Promise<Problem> {
     return await this.problemService.create(createProblemInput)
   }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.read)
   @Query(() => PaginationProblem, {
     description: 'Find all problems with populated tags',
@@ -45,15 +46,15 @@ export class ProblemResolver {
   @CheckPolicies(ProblemAbilities.read)
   @Query(() => Problem, {
     name: 'problem',
-    description: 'Find a unique problem by id',
+    description: descriptions.problem,
   })
-  async problem(@Args('id', { type: () => Int }) id: string): Promise<Problem> {
+  async problem(@Args('id') id: string): Promise<Problem> {
     return await this.problemService.findOne(id)
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.update)
-  @Mutation(() => Problem)
+  @Mutation(() => Problem,{description:descriptions.updateProblem})
   async updateProblem(
     @Args('updateProblemInput') updateProblemInput: UpdateProblemInput,
   ): Promise<Problem> {
@@ -62,7 +63,7 @@ export class ProblemResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.delete)
-  @Mutation(() => Problem)
+  @Mutation(() => Problem,{description:descriptions.removeProblem})
   async removeProblem(@Args('id', { type: () => Int }) id: string): Promise<Problem> {
     return this.problemService.remove(id)
   }
