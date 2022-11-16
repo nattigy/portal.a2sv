@@ -70,13 +70,16 @@ export class ContestService {
     })
   }
 
-  async update(updateContestInput: UpdateContestInput): Promise<Contest> {
+  async update({ problems,contestId, ...updateInput }: UpdateContestInput): Promise<Contest> {
     return this.prismaService.contest.update({
       where: {
-        id: updateContestInput.contestId,
+        id: contestId,
       },
       data: {
-        ...updateContestInput,
+        ...updateInput,
+        problems: {
+          connect: problems,
+        },
       },
       include: {
         problems: true,
