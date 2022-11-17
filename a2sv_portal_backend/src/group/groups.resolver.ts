@@ -13,16 +13,16 @@ import { GroupStatResponse } from './dto/group-stat-response'
 import { GroupsPaginated } from './dto/groups-return-dto'
 import { UpdateGroupInput } from './dto/update-group.input'
 import { Group } from './entities/group.entity'
+import descriptions from './group.doc'
 import { GroupsService } from './groups.service'
 
 @Resolver(() => Group)
 export class GroupsResolver {
-  constructor(private readonly groupsService: GroupsService) {
-  }
+  constructor(private readonly groupsService: GroupsService) {}
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.create)
-  @Mutation(() => Group)
+  @Mutation(() => Group, { description: descriptions.createGroup })
   async createGroup(
     @Args('createGroupInput') createGroupInput: CreateGroupInput,
   ): Promise<Group> {
@@ -31,7 +31,7 @@ export class GroupsResolver {
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.read)
-  @Query(() => Group)
+  @Query(() => Group, { description: descriptions.group })
   async group(@Args('groupId') groupId: string): Promise<Group> {
     return this.groupsService.findOne(groupId)
   }
@@ -41,9 +41,9 @@ export class GroupsResolver {
   @Query(() => PaginationGroup)
   async groups(
     @Args('filterGroupInput', { type: () => FilterGroupInput, nullable: true })
-      filterGroupInput?: FilterGroupInput,
+    filterGroupInput?: FilterGroupInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationGroup> {
     return this.groupsService.findAll(filterGroupInput, pageInfoInput)
   }
@@ -53,14 +53,11 @@ export class GroupsResolver {
   @Query(() => GroupsPaginated)
   async groupsPagination(
     @Args('filterGroupInput', { type: () => FilterGroupInput, nullable: true })
-      filterGroupInput?: FilterGroupInput,
+    filterGroupInput?: FilterGroupInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
-    @Args('userPaginationInput', {
-      type: () => PaginationInfoInput,
-      nullable: true,
-    })
-      userPaginationInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
+    @Args('userPaginationInput', { type: () => PaginationInfoInput, nullable: true })
+    userPaginationInput?: PaginationInfoInput,
   ): Promise<GroupsPaginated> {
     return this.groupsService.groupsPagination(
       filterGroupInput,
@@ -71,7 +68,7 @@ export class GroupsResolver {
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.update)
-  @Mutation(() => Group)
+  @Mutation(() => Group, { description: descriptions.updateGroup })
   async updateGroup(
     @Args('updateGroupInput') updateGroupInput: UpdateGroupInput,
   ): Promise<Group> {
@@ -97,9 +94,9 @@ export class GroupsResolver {
   @Query(() => GroupStatResponsePage<GroupStatResponse>)
   async groupsStat(
     @Args('filterGroupInput', { type: () => FilterGroupInput, nullable: true })
-      filterGroupInput?: FilterGroupInput,
+    filterGroupInput?: FilterGroupInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ) {
     return this.groupsService.groupsStat(filterGroupInput, pageInfoInput)
   }
@@ -113,7 +110,7 @@ export class GroupsResolver {
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.delete)
-  @Mutation(() => Group)
+  @Mutation(() => Group, { description: descriptions.deleteGroup })
   async deleteGroup(@Args('groupId') groupId: string) {
     return this.groupsService.deleteGroup(groupId)
   }

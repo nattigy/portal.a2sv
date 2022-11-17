@@ -10,8 +10,7 @@ import { UserContestProblem } from '../user-contest-problem/entities/user-contes
 
 @Injectable()
 export class UserContestService {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   // async create(createUserContestInput: CreateUserContestInput): Promise<UserContest> {
   //   return this.prismaService.userContest.create({
@@ -32,6 +31,78 @@ export class UserContestService {
   //     },
   //   })
   // }
+
+  async findOne(userId: string, contestId: string): Promise<UserContest> {
+    const userContest: UserContest = await this.prismaService.userContest.findUnique({
+      where: {
+        userId_contestId: {
+          userId,
+          contestId,
+        },
+      },
+      include: {
+        userContestProblems: {
+          include: {
+            problem: true,
+          },
+        },
+        user: true,
+        contest: {
+          include: {
+            problems: true,
+            groupContests: true,
+          },
+        },
+      },
+    })
+    if (userContest !== null && userContest !== undefined) {
+      userContest.contestAttended = userContest?.userContestProblems?.length > 0
+      for (const problem of userContest.userContestProblems) {
+        if (problem.status == UserContestProblemStatus.SOLVED) userContest.problemsSolved += 1
+        userContest.wrongSubmissions += problem.numberOfAttempts
+        userContest.timeSpent += problem.numberOfMinutes
+      }
+    } else {
+      const user = await this.prismaService.user.findUnique({ where: { id: userId } })
+      const contest = await this.prismaService.contest.findUnique({
+        where: {
+          id: contestId,
+        },
+        include: {
+          problems: true,
+          groupContests: true,
+        },
+      })
+      const userContestProblems: UserContestProblem[] = []
+      for (const problem of contest.problems) {
+        const userContestProblem: UserContestProblem = {
+          contestId,
+          userId,
+          problemId: problem.id,
+          numberOfMinutes: 0,
+          numberOfAttempts: 0,
+          status: UserContestProblemStatus.UNATTEMPTED,
+          problem: problem,
+          user,
+          contest,
+        }
+        userContestProblems.push(userContestProblem)
+      }
+      return {
+        contestId,
+        userId,
+        contestAttended: false,
+        problemsSolved: 0,
+        timeSpent: 0,
+        wrongSubmissions: 0,
+        rank: 0,
+        userContestProblems,
+        user,
+        contest,
+      }
+    }
+    return userContest
+  }
 
   async findAll(
     userId: string,
@@ -61,7 +132,7 @@ export class UserContestService {
     })
     const userContests: UserContest[] = []
     for (const groupContest of groupContests) {
-      const userContest = await this.userContest(userId, groupContest.contestId)
+      const userContest = await this.findOne(userId, groupContest.contestId)
       userContests.push(userContest)
     }
     return {
@@ -72,102 +143,6 @@ export class UserContestService {
         count,
       },
     }
-  }
-
-  async findOne(userId: string, contestId: string): Promise<UserContest | null> {
-    const userContest: UserContest = await this.prismaService.userContest.findUnique({
-      where: {
-        userId_contestId: {
-          userId,
-          contestId,
-        },
-      },
-      include: {
-        userContestProblems: {
-          include: {
-            problem: true,
-          },
-        },
-        user: true,
-        contest: {
-          include: {
-            problems: true,
-            groupContests: true,
-          },
-        },
-      },
-    })
-    userContest.contestAttended = userContest.userContestProblems.length > 0
-    for (const problem of userContest.userContestProblems) {
-      if (problem.status == UserContestProblemStatus.SOLVED) userContest.problemsSolved += 1
-      userContest.wrongSubmissions += problem.numberOfAttempts
-      userContest.timeSpent += problem.numberOfMinutes
-    }
-    return userContest
-  }
-
-  async userContest(userId: string, contestId: string): Promise<UserContest | null> {
-    let userContest = await this.findOne(userId, contestId)
-    if (userContest == null) {
-      const user = await this.prismaService.user.findUnique({
-        where: {
-          id: userId,
-        },
-      })
-      const contest = await this.prismaService.contest.findUnique({
-        where: {
-          id: contestId,
-        },
-        include: {
-          problems: true,
-          groupContests: true,
-        },
-      })
-      const groupContest = await this.prismaService.groupContest.findUnique({
-        where: {
-          groupId_contestId: {
-            groupId: user.groupId,
-            contestId,
-          },
-        },
-      })
-      if (groupContest != null) {
-        userContest = {
-          contestId,
-          userId,
-          contestAttended: false,
-          problemsSolved: 0,
-          wrongSubmissions: 0,
-          rank: 0,
-          timeSpent: 0,
-          user,
-          contest,
-        }
-      } else {
-        // TODO: throw an error, contest id not found
-      }
-      for (const problem of contest.problems) {
-        let userContestProblem: UserContestProblem = null
-        for (const userContestProblem1 of userContest.userContestProblems) {
-          userContestProblem = userContestProblem1
-        }
-        if (userContestProblem == null) {
-          userContestProblem = {
-            contestId,
-            userId,
-            problemId: problem.id,
-            numberOfMinutes: 0,
-            numberOfAttempts: 0,
-            status: UserContestProblemStatus.UNATTEMPTED,
-            problem: problem,
-            user,
-            contest,
-          }
-        }
-        userContest.userContestProblems.push(userContestProblem)
-      }
-    }
-    return userContest
   }
 
   async groupContestUsers(
@@ -204,10 +179,10 @@ export class UserContestService {
   }
 
   async update({
-                 userId,
-                 contestId,
-                 ...updates
-               }: UpdateUserContestInput): Promise<UserContest> {
+    userId,
+    contestId,
+    ...updates
+  }: UpdateUserContestInput): Promise<UserContest> {
     return this.prismaService.userContest.upsert({
       where: {
         userId_contestId: {

@@ -13,15 +13,15 @@ import { UpdateProblemInput } from './dto/update-problem.input'
 import { Problem } from './entities/problem.entity'
 import { ProblemService } from './problem.service'
 import { FilterProblemInput } from './dto/filter-problem-input'
+import descriptions from './problem.doc'
 
 @Resolver(() => Problem)
 export class ProblemResolver {
-  constructor(private readonly problemService: ProblemService) {
-  }
+  constructor(private readonly problemService: ProblemService) {}
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.create)
-  @Mutation(() => Problem)
+  @Mutation(() => Problem, { description: descriptions.createProblem })
   async createProblem(
     @Args('createProblemInput') createProblemInput: CreateProblemInput,
   ): Promise<Problem> {
@@ -30,31 +30,26 @@ export class ProblemResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.read)
-  @Query(() => PaginationProblem, {
-    description: 'Find all problems with populated tags',
-  })
+  @Query(() => PaginationProblem, { description: 'Find all problems with populated tags' })
   async problems(
-    @Args('filterProblemInput', { type: () => PaginationInfoInput, nullable: true })
-      filterProblemInput: FilterProblemInput,
+    @Args('filterProblemInput', { type: () => FilterProblemInput, nullable: true })
+    filterProblemInput: FilterProblemInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationProblem> {
     return await this.problemService.findAll(filterProblemInput, pageInfoInput)
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.read)
-  @Query(() => Problem, {
-    name: 'problem',
-    description: 'Find a unique problem by id',
-  })
-  async problem(@Args('id', { type: () => Int }) id: string): Promise<Problem> {
+  @Query(() => Problem, { description: descriptions.problem })
+  async problem(@Args('id') id: string): Promise<Problem> {
     return await this.problemService.findOne(id)
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.update)
-  @Mutation(() => Problem)
+  @Mutation(() => Problem, { description: descriptions.updateProblem })
   async updateProblem(
     @Args('updateProblemInput') updateProblemInput: UpdateProblemInput,
   ): Promise<Problem> {
@@ -63,7 +58,7 @@ export class ProblemResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.delete)
-  @Mutation(() => Problem)
+  @Mutation(() => Problem, { description: descriptions.removeProblem })
   async removeProblem(@Args('id', { type: () => Int }) id: string): Promise<Problem> {
     return this.problemService.remove(id)
   }

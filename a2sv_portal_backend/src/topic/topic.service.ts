@@ -10,8 +10,7 @@ import { FilterTopicInput } from './dto/filter-topic-input'
 
 @Injectable()
 export class TopicService {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async findAll(
     filterTopicInput: FilterTopicInput,

@@ -3,7 +3,7 @@ import { Contest } from '../../contest/entities/contest.entity'
 import { GroupContest } from '../../group-contest/entities/group-contest.entity'
 import { Group } from '../../group/entities/group.entity'
 import { Problem } from '../../problem/entities/problem.entity'
-import { SeasonTopicProblemUser } from '../../season-topic-problem-user/entities/season-topic-problem-user.entity'
+import { SeasonTopicUserProblem } from '../../season-topic-user-problem/entities/season-topic-user-problem.entity'
 import { SeasonTopicProblem } from '../../season-topic-problem/entities/season-topic-problem.entity'
 import { SeasonTopic } from '../../season-topic/entities/season-topic.entity'
 import { Season } from '../../season/entities/season.entity'
@@ -28,13 +28,13 @@ export const Entity = createUnionType({
     UserTopic,
     SeasonTopic,
     SeasonTopicProblem,
-    SeasonTopicProblemUser,
+    SeasonTopicUserProblem,
   ],
   resolveType(value) {
     if (value.email != undefined) {
       return User
     } else if (value.attempts != undefined && value.contestId == undefined) {
-      return SeasonTopicProblemUser
+      return SeasonTopicUserProblem
     } else if (
       value.seasonId != undefined &&
       value.topicId != undefined &&

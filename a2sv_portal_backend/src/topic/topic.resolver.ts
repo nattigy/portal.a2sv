@@ -18,8 +18,7 @@ import { FilterTopicInput } from './dto/filter-topic-input'
 
 @Resolver(() => Topic)
 export class TopicResolver {
-  constructor(private readonly topicService: TopicService) {
-  }
+  constructor(private readonly topicService: TopicService) {}
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.create)
@@ -35,9 +34,9 @@ export class TopicResolver {
   @Query(() => PaginationTopic)
   async topics(
     @Args('filterTopicInput', { type: () => FilterTopicInput, nullable: true })
-      filterTopicInput?: FilterTopicInput,
+    filterTopicInput?: FilterTopicInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationTopic> {
     return this.topicService.findAll(filterTopicInput, pageInfoInput)
   }
@@ -78,7 +77,7 @@ export class TopicResolver {
   @Mutation(() => TopicActionStatus)
   async addTopicToGroup(
     @Args('addTopicToGroupInput', { type: () => AddTopicToSeasonInput })
-      addTopicToGroupInput: AddTopicToSeasonInput,
+    addTopicToGroupInput: AddTopicToSeasonInput,
   ): Promise<TopicActionStatus> {
     try {
       await this.topicService.addTopicToSeason(addTopicToGroupInput)

@@ -2,15 +2,13 @@ import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { UpdateUserContestProblemInput } from './dto/update-user-contest-problem.input'
 import { UserContestProblem } from './entities/user-contest-problem.entity'
 import { UserContestProblemService } from './user-contest-problem.service'
-import { FilterGroupInput } from '../group/dto/filter-group.input'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { FilterUserContestProblemInput } from './dto/filter-user-contest-problem'
 import { PaginationUserContestProblem } from '../common/page/pagination-info'
 
 @Resolver(() => UserContestProblem)
 export class UserContestProblemResolver {
-  constructor(private readonly userContestProblemService: UserContestProblemService) {
-  }
+  constructor(private readonly userContestProblemService: UserContestProblemService) {}
 
   // @Mutation(() => UserContestProblem)
   // async createUserContestProblem(@Args('createUserContestProblemInput') createUserContestProblemInput: CreateUserContestProblemInput) {
@@ -19,10 +17,13 @@ export class UserContestProblemResolver {
 
   @Query(() => PaginationUserContestProblem)
   async userContestProblems(
-    @Args('filterUserContestProblemInput', { type: () => FilterGroupInput, nullable: true })
-      filterUserContestProblemInput?: FilterUserContestProblemInput,
+    @Args('filterUserContestProblemInput', {
+      type: () => FilterUserContestProblemInput,
+      nullable: true,
+    })
+    filterUserContestProblemInput?: FilterUserContestProblemInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ) {
     return this.userContestProblemService.findAll(filterUserContestProblemInput, pageInfoInput)
   }
@@ -39,7 +40,7 @@ export class UserContestProblemResolver {
   @Mutation(() => UserContestProblem)
   async updateUserContestProblem(
     @Args('updateUserContestProblemInput')
-      updateUserContestProblemInput: UpdateUserContestProblemInput,
+    updateUserContestProblemInput: UpdateUserContestProblemInput,
   ) {
     return this.userContestProblemService.update(updateUserContestProblemInput)
   }

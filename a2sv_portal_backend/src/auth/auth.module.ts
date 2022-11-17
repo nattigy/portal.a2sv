@@ -21,10 +21,10 @@ import { LocalStrategy } from './strategies/local.strategy'
     }),
   ],
   providers: [
-    AuthService,
     LocalStrategy,
-    AuthResolver,
     JwtStrategy,
+    AuthResolver,
+    AuthService,
     {
       provide: 'APP_GUARD',
       useClass: JwtAuthGuard,

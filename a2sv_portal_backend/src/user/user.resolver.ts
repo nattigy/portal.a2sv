@@ -9,7 +9,7 @@ import { CheckPolicies } from '../casl/policy/policy.decorator'
 import { PoliciesGuard } from '../casl/policy/policy.guard'
 import { PaginationUser } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { SeasonTopicProblemUser } from '../season-topic-problem-user/entities/season-topic-problem-user.entity'
+import { SeasonTopicUserProblem } from '../season-topic-user-problem/entities/season-topic-user-problem.entity'
 import { UserTopic } from '../user-topic/entities/user-topic.entity'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
@@ -18,23 +18,25 @@ import { ComfortLevelEnum } from './entities/comfort-level.enum'
 import { User } from './entities/user.entity'
 import { UserService } from './user.service'
 import { FilterUserInput } from './dto/filter-user-input'
+import descriptions from './user.doc'
 
 @Resolver(() => User)
 export class UserResolver {
   constructor(
     private readonly userService: UserService,
     private readonly groupService: GroupsService,
-  ) {
-  }
+  ) {}
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.read)
-  @Mutation(() => User)
+  @Mutation(() => User, {
+    description: descriptions.updateComfortLevel,
+  })
   async updateComfortLevel(
     @Args('topicId', { type: () => String }) topicId: string,
     @Args('userId', { type: () => String }) userId: string,
     @Args('comfortLevel', { type: () => ComfortLevelEnum })
-      comfortLevel: ComfortLevelEnum,
+    comfortLevel: ComfortLevelEnum,
   ) {
     try {
       return await this.userService.updateComfortLevel(topicId, userId, comfortLevel)
@@ -43,8 +45,11 @@ export class UserResolver {
     }
   }
 
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.create)
-  @Mutation(() => User)
+  @Mutation(() => User, {
+    description: descriptions.createUser,
+  })
   async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     try {
       return await this.userService.create(createUserInput)
@@ -58,9 +63,9 @@ export class UserResolver {
   @Query(() => PaginationUser)
   async users(
     @Args('filterUserInput', { type: () => FilterUserInput, nullable: true })
-      filterUserInput?: FilterUserInput,
+    filterUserInput?: FilterUserInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationUser> {
     try {
       return this.userService.findAll(filterUserInput, pageInfoInput)
@@ -71,7 +76,7 @@ export class UserResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.read)
-  @Query(() => User)
+  @Query(() => User, { description: descriptions.findOne })
   async user(@Args('id', { type: () => String }) id: string) {
     try {
       return await this.userService.findOne(id)
@@ -82,7 +87,7 @@ export class UserResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.update)
-  @Mutation(() => User)
+  @Mutation(() => User, { description: descriptions.updateUser })
   async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     try {
       return await this.userService.update(updateUserInput)
@@ -93,7 +98,7 @@ export class UserResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.delete)
-  @Mutation(() => User)
+  @Mutation(() => User, { description: descriptions.deleteUser })
   async removeUser(@Args('id', { type: () => String }) id: string) {
     try {
       return await this.userService.remove(id)
@@ -134,8 +139,8 @@ export class UserResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.read)
-  @ResolveField(() => [SeasonTopicProblemUser])
-  seasonTopicProblems(@Parent() user: User): SeasonTopicProblemUser[] {
+  @ResolveField(() => [SeasonTopicUserProblem])
+  seasonTopicProblems(@Parent() user: User): SeasonTopicUserProblem[] {
     return user.seasonTopicProblems
   }
 
@@ -158,7 +163,7 @@ export class UserResolver {
   @Query(() => TopicCoverageStat)
   topicStudentStats(
     @Args('topicStudentStateInput', { type: () => TopicStudentStatInput })
-      topicStudentStatInput: TopicStudentStatInput,
+    topicStudentStatInput: TopicStudentStatInput,
   ) {
     return this.userService.studentTopicStats(topicStudentStatInput)
   }

@@ -9,8 +9,7 @@ import { PaginationUserTopic } from '../common/page/pagination-info'
 
 @Injectable()
 export class UserTopicService {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(createUserTopicInput: CreateUserTopicInput): Promise<UserTopic> {
     return this.prismaService.userTopic.create({

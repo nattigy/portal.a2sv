@@ -9,8 +9,7 @@ import { PaginationContest } from '../common/page/pagination-info'
 
 @Injectable()
 export class ContestService {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create({ problems, ...createInput }: CreateContestInput): Promise<Contest> {
     return this.prismaService.contest.create({
@@ -71,13 +70,16 @@ export class ContestService {
     })
   }
 
-  async update(updateContestInput: UpdateContestInput): Promise<Contest> {
+  async update({ problems,contestId, ...updateInput }: UpdateContestInput): Promise<Contest> {
     return this.prismaService.contest.update({
       where: {
-        id: updateContestInput.contestId,
+        id: contestId,
       },
       data: {
-        ...updateContestInput,
+        ...updateInput,
+        problems: {
+          connect: problems,
+        },
       },
       include: {
         problems: true,

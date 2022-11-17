@@ -1,6 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql'
 import { Problem } from '../../problem/entities/problem.entity'
-import { SeasonTopicProblemUser } from '../../season-topic-problem-user/entities/season-topic-problem-user.entity'
+import { SeasonTopicUserProblem } from '../../season-topic-user-problem/entities/season-topic-user-problem.entity'
 import { SeasonTopic } from '../../season-topic/entities/season-topic.entity'
 
 @ObjectType()
@@ -15,6 +15,6 @@ export class SeasonTopicProblem {
   seasonTopic: SeasonTopic
   @Field(() => Problem)
   problem: Problem
-  @Field(() => [SeasonTopicProblemUser], { nullable: true })
-  users?: SeasonTopicProblemUser[]
+  @Field(() => [SeasonTopicUserProblem], { nullable: true })
+  users?: SeasonTopicUserProblem[]
 }

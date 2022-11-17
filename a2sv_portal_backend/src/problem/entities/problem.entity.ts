@@ -4,19 +4,22 @@ import { Tag } from '../../tag/entities/tag.entity'
 
 @ObjectType()
 export class Problem {
-  @Field(() => String)
+  @Field(() => String, { description: 'Id of the problem' })
   id: string
-  @Field()
+  @Field({ description: 'Title of the problem' })
   title: string
-  @Field()
+  @Field({ description: 'The platform the problem is from' })
   platform: string
-  @Field()
+  @Field({ description: 'Link of the question' })
   link: string
-  @Field()
+  @Field({ description: 'Difficulty of the question' })
   difficulty: string
-  @Field(() => [Tag], { nullable: true })
+  @Field(() => [Tag], { nullable: true, description: 'Tag of the question' })
   tags?: Tag[]
-  @Field(() => [SeasonTopicProblem], { nullable: true })
+  @Field(() => [SeasonTopicProblem], {
+    nullable: true,
+    description: 'Season and topic the problem belongs too',
+  })
   seasonTopics?: SeasonTopicProblem[]
   @Field({ nullable: true })
   createdAt?: Date
