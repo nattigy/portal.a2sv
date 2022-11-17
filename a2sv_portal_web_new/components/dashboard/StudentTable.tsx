@@ -147,7 +147,7 @@ const StudentTable = (props: Props) => {
                     </td>
                     <td className="py-4 px-6">
                       <div className="flex flex-row gap-x-2">
-                        {format(new Date(student.createdAt), "MMM, d, u")}
+                        {/* {format(new Date(student.createdAt), "MMM, d, u")} */}
                       </div>
                     </td>
                     <td className="py-4 px-6">

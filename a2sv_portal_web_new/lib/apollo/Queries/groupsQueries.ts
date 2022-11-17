@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_SINGLE_GROUP_QUERY = gql`
-  query Users($groupId: String!) {
-    group(id: $groupId) {
+  query Group($groupId: String!) {
+    group(groupId: $groupId) {
       country
       createdAt
       head {

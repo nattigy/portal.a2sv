@@ -17,8 +17,6 @@ const StudentSidebar: React.FC<{
   groupId: string;
   groupHead: GroupStudentsSidebarProps;
 }) => {
-  const { data, loading, error, refetch } = useGetUsersWithNoGroup();
-  useEffect(() => {}, [refetch, data]);
 
   return (
     <div className="h-full flex flex-col py-2">

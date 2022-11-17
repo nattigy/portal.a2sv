@@ -5,6 +5,7 @@ import BaseLayout from "../../../components/common/BaseLayout";
 import Button from "../../../components/common/Button";
 import EmptyState from "../../../components/common/EmptyState";
 import { LoaderSmall } from "../../../components/common/Loaders";
+import TopicModal from "../../../components/modals/TopicModal";
 import TopicList from "../../../components/topics/TopicList";
 import TopicsFilter from "../../../components/topics/TopicsFilter";
 import TopicsPage from "../../../components/topics/TopicsPage";
@@ -81,13 +82,13 @@ const IndexPage = () => {
 
   return (
     <BaseLayout sidebar={<Sidebar />}>
-      {/* {isAddTopicToGroupModalOpen && (
-        <AddTopicToGroupModal
+      {isAddTopicToGroupModalOpen && (
+        <TopicModal
           onClose={() => setIsAddTopicToGroupModalOpen(false)}
           groupId={authUser?.headToGroup?.id}
           seasonId={1}
         />
-      )} */}
+      )}
       <div className="h-full">
         <div className="w-full flex flex-col md:flex-row justify-between">
           <div className=" justify-between flex items-center mb-2 gap-x-5 ">

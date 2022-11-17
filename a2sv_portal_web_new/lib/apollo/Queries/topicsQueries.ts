@@ -1,24 +1,26 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_TOPICS_QUERY = gql`
-  query Query {
+  query Items {
     topics {
-      id
-      name
-      description
-      createdAt
+      items {
+        id
+        name
+        description
+        createdAt
+      }
     }
   }
 `;
 
 export const GET_ALL_TOPICS_BY_GROUP_AND_SEASON_ID_QUERY = gql`
- query Query($groupId: Int, $seasonId: Int) {
-  topics(groupId: $groupId, seasonId: $seasonId) {
-    description
-    id
-    name
+  query Query($groupId: Int, $seasonId: Int) {
+    topics(groupId: $groupId, seasonId: $seasonId) {
+      description
+      id
+      name
+    }
   }
-}
 `;
 
 export const GET_ALL_TOPICS_BY_GROUP_ID_QUERY = gql`
@@ -56,21 +58,21 @@ export const GET_ALL_TOPICS_BY_SEASON_ID_QUERY = gql`
 `;
 
 export const GET_ALL_GROUP_TOPICS_BY_SEASON_ID_QUERY = gql`
-query SeasonTopics($filterSeasonTopicInput: FilterSeasonTopicInput!) {
-  seasonTopics(filterSeasonTopicInput: $filterSeasonTopicInput) {
-    items {
-      topicId
-      topic {
-        id
-        name
-        description
-        createdAt
-      }
-      season {
-        id
-        name
+  query SeasonTopics($filterSeasonTopicInput: FilterSeasonTopicInput!) {
+    seasonTopics(filterSeasonTopicInput: $filterSeasonTopicInput) {
+      items {
+        topicId
+        topic {
+          id
+          name
+          description
+          createdAt
+        }
+        season {
+          id
+          name
+        }
       }
     }
   }
-}
 `;
