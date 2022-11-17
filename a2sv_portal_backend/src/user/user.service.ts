@@ -142,7 +142,17 @@ export class UserService {
     return this.prismaService.role.findFirst({ where: { id: '1' } })
   }
 
-  async update(updateUserInput: UpdateUserInput): Promise<User> {
+  async update(updateUserInput: UpdateUserInput | UpdateUserInput[]): Promise<User> {
+    if (Array.isArray(updateUserInput)){
+      // return this.prismaService.user.updateMany{
+      //
+      // })
+
+
+
+      return
+    }
+
     const { id, ...updates } = updateUserInput
     return this.prismaService.user.update({
       where: {
@@ -395,7 +405,7 @@ export class UserService {
       numberOfCorrectSubmissions,
       numberOfIncorrectSubmissions,
       totalTimeDedicated,
-      uncomfortablity,
+      unComfortability: uncomfortablity,
       easyCount,
       mediumCount,
       hardCount,
@@ -451,11 +461,11 @@ export class UserService {
     }
 
     totalTopicCoverage = sumOfEachTopicsCoverage / totalNumberOfTopics
-    const uncomfortability = (unableToSolve / (totalQuestions - totalNotSolved)) * 100
+    const unComfortability = (unableToSolve / (totalQuestions - totalNotSolved)) * 100
     return {
       eachTopicCoverageStat,
       totalTopicCoverage,
-      uncomfortability,
+      unComfortability,
     }
   }
 }

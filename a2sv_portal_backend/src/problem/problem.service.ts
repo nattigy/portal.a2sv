@@ -35,7 +35,16 @@ export class ProblemService {
   ): Promise<PaginationProblem> {
     const problemsCount = (
       await this.prismaService.problem.findMany({
-        where: filterProblemInput,
+        where: {
+          ...filterProblemInput,
+          tags: {
+            some: {
+              name: {
+                in: filterProblemInput.tags
+              }
+            }
+          }
+        },
         select: {
           id: true,
         },
@@ -44,7 +53,16 @@ export class ProblemService {
     const problems: Problem[] = await this.prismaService.problem.findMany({
       skip,
       take,
-      where: filterProblemInput,
+      where: {
+        ...filterProblemInput,
+        tags: {
+          some: {
+            name: {
+              in: filterProblemInput.tags
+            }
+          }
+        }
+      },
       include: {
         tags: true,
         seasonTopics: {
