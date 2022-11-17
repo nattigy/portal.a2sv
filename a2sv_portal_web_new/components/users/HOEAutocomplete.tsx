@@ -24,7 +24,7 @@ export default function HOEAutocomplete({ handleSearchStudent, user}: Props) {
 
   useEffect(() => {
     if (data) {
-      setUsersData(data.users);
+      setUsersData(data.users.items);
     }
   }, [refetch, data]);
 

@@ -53,6 +53,7 @@ export const GET_ALL_PAGINATED_GROUPS_QUERY = gql`
         id
         name
         head {
+          email
           id
         }
         headId

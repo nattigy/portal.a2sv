@@ -89,6 +89,7 @@ const GroupItem = ({ groupProps, color }: Props) => {
       )}
       <div className="flex flex-col w-full lg:w-64 h-40 lg:h-36 bg-white rounded-lg">
         <div className="cursor-pointer">
+          {JSON.stringify()}
           <div className="w-full h-28 lg:h-24 relative">
             <div className="absolute top-2 right-2 z-30 ">
               <WithPermission

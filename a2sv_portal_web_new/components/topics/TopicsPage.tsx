@@ -54,6 +54,7 @@ const TopicsPage = ({seasonId}: Props) => {
         <div className="w-full flex flex-col md:flex-row justify-between">
           <div className=" justify-between flex items-center mb-2 gap-x-5 ">
             <h1 className="text-2xl font-bold text-gray-700">Topics</h1>
+            {JSON.stringify(seasonId)}
           </div>
           <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION]}>
             <Button
@@ -78,9 +79,9 @@ const TopicsPage = ({seasonId}: Props) => {
         <p>Something went wrong</p>
       ) : ( */}
 
-        <div className="flex flex-col items-center gap-y-4">
+        <div className="w-full flex flex-col  gap-y-4">
           {loading ? (
-            <div className=" h-full w-full flex justify-center items-center">
+            <div className=" h-full w-full flex ">
               <LoaderSmall />
             </div>
           ) : // ) : error ? (
