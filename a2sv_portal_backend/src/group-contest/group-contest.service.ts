@@ -86,7 +86,7 @@ export class GroupContestService {
       let problemsSolved = 0
       let wrongSubmissions = 0
       uc.userContestProblems.map(up => {
-        if (up.status == UserContestProblemEnum.SOLVED) {
+        if (up.status == UserContestProblemEnum.SOLVED_IN_CONTEST) {
           problemsSolved += 1
           if (!userProb[up.userId]) probSolved[up.problemId] = 1
           else probSolved[up.problemId] += 1
