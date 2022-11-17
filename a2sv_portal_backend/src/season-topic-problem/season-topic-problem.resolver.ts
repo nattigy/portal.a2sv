@@ -9,20 +9,23 @@ import {
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { SeasonTopicProblemId } from '../season-topic/dto/filter-season-topic.input'
 import { PaginationSeasonTopicProblem } from '../common/page/pagination-info'
+import descriptions from './season-topic-problem.doc'
 
 @Resolver(() => SeasonTopicProblem)
 export class SeasonTopicProblemResolver {
   constructor(private readonly seasonTopicProblemService: SeasonTopicProblemService) {}
 
-  @Mutation(() => SeasonTopicProblem)
-  async createSeasonTopicProblem(
+    @Mutation(() => SeasonTopicProblem, {
+        description: descriptions.createSeasonTopicProblem,
+    })
+    async createSeasonTopicProblem(
     @Args('createSeasonTopicProblemInput')
     createSeasonTopicProblemInput: CreateSeasonTopicProblemInput,
   ) {
     return this.seasonTopicProblemService.create(createSeasonTopicProblemInput)
   }
 
-  @Query(() => PaginationSeasonTopicProblem)
+  @Query(() => PaginationSeasonTopicProblem, {    description: descriptions.seasonTopicProblems})
   async seasonTopicProblems(
     @Args('seasonTopicProblemFilter', { type: () => SeasonTopicProblemFilter })
     seasonTopicProblemFilter: SeasonTopicProblemFilter,
@@ -32,24 +35,30 @@ export class SeasonTopicProblemResolver {
     return this.seasonTopicProblemService.findAll(seasonTopicProblemFilter, pageInfoInput)
   }
 
-  @Query(() => SeasonTopicProblem)
-  async seasonTopicProblem(
+    @Query(() => SeasonTopicProblem, {
+        description: descriptions.seasonTopicProblem,
+    })
+    async seasonTopicProblem(
     @Args('seasonTopicProblemId', { type: () => SeasonTopicProblemId })
     id: SeasonTopicProblemId,
   ) {
     return this.seasonTopicProblemService.findOne(id)
   }
 
-  @Mutation(() => SeasonTopicProblem)
-  async updateSeasonTopicProblem(
+    @Mutation(() => SeasonTopicProblem, {
+        description: descriptions.updateSeasonTopicProblem,
+    })
+    async updateSeasonTopicProblem(
     @Args('updateSeasonTopicProblemInput')
     updateSeasonTopicProblemInput: UpdateSeasonTopicProblemInput,
   ) {
     return this.seasonTopicProblemService.update(updateSeasonTopicProblemInput)
   }
 
-  @Mutation(() => SeasonTopicProblem)
-  async removeSeasonTopicProblem(
+    @Mutation(() => SeasonTopicProblem, {
+        description: descriptions.removeSeasonTopicProblem,
+    })
+    async removeSeasonTopicProblem(
     @Args('seasonTopicProblemId', { type: () => Int }) id: SeasonTopicProblemId,
   ) {
     return this.seasonTopicProblemService.remove(id)
