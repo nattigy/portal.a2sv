@@ -37,10 +37,10 @@ export class ProblemService {
       await this.prismaService.problem.findMany({
         where: {
           ...filterProblemInput,
-          tags: {
+          tags: filterProblemInput?.tags && {
             some: {
               name: {
-                in: filterProblemInput.tags
+                in: filterProblemInput?.tags
               }
             }
           }
@@ -55,10 +55,10 @@ export class ProblemService {
       take,
       where: {
         ...filterProblemInput,
-        tags: {
+        tags:filterProblemInput?.tags && {
           some: {
             name: {
-              in: filterProblemInput.tags
+              in: filterProblemInput?.tags
             }
           }
         }

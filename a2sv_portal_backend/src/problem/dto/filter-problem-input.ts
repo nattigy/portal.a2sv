@@ -2,7 +2,7 @@ import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
 export class FilterProblemInput {
-  @Field()
+  @Field({ nullable: true })
   id?: string
   @Field({ nullable: true })
   title?: string
