@@ -136,6 +136,9 @@ model User {
   topics              UserTopic[]
   userContest         UserContest[]
   userContestProblem  UserContestProblem[]
+  problems            Problem[]
+  UserProblem         UserProblem[]
+  UserAnalytics       UserAnalytics[]
 }
 
 enum ComfortLevel {
@@ -211,7 +214,9 @@ model Problem {
   updatedAt           DateTime?            @updatedAt
   seasonTopics        SeasonTopicProblem[]
   contests            Contest[]
+  users               User[]
   userContestProblems UserContestProblem[]
+  UserProblem         UserProblem[]
 }
 
 model Tag {
@@ -269,4 +274,25 @@ model SeasonTopicProblemUser {
   needHelp           Boolean            @default(false)
 
   @@id([seasonId, topicId, problemId, userId])
+}
+
+model UserProblem {
+  problemId String
+  problem   Problem  @relation(fields: [problemId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  solved    Boolean  @default(false)
+
+  @@id([problemId, userId])
+}
+
+model UserAnalytics {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  count     Int     @default(0)
 }
