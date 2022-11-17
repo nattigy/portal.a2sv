@@ -51,6 +51,49 @@ const descriptions = {
       - seasonId: groups that have the given season\n
       - topicId: groups that have the speciefed topic\n     
     Example\n
+    query Groups {
+      groups {
+        items {
+          name
+          id
+          school
+        }
+      }
+    }
+    Return\n
+    {
+      "data": {
+        "groups": {
+          "items": [
+            {
+              "name": "Group-33",
+              "id": "1d7263ef-d445-4270-ba55-99ac77f409ae",
+              "school": "AASTU"
+            },
+            {
+              "name": "Group-44",
+              "id": "392cac2f-dea8-4646-8310-866f039dcb3e",
+              "school": "Legos University"
+            },
+            {
+              "name": "Group-31",
+              "id": "9f4cd751-40c9-4658-a271-dc9e5f802978",
+              "school": "AAiT"
+            },
+            {
+              "name": "Group-12",
+              "id": "d67561e0-e6f9-4290-868f-62ed8897ed27",
+              "school": "AAiT"
+            },
+            {
+              "name": "Group-32",
+              "id": "dea7dc24-33ce-44c5-b94b-a281edf10d25",
+              "school": "AAiT"
+            }
+          ]
+        }
+      }
+    }
       
 
     `,
