@@ -85,10 +85,10 @@ enum SeasonType {
 }
 
 enum UserContestProblemStatus {
-    SOLVED_IN_CONTEST
-    SOLVED_AFTER_CONTEST
-    NOT_SOLVED
-    UNABLE_TO_SOLVE
+  SOLVED_IN_CONTEST
+  SOLVED_AFTER_CONTEST
+  NOT_SOLVED
+  UNABLE_TO_SOLVE
 }
 
 model Season {
