@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common'
-import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
+import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { Group } from 'src/group/entities/group.entity'
 import { GroupsService } from 'src/group/groups.service'
 import { UserProfile } from 'src/user-profile/entities/user-profile.entity'
@@ -91,6 +91,26 @@ export class UserResolver {
   async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     try {
       return await this.userService.update(updateUserInput)
+    } catch (e) {
+      return e.message
+    }
+  }
+
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.update)
+  @Mutation(() => Int, { description: descriptions.updateUser })
+  async addUsersToAGroup(
+    @Args('groupId') groupId: string,
+    @Args('studentIds', { type: () => [String]} ) studentIds: string[],
+    ) {
+    try {
+      for (const studentId of studentIds) {
+        await this.userService.update({
+          groupId,
+          id: studentId
+        })
+      }
+      return studentIds.length
     } catch (e) {
       return e.message
     }
