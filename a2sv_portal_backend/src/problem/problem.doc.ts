@@ -50,8 +50,7 @@ const descriptions = {
         }
       }
     `,
-  problems: 
-  `
+  problems: `
   Example\n
   query Problems {
     problems {

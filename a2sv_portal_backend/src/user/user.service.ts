@@ -143,13 +143,10 @@ export class UserService {
   }
 
   async update(updateUserInput: UpdateUserInput | UpdateUserInput[]): Promise<User> {
-    if (Array.isArray(updateUserInput)){
+    if (Array.isArray(updateUserInput)) {
       // return this.prismaService.user.updateMany{
       //
       // })
-
-
-
       return
     }
 
@@ -359,7 +356,7 @@ export class UserService {
     let totalTimeDedicated = 0
     let totalAttempts = 0
     let unableToSolve = 0
-    let uncomfortablity = 100
+    let unComfortability = 100
     let acceptanceRate = 0
     let easyCount = 0
     let mediumCount = 0
@@ -392,7 +389,7 @@ export class UserService {
       }
     }
     if (numberOfCorrectSubmissions) {
-      uncomfortablity = (unableToSolve / numberOfCorrectSubmissions) * 100
+      unComfortability = (unableToSolve / numberOfCorrectSubmissions) * 100
     }
 
     const numberOfIncorrectSubmissions = totalAttempts - numberOfCorrectSubmissions
@@ -405,7 +402,7 @@ export class UserService {
       numberOfCorrectSubmissions,
       numberOfIncorrectSubmissions,
       totalTimeDedicated,
-      unComfortability: uncomfortablity,
+      unComfortability,
       easyCount,
       mediumCount,
       hardCount,
