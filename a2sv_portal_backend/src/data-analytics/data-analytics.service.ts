@@ -35,7 +35,8 @@ export class DataAnalyticsService {
           update: {
             userId:user.id,
             createdAt: new Date()
-          }
+          },
+        
         })  
   }
   // for(const user of users){
@@ -75,6 +76,9 @@ export class DataAnalyticsService {
           lte:end_date,
           gte:start_date
         }
+      },
+      include:{
+        user:true
       }
     })
     return user_stat; 
