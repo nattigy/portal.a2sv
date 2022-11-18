@@ -13,13 +13,23 @@ const ProblemsList = ({ problems }: Props) => {
     </div>
   ) : (
     <div>
+      {/* <div className="flex items-center justify-between h-12 px-3 font-semibold hover:bg-gray-200">
+        <div className="w-full grid grid-cols-4">
+          <h1>title</h1>
+          <h1>title</h1>
+          <h1>title</h1>
+          <h1>title</h1>
+        </div>
+      </div> */}
       {problems.map((problem, index) => {
         return (
           <ProblemsItem
             key={index}
-            name={problem.name}
+            title={problem.title}
             difficulty={problem.difficulty}
             platform={problem.platform}
+            createdAt={problem.createdAt}
+            tags={problem.tags}
           />
         );
       })}

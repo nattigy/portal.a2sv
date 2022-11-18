@@ -15,7 +15,7 @@ const HOAAllProblemsPage = (props: Props) => {
 
   useEffect(() => {
     if (data) {
-      setProblemsData(data?.problems);
+      setProblemsData(data.problems?.items);
     }
   }, [refetch, data]);
 
