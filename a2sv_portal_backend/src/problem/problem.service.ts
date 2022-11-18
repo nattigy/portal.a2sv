@@ -35,7 +35,16 @@ export class ProblemService {
   ): Promise<PaginationProblem> {
     const problemsCount = (
       await this.prismaService.problem.findMany({
-        where: filterProblemInput,
+        where: {
+          ...filterProblemInput,
+          tags: filterProblemInput?.tags && {
+            some: {
+              name: {
+                in: filterProblemInput?.tags
+              }
+            }
+          }
+        },
         select: {
           id: true,
         },
@@ -44,7 +53,16 @@ export class ProblemService {
     const problems: Problem[] = await this.prismaService.problem.findMany({
       skip,
       take,
-      where: filterProblemInput,
+      where: {
+        ...filterProblemInput,
+        tags:filterProblemInput?.tags && {
+          some: {
+            name: {
+              in: filterProblemInput?.tags
+            }
+          }
+        }
+      },
       include: {
         tags: true,
         seasonTopics: {
@@ -78,10 +96,22 @@ export class ProblemService {
     })
   }
 
-  async update(id: string, updateProblemInput: UpdateProblemInput): Promise<Problem> {
+  async update(id: string, { tags, ...updateInput }: UpdateProblemInput): Promise<Problem> {
     return this.prismaService.problem.update({
       where: { id },
-      data: updateProblemInput,
+      data: {
+        ...updateInput,
+        tags: {
+          connectOrCreate: tags.map(({ name }) => ({
+            where: {
+              name,
+            },
+            create: {
+              name,
+            },
+          })),
+        },
+      },
       include: {
         tags: true,
         seasonTopics: {

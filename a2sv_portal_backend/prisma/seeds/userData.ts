@@ -1,6 +1,6 @@
 import { RoleEnum, Status } from "@prisma/client"
 
-export const users =[
+export const userData =[
     {
         "email": "adona@a2sv.org",
         "password":  '$2b$10$meWlkGCFEHkP/serox2RGuOr3LQJBnPLweHt3ZmL0S0yBbSbg9Tnm',
@@ -51,4 +51,4 @@ export const users =[
     },
 ]
 
-export default users
+export default userData

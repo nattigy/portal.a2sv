@@ -15,6 +15,7 @@ import { TopicActionStatus } from './entities/topic-action-status'
 import { Topic } from './entities/topic.entity'
 import { TopicService } from './topic.service'
 import { FilterTopicInput } from './dto/filter-topic-input'
+import descriptions from './topic.doc'
 
 @Resolver(() => Topic)
 export class TopicResolver {
@@ -22,7 +23,7 @@ export class TopicResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.create)
-  @Mutation(() => Topic)
+  @Mutation(() => Topic, {description:descriptions.createTopic})
   async createTopic(
     @Args('createTopicInput') createTopicInput: CreateTopicInput,
   ): Promise<Topic> {
@@ -31,7 +32,7 @@ export class TopicResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.read)
-  @Query(() => PaginationTopic)
+  @Query(() => PaginationTopic,{description:descriptions.topics})
   async topics(
     @Args('filterTopicInput', { type: () => FilterTopicInput, nullable: true })
     filterTopicInput?: FilterTopicInput,
@@ -43,14 +44,14 @@ export class TopicResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.read)
-  @Query(() => Topic)
+  @Query(() => Topic,{description:descriptions.topic})
   async topic(@Args('id', { type: () => String }) id: string): Promise<Topic> {
     return this.topicService.findOne(id)
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.update)
-  @Mutation(() => Topic)
+  @Mutation(() => Topic,{description:descriptions.updateTopic})
   async updateTopic(
     @Args('id', { type: () => String }) id: string,
     @Args('updateTopicInput') updateTopicInput: UpdateTopicInput,
@@ -60,7 +61,7 @@ export class TopicResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.delete)
-  @Mutation(() => Topic)
+  @Mutation(() => Topic,{description:descriptions.deleteTopic})
   async deleteTopic(@Args('id', { type: () => String }) id: string) {
     return this.topicService.deleteTopic(id)
   }
@@ -74,7 +75,7 @@ export class TopicResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.update)
-  @Mutation(() => TopicActionStatus)
+  @Mutation(() => TopicActionStatus,{description:descriptions.addTopicToGroup})
   async addTopicToGroup(
     @Args('addTopicToGroupInput', { type: () => AddTopicToSeasonInput })
     addTopicToGroupInput: AddTopicToSeasonInput,

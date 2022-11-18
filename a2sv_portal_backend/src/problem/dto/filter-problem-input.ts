@@ -2,7 +2,7 @@ import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
 export class FilterProblemInput {
-  @Field()
+  @Field({ nullable: true })
   id?: string
   @Field({ nullable: true })
   title?: string
@@ -12,6 +12,8 @@ export class FilterProblemInput {
   link?: string
   @Field({ nullable: true })
   difficulty?: string
+  @Field(()=>[String],{ nullable: true })
+  tags?: string[]
   @Field({ nullable: true })
   createdAt?: Date
   @Field({ nullable: true })

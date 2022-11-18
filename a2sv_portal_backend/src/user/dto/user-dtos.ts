@@ -11,7 +11,7 @@ export class StudentStat {
   @Field(() => Int)
   totalTimeDedicated: number
   @Field(() => Float)
-  uncomfortablity: number
+  unComfortability: number
   @Field(() => Int)
   easyCount: number
   @Field(() => Int)
@@ -51,5 +51,5 @@ export class TopicCoverageStat {
   @Field(() => Float)
   totalTopicCoverage: number
   @Field(() => Float)
-  uncomfortability: number
+  unComfortability: number
 }

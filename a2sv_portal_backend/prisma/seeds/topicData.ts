@@ -1,4 +1,4 @@
-export const topics = [
+export const topicData = [
   {
     description: 'BFS Description',
     name: 'BFS',
@@ -20,4 +20,4 @@ export const topics = [
     name: 'String',
   },
 ]
-export default topics
+export default topicData

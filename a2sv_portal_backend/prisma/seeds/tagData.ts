@@ -1,4 +1,4 @@
-export const tags = [
+export const tagData = [
   {
     name: 'BFS',
   },
@@ -20,4 +20,4 @@ export const tags = [
     name: "TWO POINTERS"
   }
 ]
-export default tags
+export default tagData

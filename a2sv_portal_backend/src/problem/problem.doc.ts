@@ -50,7 +50,51 @@ const descriptions = {
         }
       }
     `,
-  problems: ``,
+  problems: 
+  `
+  Example\n
+  query Problems {
+    problems {
+      items {
+        id
+        link
+        platform
+        title
+        difficulty
+      }
+    }
+  }
+  Return\n
+  {
+    "data": {
+      "problems": {
+        "items": [
+          {
+            "id": "b497240c-f885-4fc5-adf3-d09ad0662a1c",
+            "link": "https://leetcode.com/problems/two-sum/",
+            "platform": "LEETCODE",
+            "title": "Two Sum",
+            "difficulty": "EASY"
+          },
+          {
+            "id": "cf8dfeb5-cede-480a-b683-0bf8a5fcde37",
+            "link": "https://leetcode.com/problems/valid-sudoku/",
+            "platform": "LEETCODE",
+            "title": "Valid Soduku",
+            "difficulty": "HARD"
+          },
+          {
+            "id": "e6c0f2ca-c675-4afd-a506-d974ea96676e",
+            "link": "https://leetcode.com/problems/reverse-integer/",
+            "platform": "LEETCODE",
+            "title": "Reverse Integer",
+            "difficulty": "MEDIUM"
+          }
+        ]
+      }
+    }
+  }
+  `,
   problem: `
     Argument\n
       - id: id of the problem we want to see

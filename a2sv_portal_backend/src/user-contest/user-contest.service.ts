@@ -58,7 +58,7 @@ export class UserContestService {
     if (userContest !== null && userContest !== undefined) {
       userContest.contestAttended = userContest?.userContestProblems?.length > 0
       for (const problem of userContest.userContestProblems) {
-        if (problem.status == UserContestProblemStatus.SOLVED) userContest.problemsSolved += 1
+        if (problem.status == UserContestProblemStatus.SOLVED_IN_CONTEST) userContest.problemsSolved += 1
         userContest.wrongSubmissions += problem.numberOfAttempts
         userContest.timeSpent += problem.numberOfMinutes
       }
@@ -81,7 +81,7 @@ export class UserContestService {
           problemId: problem.id,
           numberOfMinutes: 0,
           numberOfAttempts: 0,
-          status: UserContestProblemStatus.UNATTEMPTED,
+          status: UserContestProblemStatus.NOT_SOLVED,
           problem: problem,
           user,
           contest,

@@ -1,4 +1,4 @@
-export const groups = [
+export const groupsData = [
   {
       "country": "Ethiopia",
       "name": "Group-12",
@@ -25,4 +25,4 @@ export const groups = [
       "school": "Legos University"
   }
 ]
-export default groups
+export default groupsData
