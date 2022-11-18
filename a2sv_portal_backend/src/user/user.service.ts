@@ -369,7 +369,7 @@ export class UserService {
             if (userProblem.userId === id) {
               if (userProblem.solved) {
                 numberOfCorrectSubmissions++
-                switch (userProblem.seasonTopicProblem.problem.difficulty.toUpperCase()) {
+                switch (userProblem.seasonTopicProblem?.problem.difficulty.toUpperCase()) {
                   case 'EASY':
                     easyCount++
                     break

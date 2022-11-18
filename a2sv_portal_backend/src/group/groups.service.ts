@@ -39,6 +39,15 @@ export class GroupsService {
               include: {
                 problems: {
                   include: {
+                    users: {
+                      include: {
+                        seasonTopicProblem: {
+                          include: {
+                            problem: true
+                          }
+                        }
+                      }
+                    },
                     problem: {
                       include: {
                         users: true,
