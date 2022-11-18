@@ -39,17 +39,17 @@ export class SeasonTopicProblemService {
         include: {
           problem: true,
           seasonTopic: {
-            include:{
-              season:{
-                include:{
-                  group:{
-                    include:{
-                      users:true
-                    }
-                  }
-                }
-              }
-            }
+            include: {
+              season: {
+                include: {
+                  group: {
+                    include: {
+                      users: true,
+                    },
+                  },
+                },
+              },
+            },
           },
         },
       })
