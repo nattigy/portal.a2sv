@@ -6,7 +6,7 @@ import SeasonItem from "../seasons/SeasonItem";
 
 export type TopicItemProps = {
   title: string;
-  season?:{name:string,id:number};
+  season?:{name:string,id:string};
   topic: any;
   groupId?:string;
   idx:number
@@ -34,7 +34,7 @@ export const slugify = (...args: (string | number)[]): string => {
 };
 
 const TopicItem = (props: TopicItemProps) => {
-  const pathname = `topics/${props?.season?.name.toLowerCase()}/${slugify(
+  const pathname = `${slugify(props.season?.name.toString()||"")}/topics/${slugify(
     props.topic.name
   )}/problems`;
   

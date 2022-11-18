@@ -4,7 +4,7 @@ import * as yup from "yup";
 import clsx from "clsx";
 import { ApolloError, useMutation } from "@apollo/client";
 import {
-  ADD_TOPIC_UNDER_GROUP_AND_SEASON_ID,
+  ADD_SEASON_TOPIC,
   CREATE_TOPIC_MUTATION,
 } from "../../lib/apollo/Mutations/topicsMutations";
 import FormAffirmativeButton from "../common/FormAffirmativeButton";
@@ -20,7 +20,6 @@ type Props = {
   isEditing: boolean;
   values?: FormValues;
   onClose: () => void;
-  groupId: string;
   seasonId: string;
 };
 
@@ -30,9 +29,7 @@ const TopicModal = (props: Props) => {
   const [addNewTopic, { loading, error, data }] = useMutation(
     CREATE_TOPIC_MUTATION
   );
-  const [addTopicToGroupAndSeason] = useMutation(
-    ADD_TOPIC_UNDER_GROUP_AND_SEASON_ID
-  );
+  const [addTopicToGroupAndSeason] = useMutation(ADD_SEASON_TOPIC);
   const [existingTopic, setExistingTopic] = useState<TopicType | null>(null);
 
   const INITIAL_VALUES: FormValues = {
@@ -41,8 +38,8 @@ const TopicModal = (props: Props) => {
   };
 
   const FORM_VALIDATION = yup.object().shape({
-    topic_title: yup.string().required("Required"),
-    description: yup.string().required("Required"),
+    // topic_title: yup.string().required("Required"),
+    // description: yup.string().required("Required"),
   });
 
   return (
@@ -78,7 +75,6 @@ const TopicModal = (props: Props) => {
                 await addTopicToGroupAndSeason({
                   variables: {
                     addTopicToGroupInput: {
-                      groupId: props.groupId,
                       seasonId: props.seasonId,
                       topicId: existingTopic?.id,
                     },

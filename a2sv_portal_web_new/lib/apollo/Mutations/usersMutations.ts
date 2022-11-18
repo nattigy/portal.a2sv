@@ -11,15 +11,6 @@ export const CREATE_USER_MUTATION = gql`
     }
   }
 `;
-export const ADD_STUDENTS_TO_GROUP = gql`
-  mutation Mutation($updateGroupInput: UpdateGroupInput!) {
-    updateGroup(updateGroupInput: $updateGroupInput) {
-      users {
-        email
-      }
-    }
-  }
-`;
 export const ASSIGN_USER_TO_GROUP = gql`
   mutation UpdateUser($updateUserInput: UpdateUserInput!) {
     updateUser(updateUserInput: $updateUserInput) {

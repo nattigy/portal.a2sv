@@ -27,9 +27,9 @@ const GroupStudentsSidebarItem = ({
 
   useEffect(() => {
     if (data) {
-      setStudents(data.users);
+      setStudents(data.users.items);
     }
-  }, [refetch, students]);
+  }, [refetch, students,data]);
 
   return (
     <div className={clsx("h-full flex flex-col gap-y-2 justify-between")}>
@@ -51,7 +51,7 @@ const GroupStudentsSidebarItem = ({
               <LoaderSmall />
             </div>
           ) : (
-            <AddStudentList groupId={groupId} students={data?.users} />
+            <AddStudentList groupId={groupId} students={students} />
           )}
         </div>
       </div>

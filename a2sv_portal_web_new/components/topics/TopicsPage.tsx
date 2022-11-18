@@ -30,7 +30,7 @@ const TopicsPage = ({seasonId}: Props) => {
       fetchSeasonTopics();
     }, [tabIndex, refetch, fetchSeasonTopics]);
 
-    console.log("Data", data)
+    console.log("Daksfkldfsklfdklmdta", data)
     useEffect(() => {
       if (data) {
         setSeasonTopics(data?.seasonTopics?.items);
@@ -78,9 +78,9 @@ const TopicsPage = ({seasonId}: Props) => {
         <p>Something went wrong</p>
       ) : ( */}
 
-        <div className="flex flex-col items-center gap-y-4">
+        <div className="w-full flex flex-col  gap-y-4">
           {loading ? (
-            <div className=" h-full w-full flex justify-center items-center">
+            <div className=" h-full w-full flex ">
               <LoaderSmall />
             </div>
           ) : // ) : error ? (
@@ -90,7 +90,7 @@ const TopicsPage = ({seasonId}: Props) => {
           ) 
           : (
             <TopicList
-              season={{ id: 1, name: "Camp" }}
+              season={{ id: seasonId, name: "" }}
               topics={seasonTopics}
               title="All Topics"
             />

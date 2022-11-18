@@ -23,7 +23,7 @@ const HOATopicsPage = () => {
       {isNewTopicModalOpen && (
         <TopicModal
           isEditing={false}
-          onClose={() => setIsNewTopicModalOpen(false)} groupId={""} seasonId={""}        />
+          onClose={() => setIsNewTopicModalOpen(false)} seasonId={""}        />
       )}
       <div className="w-full my-2  flex flex-col md:flex-row justify-between">
         <div className="my-2 justify-between flex items-center mb-2 gap-x-5 ">

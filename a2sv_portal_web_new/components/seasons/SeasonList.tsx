@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useGetGroupSeasons } from "../../lib/hooks/useSeasons";
 import { Season } from "../../types/season";
 import EmptyState from "../common/EmptyState";
@@ -11,6 +11,16 @@ type SeasonListProps = {
 
 const SeasonList = ({ groupId }: SeasonListProps) => {
   const { data, loading, error } = useGetGroupSeasons(groupId);
+  const [seasons, setseasons] = useState<any>();
+  console.log("group id is",groupId);
+  console.log("data is",data);
+  useEffect(() => {
+    if(data){
+      setseasons(data?.seasons);
+    }
+    
+  }, [groupId,data])
+  
 
   return !groupId ? (
     <div className="h-full flex items-center">
@@ -26,7 +36,7 @@ const SeasonList = ({ groupId }: SeasonListProps) => {
     <EmptyState />
   ) : (
     <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-6">
-      {data?.seasons?.items?.map((item: any, index: number) => (
+      {seasons?.items?.map((item: any, index: number) => (
         <SeasonItem key={index} seasonProps={item} />
       ))}
     </div>

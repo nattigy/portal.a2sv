@@ -38,6 +38,10 @@ mutation DeleteGroup($deleteGroupId: String!) {
     }
   }
 `;
+export const ADD_STUDENTS_TO_GROUP = gql`
+mutation AddUsersToAGroup($groupId: String!, $studentIds: [String!]!) {
+  addUsersToAGroup(groupId: $groupId, studentIds: $studentIds)
+}`;
 
 export const EDIT_GROUP = gql`
   mutation UpdateGroup($updateGroupInput: UpdateGroupInput!) {

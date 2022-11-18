@@ -4,7 +4,7 @@ import ProblemsTable from "./ProblemsTable";
 import { useReactiveVar } from "@apollo/client";
 import { authenticatedUser } from "../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../types/user";
-import useAllProblems from "../../lib/hooks/useAllProblems";
+import useAllProblems, { useGetProblemsByGroupSeasonTopic } from "../../lib/hooks/useAllProblems";
 import { LoaderSmall } from "../common/Loaders";
 import Button from "../common/Button";
 import SearchField from "../common/SearchField";
@@ -29,7 +29,7 @@ const ProblemsPage = (props: ProblemsPageProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddNewProblemModalOpen, setIsAddNewProblemModalOpen] =
     useState<boolean>(false);
-  const { loading, data, refetch, error } = useAllProblems();
+  const { loading, data, error } = useGetProblemsByGroupSeasonTopic(props.seasonId,props.topicId);
   const [problems, setProblems] = useState<ProblemsInfo[]>([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -51,9 +51,10 @@ const ProblemsPage = (props: ProblemsPageProps) => {
 
   useEffect(() => {
     if (data) {
-      setProblems(data.problems);
+      setProblems(data?.seasonTopicProblems?.items.map((item:any)=>item.problem));
     }
-  }, [refetch, data]);
+  }, [ data]);
+  console.log(data);
 
   return (
     <>
@@ -67,7 +68,7 @@ const ProblemsPage = (props: ProblemsPageProps) => {
       {isEditModalOpen && (
         <TopicModal
           isEditing={true}
-          onClose={() => setIsEditModalOpen(false)} groupId={""} seasonId={""} />
+          onClose={() => setIsEditModalOpen(false)} seasonId={""} />
       )}
       {isDeleteModalOpen && (
         <DeletePopupModal
@@ -82,7 +83,6 @@ const ProblemsPage = (props: ProblemsPageProps) => {
       <div className="h-screen font-semibold text-[#565656]">
         <div className="flex flex-row items-center justify-between my-6 font-semibold text-xl text-[#565656]">
           <div>
-            <h1>{props.topicId}</h1>
           </div>
           <div>
             <SearchField
@@ -131,10 +131,13 @@ const ProblemsPage = (props: ProblemsPageProps) => {
           </div>
         ) : error ? (
           <p>Something went wrong</p>
-        ) : problems.length === 0 ? (
+        ) : problems?.length === 0 ? (
           <EmptyState />
         ) : (
-          <ProblemsTable problems={problems} />
+          <div>
+           
+            <ProblemsTable problems={problems} />
+          </div>
         )}
       </div>
     </>
