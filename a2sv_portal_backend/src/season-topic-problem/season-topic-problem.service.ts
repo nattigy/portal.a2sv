@@ -38,7 +38,19 @@ export class SeasonTopicProblemService {
         where: seasonTopicProblemFilter,
         include: {
           problem: true,
-          seasonTopic: true,
+          seasonTopic: {
+            include:{
+              season:{
+                include:{
+                  group:{
+                    include:{
+                      users:true
+                    }
+                  }
+                }
+              }
+            }
+          },
         },
       })
     return {

@@ -26,7 +26,7 @@ export class SeasonTopicProblemResolver {
 
   @Query(() => PaginationSeasonTopicProblem, { description: descriptions.seasonTopicProblems })
   async seasonTopicProblems(
-    @Args('seasonTopicProblemFilter', { type: () => SeasonTopicProblemFilter })
+    @Args('seasonTopicProblemFilter', { type: () => SeasonTopicProblemFilter, nullable:true })
       seasonTopicProblemFilter: SeasonTopicProblemFilter,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
       pageInfoInput?: PaginationInfoInput,

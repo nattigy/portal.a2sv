@@ -19,11 +19,11 @@ export class DataAnalyticsResolver {
     return this.dataAnalyticsService.findAll();
   }
 
-  @Query(() => DataAnalytic, { name: 'dataAnalytic' })
+  @Query(() => [DataAnalytic], { name: 'dataAnalytic' })
   findOne(
-    @Args('start_date', { type: () => Date }) start_date: Date,
-    @Args('end_date', {type:()=>Date}) end_date:Date, 
-    @Args('user_id',{type:()=>String}) user_id: string): Promise<UserAnalytics[]>{
+    @Args('start_date', { type: () => Date , nullable:true}) start_date?: Date,
+    @Args('end_date', {type:()=>Date, nullable:true}) end_date?:Date, 
+    @Args('user_id',{type:()=>String}) user_id?: string): Promise<UserAnalytics[]>{
     return this.dataAnalyticsService.userStat(start_date,end_date,user_id);
   }
 

@@ -9,7 +9,7 @@ import { UpdateDataAnalyticInput } from './dto/update-data-analytic.input';
 export class DataAnalyticsService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  @Cron(CronExpression.EVERY_10_SECONDS,{name:'Scheduler Populate user_data fields', 
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT,{name:'Scheduler Populate user_data fields', 
       timeZone: 'Europe/Paris'})
  async populateData() {   
       const users = await this.prismaService.user.findMany({
@@ -60,7 +60,7 @@ export class DataAnalyticsService {
     return `This action returns all dataAnalytics`;
   }
 
-  async userStat(start_date:Date,end_date:Date, user_id:string) {
+  async userStat(start_date?:Date,end_date?:Date, user_id?:string) {
     if (!start_date){
       const date = new Date();
       start_date = new Date(`${date.getFullYear}-01-01`)
@@ -68,7 +68,7 @@ export class DataAnalyticsService {
     if(!end_date){
       end_date = new Date();
     }
-    const user_stat  = this.prismaService.userAnalytics.findMany({
+    const user_stat  = await this.prismaService.userAnalytics.findMany({
       where:{
         userId:user_id,
         createdAt:{
