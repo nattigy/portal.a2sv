@@ -25,9 +25,12 @@ import { UserProfileModule } from './user-profile/user-profile.module'
 import { UserTopicModule } from './user-topic/user-topic.module'
 import { UserModule } from './user/user.module'
 import { PrismaModule } from './prisma/prisma.module'
+import { DataAnalyticsModule } from './data-analytics/data-analytics.module';
+import { ScheduleModule } from '@nestjs/schedule'
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       cors: {
@@ -69,7 +72,11 @@ import { PrismaModule } from './prisma/prisma.module'
     UserContestModule,
     UserContestProblemModule,
     GroupContestModule,
+    PrismaModule,
+    CaslModule,
+    DataAnalyticsModule,
   ],
   providers: [AppService, AppResolver],
+  
 })
 export class AppModule {}

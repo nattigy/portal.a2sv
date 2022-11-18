@@ -9,6 +9,7 @@ import { PaginationSeasonTopicProblemUser } from '../common/page/pagination-info
 import { SeasonTopicProblem } from '../season-topic-problem/entities/season-topic-problem.entity'
 import { User } from '../user/entities/user.entity'
 
+
 @Injectable()
 export class SeasonTopicUserProblemService {
   constructor(private readonly prismaService: PrismaService) {}
@@ -218,6 +219,22 @@ export class SeasonTopicUserProblemService {
     ...updates
   }: UpdateSeasonTopicProblemUserInput): Promise<SeasonTopicUserProblem> {
     const { seasonId, problemId, userId, topicId } = id
+    if (updates.solved){
+      await  this.prismaService.userAnalytics.update({
+        where:{
+          userId_createdAt:{
+            userId,
+            createdAt:new Date()
+          }
+         },
+        data:{
+          count:{
+            increment:1
+          }
+        }
+      })
+    }
+    console.log("===status ==updated")
     return this.prismaService.seasonTopicProblemUser.upsert({
       where: {
         seasonId_topicId_problemId_userId: {
@@ -257,7 +274,7 @@ export class SeasonTopicUserProblemService {
     })
   }
 
-  async remove({ seasonId, topicId, problemId, userId }: SeasonTopicProblemUserId) {
+  async remove({ seasonId, topicId, problemId, userId}: SeasonTopicProblemUserId) {
     return this.prismaService.seasonTopicProblemUser.delete({
       where: {
         seasonId_topicId_problemId_userId: {
@@ -269,4 +286,25 @@ export class SeasonTopicUserProblemService {
       },
     })
   }
+
+  async problemSolved({ seasonId, topicId, problemId, userId }: SeasonTopicProblemUserId){
+    //update season/problem/topic/user => solved
+    const seasonTopicproblemUser = this.prismaService.seasonTopicProblemUser.update({
+      where:{
+        seasonId_topicId_problemId_userId: {
+          seasonId,
+          topicId,
+          problemId,
+          userId,
+        }
+      },
+      data:{
+        solved:true
+      }
+    })
+
+    
+    return seasonTopicproblemUser
+  }
 }
+
