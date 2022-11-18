@@ -1,6 +1,5 @@
-const descriptions ={
-createSeason:
-`
+const descriptions = {
+  createSeason: `
 - Create a season\n
 Argument\n
   - name: name of the season\n
@@ -38,8 +37,7 @@ Return \n
       }
   }
 `,
-seasons:
-`
+  seasons: `
 - Returns all the seasons\n
 Example\n
 query Seasons {
@@ -68,8 +66,7 @@ Return\n
     }
   }
 `,
-season:
-`
+  season: `
 - Return season filtered by id\n
     Argument\n
     - Id: id of a season we wanted to get
@@ -103,8 +100,7 @@ season:
       }
 
 `,
-updateSeason:
-`
+  updateSeason: `
 - Updates the season of given Id\n
 Argument\n
   - Id: id of the season we want update\n
@@ -139,8 +135,7 @@ Return\n
   }
 
 `,
-deleteSeason:
-`
+  deleteSeason: `
 - Delete a season \n
 Argument\n
 - Id - id of the season \n
@@ -156,7 +151,7 @@ Input\n
   {\n
     "deleteSeasonId":"670f86c0-8e45-4caa-96b1-4f6e695f1a78"
   }
-`
+`,
 }
 
 export default descriptions

@@ -23,7 +23,7 @@ export class TopicResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.create)
-  @Mutation(() => Topic, {description:descriptions.createTopic})
+  @Mutation(() => Topic, { description: descriptions.createTopic })
   async createTopic(
     @Args('createTopicInput') createTopicInput: CreateTopicInput,
   ): Promise<Topic> {
@@ -32,7 +32,7 @@ export class TopicResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.read)
-  @Query(() => PaginationTopic,{description:descriptions.topics})
+  @Query(() => PaginationTopic, { description: descriptions.topics })
   async topics(
     @Args('filterTopicInput', { type: () => FilterTopicInput, nullable: true })
     filterTopicInput?: FilterTopicInput,
@@ -44,14 +44,14 @@ export class TopicResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.read)
-  @Query(() => Topic,{description:descriptions.topic})
+  @Query(() => Topic, { description: descriptions.topic })
   async topic(@Args('id', { type: () => String }) id: string): Promise<Topic> {
     return this.topicService.findOne(id)
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.update)
-  @Mutation(() => Topic,{description:descriptions.updateTopic})
+  @Mutation(() => Topic, { description: descriptions.updateTopic })
   async updateTopic(
     @Args('id', { type: () => String }) id: string,
     @Args('updateTopicInput') updateTopicInput: UpdateTopicInput,
@@ -61,7 +61,7 @@ export class TopicResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.delete)
-  @Mutation(() => Topic,{description:descriptions.deleteTopic})
+  @Mutation(() => Topic, { description: descriptions.deleteTopic })
   async deleteTopic(@Args('id', { type: () => String }) id: string) {
     return this.topicService.deleteTopic(id)
   }
@@ -75,7 +75,7 @@ export class TopicResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.update)
-  @Mutation(() => TopicActionStatus,{description:descriptions.addTopicToGroup})
+  @Mutation(() => TopicActionStatus, { description: descriptions.addTopicToGroup })
   async addTopicToGroup(
     @Args('addTopicToGroupInput', { type: () => AddTopicToSeasonInput })
     addTopicToGroupInput: AddTopicToSeasonInput,
