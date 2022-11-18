@@ -1,4 +1,4 @@
-export const problems = [
+const problemData = [
   {
     title: 'Two Sum',
     link: 'https://leetcode.com/problems/two-sum/',
@@ -33,4 +33,4 @@ export const problems = [
     // ],
   },
 ]
-export default problems
+export default problemData
