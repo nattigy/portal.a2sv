@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common'
-import { Field, InputType } from '@nestjs/graphql'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateSeasonTopicProblemInput } from './dto/create-season-topic-problem.input'
 import { UpdateSeasonTopicProblemInput } from './dto/update-season-topic-problem.input'
@@ -7,16 +6,7 @@ import { SeasonTopicProblem } from './entities/season-topic-problem.entity'
 import { PaginationSeasonTopicProblem } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { SeasonTopicProblemId } from '../season-topic/dto/filter-season-topic.input'
-
-@InputType()
-export class SeasonTopicProblemFilter {
-  @Field()
-  seasonId?: string
-  @Field()
-  topicId?: string
-  @Field()
-  problemId?: string
-}
+import { SeasonTopicProblemFilter } from './dto/filter-season-topic-problem'
 
 @Injectable()
 export class SeasonTopicProblemService {
@@ -62,10 +52,10 @@ export class SeasonTopicProblemService {
   }
 
   async findOne({
-    seasonId,
-    topicId,
-    problemId,
-  }: SeasonTopicProblemId): Promise<SeasonTopicProblem> {
+                  seasonId,
+                  topicId,
+                  problemId,
+                }: SeasonTopicProblemId): Promise<SeasonTopicProblem> {
     return this.prismaService.seasonTopicProblem.findUnique({
       where: {
         seasonId_topicId_problemId: {
@@ -82,11 +72,11 @@ export class SeasonTopicProblemService {
   }
 
   async update({
-    seasonId,
-    topicId,
-    problemId,
-    ...updates
-  }: UpdateSeasonTopicProblemInput): Promise<SeasonTopicProblem> {
+                 seasonId,
+                 topicId,
+                 problemId,
+                 ...updates
+               }: UpdateSeasonTopicProblemInput): Promise<SeasonTopicProblem> {
     return this.prismaService.seasonTopicProblem.update({
       where: {
         seasonId_topicId_problemId: {

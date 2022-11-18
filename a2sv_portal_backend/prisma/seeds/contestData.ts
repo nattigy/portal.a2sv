@@ -1,4 +1,4 @@
-export const contestData = [
+const contestData = [
   {
     'name': 'contest 1',
     'link': 'link1',
