@@ -17,15 +17,9 @@ export const CREATE_PROBLEM_MUTATION = gql`
 `;
 
 export const ADD_EXISTING_PROBLEM = gql`
-  mutation UpdateGroupTopicSeason(
-    $updateGroupTopicSeasonInput: UpdateGroupTopicSeasonInput!
-  ) {
-    updateGroupTopicSeason(
-      updateGroupTopicSeasonInput: $updateGroupTopicSeasonInput
-    ) {
-      groupId
+  mutation UpdateSeasonTopic($updateSeasonTopicInput: UpdateSeasonTopicInput!) {
+    updateSeasonTopic(updateSeasonTopicInput: $updateSeasonTopicInput) {
       seasonId
-      topicId
     }
   }
 `;

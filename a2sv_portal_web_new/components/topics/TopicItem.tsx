@@ -34,7 +34,7 @@ export const slugify = (...args: (string | number)[]): string => {
 };
 
 const TopicItem = (props: TopicItemProps) => {
-  const pathname = `seasons/${slugify(props.season?.name.toString()||"")}/topics/${slugify(
+  const pathname = `${slugify(props.season?.name.toString()||"")}/topics/${slugify(
     props.topic.name
   )}/problems`;
   

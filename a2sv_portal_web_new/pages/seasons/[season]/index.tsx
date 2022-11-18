@@ -8,20 +8,27 @@ import { LoaderSmall } from "../../../components/common/Loaders";
 import TopicModal from "../../../components/modals/TopicModal";
 import TopicList from "../../../components/topics/TopicList";
 import TopicsFilter from "../../../components/topics/TopicsFilter";
-import TopicsPage from "../../../components/topics/TopicsPage";
 import TopicStruggledList from "../../../components/topics/TopicStruggledList";
 import {
   authenticatedUser,
   AuthUser,
 } from "../../../lib/constants/authenticated";
 import WithPermission from "../../../lib/Guard/WithPermission";
-import { useGetAllGroupTopicsBySeasonIdQuery } from "../../../lib/hooks/useTopics";
+import {
+  useGetAllGroupTopicsBySeasonIdQuery,
+  useGetAllTopics,
+} from "../../../lib/hooks/useTopics";
 import { GraphqlUserRole } from "../../../types/user";
 
 const IndexPage = () => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
   const [isAddTopicToGroupModalOpen, setIsAddTopicToGroupModalOpen] =
     useState(false);
+  const {
+    data: allTopics,
+    loading: allTopcisLoading,
+    error,
+  } = useGetAllTopics();
 
   const handleAddTopicToGroupModalOpen = () => {
     setIsAddTopicToGroupModalOpen(true);
@@ -31,7 +38,7 @@ const IndexPage = () => {
     useGetAllGroupTopicsBySeasonIdQuery(
       router.query?.seasonId?.toString() || ""
     );
-  const [seasonTopics, setSeasonTopics] = useState([]);
+  const [topics, setTopics] = useState([]);
   const [tabIndex, setTabIndex] = useState(0);
   // useEffect(() => {
   //   if (!router.isReady) return;
@@ -45,20 +52,25 @@ const IndexPage = () => {
   //   // codes using router.query
   // }, [router.isReady,refetch,data,fetchSeasonTopics]);
 
+  const handleTabChange = (index: number) => {
+    setTabIndex(index);
+  };
+
   useEffect(() => {
     fetchSeasonTopics();
   }, [tabIndex, refetch, fetchSeasonTopics]);
 
-  console.log("Data", data);
   useEffect(() => {
-    if (data) {
-      setSeasonTopics(data?.seasonTopics?.items);
+    if (tabIndex == 0) {
+      if (allTopics) {
+        setTopics(allTopics?.topics?.items);
+      }
+    } else {
+      if (data) {
+        setTopics(data.seasonTopics?.items.map((item:any)=>item.topic));
+      }
     }
-  }, [refetch, data]);
-
-  const handleTabChange = (index: number) => {
-    setTabIndex(index);
-  };
+  }, [refetch, data, tabIndex, allTopics]);
 
   const Sidebar: React.FC = () => {
     return (
@@ -84,16 +96,15 @@ const IndexPage = () => {
     <BaseLayout sidebar={<Sidebar />}>
       {isAddTopicToGroupModalOpen && (
         <TopicModal
+          isEditing={false}
           onClose={() => setIsAddTopicToGroupModalOpen(false)}
-          groupId={authUser?.headToGroup?.id}
-          seasonId={1}
+          seasonId={router.query?.seasonId?.toString() || ""}
         />
       )}
       <div className="h-full">
         <div className="w-full flex flex-col md:flex-row justify-between">
           <div className=" justify-between flex items-center mb-2 gap-x-5 ">
             <h1 className="text-2xl font-bold text-gray-700">Topics</h1>
-            {/* {JSON.stringify(router)}   */}
           </div>
           <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION]}>
             <Button
@@ -125,13 +136,16 @@ const IndexPage = () => {
             </div>
           ) : // ) : error ? (
           //   <p>Something went wrong</p>
-          data?.seasonTopics?.length === 0 ? (
+          topics.length=== 0 ? (
             <EmptyState />
           ) : (
             <TopicList
-              season={{ id: router.query.seasonId?.toString()||"", name:router.query.season?.toString()||"" }}
-              topics={seasonTopics}
-              title="All Topics"
+              season={{
+                id: router.query.seasonId?.toString() || "",
+                name: router.query.season?.toString() || "",
+              }}
+              topics={topics}
+              title="Topics"
             />
           )}
         </div>

@@ -10,14 +10,9 @@ export const CREATE_TOPIC_MUTATION = gql`
 `;
 
 export const ADD_SEASON_TOPIC = gql`
-  mutation UpdateSeasonTopic($updateSeasonTopicInput: UpdateSeasonTopicInput!) {
-    updateSeasonTopic(updateSeasonTopicInput: $updateSeasonTopicInput) {
-      seasonId
-      topic {
-        name
-      }
-    }
-  }
+  mutation Mutation($addTopicToGroupInput: AddTopicToSeasonInput!) {
+  addTopicToGroup(addTopicToGroupInput: $addTopicToGroupInput)
+}
 `;
 
 export const DELETE_TOPIC = gql`

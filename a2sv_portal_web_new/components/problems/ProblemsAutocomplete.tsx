@@ -38,8 +38,8 @@ export default function ProblemsAutocomplete({ handleSearchProblem }: Props) {
 
   useEffect(() => {
     if (data) {
-      setProblems(data?.problems);
-      setFilteredProblems(data?.problems);
+      setProblems(data?.problems?.items);
+      setFilteredProblems(data?.problems?.items);
     }
   }, [data]);
 

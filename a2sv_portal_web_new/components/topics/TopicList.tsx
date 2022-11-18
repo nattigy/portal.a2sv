@@ -18,7 +18,7 @@ const TopicList = (props: TopicListProps) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-5">
           {props.topics?.map((item: any,idx:number) => (
             <>
-              <TopicItem idx={idx} season={props.season} topic={item} key={idx} title={item.topic.name} groupId={props.groupId} />
+              <TopicItem idx={idx} season={props.season} topic={item} key={idx} title={item.name} groupId={props.groupId} />
             </>
           ))}
         </div>

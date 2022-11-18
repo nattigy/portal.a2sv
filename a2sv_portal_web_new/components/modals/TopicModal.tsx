@@ -29,9 +29,7 @@ const TopicModal = (props: Props) => {
   const [addNewTopic, { loading, error, data }] = useMutation(
     CREATE_TOPIC_MUTATION
   );
-  const [addTopicToGroupAndSeason] = useMutation(
-    ADD_SEASON_TOPIC
-  );
+  const [addTopicToGroupAndSeason] = useMutation(ADD_SEASON_TOPIC);
   const [existingTopic, setExistingTopic] = useState<TopicType | null>(null);
 
   const INITIAL_VALUES: FormValues = {
@@ -40,8 +38,8 @@ const TopicModal = (props: Props) => {
   };
 
   const FORM_VALIDATION = yup.object().shape({
-    topic_title: yup.string().required("Required"),
-    description: yup.string().required("Required"),
+    // topic_title: yup.string().required("Required"),
+    // description: yup.string().required("Required"),
   });
 
   return (
@@ -76,7 +74,7 @@ const TopicModal = (props: Props) => {
               } else {
                 await addTopicToGroupAndSeason({
                   variables: {
-                    updateSeasonTopicInput: {
+                    addTopicToGroupInput: {
                       seasonId: props.seasonId,
                       topicId: existingTopic?.id,
                     },

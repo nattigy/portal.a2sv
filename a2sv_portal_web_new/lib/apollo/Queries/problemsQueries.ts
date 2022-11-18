@@ -19,39 +19,44 @@ export const GET_SINGLE_PROBLEM_QUERY = gql`
 `;
 
 export const GET_ALL_PROBLEMS_QUERY = gql`
-  query GetProblems {
-    problems {
+  query Query {
+  problems {
+    items {
+      title
+      id
       createdAt
       difficulty
-      id
-      link
       platform
       tags {
-        name
         id
+        name
       }
-      title
       updatedAt
     }
   }
+}
 `;
 
 
 export const GET_PROBLEMS_BY_GROUP_SEASON_TOPIC = gql`
-query GroupTopicSeason($groupId: Int!, $topicId: Int!, $seasonId: Int!) {
-  groupTopicSeason(groupId: $groupId, topicId: $topicId, seasonId: $seasonId) {
-    problems {
+query Items($seasonTopicProblemFilter: SeasonTopicProblemFilter!) {
+  seasonTopicProblems(seasonTopicProblemFilter: $seasonTopicProblemFilter) {
+    items {
+      problemId
       problem {
+        createdAt
+        difficulty
         id
         link
         platform
         title
+        updatedAt
         tags {
-          name
           id
+          name
         }
-        difficulty
       }
+      seasonId
     }
   }
 }

@@ -129,15 +129,12 @@ const ProblemModal = (props: Props) => {
                   onCompleted: async (data) => {
                     await addExistingProblem({
                       variables: {
-                        updateGroupTopicSeasonInput: {
-                          groupId: props.groupId.toString,
+                        updateSeasonTopicInput: {
                           seasonId: props.seasonId.toString(),
                           topicId: props.topicId.toString(),
                           problems: [
                             {
-                              problemId: 
-                                data.createProblem.id
-                              ,
+                              problemId: data.createProblem.id,
                             },
                           ],
                         },
@@ -161,8 +158,7 @@ const ProblemModal = (props: Props) => {
               } else {
                 await addExistingProblem({
                   variables: {
-                    updateGroupTopicSeasonInput: {
-                      groupId: props.groupId.toString(),
+                    updateSeasonTopicInput: {
                       seasonId: props.seasonId.toString(),
                       topicId: props.topicId.toString(),
                       problems: [

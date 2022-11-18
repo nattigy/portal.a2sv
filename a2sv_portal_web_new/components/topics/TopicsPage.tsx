@@ -30,7 +30,7 @@ const TopicsPage = ({seasonId}: Props) => {
       fetchSeasonTopics();
     }, [tabIndex, refetch, fetchSeasonTopics]);
 
-    console.log("Data", data)
+    console.log("Daksfkldfsklfdklmdta", data)
     useEffect(() => {
       if (data) {
         setSeasonTopics(data?.seasonTopics?.items);
@@ -54,7 +54,6 @@ const TopicsPage = ({seasonId}: Props) => {
         <div className="w-full flex flex-col md:flex-row justify-between">
           <div className=" justify-between flex items-center mb-2 gap-x-5 ">
             <h1 className="text-2xl font-bold text-gray-700">Topics</h1>
-            {JSON.stringify(seasonId)}
           </div>
           <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION]}>
             <Button
@@ -91,7 +90,7 @@ const TopicsPage = ({seasonId}: Props) => {
           ) 
           : (
             <TopicList
-              season={{ id: 1, name: "Camp" }}
+              season={{ id: seasonId, name: "" }}
               topics={seasonTopics}
               title="All Topics"
             />
