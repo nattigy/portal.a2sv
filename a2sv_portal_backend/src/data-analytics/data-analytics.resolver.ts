@@ -3,6 +3,7 @@ import { DataAnalyticsService } from './data-analytics.service';
 import { DataAnalytic } from './entities/data-analytic.entity';
 import { CreateDataAnalyticInput } from './dto/create-data-analytic.input';
 import { UpdateDataAnalyticInput } from './dto/update-data-analytic.input';
+import { UserAnalytics } from '@prisma/client';
 
 @Resolver(() => DataAnalytic)
 export class DataAnalyticsResolver {
@@ -19,17 +20,20 @@ export class DataAnalyticsResolver {
   }
 
   @Query(() => DataAnalytic, { name: 'dataAnalytic' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.dataAnalyticsService.findOne(id);
+  findOne(
+    @Args('start_date', { type: () => Date }) start_date: Date,
+    @Args('end_date', {type:()=>Date}) end_date:Date, 
+    @Args('user_id',{type:()=>String}) user_id: string): Promise<UserAnalytics[]>{
+    return this.dataAnalyticsService.userStat(start_date,end_date,user_id);
   }
 
-  @Mutation(() => DataAnalytic)
-  updateDataAnalytic(@Args('updateDataAnalyticInput') updateDataAnalyticInput: UpdateDataAnalyticInput) {
-    return this.dataAnalyticsService.update(updateDataAnalyticInput.id, updateDataAnalyticInput);
-  }
+  // @Mutation(() => DataAnalytic)
+  // updateDataAnalytic(@Args('updateDataAnalyticInput') updateDataAnalyticInput: UpdateDataAnalyticInput) {
+  //   return this.dataAnalyticsService.update(updateDataAnalyticInput.id, updateDataAnalyticInput);
+  // }
 
-  @Mutation(() => DataAnalytic)
-  removeDataAnalytic(@Args('id', { type: () => Int }) id: number) {
-    return this.dataAnalyticsService.remove(id);
-  }
+  // @Mutation(() => DataAnalytic)
+  // removeDataAnalytic(@Args('id', { type: () => Int }) id: number) {
+  //   return this.dataAnalyticsService.remove(id);
+  // }
 }

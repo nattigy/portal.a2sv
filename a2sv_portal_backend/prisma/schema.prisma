@@ -4,8 +4,8 @@ generator client {
 
 datasource db {
   provider          = "postgresql"
-  // url               = env("LOCAL_DB_URL")
-  url               = env("DB_URL")
+  url               = env("LOCAL_DB_URL")
+  //url               = env("DB_URL")
   shadowDatabaseUrl = env("SHADOW_DB_URL")
 }
 
@@ -138,7 +138,8 @@ model User {
   userContestProblem  UserContestProblem[]
   problems            Problem[]
   UserProblem         UserProblem[]
-  UserAnalytics       UserAnalytics[]
+
+  UserAnalytics UserAnalytics[]
 }
 
 enum ComfortLevel {
@@ -289,10 +290,10 @@ model UserProblem {
 }
 
 model UserAnalytics {
-  id        String   @id @default(uuid())
   userId    String
   user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  count     Int     @default(0)
+  createdAt DateTime @default(now()) @db.Date
+  updatedAt DateTime @updatedAt @db.Date
+  count     Int      @default(0)
+  @@id([userId, createdAt])
 }

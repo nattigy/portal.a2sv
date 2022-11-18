@@ -9,43 +9,44 @@ import { UpdateDataAnalyticInput } from './dto/update-data-analytic.input';
 export class DataAnalyticsService {
   constructor(private readonly prismaService: PrismaService) {}
 
-    @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT,{name:'Scheduler Populate data fields', 
+  @Cron(CronExpression.EVERY_10_SECONDS,{name:'Scheduler Populate user_data fields', 
       timeZone: 'Europe/Paris'})
-
-    async populateData() {   
-    //iterate for each user creat a default record 
-    
-    // fetch user>group>seasonTopics>problems
-  //   const users = await this.prismaService.userContestProblem.findMany({
-  //     where: {
-  //       status: "ACTIVE" as unknown as Status
-  //     },
-  //     include:{
-  //       group:{
-  //         include:{
-  //           seasons:{
-  //           }
-  //         }
-  //       }
+ async populateData() {   
+      const users = await this.prismaService.user.findMany({
+        where:{
+          status: "ACTIVE" as unknown as Status
+        },
+        select:{
+          id:true
+        }
+      })
+      for(const user of users){
+        await this.prismaService.userAnalytics.upsert({
+          where:{
+            userId_createdAt: {
+              userId:user.id,
+            createdAt: new Date()
+            }
+          },
+          create: {
+            userId:user.id,
+            createdAt: new Date()
+          },
+          update: {
+            userId:user.id,
+            createdAt: new Date()
+          }
+        })  
+  }
+  // for(const user of users){
+  //   await this.prismaService.userAnalytics.create({
+  //     data:{
+  //       userId:user.id,
+  //       createdAt:new Date()
   //     }
   //   })
-  
-  
-  const users = await this.prismaService.user.findMany({
-    where:{
-      status: "ACTIVE" as unknown as Status
-    },
-    select:{
-      id:true
-    }
-  })
-  for(const user in users){
-    await this.prismaService.userAnalytics.create({
-      data:{
-          userId:user.id
-        }
-    })  
-  }
+  // }
+  console.log("=====poupulating user_stat======");
 }
 
 
@@ -67,24 +68,15 @@ export class DataAnalyticsService {
     if(!end_date){
       end_date = new Date();
     }
-
-    this.prismaService.userAnalytics.findMany({
-      where{
-        userid:user_id,
+    const user_stat  = this.prismaService.userAnalytics.findMany({
+      where:{
+        userId:user_id,
         createdAt:{
           lte:end_date,
           gte:start_date
         }
       }
     })
-     
-  }
-
-  update(id: number, updateDataAnalyticInput: UpdateDataAnalyticInput) {
-    return `This action updates a #${id} dataAnalytic`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} dataAnalytic`;
+    return user_stat; 
   }
 }

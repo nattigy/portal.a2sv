@@ -26,9 +26,11 @@ import { UserTopicModule } from './user-topic/user-topic.module'
 import { UserModule } from './user/user.module'
 import { PrismaModule } from './prisma/prisma.module'
 import { DataAnalyticsModule } from './data-analytics/data-analytics.module';
+import { ScheduleModule } from '@nestjs/schedule'
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       cors: {
@@ -75,5 +77,6 @@ import { DataAnalyticsModule } from './data-analytics/data-analytics.module';
     DataAnalyticsModule,
   ],
   providers: [AppService, AppResolver],
+  
 })
 export class AppModule {}
