@@ -39,7 +39,11 @@ export class GroupsService {
               include: {
                 problems: {
                   include: {
-                    problem: true,
+                    problem: {
+                      include: {
+                        users: true
+                      }
+                    },
                   },
                 },
               },
