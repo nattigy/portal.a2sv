@@ -12,7 +12,7 @@ export class FilterProblemInput {
   link?: string
   @Field({ nullable: true })
   difficulty?: string
-  @Field(()=>[String],{ nullable: true })
+  @Field(() => [String], { nullable: true })
   tags?: string[]
   @Field({ nullable: true })
   createdAt?: Date

@@ -101,13 +101,13 @@ export class UserResolver {
   @Mutation(() => Int, { description: descriptions.updateUser })
   async addUsersToAGroup(
     @Args('groupId') groupId: string,
-    @Args('studentIds', { type: () => [String]} ) studentIds: string[],
-    ) {
+    @Args('studentIds', { type: () => [String] }) studentIds: string[],
+  ) {
     try {
       for (const studentId of studentIds) {
         await this.userService.update({
           groupId,
-          id: studentId
+          id: studentId,
         })
       }
       return studentIds.length

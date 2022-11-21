@@ -185,7 +185,7 @@ export class GroupsService {
 
   async groupsStat(
     filterGroupInput: FilterGroupInput,
-    pageInfoInput?: PaginationInfoInput,
+    { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
   ): Promise<GroupStatResponsePage<GroupStatResponse>> {
     const groupStatResponses: GroupStatResponse[] = []
     const groupCount = (
@@ -197,8 +197,8 @@ export class GroupsService {
       })
     ).length
     const groups = await this.prismaService.group.findMany({
-      skip: pageInfoInput.skip,
-      take: pageInfoInput.take,
+      skip,
+      take,
       where: filterGroupInput,
       include: {
         users: {
@@ -270,8 +270,8 @@ export class GroupsService {
     return {
       items: groupStatResponses,
       pageInfo: {
-        skip: pageInfoInput.skip,
-        take: pageInfoInput.take,
+        skip,
+        take,
         count: groupCount,
       },
     }

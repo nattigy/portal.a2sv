@@ -40,10 +40,10 @@ export class ProblemService {
           tags: filterProblemInput?.tags && {
             some: {
               name: {
-                in: filterProblemInput?.tags
-              }
-            }
-          }
+                in: filterProblemInput?.tags,
+              },
+            },
+          },
         },
         select: {
           id: true,
@@ -55,13 +55,13 @@ export class ProblemService {
       take,
       where: {
         ...filterProblemInput,
-        tags:filterProblemInput?.tags && {
+        tags: filterProblemInput?.tags && {
           some: {
             name: {
-              in: filterProblemInput?.tags
-            }
-          }
-        }
+              in: filterProblemInput?.tags,
+            },
+          },
+        },
       },
       include: {
         tags: true,

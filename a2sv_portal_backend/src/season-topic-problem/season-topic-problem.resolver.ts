@@ -11,15 +11,14 @@ import { SeasonTopicProblemFilter } from './dto/filter-season-topic-problem'
 
 @Resolver(() => SeasonTopicProblem)
 export class SeasonTopicProblemResolver {
-  constructor(private readonly seasonTopicProblemService: SeasonTopicProblemService) {
-  }
+  constructor(private readonly seasonTopicProblemService: SeasonTopicProblemService) {}
 
   @Mutation(() => SeasonTopicProblem, {
     description: descriptions.createSeasonTopicProblem,
   })
   async createSeasonTopicProblem(
     @Args('createSeasonTopicProblemInput')
-      createSeasonTopicProblemInput: CreateSeasonTopicProblemInput,
+    createSeasonTopicProblemInput: CreateSeasonTopicProblemInput,
   ) {
     return this.seasonTopicProblemService.create(createSeasonTopicProblemInput)
   }
@@ -29,7 +28,7 @@ export class SeasonTopicProblemResolver {
     @Args('seasonTopicProblemFilter', { type: () => SeasonTopicProblemFilter, nullable:true })
       seasonTopicProblemFilter: SeasonTopicProblemFilter,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationSeasonTopicProblem> {
     return this.seasonTopicProblemService.findAll(seasonTopicProblemFilter, pageInfoInput)
   }
@@ -39,7 +38,7 @@ export class SeasonTopicProblemResolver {
   })
   async seasonTopicProblem(
     @Args('seasonTopicProblemId', { type: () => SeasonTopicProblemId })
-      id: SeasonTopicProblemId,
+    id: SeasonTopicProblemId,
   ) {
     return this.seasonTopicProblemService.findOne(id)
   }
@@ -49,7 +48,7 @@ export class SeasonTopicProblemResolver {
   })
   async updateSeasonTopicProblem(
     @Args('updateSeasonTopicProblemInput')
-      updateSeasonTopicProblemInput: UpdateSeasonTopicProblemInput,
+    updateSeasonTopicProblemInput: UpdateSeasonTopicProblemInput,
   ) {
     return this.seasonTopicProblemService.update(updateSeasonTopicProblemInput)
   }

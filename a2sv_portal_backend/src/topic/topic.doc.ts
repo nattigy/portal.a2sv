@@ -1,6 +1,5 @@
-const descriptions ={
-createTopic:
-`
+const descriptions = {
+  createTopic: `
     Arguments\n
       - name: Name of the topic\n
       - description : Short explanation about the topic\n
@@ -36,8 +35,7 @@ createTopic:
         }
   
 `,
-topics:
-`
+  topics: `
     Returns all  the topics 
     Example\n
     query Topics {\n
@@ -65,8 +63,7 @@ topics:
       }
   
 `,
-topic:
-`
+  topic: `
     Returns one topic filterd by id\n
     Argument\n
         - Id: Id of the topic we want to get\n
@@ -98,8 +95,7 @@ topic:
           }
       } 
   `,
-  updateTopic:
-  `
+  updateTopic: `
     Updates the topic\n 
     Arguments\n
         - Id: Id of the topic we want to edit\n
@@ -135,8 +131,7 @@ topic:
     }
 
   `,
-  deleteTopic:
-  `
+  deleteTopic: `
     Delete a Topic\n
     Argument\n
       - id: id of a topic that we want to delete\n
@@ -155,8 +150,7 @@ topic:
         }
     
   `,
-  addTopicToGroup:
-  `
+  addTopicToGroup: `
     Adds Topic to a group\n
     Argument
       -seasonId: id of a season the topic is going to be added\n
@@ -181,6 +175,6 @@ topic:
               "addTopicToGroup": "SUCCESS"
             }
         }
-  `
-    }
+  `,
+}
 export default descriptions
