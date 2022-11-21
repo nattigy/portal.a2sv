@@ -8,16 +8,15 @@ import { DifficultyChips } from "../problems/DifficultyChips";
 
 export type QuestionsInfo = {
   id: number;
-  name: string;
+  title: string;
   difficulty: ProblemDifficultyType;
 };
 
 type Props = {
   questionProps: QuestionsInfo;
-  handleQuestionCheck: (id: number) => void;
 };
 
-const AddQuestionListItem = ({ questionProps, handleQuestionCheck }: Props) => {
+const AddQuestionListItem = ({ questionProps }: Props) => {
   return (
     <div
       className={clsx(
@@ -32,9 +31,9 @@ const AddQuestionListItem = ({ questionProps, handleQuestionCheck }: Props) => {
       >
         <div className="w-full flex items-center justify-between gap-x-2">
           <div className="gap-x-2 flex items-center">
-            <span className="w-4 text-center">{questionProps.id}</span>
+            <span className="w-4 text-center">{1}</span>
             <span className="font-semibold text-xs truncate">
-              {questionProps.name}
+              {questionProps.title}
             </span>
           </div>
           <DifficultyChips status={questionProps.difficulty} />

@@ -41,6 +41,7 @@ const httpLink = new HttpLink({
 
 const middlewareLink = new ApolloLink((operation, forward) => {
   // ation token from local storage if it exists
+
   const tokenValue = localStorage.getItem("access-token");
   operation.setContext({
     headers: {

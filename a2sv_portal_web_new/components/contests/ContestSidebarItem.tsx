@@ -3,7 +3,9 @@ import clsx from "clsx";
 import { useRouter } from "next/router";
 import React from "react";
 import { authenticatedUser } from "../../lib/constants/authenticated";
+import WithPermission from "../../lib/Guard/WithPermission";
 import { GraphqlUserRole } from "../../types/user";
+import Button from "../common/Button";
 import { ContestInfo } from "../dashboard/ContestRating";
 import TopStudentsList from "./TopStudentsList";
 
@@ -29,17 +31,19 @@ const ContestSidebarItem = (props: Props) => {
           </p>
         </div>
       )}
-      {(authUser as any).role === GraphqlUserRole.HEAD_OF_EDUCATION && (
+      <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION]}>
         <div className="flex flex-col items-center gap-y-6">
           <img className="w-fit h-48" src="images/add-contest.svg" alt="" />
-          <button onClick={()=>router.push('contests/new')} className="flex flex-col items-center w-full p-2 bg-primary text-white rounded-md">
-            + Create New Contest
-          </button>
+          <Button
+            onClick={() => router.push("contests/new")}
+            text="Create New Contest"
+            classname="flex items-center w-full p-6 h-12 bg-primary text-white rounded-md"
+          />
           <p className="text-center text-xs">
             Create new contest to see the status of your group students.
           </p>
         </div>
-      )}
+      </WithPermission>
     </div>
   );
 };

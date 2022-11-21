@@ -17,6 +17,8 @@ export const GET_SINGLE_GROUP_QUERY = gql`
       headId
       id
       name
+      headId
+      country
       school
       users {
         email

@@ -79,3 +79,21 @@ query Items($seasonTopicProblemFilter: SeasonTopicProblemFilter!) {
   }
 }
 `;
+
+export const GET_ALL_PROBLEMS_FILTERED = gql`
+query Problems($filterProblemInput: FilterProblemInput) {
+  problems(filterProblemInput: $filterProblemInput) {
+    items {
+      id
+      title
+      link
+      platform
+      difficulty
+      createdAt
+      tags {
+        id
+        name
+      }
+    }
+  }
+}`;

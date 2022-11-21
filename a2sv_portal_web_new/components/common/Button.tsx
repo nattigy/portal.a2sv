@@ -13,8 +13,8 @@ const Button = (props: ButtonProps) => {
   return (
     <div
       className={clsx(
-        "flex items-center h-8  w-fit p-2 px-4 rounded-md",
-        props.classname
+        props.classname,
+        "flex items-center h-8 w-fit p-2 px-4 rounded-md",
       )}
     >
         {props.isLoading && (

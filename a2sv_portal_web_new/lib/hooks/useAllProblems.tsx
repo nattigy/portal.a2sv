@@ -1,6 +1,7 @@
 import { useLazyQuery, useQuery } from "@apollo/client";
 import {
   GET_ALL_PROBLEMS_BY_TAG_QUERY,
+  GET_ALL_PROBLEMS_FILTERED,
   GET_ALL_PROBLEMS_QUERY,
   GET_PROBLEMS_BY_GROUP_SEASON_TOPIC,
 } from "../apollo/Queries/problemsQueries";
@@ -24,6 +25,13 @@ export const useGetAllProblemsByTags = (tags: string[]) => {
   });
 };
 
+
+export const useGetAllFilteredProblems = () => {
+  return useQuery(GET_ALL_PROBLEMS_FILTERED, {
+    errorPolicy: "all",
+    notifyOnNetworkStatusChange: true,
+  });
+};
 
 export const useGetProblemsByGroupSeasonTopic = (
   seasonId: string,

@@ -49,7 +49,7 @@ const ProblemsPage = (props: ProblemsPageProps) => {
     setSearchQuery(e.target.value);
   };
 
-  useEffect(() => {
+useEffect(() => {
     if (data) {
       setProblems(data?.seasonTopicProblems?.items.map((item:any)=>item.problem));
     }
