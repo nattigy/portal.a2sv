@@ -10,7 +10,7 @@ export class DataAnalyticsService {
   constructor(private readonly prismaService: PrismaService) {}
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT,{name:'Scheduler Populate user_data fields', 
-      timeZone: 'Europe/Paris'})
+      timeZone: 'Africa/Addis_Ababa'})
  async populateData() {   
       const users = await this.prismaService.user.findMany({
         where:{
@@ -39,6 +39,7 @@ export class DataAnalyticsService {
         
         })  
   }
+  console.log("=====poupulating user_stat======");
   // for(const user of users){
   //   await this.prismaService.userAnalytics.create({
   //     data:{
@@ -47,7 +48,7 @@ export class DataAnalyticsService {
   //     }
   //   })
   // }
-  console.log("=====poupulating user_stat======");
+
 }
 
 
