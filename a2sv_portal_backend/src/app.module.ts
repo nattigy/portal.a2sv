@@ -25,7 +25,7 @@ import { UserProfileModule } from './user-profile/user-profile.module'
 import { UserTopicModule } from './user-topic/user-topic.module'
 import { UserModule } from './user/user.module'
 import { PrismaModule } from './prisma/prisma.module'
-import { DataAnalyticsModule } from './data-analytics/data-analytics.module';
+import { DataAnalyticsModule } from './data-analytics/data-analytics.module'
 import { ScheduleModule } from '@nestjs/schedule'
 
 @Module({
@@ -77,6 +77,5 @@ import { ScheduleModule } from '@nestjs/schedule'
     DataAnalyticsModule,
   ],
   providers: [AppService, AppResolver],
-  
 })
 export class AppModule {}

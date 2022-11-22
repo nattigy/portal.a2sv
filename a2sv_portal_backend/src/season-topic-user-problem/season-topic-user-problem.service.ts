@@ -9,7 +9,6 @@ import { PaginationSeasonTopicProblemUser } from '../common/page/pagination-info
 import { SeasonTopicProblem } from '../season-topic-problem/entities/season-topic-problem.entity'
 import { User } from '../user/entities/user.entity'
 
-
 @Injectable()
 export class SeasonTopicUserProblemService {
   constructor(private readonly prismaService: PrismaService) {}
@@ -293,7 +292,7 @@ export class SeasonTopicUserProblemService {
     })
   }
 
-  async remove({ seasonId, topicId, problemId, userId}: SeasonTopicProblemUserId) {
+  async remove({ seasonId, topicId, problemId, userId }: SeasonTopicProblemUserId) {
     return this.prismaService.seasonTopicProblemUser.delete({
       where: {
         seasonId_topicId_problemId_userId: {
@@ -306,24 +305,22 @@ export class SeasonTopicUserProblemService {
     })
   }
 
-  async problemSolved({ seasonId, topicId, problemId, userId }: SeasonTopicProblemUserId){
+  async problemSolved({ seasonId, topicId, problemId, userId }: SeasonTopicProblemUserId) {
     //update season/problem/topic/user => solved
     const seasonTopicproblemUser = this.prismaService.seasonTopicProblemUser.update({
-      where:{
+      where: {
         seasonId_topicId_problemId_userId: {
           seasonId,
           topicId,
           problemId,
           userId,
-        }
+        },
       },
-      data:{
-        solved:true
-      }
+      data: {
+        solved: true,
+      },
     })
 
-    
     return seasonTopicproblemUser
   }
 }
-

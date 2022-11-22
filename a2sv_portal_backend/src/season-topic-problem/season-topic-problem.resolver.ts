@@ -25,8 +25,8 @@ export class SeasonTopicProblemResolver {
 
   @Query(() => PaginationSeasonTopicProblem, { description: descriptions.seasonTopicProblems })
   async seasonTopicProblems(
-    @Args('seasonTopicProblemFilter', { type: () => SeasonTopicProblemFilter, nullable:true })
-      seasonTopicProblemFilter: SeasonTopicProblemFilter,
+    @Args('seasonTopicProblemFilter', { type: () => SeasonTopicProblemFilter, nullable: true })
+    seasonTopicProblemFilter: SeasonTopicProblemFilter,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
     pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationSeasonTopicProblem> {
@@ -57,7 +57,7 @@ export class SeasonTopicProblemResolver {
     description: descriptions.removeSeasonTopicProblem,
   })
   async removeSeasonTopicProblem(
-    @Args('seasonTopicProblemId', { type: () => Int }) id: SeasonTopicProblemId,
+    @Args('seasonTopicProblemId', { type: () => SeasonTopicProblemId }) id: SeasonTopicProblemId,
   ) {
     return this.seasonTopicProblemService.remove(id)
   }
