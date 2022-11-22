@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_SINGLE_STUDENT_STATS = gql`
-  query StudentStats($studentStatsId: String!) {
+  query GetStudentStats($studentStatsId: String!) {
     studentStats(id: $studentStatsId) {
       acceptanceRate
       allTimeRank

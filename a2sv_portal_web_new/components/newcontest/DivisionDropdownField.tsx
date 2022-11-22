@@ -74,7 +74,7 @@ const DivisionDropdownField = (props: DurationFieldProps) => {
             </div>
           </div>
 
-          <h1 className="text-xs font-light text-red-700">{errorMessage}</h1>
+          {/* <h1 className="text-xs font-light text-red-700">{errorMessage}</h1> */}
         </div>
       </div>
     </div>

@@ -15,7 +15,7 @@ const GroupItemList = () => {
 
   let [groups, setGroups] = useState([]);
   useEffect(() => {
-    console.log("data is ssss", data)
+    console.log("data is ssss", data);
     if (data && data.groups.items) {
       const datas = data.groups.items.map((item: any) => {
         return {
@@ -46,7 +46,7 @@ const GroupItemList = () => {
     // }
   }, [data, refetch]);
 
-  console.log(groups)
+  console.log(groups);
   return loading ? (
     <div className="flex h-full items-center justify-center min-w-full min-h-full">
       <LoaderSmall />
@@ -61,7 +61,7 @@ const GroupItemList = () => {
         groups.map((group: any, index: number) => (
           <GroupItem
             color={colors[index % colors.length]}
-            groupProps = {group}
+            groupProps={group}
             key={index}
           />
         ))}

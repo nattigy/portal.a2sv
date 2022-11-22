@@ -6,18 +6,18 @@ export type ButtonProps = {
   text: string;
   icon?: any;
   classname?: string;
-  isLoading?:boolean;
+  isLoading?: boolean;
 };
 
 const Button = (props: ButtonProps) => {
   return (
     <div
       className={clsx(
-        "flex items-center h-8  w-fit p-2 px-4 rounded-md",
-        props.classname
+        props.classname,
+        "flex items-center h-8 w-fit p-2 px-4 rounded-md"
       )}
     >
-        {props.isLoading && (
+      {props.isLoading && (
         <svg
           className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
           xmlns="http://www.w3.org/2000/svg"

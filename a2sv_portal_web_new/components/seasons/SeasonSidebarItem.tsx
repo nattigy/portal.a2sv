@@ -8,7 +8,7 @@ const SeasonSidebarItem = (props: Props) => {
   return (
     <div className={clsx("h-full flex flex-col gap-y-2 justify-between")}>
       <div className={clsx("flex flex-col gap-y-2 transition-all")}>
-        <CalendarItem/>
+        <CalendarItem />
       </div>
     </div>
   );

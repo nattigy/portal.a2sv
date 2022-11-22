@@ -17,15 +17,15 @@ const TopicsAutocomplete = ({ handleSearchTopic }: Props) => {
 
   useEffect(() => {
     if (query.trim() !== "") {
-      const searchTopics = data?.topics.filter((topic: TopicType) => {
+      const searchTopics = data?.topics.items.filter((topic: TopicType) => {
         return topic?.name.toLowerCase().includes(query.trim().toLowerCase());
       });
       setFilteredTopics(searchTopics);
     } else {
-      setFilteredTopics(data?.topics);
+      setFilteredTopics(data?.topics.items);
       setQuery("");
       setSelectedTopic(null);
-      handleSearchTopic(null)
+      handleSearchTopic(null);
     }
   }, [query]);
 

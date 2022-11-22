@@ -1,7 +1,9 @@
 import { useReactiveVar } from "@apollo/client";
 import React, { ReactNode, useEffect, useState } from "react";
 import BaseLayout from "../../../../components/common/BaseLayout";
-import CustomDropdown, { CustomDropdownProps } from "../../../../components/common/CustomDropdown";
+import CustomDropdown, {
+  CustomDropdownProps,
+} from "../../../../components/common/CustomDropdown";
 import TopicStruggledList from "../../../../components/topics/TopicStruggledList";
 
 const IndexPage = () => {

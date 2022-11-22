@@ -2,8 +2,6 @@ import React from "react";
 import { IoMdSearch } from "react-icons/io";
 import ExpandableSearchInput from "../common/ExpandableSearchInput";
 
-
-
 const UsersSearch = () => {
   return (
     <ExpandableSearchInput placeholder="Search user " />

@@ -37,7 +37,7 @@ const HOADashboard = (props: Props) => {
           <Button
             icon={<BsPlus color="#ffffff" size={18} />}
             onClick={handleModalOpen}
-            classname="bg-primary text-white text-xs" 
+            classname="bg-primary text-white text-xs"
             text="New Group"
           />
         </div>

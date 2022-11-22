@@ -44,7 +44,6 @@ const rankList: DashboardRankItemProps[] = [
     activeColor: "#FCAB5E",
     inactiveColor: "#FFF0E1",
   },
-
 ];
 
 const userList: Array<AcceptanceInfo> = [
@@ -126,9 +125,9 @@ const contestUserList: Array<ContestInfo> = [
 ];
 
 const StatComponent = (props: Props) => {
-
-
-  const { data, loading, error, refetch } = useGroupStatsDetail(props.groupData?.id);
+  const { data, loading, error, refetch } = useGroupStatsDetail(
+    props.groupData?.id
+  );
 
   return (
     <div className="">
@@ -136,8 +135,6 @@ const StatComponent = (props: Props) => {
         <p className="text-[rgb(103,103,103)] font-semibold text-lg">
           {props.groupData?.group.name}
           {JSON.stringify(props.groupData)}
-          
-
         </p>
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 ">
           {rankList.map((item, index) => (

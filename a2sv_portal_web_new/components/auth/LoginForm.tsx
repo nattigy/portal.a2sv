@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import CustomTextField from "../../components/auth/TextField";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ApolloError, useMutation } from "@apollo/client";
+import { ApolloError, useMutation, useReactiveVar } from "@apollo/client";
 import { SIGN_IN_MUTATION } from "../../lib/apollo/Mutations/authMutations";
 import authenticatedVar from "../../lib/constants/authenticated";
 
@@ -20,8 +20,16 @@ const INITIAL_VALUES = {
 const LoginForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [signin] = useMutation(SIGN_IN_MUTATION);
+  const [signin, { data, loading }] = useMutation(SIGN_IN_MUTATION);
   const router = useRouter();
+  const auth = useReactiveVar(authenticatedVar);
+
+  useEffect(() => {
+    if (data) {
+      window.location.replace("/dashboard");
+    }
+  }, [data]);
+
   return (
     <>
       <div className="w-full lg:w-[28vw] border bg-white text-[#434343] py-16 px-10 rounded-lg">
@@ -38,7 +46,11 @@ const LoginForm = () => {
           onSubmit={async (values: any) => {
             setIsLoading(true);
             try {
-              await signin({
+              const {
+                data: {
+                  login: { accessToken, userId },
+                },
+              } = (await signin({
                 variables: {
                   loginInput: values,
                 },
@@ -49,14 +61,14 @@ const LoginForm = () => {
                   setIsLoading(false);
                 },
                 onCompleted: async ({ login }) => {
-                  const { accessToken, userId } = login
-                  await localStorage.setItem("access-token", accessToken)
-                  await localStorage.setItem("userId", userId)
-                  setIsLoading(false);
-                  authenticatedVar(true);
-                  router.replace("/dashboard");
+                  const { accessToken, userId } = login;
                 },
-              });
+              })) as any;
+              localStorage.setItem("access-token", accessToken);
+              localStorage.setItem("userId", userId);
+              setIsLoading(false);
+              authenticatedVar(true);
+              // router.push("/dashboard")
             } catch (error) {
               setErrorMessage((error as ApolloError).message);
             }
@@ -97,7 +109,7 @@ const LoginForm = () => {
                   type="submit"
                   className="w-full flex items-center justify-center gap-x-3  px-6 py-2 mt-4 text-sm font-bold text-white bg-[#5956E9] rounded-lg"
                 >
-                  {isLoading && (
+                  {loading && (
                     <svg
                       className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                       xmlns="http://www.w3.org/2000/svg"

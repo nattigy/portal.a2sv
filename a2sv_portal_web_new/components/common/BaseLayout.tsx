@@ -34,11 +34,11 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
 
   const handleLogout = async () => {
     try {
-      await localStorage.clear()
+      await localStorage.clear();
       await logout({
         errorPolicy: "all",
         variables: {},
-        onError: (error) => { },
+        onError: (error) => {},
         onCompleted: async () => {
           authenticatedUser({});
           authenticatedVar(false);
@@ -46,7 +46,6 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
           await apolloClient.resetStore();
         },
       });
-
     } catch (error) {
       authenticatedUser({});
       authenticatedVar(false);

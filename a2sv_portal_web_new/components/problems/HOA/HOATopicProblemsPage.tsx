@@ -14,7 +14,7 @@ const HOATopicProblemsPage = (props: Props) => {
 
   useEffect(() => {
     if (data) {
-      setTopicsData(data?.topics);
+      setTopicsData(data?.topics.items);
     }
   }, [refetch, data]);
   return (

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import AddStudentListItem, { StudentsInfo } from "./AddStudentListItem";
 import SearchField from "../common/SearchField";
 import { ApolloError, useMutation } from "@apollo/client";
-import { ADD_STUDENTS_TO_GROUP } from "../../lib/apollo/Mutations/usersMutations";
+import { ADD_STUDENTS_TO_GROUP } from "../../lib/apollo/Mutations/groupsMutations";
 
 export type UserProps = {
   id?: number;
@@ -58,18 +58,13 @@ const AddStudentList = (props: Props) => {
   const handleAddStudents = async () => {
     setIsLoading(true);
     const updateValue = [...selectedStudent].map((id: any) => {
-      return {
-        id: id,
-      };
+      return id;
     });
 
-    const updateGroupInput = {
-      id: props.groupId,
-      users: updateValue,
-    };
     await addStudentsToGroup({
       variables: {
-        updateGroupInput,
+        groupId: props.groupId,
+        studentIds: updateValue,
       },
       refetchQueries: "active",
       notifyOnNetworkStatusChange: true,
@@ -140,7 +135,7 @@ const AddStudentList = (props: Props) => {
           </div>
         ))
       ) : (
-        <div className="h-full bg-red-400">
+        <div className="h-full">
           <h1>No students yet!</h1>
         </div>
       )}

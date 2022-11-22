@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useReactiveVar } from "@apollo/client";
+import React, { useState, useEffect } from "react";
 import BaseLayout from "../../components/common/BaseLayout";
 import ContestSidebarItem from "../../components/contests/ContestSidebarItem";
 import PreviousContestsItem, {
@@ -8,60 +9,81 @@ import UpcomingContestItem, {
   UpcomingContests,
 } from "../../components/contests/UpcomingContestItem";
 import { ContestInfo } from "../../components/dashboard/ContestRating";
+import { authenticatedUser } from "../../lib/constants/authenticated";
+import WithPermission from "../../lib/Guard/WithPermission";
+import {
+  useGetAllContestsForHoe,
+  useGetAllContestsForStudent,
+} from "../../lib/hooks/useAllContests";
+import { GraphqlUserRole } from "../../types/user";
 
 const IndexPage = () => {
-  const contests: Array<ContestDetail> = [
+  const authUser = useReactiveVar(authenticatedUser);
+  const [userContestsData, setUserContestsData] = useState([]);
+  const [loadStudentContests, { loading, data, error, refetch }] =
+    useGetAllContestsForStudent((authUser as any).id);
+  const [
+    loadGroupContests,
     {
-      id: 1,
-      title: "A2SV G3 01",
-      div: 2,
-      attended: true,
-      solved: 3,
-      totalQuestion: 5,
-      date: "Something",
-      timeSpent: "Something",
+      loading: groupLoading,
+      data: groupData,
+      error: groupError,
+      refetch: groupRefetch,
     },
-    {
-      id: 2,
-      title: "A2SV G3 01",
-      div: 2,
-      attended: true,
-      solved: 4,
-      totalQuestion: 5,
-      date: "Something",
-      timeSpent: "Something",
-    },
-    {
-      id: 3,
-      title: "A2SV G3 01",
-      div: 1,
-      attended: true,
-      solved: 1,
-      totalQuestion: 5,
-      date: "Something",
-      timeSpent: "Something",
-    },
-    {
-      id: 4,
-      title: "A2SV G3 01",
-      div: 2,
-      attended: false,
-      solved: 0,
-      totalQuestion: 5,
-      date: "Something",
-      timeSpent: "-",
-    },
-    {
-      id: 5,
-      title: "A2SV G3 01",
-      div: 3,
-      attended: true,
-      solved: 4,
-      totalQuestion: 5,
-      date: "Something",
-      timeSpent: "Something",
-    },
-  ];
+  ] = useGetAllContestsForHoe((authUser as any).groupId);
+
+  // const contests: Array<ContestDetail> = [
+  //   {
+  //     id: 1,
+  //     title: "A2SV G3 01",
+  //     div: 2,
+  //     attended: true,
+  //     solved: 3,
+  //     totalQuestion: 5,
+  //     date: "Something",
+  //     timeSpent: "Something",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "A2SV G3 01",
+  //     div: 2,
+  //     attended: true,
+  //     solved: 4,
+  //     totalQuestion: 5,
+  //     date: "Something",
+  //     timeSpent: "Something",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "A2SV G3 01",
+  //     div: 1,
+  //     attended: true,
+  //     solved: 1,
+  //     totalQuestion: 5,
+  //     date: "Something",
+  //     timeSpent: "Something",
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "A2SV G3 01",
+  //     div: 2,
+  //     attended: false,
+  //     solved: 0,
+  //     totalQuestion: 5,
+  //     date: "Something",
+  //     timeSpent: "-",
+  //   },
+  //   {
+  //     id: 5,
+  //     title: "A2SV G3 01",
+  //     div: 3,
+  //     attended: true,
+  //     solved: 4,
+  //     totalQuestion: 5,
+  //     date: "Something",
+  //     timeSpent: "Something",
+  //   },
+  // ];
 
   const upcomingContests: Array<UpcomingContests> = [
     {
@@ -138,12 +160,55 @@ const IndexPage = () => {
     );
   };
 
+  const [userContests, setUserContests] = useState([]);
+  const [groupContests, setGroupContests] = useState([]);
+
+  useEffect(() => {
+    if ((authUser as any).role === GraphqlUserRole.STUDENT) {
+      loadStudentContests();
+    } else {
+      loadGroupContests();
+    }
+  }, [authUser, groupRefetch, loadGroupContests, loadStudentContests, refetch]);
+
+  useEffect(() => {
+    if (data) {
+      const fetchedContests = data.userContests.items.map((item: any) => {
+        return {
+          ...item,
+          totalProblems: item.userContestProblems.length,
+        };
+      });
+      setUserContests(fetchedContests);
+    }
+    if (groupData) {
+      const fetchedContests = groupData.groupContests.items;
+      setGroupContests(fetchedContests);
+    }
+  }, [data, groupData]);
+
   return (
     <BaseLayout sidebar={<Sidebar />}>
       <div className="flex flex-col gap-y-4">
         <h1 className="font-bold text-2xl">Contest</h1>
-        <UpcomingContestItem upcomingContests={upcomingContests} />
-        <PreviousContestsItem contests={contests} />
+        <WithPermission
+          allowedRoles={[
+            GraphqlUserRole.HEAD_OF_ACADEMY,
+            GraphqlUserRole.HEAD_OF_EDUCATION,
+          ]}
+        >
+          <>
+            <UpcomingContestItem upcomingContests={upcomingContests} />
+            <PreviousContestsItem items={groupContests} />
+          </>
+        </WithPermission>
+
+        <WithPermission allowedRoles={[GraphqlUserRole.STUDENT]}>
+          <>
+            <UpcomingContestItem upcomingContests={upcomingContests} />
+            <PreviousContestsItem items={userContests} />
+          </>
+        </WithPermission>
       </div>
     </BaseLayout>
   );

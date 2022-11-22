@@ -41,20 +41,21 @@ export const GET_ALL_USER_QUERY = gql`
 `;
 
 export const GET_FILTERED_USERS = gql`
-query Users($filterUserInput: FilterUserInput) {
-  users(filterUserInput: $filterUserInput) {
-    items {
-      id
-      email
-      role
-      status
-      userProfile {
-        firstName
-        lastName
+  query Users($filterUserInput: FilterUserInput) {
+    users(filterUserInput: $filterUserInput) {
+      items {
+        id
+        email
+        role
+        status
+        userProfile {
+          firstName
+          lastName
+        }
       }
     }
   }
-}`;
+`;
 
 export const GET_USERS_BY_GROUP_ID_QUERY = gql`
   query Users($groupId: String) {
@@ -76,15 +77,17 @@ export const GET_USERS_BY_GROUP_ID_QUERY = gql`
 `;
 
 export const GET_STUDENTS_WITH_NO_GROUP_QUERY = gql`
-  query UsersQuery($role: String, $groupId: String) {
-    users(role: $role, groupId: $groupId) {
-      id
-      email
-      role
-      userProfile {
+  query Items($filterUserInput: FilterUserInput) {
+    users(filterUserInput: $filterUserInput) {
+      items {
         id
-        firstName
-        lastName
+        email
+        role
+        userProfile {
+          id
+          firstName
+          lastName
+        }
       }
     }
   }

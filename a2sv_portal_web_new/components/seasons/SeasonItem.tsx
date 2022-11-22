@@ -43,8 +43,6 @@ const SeasonItem = ({ seasonProps }: Props) => {
     "/images/season-item.svg",
   ];
 
- 
-
   // const handleClick = (e: any) => {
   //   router.push({
   //     pathname: `/seasons/${seasonProps.name}`,
@@ -52,12 +50,12 @@ const SeasonItem = ({ seasonProps }: Props) => {
   //   });
   // };
   const pathname = `seasons/${slugify(seasonProps.name)}`;
-  const href={
+  const href = {
     pathname,
     query: {
-      seasonId : seasonProps.id ,
+      seasonId: seasonProps.id,
     }, // the data
-  }
+  };
 
   return (
     <>
@@ -92,10 +90,7 @@ const SeasonItem = ({ seasonProps }: Props) => {
           }}
         />
       )}
-      <Link
-        href={href}
-        as={pathname}
-      >
+      <Link href={href} as={pathname}>
         <div className="cursor-pointer">
           <div className="h-36 relative">
             <div className="absolute top-2 right-2 z-30 ">

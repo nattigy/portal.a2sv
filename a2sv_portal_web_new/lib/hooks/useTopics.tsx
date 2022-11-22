@@ -15,16 +15,14 @@ export const useGetAllTopicsBySeasonIdQuery = (seasonId: any) => {
     },
   });
 };
-export const useGetAllGroupTopicsBySeasonIdQuery = (
-  seasonId: string,
-) => {
+export const useGetAllGroupTopicsBySeasonIdQuery = (seasonId: string) => {
   return useLazyQuery(GET_ALL_GROUP_TOPICS_BY_SEASON_ID_QUERY, {
     notifyOnNetworkStatusChange: true,
     errorPolicy: "all",
     variables: {
       filterSeasonTopicInput: {
-        seasonId
-      }
+        seasonId,
+      },
     },
   });
 };
@@ -37,17 +35,17 @@ export const useGetAllTopicsByGroupAndSeasonIdQuery = (
     notifyOnNetworkStatusChange: true,
     errorPolicy: "all",
     variables: {
-        groupId: groupId,
-        seasonId: seasonId,
+      groupId: groupId,
+      seasonId: seasonId,
     },
   });
 };
 
 export const useGetAllTopics = () => {
   return useQuery(GET_ALL_TOPICS_QUERY, {
-            notifyOnNetworkStatusChange: true,
-            errorPolicy: 'all',
-        })
+    notifyOnNetworkStatusChange: true,
+    errorPolicy: "all",
+  });
 };
 
 // export const useGetAllTopicsBySeasonIdForSearchQuery = (seasonId: any) => {
@@ -59,4 +57,3 @@ export const useGetAllTopics = () => {
 //         }
 //     })
 // }
-

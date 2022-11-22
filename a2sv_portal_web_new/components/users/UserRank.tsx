@@ -76,8 +76,8 @@ const UserRank = ({ selected }: UserRankProps) => {
                 <p className="text-center font-semibold">
                   {data.user?.userProfile
                     ? data.user?.userProfile?.firstName +
-                    " " +
-                    data.user?.userProfile?.lastName
+                      " " +
+                      data.user?.userProfile?.lastName
                     : "No Name"}
                 </p>
                 <p className="font-semibold">{data.user && data.user.email}</p>

@@ -2,7 +2,9 @@ import { useRouter } from "next/router";
 import React, { ReactNode } from "react";
 import BaseLayout from "../../../../../../components/common/BaseLayout";
 import ProblemsPage from "../../../../../../components/problems/ProblemsPage";
-import TopicResourcesItem, { TopicResourcesProps } from "../../../../../../components/problems/TopicResourcesItem";
+import TopicResourcesItem, {
+  TopicResourcesProps,
+} from "../../../../../../components/problems/TopicResourcesItem";
 
 const IndexPage = () => {
   const topicResource: Array<TopicResourcesProps> = [
@@ -74,8 +76,11 @@ const IndexPage = () => {
     <BaseLayout sidebar={<Sidebar sidebarProps={topicResource} />}>
       <div>
         <h1 className="capitalize text-2xl font-semibold">{query?.name}</h1>
-
-        <ProblemsPage groupId={query?.groupId as string } seasonId={query?.seasonId as string} topicId={query?.topicId as string}/>
+        <ProblemsPage
+          groupId={query?.groupId as string}
+          seasonId={query?.seasonId as string}
+          topicId={query?.topicId as string}
+        />
       </div>
     </BaseLayout>
   );

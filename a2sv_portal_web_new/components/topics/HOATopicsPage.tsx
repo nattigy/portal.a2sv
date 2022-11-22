@@ -8,8 +8,15 @@ import { useGetAllTopics } from "../../lib/hooks/useTopics";
 import { LoaderSmall } from "../common/Loaders";
 import TopicModal from "../modals/TopicModal";
 import Button from "../common/Button";
+import WithPermission from "../../lib/Guard/WithPermission";
+import DashboardFilter from "../dashboard/DashboardFilter";
 
 const HOATopicsPage = () => {
+  const [tabIndex, setTabIndex] = useState(0);
+  const handleTabChange = (index: number) => {
+    setTabIndex(index);
+  };
+
   const [isNewTopicModalOpen, setIsNewTopicModalOpen] = useState(false);
   const { data, refetch, loading } = useGetAllTopics();
 
@@ -23,19 +30,25 @@ const HOATopicsPage = () => {
       {isNewTopicModalOpen && (
         <TopicModal
           isEditing={false}
-          onClose={() => setIsNewTopicModalOpen(false)} groupId={""} seasonId={""}        />
+          onClose={() => setIsNewTopicModalOpen(false)}
+          seasonId={""}
+        />
       )}
       <div className="w-full my-2  flex flex-col md:flex-row justify-between">
         <div className="my-2 justify-between flex items-center mb-2 gap-x-5 ">
           <h1 className="text-2xl font-bold text-gray-700">Topics </h1>
+          <DashboardFilter
+            handleTabChange={handleTabChange}
+            activeIndex={tabIndex}
+          />
         </div>
-        {authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY && (
+        <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_ACADEMY]}>
           <Button
             onClick={() => setIsNewTopicModalOpen(true)}
             text="Add New Topic"
             classname="flex w-full justify-center items-center p-2 text-sm font-semibold text-white bg-primary rounded-lg"
           />
-        )}
+        </WithPermission>
       </div>
       <div className="flex flex-col gap-y-4">
         {loading ? (

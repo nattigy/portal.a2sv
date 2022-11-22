@@ -4,6 +4,7 @@ import {
   from,
   HttpLink,
   InMemoryCache,
+  WatchQueryOptions,
 } from "@apollo/client";
 import type { GetServerSidePropsContext } from "next";
 import type { NormalizedCacheObject } from "@apollo/client";
@@ -12,6 +13,7 @@ import { onError } from "@apollo/client/link/error";
 import merge from "deepmerge";
 import isEqual from "lodash/isEqual";
 import configs from "../constants/configs";
+import { RetryLink } from "@apollo/client/link/retry";
 import { setContext } from "@apollo/client/link/context";
 import authenticatedVar, {
   authenticatedUser,
@@ -24,30 +26,34 @@ interface PageProps {
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | null = null;
 
-const logoutLink = onError(({ graphQLErrors }) => {
-  if (
-    graphQLErrors?.length &&
-    (graphQLErrors[0].extensions.response as any)?.statusCode == 401
-  ) {
-    authenticatedVar(false);
-    authenticatedUser({});
+const logoutLink = onError(
+  ({ operation, graphQLErrors, networkError, forward }) => {
+    if (
+      graphQLErrors?.length &&
+      (graphQLErrors[0].extensions.response as any)?.statusCode == 401
+    ) {
+      authenticatedVar(false);
+      authenticatedUser({});
+    }
+    return forward(operation);
   }
+);
+
+const retryLink = new RetryLink({
+  delay: {
+    initial: 300,
+    max: Infinity,
+    jitter: true,
+  },
+  attempts: {
+    max: 5,
+    retryIf: (error, _operation) => !!error,
+  },
 });
 
 const httpLink = new HttpLink({
   uri: configs.NEXT_PUBLIC_API_URL,
   credentials: "same-origin",
-});
-
-const middlewareLink = new ApolloLink((operation, forward) => {
-  // ation token from local storage if it exists
-  const tokenValue = localStorage.getItem("access-token");
-  operation.setContext({
-    headers: {
-      Authorization: tokenValue ? `Bearer ${tokenValue}` : "",
-    },
-  });
-  return forward(operation);
 });
 
 const authLink = setContext(async (_, { headers }) => {
@@ -56,7 +62,6 @@ const authLink = setContext(async (_, { headers }) => {
     typeof window !== "undefined"
       ? await localStorage.getItem("access-token")
       : "";
-  console.log(token);
   // return the headers to the context so httpLink can read them
   return {
     headers: {
@@ -65,34 +70,63 @@ const authLink = setContext(async (_, { headers }) => {
     },
   };
 });
+const authMiddleware = new ApolloLink((operation, forward) => {
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("access-token") : "";
+  operation.setContext(({ headers = {} }) => ({
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  }));
 
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) {
-    // graphQLErrors.forEach(({ message, locations, path }) =>
-    //   console.log(
-    //     `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-    //   )
-    // );
-    // if ((graphQLErrors[0].extensions.response as any)?.statusCode === 401) {
-    //   authenticatedVar(false);
-    //   authenticatedUser({});
-    // }
-    // if ((graphQLErrors[0].extensions.response as any)?.statusCode === 500) {
-    //   authenticatedVar(false);
-    //   authenticatedUser({});
-    // }
-  }
-  if (networkError) {
-    console.log(`[Network error]: ${networkError}`);
-    hasNetworkError(true);
-  }
+  return forward(operation);
 });
+const errorLink = onError(
+  ({ operation, response, graphQLErrors, networkError, forward }) => {
+    if (graphQLErrors) {
+      graphQLErrors.forEach(({ message, locations, path }) =>
+        console.log(
+          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+        )
+      );
+      // if ((graphQLErrors[0].extensions.response as any)?.statusCode === 401) {
+      //   authenticatedVar(false);
+      //   authenticatedUser({});
+      // }
+      // if ((graphQLErrors[0].extensions.response as any)?.statusCode === 500) {
+      //   authenticatedVar(false);
+      //   authenticatedUser({});
+    }
+    if (networkError) {
+      console.log(`[Network error]: ${networkError}`);
+      // hasNetworkError(true);
+    } else {
+      // hasNetworkError(false);
+    }
+    return forward(operation);
+  }
+);
 
 const createApolloClient = (ctx?: GetServerSidePropsContext) => {
+  const baseOptions: Partial<WatchQueryOptions<any, any>> | undefined = {
+    errorPolicy: "all",
+  };
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("access-token") : "";
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
     cache: new InMemoryCache(),
-    link: from([authLink, logoutLink, errorLink, httpLink]),
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+    link: from([authMiddleware, retryLink, logoutLink, errorLink, httpLink]),
+    credentials: "same-origin",
+    defaultOptions: {
+      watchQuery: baseOptions,
+    },
+    name: "A2SV PORTAL",
+    version: "0.1.0",
     // connectToDevTools: true,
   });
 };
@@ -144,10 +178,10 @@ export function addApolloState(
 
 export function useApollo(pageProps: any) {
   const state = pageProps[configs.APOLLO_STATE_PROPERTY_NAME];
-
   const store = useMemo(
     () => initializeApollo({ initialState: state }),
     [state]
   );
+  console.log("store is ", state);
   return store;
 }

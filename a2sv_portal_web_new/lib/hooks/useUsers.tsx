@@ -29,10 +29,10 @@ export const useFilteredUsers = (tabIndex: number) => {
   return useLazyQuery(GET_FILTERED_USERS, {
     variables: {
       filterUserInput: {
-        role
-      }
+        role,
+      },
     },
-    errorPolicy: "all",
+    errorPolicy: "none",
     notifyOnNetworkStatusChange: true,
   });
 };
@@ -58,8 +58,10 @@ export const useUsersOfSingleGroup = (groupId: string) => {
 export const useGetUsersWithNoGroup = () => {
   return useQuery(GET_STUDENTS_WITH_NO_GROUP_QUERY, {
     variables: {
-      role: GraphqlUserRole.STUDENT,
-      groupId: null,
+      filterUserInput: {
+        role: GraphqlUserRole.STUDENT,
+        groupId: null,
+      },
     },
     errorPolicy: "all",
     notifyOnNetworkStatusChange: true,
@@ -69,7 +71,7 @@ export const useGetUsersWithNoGroup = () => {
 export const useGetSingleUser = (userId: String) => {
   return useLazyQuery(GET_SINGLE_USER_QUERY, {
     variables: {
-      userId:userId
+      userId: userId,
     },
     errorPolicy: "none",
     notifyOnNetworkStatusChange: true,

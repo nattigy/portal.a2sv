@@ -1,14 +1,14 @@
-import React from 'react'
-import CustomConsistencyChart from './CustomConsistencyChart'
+import React from "react";
+import CustomConsistencyChart from "./CustomConsistencyChart";
 
-type Props = {}
+type Props = {};
 
 const index = (props: Props) => {
-    return (
-        <div>
-            <CustomConsistencyChart />
-        </div>
-    )
-}
+  return (
+    <div>
+      <CustomConsistencyChart />
+    </div>
+  );
+};
 
-export default index
+export default index;

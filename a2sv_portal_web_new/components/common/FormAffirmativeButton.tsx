@@ -1,8 +1,8 @@
 import React from "react";
 
 type Props = {
-    text: string;
-    isLoading?: boolean;
+  text: string;
+  isLoading?: boolean;
 };
 
 const FormAffirmativeButton = (props: Props) => {

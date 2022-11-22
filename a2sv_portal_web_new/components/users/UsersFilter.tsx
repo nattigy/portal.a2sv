@@ -55,9 +55,13 @@ const UsersFilter = (props: Props) => {
             </div>
           ))}
         </div>
-        <ExpandableSearchInput placeholder="Search user " className="sm:ml-8 " onChange={(e: any) => {
-          props.handleSearchUser(e.target.value)
-        }} />
+        <ExpandableSearchInput
+          placeholder="Search user "
+          className="sm:ml-8 "
+          onChange={(e: any) => {
+            props.handleSearchUser(e.target.value);
+          }}
+        />
       </div>
 
       {(authUser as any).role !== GraphqlUserRole.STUDENT && (

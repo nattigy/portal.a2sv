@@ -1,9 +1,19 @@
+import { useEffect } from "react";
 import type { NextPage } from "next";
-import Image from "next/image";
 import LoginForm from "../../components/auth/LoginForm";
 import { useRouter } from "next/router";
+import authenticatedVar from "../../lib/constants/authenticated";
+import { useReactiveVar } from "@apollo/client";
 
 const Login: NextPage = () => {
+  const authenticated = useReactiveVar(authenticatedVar);
+
+  useEffect(() => {
+    // if (authenticated) {
+    //   router.replace("/dashboard");
+    // }
+  }, [authenticated]);
+
   const router = useRouter();
   return (
     <>

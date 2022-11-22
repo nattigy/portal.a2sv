@@ -49,8 +49,7 @@ type Props = {
 
 // ];
 
-
-const GroupInfo = ({groupId}: Props) => {
+const GroupInfo = ({ groupId }: Props) => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
   const [currentPath, setCurrentPath] = useState("");
   const [tabIndex, setTabIndex] = useState(0);

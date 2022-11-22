@@ -6,11 +6,8 @@ import Button from "../../components/common/Button";
 import SeasonList from "../../components/seasons/SeasonList";
 import SeasonSidebarItem from "../../components/seasons/SeasonSidebarItem";
 import SeasonModal from "../../components/modals/SeasonModal";
-import { useGetGroupSeasons } from "../../lib/hooks/useSeasons";
 import { useReactiveVar } from "@apollo/client";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
-import { LoaderSmall } from "../../components/common/Loaders";
-import EmptyState from "../../components/common/EmptyState";
 import { GraphqlUserRole } from "../../types/user";
 import WithPermission from "../../lib/Guard/WithPermission";
 
@@ -39,20 +36,25 @@ const IndexPage = () => {
         <div className="flex items-center justify-between rounded-md">
           <h1 className="font-bold text-2xl">Season</h1>
           <div className="flex gap-x-2">
-            <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_ACADEMY,GraphqlUserRole.HEAD_OF_EDUCATION]}>
+            <WithPermission
+              allowedRoles={[
+                GraphqlUserRole.HEAD_OF_ACADEMY,
+                GraphqlUserRole.HEAD_OF_EDUCATION,
+              ]}
+            >
               <Button
                 onClick={handleModalOpen}
                 text="Create New"
                 classname="bg-primary text-white text-xs"
               />
-              </WithPermission>
-
+            </WithPermission>
           </div>
         </div>
 
         <div className="flex flex-col gap-y-4">
           {/* <h1 className="font-semibold text-md">Current</h1> */}
-            <SeasonList groupId={authUser.headToGroup?.id || authUser.groupId} />
+          {JSON.stringify(authUser.headToGroup?.id || authUser.groupId)}
+          <SeasonList groupId={authUser.headToGroup?.id || authUser.groupId} />
         </div>
 
         {/* <div className="flex flex-col gap-y-4">

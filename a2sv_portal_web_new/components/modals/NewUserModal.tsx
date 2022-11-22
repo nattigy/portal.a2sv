@@ -47,8 +47,7 @@ const NewUserModal = (props: Props) => {
   const [errorMessage, setErrorMessage] = useState("");
   const authUser = useReactiveVar<AuthUser | any>(authenticatedUser);
 
-  const INITIAL_VALUES = {
-  } as FormValues;
+  const INITIAL_VALUES = {} as FormValues;
 
   return (
     <>
@@ -65,7 +64,7 @@ const NewUserModal = (props: Props) => {
                   password: values.password,
                   role:
                     authUser &&
-                      authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY
+                    authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY
                       ? GraphqlUserRole.STUDENT
                       : values.role,
                 },

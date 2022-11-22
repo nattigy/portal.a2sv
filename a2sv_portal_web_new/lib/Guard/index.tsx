@@ -6,11 +6,15 @@ import {
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { LoaderLarge } from "../../components/common/Loaders";
+import NetworkErrorToaster from "../../components/modals/NetworkErrorToaster";
 import authenticatedVar, {
   authenticatedUser,
   hasNetworkError,
 } from "../constants/authenticated";
 import useGetMe from "../hooks/useGetMe";
+import ProtectedRoute from "./ProtectedRoute";
+import Protected from "./ProtectedRoute";
+import PublicRoute from "./PublicRoute";
 
 interface GuardProps {
   children: JSX.Element;
@@ -78,53 +82,35 @@ interface GuardProps {
 // ];
 
 const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
-  const { data: user, refetch, error } = useGetMe();
-
-  const authenticated = useReactiveVar(authenticatedVar);
-  const authUser = useReactiveVar(authenticatedUser);
-  const hasNoConnection = useReactiveVar(hasNetworkError);
+  const { data: user, loading, refetch, error } = useGetMe();
   const router = useRouter();
 
   useEffect(() => {
     if (user) {
+      authenticatedVar(true);
       authenticatedUser(user?.getMe);
+    } else {
+      authenticatedVar(false);
     }
-    if (authenticated && excludedRoutes?.includes(router.pathname)) {
-      router.replace("/");
-    }
-    if (!excludedRoutes?.includes(router.pathname)) {
-      refetch();
-    }
-  }, [authenticated, excludedRoutes, refetch, router, router.pathname, user, authenticatedVar]);
+  }, [refetch, user]);
 
-  useEffect(() => {
-    const checkAuthenticated = async () => {
-      if (!authenticated && !excludedRoutes?.includes(router.pathname)) {
-        // await localStorage.clear()
-        router.replace("/auth");
-        await client.resetStore();
-      }
-    };
-    checkAuthenticated();
-  }, [authenticated, router, excludedRoutes, client]);
+  if (loading || !router.isReady) {
+    return (
+      <div className="min-h-screen min-w-full flex justify-center items-center">
+        <LoaderLarge />
+      </div>
+    );
+  }
 
   return (
-    <>
+    <div className="w-full h-full relative">
+      <NetworkErrorToaster />
       {excludedRoutes?.includes(router.pathname) ? (
-        children
+        <PublicRoute authUser={user?.getMe}>{children}</PublicRoute>
       ) : (
-        <>
-          {user ? (
-            user && children
-          ) : (
-            <div className="min-h-screen min-w-full flex justify-center items-center">
-              <LoaderLarge />
-            </div>
-          )}
-        </>
+        <ProtectedRoute authUser={user?.getMe}>{children}</ProtectedRoute>
       )}
-      {hasNoConnection && <h1>No Connection</h1>}
-    </>
+    </div>
   );
 };
 

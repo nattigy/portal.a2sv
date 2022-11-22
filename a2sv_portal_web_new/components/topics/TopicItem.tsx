@@ -6,10 +6,10 @@ import SeasonItem from "../seasons/SeasonItem";
 
 export type TopicItemProps = {
   title: string;
-  season?:{name:string,id:number};
+  season?: { name: string; id: string };
   topic: any;
-  groupId?:string;
-  idx:number
+  groupId?: string;
+  idx: number;
 };
 export type ColorSVG = {
   imgPath: string;
@@ -34,33 +34,31 @@ export const slugify = (...args: (string | number)[]): string => {
 };
 
 const TopicItem = (props: TopicItemProps) => {
-  const pathname = `topics/${props?.season?.name.toLowerCase()}/${slugify(
-    props.topic.name
-  )}/problems`;
-  
-  const href={
+  const pathname = `${slugify(
+    props.season?.name.toString() || ""
+  )}/topics/${slugify(props.topic.name)}/problems`;
+
+  const href = {
     pathname: pathname,
     query: {
-      seasonId : props.season?.id ,
-      groupId : props.groupId,
-      topicId : props.topic.id,
+      seasonId: props.season?.id,
+      groupId: props.groupId,
+      topicId: props.topic.id,
     }, // the data
-  }
+  };
   return (
     <CustomLink href={href}>
       <div className="h-[72px] flex w-full rounded-r-lg gap-x-3 bg-white items-center cursor-pointer">
         <div
           className={`w-1 h-full`}
           style={{
-            background: colors[props.idx% colors.length],
+            background: colors[props.idx % colors.length],
           }}
         ></div>
         {/* <img src={titleToIcon[props.title].imgPath} className="w-12" alt="" /> */}
         <div className="flex flex-row justify-between w-full items-center pr-3">
           <div className="flex flex-col justify-center">
-            <p className="font-Poppins font-semibold text-sm">
-              {props.title}
-            </p>
+            <p className="font-Poppins font-semibold text-sm">{props.title}</p>
             <p className="font-Poppins font-medium text-xs text-[#8A8A8A]">
               Solved 12/32
             </p>

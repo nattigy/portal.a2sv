@@ -23,8 +23,7 @@ const ConsistencyDiagramItem = () => {
         }}
         className={`w-2 rounded-md flex flex-none bg-[#5956E9]`}
         key={i}
-      >
-      </div>
+      ></div>
     );
   }
   return (
@@ -44,13 +43,11 @@ const ConsistencyDiagramItem = () => {
           </div> */}
           <div className="flex flex-col justify-end items-end">
             <div className="flex items-center gap-x-2 ">
-              <div className="text-sm  w-3 h-3 relative flex flex-col bg-primary rounded-sm items-center group">
-              </div>
+              <div className="text-sm  w-3 h-3 relative flex flex-col bg-primary rounded-sm items-center group"></div>
               <p className="text-xs">Total Submissions</p>
             </div>
             <p className="text-2xl font-semibold">1882</p>
           </div>
-
         </div>
       </div>
       <div className="flex flex-row gap-x-3 items-end no-scrollbar">

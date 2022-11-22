@@ -40,9 +40,9 @@ const GroupStudents = (props: Props) => {
   const authUser = useReactiveVar<AuthUser | any>(authenticatedUser);
 
   // const groupId = props.groupData?.group?.id || 0
-  const { data, refetch, loading, error } = useUsersOfSingleGroup(
-    props.groupId
-  );
+  // const { data, refetch, loading, error } = useUsersOfSingleGroup(
+  //   props.groupId
+  // );
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -51,7 +51,6 @@ const GroupStudents = (props: Props) => {
   const handleSearch = (e: any) => {
     setSearchQuery(e.target.value);
   };
-  console.log("group id props", props.groupId);
   return (
     <>
       <div className="h-full w-full font-semibold text-[#565656]">
@@ -77,14 +76,8 @@ const GroupStudents = (props: Props) => {
             )}
           </div>
         </div>
-        {loading ? (
-          <div className="w-full flex justify-center items-center">
-            <LoaderSmall />
-          </div>
-        ) : error ? (
-          <p>Something went wrong{JSON.stringify(error)}</p>
-        ) : data && data.group.users.length > 0 ? (
-          <StudentTable students={data.group.users} />
+        {props.groupData?.users.length > 0 ? (
+          <StudentTable students={props.groupData?.users} />
         ) : (
           <EmptyState />
         )}
