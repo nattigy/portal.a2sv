@@ -165,10 +165,10 @@ const descriptions = {
   removeProblem: `
     Delete a problem\n
     Argument\n
-      -id: id of the problem to be deleted
+      -problemId: id of the problem to be deleted
     Example\n
-    mutation RemoveProblem($removeProblemId: Int!) {\n
-        removeProblem(id: $removeProblemId) {
+    mutation RemoveProblem($removeProblemId: String!) {\n
+        removeProblem(problemId: $removeProblemId) {
           id
         }
       }\n

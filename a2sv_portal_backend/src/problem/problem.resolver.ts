@@ -59,8 +59,8 @@ export class ProblemResolver {
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.delete)
   @Mutation(() => Problem, { description: descriptions.removeProblem })
-  async removeProblem(@Args('id', { type: () => Int }) id: string): Promise<Problem> {
-    return this.problemService.remove(id)
+  async removeProblem(@Args('problemId') problemId: string): Promise<Problem> {
+    return this.problemService.remove(problemId)
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)

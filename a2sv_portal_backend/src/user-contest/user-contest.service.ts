@@ -50,7 +50,11 @@ export class UserContestService {
         contest: {
           include: {
             problems: true,
-            groupContests: true,
+            groupContests: {
+              where: {
+                contestId
+              },
+            },
           },
         },
       },
@@ -71,7 +75,11 @@ export class UserContestService {
         },
         include: {
           problems: true,
-          groupContests: true,
+          groupContests: {
+            where: {
+              contestId
+            },
+          },
         },
       })
       const userContestProblems: UserContestProblem[] = []
