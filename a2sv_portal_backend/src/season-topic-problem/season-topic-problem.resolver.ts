@@ -57,7 +57,7 @@ export class SeasonTopicProblemResolver {
     description: descriptions.removeSeasonTopicProblem,
   })
   async removeSeasonTopicProblem(
-    @Args('seasonTopicProblemId', { type: () => Int }) id: SeasonTopicProblemId,
+    @Args('seasonTopicProblemId', { type: () => SeasonTopicProblemId }) id: SeasonTopicProblemId,
   ) {
     return this.seasonTopicProblemService.remove(id)
   }
