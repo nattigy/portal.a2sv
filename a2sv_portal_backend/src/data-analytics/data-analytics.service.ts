@@ -48,6 +48,7 @@ export class DataAnalyticsService {
   //     }
   //   })
   // }
+  //sort by date
 
 }
 
@@ -65,7 +66,7 @@ export class DataAnalyticsService {
   async userStat(start_date?:Date,end_date?:Date, user_id?:string) {
     if (!start_date){
       const date = new Date();
-      start_date = new Date(`${date.getFullYear}-01-01`)
+      start_date = new Date(`${date.getFullYear()-1}-${date.getMonth()}-${date.getDate()}`)
     }
     if(!end_date){
       end_date = new Date();
@@ -80,7 +81,10 @@ export class DataAnalyticsService {
       },
       include:{
         user:true
-      }
+      },
+      orderBy: {    
+        createdAt: 'asc'   
+     }
     })
     return user_stat; 
   }

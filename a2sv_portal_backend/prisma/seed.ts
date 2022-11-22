@@ -134,6 +134,21 @@ async function main() {
         })
       }
     }
+    const date_now = new Date();
+    const endYear = new Date(`${date_now.getFullYear()}-${12}-${31}`);
+    for (let d = new Date(2022, 1, 1); d <= endYear; d.setDate(d.getDate() + 1)) {
+      for(const user of users){
+        await prisma.userAnalytics.create({
+          data:{
+            userId:user.id,
+            createdAt:d,
+          }
+        })
+      }
+    }
+
+
+
   } catch (e) {
     console.error(e)
     process.exit(1)

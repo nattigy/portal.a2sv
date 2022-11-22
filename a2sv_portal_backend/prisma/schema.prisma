@@ -4,8 +4,8 @@ generator client {
 
 datasource db {
   provider          = "postgresql"
-  //url               = env("LOCAL_DB_URL")
-  url               = env("DB_URL")
+  url               = env("LOCAL_DB_URL")
+  //url               = env("DB_URL")
   shadowDatabaseUrl = env("SHADOW_DB_URL")
 }
 
@@ -291,11 +291,12 @@ model UserProblem {
 }
 
 model UserAnalytics {
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now()) @db.Date
-  updatedAt DateTime @updatedAt @db.Date
-  count     Int      @default(0)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now()) @db.Date
+  updatedAt   DateTime @updatedAt @db.Date
+  solvedCount Int      @default(0)
+  wrongCount  Int      @default(0)
 
   @@id([userId, createdAt])
 }
