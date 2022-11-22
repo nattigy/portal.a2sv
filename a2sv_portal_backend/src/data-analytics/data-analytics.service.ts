@@ -56,14 +56,10 @@ export class DataAnalyticsService {
     return `This action returns all dataAnalytics`
   }
 
-  async userStat(start_date?:Date,end_date?:Date, user_id?:string) {
-    if (!start_date){
-      const date = new Date();
-      start_date = new Date(`${date.getFullYear()-1}-${date.getMonth()}-${date.getDate()}`)
-    }
-    if (!end_date) {
-      end_date = new Date()
-    }
+
+  async userStat(end_date?:Date, user_id?:string) {
+      const date = end_date ? new Date(end_date) : new Date();
+      const start_date = new Date(`${date.getFullYear()-1}-${date.getMonth()}-${date.getDate()}`)
     return this.prismaService.userAnalytics.findMany({
       where: {
         userId: user_id,

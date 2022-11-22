@@ -12,14 +12,14 @@ const prisma = new PrismaClient()
 async function main() {
   const dbName = env.POSTGRES_DB
   try {
-    // await prisma.topic.deleteMany()
-    // console.log('Deleted records in topic table')
-    // await prisma.group.deleteMany()
-    // console.log('Deleted records in topic table')
-    // await prisma.tag.deleteMany()
-    // console.log('Deleted records in topic table')
-    // await prisma.problem.deleteMany()
-    // console.log('Deleted records in topic table')
+    await prisma.topic.deleteMany()
+    console.log('Deleted records in topic table')
+    await prisma.group.deleteMany()
+    console.log('Deleted records in topic table')
+    await prisma.tag.deleteMany()
+    console.log('Deleted records in topic table')
+    await prisma.problem.deleteMany()
+    console.log('Deleted records in topic table')
     const tablenames = await prisma.$queryRaw<Array<{ tablename: string }>>`SELECT tablename FROM pg_tables WHERE schemaname='public'`
 
     const tables = tablenames
@@ -34,8 +34,8 @@ async function main() {
       console.log({ error })
     }
 
-    // await prisma.$executeRawUnsafe(`DROP DATABASE IF EXISTS ${dbName}`)
-    // await prisma.$executeRawUnsafe(`TRUNCATE TABLE ${tables} CASCADE;`)
+    await prisma.$executeRawUnsafe(`DROP DATABASE IF EXISTS ${dbName}`)
+    await prisma.$executeRawUnsafe(`TRUNCATE TABLE ${tables} CASCADE;`)
     await prisma.topic.createMany({
       data: topicData,
     })
@@ -134,14 +134,13 @@ async function main() {
         })
       }
     }
-    const date_now = new Date();
-    const endYear = new Date(`${date_now.getFullYear()}-${12}-${31}`);
-    for (let d = new Date(2022, 1, 1); d <= endYear; d.setDate(d.getDate() + 1)) {
+    const endYear = new Date('2022-12-20');
+    for (let d = new Date('2022-1-2T00:00:00.000Z'); d <= endYear; d.setDate(d.getDate() + 1)) {
       for(const user of users){
         await prisma.userAnalytics.create({
           data:{
             userId:user.id,
-            createdAt:d,
+            createdAt:new Date(d),
           }
         })
       }

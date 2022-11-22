@@ -22,11 +22,10 @@ export class DataAnalyticsResolver {
 
   @Query(() => [DataAnalytic], { name: 'dataAnalytic' })
   findOne(
-    @Args('start_date', { type: () => Date, nullable: true }) start_date?: Date,
     @Args('end_date', { type: () => Date, nullable: true }) end_date?: Date,
     @Args('user_id', { type: () => String }) user_id?: string,
   ): Promise<UserAnalytics[]> {
-    return this.dataAnalyticsService.userStat(start_date, end_date, user_id)
+    return this.dataAnalyticsService.userStat(end_date, user_id)
   }
 
   // @Mutation(() => DataAnalytic)
