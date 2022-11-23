@@ -9,7 +9,8 @@ import { PaginationContest } from '../common/page/pagination-info'
 
 @Injectable()
 export class ContestService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create({ problems, ...createInput }: CreateContestInput): Promise<Contest> {
     return this.prismaService.contest.create({
@@ -44,7 +45,11 @@ export class ContestService {
       where: filterContestInput,
       include: {
         problems: true,
-        groupContests: true,
+        groupContests: {
+          include: {
+            group: true,
+          },
+        },
         userContests: true,
       },
     })
@@ -88,7 +93,13 @@ export class ContestService {
     })
   }
 
-  async remove(contestId: string): Promise<number> {
-    return 0
+  async remove(id: string): Promise<number> {
+    try {
+      await this.prismaService.contest.delete({ where: { id } })
+    } catch (e) {
+      console.log(`Fail to delete contest with id ${id}`, ' : ', e)
+      throw new Error(`Fail to delete contest with id ${id}`)
+    }
+    return 1
   }
 }

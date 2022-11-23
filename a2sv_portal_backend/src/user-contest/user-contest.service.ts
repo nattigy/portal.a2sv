@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { PrismaService } from '../prisma/prisma.service'
-import { UpdateUserContestInput } from './dto/update-user-contest.input'
+import { UpdateUserContestInput, UserContestId } from './dto/update-user-contest.input'
 import { UserContest } from './entities/user-contest.entity'
 import { PaginationUserContest } from '../common/page/pagination-info'
 import { FilterGroupContestUsersInput } from './dto/filter-group-contest-users.input'
@@ -229,7 +229,17 @@ export class UserContestService {
     })
   }
 
-  async remove(id: string): Promise<number> {
-    return 0
+  async remove({userId, contestId}: UserContestId): Promise<number> {
+    try {
+      await this.prismaService.userContest.delete({ where: {
+        userId_contestId: {
+          userId, contestId
+        }
+      }})
+    } catch (e) {
+      console.log(`Fail to delete user contest with id ${userId}`, ' : ', e)
+      throw new Error(`Fail to delete user contest with id ${userId}`)
+    }
+    return 1
   }
 }

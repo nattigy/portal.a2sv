@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { SeasonTopicProblemUserId } from './dto/season-topic-problem-user.id'
 import { UpdateSeasonTopicProblemUserInput } from './dto/update-season-topic-problem-user.input'
 import { SeasonTopicUserProblem } from './entities/season-topic-user-problem.entity'
@@ -73,11 +73,10 @@ export class SeasonTopicUserProblemResolver {
     return this.seasonTopicUserProblemService.update(updateSeasonTopicProblemUserInput)
   }
 
-  @Mutation(() => SeasonTopicUserProblem)
+  @Mutation(() => Int)
   async removeSeasonTopicProblemUser(
-    @Args('id', { type: () => SeasonTopicProblemUserId })
-    id: SeasonTopicProblemUserId,
+    @Args('seasonTopicProblemUserId') seasonTopicProblemUserId: SeasonTopicProblemUserId,
   ) {
-    return this.seasonTopicUserProblemService.remove(id)
+    return this.seasonTopicUserProblemService.remove(seasonTopicProblemUserId)
   }
 }

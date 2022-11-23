@@ -7,3 +7,11 @@ export class UpdateUserContestInput {
   @Field()
   userId: string
 }
+
+@InputType()
+export class UserContestId {
+  @Field()
+  contestId: string
+  @Field()
+  userId: string
+}

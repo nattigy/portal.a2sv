@@ -292,19 +292,6 @@ export class SeasonTopicUserProblemService {
     })
   }
 
-  async remove({ seasonId, topicId, problemId, userId }: SeasonTopicProblemUserId) {
-    return this.prismaService.seasonTopicProblemUser.delete({
-      where: {
-        seasonId_topicId_problemId_userId: {
-          seasonId,
-          topicId,
-          problemId,
-          userId,
-        },
-      },
-    })
-  }
-
   async problemSolved({ seasonId, topicId, problemId, userId }: SeasonTopicProblemUserId) {
     //update season/problem/topic/user => solved
     const seasonTopicproblemUser = this.prismaService.seasonTopicProblemUser.update({
@@ -322,5 +309,24 @@ export class SeasonTopicUserProblemService {
     })
 
     return seasonTopicproblemUser
+  }
+
+  async remove({ seasonId, topicId, problemId, userId }: SeasonTopicProblemUserId) {
+    try {
+      await this.prismaService.seasonTopicProblemUser.delete({
+        where: {
+          seasonId_topicId_problemId_userId: {
+            seasonId,
+            topicId,
+            problemId,
+            userId,
+          },
+        },
+      })
+    } catch (e) {
+      console.log(`Fail to delete season topic user problem with id ${seasonId}`, ' : ', e)
+      throw new Error(`Fail to delete season topic user problem with id ${seasonId}`)
+    }
+    return 1
   }
 }

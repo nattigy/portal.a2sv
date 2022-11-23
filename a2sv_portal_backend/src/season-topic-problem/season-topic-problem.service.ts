@@ -106,14 +106,20 @@ export class SeasonTopicProblemService {
   }
 
   async remove({ seasonId, problemId, topicId }: SeasonTopicProblemId) {
-    return this.prismaService.seasonTopicProblem.delete({
-      where: {
-        seasonId_topicId_problemId: {
-          seasonId,
-          problemId,
-          topicId,
+    try {
+      await this.prismaService.seasonTopicProblem.delete({
+        where: {
+          seasonId_topicId_problemId: {
+            seasonId,
+            problemId,
+            topicId,
+          },
         },
-      },
-    })
+      })
+    } catch (e) {
+      console.log(`Fail to delete season topic problem with id ${seasonId}`, ' : ', e)
+      throw new Error(`Fail to delete season topic problem with id ${seasonId}`)
+    }
+    return 1
   }
 }

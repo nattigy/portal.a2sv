@@ -1,4 +1,4 @@
-import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
+import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { PaginationSeason } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { SeasonTopic } from '../season-topic/entities/season-topic.entity'
@@ -43,13 +43,13 @@ export class SeasonResolver {
     return this.seasonService.update(seasonId, updateSeasonInput)
   }
 
-  @Mutation(() => Season, { description: descriptions.deleteSeason })
-  async deleteSeason(@Args('seasonId', { type: () => String }) seasonId: string) {
-    return this.seasonService.deleteSeason(seasonId)
-  }
-
   @ResolveField(() => [SeasonTopic])
   async topics(@Parent() season: Season): Promise<SeasonTopic[]> {
     return season.topics
+  }
+
+  @Mutation(() => Int, { description: descriptions.deleteSeason })
+  async removeSeason(@Args('seasonId') seasonId: string) {
+    return this.seasonService.remove(seasonId)
   }
 }

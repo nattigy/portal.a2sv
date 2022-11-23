@@ -1,5 +1,5 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { UpdateUserContestProblemInput } from './dto/update-user-contest-problem.input'
+import { UpdateUserContestProblemInput, UserContestProblemId } from './dto/update-user-contest-problem.input'
 import { UserContestProblem } from './entities/user-contest-problem.entity'
 import { UserContestProblemService } from './user-contest-problem.service'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
@@ -30,11 +30,9 @@ export class UserContestProblemResolver {
 
   @Query(() => UserContestProblem)
   async userContestProblem(
-    @Args('userId') userId: string,
-    @Args('contestId') contestId: string,
-    @Args('problemId') problemId: string,
+    @Args('userContestProblemId') userContestProblemId: UserContestProblemId,
   ) {
-    return this.userContestProblemService.findOne(userId, contestId, problemId)
+    return this.userContestProblemService.findOne(userContestProblemId)
   }
 
   @Mutation(() => UserContestProblem)
@@ -45,8 +43,10 @@ export class UserContestProblemResolver {
     return this.userContestProblemService.update(updateUserContestProblemInput)
   }
 
-  @Mutation(() => UserContestProblem)
-  async removeUserContestProblem(@Args('id', { type: () => Int }) id: number) {
-    return this.userContestProblemService.remove(id)
+  @Mutation(() => Int)
+  async removeUserContestProblem(
+    @Args('userContestProblemId') userContestProblemId: UserContestProblemId,
+  ) {
+    return this.userContestProblemService.remove(userContestProblemId)
   }
 }

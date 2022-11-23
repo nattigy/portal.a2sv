@@ -4,7 +4,7 @@ import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { PrismaService } from '../prisma/prisma.service'
 import { UserContestProblemEnum } from '../user-contest-problem/entities/user-contest-problem-status.enum'
 import { FilterGroupContestInput } from './dto/filter-group-contest.input'
-import { UpdateGroupContestInput } from './dto/update-group-contest.input'
+import { GroupContestId, UpdateGroupContestInput } from './dto/update-group-contest.input'
 import { GroupContest, ProblemsStat } from './entities/group-contest.entity'
 import { UserContestService } from '../user-contest/user-contest.service'
 
@@ -143,7 +143,20 @@ export class GroupContestService {
     })
   }
 
-  async remove(groupId: string, contestId: string) {
-    return 0
+  async remove({ groupId, contestId }: GroupContestId) {
+    try {
+      await this.prismaService.groupContest.delete({
+        where: {
+          groupId_contestId: {
+            groupId,
+            contestId
+          }
+        }
+      })
+    }catch (e) {
+      console.log(`Fail to delete group contest with id ${groupId}`, " : ", e)
+      throw new Error(`Fail to delete group contest with id ${groupId}`)
+    }
+    return 1
   }
 }

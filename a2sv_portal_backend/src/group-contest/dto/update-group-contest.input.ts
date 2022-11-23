@@ -7,3 +7,11 @@ export class UpdateGroupContestInput {
   @Field(() => String)
   contestId: string
 }
+
+@InputType()
+export class GroupContestId {
+  @Field(() => String)
+  groupId: string
+  @Field(() => String)
+  contestId: string
+}

@@ -2,7 +2,7 @@ import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { PaginationGroupContests } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { FilterGroupContestInput } from './dto/filter-group-contest.input'
-import { UpdateGroupContestInput } from './dto/update-group-contest.input'
+import { GroupContestId, UpdateGroupContestInput } from './dto/update-group-contest.input'
 import { GroupContest } from './entities/group-contest.entity'
 import { GroupContestService } from './group-contest.service'
 
@@ -53,9 +53,8 @@ export class GroupContestResolver {
 
   @Mutation(() => Int)
   async removeGroupContest(
-    @Args('groupId') groupId: string,
-    @Args('contestId') contestId: string,
+    @Args('groupContestIdInput') groupContestId: GroupContestId,
   ): Promise<number> {
-    return this.groupContestService.remove(groupId, contestId)
+    return this.groupContestService.remove(groupContestId)
   }
 }

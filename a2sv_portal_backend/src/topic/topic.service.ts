@@ -111,10 +111,6 @@ export class TopicService {
     })
   }
 
-  async deleteTopic(id: string): Promise<Topic> {
-    return this.prismaService.topic.delete({ where: { id } })
-  }
-
   async addTopicToSeason(addTopicToSeasonInput: AddTopicToSeasonInput) {
     return this.prismaService.season.update({
       data: {
@@ -132,5 +128,15 @@ export class TopicService {
         id: addTopicToSeasonInput.seasonId,
       },
     })
+  }
+
+  async remove(id: string): Promise<number> {
+    try {
+      await this.prismaService.topic.delete({ where: { id } })
+    } catch (e) {
+      console.log(`Fail to delete topic with id ${id}`, ' : ', e)
+      throw new Error(`Fail to delete topic with id ${id}`)
+    }
+    return 1
   }
 }

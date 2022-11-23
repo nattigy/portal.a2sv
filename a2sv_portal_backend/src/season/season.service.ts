@@ -13,7 +13,8 @@ import { PaginationSeason } from '../common/page/pagination-info'
 @UseGuards(PoliciesGuard)
 @Injectable()
 export class SeasonService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   @CheckPolicies(SeasonAbilities.read)
   async findAll(
@@ -114,10 +115,13 @@ export class SeasonService {
     })
   }
 
-  @CheckPolicies(SeasonAbilities.delete)
-  async deleteSeason(id: string): Promise<Season> {
-    return this.prismaService.season.delete({
-      where: { id },
-    })
+  async remove(id: string): Promise<number> {
+    try {
+      await this.prismaService.season.delete({ where: { id } })
+    } catch (e) {
+      console.log(`Fail to delete season with id ${id}`, ' : ', e)
+      throw new Error(`Fail to delete season with id ${id}`)
+    }
+    return 1
   }
 }

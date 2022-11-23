@@ -12,3 +12,11 @@ export class UpdateSeasonTopicInput {
   @Field(() => [UpdateSeasonTopicProblemInput], { nullable: true })
   problems?: UpdateSeasonTopicProblemInput[]
 }
+
+@InputType()
+export class SeasonTopicId {
+  @Field()
+  seasonId: string
+  @Field()
+  topicId: string
+}

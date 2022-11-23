@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
-import { UpdateUserContestProblemInput } from './dto/update-user-contest-problem.input'
+import { UpdateUserContestProblemInput, UserContestProblemId } from './dto/update-user-contest-problem.input'
 import { PaginationUserContestProblem } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { UserContestProblem } from './entities/user-contest-problem.entity'
@@ -41,11 +41,7 @@ export class UserContestProblemService {
     }
   }
 
-  async findOne(
-    userId: string,
-    contestId: string,
-    problemId: string,
-  ): Promise<UserContestProblem> {
+  async findOne({userId, contestId, problemId}: UserContestProblemId): Promise<UserContestProblem> {
     return this.prismaService.userContestProblem.findUnique({
       where: {
         userId_contestId_problemId: {
@@ -125,7 +121,17 @@ export class UserContestProblemService {
     })
   }
 
-  async remove(id: number) {
-    return `This action removes a #${id} userContestProblem`
+  async remove({ userId, contestId, problemId }: UserContestProblemId) {
+    try {
+      await this.prismaService.userContestProblem.delete({ where: {
+          userId_contestId_problemId: {
+            userId, contestId, problemId
+          }
+        }})
+    } catch (e) {
+      console.log(`Fail to delete user contest problem with id ${userId}`, ' : ', e)
+      throw new Error(`Fail to delete user contest problem with id ${userId}`)
+    }
+    return 1
   }
 }
