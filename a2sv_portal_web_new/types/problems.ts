@@ -1,5 +1,3 @@
-import { PlatformInfo } from "../components/problems/ProblemsTable";
-
 export type ProblemType = {
   id: string;
   title: string;
@@ -11,7 +9,7 @@ export type ProblemType = {
     {
       name: string;
       id: string;
-    } 
+    }
   ];
   updatedAt: string;
   createdAt: string;

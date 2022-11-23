@@ -75,8 +75,7 @@ const IndexPage = () => {
   return (
     <BaseLayout sidebar={<Sidebar sidebarProps={topicResource} />}>
       <div>
-        <h1 className="capitalize text-2xl font-semibold">{query?.name}</h1>
-        <ProblemsPage seasonId={query?.seasonId as string} topicId={query?.topicId as string}/>
+        <ProblemsPage topicName={query?.name as string}  seasonId={query?.seasonId as string} topicId={query?.topicId as string}/>
       </div>
     </BaseLayout>
   );

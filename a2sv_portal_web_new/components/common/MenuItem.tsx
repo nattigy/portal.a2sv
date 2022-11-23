@@ -3,20 +3,22 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
 type MenuItemProps = {
-  title: String;
+  title: string;
   onClick: (event?: any) => void;
+  color?: string;
 };
 // import { ChevronDownIcon } from '@heroicons/react/20/solid'
 type Props = {
+  color?: string;
   menuItems: MenuItemProps[];
 };
-export default function MenuItem({ menuItems }: Props) {
+export default function MenuItem({ menuItems,color}: Props) {
   return (
-    <div className="w-56 text-right">
+    <div className="text-right">
       <Menu as="div" className="inline-block text-left">
         <div>
           <Menu.Button className="inline-flex w-full justify-center rounded-md py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-            <BsThreeDotsVertical />
+            <BsThreeDotsVertical color={color}/>
           </Menu.Button>
         </div>
         <Transition
@@ -28,16 +30,16 @@ export default function MenuItem({ menuItems }: Props) {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute drop-shadow-md z-50 right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items className="absolute w-fit right-0 drop-shadow-md z-50 mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             {menuItems.map((menuItem: MenuItemProps, index: number) => (
-              <div key={index} className="px-1 py-1 ">
+              <div key={index} className="px-1 py-1">
                 <Menu.Item>
                   {({ active }) => (
                     <button
                       onClick={menuItem.onClick}
                       className={`${
                         active ? "bg-[#5956E9] text-white" : "text-gray-900"
-                      } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                      } group flex w-fit items-center rounded-md pl-1 pr-5 py-2 text-sm whitespace-nowrap`}
                     >
                       {active ? (
                         index == 0 ? (
@@ -62,7 +64,8 @@ export default function MenuItem({ menuItems }: Props) {
                           aria-hidden="true"
                         />
                       )}
-                      {menuItem.title}
+                      <div>{menuItem.title}</div>
+                      
                     </button>
                   )}
                 </Menu.Item>

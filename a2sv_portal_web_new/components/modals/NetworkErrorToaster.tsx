@@ -48,7 +48,7 @@ const NetworkErrorToaster = (props: Props) => {
               <span>{props.message}</span>
             ) : (
               <span>
-                You don't seem to have an active internet connection. <br />{" "}
+                You don&apos;t seem to have an active internet connection. <br />{" "}
                 please check your connection and try again.
               </span>
             )}

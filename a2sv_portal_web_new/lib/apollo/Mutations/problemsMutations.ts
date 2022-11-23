@@ -31,6 +31,15 @@ export const REMOVE_PROBLEM = gql`
     }
   }
 `;
+export const REMOVE_SEASON_TOPIC_PROBLEM = gql`
+  mutation RemoveSeasonTopicProblem(
+    $seasonTopicProblemId: SeasonTopicProblemId!
+  ) {
+    removeSeasonTopicProblem(seasonTopicProblemId: $seasonTopicProblemId) {
+      problemId
+    }
+  }
+`;
 export const UPDATE_PROBLEM = gql`
   mutation UpdateProblem($updateProblemInput: UpdateProblemInput!) {
     updateProblem(updateProblemInput: $updateProblemInput) {
