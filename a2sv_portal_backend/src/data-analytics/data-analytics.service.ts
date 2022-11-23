@@ -8,11 +8,9 @@ import { CreateDataAnalyticInput } from './dto/create-data-analytic.input'
 export class DataAnalyticsService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT, {
-    name: 'Scheduler Populate user_data fields',
-    timeZone: 'Europe/Paris',
-  })
-  async populateData() {
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT,{name:'Scheduler Populate user_data fields', 
+      timeZone: 'Africa/Addis_Ababa'})
+ async populateData() {   
     const users = await this.prismaService.user.findMany({
       where: {
         status: 'ACTIVE' as unknown as Status,
@@ -58,14 +56,10 @@ export class DataAnalyticsService {
     return `This action returns all dataAnalytics`
   }
 
-  async userStat(start_date?: Date, end_date?: Date, user_id?: string) {
-    if (!start_date) {
-      const date = new Date()
-      start_date = new Date(`${date.getFullYear}-01-01`)
-    }
-    if (!end_date) {
-      end_date = new Date()
-    }
+
+  async userStat(end_date?:Date, user_id?:string) {
+      const date = end_date ? new Date(end_date) : new Date();
+      const start_date = new Date(`${date.getFullYear()-1}-${date.getMonth()}-${date.getDate()}`)
     return this.prismaService.userAnalytics.findMany({
       where: {
         userId: user_id,
@@ -77,6 +71,9 @@ export class DataAnalyticsService {
       include: {
         user: true,
       },
+      orderBy: {    
+        createdAt: 'asc'   
+     }
     })
   }
 }

@@ -123,7 +123,13 @@ export class ProblemService {
     })
   }
 
-  async remove(id: string): Promise<Problem | null> {
-    return this.prismaService.problem.delete({ where: { id } })
+  async remove(id: string): Promise<number> {
+    try {
+      await this.prismaService.problem.delete({ where: { id } })
+    } catch (e) {
+      console.log(`Fail to delete problem with id ${id}`, ' : ', e)
+      throw new Error(`Fail to delete problem with id ${id}`)
+    }
+    return 1
   }
 }

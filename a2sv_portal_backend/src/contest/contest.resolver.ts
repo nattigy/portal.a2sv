@@ -41,13 +41,13 @@ export class ContestResolver {
     return this.contestService.update(updateContestInput)
   }
 
-  @Mutation(() => Int)
-  async removeContest(@Args('contestId') contestId: string): Promise<number> {
-    return this.contestService.remove(contestId)
-  }
-
   @ResolveField(() => [Problem])
   async problems(@Parent() contest: Contest) {
     return contest.problems
+  }
+
+  @Mutation(() => Int)
+  async removeContest(@Args('contestId') contestId: string): Promise<number> {
+    return this.contestService.remove(contestId)
   }
 }

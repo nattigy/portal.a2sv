@@ -14,3 +14,11 @@ export class UpdateUserTopicInput extends PartialType(CreateUserTopicInput) {
   })
   comfortLevel?: ComfortLevelEnum = ComfortLevelEnum.UNCOMFORTABLE
 }
+
+@InputType()
+export class UserTopicId {
+  @Field()
+  userId: string
+  @Field()
+  topicId: string
+}

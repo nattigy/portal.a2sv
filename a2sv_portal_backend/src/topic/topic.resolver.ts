@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common'
-import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
+import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
 import { TopicAbilities } from '../casl/handler/topic-abilities.handler'
 import { CheckPolicies } from '../casl/policy/policy.decorator'
@@ -60,13 +60,6 @@ export class TopicResolver {
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
-  @CheckPolicies(TopicAbilities.delete)
-  @Mutation(() => Topic, { description: descriptions.deleteTopic })
-  async deleteTopic(@Args('id', { type: () => String }) id: string) {
-    return this.topicService.deleteTopic(id)
-  }
-
-  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.read)
   @ResolveField(() => [SeasonTopic], { nullable: 'itemsAndList' })
   async seasons(@Parent() topic: Topic): Promise<SeasonTopic[]> {
@@ -93,5 +86,12 @@ export class TopicResolver {
   @ResolveField(() => [UserTopic])
   users(@Parent() topic: Topic): UserTopic[] {
     return topic.users
+  }
+
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(TopicAbilities.delete)
+  @Mutation(() => Int, { description: descriptions.deleteTopic })
+  async removeTopic(@Args('topicId') topicId: string) {
+    return this.topicService.remove(topicId)
   }
 }

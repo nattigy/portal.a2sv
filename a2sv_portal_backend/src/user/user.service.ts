@@ -163,12 +163,6 @@ export class UserService {
     })
   }
 
-  async remove(id: string): Promise<User | null> {
-    return await this.prismaService.user.delete({
-      where: { id },
-    })
-  }
-
   async findByEmail(email: string): Promise<User | null> {
     return this.prismaService.user.findFirst({
       where: { email },
@@ -284,7 +278,7 @@ export class UserService {
         case StatTimeRange.ALL:
           after.setMonth(after.getMonth() - 12)
       }
-      const comparator = (
+      return (
         a: User & { seasonTopicProblems: SeasonTopicProblemUser[] },
         b: User & { seasonTopicProblems: SeasonTopicProblemUser[] },
       ) => {
@@ -297,7 +291,6 @@ export class UserService {
         }
         return 0
       }
-      return comparator
     }
 
     function sortFunction(
@@ -464,5 +457,15 @@ export class UserService {
       totalTopicCoverage,
       unComfortability,
     }
+  }
+
+  async remove(id: string): Promise<number> {
+    try {
+      await this.prismaService.user.delete({ where: { id }})
+    } catch (e) {
+      console.log(`Fail to delete user with id ${id}`, ' : ', e)
+      throw new Error(`Fail to delete user with id ${id}`)
+    }
+    return 1
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateSeasonTopicInput } from './dto/create-season-topic.input'
-import { UpdateSeasonTopicInput } from './dto/update-season-topic.input'
+import { SeasonTopicId, UpdateSeasonTopicInput } from './dto/update-season-topic.input'
 import { FilterSeasonTopicInput } from './dto/filter-season-topic.input'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { SeasonTopic } from '@prisma/client'
@@ -113,14 +113,20 @@ export class SeasonTopicService {
     })
   }
 
-  async remove(seasonId, topicId) {
-    return this.prismaService.seasonTopic.delete({
-      where: {
-        seasonId_topicId: {
-          seasonId,
-          topicId,
+  async remove({ seasonId, topicId }: SeasonTopicId): Promise<number> {
+    try {
+      await this.prismaService.seasonTopic.delete({
+        where: {
+          seasonId_topicId: {
+            seasonId,
+            topicId,
+          },
         },
-      },
-    })
+      })
+    } catch (e) {
+      console.log(`Fail to delete season topic with id ${seasonId}`, ' : ', e)
+      throw new Error(`Fail to delete season topic with id ${seasonId}`)
+    }
+    return 1
   }
 }

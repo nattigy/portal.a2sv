@@ -57,13 +57,6 @@ export class ProblemResolver {
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
-  @CheckPolicies(ProblemAbilities.delete)
-  @Mutation(() => Problem, { description: descriptions.removeProblem })
-  async removeProblem(@Args('problemId') problemId: string): Promise<Problem> {
-    return this.problemService.remove(problemId)
-  }
-
-  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.read)
   @ResolveField()
   async tags(@Parent() problem: Problem): Promise<Tag[]> {
@@ -75,5 +68,12 @@ export class ProblemResolver {
   @ResolveField(() => [SeasonTopicProblem], { nullable: 'itemsAndList' })
   seasonTopics(@Parent() problem: Problem): SeasonTopicProblem[] {
     return problem.seasonTopics
+  }
+
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(ProblemAbilities.delete)
+  @Mutation(() => Int, { description: descriptions.removeProblem })
+  async removeProblem(@Args('problemId') problemId: string): Promise<number> {
+    return this.problemService.remove(problemId)
   }
 }

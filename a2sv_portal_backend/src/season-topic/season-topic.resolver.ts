@@ -1,9 +1,9 @@
-import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
+import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { SeasonTopicProblem } from '../season-topic-problem/entities/season-topic-problem.entity'
 import { Season } from '../season/entities/season.entity'
 import { Topic } from '../topic/entities/topic.entity'
 import { CreateSeasonTopicInput } from './dto/create-season-topic.input'
-import { UpdateSeasonTopicInput } from './dto/update-season-topic.input'
+import { SeasonTopicId, UpdateSeasonTopicInput } from './dto/update-season-topic.input'
 import { SeasonTopic } from './entities/season-topic.entity'
 import { SeasonTopicService } from './season-topic.service'
 import { FilterSeasonTopicInput } from './dto/filter-season-topic.input'
@@ -49,14 +49,6 @@ export class SeasonTopicResolver {
     return this.seasonTopicService.update(updateSeasonTopicInput)
   }
 
-  @Mutation(() => SeasonTopic, { description: descriptions.removeSeasonTopic })
-  async removeSeasonTopic(
-    @Args('seasonId') seasonId: string,
-    @Args('topicId') topicId: string,
-  ) {
-    return this.seasonTopicService.remove(seasonId, topicId)
-  }
-
   @ResolveField(() => Topic)
   topic(@Parent() seasonTopic: SeasonTopic) {
     return seasonTopic.topic
@@ -70,5 +62,12 @@ export class SeasonTopicResolver {
   @ResolveField(() => [SeasonTopicProblem])
   problems(@Parent() seasonTopic: SeasonTopic) {
     return seasonTopic.problems
+  }
+
+  @Mutation(() => Int, { description: descriptions.removeSeasonTopic })
+  async removeSeasonTopic(
+    @Args('seasonTopicId') seasonTopicId: SeasonTopicId
+  ) {
+    return this.seasonTopicService.remove(seasonTopicId)
   }
 }

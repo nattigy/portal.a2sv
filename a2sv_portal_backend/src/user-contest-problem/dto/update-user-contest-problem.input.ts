@@ -16,3 +16,13 @@ export class UpdateUserContestProblemInput {
   @Field(() => Int)
   numberOfMinutes: number
 }
+
+@InputType()
+export class UserContestProblemId {
+  @Field()
+  userId: string
+  @Field()
+  contestId: string
+  @Field()
+  problemId: string
+}

@@ -11,7 +11,8 @@ import { Group } from './entities/group.entity'
 
 @Injectable()
 export class GroupsService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(createGroupInput: CreateGroupInput): Promise<Group> {
     return this.prismaService.group.create({
@@ -43,10 +44,10 @@ export class GroupsService {
                       include: {
                         seasonTopicProblem: {
                           include: {
-                            problem: true
-                          }
-                        }
-                      }
+                            problem: true,
+                          },
+                        },
+                      },
                     },
                     problem: {
                       include: {
@@ -187,12 +188,6 @@ export class GroupsService {
     return this.prismaService.group.update({
       where: { id },
       data: updates,
-    })
-  }
-
-  async deleteGroup(id: string): Promise<Group> {
-    return this.prismaService.group.delete({
-      where: { id },
     })
   }
 
@@ -360,5 +355,15 @@ export class GroupsService {
       contestsAttended: contestsAttended,
       // rank: groups[i].id,
     }
+  }
+
+  async remove(id: string): Promise<number> {
+    try {
+      await this.prismaService.group.delete({ where: { id } })
+    } catch (e) {
+      console.log(`Fail to delete group with id ${id}`, ' : ', e)
+      throw new Error(`Fail to delete group with id ${id}`)
+    }
+    return 1
   }
 }

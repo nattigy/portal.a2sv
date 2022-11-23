@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common'
-import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
+import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { User } from 'src/user/entities/user.entity'
 import { GroupAbilities } from '../casl/handler/group-abilities.handler'
 import { CheckPolicies } from '../casl/policy/policy.decorator'
@@ -110,8 +110,8 @@ export class GroupsResolver {
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.delete)
-  @Mutation(() => Group, { description: descriptions.deleteGroup })
-  async deleteGroup(@Args('groupId') groupId: string) {
-    return this.groupsService.deleteGroup(groupId)
+  @Mutation(() => Int, { description: descriptions.deleteGroup })
+  async removeGroup(@Args('groupId') groupId: string): Promise<number> {
+    return this.groupsService.remove(groupId)
   }
 }

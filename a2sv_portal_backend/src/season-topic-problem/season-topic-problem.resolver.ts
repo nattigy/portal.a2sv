@@ -53,12 +53,10 @@ export class SeasonTopicProblemResolver {
     return this.seasonTopicProblemService.update(updateSeasonTopicProblemInput)
   }
 
-  @Mutation(() => SeasonTopicProblem, {
-    description: descriptions.removeSeasonTopicProblem,
-  })
+  @Mutation(() => Int, { description: descriptions.removeSeasonTopicProblem})
   async removeSeasonTopicProblem(
-    @Args('seasonTopicProblemId', { type: () => SeasonTopicProblemId }) id: SeasonTopicProblemId,
+    @Args('seasonTopicProblemId') seasonTopicProblemId: SeasonTopicProblemId,
   ) {
-    return this.seasonTopicProblemService.remove(id)
+    return this.seasonTopicProblemService.remove(seasonTopicProblemId)
   }
 }

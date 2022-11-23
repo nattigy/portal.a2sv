@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { CreateUserTopicInput } from './dto/create-user-topic.input'
-import { UpdateUserTopicInput } from './dto/update-user-topic.input'
+import { UpdateUserTopicInput, UserTopicId } from './dto/update-user-topic.input'
 import { PrismaService } from '../prisma/prisma.service'
 import { UserTopic } from './entities/user-topic.entity'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
@@ -9,7 +9,8 @@ import { PaginationUserTopic } from '../common/page/pagination-info'
 
 @Injectable()
 export class UserTopicService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(createUserTopicInput: CreateUserTopicInput): Promise<UserTopic> {
     return this.prismaService.userTopic.create({
@@ -78,7 +79,19 @@ export class UserTopicService {
     })
   }
 
-  async remove(id: string) {
-    return `This action removes a #${id} userTopic`
+  async remove({ userId, topicId }: UserTopicId) {
+    try {
+      await this.prismaService.userTopic.delete({
+        where: {
+          userId_topicId: {
+            userId, topicId,
+          },
+        },
+      })
+    } catch (e) {
+      console.log(`Fail to delete user topic with id ${userId}`, ' : ', e)
+      throw new Error(`Fail to delete user topic with id ${userId}`)
+    }
+    return 1
   }
 }

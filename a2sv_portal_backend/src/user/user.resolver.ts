@@ -117,17 +117,6 @@ export class UserResolver {
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
-  @CheckPolicies(UserAbilities.delete)
-  @Mutation(() => User, { description: descriptions.deleteUser })
-  async removeUser(@Args('id', { type: () => String }) id: string) {
-    try {
-      return await this.userService.remove(id)
-    } catch (e) {
-      return e.message
-    }
-  }
-
-  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.read)
   @ResolveField()
   async group(@Parent() user: User) {
@@ -186,5 +175,12 @@ export class UserResolver {
     topicStudentStatInput: TopicStudentStatInput,
   ) {
     return this.userService.studentTopicStats(topicStudentStatInput)
+  }
+
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.delete)
+  @Mutation(() => Int, { description: descriptions.deleteUser })
+  async removeUser(@Args('userId') userId: string) {
+    return this.userService.remove(userId)
   }
 }
