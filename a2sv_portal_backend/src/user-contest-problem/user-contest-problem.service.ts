@@ -57,30 +57,6 @@ export class UserContestProblemService {
   }
 
   async update({ userId, contestId, problemId, ...update }: UpdateUserContestProblemInput) {
-    // await this.prismaService.userContest.upsert({
-    //   where: {
-    //     userId_contestId: {
-    //       userId,
-    //       contestId,
-    //     },
-    //   },
-    //   create: {
-    //     contest: {
-    //       connect: {
-    //         id: contestId,
-    //       },
-    //     },
-    //     user: {
-    //       connect: {
-    //         id: userId,
-    //       },
-    //     },
-    //   },
-    //   update: {
-    //     contestId,
-    //     userId,
-    //   },
-    // })
     return this.prismaService.userContestProblem.upsert({
       include: {
         problem: true,
@@ -95,9 +71,14 @@ export class UserContestProblemService {
         },
       },
       create: {
-        // contestId,
-        // userId,
-        // problemId,
+        userContest: {
+          connect: {
+            userId_contestId: {
+              userId,
+              contestId
+            }
+          }
+        },
         contest: {
           connect: {
             id: contestId,
@@ -113,9 +94,7 @@ export class UserContestProblemService {
             id: problemId,
           },
         },
-        numberOfAttempts: update.numberOfAttempts,
-        numberOfMinutes: update.numberOfMinutes,
-        status: update.status,
+        ...update,
       },
       update: update,
     })
