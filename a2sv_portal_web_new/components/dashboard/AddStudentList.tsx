@@ -59,7 +59,6 @@ const AddStudentList = (props: Props) => {
     setIsLoading(true);
     const updateValue = [...selectedStudent].map((id: any) => {
       return id;
-      
     });
 
     await addStudentsToGroup({

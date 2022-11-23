@@ -201,7 +201,10 @@ const ProblemDetailModal = (props: Props) => {
                       text="Cancel"
                       onClick={() => props.onClose()}
                     />
-                    <FormAffirmativeButton isLoading={isSubmitting} text="Save" />
+                    <FormAffirmativeButton
+                      isLoading={isSubmitting}
+                      text="Save"
+                    />
                   </div>
                 </div>
               </div>

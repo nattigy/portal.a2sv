@@ -29,7 +29,7 @@ const GroupStudentsSidebarItem = ({
     if (data) {
       setStudents(data.users.items);
     }
-  }, [refetch, students,data]);
+  }, [refetch, students, data]);
 
   return (
     <div className={clsx("h-full flex flex-col gap-y-2 justify-between")}>

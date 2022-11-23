@@ -17,7 +17,6 @@ const StudentSidebar: React.FC<{
   groupId: string;
   groupHead: GroupStudentsSidebarProps;
 }) => {
-
   return (
     <div className="h-full flex flex-col py-2">
       {groupHead.id ? (

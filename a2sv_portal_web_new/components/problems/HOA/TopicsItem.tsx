@@ -14,13 +14,12 @@ const colors = ["#5956E9", "#FFDC60", "#FFADAD", "#FFADAD"];
 const TopicsItem = ({ topic, idx }: Props) => {
   const router = useRouter();
   const pathname = `problems/${topic.name}`;
-  const href={
+  const href = {
     pathname,
     query: {
-      topicName : topic.name ,
+      topicName: topic.name,
     }, // the data
-  }
-
+  };
 
   const handleClick = () => {
     router.push("/" + topic.name);

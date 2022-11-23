@@ -12,7 +12,7 @@ const height = [24, 30, 34, 29, 24, 28, 22, 23, 22, 24];
 const DashboardRankItem = (props: DashboardRankItemProps) => {
   const [clicked, setClickedIndex] = useState(height.length - 1);
   return (
-    <div className="bg-white rounded-xl w-full h-16 flex flex-row p-3 py-4 gap-x- justify-around">
+    <div className="bg-white rounded-xl w-full flex flex-row p-3 py-4 gap-x- justify-around">
       <div className="flex flex-col justify-center">
         <p className="font-semibold text-[#676767] text-[10px]">
           {props.rankType} rank

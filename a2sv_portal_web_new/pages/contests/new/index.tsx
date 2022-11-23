@@ -167,7 +167,7 @@ const IndexPage = () => {
               notifyOnNetworkStatusChange: true,
               onCompleted: (data) => {
                 setIsLoading(false);
-                router.back()
+                router.back();
                 console.log("Completed", data);
               },
               onError: (error) => {

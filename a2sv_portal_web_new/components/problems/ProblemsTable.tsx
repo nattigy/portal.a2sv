@@ -51,12 +51,11 @@ const ProblemsTable = ({ problems }: Props) => {
     setCheckedState(updatedCheckedState);
     setCheckedAll(!checkedAll);
   };
-console.log("PROBLEMS",problems)
+  console.log("PROBLEMS", problems);
   return (
     <div className="overflow-x-auto relative bg-white border-blue-100 shadow-md sm:rounded-lg border p-4 ">
       <div className="mx-3 my-2 font-semibold text-md text-[#565656]">
         <h2>Problem Set</h2>
-
       </div>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-[#979797] bg-white ">

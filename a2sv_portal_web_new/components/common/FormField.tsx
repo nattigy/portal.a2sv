@@ -3,11 +3,11 @@ import { Field, FormikErrors, FormikTouched } from "formik";
 import React from "react";
 
 type Props = {
-    id: string;
-    name: string;
-    placeholder: string;
-    error?: string;
-    touched?: boolean;
+  id: string;
+  name: string;
+  placeholder: string;
+  error?: string;
+  touched?: boolean;
 };
 
 const FormField = (props: Props) => {

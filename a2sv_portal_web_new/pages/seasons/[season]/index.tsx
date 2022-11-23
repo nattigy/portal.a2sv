@@ -8,6 +8,7 @@ import { LoaderSmall } from "../../../components/common/Loaders";
 import TopicModal from "../../../components/modals/TopicModal";
 import TopicList from "../../../components/topics/TopicList";
 import TopicsFilter from "../../../components/topics/TopicsFilter";
+import TopicsPage from "../../../components/topics/TopicsPage";
 import TopicStruggledList from "../../../components/topics/TopicStruggledList";
 import {
   authenticatedUser,
@@ -67,7 +68,7 @@ const IndexPage = () => {
       }
     } else {
       if (data) {
-        setTopics(data.seasonTopics?.items.map((item:any)=>item.topic));
+        setTopics(data.seasonTopics?.items.map((item: any) => item.topic));
       }
     }
   }, [refetch, data, tabIndex, allTopics]);
@@ -91,7 +92,6 @@ const IndexPage = () => {
       </div>
     );
   };
-
   return (
     <BaseLayout sidebar={<Sidebar />}>
       {isAddTopicToGroupModalOpen && (
@@ -136,7 +136,7 @@ const IndexPage = () => {
             </div>
           ) : // ) : error ? (
           //   <p>Something went wrong</p>
-          topics.length=== 0 ? (
+          topics.length === 0 ? (
             <EmptyState />
           ) : (
             <TopicList

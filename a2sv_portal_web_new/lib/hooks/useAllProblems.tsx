@@ -19,12 +19,11 @@ export const useGetAllProblemsByTags = (tags: string[]) => {
     notifyOnNetworkStatusChange: true,
     variables: {
       filterProblemInput: {
-        tags
-      }
-    }
+        tags,
+      },
+    },
   });
 };
-
 
 export const useGetAllFilteredProblems = () => {
   return useQuery(GET_ALL_PROBLEMS_FILTERED, {

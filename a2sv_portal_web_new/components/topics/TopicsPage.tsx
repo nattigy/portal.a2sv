@@ -2,7 +2,10 @@ import { useReactiveVar } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import WithPermission from "../../lib/Guard/WithPermission";
-import { useGetAllGroupTopicsBySeasonIdQuery, useGetAllTopics } from "../../lib/hooks/useTopics";
+import {
+  useGetAllGroupTopicsBySeasonIdQuery,
+  useGetAllTopics,
+} from "../../lib/hooks/useTopics";
 import { GraphqlUserRole } from "../../types/user";
 import Button from "../common/Button";
 import EmptyState from "../common/EmptyState";
@@ -13,7 +16,7 @@ import TopicsFilter from "./TopicsFilter";
 type Props = {
   seasonId: string;
 };
-const TopicsPage = ({seasonId}: Props) => {
+const TopicsPage = ({ seasonId }: Props) => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
   const [isAddTopicToGroupModalOpen, setIsAddTopicToGroupModalOpen] =
     useState(false);
@@ -22,20 +25,20 @@ const TopicsPage = ({seasonId}: Props) => {
     setIsAddTopicToGroupModalOpen(true);
   };
 
-
-  const [fetchSeasonTopics, { data, refetch, loading }] = useGetAllGroupTopicsBySeasonIdQuery(seasonId);
+  const [fetchSeasonTopics, { data, refetch, loading }] =
+    useGetAllGroupTopicsBySeasonIdQuery(seasonId);
   const [seasonTopics, setSeasonTopics] = useState([]);
   const [tabIndex, setTabIndex] = useState(0);
-    useEffect(() => {
-      fetchSeasonTopics();
-    }, [tabIndex, refetch, fetchSeasonTopics]);
+  useEffect(() => {
+    fetchSeasonTopics();
+  }, [tabIndex, refetch, fetchSeasonTopics]);
 
-    console.log("Daksfkldfsklfdklmdta", data)
-    useEffect(() => {
-      if (data) {
-        setSeasonTopics(data?.seasonTopics?.items);
-      }
-    }, [refetch, data]);
+  console.log("Daksfkldfsklfdklmdta", data);
+  useEffect(() => {
+    if (data) {
+      setSeasonTopics(data?.seasonTopics?.items);
+    }
+  }, [refetch, data]);
 
   const handleTabChange = (index: number) => {
     setTabIndex(index);
@@ -87,8 +90,7 @@ const TopicsPage = ({seasonId}: Props) => {
           //   <p>Something went wrong</p>
           data?.seasonTopics?.length === 0 ? (
             <EmptyState />
-          ) 
-          : (
+          ) : (
             <TopicList
               season={{ id: seasonId, name: "" }}
               topics={seasonTopics}

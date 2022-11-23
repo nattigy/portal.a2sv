@@ -22,11 +22,7 @@ export type StudentsInfo = {
 
 const AddStudentListItem = ({ studentProps, handleStudentCheck }: Props) => {
   return (
-    <div
-      className={clsx(
-        "flex gap-x-4 py-2 cursor-pointer"
-      )}
-    >
+    <div className={clsx("flex gap-x-4 py-2 cursor-pointer")}>
       <input
         id={studentProps.id.toString()}
         className="w-4 rounded-md border-2 text-red-400"

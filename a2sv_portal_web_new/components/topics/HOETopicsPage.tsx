@@ -16,20 +16,15 @@ type Props = {
 const HOETopicsPage = ({ groupId }: Props) => {
   // const [isAddTopicToGroupModalOpen, setIsAddTopicToGroupModalOpen] =
   //   useState(false);
-
   // const authUser = useReactiveVar(authenticatedUser) as AuthUser;
-
   // const handleAddTopicToGroupModalOpen = () => {
   //   setIsAddTopicToGroupModalOpen(true);
   // };
-
   // const [fetchTopics, { data, refetch, loading, error }] =
   //   useGetAllTopicsByGroupAndSeasonIdQuery("", groupId);
-
   // useEffect(() => {
   //   fetchTopics();
   // }, [refetch, groupId]);
-
   // return (
   //   <>
   //     {isAddTopicToGroupModalOpen && (

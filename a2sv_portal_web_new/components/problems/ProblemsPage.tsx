@@ -4,7 +4,9 @@ import ProblemsTable from "./ProblemsTable";
 import { useReactiveVar } from "@apollo/client";
 import { authenticatedUser } from "../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../types/user";
-import useAllProblems, { useGetProblemsByGroupSeasonTopic } from "../../lib/hooks/useAllProblems";
+import useAllProblems, {
+  useGetProblemsByGroupSeasonTopic,
+} from "../../lib/hooks/useAllProblems";
 import { LoaderSmall } from "../common/Loaders";
 import Button from "../common/Button";
 import SearchField from "../common/SearchField";
@@ -29,7 +31,10 @@ const ProblemsPage = (props: ProblemsPageProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddNewProblemModalOpen, setIsAddNewProblemModalOpen] =
     useState<boolean>(false);
-  const { loading, data, error } = useGetProblemsByGroupSeasonTopic(props.seasonId,props.topicId);
+  const { loading, data, error } = useGetProblemsByGroupSeasonTopic(
+    props.seasonId,
+    props.topicId
+  );
   const [problems, setProblems] = useState<ProblemsInfo[]>([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -49,11 +54,13 @@ const ProblemsPage = (props: ProblemsPageProps) => {
     setSearchQuery(e.target.value);
   };
 
-useEffect(() => {
+  useEffect(() => {
     if (data) {
-      setProblems(data?.seasonTopicProblems?.items.map((item:any)=>item.problem));
+      setProblems(
+        data?.seasonTopicProblems?.items.map((item: any) => item.problem)
+      );
     }
-  }, [ data]);
+  }, [data]);
   console.log(data);
 
   return (
@@ -68,22 +75,23 @@ useEffect(() => {
       {isEditModalOpen && (
         <TopicModal
           isEditing={true}
-          onClose={() => setIsEditModalOpen(false)} seasonId={""} />
+          onClose={() => setIsEditModalOpen(false)}
+          seasonId={""}
+        />
       )}
       {isDeleteModalOpen && (
         <DeletePopupModal
           title="Delete Topic"
           errorMessage=""
-          isLoading = {false}
+          isLoading={false}
           description="This will delete the topic from topic set"
           onClose={() => setIsDeleteModalOpen(false)}
-          onDelete={()=>{}}
+          onDelete={() => {}}
         />
       )}
       <div className="h-screen font-semibold text-[#565656]">
         <div className="flex flex-row items-center justify-between my-6 font-semibold text-xl text-[#565656]">
-          <div>
-          </div>
+          <div></div>
           <div>
             <SearchField
               onChange={(e) => handleSearch}
@@ -135,7 +143,6 @@ useEffect(() => {
           <EmptyState />
         ) : (
           <div>
-           
             <ProblemsTable problems={problems} />
           </div>
         )}

@@ -8,6 +8,7 @@ import { GraphqlUserRole } from "../../types/user";
 
 const IndexPage = () => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
+  console.log("authuser in dashboard", authUser);
   const ActiveComponent = ({
     user,
   }: {
@@ -20,16 +21,16 @@ const IndexPage = () => {
   }) => {
     switch (user.role) {
       case GraphqlUserRole.STUDENT: {
-        return <StudentDashboard />
+        return <StudentDashboard />;
       }
       case GraphqlUserRole.HEAD_OF_EDUCATION: {
-        return <HOEDashboard groupId={authUser?.headToGroup?.id} />
+        return <HOEDashboard groupId={authUser?.headToGroup?.id} />;
       }
       case GraphqlUserRole.HEAD_OF_ACADEMY: {
-        return <HOADashboard />
+        return <HOADashboard />;
       }
       default: {
-        return <StudentDashboard />
+        return <StudentDashboard />;
       }
     }
   };

@@ -76,7 +76,7 @@ const GroupStudents = (props: Props) => {
             )}
           </div>
         </div>
-        {props.groupData?.users.length > 0 ?(
+        {props.groupData?.users.length > 0 ? (
           <StudentTable students={props.groupData?.users} />
         ) : (
           <EmptyState />

@@ -37,7 +37,6 @@ const FormDropdown = (props: Props) => {
             {option.name}
           </option>
         ))}
-        
       </Field>
     </div>
   );

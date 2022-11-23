@@ -1,6 +1,5 @@
 import React from "react";
 
-
 export type LeaderboardProps = {
   id: number;
   photo: string;

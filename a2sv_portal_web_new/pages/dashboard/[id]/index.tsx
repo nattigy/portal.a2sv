@@ -7,12 +7,12 @@ type Props = {};
 
 const Index = (props: Props) => {
   const router = useRouter();
-  const id = router.query["id"]?.toString()||"";
+  const id = router.query["id"]?.toString() || "";
   return (
     <HOAGuard>
-    <div>
-      <GroupInfo groupId={id} />
-    </div>
+      <div>
+        <GroupInfo groupId={id} />
+      </div>
     </HOAGuard>
   );
 };

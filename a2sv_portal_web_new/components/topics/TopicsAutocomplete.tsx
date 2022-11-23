@@ -25,7 +25,7 @@ const TopicsAutocomplete = ({ handleSearchTopic }: Props) => {
       setFilteredTopics(data?.topics.items);
       setQuery("");
       setSelectedTopic(null);
-      handleSearchTopic(null)
+      handleSearchTopic(null);
     }
   }, [query]);
 

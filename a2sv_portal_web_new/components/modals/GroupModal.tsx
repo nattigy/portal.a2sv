@@ -70,7 +70,7 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
                     name: values.name,
                     school: values.school,
                     country: values.country,
-                    headId: selected?.id
+                    headId: selected?.id,
                   },
                 },
                 refetchQueries: "active",

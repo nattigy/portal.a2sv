@@ -15,23 +15,23 @@ const DurationField = (props: DurationFieldProps) => {
     (props.formik.errors as any)[props.name] &&
     (props.formik.touched as any)[props.name];
   const errorMessage = (props.formik.errors as any)[props.name];
-  const [value, setValue] = useState(props.formik.values[props.name])
+  const [value, setValue] = useState(props.formik.values[props.name]);
 
   const increment = () => {
     if (value < 59) {
-      const newValue = value + 1
-      setValue(newValue)
-      props.formik.setFieldValue(props.name, newValue)
+      const newValue = value + 1;
+      setValue(newValue);
+      props.formik.setFieldValue(props.name, newValue);
     }
-  }
+  };
 
   const decrement = () => {
     if (value > 0) {
-      const newValue = value - 1
-      setValue(newValue)
-      props.formik.setFieldValue(props.name, newValue)
+      const newValue = value - 1;
+      setValue(newValue);
+      props.formik.setFieldValue(props.name, newValue);
     }
-  }
+  };
 
   return (
     <div className="w-fit flex justify-between items-center">
@@ -44,8 +44,7 @@ const DurationField = (props: DurationFieldProps) => {
                 isError ? "border border-red-500" : "border border-[#D2D2D2]"
               )}
               name={props.name}
-              placeholder= "HH"
-            
+              placeholder="HH"
               value={zeroPad(value, 2)}
               type="text"
             />

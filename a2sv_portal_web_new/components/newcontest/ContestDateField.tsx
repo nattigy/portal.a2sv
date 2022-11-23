@@ -38,7 +38,9 @@ const ContestTimeDateField = (props: ContestDateFieldProps) => {
                     ? new Date(props.formik.values[props.name])
                     : null
                 }
-                onSelect={(date:any)=>props.formik.setFieldValue(props.name, date)}
+                onSelect={(date: any) =>
+                  props.formik.setFieldValue(props.name, date)
+                }
                 onChange={props.onChange}
                 shouldCloseOnSelect={false}
                 dateFormat="MMMM dd, yyyy"

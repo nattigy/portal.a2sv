@@ -32,7 +32,7 @@ export const useFilteredUsers = (tabIndex: number) => {
         role,
       },
     },
-    errorPolicy: "all",
+    errorPolicy: "none",
     notifyOnNetworkStatusChange: true,
   });
 };

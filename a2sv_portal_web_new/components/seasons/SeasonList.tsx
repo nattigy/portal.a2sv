@@ -12,15 +12,13 @@ type SeasonListProps = {
 const SeasonList = ({ groupId }: SeasonListProps) => {
   const { data, loading, error } = useGetGroupSeasons(groupId);
   const [seasons, setseasons] = useState<any>();
-  console.log("group id is",groupId);
-  console.log("data is",data);
+  console.log("group id is", groupId);
+  console.log("data is", data);
   useEffect(() => {
-    if(data){
+    if (data) {
       setseasons(data?.seasons);
     }
-    
-  }, [groupId,data])
-  
+  }, [groupId, data]);
 
   return !groupId ? (
     <div className="h-full flex items-center">

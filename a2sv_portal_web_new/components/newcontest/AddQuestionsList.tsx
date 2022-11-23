@@ -8,7 +8,7 @@ export type UserProps = {
 };
 type Props = {
   questions: Array<QuestionsInfo>;
-  handleSelect: (question:any) => void
+  handleSelect: (question: any) => void;
 };
 
 const AddQuestionsList = ({ questions, handleSelect }: Props) => {
@@ -79,10 +79,12 @@ const AddQuestionsList = ({ questions, handleSelect }: Props) => {
       </div>
       {searchQuestions?.length > 0 ? (
         searchQuestions.map((question, index) => (
-          <div onClick={()=>handleSelect(question)} className="hover:bg-[#5956E91F]" key={index}>
-            <AddQuestionListItem
-              questionProps={question}
-            />
+          <div
+            onClick={() => handleSelect(question)}
+            className="hover:bg-[#5956E91F]"
+            key={index}
+          >
+            <AddQuestionListItem questionProps={question} />
           </div>
         ))
       ) : (

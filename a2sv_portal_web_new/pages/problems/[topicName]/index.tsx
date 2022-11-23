@@ -10,7 +10,7 @@ import { useGetAllProblemsByTags } from "../../../lib/hooks/useAllProblems";
 const IndexPage = () => {
   const [problemsData, setProblemsData] = useState([]);
   const router = useRouter();
-  console.log(router.query)
+  console.log(router.query);
   const { data, refetch, error, loading } = useGetAllProblemsByTags([
     router.query.topicName?.toString().toUpperCase() || "",
   ]);
