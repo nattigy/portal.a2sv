@@ -39,9 +39,11 @@ async function main() {
     await prisma.topic.createMany({
       data: topicData,
     })
+    console.log("topic")
     await prisma.group.createMany({
       data: groupsData,
     })
+    console.log("group")
     for (let i = 0; i < problemData.length; i++) {
       await prisma.problem.create({
         data: {
@@ -59,12 +61,15 @@ async function main() {
         },
       })
     }
+    console.log("problem")
     await prisma.tag.createMany({
       data: tagData,
     })
+    console.log("tag")
     await prisma.user.createMany({
       data: userData,
     })
+    console.log("user")
     const problems = await prisma.problem.findMany({})
     for (let i = 0; i < contestData.length; i++) {
       await prisma.contest.create({
@@ -79,6 +84,7 @@ async function main() {
         },
       })
     }
+    console.log("contest")
 
     const groups = await prisma.group.findMany({})
     const contests = await prisma.contest.findMany({})
@@ -97,6 +103,7 @@ async function main() {
         },
       })
     }
+    console.log("topic")
     const users = await prisma.user.findMany({})
     let k = 0
     for (const user of users) {
@@ -110,6 +117,7 @@ async function main() {
       })
       k++
     }
+    console.log("user")
     const seasons = await prisma.season.findMany({})
     const topics = await prisma.topic.findMany({})
     let i = 0
@@ -122,6 +130,7 @@ async function main() {
       })
       i++
     }
+    console.log("seasonTopic")
     const seasonTopics = await prisma.seasonTopic.findMany({})
     for (const seasonTopic of seasonTopics) {
       for (const problem of problems) {
@@ -134,6 +143,7 @@ async function main() {
         })
       }
     }
+    console.log("seasonTopicProblem")
     const endYear = new Date('2022-12-20');
     for (let d = new Date('2022-1-2'); d <= endYear; d.setDate(d.getDate() + 1)) {
       for(const user of users){
@@ -145,9 +155,7 @@ async function main() {
         })
       }
     }
-
-
-
+    console.log("userAnalytics")
   } catch (e) {
     console.error(e)
     process.exit(1)

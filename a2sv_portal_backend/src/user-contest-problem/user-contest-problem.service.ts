@@ -57,30 +57,30 @@ export class UserContestProblemService {
   }
 
   async update({ userId, contestId, problemId, ...update }: UpdateUserContestProblemInput) {
-    await this.prismaService.userContest.upsert({
-      where: {
-        userId_contestId: {
-          userId,
-          contestId,
-        },
-      },
-      create: {
-        contest: {
-          connect: {
-            id: contestId,
-          },
-        },
-        user: {
-          connect: {
-            id: userId,
-          },
-        },
-      },
-      update: {
-        contestId,
-        userId,
-      },
-    })
+    // await this.prismaService.userContest.upsert({
+    //   where: {
+    //     userId_contestId: {
+    //       userId,
+    //       contestId,
+    //     },
+    //   },
+    //   create: {
+    //     contest: {
+    //       connect: {
+    //         id: contestId,
+    //       },
+    //     },
+    //     user: {
+    //       connect: {
+    //         id: userId,
+    //       },
+    //     },
+    //   },
+    //   update: {
+    //     contestId,
+    //     userId,
+    //   },
+    // })
     return this.prismaService.userContestProblem.upsert({
       include: {
         problem: true,
