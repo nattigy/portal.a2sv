@@ -95,24 +95,24 @@ export class UserContestProblemService {
         },
       },
       create: {
-        contestId,
-        userId,
-        problemId,
-        // contest: {
-        //   connect: {
-        //     id: contestId,
-        //   },
-        // },
-        // user: {
-        //   connect: {
-        //     id: userId,
-        //   },
-        // },
-        // problem: {
-        //   connect: {
-        //     id: problemId,
-        //   },
-        // },
+        // contestId,
+        // userId,
+        // problemId,
+        contest: {
+          connect: {
+            id: contestId,
+          },
+        },
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
+        problem: {
+          connect: {
+            id: problemId,
+          },
+        },
         numberOfAttempts: update.numberOfAttempts,
         numberOfMinutes: update.numberOfMinutes,
         status: update.status,
