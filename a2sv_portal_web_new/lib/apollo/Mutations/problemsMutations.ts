@@ -23,3 +23,18 @@ export const ADD_EXISTING_PROBLEM = gql`
     }
   }
 `;
+
+export const REMOVE_PROBLEM = gql`
+  mutation RemoveProblem($problemId: String!) {
+    removeProblem(problemId: $problemId) {
+      id
+    }
+  }
+`;
+export const UPDATE_PROBLEM = gql`
+  mutation UpdateProblem($updateProblemInput: UpdateProblemInput!) {
+    updateProblem(updateProblemInput: $updateProblemInput) {
+      id
+    }
+  }
+`;

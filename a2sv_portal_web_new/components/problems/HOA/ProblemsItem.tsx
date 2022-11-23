@@ -1,23 +1,27 @@
+import { ApolloError, useMutation } from "@apollo/client";
 import { format } from "date-fns";
 import React, { useState } from "react";
 import { HiOutlineTrash } from "react-icons/hi";
 import { MdModeEditOutline } from "react-icons/md";
 import { getIcon } from "../../../helpers/getReactIcon";
+import { REMOVE_PROBLEM } from "../../../lib/apollo/Mutations/problemsMutations";
+import { ProblemType } from "../../../types/problems";
 import Tag from "../../common/Tag";
 import DeletePopupModal from "../../modals/DeletePopupModal";
+import ProblemModal from "../../modals/ProblemModal";
 import { DifficultyChips } from "../DifficultyChips";
-
-export type ProblemProps = {
-  title: string;
-  difficulty: string;
-  platform: string;
-  createdAt: string;
-  tags: string[];
+type Props = {
+  problem: ProblemType;
 };
 
-const ProblemsItem = (props: ProblemProps) => {
+const ProblemsItem = ({ problem }: Props) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [removeProblem] = useMutation(REMOVE_PROBLEM);
 
   const handleEditModalOpen = () => {
     setIsEditModalOpen(true);
@@ -28,22 +32,40 @@ const ProblemsItem = (props: ProblemProps) => {
 
   return (
     <>
-      {/* {isEditModalOpen && (
-        <TopicModal
+      {isEditModalOpen && (
+        <ProblemModal
+          problem={problem}
           isEditing={true}
           onClose={() => setIsEditModalOpen(false)}
-          groupId={""}
           seasonId={""}
         />
-      )} */}
+      )}
       {isDeleteModalOpen && (
         <DeletePopupModal
-          title="Delete Topic"
-          errorMessage=""
-          isLoading={false}
-          description="This will delete the topic from topic set"
+          title="Delete Problem"
+          errorMessage={errorMessage}
+          isLoading={isLoading}
+          description="This will delete the problem from problem set"
           onClose={() => setIsDeleteModalOpen(false)}
-          onDelete={() => {}}
+          onDelete={async () => {
+            setIsLoading(true);
+            await removeProblem({
+              variables: {
+                problemId: problem.id,
+              },
+              refetchQueries: "active",
+              notifyOnNetworkStatusChange: true,
+              onCompleted: (data) => {
+                setIsDeleteModalOpen(false);
+                setIsLoading(false);
+              },
+              onError: (error) => {
+                setErrorMessage((error as ApolloError).message);
+                setIsLoading(false);
+
+              },
+            });
+          }}
         />
       )}
 
@@ -53,19 +75,19 @@ const ProblemsItem = (props: ProblemProps) => {
             <div className="flex items-center justify-between h-12 px-3 font-semibold">
               <div className="w-full grid grid-cols-4">
                 <span className="text-left text-sm truncate">
-                  {props.title}
+                  {problem.title}
                 </span>
                 <span className="text-left text-sm truncate">
-                  <DifficultyChips status={props.difficulty.toUpperCase()} />
+                  <DifficultyChips status={problem.difficulty.toUpperCase()} />
                 </span>
                 <span className="text-left text-sm truncate">
                   <div className="flex flex-row gap-x-2 uppercase">
-                    {getIcon(props.platform.toUpperCase())}
-                    {props.platform}
+                    {getIcon(problem.platform.toUpperCase())}
+                    {problem.platform}
                   </div>
                 </span>
                 <span className="text-left text-sm truncate">
-                  {format(new Date(props.createdAt), "MMM dd, yyyy")}
+                  {format(new Date(problem.createdAt), "MMM dd, yyyy")}
                 </span>
               </div>
               <svg
@@ -86,8 +108,8 @@ const ProblemsItem = (props: ProblemProps) => {
                 <div className="w-1/2 flex flex-col items-start justify-start gap-y-2">
                   <h1 className="text-sm font-semibold">Tags</h1>
                   <div className="flex gap-x-1">
-                    {props.tags &&
-                      props.tags.map((tag: any, index: number) => {
+                    {problem.tags &&
+                      problem.tags.map((tag: any, index: number) => {
                         return (
                           <Tag value={tag} key={index}>
                             <p className="font-semibold text-xs">{tag.name}</p>

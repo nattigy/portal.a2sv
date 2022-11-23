@@ -1,13 +1,19 @@
 import { PlatformInfo } from "../components/problems/ProblemsTable";
 
-export type ProblemsInfo = {
-  id: number;
+export type ProblemType = {
+  id: string;
   title: string;
   link: string;
   difficulty: ProblemDifficultyType;
   status: ProblemStatus;
   platform: string;
-  tags: [];
+  tags: [
+    {
+      name: string;
+      id: string;
+    } 
+  ];
+  updatedAt: string;
   createdAt: string;
 };
 

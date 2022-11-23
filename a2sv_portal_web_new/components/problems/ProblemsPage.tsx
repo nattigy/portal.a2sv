@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useState } from "react";
-import { ProblemsInfo } from "../../types/problems";
+import { ProblemType} from "../../types/problems";
 import ProblemsTable from "./ProblemsTable";
 import { useReactiveVar } from "@apollo/client";
 import { authenticatedUser } from "../../lib/constants/authenticated";
@@ -22,7 +22,6 @@ export type PlatformInfo = {
 };
 type ProblemsPageProps = {
   seasonId: string;
-  groupId: string;
   topicId: string;
 };
 
@@ -31,11 +30,8 @@ const ProblemsPage = (props: ProblemsPageProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddNewProblemModalOpen, setIsAddNewProblemModalOpen] =
     useState<boolean>(false);
-  const { loading, data, error } = useGetProblemsByGroupSeasonTopic(
-    props.seasonId,
-    props.topicId
-  );
-  const [problems, setProblems] = useState<ProblemsInfo[]>([]);
+  const { loading, data, error } = useGetProblemsByGroupSeasonTopic(props.seasonId,props.topicId);
+  const [problems, setProblems] = useState<ProblemType[]>([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
