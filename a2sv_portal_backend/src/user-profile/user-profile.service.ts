@@ -53,7 +53,7 @@ export class UserProfileService {
   async update(updateUserProfileInput: UpdateUserProfileInput) {
     return this.prismaService.userProfile.update({
       where: {
-        id: updateUserProfileInput.id,
+        userId: updateUserProfileInput.userId,
       },
       data: updateUserProfileInput,
     })

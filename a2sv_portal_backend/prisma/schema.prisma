@@ -245,6 +245,7 @@ model SeasonTopic {
   problems  SeasonTopicProblem[]
 
   @@id([seasonId, topicId])
+  @@unique([topicId, seasonId])
 }
 
 model SeasonTopicProblem {
