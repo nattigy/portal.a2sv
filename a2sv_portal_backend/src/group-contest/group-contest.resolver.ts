@@ -37,10 +37,9 @@ export class GroupContestResolver {
 
   @Query(() => GroupContest)
   async groupContest(
-    @Args('groupId') groupId: string,
-    @Args('groupId') contestId: string,
+    @Args('groupContestId') groupContestId: GroupContestId,
   ): Promise<GroupContest> {
-    return this.groupContestService.findOne(groupId, contestId)
+    return this.groupContestService.findOne(groupContestId)
   }
 
   @Mutation(() => GroupContest)

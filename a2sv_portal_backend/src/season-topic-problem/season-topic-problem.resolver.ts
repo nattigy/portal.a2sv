@@ -37,10 +37,9 @@ export class SeasonTopicProblemResolver {
     description: descriptions.seasonTopicProblem,
   })
   async seasonTopicProblem(
-    @Args('seasonTopicProblemId', { type: () => SeasonTopicProblemId })
-    id: SeasonTopicProblemId,
+    @Args('seasonTopicProblemId')seasonTopicProblemId: SeasonTopicProblemId,
   ) {
-    return this.seasonTopicProblemService.findOne(id)
+    return this.seasonTopicProblemService.findOne(seasonTopicProblemId)
   }
 
   @Mutation(() => SeasonTopicProblem, {

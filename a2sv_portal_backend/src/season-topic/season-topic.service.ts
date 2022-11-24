@@ -59,7 +59,7 @@ export class SeasonTopicService {
     }
   }
 
-  async findOne(seasonId, topicId): Promise<SeasonTopic> {
+  async findOne({seasonId, topicId}:SeasonTopicId): Promise<SeasonTopic> {
     return this.prismaService.seasonTopic.findUnique({
       where: {
         seasonId_topicId: {

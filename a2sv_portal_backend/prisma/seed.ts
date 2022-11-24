@@ -144,17 +144,17 @@ async function main() {
       }
     }
     console.log("seasonTopicProblem")
-    const endYear = new Date('2022-12-20');
-    for (let d = new Date('2022-1-2'); d <= endYear; d.setDate(d.getDate() + 1)) {
-      for(const user of users){
-        await prisma.userAnalytics.create({
-          data:{
-            userId:user.id,
-            createdAt:new Date(d),
-          }
-        })
-      }
-    }
+    // const endYear = new Date('2022-12-20');
+    // for (let d = new Date('2022-1-2'); d <= endYear; d.setDate(d.getDate() + 1)) {
+    //   for(const user of users){
+    //     await prisma.userAnalytics.create({
+    //       data:{
+    //         userId:user.id,
+    //         createdAt:new Date(d),
+    //       }
+    //     })
+    //   }
+    // }
     console.log("userAnalytics")
   } catch (e) {
     console.error(e)
