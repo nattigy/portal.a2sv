@@ -37,6 +37,16 @@ export class DataAnalyticsService {
         },
       })
     }
+    const analyticsList = []
+    for(const user of users){
+      analyticsList.push({
+          userId:user.id,
+          createdAt:new Date()
+        })
+    }
+    await this.prismaService.userAnalytics.createMany({
+      data:analyticsList
+    })
     // for(const user of users){
     //   await this.prismaService.userAnalytics.create({
     //     data:{

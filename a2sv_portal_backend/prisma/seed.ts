@@ -39,11 +39,11 @@ async function main() {
     await prisma.topic.createMany({
       data: topicData,
     })
-    console.log("topic")
+    console.log('topic')
     await prisma.group.createMany({
       data: groupsData,
     })
-    console.log("group")
+    console.log('group')
     for (let i = 0; i < problemData.length; i++) {
       await prisma.problem.create({
         data: {
@@ -61,15 +61,15 @@ async function main() {
         },
       })
     }
-    console.log("problem")
+    console.log('problem')
     await prisma.tag.createMany({
       data: tagData,
     })
-    console.log("tag")
+    console.log('tag')
     await prisma.user.createMany({
       data: userData,
     })
-    console.log("user")
+    console.log('user')
     const problems = await prisma.problem.findMany({})
     for (let i = 0; i < contestData.length; i++) {
       await prisma.contest.create({
@@ -79,12 +79,12 @@ async function main() {
           startTime: '2022-11-18T05:48:54.744Z',
           endTime: '2022-11-18T05:48:54.744Z',
           problems: {
-            connect: problems.map(p => ({id: p.id})),
+            connect: problems.map(p => ({ id: p.id })),
           },
         },
       })
     }
-    console.log("contest")
+    console.log('contest')
 
     const groups = await prisma.group.findMany({})
     const contests = await prisma.contest.findMany({})
@@ -103,21 +103,21 @@ async function main() {
         },
       })
     }
-    console.log("topic")
+    console.log('topic')
     const users = await prisma.user.findMany({})
     let k = 0
     for (const user of users) {
       await prisma.user.update({
         where: {
-          id: user.id
+          id: user.id,
         },
         data: {
-          groupId: groups[k % groups.length].id
-        }
+          groupId: groups[k % groups.length].id,
+        },
       })
       k++
     }
-    console.log("user")
+    console.log('user')
     const seasons = await prisma.season.findMany({})
     const topics = await prisma.topic.findMany({})
     let i = 0
@@ -130,7 +130,7 @@ async function main() {
       })
       i++
     }
-    console.log("seasonTopic")
+    console.log('seasonTopic')
     const seasonTopics = await prisma.seasonTopic.findMany({})
     for (const seasonTopic of seasonTopics) {
       for (const problem of problems) {
@@ -139,23 +139,25 @@ async function main() {
             seasonId: seasonTopic.seasonId,
             topicId: seasonTopic.topicId,
             problemId: problem.id,
-          }
+          },
         })
       }
     }
-    console.log("seasonTopicProblem")
-    // const endYear = new Date('2022-12-20');
-    // for (let d = new Date('2022-1-2'); d <= endYear; d.setDate(d.getDate() + 1)) {
-    //   for(const user of users){
-    //     await prisma.userAnalytics.create({
-    //       data:{
-    //         userId:user.id,
-    //         createdAt:new Date(d),
-    //       }
-    //     })
-    //   }
-    // }
-    console.log("userAnalytics")
+    console.log('seasonTopicProblem')
+    const endYear = new Date('2022-12-20')
+    const analyticsList = []
+    for (let d = new Date('2022-1-2'); d <= endYear; d.setDate(d.getDate() + 1)) {
+      for (const user of users) {
+        analyticsList.push({
+          userId: user.id,
+          createdAt: new Date(d),
+        })
+      }
+    }
+    await prisma.userAnalytics.createMany({
+      data: analyticsList,
+    })
+    console.log('userAnalytics')
   } catch (e) {
     console.error(e)
     process.exit(1)
