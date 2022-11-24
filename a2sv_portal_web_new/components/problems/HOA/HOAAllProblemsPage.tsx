@@ -3,7 +3,6 @@ import { useApollo } from "../../../lib/apollo/apolloClient";
 import useAllProblems from "../../../lib/hooks/useAllProblems";
 import EmptyState from "../../common/EmptyState";
 import { LoaderSmall } from "../../common/Loaders";
-import ProblemsFilter from "./ProblemsFilter";
 import ProblemsList from "./ProblemsList";
 
 type Props = {};
@@ -38,6 +37,7 @@ const HOAAllProblemsPage = (props: Props) => {
         ) : (
           <>
             {problemsData?.length > 0 ? (
+              
               <ProblemsList problems={problemsData} />
             ) : (
               <EmptyState />

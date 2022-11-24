@@ -1,7 +1,7 @@
 import { Combobox, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
 import { BsCheck2, BsChevronContract } from "react-icons/bs";
-import { ProblemType } from "../problems/ProblemsAutocomplete";
+import { ProblemType } from "../../types/problems";
 import { TopicType } from "../topics/TopicsAutocomplete";
 import { UserType } from "../users/HOEAutocomplete";
 

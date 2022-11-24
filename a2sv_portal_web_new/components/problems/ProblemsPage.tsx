@@ -1,7 +1,6 @@
 import React, { ReactNode, useEffect, useState } from "react";
-import { ProblemsInfo } from "../../types/problems";
-import ProblemsTable from "./ProblemsTable";
-import { useReactiveVar } from "@apollo/client";
+import { ProblemType } from "../../types/problems";
+import { ApolloError, useMutation, useReactiveVar } from "@apollo/client";
 import { authenticatedUser } from "../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../types/user";
 import useAllProblems, {
@@ -15,14 +14,17 @@ import ProblemModal from "../modals/ProblemModal";
 import MenuItem from "../common/MenuItem";
 import TopicModal from "../modals/TopicModal";
 import DeletePopupModal from "../modals/DeletePopupModal";
+import { REMOVE_SEASON_TOPIC } from "../../lib/apollo/Mutations/topicsMutations";
+import { useRouter } from "next/router";
+import ProblemsTable from "./ProblemsTable";
 
 export type PlatformInfo = {
   id: string;
   name: string;
 };
 type ProblemsPageProps = {
+  topicName: string;
   seasonId: string;
-  groupId: string;
   topicId: string;
 };
 
@@ -35,7 +37,11 @@ const ProblemsPage = (props: ProblemsPageProps) => {
     props.seasonId,
     props.topicId
   );
-  const [problems, setProblems] = useState<ProblemsInfo[]>([]);
+  const [
+    removeSeasonTopic,
+    { loading: removeTopicLoading, error: removeTopicError },
+  ] = useMutation(REMOVE_SEASON_TOPIC);
+  const [problems, setProblems] = useState<ProblemType[]>([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
@@ -61,6 +67,7 @@ const ProblemsPage = (props: ProblemsPageProps) => {
       );
     }
   }, [data]);
+  const router = useRouter();
   console.log(data);
 
   return (
@@ -82,33 +89,57 @@ const ProblemsPage = (props: ProblemsPageProps) => {
       {isDeleteModalOpen && (
         <DeletePopupModal
           title="Delete Topic"
-          errorMessage=""
-          isLoading={false}
+          errorMessage={(removeTopicError as ApolloError)?.message || ""}
+          isLoading={removeTopicLoading}
           description="This will delete the topic from topic set"
           onClose={() => setIsDeleteModalOpen(false)}
-          onDelete={() => {}}
+          onDelete={async () => {
+            await removeSeasonTopic({
+              variables: { seasonId: props.seasonId, topicId: props.topicId },
+              refetchQueries: "active",
+              notifyOnNetworkStatusChange: true,
+              onCompleted: (data) => {
+                setIsDeleteModalOpen(false);
+                router.back()
+              },
+            });
+          }}
         />
       )}
       <div className="h-screen font-semibold text-[#565656]">
         <div className="flex flex-row items-center justify-between my-6 font-semibold text-xl text-[#565656]">
-          <div></div>
-          <div>
-            <SearchField
-              onChange={(e) => handleSearch}
-              placeholder="Search a problem"
-              id="problem"
-            />
-            <div>
+          <div className="w-full flex flex-row justify-between">
+            <h1 className="capitalize text-2xl font-semibold">
+              {props.topicName}
+            </h1>
+            <div className="flex flex-row gap-x-5">
+              <SearchField
+                onChange={(e) => handleSearch}
+                placeholder="Search a problem"
+                id="problem"
+              />
               {(authUser as any).role !== GraphqlUserRole.STUDENT && (
-                <div className="flex justify-end items-center px-5">
-                  <Button
-                    onClick={handleModalOpen}
-                    text="Add New Problem"
-                    classname="bg-primary text-white text-xs"
-                  />
-                </div>
+                <Button
+                  onClick={handleModalOpen}
+                  text="Add New Problem"
+                  classname="bg-primary text-white text-xs"
+                />
               )}
+              <div className="relative">
+                <MenuItem
+                  color="#000000"
+                  menuItems={[
+                    {
+                      title: "Delete Topic",
+                      onClick: (e: any) => {
+                        setIsDeleteModalOpen(true);
+                      },
+                    },
+                  ]}
+                />
+              </div>
             </div>
+
             {(authUser as any).role === GraphqlUserRole.HEAD_OF_ACADEMY && (
               <div>
                 <MenuItem
@@ -143,7 +174,11 @@ const ProblemsPage = (props: ProblemsPageProps) => {
           <EmptyState />
         ) : (
           <div>
-            <ProblemsTable problems={problems} />
+            <ProblemsTable
+              problems={problems}
+              seasonId={props.seasonId}
+              topicId={props.topicId}
+            />
           </div>
         )}
       </div>
