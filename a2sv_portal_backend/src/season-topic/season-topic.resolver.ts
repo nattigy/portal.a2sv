@@ -35,10 +35,9 @@ export class SeasonTopicResolver {
 
   @Query(() => SeasonTopic, { description: descriptions.seasonTopic })
   async seasonTopic(
-    @Args('seasonId') seasonId: string,
-    @Args('topicId') topicId: string,
+    @Args('seasonTopicId') seasonTopicId: SeasonTopicId,
   ): Promise<SeasonTopic> {
-    return this.seasonTopicService.findOne(seasonId, topicId)
+    return this.seasonTopicService.findOne(seasonTopicId)
   }
 
   @Mutation(() => SeasonTopic, { description: descriptions.updateSeasonTopic })

@@ -32,7 +32,7 @@ export class UserContestService {
   //   })
   // }
 
-  async findOne(userId: string, contestId: string): Promise<UserContest> {
+  async findOne({ userId, contestId }: UserContestId): Promise<UserContest> {
     const userContest: UserContest = await this.prismaService.userContest.findUnique({
       where: {
         userId_contestId: {
@@ -141,7 +141,7 @@ export class UserContestService {
     })
     const userContests: UserContest[] = []
     for (const groupContest of groupContests) {
-      const userContest = await this.findOne(userId, groupContest.contestId)
+      const userContest = await this.findOne({ userId, contestId: groupContest.contestId })
       userContests.push(userContest)
     }
     return {
@@ -174,7 +174,7 @@ export class UserContestService {
     })
     const userContests: UserContest[] = []
     for (const user of users) {
-      const userContest = await this.findOne(user.id, contestId)
+      const userContest = await this.findOne({ userId: user.id, contestId })
       userContests.push(userContest)
     }
     return {

@@ -47,7 +47,7 @@ export class GroupContestService {
     }
   }
 
-  async findOne(groupId, contestId): Promise<GroupContest> {
+  async findOne({groupId, contestId}: GroupContestId): Promise<GroupContest> {
     const groupContest = await this.prismaService.groupContest.findUnique({
       where: {
         groupId_contestId: {

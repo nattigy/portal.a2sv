@@ -29,10 +29,9 @@ export class UserContestResolver {
 
   @Query(() => UserContest)
   async userContest(
-    @Args('userId') userId: string,
-    @Args('contestId') contestId: string,
+    @Args('userContestId') userContestId: UserContestId,
   ): Promise<UserContest> {
-    return this.userContestService.findOne(userId, contestId)
+    return this.userContestService.findOne(userContestId)
   }
 
   @Query(() => PaginationUserContest)
