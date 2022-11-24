@@ -12,11 +12,11 @@ export class UserProfileService {
   constructor(private readonly prismaService: PrismaService) {
   }
 
-  async create(createUserProfileInput: CreateUserProfileInput): Promise<UserProfile> {
-    return this.prismaService.userProfile.create({
-      data: createUserProfileInput,
-    })
-  }
+  // async create(createUserProfileInput: CreateUserProfileInput): Promise<UserProfile> {
+  //   return this.prismaService.userProfile.create({
+  //     data: createUserProfileInput,
+  //   })
+  // }
 
   async findAll(
     filterUserProfileInput: FilterUserProfileInput,
@@ -52,11 +52,19 @@ export class UserProfileService {
   }
 
   async update(updateUserProfileInput: UpdateUserProfileInput) {
-    return this.prismaService.userProfile.update({
+    return this.prismaService.userProfile.upsert({
       where: {
         userId: updateUserProfileInput.userId,
       },
-      data: updateUserProfileInput,
+      create: {
+        ...updateUserProfileInput,
+        // user: {
+        //   connect: {
+        //     id: updateUserProfileInput.userId
+        //   }
+        // }
+      },
+      update: updateUserProfileInput,
     })
   }
 

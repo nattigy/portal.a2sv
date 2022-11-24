@@ -12,13 +12,13 @@ export class UserProfileResolver {
   constructor(private readonly userProfileService: UserProfileService) {
   }
 
-  @Mutation(() => UserProfile)
-  async createUserProfile(
-    @Args('createUserProfileInput')
-      createUserProfileInput: CreateUserProfileInput,
-  ) {
-    return this.userProfileService.create(createUserProfileInput)
-  }
+  // @Mutation(() => UserProfile)
+  // async createUserProfile(
+  //   @Args('createUserProfileInput')
+  //     createUserProfileInput: CreateUserProfileInput,
+  // ) {
+  //   return this.userProfileService.create(createUserProfileInput)
+  // }
 
   @Query(() => PaginationUserProfile)
   async userProfiles(

@@ -10,7 +10,8 @@ import { UserContestProblem } from '../user-contest-problem/entities/user-contes
 
 @Injectable()
 export class UserContestService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   // async create(createUserContestInput: CreateUserContestInput): Promise<UserContest> {
   //   return this.prismaService.userContest.create({
@@ -52,7 +53,7 @@ export class UserContestService {
             problems: true,
             groupContests: {
               where: {
-                contestId
+                contestId,
               },
             },
           },
@@ -77,7 +78,7 @@ export class UserContestService {
           problems: true,
           groupContests: {
             where: {
-              contestId
+              contestId,
             },
           },
         },
@@ -188,10 +189,18 @@ export class UserContestService {
   }
 
   async update({
-    userId,
-    contestId,
-    ...updates
-  }: UpdateUserContestInput): Promise<UserContest> {
+                 userId,
+                 contestId,
+                 ...updates
+               }: UpdateUserContestInput): Promise<UserContest> {
+    const problems = (await this.prismaService.contest.findUnique({
+      where: {
+        id: contestId,
+      },
+      include: {
+        problems: true,
+      },
+    })).problems
     return this.prismaService.userContest.upsert({
       where: {
         userId_contestId: {
@@ -210,8 +219,24 @@ export class UserContestService {
             id: userId,
           },
         },
+        userContestProblems: {
+          createMany: {
+            skipDuplicates: true,
+            data: problems.map(p => ({
+                userContestUserId: userId,
+                userContestContestId: contestId,
+                problemId: p.id,
+                numberOfAttempts: 0,
+                numberOfMinutes: 0,
+                status: UserContestProblemStatus.NOT_SOLVED
+              }))
+          },
+        },
       },
-      update: updates,
+      update: {
+        userId,
+        contestId,
+      },
       include: {
         userContestProblems: {
           include: {
@@ -229,13 +254,15 @@ export class UserContestService {
     })
   }
 
-  async remove({userId, contestId}: UserContestId): Promise<number> {
+  async remove({ userId, contestId }: UserContestId): Promise<number> {
     try {
-      await this.prismaService.userContest.delete({ where: {
-        userId_contestId: {
-          userId, contestId
-        }
-      }})
+      await this.prismaService.userContest.delete({
+        where: {
+          userId_contestId: {
+            userId, contestId,
+          },
+        },
+      })
     } catch (e) {
       console.log(`Fail to delete user contest with id ${userId}`, ' : ', e)
       throw new Error(`Fail to delete user contest with id ${userId}`)

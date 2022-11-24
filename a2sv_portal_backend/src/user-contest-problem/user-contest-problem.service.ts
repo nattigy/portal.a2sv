@@ -5,10 +5,15 @@ import { PaginationUserContestProblem } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { UserContestProblem } from './entities/user-contest-problem.entity'
 import { FilterUserContestProblemInput } from './dto/filter-user-contest-problem'
+import { UserContestProblemStatus } from '@prisma/client'
+import { UserContestService } from '../user-contest/user-contest.service'
 
 @Injectable()
 export class UserContestProblemService {
-  constructor(private readonly prismaService: PrismaService) {
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly userContestService: UserContestService,
+    ) {
   }
 
   // create(createUserContestProblemInput: CreateUserContestProblemInput) {
@@ -58,39 +63,7 @@ export class UserContestProblemService {
   }
 
   async update({ userId, contestId, problemId, ...update }: UpdateUserContestProblemInput) {
-    await this.prismaService.userContest.upsert({
-      where: {
-        userId_contestId: {
-          userId,
-          contestId,
-        },
-      },
-      create: {
-        contest: {
-          connect: {
-            id: contestId,
-          },
-        },
-        user: {
-          connect: {
-            id: userId,
-          },
-        },
-      },
-      update: {
-        contestId,
-        userId,
-      },
-    })
-    console.log("here")
-    const f = await this.prismaService.userContest.findUnique({
-      where: {
-        userId_contestId: {
-          userId, contestId
-        }
-      }
-    })
-    console.log(f)
+    await this.userContestService.update({userId, contestId})
     return this.prismaService.userContestProblem.upsert({
       include: {
         problem: true,

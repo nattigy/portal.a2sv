@@ -4,7 +4,7 @@ import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { UserContest } from './entities/user-contest.entity'
 import { UserContestService } from './user-contest.service'
 import { FilterGroupContestUsersInput } from './dto/filter-group-contest-users.input'
-import { UserContestId } from './dto/update-user-contest.input'
+import { UpdateUserContestInput, UserContestId } from './dto/update-user-contest.input'
 
 @Resolver(() => UserContest)
 export class UserContestResolver {
@@ -47,13 +47,13 @@ export class UserContestResolver {
     )
   }
 
-  // @Mutation(() => UserContest)
-  // async updateUserContest(
-  //   @Args('updateUserContestInput')
-  //   updateUserContestInput: UpdateUserContestInput,
-  // ): Promise<UserContest> {
-  //   return this.userContestService.update(updateUserContestInput)
-  // }
+  @Mutation(() => UserContest)
+  async updateUserContest(
+    @Args('updateUserContestInput')
+    updateUserContestInput: UpdateUserContestInput,
+  ): Promise<UserContest> {
+    return this.userContestService.update(updateUserContestInput)
+  }
 
   @Mutation(() => Int)
   async removeUserContest(@Args('userContestId') userContestId: UserContestId): Promise<number> {
