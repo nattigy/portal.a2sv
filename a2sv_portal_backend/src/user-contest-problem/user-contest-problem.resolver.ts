@@ -1,5 +1,8 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { UpdateUserContestProblemInput, UserContestProblemId } from './dto/update-user-contest-problem.input'
+import {
+  UpdateUserContestProblemInput,
+  UserContestProblemId,
+} from './dto/update-user-contest-problem.input'
 import { UserContestProblem } from './entities/user-contest-problem.entity'
 import { UserContestProblemService } from './user-contest-problem.service'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'

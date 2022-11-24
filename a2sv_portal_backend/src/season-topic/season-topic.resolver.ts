@@ -64,9 +64,7 @@ export class SeasonTopicResolver {
   }
 
   @Mutation(() => Int, { description: descriptions.removeSeasonTopic })
-  async removeSeasonTopic(
-    @Args('seasonTopicId') seasonTopicId: SeasonTopicId
-  ) {
+  async removeSeasonTopic(@Args('seasonTopicId') seasonTopicId: SeasonTopicId) {
     return this.seasonTopicService.remove(seasonTopicId)
   }
 }

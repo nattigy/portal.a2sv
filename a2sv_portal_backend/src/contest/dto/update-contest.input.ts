@@ -3,6 +3,6 @@ import { CreateContestInput } from './create-contest.input'
 
 @InputType()
 export class UpdateContestInput extends PartialType(CreateContestInput) {
-  @Field(() => String)
+  @Field()
   contestId: string
 }

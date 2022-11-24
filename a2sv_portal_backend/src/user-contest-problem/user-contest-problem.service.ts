@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
-import { UpdateUserContestProblemInput, UserContestProblemId } from './dto/update-user-contest-problem.input'
+import {
+  UpdateUserContestProblemInput,
+  UserContestProblemId,
+} from './dto/update-user-contest-problem.input'
 import { PaginationUserContestProblem } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { UserContestProblem } from './entities/user-contest-problem.entity'
 import { FilterUserContestProblemInput } from './dto/filter-user-contest-problem'
-import { UserContestProblemStatus } from '@prisma/client'
 import { UserContestService } from '../user-contest/user-contest.service'
 
 @Injectable()
@@ -13,8 +15,7 @@ export class UserContestProblemService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly userContestService: UserContestService,
-    ) {
-  }
+  ) {}
 
   // create(createUserContestProblemInput: CreateUserContestProblemInput) {
   //   return this.prismaService.userContestProblem.create({
@@ -47,7 +48,11 @@ export class UserContestProblemService {
     }
   }
 
-  async findOne({userId, contestId, problemId}: UserContestProblemId): Promise<UserContestProblem> {
+  async findOne({
+    userId,
+    contestId,
+    problemId,
+  }: UserContestProblemId): Promise<UserContestProblem> {
     return this.prismaService.userContestProblem.findUnique({
       where: {
         userId_contestId_problemId: {
@@ -63,7 +68,7 @@ export class UserContestProblemService {
   }
 
   async update({ userId, contestId, problemId, ...update }: UpdateUserContestProblemInput) {
-    await this.userContestService.update({userId, contestId})
+    await this.userContestService.update({ userId, contestId })
     return this.prismaService.userContestProblem.upsert({
       include: {
         problem: true,

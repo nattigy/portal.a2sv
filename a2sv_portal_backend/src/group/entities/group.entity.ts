@@ -10,7 +10,7 @@ export class Group {
   name: string
   @Field({ nullable: true, description: 'The country a group is belonging' })
   country?: string
-  @Field({ nullable: true, description: 'The school a group is belonging ' })
+  @Field({ nullable: true, description: 'The school a group is belonging' })
   school?: string
   @Field(() => [User], { nullable: true, description: 'Users that belong to that group' })
   users?: User[]
@@ -23,6 +23,8 @@ export class Group {
     description: 'User object of the head user to the group',
   })
   head?: User
-  @Field()
-  createdAt: Date
+  @Field({ nullable: true })
+  createdAt?: Date
+  @Field({ nullable: true })
+  updatedAt?: Date
 }

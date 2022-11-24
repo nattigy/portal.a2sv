@@ -8,9 +8,11 @@ import { CreateDataAnalyticInput } from './dto/create-data-analytic.input'
 export class DataAnalyticsService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  @Cron(CronExpression.EVERY_HOUR,{name:'Scheduler Populate user_data fields', 
-      timeZone: 'Africa/Addis_Ababa'})
- async populateData() {   
+  @Cron(CronExpression.EVERY_HOUR, {
+    name: 'Scheduler Populate user_data fields',
+    timeZone: 'Africa/Addis_Ababa',
+  })
+  async populateData() {
     const users = await this.prismaService.user.findMany({
       where: {
         status: 'ACTIVE' as unknown as Status,
@@ -37,25 +39,7 @@ export class DataAnalyticsService {
         },
       })
     }
-    const analyticsList = []
-    for(const user of users){
-      analyticsList.push({
-          userId:user.id,
-          createdAt:new Date()
-        })
-    }
-    await this.prismaService.userAnalytics.createMany({
-      data:analyticsList
-    })
-    // for(const user of users){
-    //   await this.prismaService.userAnalytics.create({
-    //     data:{
-    //       userId:user.id,
-    //       createdAt:new Date()
-    //     }
-    //   })
-    // }
-    console.log('=====poupulating user_stat======')
+    console.log('===== populating user_stat ======')
   }
 
   create(createDataAnalyticInput: CreateDataAnalyticInput) {
@@ -66,10 +50,11 @@ export class DataAnalyticsService {
     return `This action returns all dataAnalytics`
   }
 
-
-  async userStat(end_date?:Date, user_id?:string) {
-      const date = end_date ? new Date(end_date) : new Date();
-      const start_date = new Date(`${date.getFullYear()-1}-${date.getMonth()}-${date.getDate()}`)
+  async userStat(end_date?: Date, user_id?: string) {
+    const date = end_date ? new Date(end_date) : new Date()
+    const start_date = new Date(
+      `${date.getFullYear() - 1}-${date.getMonth()}-${date.getDate()}`,
+    )
     return this.prismaService.userAnalytics.findMany({
       where: {
         userId: user_id,
@@ -81,9 +66,9 @@ export class DataAnalyticsService {
       include: {
         user: true,
       },
-      orderBy: {    
-        createdAt: 'asc'   
-     }
+      orderBy: {
+        createdAt: 'asc',
+      },
     })
   }
 }

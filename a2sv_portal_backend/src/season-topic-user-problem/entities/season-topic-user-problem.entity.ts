@@ -26,4 +26,8 @@ export class SeasonTopicUserProblem {
   solutionLink?: string
   @Field(() => Int)
   timeDedicated: number
+  @Field({ nullable: true })
+  createdAt?: Date
+  @Field({ nullable: true })
+  updatedAt?: Date
 }

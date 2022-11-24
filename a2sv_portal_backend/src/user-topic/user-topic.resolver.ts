@@ -11,8 +11,7 @@ import { FilterUserTopicInput } from './dto/filter-user-topic-input'
 
 @Resolver(() => UserTopic)
 export class UserTopicResolver {
-  constructor(private readonly userTopicService: UserTopicService) {
-  }
+  constructor(private readonly userTopicService: UserTopicService) {}
 
   @Mutation(() => UserTopic)
   async createUserTopic(
@@ -24,9 +23,9 @@ export class UserTopicResolver {
   @Query(() => PaginationUserTopic)
   async userTopics(
     @Args('filterUserTopicInput', { type: () => FilterUserTopicInput, nullable: true })
-      filterUserTopicInput?: FilterUserTopicInput,
+    filterUserTopicInput?: FilterUserTopicInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ) {
     return this.userTopicService.findAll(filterUserTopicInput, pageInfoInput)
   }

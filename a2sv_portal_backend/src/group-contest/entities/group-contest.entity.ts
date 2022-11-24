@@ -17,6 +17,10 @@ export class GroupContest {
   contestAttendance?: number
   @Field(() => [ProblemsStat], { nullable: true })
   problemsStat?: ProblemsStat[]
+  @Field({ nullable: true })
+  createdAt?: Date
+  @Field({ nullable: true })
+  updatedAt?: Date
 }
 
 @ObjectType()

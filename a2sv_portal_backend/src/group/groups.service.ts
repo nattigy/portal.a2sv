@@ -11,8 +11,7 @@ import { Group } from './entities/group.entity'
 
 @Injectable()
 export class GroupsService {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(createGroupInput: CreateGroupInput): Promise<Group> {
     return this.prismaService.group.create({

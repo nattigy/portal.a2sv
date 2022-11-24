@@ -5,6 +5,6 @@ import { UserContestModule } from '../user-contest/user-contest.module'
 
 @Module({
   providers: [UserContestProblemResolver, UserContestProblemService],
-  imports: [UserContestModule]
+  imports: [UserContestModule],
 })
 export class UserContestProblemModule {}

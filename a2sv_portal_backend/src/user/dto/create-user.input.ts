@@ -3,10 +3,10 @@ import { RoleEnum, Status } from '@prisma/client'
 
 @InputType()
 export class CreateUserInput {
-  @Field({})
+  @Field()
   email: string
 
-  @Field({})
+  @Field()
   password: string
 
   @Field(() => RoleEnum, { defaultValue: RoleEnum.STUDENT })

@@ -10,8 +10,7 @@ import { UserContestProblem } from '../user-contest-problem/entities/user-contes
 
 @Injectable()
 export class UserContestService {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   // async create(createUserContestInput: CreateUserContestInput): Promise<UserContest> {
   //   return this.prismaService.userContest.create({
@@ -189,18 +188,20 @@ export class UserContestService {
   }
 
   async update({
-                 userId,
-                 contestId,
-                 ...updates
-               }: UpdateUserContestInput): Promise<UserContest> {
-    const problems = (await this.prismaService.contest.findUnique({
-      where: {
-        id: contestId,
-      },
-      include: {
-        problems: true,
-      },
-    })).problems
+    userId,
+    contestId,
+    ...updates
+  }: UpdateUserContestInput): Promise<UserContest> {
+    const problems = (
+      await this.prismaService.contest.findUnique({
+        where: {
+          id: contestId,
+        },
+        include: {
+          problems: true,
+        },
+      })
+    ).problems
     return this.prismaService.userContest.upsert({
       where: {
         userId_contestId: {
@@ -223,13 +224,13 @@ export class UserContestService {
           createMany: {
             skipDuplicates: true,
             data: problems.map(p => ({
-                userContestUserId: userId,
-                userContestContestId: contestId,
-                problemId: p.id,
-                numberOfAttempts: 0,
-                numberOfMinutes: 0,
-                status: UserContestProblemStatus.NOT_SOLVED
-              }))
+              userContestUserId: userId,
+              userContestContestId: contestId,
+              problemId: p.id,
+              numberOfAttempts: 0,
+              numberOfMinutes: 0,
+              status: UserContestProblemStatus.NOT_SOLVED,
+            })),
           },
         },
       },
@@ -259,7 +260,8 @@ export class UserContestService {
       await this.prismaService.userContest.delete({
         where: {
           userId_contestId: {
-            userId, contestId,
+            userId,
+            contestId,
           },
         },
       })

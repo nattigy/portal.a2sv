@@ -15,4 +15,8 @@ export class SeasonTopic {
   topic?: Topic
   @Field(() => [SeasonTopicProblem], { nullable: true })
   problems?: SeasonTopicProblem[]
+  @Field({ nullable: true })
+  createdAt?: Date
+  @Field({ nullable: true })
+  updatedAt?: Date
 }

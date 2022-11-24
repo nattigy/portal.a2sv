@@ -56,7 +56,9 @@ export class UserContestResolver {
   }
 
   @Mutation(() => Int)
-  async removeUserContest(@Args('userContestId') userContestId: UserContestId): Promise<number> {
+  async removeUserContest(
+    @Args('userContestId') userContestId: UserContestId,
+  ): Promise<number> {
     return this.userContestService.remove(userContestId)
   }
 }

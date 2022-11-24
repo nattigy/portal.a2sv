@@ -4,13 +4,13 @@ import { Problem } from '../../problem/entities/problem.entity'
 
 @ObjectType()
 export class Contest {
-  @Field(() => String)
+  @Field()
   id: string
-  @Field(() => String)
+  @Field()
   name: string
-  @Field(() => String)
+  @Field()
   link: string
-  @Field(() => String, { nullable: true })
+  @Field({ nullable: true })
   div?: string
   @Field(() => [GroupContest], { nullable: true })
   groupContests?: GroupContest[]
@@ -20,4 +20,8 @@ export class Contest {
   endTime: Date
   @Field(() => [Problem])
   problems: Problem[]
+  @Field({ nullable: true })
+  createdAt?: Date
+  @Field({ nullable: true })
+  updatedAt?: Date
 }

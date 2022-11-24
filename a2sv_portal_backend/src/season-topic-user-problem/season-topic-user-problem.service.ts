@@ -218,41 +218,39 @@ export class SeasonTopicUserProblemService {
     ...updates
   }: UpdateSeasonTopicProblemUserInput): Promise<SeasonTopicUserProblem> {
     const { seasonId, problemId, userId, topicId } = id
-    let number_wrong_sub:number;
-    if (updates.solved){
-      await  this.prismaService.userAnalytics.update({
-        where:{
-          userId_createdAt:{
+    let number_wrong_sub: number
+    if (updates.solved) {
+      await this.prismaService.userAnalytics.update({
+        where: {
+          userId_createdAt: {
             userId,
-            createdAt:new Date()
-          }
-         },
-        data:{
-          solvedCount:{
-            increment:1
-          }
-        }
+            createdAt: new Date(),
+          },
+        },
+        data: {
+          solvedCount: {
+            increment: 1,
+          },
+        },
+      })
+    } else if (updates.solved == false) {
+      number_wrong_sub = updates.attempts > 0 ? updates.attempts : 1
+      await this.prismaService.userAnalytics.update({
+        where: {
+          userId_createdAt: {
+            userId,
+            createdAt: new Date(),
+          },
+        },
+        data: {
+          wrongCount: {
+            increment: number_wrong_sub,
+          },
+        },
       })
     }
-    else if(updates.solved==false){
-      number_wrong_sub = updates.attempts > 0 ? updates.attempts:1;
-      await  this.prismaService.userAnalytics.update({
-        where:{
-          userId_createdAt:{
-            userId,
-            createdAt:new Date()
-          }
-         },
-        data:{
-          wrongCount:{
-            increment:number_wrong_sub
-          }
-        }
-      })
 
-    }
-
-    console.log("===status ==updated")
+    console.log('===status ==updated')
     return this.prismaService.seasonTopicProblemUser.upsert({
       where: {
         seasonId_topicId_problemId_userId: {

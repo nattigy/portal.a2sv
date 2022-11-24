@@ -13,8 +13,7 @@ import { PaginationSeason } from '../common/page/pagination-info'
 @UseGuards(PoliciesGuard)
 @Injectable()
 export class SeasonService {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   @CheckPolicies(SeasonAbilities.read)
   async findAll(

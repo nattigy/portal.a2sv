@@ -16,4 +16,8 @@ export class UserTopic {
   topic?: Topic
   @Field(() => User, { nullable: true })
   user?: User
+  @Field({ nullable: true })
+  createdAt?: Date
+  @Field({ nullable: true })
+  updatedAt?: Date
 }

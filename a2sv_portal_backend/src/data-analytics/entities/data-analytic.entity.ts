@@ -4,9 +4,9 @@ import { User } from 'src/user/entities/user.entity'
 @ObjectType()
 export class DataAnalytic {
   @Field(() => Int, { description: 'number of solved problems per day' })
-  solvedCount: number;
+  solvedCount: number
   @Field(() => Int, { description: 'number of solved problems per day' })
-  wrongCount: number;
+  wrongCount: number
   @Field(() => Date, { description: 'date of problem solved' })
   createdAt: Date
   @Field(() => Date, { description: 'date of problem solved' })

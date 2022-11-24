@@ -1,6 +1,5 @@
-import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { Problem } from '../problem/entities/problem.entity'
 import { ContestService } from './contest.service'
 import { CreateContestInput } from './dto/create-contest.input'
 import { UpdateContestInput } from './dto/update-contest.input'
@@ -10,7 +9,8 @@ import { PaginationContest } from '../common/page/pagination-info'
 
 @Resolver(() => Contest)
 export class ContestResolver {
-  constructor(private readonly contestService: ContestService) {}
+  constructor(private readonly contestService: ContestService) {
+  }
 
   @Mutation(() => Contest)
   async createContest(
@@ -21,10 +21,8 @@ export class ContestResolver {
 
   @Query(() => PaginationContest)
   async contests(
-    @Args('filterContestInput', { type: () => FilterContestInput, nullable: true })
-    filterContestInput?: FilterContestInput,
-    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput?: PaginationInfoInput,
+    @Args('filterContestInput', { nullable: true }) filterContestInput?: FilterContestInput,
+    @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationContest> {
     return this.contestService.findAll(filterContestInput, pageInfoInput)
   }
@@ -41,10 +39,18 @@ export class ContestResolver {
     return this.contestService.update(updateContestInput)
   }
 
-  @ResolveField(() => [Problem])
-  async problems(@Parent() contest: Contest) {
-    return contest.problems
+  @Mutation(() => Contest)
+  async removeProblemFromContest(
+    @Args('contestId') contestId: string,
+    @Args('problemId') problemId: string,
+  ): Promise<Contest> {
+    return this.contestService.removeProblemFromContest(contestId, problemId)
   }
+
+  // @ResolveField(() => [Problem])
+  // async problems(@Parent() contest: Contest) {
+  //   return contest.problems
+  // }
 
   @Mutation(() => Int)
   async removeContest(@Args('contestId') contestId: string): Promise<number> {

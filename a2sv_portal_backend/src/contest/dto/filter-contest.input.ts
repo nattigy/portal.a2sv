@@ -2,16 +2,16 @@ import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
 export class FilterContestInput {
-  @Field(() => String, { nullable: true })
+  @Field({ nullable: true })
   id?: string
-  @Field(() => String, { nullable: true })
+  @Field({ nullable: true })
   name?: string
-  @Field(() => String, { nullable: true })
+  @Field({ nullable: true })
   link?: string
-  @Field(() => String, { nullable: true })
+  @Field({ nullable: true })
   div?: string
-  @Field(() => Date, { nullable: true })
+  @Field({ nullable: true })
   startTime?: Date
-  @Field(() => Date, { nullable: true })
+  @Field({ nullable: true })
   endTime?: Date
 }

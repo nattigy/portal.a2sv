@@ -25,4 +25,8 @@ export class UserContest {
   user?: User
   @Field(() => Contest, { nullable: true })
   contest?: Contest
+  @Field({ nullable: true })
+  createdAt?: Date
+  @Field({ nullable: true })
+  updatedAt?: Date
 }

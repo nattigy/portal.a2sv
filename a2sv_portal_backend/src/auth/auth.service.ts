@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt'
 import { Response } from 'express'
 import { CreateUserInput } from '../user/dto/create-user.input'
 import { UserService } from '../user/user.service'
+import { AuthResponse } from './dto/auth-response.dto'
 
 @Injectable()
 export class AuthService {
@@ -30,21 +31,25 @@ export class AuthService {
     return null
   }
 
-  async login(@Context() context): Promise<{ accessToken: string; userId: string }> {
-    const user = context.req.user
+  async setToken(context, user): Promise<string> {
     const payload = { email: user.email, sub: user.id }
     const accessToken = this.jwtService.sign(payload)
     const expires = new Date()
     expires.setHours(expires.getHours() + 120)
     context.res.cookie('Authentication', accessToken, { httpOnly: true, expires })
+    return accessToken
+  }
+
+  async login(@Context() context): Promise<AuthResponse> {
+    const user = context.req.user
+    const accessToken = await this.setToken(context, user)
     return { accessToken, userId: user.id }
   }
 
-  async signUp(createUserInput: CreateUserInput): Promise<{ userId: string }> {
+  async signUp(@Context() context, createUserInput: CreateUserInput): Promise<AuthResponse> {
     const user = await this.usersService.create(createUserInput)
-    return {
-      userId: user.id,
-    }
+    const accessToken = await this.setToken(context, user)
+    return { accessToken, userId: user.id }
   }
 
   async logout(@Context('res') response: Response) {

@@ -4,8 +4,8 @@ generator client {
 
 datasource db {
   provider          = "postgresql"
-  url               = env("LOCAL_DB_URL")
-//    url               = env("DB_URL")
+  //  url               = env("LOCAL_DB_URL")
+  url               = env("DB_URL")
   shadowDatabaseUrl = env("SHADOW_DB_URL")
 }
 
@@ -52,7 +52,7 @@ model UserContestProblem {
   userId               String
   contestId            String
   problemId            String
-  problem              Problem                  @relation(fields: [problemId], references: [id])
+  problem              Problem                  @relation(fields: [problemId], references: [id], onDelete: Cascade)
   status               UserContestProblemStatus @default(NOT_SOLVED)
   numberOfAttempts     Int
   numberOfMinutes      Int
@@ -100,7 +100,7 @@ model Season {
   createdAt  DateTime?     @default(now())
   updatedAt  DateTime?     @updatedAt
   topics     SeasonTopic[]
-  group      Group         @relation(fields: [groupId], references: [id])
+  group      Group         @relation(fields: [groupId], references: [id], onDelete: Cascade)
   groupId    String
   isActive   Boolean       @default(false)
 }

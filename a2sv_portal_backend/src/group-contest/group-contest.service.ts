@@ -47,7 +47,7 @@ export class GroupContestService {
     }
   }
 
-  async findOne({groupId, contestId}: GroupContestId): Promise<GroupContest> {
+  async findOne({ groupId, contestId }: GroupContestId): Promise<GroupContest> {
     const groupContest = await this.prismaService.groupContest.findUnique({
       where: {
         groupId_contestId: {
@@ -149,12 +149,12 @@ export class GroupContestService {
         where: {
           groupId_contestId: {
             groupId,
-            contestId
-          }
-        }
+            contestId,
+          },
+        },
       })
-    }catch (e) {
-      console.log(`Fail to delete group contest with id ${groupId}`, " : ", e)
+    } catch (e) {
+      console.log(`Fail to delete group contest with id ${groupId}`, ' : ', e)
       throw new Error(`Fail to delete group contest with id ${groupId}`)
     }
     return 1

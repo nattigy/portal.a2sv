@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
-import { CreateUserProfileInput } from './dto/create-user-profile.input'
 import { UpdateUserProfileInput } from './dto/update-user-profile.input'
 import { UserProfile } from './entities/user-profile.entity'
 import { PaginationUserProfile } from '../common/page/pagination-info'
@@ -9,8 +8,7 @@ import { FilterUserProfileInput } from './dto/filter-user-profile.input'
 
 @Injectable()
 export class UserProfileService {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   // async create(createUserProfileInput: CreateUserProfileInput): Promise<UserProfile> {
   //   return this.prismaService.userProfile.create({

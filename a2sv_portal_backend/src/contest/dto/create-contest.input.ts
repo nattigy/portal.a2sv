@@ -3,13 +3,13 @@ import { UpdateProblemInput } from '../../problem/dto/update-problem.input'
 
 @InputType()
 export class CreateContestInput {
-  @Field(() => String)
+  @Field()
   name: string
-  @Field(() => String)
+  @Field()
   link: string
-  @Field(() => String, { nullable: true })
+  @Field({ nullable: true })
   div?: string
-  @Field(() => Date)
+  @Field()
   startTime: Date
   @Field(() => Date)
   endTime: Date

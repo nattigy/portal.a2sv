@@ -144,13 +144,15 @@ async function main() {
       }
     }
     console.log('seasonTopicProblem')
-    const endYear = new Date('2022-12-20')
+    const endYear = new Date('2023-1-1')
     const analyticsList = []
     for (let d = new Date('2022-1-2'); d <= endYear; d.setDate(d.getDate() + 1)) {
       for (const user of users) {
         analyticsList.push({
           userId: user.id,
           createdAt: new Date(d),
+          solvedCount: Math.floor(Math.random() * 10),
+          wrongCount: Math.floor(Math.random() * 10) + 1,
         })
       }
     }

@@ -28,4 +28,8 @@ export class UserContestProblem {
   numberOfMinutes: number
   @Field(() => UserContest, { nullable: true })
   userContest?: UserContest
+  @Field({ nullable: true })
+  createdAt?: Date
+  @Field({ nullable: true })
+  updatedAt?: Date
 }

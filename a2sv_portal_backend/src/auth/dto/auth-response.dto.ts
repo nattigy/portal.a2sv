@@ -1,9 +1,9 @@
 import { Field, ObjectType } from '@nestjs/graphql'
 
 @ObjectType()
-export class SignupOutput {
+export class AuthResponse {
   @Field()
-  accessToken?: string
+  accessToken: string
   @Field()
   userId: string
 }
