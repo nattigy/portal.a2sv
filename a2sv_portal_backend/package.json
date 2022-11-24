@@ -4,11 +4,15 @@
   "description": "",
   "author": "",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
+  "main": "dist/src/main.js",
   "engines": {
-    "node": "18.x"
+    "node": ">=16.15.1",
+    "npm": ">=8.11.0"
   },
   "scripts": {
+    "deploy": "gcloud app deploy --quiet",
+    "gcp-build": "npm run build",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
