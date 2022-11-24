@@ -1,44 +1,18 @@
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikProps } from "formik";
 import React, { useRef, useState } from "react";
 import ProfileForm from "./ProfileForm";
 import * as yup from "yup";
 import clsx from "clsx";
 import PhoneInputField from "./PhoneInputField";
 import DOBInputField from "./DOBInputField";
+import { ProfileFormValues } from "./ProfileInfo";
 
-type Props = {};
+type Props = {
+  formik:FormikProps<ProfileFormValues>
+};
 
-export interface ProfileFormValues {
-  fname: string;
-  lname: string;
-  email: string;
-  phone: string;
-  dob: string;
-  cv: File;
-  status: string;
-  linkedin: string;
-  photo: File;
-}
+const PersonalDetails = ({formik}: Props) => {
 
-const FORM_VALIDATION = yup.object().shape({
-  firstname: yup.string().min(3, "Too Short!").max(40, "Too Long!"),
-  lastname: yup.string().min(3, "Too Short!").max(40, "Too Long!"),
-  email: yup
-    .string()
-    .required("Required")
-    .email("email should have the format user@example.com"),
-  phone: yup.string().length(12),
-  linkedin: yup.string(),
-  dob: yup.date().required("Required"),
-});
-
-const PersonalDetails = (props: Props) => {
-  const INITIAL_VALUES = {
-    // status: QuestionStatus.NOT_SOLVED,
-    // time_spent: 0,
-    // total_attempts: 0,
-    // wrong_submissions: 0
-  } as ProfileFormValues;
 
   return (
     <div className="bg-white p-4">
@@ -50,7 +24,7 @@ const PersonalDetails = (props: Props) => {
             Update your personal details and photo here
           </h5>
         </div>
-        <div className="flex gap-4">
+        {/* <div className="flex gap-4">
           <button className="w-24 p-1 border rounded-lg text-sm border-[#BCBCBC]">
             Cancel
           </button>
@@ -61,19 +35,11 @@ const PersonalDetails = (props: Props) => {
           >
             Save
           </button>
-        </div>
+        </div> */}
       </div>
       <hr className="ml-4" />
-      <Formik
-        initialValues={INITIAL_VALUES}
-        validationSchema={FORM_VALIDATION}
-        onSubmit={(values) => {
-          console.log(values);
-        }}
-      >
-        {(formik) => (
-          <div>
-            <Form id="profile-form" className="flex flex-col gap-y-2 w-1/2">
+               <div className="flex flex-col gap-y-2 w-1/2">
+           
               <ProfileForm
                 inputProps={{
                   id: "name",
@@ -165,10 +131,8 @@ const PersonalDetails = (props: Props) => {
                 type="file"
                 label="CV"
               />
-            </Form>
           </div>
-        )}
-      </Formik>
+
       {/* Name */}
       {/* <div>
         <ProfileForm label="Name" type="name" />

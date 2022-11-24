@@ -1,27 +1,19 @@
 import clsx from "clsx";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, FormikProps } from "formik";
 import { isError } from "lodash";
 import React from "react";
 import { FiExternalLink } from "react-icons/fi";
 import { MdAlternateEmail } from "react-icons/md";
 import { SiFacebook, SiInstagram, SiTelegram, SiTwitter } from "react-icons/si";
+import { ProfileFormValues } from "./ProfileInfo";
 
-type Props = {};
+type Props = {
+  formik:FormikProps<ProfileFormValues>
+};
 
-export interface SocialMediaFormValues {
-  insta: string;
-  twitter: string;
-  telegram: string;
-  facebook: string;
-}
 
-const SocialMediaDetails = (props: Props) => {
-  const INITIAL_VALUES = {
-    // status: QuestionStatus.NOT_SOLVED,
-    // time_spent: 0,
-    // total_attempts: 0,
-    // wrong_submissions: 0
-  } as SocialMediaFormValues;
+const SocialMediaDetails = ({formik}: Props) => {
+  const{errors,touched} = formik;
 
   return (
     <div className="bg-white p-4">
@@ -33,7 +25,7 @@ const SocialMediaDetails = (props: Props) => {
             Update your social media tags here
           </h5>
         </div>
-        <div className="flex gap-4">
+        {/* <div className="flex gap-4">
           <button className="w-24 p-2 border rounded-lg text-sm border-[#BCBCBC]">
             Cancel
           </button>
@@ -44,18 +36,10 @@ const SocialMediaDetails = (props: Props) => {
           >
             Save
           </button>
-        </div>
+        </div> */}
       </div>
       <hr className="ml-4" />
-      <Formik
-        initialValues={INITIAL_VALUES}
-        // validationSchema={FORM_VALIDATION}
-        onSubmit={(values) => {
-          console.log(values);
-        }}
-      >
-        {({ isSubmitting, errors, touched }) => (
-          <Form id="profile-form" className="p-2 flex flex-col gap-y-2 w-1/2">
+      <div className="flex flex-col gap-y-2 w-1/2">
             <div className="flex">
               <div className="flex w-2/5 items-center gap-x-2 p-2">
                 <SiInstagram size={24} color="blue" />
@@ -164,9 +148,7 @@ const SocialMediaDetails = (props: Props) => {
                 {(errors as any)["facebook"]}
               </h1>
             </div>
-          </Form>
-        )}
-      </Formik>
+            </div>
     </div>
   );
 };

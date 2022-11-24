@@ -5,18 +5,49 @@ import ProfileFilter from "./ProfileFilter";
 import PersonalDetails from "./PersonalDetails";
 import ProgrammingDetails from "./ProgrammingDetails";
 import SocialMediaDetails from "./SocialMediaDetails";
+import { Form, Formik } from "formik";
+import * as yup from "yup";
+import FormAffirmativeButton from "../common/FormAffirmativeButton";
 
-type Props = {
-  groupId?: number;
-};
+type Props = {};
+export interface ProfileFormValues {
+  fname: string;
+  lname: string;
+  email: string;
+  phone: string;
+  dob: string;
+  cv: File;
+  status: string;
+  linkedin: string;
+  photo: File;
+  insta: string;
+  twitter: string;
+  telegram: string;
+  facebook: string;
+  leetcode: string;
+  hackerrank: string;
+  codeforces: string;
+  geeksforgeeks: string;
+}
+
+const FORM_VALIDATION = yup.object().shape({
+  // firstname: yup.string().min(3, "Too Short!").max(40, "Too Long!"),
+  // lastname: yup.string().min(3, "Too Short!").max(40, "Too Long!"),
+  // email: yup
+  //   .string()
+  //   .required("Required")
+  //   .email("email should have the format user@example.com"),
+  // phone: yup.string().length(12),
+  // linkedin: yup.string(),
+  // dob: yup.date().required("Required"),
+});
 
 const ProfileInfo = (props: Props) => {
-  // const [currentPath, setCurrentPath] = useState<number>(0)
-  const [tabIndex, setTabIndex] = useState(0);
+  const INITIAL_VALUES = {
 
-  // useEffect(() => {
-  //   setCurrentPath(props.groupId)
-  // }, [router.pathname])
+  } as ProfileFormValues;
+  
+  const [tabIndex, setTabIndex] = useState(0);
 
   const handleTabChange = (index: number) => {
     setTabIndex(index);
@@ -36,9 +67,23 @@ const ProfileInfo = (props: Props) => {
           </div>
         ) : ( */}
         <div className="">
-          {tabIndex == 0 && <PersonalDetails />}
-          {tabIndex == 1 && <SocialMediaDetails />}
-          {tabIndex == 2 && <ProgrammingDetails />}
+          <Formik
+            initialValues={INITIAL_VALUES}
+            validationSchema={FORM_VALIDATION}
+            onSubmit={(values) => {
+              console.log(values);
+            }}
+          >
+            {(formik) => (
+              <Form id="profile-form" >
+                {tabIndex == 0 && <PersonalDetails formik={formik} />}
+                {tabIndex == 1 && <SocialMediaDetails formik={formik} />}
+                {tabIndex == 2 && <ProgrammingDetails formik={formik} />}
+                {tabIndex == 2 && <FormAffirmativeButton text="Save Changes" isLoading={formik.isSubmitting}/>}
+      
+              </Form>
+            )}
+          </Formik>
         </div>
       </div>
     </BaseLayout>

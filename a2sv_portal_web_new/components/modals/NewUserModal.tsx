@@ -62,11 +62,7 @@ const NewUserModal = (props: Props) => {
                 createUserInput: {
                   email: values.email,
                   password: values.password,
-                  role:
-                    authUser &&
-                    authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY
-                      ? GraphqlUserRole.STUDENT
-                      : values.role,
+                  role: GraphqlUserRole.STUDENT,
                 },
               },
               refetchQueries: "active",
@@ -170,7 +166,7 @@ const NewUserModal = (props: Props) => {
                       )}
                     </div>
                     <div className="flex flex-col gap-y-4">
-                      <div>
+                      {/* <div>
                         <div className="my-3 w-full flex justify-between items-center">
                           <h2 className="font-semibold text-lg">Roles</h2>
                         </div>
@@ -178,8 +174,8 @@ const NewUserModal = (props: Props) => {
                           This role will be used to grant different permissions
                           to different users.
                         </p>
-                      </div>
-                      {authUser &&
+                      </div> */}
+                      {/* {authUser &&
                         authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY && (
                           <div className="flex flex-col justify-start gap-y-4">
                             <div className="flex items-center">
@@ -211,7 +207,7 @@ const NewUserModal = (props: Props) => {
                               />
                             </div>
                           </div>
-                        )}
+                        )} */}
                     </div>
                   </div>
                   {errorMessage && (

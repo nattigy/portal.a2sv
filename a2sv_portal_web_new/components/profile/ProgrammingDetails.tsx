@@ -1,35 +1,18 @@
 import clsx from "clsx";
-import { Formik, Form, Field } from "formik";
+import { Field, FormikProps } from "formik";
 import React from "react";
 import { FiExternalLink } from "react-icons/fi";
 import { MdAlternateEmail } from "react-icons/md";
-import {
-  SiInstagram,
-  SiTwitter,
-  SiTelegram,
-  SiFacebook,
-  SiLeetcode,
-  SiGeeksforgeeks,
-  SiHackerrank,
-  SiCodeforces,
-} from "react-icons/si";
+import { ProfileFormValues } from "./ProfileInfo";
 
-type Props = {};
+type Props = {
+  formik:FormikProps<ProfileFormValues>
+};
 
-export interface ProgrammingFormValues {
-  leetcode: string;
-  hackerrank: string;
-  codeforces: string;
-  geeksforgeeks: string;
-}
 
-const ProgrammingDetails = (props: Props) => {
-  const INITIAL_VALUES = {
-    // status: QuestionStatus.NOT_SOLVED,
-    // time_spent: 0,
-    // total_attempts: 0,
-    // wrong_submissions: 0
-  } as ProgrammingFormValues;
+
+const ProgrammingDetails = ({formik}: Props) => {
+  const {isSubmitting,touched,errors} = formik;
 
   return (
     <div className="bg-white p-4">
@@ -41,29 +24,9 @@ const ProgrammingDetails = (props: Props) => {
             Update your programming site tags here
           </h5>
         </div>
-        <div className="flex gap-4">
-          <button className="w-24 p-2 border rounded-lg text-sm border-[#BCBCBC]">
-            Cancel
-          </button>
-          <button
-            type="submit"
-            form="profile-form"
-            className="w-24 p-2 border rounded-lg bg-[#5956E9] text-sm text-white border-red-200"
-          >
-            Save
-          </button>
-        </div>
       </div>
       <hr className="ml-4" />
-      <Formik
-        initialValues={INITIAL_VALUES}
-        // validationSchema={FORM_VALIDATION}
-        onSubmit={(values) => {
-          console.log(values);
-        }}
-      >
-        {({ isSubmitting, errors, touched }) => (
-          <Form id="profile-form" className="p-2 flex flex-col gap-y-2 w-1/2">
+      <div className="flex flex-col gap-y-2 w-1/2">
             <div className="flex gap-x">
               <div className="flex w-5/12 items-center gap-x-2 p-2">
                 <img src="/icons/leetcode.png" className="w-8" alt="" />
@@ -170,10 +133,8 @@ const ProgrammingDetails = (props: Props) => {
               <h1 className="text-xs font-light text-red-700">
                 {(errors as any)["codeforces"]}
               </h1>
+              </div>
             </div>
-          </Form>
-        )}
-      </Formik>
     </div>
   );
 };
