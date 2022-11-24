@@ -8,7 +8,7 @@ import { CreateDataAnalyticInput } from './dto/create-data-analytic.input'
 export class DataAnalyticsService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT,{name:'Scheduler Populate user_data fields', 
+  @Cron(CronExpression.EVERY_HOUR,{name:'Scheduler Populate user_data fields', 
       timeZone: 'Africa/Addis_Ababa'})
  async populateData() {   
     const users = await this.prismaService.user.findMany({
