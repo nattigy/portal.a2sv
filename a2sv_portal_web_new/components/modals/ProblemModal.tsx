@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
 import clsx from "clsx";
-import { ProblemDifficultyType } from "../../types/problems";
+import { ProblemDifficultyType, ProblemType } from "../../types/problems";
 import { AiOutlinePlus } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
 import Tag from "../common/Tag";
@@ -10,16 +10,17 @@ import { ApolloError, useMutation } from "@apollo/client";
 import {
   ADD_EXISTING_PROBLEM,
   CREATE_PROBLEM_MUTATION,
+  UPDATE_PROBLEM,
 } from "../../lib/apollo/Mutations/problemsMutations";
 import AutoCompleteProblems, {
   AutoCompleteProblemsProps,
-  ProblemType,
 } from "../problems/ProblemsAutocomplete";
 import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormRejectButton from "../common/FormRejectButton";
 import FormField from "../common/FormField";
 import FormRadio from "../common/FormRadio";
 import ProblemsAutocomplete from "../problems/ProblemsAutocomplete";
+import { platform } from "os";
 
 interface FormValues {
   search: string;
@@ -27,21 +28,22 @@ interface FormValues {
   platform: string;
   difficulty: ProblemDifficultyType;
   link: string;
-  tags: Array<string>[];
+  tags: Array<string>;
 }
 
 type Props = {
   onClose: () => void;
   isEditing: boolean;
   values?: FormValues;
-  topicId: string;
+  topicId?: string;
   seasonId: string;
-  groupId: string;
+  problem?: ProblemType;
 };
 
 const ProblemModal = (props: Props) => {
   const [createNewProblem] = useMutation(CREATE_PROBLEM_MUTATION);
   const [addExistingProblem] = useMutation(ADD_EXISTING_PROBLEM);
+  const [updateProblem] = useMutation(UPDATE_PROBLEM);
 
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -51,13 +53,20 @@ const ProblemModal = (props: Props) => {
   const [existingProblem, setExistingProblem] = useState<ProblemType | null>(
     null
   );
+  useEffect(() => {
+    setTags(props.problem?.tags.map((tag: any) => tag.name) || []);
+  }, []);
 
   const INITIAL_VALUES: FormValues = {
-    name: "",
+    name: props.problem?.title || "",
     search: "",
-    difficulty: ProblemDifficultyType.MEDIUM,
-    link: "",
-    platform: "",
+    difficulty:
+      ProblemDifficultyType[
+        (props.problem?.difficulty.toUpperCase() as ProblemDifficultyType) ||
+          "MEDIUM"
+      ],
+    link: props.problem?.link || "",
+    platform: props.problem?.platform || "",
     tags: [],
   };
 
@@ -108,7 +117,28 @@ const ProblemModal = (props: Props) => {
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
             if (props.isEditing) {
-              () => {};
+              await updateProblem({
+                variables: {
+                  updateProblemInput: {
+                    id: props.problem?.id,
+                    difficulty: values.difficulty,
+                    link: values.link,
+                    platform: values.platform,
+                    tags: tags.map((tag) => {
+                      return { name: tag };
+                    }),
+                    title: values.name,
+                  },
+                },
+                refetchQueries: "active",
+                notifyOnNetworkStatusChange: true,
+                onCompleted: (data) => {
+                  props.onClose();
+                },
+                onError: (error) => {
+                  setErrorMessage((error as ApolloError).message);
+                },
+              });
             } else {
               setIsLoading(true);
               if (existingProblem === null) {
@@ -131,7 +161,7 @@ const ProblemModal = (props: Props) => {
                       variables: {
                         updateSeasonTopicInput: {
                           seasonId: props.seasonId.toString(),
-                          topicId: props.topicId.toString(),
+                          topicId: props.topicId?.toString(),
                           problems: [
                             {
                               problemId: data.createProblem.id,
@@ -160,7 +190,7 @@ const ProblemModal = (props: Props) => {
                   variables: {
                     updateSeasonTopicInput: {
                       seasonId: props.seasonId.toString(),
-                      topicId: props.topicId.toString(),
+                      topicId: props.topicId?.toString(),
                       problems: [
                         {
                           problemId: existingProblem.id.toString(),
@@ -191,7 +221,9 @@ const ProblemModal = (props: Props) => {
                 role="alert"
                 className="flex flex-col gap-y-3 min-h-fit justify-between bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-10 py-5"
               >
-                {JSON.stringify(errors)}
+                {/* {JSON.stringify(props.problem)}
+                {JSON.stringify(errors)} */}
+                {JSON.stringify(tags)}
 
                 <div className="w-full flex flex-col gap-y-2 items-center">
                   <div className="my-2 w-full flex justify-between items-center">
@@ -239,15 +271,16 @@ const ProblemModal = (props: Props) => {
                       or choose existing one
                     </p>
                   )}
-
-                  <div className="w-full flex flex-col justify-start gap-y-2">
-                    <ProblemsAutocomplete
-                      handleSearchProblem={handleSearchProblem}
-                    />
-                    {/* <p className="w-full text-xs text-red-500">
+                  {!props.isEditing && (
+                    <div className="w-full flex flex-col justify-start gap-y-2">
+                      <ProblemsAutocomplete
+                        handleSearchProblem={handleSearchProblem}
+                      />
+                      {/* <p className="w-full text-xs text-red-500">
                           {errors.search}
                         </p> */}
-                  </div>
+                    </div>
+                  )}
                 </div>
                 <div className="flex flex-col gap-y-4 my-2">
                   <div className="flex flex-col justify-start gap-y-4">
@@ -404,6 +437,7 @@ const ProblemModal = (props: Props) => {
                                   />
                                 </div>
                               </div>
+
                               <div className="flex flex-row flex-wrap gap-x-2">
                                 {tags.map((tag: any, index: number) => (
                                   <Tag value={tag} key={index}>

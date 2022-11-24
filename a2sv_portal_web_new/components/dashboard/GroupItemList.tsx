@@ -15,7 +15,6 @@ const GroupItemList = () => {
 
   let [groups, setGroups] = useState([]);
   useEffect(() => {
-    console.log("data is ssss", data);
     if (data && data.groups.items) {
       const datas = data.groups.items.map((item: any) => {
         return {

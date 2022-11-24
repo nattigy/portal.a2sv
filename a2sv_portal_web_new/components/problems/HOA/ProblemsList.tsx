@@ -1,9 +1,10 @@
 import React from "react";
+import { ProblemType } from "../../../types/problems";
 import { LoaderSmall } from "../../common/Loaders";
-import ProblemsItem, { ProblemProps } from "./ProblemsItem";
+import ProblemsItem from "./ProblemsItem";
 
 type Props = {
-  problems: ProblemProps[];
+  problems: ProblemType[];
 };
 
 const ProblemsList = ({ problems }: Props) => {
@@ -25,11 +26,8 @@ const ProblemsList = ({ problems }: Props) => {
         return (
           <ProblemsItem
             key={index}
-            title={problem.title}
-            difficulty={problem.difficulty}
-            platform={problem.platform}
-            createdAt={problem.createdAt}
-            tags={problem.tags}
+            problem = {problem}
+           
           />
         );
       })}

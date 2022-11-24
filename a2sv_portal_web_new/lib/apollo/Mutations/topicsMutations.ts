@@ -23,3 +23,10 @@ export const DELETE_TOPIC = gql`
     }
   }
 `;
+
+export const REMOVE_SEASON_TOPIC = gql`
+mutation RemoveSeasonTopic($seasonId: String!, $topicId: String!) {
+  removeSeasonTopic(seasonId: $seasonId, topicId: $topicId) {
+    seasonId
+  }
+}`;

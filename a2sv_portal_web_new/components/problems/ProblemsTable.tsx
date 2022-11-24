@@ -4,11 +4,15 @@ import { MdContentPaste } from "react-icons/md";
 import { DifficultyChips } from "./DifficultyChips";
 import { getIcon } from "../../helpers/getReactIcon";
 import {
-  ProblemsInfo,
+  ProblemType,
   ProblemDifficultyType,
   ProblemStatus,
 } from "../../types/problems";
 import CustomLink from "../common/CustomLink";
+import { BiTrash } from "react-icons/bi";
+import DeletePopupModal from "../modals/DeletePopupModal";
+import { ApolloError, useMutation } from "@apollo/client";
+import { REMOVE_SEASON_TOPIC_PROBLEM } from "../../lib/apollo/Mutations/problemsMutations";
 
 export type PlatformInfo = {
   id: string;
@@ -16,19 +20,27 @@ export type PlatformInfo = {
 };
 
 type Props = {
-  problems: ProblemsInfo[];
+  problems: ProblemType[];
+  seasonId?: string;
+  topicId?: string;
 };
 
-const ProblemsTable = ({ problems }: Props) => {
+const ProblemsTable = ({ problems, seasonId, topicId }: Props) => {
   // const [titleAscending, setTitleAscending] = useState(false)
   // const [titleDescending, setTitleDescending] = useState(false)
   // const [difficultyAscending, setDifficultyAscending] = useState(false)
   // const [difficultyDescending, setDifficultyDescending] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [removeSeasonTopicProblem, { loading, error }] = useMutation(
+    REMOVE_SEASON_TOPIC_PROBLEM
+  );
+
   const [searchQuery, setSearchQuery] = useState("");
   const [checkedAll, setCheckedAll] = useState(false);
   const [checkedState, setCheckedState] = useState(
     new Array(problems?.length).fill(false)
   );
+  const [problemId, setProblemId] = useState("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleModalOpen = () => {
@@ -51,126 +63,154 @@ const ProblemsTable = ({ problems }: Props) => {
     setCheckedState(updatedCheckedState);
     setCheckedAll(!checkedAll);
   };
-  console.log("PROBLEMS", problems);
-  return (
-    <div className="overflow-x-auto relative bg-white border-blue-100 shadow-md sm:rounded-lg border p-4 ">
-      <div className="mx-3 my-2 font-semibold text-md text-[#565656]">
-        <h2>Problem Set</h2>
-      </div>
-      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-[#979797] bg-white ">
-          <tr>
-            <th scope="col" className="p-4">
-              <div className="flex items-center">
-                <input
-                  id="checkbox-all-search"
-                  checked={checkedAll}
-                  onChange={() => handleAllCheck()}
-                  type="checkbox"
-                  className="w-4 h-4 text-blue-600 bg-white rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-white"
-                />
-                <label htmlFor="checkbox-all-search" className="sr-only">
-                  checkbox
-                </label>
-              </div>
-            </th>
-            <th scope="col" className="py-3 px-6">
-              <div className="flex flex-row gap-x-1">
-                <div className="text-[#979797]">Title</div>
-                <div className="flex flex-row">
-                  <FaLongArrowAltUp className="-mr-2 pr-1" />
-                  <FaLongArrowAltDown />
-                </div>
-              </div>
-            </th>
-            <th scope="col" className="py-3 px-6">
-              <div className="flex flex-row gap-x-1">
-                <div className="text-[#979797]">Difficulty</div>
-                <div className="flex flex-row">
-                  <FaLongArrowAltUp className="-mr-2 pr-1" />
-                  <FaLongArrowAltDown />
-                </div>
-              </div>
-            </th>
-            <th scope="col" className="py-3 px-6">
-              <div className="text-[#979797]">Platform</div>
-            </th>
-            <th scope="col" className="py-3 px-6">
-              <div className="text-[#979797]">Status</div>
-            </th>
-            <th scope="col" className="py-3 px-6">
-              <div className="text-[#979797]">Action</div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {problems ? (
-            problems.map((problem: ProblemsInfo, index: number) => {
-              return (
-                <tr
-                  className="bg-white text-[#565656] hover:bg-gray-50 dark:hover:bg-[#E2E2E2]"
-                  key={problem.id}
-                >
-                  <td className="p-4 w-4">
-                    <div className="flex items-center">
-                      <input
-                        id="checkbox-table-search-1"
-                        name={`prob-${problem.id}`}
-                        checked={checkedState[index]}
-                        onChange={() => handleSingleCheck(index)}
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700"
-                      />
-                      <label
-                        htmlFor="checkbox-table-search-1"
-                        className="sr-only"
-                      >
-                        checkbox
-                      </label>
-                    </div>
-                  </td>
-                  <td scope="row" className="py-4 px-6 whitespace-nowrap ">
-                    <a
-                      className="text-primary"
-                      href={problem.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {problem.title}
-                    </a>
-                  </td>
-                  <td className="py-4 px-6">
-                    <DifficultyChips
-                      status={problem.difficulty?.toUpperCase()}
-                    />
-                  </td>
-                  <td className="py-4 px-6">
-                    <div className="flex flex-row gap-x-2 uppercase">
-                      {getIcon(problem.platform?.toUpperCase())}
-                      {problem.platform}
-                    </div>
-                  </td>
-                  <td className="py-4 px-6">{problem.status ?? "Unknown"}</td>
 
-                  <td className="py-4 px-6">
-                    <a
-                      href="#"
-                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                    >
-                      <div className="pl-4">
-                        <MdContentPaste onClick={handleModalOpen} />
+  return (
+    <>
+      {isDeleteModalOpen && (
+        <DeletePopupModal
+          title="Delete problem"
+          errorMessage={(error as ApolloError)?.message || ""}
+          isLoading={loading}
+          description="This will remove the problem from this season topic"
+          onClose={() => setIsDeleteModalOpen(false)}
+          onDelete={async () => {
+            await removeSeasonTopicProblem({
+              variables: {
+                seasonTopicProblemId: {
+                  problemId: problemId,
+                  seasonId: seasonId,
+                  topicId: topicId,
+                },
+              },
+              refetchQueries: "active",
+              notifyOnNetworkStatusChange: true,
+              onCompleted: (data) => {
+                setIsDeleteModalOpen(false);
+              },
+            });
+          }}
+        />
+      )}
+
+      <div className="overflow-x-auto relative bg-white border-blue-100 shadow-md sm:rounded-lg border p-4 ">
+        <div className="mx-3 my-2 font-semibold text-md text-[#565656]">
+          <h2>Problem Set</h2>
+        </div>
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-[#979797] bg-white ">
+            <tr>
+              <th scope="col" className="p-4">
+                <div className="flex items-center">
+                  <input
+                    id="checkbox-all-search"
+                    checked={checkedAll}
+                    onChange={() => handleAllCheck()}
+                    type="checkbox"
+                    className="w-4 h-4 text-blue-600 bg-white rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-white"
+                  />
+                  <label htmlFor="checkbox-all-search" className="sr-only">
+                    checkbox
+                  </label>
+                </div>
+              </th>
+              <th scope="col" className="py-3 px-6">
+                <div className="flex flex-row gap-x-1">
+                  <div className="text-[#979797]">Title</div>
+                  <div className="flex flex-row">
+                    <FaLongArrowAltUp className="-mr-2 pr-1" />
+                    <FaLongArrowAltDown />
+                  </div>
+                </div>
+              </th>
+              <th scope="col" className="py-3 px-6">
+                <div className="flex flex-row gap-x-1">
+                  <div className="text-[#979797]">Difficulty</div>
+                  <div className="flex flex-row">
+                    <FaLongArrowAltUp className="-mr-2 pr-1" />
+                    <FaLongArrowAltDown />
+                  </div>
+                </div>
+              </th>
+              <th scope="col" className="py-3 px-6">
+                <div className="text-[#979797]">Platform</div>
+              </th>
+              <th scope="col" className="py-3 px-6">
+                <div className="text-[#979797]">Status</div>
+              </th>
+              <th scope="col" className="py-3 px-6">
+                <div className="text-[#979797]">Action</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {problems ? (
+              problems.map((problem: ProblemType, index: number) => {
+                return (
+                  <tr
+                    className="bg-white text-[#565656] hover:bg-gray-50 dark:hover:bg-[#E2E2E2]"
+                    key={problem.id}
+                  >
+                    <td className="p-4 w-4">
+                      <div className="flex items-center">
+                        <input
+                          id="checkbox-table-search-1"
+                          name={`prob-${problem.id}`}
+                          checked={checkedState[index]}
+                          onChange={() => handleSingleCheck(index)}
+                          type="checkbox"
+                          className="w-4 h-4 text-blue-600 bg-gray-100 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700"
+                        />
+                        <label
+                          htmlFor="checkbox-table-search-1"
+                          className="sr-only"
+                        >
+                          checkbox
+                        </label>
                       </div>
-                    </a>
-                  </td>
-                </tr>
-              );
-            })
-          ) : (
-            <h5>Problems Not Found</h5>
-          )}
-        </tbody>
-      </table>
-      {/* <nav
+                    </td>
+                    <td scope="row" className="py-4 px-6 whitespace-nowrap ">
+                      <a
+                        className="text-primary"
+                        href={problem.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {problem.title}
+                      </a>
+                    </td>
+                    <td className="py-4 px-6">
+                      <DifficultyChips
+                        status={problem.difficulty?.toUpperCase()}
+                      />
+                    </td>
+                    <td className="py-4 px-6">
+                      <div className="flex flex-row gap-x-2 uppercase">
+                        {getIcon(problem.platform?.toUpperCase())}
+                        {problem.platform}
+                      </div>
+                    </td>
+                    <td className="py-4 px-6">{problem.status ?? "Unknown"}</td>
+
+                    <td className="py-4 px-6">
+                      <div className="pl-4">
+                        <BiTrash
+                          onClick={() => {
+                            setProblemId(problem.id);
+                            setIsDeleteModalOpen(true);
+                          }}
+                          color="#ad1c1c"
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <h5>Problems Not Found</h5>
+            )}
+          </tbody>
+        </table>
+        {/* <nav
 className="flex justify-between items-center pt-4"
 aria-label="Table navigation"
 >
@@ -270,7 +310,8 @@ xmlns="http://www.w3.org/2000/svg"
 </li>
 </ul>
 </nav> */}
-    </div>
+      </div>
+    </>
   );
 };
 export default ProblemsTable;

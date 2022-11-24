@@ -1,6 +1,6 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import useAllProblems from "../../lib/hooks/useAllProblems";
-import { ProblemDifficultyType } from "../../types/problems";
+import { ProblemDifficultyType, ProblemType } from "../../types/problems";
 import CommonAutocomplete from "../common/CustomAutocomplete";
 
 type Props = {
@@ -11,21 +11,6 @@ export type AutoCompleteProblemsProps = {
   title: string;
 };
 
-export type ProblemType = {
-  id: number;
-  title: string;
-  createdAt: string;
-  difficulty: ProblemDifficultyType;
-  link: string;
-  platform: "Leetcode";
-  tags: [
-    {
-      name: string;
-      id: number;
-    }
-  ];
-  updatedAt: string;
-};
 
 export default function ProblemsAutocomplete({ handleSearchProblem }: Props) {
   const [query, setQuery] = useState("");
