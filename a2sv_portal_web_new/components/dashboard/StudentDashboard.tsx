@@ -1,10 +1,9 @@
-import { ApolloError, useQuery, useReactiveVar } from "@apollo/client";
+import { useReactiveVar } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
-import useStudentStatsDetail from "../../lib/hooks/useStudentStats";
+import { useStudentStatsDetail } from "../../lib/hooks/useStudentStats";
 import { ProblemDifficultyType } from "../../types/problems";
 import BaseLayout from "../common/BaseLayout";
-import SidebarLayout from "../common/SidebarLayout";
 import ConsistencyDiagramItem from "./ConsistencyDiagram";
 import ContestStatItem from "./ContestStatItem";
 import DashboardRankItem, { DashboardRankItemProps } from "./DashboardRankItem";
@@ -12,9 +11,8 @@ import DashboardStruggledItem from "./DashboardStruggledItem";
 import DashboardTopicItem, {
   DashboardTopicItemProps,
 } from "./DashboardTopicItem";
-import ProblemSolvedItem, { ProblemSolvedProps } from "./ProblemSolvedItem";
+import { ProblemSolvedProps } from "./ProblemSolvedItem";
 import RadialBar from "./RadialBar";
-import StatComponent from "./StatComponent";
 import TotalRadialBar from "./TotalRadialBar";
 import { StudentStats } from "../../types";
 
@@ -25,6 +23,7 @@ const StudentDashboard = (props: Props) => {
   const [loadStudentStats, { data, refetch }] = useStudentStatsDetail(
     authUser.id
   );
+
   const [studentStats, setStudentStats] = useState<StudentStats>({
     acceptanceRate: 0,
     allTimeRank: 1,
@@ -43,7 +42,7 @@ const StudentDashboard = (props: Props) => {
     if (authUser.id) {
       loadStudentStats({
         variables: {
-          studentId: authUser.id,
+          studentStatsId: authUser.id,
         },
       });
     }

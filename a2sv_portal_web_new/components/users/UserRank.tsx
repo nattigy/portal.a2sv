@@ -14,7 +14,7 @@ const UserRank = ({ selected }: UserRankProps) => {
 
   useEffect(() => {
     fetchUser();
-  }, [refetch, selected]);
+  }, [refetch, selected, fetchUser]);
 
   const rank: Array<RankItemProps> = [
     {

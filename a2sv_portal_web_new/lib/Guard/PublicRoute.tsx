@@ -15,7 +15,7 @@ const PublicRoute = ({ authUser, children }: Props) => {
     if (authUser) {
       router.replace("/dashboard");
     }
-  }, [authUser, authenticated, router.isReady]);
+  }, [authUser, authenticated, router]);
 
   return <div>{children}</div>;
 };

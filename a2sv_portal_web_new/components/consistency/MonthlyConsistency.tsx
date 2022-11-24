@@ -7,13 +7,17 @@ const getBgColorBySubmission = (value: number) => {
   if (value === 0) {
     return "rgba(89, 86, 233, 0.1)";
   } else if (value < 2) {
-    return "rgba(89, 86, 233, 0.2)";
-  } else if (value < 3) {
     return "rgba(89, 86, 233, 0.4)";
-  } else if (value < 5) {
-    return "rgba(89, 86, 233, 0.5)";
-  } else if (value < 10) {
+  } else if (value < 3) {
     return "rgba(89, 86, 233, 0.6)";
+  } else if (value < 5) {
+    return "rgba(89, 86, 233, 0.8)";
+  } else if (value < 7) {
+    return "rgba(89, 86, 233, 0.8)";
+  } else if (value < 8) {
+    return "rgba(89, 86, 233, 0.9)";
+  } else if (value < 10) {
+    return "rgba(89, 86, 233, 1)";
   } else if (value < 15) {
     return "rgba(89, 86, 233, 0.8)";
   } else {
@@ -47,19 +51,21 @@ export default function MonthlyConsistency(props: any) {
     >
       {monthData.map((day_data: any, index: number) => {
         if (day_data === null) {
-          return <Tooltip key={index} />;
+          if(index < 35){
+            return <Tooltip key={index} />;
+          }
         } else {
           return (
             <Tooltip
               key={index}
-              message={`${day_data.y} Submissions on ${format(
-                new Date(day_data.date),
+              message={`${day_data.solvedCount} Submissions on ${format(
+                new Date(day_data.createdAt),
                 "yyyy-MM-dd"
               )}`}
             >
               <div
                 style={{
-                  background: getBgColorBySubmission(day_data.y || 0),
+                  background: getBgColorBySubmission(day_data.solvedCount || 0),
                 }}
                 className="h-full w-full rounded-sm  bg-primary hover:bg-primary"
               ></div>

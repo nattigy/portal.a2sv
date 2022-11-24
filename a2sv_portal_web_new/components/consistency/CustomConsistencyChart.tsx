@@ -1,26 +1,8 @@
 import React from "react";
 import MonthlyConsistency from "./MonthlyConsistency";
-
-function generateData(count: number, yrange: any) {
-  let i = 0;
-  const data = Array.from(Array(7).fill([]));
-
-  while (i < count) {
-    let x = (i + 1).toString();
-    let y =
-      Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
-    const element = {
-      x: x,
-      y: y,
-      date: new Date(),
-    };
-    // data[i % 7] = [...data[i % 7], element]
-    i++;
-  }
-  return data.flat();
-}
-
-type Props = {};
+type Props = {
+  series: Array<any>;
+};
 
 const CustomConsistencyChart = (props: Props) => {
   const state = {
@@ -1004,13 +986,14 @@ const CustomConsistencyChart = (props: Props) => {
   };
 
   return (
-    <div className="w-full grid  grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-2 h-max items-center justify-center bg-[rgba(89, 86, 233, 0.05)] py-5 bg-primary/5">
-      {state.series.slice(0, 6).map((data, index) => {
+    <div className="w-full px-2 flex h-50 gap-x-2 overflow-x-scroll items-center bg-[rgba(89, 86, 233, 0.05)] py-5 bg-primary/5 no-scrollbar">
+      {props.series.map((data, index) => {
         return (
           <div
-            key={index}
-            className="flex gap-2 flex-col items-center borde-8 border-blue-700"
+            key={index + data}
+            className="flex gap-2 flex-col items-center border-blue-700"
           >
+            {/* <div className="border h-20 w-20"></div> */}
             <MonthlyConsistency data={data} />
             <h2 className="">{data.name}</h2>
           </div>

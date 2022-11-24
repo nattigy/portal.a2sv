@@ -20,7 +20,7 @@ export default function HOEAutocomplete({ handleSearchStudent, user }: Props) {
 
   useEffect(() => {
     loadUsers();
-  }, []);
+  }, [loadUsers]);
 
   useEffect(() => {
     if (data) {
@@ -32,11 +32,11 @@ export default function HOEAutocomplete({ handleSearchStudent, user }: Props) {
     query === ""
       ? usersData
       : usersData.filter((student: UserType) =>
-          student.email
-            .toLowerCase()
-            .replace(/\s+/g, "")
-            .includes(query.toLowerCase().replace(/\s+/g, ""))
-        );
+        student.email
+          .toLowerCase()
+          .replace(/\s+/g, "")
+          .includes(query.toLowerCase().replace(/\s+/g, ""))
+      );
   const handleSearchQuery = (event: any) => {
     setQuery(event.target.value.trim());
   };

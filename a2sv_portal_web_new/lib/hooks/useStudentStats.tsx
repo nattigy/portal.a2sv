@@ -1,14 +1,24 @@
 import { useLazyQuery, useQuery } from "@apollo/client";
-import { GET_SINGLE_STUDENT_STATS } from "../apollo/Queries/studentsQueries";
+import { GET_SINGLE_STUDENT_CONSISTENCY_DATA, GET_SINGLE_STUDENT_STATS } from "../apollo/Queries/studentsQueries";
 
-const useStudentStatsDetail = (studentId: string) => {
+export const useStudentStatsDetail = (studentId: string) => {
   return useLazyQuery(GET_SINGLE_STUDENT_STATS, {
     variables: {
-      studentId: studentId,
+      studentStatsId: studentId
     },
     errorPolicy: "all",
     notifyOnNetworkStatusChange: true,
   });
 };
 
-export default useStudentStatsDetail;
+export const useStudentConsistencyData = (studentId: string, endDate?: Date) => {
+  return useQuery(GET_SINGLE_STUDENT_CONSISTENCY_DATA, {
+    variables: {
+      userId: studentId,
+      endDate
+    },
+    errorPolicy: "all",
+    notifyOnNetworkStatusChange: true,
+  });
+}
+
