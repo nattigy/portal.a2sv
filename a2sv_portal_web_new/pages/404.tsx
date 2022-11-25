@@ -1,5 +1,7 @@
 import React from "react";
+import GroupComparisonChart from "../components/charts/GroupComparisonChart";
 import CustomLink from "../components/common/CustomLink";
+import { LoaderLogo } from "../components/common/Loaders";
 
 type Props = {};
 
@@ -8,6 +10,10 @@ const NotFoundPage = (props: Props) => {
     <div className="min-w-screen min-h-screen bg-blue-100 flex items-center p-5 lg:p-20 overflow-hidden relative">
       <div className="flex-1 min-h-full min-w-full rounded-3xl bg-white shadow-xl p-10 lg:p-20 text-gray-800 relative md:flex items-center text-center md:text-left">
         <div className="w-full md:w-1/2">
+          <div className="">
+            <LoaderLogo />
+          </div>
+
           <div className="mb-10 lg:mb-20"></div>
           <div className="mb-10 md:mb-20 text-gray-600 font-light">
             <h1 className="font-black uppercase text-3xl lg:text-5xl text-indigo-700 mb-10">

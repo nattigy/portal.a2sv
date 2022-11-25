@@ -1,5 +1,4 @@
 import React from "react";
-import { LoaderSmall } from "../common/Loaders";
 import MonthlyConsistency from "./MonthlyConsistency";
 type Props = {
   series: Array<any>;
