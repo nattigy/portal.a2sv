@@ -63,7 +63,6 @@ export class GroupContestService {
             groupContests: true,
             userContests: {
               where: {
-                contestId,
                 user: {
                   groupId
                 }
@@ -77,7 +76,7 @@ export class GroupContestService {
       },
     })
     const problemStats: ProblemsStat[] = []
-    //Number of students solved a problem {problemId: numberOfStudents}
+    //Number of students who solved a specific contest problem {problemId: numberOfStudents}
     const probSolved: { [key: string]: number } = {}
     //Number of problems solved by a student {studentId: numberOfProblems}
     const userProb: { [key: string]: number } = {}
@@ -94,10 +93,12 @@ export class GroupContestService {
       uc.userContestProblems.map(up => {
         if (up.status == UserContestProblemEnum.SOLVED_IN_CONTEST) {
           problemsSolved += 1
-          if (!userProb[up.userId]) probSolved[up.problemId] = 1
-          else probSolved[up.problemId] += 1
-          if (!userProb[up.userId]) userProb[up.userId] = 1
-          else userProb[up.userId] += 1
+          if(!probSolved[up.problemId]) probSolved[up.problemId] = 0
+          probSolved[up.problemId] += 1
+          // if (!userProb[up.userId]) probSolved[up.problemId] = 1
+          // else probSolved[up.problemId] += 1
+          // if (!userProb[up.userId]) userProb[up.userId] = 1
+          // else userProb[up.userId] += 1
         }
         wrongSubmissions += up.numberOfAttempts
       })
@@ -109,9 +110,12 @@ export class GroupContestService {
       else probsNum[value] += 1
     }
     for (const [key, value] of Object.entries(probSolved)) {
+      let num = 0
+      console.log(value, key)
+      if(value) num = value
       problemStats.push({
         // numberOfProblems: parseInt(key, 10),
-        numberOfStudents: value,
+        numberOfStudents: num,
         problemId: key,
         // problem: {}
         // problemsSolved: [],
