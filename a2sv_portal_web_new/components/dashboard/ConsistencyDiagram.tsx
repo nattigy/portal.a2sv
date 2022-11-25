@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import { useStudentConsistencyData } from "../../lib/hooks/useStudentStats";
+import { LoaderSmall } from "../common/Loaders";
 import CustomConsistencyChart from "../consistency/CustomConsistencyChart";
 
 export type ProblemSolvedProps = {};
@@ -219,9 +220,18 @@ const ConsistencyDiagramItem = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-row gap-x-3 items-end no-scrollbar">
-        {/* <ConsistencyDiagramItem /> */}
+      <div className="flex flex-row gap-x-3 items-end h-full">
+      {loading && (
+        <div className="flex items-center justify-center w-full">
+          <LoaderSmall/>
+
+        </div>
+      )}
+      {data && (
         <CustomConsistencyChart series={consistencyData.studentConsistencyData} />
+
+      )}
+        {/* <ConsistencyDiagramItem /> */}
       </div>
     </div>
   );

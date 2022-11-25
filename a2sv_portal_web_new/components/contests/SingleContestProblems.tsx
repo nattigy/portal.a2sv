@@ -9,57 +9,22 @@ import { ProblemDifficultyType, ProblemStatus } from "../../types/problems";
 import { DifficultyChips } from "../problems/DifficultyChips";
 import clsx from "clsx";
 import ContestDetailModal from "../modals/ContestDetailModal";
-
-export type ProblemSolvedProps = {};
-
-export type ContestProblemsInfo = {
-  id: number;
-  name: string;
-  difficulty: ProblemDifficultyType;
-  status: ProblemStatus;
-  time?: number;
-  tried: number;
-};
+import {
+  ContestDetail,
+  ContestProblem,
+  ContestProblemsInfo,
+} from "../../types/contest";
+import { authenticatedUser } from "../../lib/constants/authenticated";
+import { useReactiveVar } from "@apollo/client";
+import { getStatusColor, StatusChips } from "./StatusChips";
 
 type Props = {
-  problemSolvedProps: ProblemSolvedProps;
+  contestProblems: ContestProblem[];
 };
 
-const SingleContestProblems = (props: Props) => {
-  const problems: Array<ContestProblemsInfo> = [
-    {
-      id: 1,
-      name: "Min Cost Climbing Stairs",
-      difficulty: ProblemDifficultyType.EASY,
-      status: ProblemStatus.SOLVED,
-      time: 23,
-      tried: 2,
-    },
-    {
-      id: 2,
-      name: "Min Cost Falling Stairs",
-      difficulty: ProblemDifficultyType.MEDIUM,
-      status: ProblemStatus.SOLVED,
-      time: 35,
-      tried: 2,
-    },
-    {
-      id: 3,
-      name: "Min Cost Tripping Stairs",
-      difficulty: ProblemDifficultyType.HARD,
-      status: ProblemStatus.SOLVED,
-      time: 42,
-      tried: 2,
-    },
-    {
-      id: 4,
-      name: "Max Cost Tripping Stairs",
-      difficulty: ProblemDifficultyType.HARD,
-      status: ProblemStatus.SOLVED,
-      tried: 2,
-    },
-  ];
-
+const SingleContestProblems = ({ contestProblems }: Props) => {
+  const authUser = useReactiveVar(authenticatedUser);
+  const [selected, setSelected] = useState<ContestProblem>(contestProblems[0]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleModalOpen = () => {
@@ -69,7 +34,11 @@ const SingleContestProblems = (props: Props) => {
   return (
     <>
       {isModalOpen && (
-        <ContestDetailModal onClose={() => setIsModalOpen(false)} />
+        <ContestDetailModal
+          userId={(authUser as any).id}
+          contestProblemData={selected}
+          onClose={() => setIsModalOpen(false)}
+        />
       )}
       <div className="w-full flex flex-col justify-between bg-white rounded-md overflow-x-auto">
         <div className="flex justify-between">
@@ -97,47 +66,56 @@ const SingleContestProblems = (props: Props) => {
                     <div className="text-[#979797]">Time</div>
                   </th>
                   <th scope="col" className="py-3 px-6">
-                    <div className="text-[#979797]">Tried</div>
-                  </th>
-                  <th scope="col" className="py-3 px-6">
                     <div className="text-[#979797]"></div>
                   </th>
                 </tr>
               </thead>
               <tbody className="font-semibold">
-                {problems ? (
-                  problems.map(
-                    (problem: ContestProblemsInfo, index: number) => {
+                {contestProblems ? (
+                  contestProblems.map(
+                    (contestProblem: ContestProblem, index: number) => {
                       return (
                         <tr
                           className={clsx(
                             "text-[#565656] hover:bg-gray-50 dark:hover:bg-[#E2E2E2]",
                             index % 2 == 0 ? "bg-[#5956E914]" : "bg-white"
                           )}
-                          key={problem.id}
+                          key={index}
                         >
                           <td
                             scope="row"
                             className="py-4 px-6 whitespace-nowrap "
                           >
-                            <CustomLink href="#">{problem.name}</CustomLink>
+                            <h2>{contestProblem.problem.title}</h2>
+                            {/* <CustomLink href="">{problem.name}</CustomLink> */}
                           </td>
                           <td className="py-4 px-6">
-                            <DifficultyChips status={problem.difficulty} />
+                            <DifficultyChips
+                              status={contestProblem.problem.difficulty}
+                            />
                           </td>
-                          <td className="py-4 px-6">{problem.status}</td>
                           <td className="py-4 px-6">
-                            {problem.time ? problem.time : "-||-"}
+                            <div className="w-full">
+                              <StatusChips status={contestProblem.status} />
+                            </div>
                           </td>
-                          <td className="py-4 px-6">{problem.tried}</td>
-
+                          <td className="py-4 px-6">
+                            {contestProblem.numberOfMinutes
+                              ? contestProblem.numberOfMinutes
+                              : "-||-"}
+                          </td>
                           <td className="py-4 px-6">
                             <a
                               href="#"
                               className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                             >
                               <div className="pl-4">
-                                <MdContentPaste onClick={handleModalOpen} />
+                                <MdContentPaste
+                                  onClick={() => {
+                                    handleModalOpen();
+                                    setSelected(contestProblem);
+                                  }}
+                                />
                               </div>
                             </a>
                           </td>
@@ -147,6 +125,7 @@ const SingleContestProblems = (props: Props) => {
                   )
                 ) : (
                   <h5>Problems Not Found</h5>
+                  // <h5>{JSON.stringify(contestProblems)}</h5>
                 )}
               </tbody>
             </table>

@@ -182,6 +182,5 @@ export function useApollo(pageProps: any) {
     () => initializeApollo({ initialState: state }),
     [state]
   );
-  console.log("store is ", state);
   return store;
 }

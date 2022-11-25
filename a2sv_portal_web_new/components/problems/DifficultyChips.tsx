@@ -7,21 +7,21 @@ type Props = {
 
 export const DifficultyChips = ({ status }: Props) => {
   return (
-    <span
+    <div
       className={clsx(
-        "py-1 px-5 capitalize leading-wide font-bold text-xs rounded-full shadow-sm",
+        " w-20 text-center capitalize leading-wide font-bold text-xs rounded-full shadow-sm",
         status === ProblemDifficultyType.HARD
-          ? "bg-[#D72B2B1C] p-2 text-[#D72B2B]"
+          ? "bg-[#D72B2B1C] p-1 text-[#D72B2B]"
           : "",
         status === ProblemDifficultyType.MEDIUM
-          ? "bg-[#FBC4003D] p-2 text-[#FBC400]"
+          ? "bg-[#FBC4003D] p-1 text-[#FBC400]"
           : "",
         status === ProblemDifficultyType.EASY
-          ? "bg-[#5CB85C30] p-2 text-[#5CB85C]"
+          ? "bg-[#5CB85C30] p-1 text-[#5CB85C]"
           : ""
       )}
     >
       {status}
-    </span>
+    </div>
   );
 };

@@ -8,6 +8,13 @@ export const CREATE_CONTEST_MUTATION = gql`
   }
 `;
 
+export const UPDATE_USER_CONTEST_PROBLEM = gql`
+mutation UpdateUserContestProblem($updateUserContestProblemInput: UpdateUserContestProblemInput!) {
+  updateUserContestProblem(updateUserContestProblemInput: $updateUserContestProblemInput) {
+    contestId
+  }
+}`
+
 export const EDIT_GROUP_CONTEST_MUTATION = gql`
   mutation UpdateContest($updateContestInput: UpdateContestInput!) {
     updateContest(updateContestInput: $updateContestInput) {

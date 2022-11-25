@@ -8,6 +8,7 @@ type Props = {
   value: string;
   valueName: string;
   className: string;
+  checked?: boolean;
 };
 
 const FormRadio = (props: Props) => {

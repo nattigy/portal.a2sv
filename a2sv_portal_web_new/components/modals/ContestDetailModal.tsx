@@ -1,37 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
 import clsx from "clsx";
 import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormRejectButton from "../common/FormRejectButton";
+import FormRadio from "../common/FormRadio";
+import { UPDATE_USER_CONTEST_PROBLEM } from "../../lib/apollo/Mutations/contestMutations";
+import { ApolloError, useMutation } from "@apollo/client";
+import { ContestProblem, ContestStatus } from "../../types/contest";
 
 export enum QuestionStatus {
-  SOLVED = "SOLVED",
+  SOLVED_IN = "SOLVED_IN",
+  SOLVED_AFTER = "SOLVED_AFTER",
   NOT_SOLVED = "NOT_SOLVED",
   UNABLE_TO_SOLVE = "UNABLE_TO_SOLVE",
 }
 
 interface FormValues {
-  status: QuestionStatus;
-  time_spent: number;
-  wrong_submissions: number;
+  status: ContestStatus;
+  numberOfMinutes: number;
+  numberOfAttempts: number;
 }
 
 type Props = {
+  userId: string;
+  contestProblemData: ContestProblem;
   onClose: () => void;
 };
-const ContestDetailModal = (props: Props) => {
-  const INITIAL_VALUES = {
-    // status: QuestionStatus.NOT_SOLVED,
-    // time_spent: 0,
-    // total_attempts: 0,
-    // wrong_submissions: 0
-  } as FormValues;
+const ContestDetailModal = ({userId, contestProblemData, onClose}: Props) => {
+  const [updateContestProblem, { error }] = useMutation(
+    UPDATE_USER_CONTEST_PROBLEM
+  );
+
+  const INITIAL_VALUES: FormValues = {
+    status: contestProblemData.status || ContestStatus.NOT_SOLVED,
+    numberOfMinutes: contestProblemData.numberOfMinutes || 0,
+    numberOfAttempts: contestProblemData.numberOfAttempts || 0,
+  };
 
   const FORM_VALIDATION = yup.object().shape({
     status: yup.string().required("Required"),
-    time_spent: yup.number().min(0).required("Required"),
-    wrong_submissions: yup.number().min(0).required("Required"),
+    numberOfMinutes: yup.number().min(0).required("Required"),
+    numberOfAttempts: yup.number().min(0).required("Required"),
   });
 
   return (
@@ -40,7 +50,29 @@ const ContestDetailModal = (props: Props) => {
         <Formik
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
-          onSubmit={() => {}}
+          onSubmit={async (values, actions) => {
+            await updateContestProblem({
+              variables: {
+                updateUserContestProblemInput: {
+                  contestId: contestProblemData.contestId,
+                  numberOfAttempts: values.numberOfAttempts,
+                  problemId: contestProblemData.problem.id,
+                  numberOfMinutes: values.numberOfMinutes,
+                  status: values.status,
+                  userId: userId,
+                },
+              },
+              refetchQueries: "active",
+              notifyOnNetworkStatusChange: true,
+              onCompleted: (data) => {
+                onClose();
+              },
+              onError: (error) => {
+                // setErrorMessage((error as ApolloError).message);
+              },
+            });
+            actions.resetForm();
+          }}
         >
           {({ isSubmitting, errors, touched }) => (
             <Form>
@@ -50,10 +82,10 @@ const ContestDetailModal = (props: Props) => {
               >
                 <div className="w-full flex flex-col items-center">
                   <div className="my-3 w-full flex justify-between items-center">
-                    <h2 className="font-bold">Contest Problem Details</h2>
+                    <h2 className="font-bold">Problem Name</h2>
                     <div
                       className="cursor-pointer"
-                      onClick={() => props.onClose()}
+                      onClick={() => onClose()}
                     >
                       <svg
                         className="font-bold text-gray-600"
@@ -91,78 +123,79 @@ const ContestDetailModal = (props: Props) => {
                       <p className="text-lg font-semibold ">Status </p>
                     </div>
                     <div className="flex flex-col justify-start gap-y-4">
-                      <div className="flex items-center">
-                        <div className="bg-white dark:bg-gray-100 rounded-full w-5 h-5 flex flex-shrink-0 justify-center items-center relative">
-                          <Field
-                            id="solved"
-                            type="radio"
-                            value={QuestionStatus.SOLVED}
-                            name="problem-status"
-                            className="peer checkbox appearance-none focus:outline-none rounded-full border-2 border-green-700 checked:border-indigo-700 absolute cursor-pointer w-full h-full"
-                          />
-                          <div className="check-icon border-4 peer-checked:bg-indigo-700 rounded-full w-full h-full z-1" />
-                        </div>
-                        <label
-                          htmlFor="solved"
-                          className="ml-2 text-sm leading-4 font-normal text-gray-800"
-                        >
-                          Solved
-                        </label>
-                      </div>
-                      <div className="flex items-center">
-                        <div className="bg-white dark:bg-gray-100 rounded-full w-5 h-5 flex flex-shrink-0 justify-center items-center relative">
-                          <Field
-                            id="unable-to-solve"
-                            type="radio"
-                            value={QuestionStatus.UNABLE_TO_SOLVE}
-                            name="problem-status"
-                            className="peer checkbox appearance-none focus:outline-none rounded-full border-2  border-red-700 checked:border-indigo-700 absolute cursor-pointer w-full h-full"
-                          />
-                          <div className="check-icon border-4 peer-checked:bg-indigo-700 rounded-full w-full h-full z-1" />
-                        </div>
-                        <label
-                          htmlFor="unable-to-solve"
-                          className="ml-2 text-sm leading-4 font-normal text-gray-800"
-                        >
-                          Unable to solve
-                        </label>
-                      </div>
+                      <FormRadio
+                        id="solved_in"
+                        className="accent-green-700 focus:accent-green-700"
+                        value={ContestStatus.SOLVED_IN_CONTEST}
+                        // checked={QuestionStatus.SOLVED_IN == }
+                        name="status"
+                        valueName="Solved In"
+                      />
+                      <FormRadio
+                        id="solved_after"
+                        className="accent-primary focus:accent-primary"
+                        value={ContestStatus.SOLVED_AFTER_CONTEST}
+                        name="status"
+                        valueName="Solved After"
+                      />
+                      <FormRadio
+                        id="unable_to_solve"
+                        className="accent-red-700 focus:accent-red-700"
+                        value={ContestStatus.UNABLE_TO_SOLVE}
+                        name="status"
+                        valueName="Unable to Solve"
+                      />
+                      <FormRadio
+                        id="not_solved"
+                        className="accent-gray-700 focus:accent-gray-700"
+                        value={ContestStatus.NOT_SOLVED}
+                        name="status"
+                        valueName="Not Solved"
+                        checked={true}
+                      />
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
                     <p className="text-sm font-semibold ">Time spent </p>
                     <Field
-                      name="time_spent"
+                      name="numberOfMinutes"
                       type="number"
                       min={0}
                       placeholder="in minutes"
                       className={clsx(
                         "border-2 w-24 rounded-md px-2 py-1 text-sm ",
-                        touched.time_spent && errors.time_spent
+                        touched.numberOfMinutes && errors.numberOfMinutes
                           ? "border-red-500"
                           : ""
                       )}
                     />
                   </div>
                   <div className="flex justify-between items-center">
-                    <p className="text-sm font-semibold ">Wrong submissions </p>
+                    <p className="text-sm font-semibold ">Number of Attempts </p>
                     <Field
-                      name="wrong_submissions"
+                      name="numberOfAttempts"
                       type="number"
                       min={0}
-                      placeholder="in minutes"
+                      // placeholder="in minutes"
                       className={clsx(
                         "border-2 w-24 rounded-md px-2 py-1 text-sm ",
-                        touched.wrong_submissions && errors.wrong_submissions
+                        touched.numberOfAttempts && errors.numberOfAttempts
                           ? "border-red-500"
                           : ""
                       )}
                     />
                   </div>
+                  {error && (
+                    <div className="bg-[#E4646451] py-1 rounded-md">
+                      <span className="text-[#E46464] px-4 text-xs">
+                        Unable to update your contest status!
+                      </span>
+                    </div>
+                  )}
                   <div className="flex justify-end items-center gap-x-3">
                     <FormRejectButton
                       text="Cancel"
-                      onClick={() => props.onClose()}
+                      onClick={() => onClose()}
                     />
                     <FormAffirmativeButton
                       isLoading={isSubmitting}
