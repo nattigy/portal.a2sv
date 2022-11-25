@@ -94,7 +94,7 @@ const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
     }
   }, [refetch, user]);
 
-  if (loading || !router.isReady) {
+  if (loading) {
     return (
       <div className="min-h-screen min-w-full flex justify-center items-center">
         <LoaderLarge />

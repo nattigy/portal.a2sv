@@ -20,6 +20,16 @@ module.exports = {
       colors: {
         primary: "#5956E9",
       },
+      animation: {
+        opacity_anim: "opacity_anim linear 2s infinite",
+      },
+      keyframes: {
+        opacity_anim: {
+          "0%": { opacity: "0" },
+          "50%": { opacity: "0.5" },
+          "100%": { opacity: "100%" },
+        },
+      },
     },
   },
   plugins: [],

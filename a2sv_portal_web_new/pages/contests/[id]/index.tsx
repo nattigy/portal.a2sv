@@ -1,6 +1,7 @@
 import { useReactiveVar } from "@apollo/client";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import GroupComparisonChart from "../../../components/charts/GroupComparisonChart";
 import BaseLayout from "../../../components/common/BaseLayout";
 import { LoaderSmall } from "../../../components/common/Loaders";
 import Leaderboard, {
@@ -213,7 +214,7 @@ const IndexPage = () => {
         >
           <>
             <div className="flex items-center gap-x-4">
-              <h1 className="font-bold text-2xl">{groupContest?.contest.name}</h1>
+              <h1 className="font-bold text-2xl">{groupContest?.contest?.name}</h1>
               {/* <span className="bg-white px-2 text-xs text-primary">
                 Div {div}
               </span> */}
@@ -230,7 +231,38 @@ const IndexPage = () => {
                 wrong: 3,
               }}
             />
-            {/* <SingleContestProblems problemSolvedProps /> */}
+            <div className="no-scrollbar w-full h-full flex flex-col  justify-between bg-white rounded-md p-6">
+              <div className="flex flex-col">
+                <h1 className="font-semibold">Group Comparsion</h1>
+              </div>
+              <div className="flex flex-row gap-x-3 items-end h-full">
+                {loading && (
+                  <div className="flex items-center justify-center w-full">
+                    <LoaderSmall />
+                  </div>
+                )}
+                <div className="w-full h-full">
+                  {/* {data && ( */}
+                  <GroupComparisonChart />
+                  {/* )} */}
+                </div>
+                {/* <ConsistencyDiagramItem /> */}
+              </div>
+            </div>
+            <div className="no-scrollbar w-full h-full flex flex-col  justify-between bg-white rounded-md p-6">
+              <div className="flex flex-col">
+                <h1 className="font-semibold">Problem Set</h1>
+              </div>
+              <div className="flex flex-row gap-x-3 items-end h-full">
+                {loading && (
+                  <div className="flex items-center justify-center w-full">
+                    <LoaderSmall />
+                  </div>
+                )}
+
+                {/* <SingleContestProblems problemSolvedProps={} /> */}
+              </div>
+            </div>
           </>
         </WithPermission>
         <WithPermission allowedRoles={[GraphqlUserRole.STUDENT]}>
@@ -248,7 +280,7 @@ const IndexPage = () => {
                     {userContest.contest?.name}
                   </h1>
                   <span className="bg-white px-2 text-xs text-primary">
-                    Div {userContest.contest?.div}
+                    Div {userContest?.contest?.div}
                   </span>
                 </div>
                 <SingleContestStat
