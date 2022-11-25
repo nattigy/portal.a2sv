@@ -5,7 +5,7 @@ import { PrismaService } from '../prisma/prisma.service'
 import { UserContestProblemEnum } from '../user-contest-problem/entities/user-contest-problem-status.enum'
 import { FilterGroupContestInput } from './dto/filter-group-contest.input'
 import { GroupContestId, UpdateGroupContestInput } from './dto/update-group-contest.input'
-import { GroupContest, ProblemsStat } from './entities/group-contest.entity'
+import { GroupContest, GroupContestStat, ProblemsStat } from './entities/group-contest.entity'
 import { UserContestService } from '../user-contest/user-contest.service'
 
 @Injectable()
@@ -47,7 +47,7 @@ export class GroupContestService {
     }
   }
 
-  async findOne({ groupId, contestId }: GroupContestId): Promise<GroupContest> {
+  async findOne({ groupId, contestId }: GroupContestId): Promise<GroupContestStat> {
     const groupContest = await this.prismaService.groupContest.findUnique({
       where: {
         groupId_contestId: {
@@ -62,6 +62,12 @@ export class GroupContestService {
             problems: true,
             groupContests: true,
             userContests: {
+              where: {
+                contestId,
+                user: {
+                  groupId
+                }
+              },
               include: {
                 userContestProblems: true,
               },
@@ -102,16 +108,21 @@ export class GroupContestService {
       if (!probsNum[value]) probsNum[value] = 1
       else probsNum[value] += 1
     }
-    for (const [key, value] of Object.entries(probsNum)) {
+    for (const [key, value] of Object.entries(probSolved)) {
       problemStats.push({
-        numberOfProblems: parseInt(key, 10),
+        // numberOfProblems: parseInt(key, 10),
         numberOfStudents: value,
-        problems: [],
+        problemId: key,
+        // problem: {}
+        // problemsSolved: [],
       })
     }
     groupContest.contestAttendance = groupContest.contest.userContests.length
     // groupContest.problemsStat = problemStats
-    return groupContest
+    return {
+      ...groupContest,
+      problemsStat: problemStats
+    }
   }
 
   async update({

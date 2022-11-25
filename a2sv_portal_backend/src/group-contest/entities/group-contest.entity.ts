@@ -15,8 +15,8 @@ export class GroupContest {
   group?: Group
   @Field(() => Int, { nullable: true })
   contestAttendance?: number
-  @Field(() => [ProblemsStat], { nullable: true })
-  problemsStat?: ProblemsStat[]
+  // @Field(() => [ProblemsStat], { nullable: true })
+  // problemsStat?: ProblemsStat[]
   @Field({ nullable: true })
   createdAt?: Date
   @Field({ nullable: true })
@@ -24,19 +24,29 @@ export class GroupContest {
 }
 
 @ObjectType()
-export class ProblemsStat {
-  @Field(() => Int)
-  numberOfProblems: number
-  @Field(() => Int)
-  numberOfStudents: number
-  @Field(() => [ProblemsSolved])
-  problems: ProblemsSolved[]
+export class GroupContestStat extends GroupContest{
+  @Field(() => [ProblemsStat], { nullable: true })
+  problemsStat?: ProblemsStat[]
 }
 
 @ObjectType()
-export class ProblemsSolved {
+export class ProblemsStat {
+  @Field(() => Problem, {nullable: true})
+  problem?: Problem
+  @Field({nullable: true})
+  problemId?: string
+  // @Field(() => Int)
+  // numberOfProblems: number
   @Field(() => Int)
-  number: number
-  @Field(() => Problem)
-  problem: Problem
+  numberOfStudents: number
+  // @Field(() => [ProblemsSolved])
+  // problemsSolved: ProblemsSolved[]
 }
+
+// @ObjectType()
+// export class ProblemsSolved {
+//   @Field(() => Int)
+//   number: number
+//   @Field(() => Problem)
+//   problem: Problem
+// }

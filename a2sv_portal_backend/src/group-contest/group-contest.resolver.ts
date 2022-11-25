@@ -3,7 +3,7 @@ import { PaginationGroupContests } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { FilterGroupContestInput } from './dto/filter-group-contest.input'
 import { GroupContestId, UpdateGroupContestInput } from './dto/update-group-contest.input'
-import { GroupContest } from './entities/group-contest.entity'
+import { GroupContest, GroupContestStat } from './entities/group-contest.entity'
 import { GroupContestService } from './group-contest.service'
 
 @Resolver(() => GroupContest)
@@ -35,10 +35,10 @@ export class GroupContestResolver {
   //   return this.groupContestService.contestLeaderboard(contestId, groupId)
   // }
 
-  @Query(() => GroupContest)
+  @Query(() => GroupContestStat)
   async groupContest(
     @Args('groupContestId') groupContestId: GroupContestId,
-  ): Promise<GroupContest> {
+  ): Promise<GroupContestStat> {
     return this.groupContestService.findOne(groupContestId)
   }
 
