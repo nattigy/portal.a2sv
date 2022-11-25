@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
-import { TopicService } from './topic.service'
 import { TopicResolver } from './topic.resolver'
+import { TopicService } from './topic.service'
 
 @Module({
   providers: [TopicService, TopicResolver],

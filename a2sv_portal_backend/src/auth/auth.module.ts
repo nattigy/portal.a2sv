@@ -1,13 +1,16 @@
-import { Module } from '@nestjs/common'
-import { AuthService } from './auth.service'
-import { UserModule } from '../user/user.module'
-import { AuthResolver } from './auth.resolver'
-import { PassportModule } from '@nestjs/passport'
+import { Global, Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
+import { PassportModule } from '@nestjs/passport'
+import { PoliciesGuard } from '../casl/policy/policy.guard'
+import { UserModule } from '../user/user.module'
 import { jwtConstants } from './auth.constants'
-import { LocalStrategy } from './strategies/local.strategy'
+import { AuthResolver } from './auth.resolver'
+import { AuthService } from './auth.service'
+import { JwtAuthGuard } from './guards/jwt-auth-guard.service'
 import { JwtStrategy } from './strategies/jwt.strategy'
+import { LocalStrategy } from './strategies/local.strategy'
 
+@Global()
 @Module({
   imports: [
     UserModule,
@@ -17,6 +20,19 @@ import { JwtStrategy } from './strategies/jwt.strategy'
       signOptions: { expiresIn: jwtConstants.expiresIn },
     }),
   ],
-  providers: [AuthService, LocalStrategy, AuthResolver, JwtStrategy],
+  providers: [
+    LocalStrategy,
+    JwtStrategy,
+    AuthResolver,
+    AuthService,
+    {
+      provide: 'APP_GUARD',
+      useClass: JwtAuthGuard,
+    },
+    {
+      provide: 'APP_GUARD',
+      useClass: PoliciesGuard,
+    },
+  ],
 })
 export class AuthModule {}

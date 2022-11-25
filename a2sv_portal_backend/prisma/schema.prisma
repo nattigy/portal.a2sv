@@ -4,31 +4,134 @@ generator client {
 
 datasource db {
   provider          = "postgresql"
+//    url               = env("LOCAL_DB_URL")
   url               = env("DB_URL")
   shadowDatabaseUrl = env("SHADOW_DB_URL")
 }
 
 model Group {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
-  name      String
-  country   String?
-  school    String?
+  id            String         @id @default(uuid())
+  createdAt     DateTime?      @default(now())
+  updatedAt     DateTime?      @updatedAt
+  name          String
+  country       String         @default("ETHIOPIA")
+  school        String?
+  users         User[]
+  groupContests GroupContest[]
+  seasons       Season[]
+  headId        String?        @unique
+  head          User?          @relation("GroupHead", fields: [headId], references: [id])
+  //  ProblemsStat  ProblemsStat[]
+}
+
+model GroupContest {
+  groupId           String
+  contestId         String
+  contest           Contest @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  group             Group   @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  contestAttendance Int     @default(0)
+  //  problemsStat      ProblemsStat[]
+
+  @@id([groupId, contestId])
+}
+
+//model ProblemsStat {
+//  id                    String        @id @default(uuid())
+//  group                 Group         @relation(fields: [groupId], references: [id], onDelete: Cascade)
+//  groupId               String
+//  problem               Problem?      @relation(fields: [problemId], references: [id])
+//  //  numberOfProblems      Int
+//  numberOfStudents      Int
+//  //  problemsSolved        ProblemsSolved[]
+//  GroupContest          GroupContest? @relation(fields: [groupContestGroupId, groupContestContestId], references: [groupId, contestId])
+//  groupContestGroupId   String?
+//  groupContestContestId String?
+//  problemId             String?
+//}
+
+//model ProblemsSolved {
+//  id             String       @id @default(uuid())
+//  problemsStatId String
+//  problemsStat   ProblemsStat @relation(fields: [problemsStatId], references: [id], onDelete: Cascade)
+//  number         Int
+//  problem        Problem      @relation(fields: [problemId], references: [id])
+//  problemId      String
+//}
+
+model UserContest {
+  contestId           String
+  contest             Contest              @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  userContestProblems UserContestProblem[]
+  userId              String
+  problemsSolved      Int                  @default(0)
+  wrongSubmissions    Int                  @default(0)
+  rank                Int                  @default(0)
+  timeSpent           Int                  @default(0)
+  contestAttended     Boolean              @default(false)
+  user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, contestId])
+}
+
+model UserContestProblem {
+  userId               String
+  contestId            String
+  problemId            String
+  problem              Problem                  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  status               UserContestProblemStatus @default(NOT_SOLVED)
+  numberOfAttempts     Int
+  numberOfMinutes      Int
+  userContest          UserContest?             @relation(fields: [userId, contestId], references: [userId, contestId], onDelete: Cascade)
+  contest              Contest?                 @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  user                 User?                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userContestUserId    String?
+  userContestContestId String?
+
+  @@id([userId, contestId, problemId])
+}
+
+model Contest {
+  id                  String               @id @default(uuid())
+  name                String
+  link                String
+  div                 String?
+  startTime           DateTime
+  endTime             DateTime
+  problems            Problem[]
+  groupContests       GroupContest[]
+  userContests        UserContest[]
+  userContestProblems UserContestProblem[]
+}
+
+enum SeasonType {
+  CAMP
+  EDUCATION
+  PROJECT
+}
+
+enum UserContestProblemStatus {
+  SOLVED_IN_CONTEST
+  SOLVED_AFTER_CONTEST
+  NOT_SOLVED
+  UNABLE_TO_SOLVE
 }
 
 model Season {
-  id        Int       @id @default(autoincrement())
-  name      String
-  startDate DateTime  @default(now())
-  endDate   DateTime  @default(now())
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
-  Topic     Topic?
+  id         String        @id @default(uuid())
+  name       String
+  seasonType SeasonType    @default(EDUCATION)
+  startDate  DateTime      @default(now())
+  endDate    DateTime      @default(now())
+  createdAt  DateTime?     @default(now())
+  updatedAt  DateTime?     @updatedAt
+  topics     SeasonTopic[]
+  group      Group         @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId    String
+  isActive   Boolean       @default(false)
 }
 
 model Permission {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   action      String
   description String?
   createdAt   DateTime? @default(now())
@@ -36,45 +139,192 @@ model Permission {
 }
 
 model Role {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   name        String
   description String?
   createdAt   DateTime? @default(now())
   updatedAt   DateTime?
-  users       User[]
 }
 
 model User {
-  id          Int          @id @default(autoincrement())
-  role        Role         @relation(fields: [roleId], references: [id])
-  roleId      Int
-  email       String       @unique
-  password    String
-  userprofile UserProfile?
-  status      Status
-  createdAt   DateTime?    @default(now())
-  updatedAt   DateTime?
+  id                  String                   @id @default(uuid())
+  role                RoleEnum
+  email               String                   @unique
+  password            String
+  userProfile         UserProfile?
+  status              Status
+  group               Group?                   @relation(fields: [groupId], references: [id])
+  groupId             String?
+  createdAt           DateTime?                @default(now())
+  updatedAt           DateTime?
+  seasonTopicProblems SeasonTopicProblemUser[]
+  headToGroup         Group?                   @relation("GroupHead")
+  topics              UserTopic[]
+  userContest         UserContest[]
+  userContestProblem  UserContestProblem[]
+  problems            Problem[]
+  UserProblem         UserProblem[]
+
+  UserAnalytics UserAnalytics[]
+}
+
+enum ComfortLevel {
+  COMFORTABLE
+  UNCOMFORTABLE
+  MEDIOCRE
+}
+
+model UserTopic {
+  userId       String
+  topicId      String
+  comfortLevel ComfortLevel @default(UNCOMFORTABLE)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  topic        Topic        @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@id([userId, topicId])
 }
 
 model UserProfile {
-  id        Int       @id @default(autoincrement())
-  user      User      @relation(fields: [user_id], references: [id])
-  user_id   Int       @unique
-  createdAt DateTime? @default(now())
-  updatedAt DateTime?
+  id              String    @id @default(uuid())
+  userId          String    @unique
+  firstName       String?
+  lastName        String?
+  photoUrl        String?
+  phone           String?
+  birthDate       DateTime?
+  resumeLink      String?
+  github          String?
+  linkedin        String?
+  twitter         String?
+  facebook        String?
+  instagram       String?
+  leetcode        String?
+  codeforces      String?
+  hackerrank      String?
+  geekforgeeks    String?
+  educationPlace  String?
+  educationYear   Int?
+  educationDegree String?
+  educationField  String?
+  graduationYear  Int?
+  tshirtSize      String?
+  website         String?
+  bio             String?
+  createdAt       DateTime? @default(now())
+  updatedAt       DateTime? @updatedAt
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Topic {
-  id          Int       @id @default(autoincrement())
-  seasonId    Int       @unique
+  id          String        @id @default(uuid())
   name        String
-  description String?
-  createdAt   DateTime? @default(now())
-  updatedAt   DateTime?
-  Season      Season?   @relation(fields: [seasonId], references: [id])
+  description String
+  createdAt   DateTime?     @default(now())
+  updatedAt   DateTime?     @updatedAt
+  users       UserTopic[]
+  seasons     SeasonTopic[]
 }
 
 enum Status {
   ACTIVE
   INACTIVE
+}
+
+model Problem {
+  id                  String               @id @default(uuid())
+  title               String
+  platform            String
+  link                String
+  difficulty          String
+  tags                Tag[]
+  createdAt           DateTime?            @default(now())
+  updatedAt           DateTime?            @updatedAt
+  seasonTopics        SeasonTopicProblem[]
+  contests            Contest[]
+  users               User[]
+  userContestProblems UserContestProblem[]
+  UserProblem         UserProblem[]
+  //  ProblemsSolved      ProblemsSolved[]
+  //  ProblemsStat        ProblemsStat[]
+}
+
+model Tag {
+  id       String    @id @default(uuid())
+  name     String    @unique
+  problems Problem[]
+}
+
+enum RoleEnum {
+  STUDENT
+  HEAD_OF_EDUCATION
+  HEAD_OF_ACADEMY
+  ASSISTANT
+  ADMIN
+}
+
+model SeasonTopic {
+  topicId   String
+  seasonId  String
+  createdAt DateTime?            @default(now())
+  updatedAt DateTime?            @updatedAt
+  topic     Topic?               @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  season    Season?              @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+  problems  SeasonTopicProblem[]
+
+  @@id([seasonId, topicId])
+  @@unique([topicId, seasonId])
+}
+
+model SeasonTopicProblem {
+  problemId   String
+  topicId     String
+  seasonId    String
+  createdAt   DateTime                 @default(now())
+  updatedAt   DateTime                 @updatedAt
+  seasonTopic SeasonTopic              @relation(fields: [topicId, seasonId], references: [topicId, seasonId], onDelete: Cascade)
+  problem     Problem                  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  users       SeasonTopicProblemUser[]
+
+  @@id([seasonId, topicId, problemId])
+}
+
+model SeasonTopicProblemUser {
+  problemId          String
+  topicId            String
+  userId             String
+  seasonId           String
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  seasonTopicProblem SeasonTopicProblem @relation(fields: [topicId, problemId, seasonId], references: [topicId, problemId, seasonId], onDelete: Cascade)
+  user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  solved             Boolean            @default(false)
+  solutionLink       String?
+  attempts           Int                @default(0)
+  timeDedicated      Int                @default(0)
+  needHelp           Boolean            @default(false)
+
+  @@id([seasonId, topicId, problemId, userId])
+}
+
+model UserProblem {
+  problemId String
+  problem   Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  solved    Boolean  @default(false)
+
+  @@id([problemId, userId])
+}
+
+model UserAnalytics {
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now()) @db.Date
+  updatedAt   DateTime @updatedAt @db.Date
+  solvedCount Int      @default(0)
+  wrongCount  Int      @default(0)
+
+  @@id([userId, createdAt])
 }

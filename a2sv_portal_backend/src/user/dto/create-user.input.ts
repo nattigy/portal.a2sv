@@ -1,12 +1,22 @@
-import { InputType, Int, Field, registerEnumType } from '@nestjs/graphql'
-import { Status } from '@prisma/client'
+import { Field, InputType, registerEnumType } from '@nestjs/graphql'
+import { RoleEnum, Status } from '@prisma/client'
+
 @InputType()
 export class CreateUserInput {
-  @Field({})
+  @Field()
   email: string
 
-  @Field({})
+  @Field()
   password: string
+
+  @Field(() => RoleEnum, { defaultValue: RoleEnum.STUDENT })
+  role: RoleEnum
+
+  @Field({ nullable: true })
+  groupId?: string
+
+  @Field(() => Status, { nullable: true, defaultValue: 'ACTIVE' })
+  status?: Status
 }
 
 registerEnumType(Status, {

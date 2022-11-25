@@ -1,8 +1,8 @@
-import { PrismaService } from 'src/prisma/prisma.service'
+import { Injectable } from '@nestjs/common'
+import { Role } from '@prisma/client'
+import { PrismaService } from '../prisma/prisma.service'
 import { CreateRoleInput } from './dto/create-role.dto'
 import { UpdateRoleInput } from './dto/update-role.dto'
-import { Role } from '@prisma/client'
-import { Injectable } from '@nestjs/common'
 
 @Injectable()
 export class RolesService {
@@ -18,7 +18,7 @@ export class RolesService {
     })
   }
 
-  async getRoleById(id: number): Promise<Role> {
+  async getRoleById(id: string): Promise<Role> {
     return await this.prismaService.role.findUnique({ where: { id } })
   }
 
@@ -26,11 +26,11 @@ export class RolesService {
     return await this.prismaService.role.findMany()
   }
 
-  async updateRole(id: number, data: UpdateRoleInput): Promise<Role> {
+  async updateRole(id: string, data: UpdateRoleInput): Promise<Role> {
     return await this.prismaService.role.update({ where: { id }, data })
   }
 
-  async deleteRole(id: number): Promise<Role> {
+  async deleteRole(id: string): Promise<Role> {
     return await this.prismaService.role.delete({ where: { id } })
   }
 }

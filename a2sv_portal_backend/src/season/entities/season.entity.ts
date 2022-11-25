@@ -1,33 +1,36 @@
-import { Field, ID, ObjectType, GraphQLISODateTime } from '@nestjs/graphql'
+import { Field, GraphQLISODateTime, ObjectType } from '@nestjs/graphql'
+import { Group } from '../../group/entities/group.entity'
+import { SeasonTopic } from '../../season-topic/entities/season-topic.entity'
+import { SeasonType } from '@prisma/client'
 
 @ObjectType()
 export class Season {
-  @Field(() => ID)
-  id: number
-  @Field()
+  @Field(() => String, { description: `Season Id` })
+  id: string
+  @Field({ description: `Season Name` })
   name: string
-  @Field(() => GraphQLISODateTime)
+  @Field(() => String, { description: `Id of a Group the seaspn belongs to` })
+  groupId: string
+  @Field(() => Group, {
+    nullable: true,
+    description: `Group object where the season belongs to`,
+  })
+  group?: Group
+  @Field({ description: `Type of the season is it Camp or Education or Project` })
+  seasonType: SeasonType
+  @Field({ description: `Implies if the season active currently or ended/inactive` })
+  isActive?: boolean
+  @Field(() => [SeasonTopic], {
+    nullable: true,
+    description: `Topic that belong to the season`,
+  })
+  topics?: SeasonTopic[]
+  @Field(() => GraphQLISODateTime, { description: `The start date of the season` })
   startDate: Date
-  @Field(() => GraphQLISODateTime)
+  @Field(() => GraphQLISODateTime, { description: `The end date of the season` })
   endDate: Date
   @Field({ nullable: true })
   createdAt?: Date
   @Field({ nullable: true })
   updatedAt?: Date
-
-  constructor(
-    id: number,
-    name: string,
-    startDate: Date,
-    endDate: Date,
-    createdAt: Date,
-    updatedAt: Date,
-  ) {
-    this.id = id
-    this.name = name
-    this.startDate = startDate
-    this.endDate = endDate
-    this.createdAt = createdAt
-    this.updatedAt = updatedAt
-  }
 }

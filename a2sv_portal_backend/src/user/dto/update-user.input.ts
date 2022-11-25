@@ -1,8 +1,14 @@
-import { CreateUserInput } from './create-user.input'
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql'
+import { Field, InputType } from '@nestjs/graphql'
+import { RoleEnum } from '@prisma/client'
 
 @InputType()
-export class UpdateUserInput extends PartialType(CreateUserInput) {
-  @Field(() => Int)
-  id: number
+export class UpdateUserInput {
+  @Field(() => String)
+  id: string
+  @Field(() => String, { nullable: true })
+  groupId?: string
+  @Field({ nullable: true })
+  email?: string
+  @Field(() => RoleEnum, { nullable: true })
+  role?: RoleEnum
 }
