@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import BaseLayout from "../common/BaseLayout";
 import DashboardFilter from "./DashboardFilter";
-import StatComponent from "./StatComponent";
+import BarsStatComponent from "./StatComponent";
 import StatSidebar from "./StatSidebar";
 import StudentSidebar from "./StudentSidebar";
 import GroupStudents from "./GroupStudents";
@@ -13,6 +13,7 @@ import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import SeasonSidebarItem from "../seasons/SeasonSidebarItem";
 import SeasonList from "../seasons/SeasonList";
 import { Season, SeasonType } from "../../types/season";
+import StatComponent from "./StatComponent";
 
 type Props = {
   groupId: string;

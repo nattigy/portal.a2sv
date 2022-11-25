@@ -6,7 +6,9 @@ import { ProblemDifficultyType } from "../../types/problems";
 import BaseLayout from "../common/BaseLayout";
 import ConsistencyDiagramItem from "./ConsistencyDiagram";
 import ContestStatItem from "./ContestStatItem";
-import DashboardRankItem, { DashboardRankItemProps } from "./DashboardRankItem";
+import DashboardRankItem, {
+  DashboardRankItemProps,
+} from "./DashboardBarsRankItem";
 import DashboardStruggledItem from "./DashboardStruggledItem";
 import DashboardTopicItem, {
   DashboardTopicItemProps,

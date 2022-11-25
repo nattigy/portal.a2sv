@@ -5,9 +5,10 @@ import AcceptanceRate, { AcceptanceInfo } from "./AcceptanceRate";
 import Chart from "./Chart";
 import { ProblemSolvedProps } from "./ConsistencyDiagram";
 import ContestRating, { ContestInfo } from "./ContestRating";
-import DashboardRankItem, { DashboardRankItemProps } from "./DashboardRankItem";
+import GeneralStatItem, { GeneralStatItemProps } from "./GeneralStatItem";
 import RadialBar from "./RadialBar";
 import TotalRadialBar from "./TotalRadialBar";
+
 
 type Props = {
   groupData: any;
@@ -22,28 +23,23 @@ const problemStat: ProblemSolvedProps = {
   hard: 46,
 };
 
-const rankList: DashboardRankItemProps[] = [
+const generalStatList: GeneralStatItemProps[] = [
   {
-    rankType: "Daily",
-    totalStudents: 30,
-    userRank: 2,
-    activeColor: "#8A70D6",
-    inactiveColor: "#E9E3FE99",
+    title:"No. of Students",
+    value:"420",
   },
   {
-    rankType: "Weekly",
-    totalStudents: 30,
-    userRank: 1,
-    activeColor: "#579BE4",
-    inactiveColor: "#E4F2FF",
+    title:"Avg. Attendance",
+    value:"--%",
   },
   {
-    rankType: "Monthly",
-    totalStudents: 30,
-    userRank: 3,
-    activeColor: "#FCAB5E",
-    inactiveColor: "#FFF0E1",
+    title:"Topics Covered",
+    value:"12",
   },
+  {
+    title:"Group Rank",
+    value:"3",
+  }
 ];
 
 const userList: Array<AcceptanceInfo> = [
@@ -136,9 +132,9 @@ const StatComponent = (props: Props) => {
           {props.groupData?.group.name}
           {JSON.stringify(props.groupData)}
         </p>
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 ">
-          {rankList.map((item, index) => (
-            <DashboardRankItem key={index} {...item} />
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">
+          {generalStatList.map((item, index) => (
+            <GeneralStatItem key={index} {...item} idx={index%4}/>
           ))}
         </div>
         <div className="rounded-lg items-center w-full flex flex-col lg:flex-row gap-4">
