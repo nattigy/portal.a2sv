@@ -24,7 +24,7 @@ export class Season {
     nullable: true,
     description: `Topic that belong to the season`,
   })
-  topics?: SeasonTopic[]
+  seasonTopics?: SeasonTopic[]
   @Field(() => GraphQLISODateTime, { description: `The start date of the season` })
   startDate: Date
   @Field(() => GraphQLISODateTime, { description: `The end date of the season` })

@@ -114,7 +114,7 @@ export class TopicService {
   async addTopicToSeason(addTopicToSeasonInput: AddTopicToSeasonInput) {
     return this.prismaService.season.update({
       data: {
-        topics: {
+        seasonTopics: {
           create: {
             topic: {
               connect: {

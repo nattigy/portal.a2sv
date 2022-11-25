@@ -4,8 +4,8 @@ generator client {
 
 datasource db {
   provider          = "postgresql"
-//    url               = env("LOCAL_DB_URL")
-  url               = env("DB_URL")
+  url               = env("LOCAL_DB_URL")
+  //  url               = env("DB_URL")
   shadowDatabaseUrl = env("SHADOW_DB_URL")
 }
 
@@ -30,33 +30,9 @@ model GroupContest {
   contest           Contest @relation(fields: [contestId], references: [id], onDelete: Cascade)
   group             Group   @relation(fields: [groupId], references: [id], onDelete: Cascade)
   contestAttendance Int     @default(0)
-  //  problemsStat      ProblemsStat[]
 
   @@id([groupId, contestId])
 }
-
-//model ProblemsStat {
-//  id                    String        @id @default(uuid())
-//  group                 Group         @relation(fields: [groupId], references: [id], onDelete: Cascade)
-//  groupId               String
-//  problem               Problem?      @relation(fields: [problemId], references: [id])
-//  //  numberOfProblems      Int
-//  numberOfStudents      Int
-//  //  problemsSolved        ProblemsSolved[]
-//  GroupContest          GroupContest? @relation(fields: [groupContestGroupId, groupContestContestId], references: [groupId, contestId])
-//  groupContestGroupId   String?
-//  groupContestContestId String?
-//  problemId             String?
-//}
-
-//model ProblemsSolved {
-//  id             String       @id @default(uuid())
-//  problemsStatId String
-//  problemsStat   ProblemsStat @relation(fields: [problemsStatId], references: [id], onDelete: Cascade)
-//  number         Int
-//  problem        Problem      @relation(fields: [problemId], references: [id])
-//  problemId      String
-//}
 
 model UserContest {
   contestId           String
@@ -117,17 +93,17 @@ enum UserContestProblemStatus {
 }
 
 model Season {
-  id         String        @id @default(uuid())
-  name       String
-  seasonType SeasonType    @default(EDUCATION)
-  startDate  DateTime      @default(now())
-  endDate    DateTime      @default(now())
-  createdAt  DateTime?     @default(now())
-  updatedAt  DateTime?     @updatedAt
-  topics     SeasonTopic[]
-  group      Group         @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  groupId    String
-  isActive   Boolean       @default(false)
+  id           String        @id @default(uuid())
+  name         String
+  seasonType   SeasonType    @default(EDUCATION)
+  startDate    DateTime      @default(now())
+  endDate      DateTime      @default(now())
+  createdAt    DateTime?     @default(now())
+  updatedAt    DateTime?     @updatedAt
+  seasonTopics SeasonTopic[]
+  group        Group         @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId      String
+  isActive     Boolean       @default(false)
 }
 
 model Permission {
@@ -244,8 +220,6 @@ model Problem {
   users               User[]
   userContestProblems UserContestProblem[]
   UserProblem         UserProblem[]
-  //  ProblemsSolved      ProblemsSolved[]
-  //  ProblemsStat        ProblemsStat[]
 }
 
 model Tag {

@@ -33,7 +33,7 @@ export class SeasonService {
       take,
       where: filterSeasonInput,
       include: {
-        topics: {
+        seasonTopics: {
           include: {
             problems: {
               include: {
@@ -60,7 +60,7 @@ export class SeasonService {
     const season = await this.prismaService.season.findUnique({
       where: { id },
       include: {
-        topics: {
+        seasonTopics: {
           include: {
             problems: {
               include: {
@@ -82,7 +82,7 @@ export class SeasonService {
     return await this.prismaService.season.create({
       data: createSeasonInput,
       include: {
-        topics: {
+        seasonTopics: {
           include: {
             problems: {
               include: {
@@ -101,7 +101,7 @@ export class SeasonService {
       where: { id: id },
       data: updateSeasonInput,
       include: {
-        topics: {
+        seasonTopics: {
           include: {
             problems: {
               include: {

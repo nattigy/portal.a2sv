@@ -356,7 +356,7 @@ export class UserService {
     let hardCount = 0
 
     for (const season of seasons) {
-      for (const topic of season.topics) {
+      for (const topic of season.seasonTopics) {
         for (const p of topic.problems) {
           for (const userProblem of p.users) {
             if (userProblem.userId === id) {
@@ -425,7 +425,7 @@ export class UserService {
     let totalQuestions = 0
     let totalNotSolved = 0
 
-    for (const seasonTopic of season.topics) {
+    for (const seasonTopic of season.seasonTopics) {
       const totalTopicQuestions = seasonTopic.problems?.length
       let numberOfSolvedProblems = 0
       totalNumberOfTopics++

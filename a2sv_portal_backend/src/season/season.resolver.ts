@@ -45,7 +45,7 @@ export class SeasonResolver {
 
   @ResolveField(() => [SeasonTopic])
   async topics(@Parent() season: Season): Promise<SeasonTopic[]> {
-    return season.topics
+    return season.seasonTopics
   }
 
   @Mutation(() => Int, { description: descriptions.deleteSeason })
