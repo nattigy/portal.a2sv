@@ -25,7 +25,7 @@ export const ASSIGN_USER_TO_GROUP = gql`
   }
 `;
 
-export const UPDATE_USER_PROFILE_MUTATION = gql`
+export const UPDATE_USER_PROFILE = gql`
   mutation UpdateUserProfile($updateUserProfileInput: UpdateUserProfileInput!) {
     updateUserProfile(updateUserProfileInput: $updateUserProfileInput) {
       id

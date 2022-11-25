@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import DateView from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getIn, FormikProps } from "formik";
-import { ProfileFormValues } from "./PersonalDetails";
 import clsx from "clsx";
 
 export type DOBInputFieldProps = {
@@ -32,7 +31,7 @@ const DOBInputField = (props: DOBInputFieldProps) => {
             name={props.name}
             placeholderText={props.placeholder}
             selected={
-              props.formik.values["dob"]
+              props.formik.values
                 ? new Date(props.formik.values["dob"])
                 : null
             }

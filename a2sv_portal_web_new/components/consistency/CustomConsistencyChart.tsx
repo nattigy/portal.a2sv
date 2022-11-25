@@ -1,13 +1,13 @@
 import React from "react";
 import MonthlyConsistency from "./MonthlyConsistency";
 type Props = {
-  series: Array<any>;
+  series?: Array<any>;
 };
 
 const CustomConsistencyChart = (props: Props) => {
   return (
     <div className="w-full px-2 flex h-60 gap-x-2 overflow-x-scroll overflow-y-visible items-center bg-[rgba(89, 86, 233, 0.05)] py-5 bg-primary/5 no-scrollbar">
-      {props.series.map((data, index) => {
+      {props.series?.map((data, index) => {
         return (
           <div
             key={index + data}

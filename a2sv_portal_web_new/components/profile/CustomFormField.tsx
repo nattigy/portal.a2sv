@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Field, FormikProps } from "formik";
 import React from "react";
-import { ProfileFormValues } from "./PersonalDetails";
+import { ProfileFormValues } from "./ProfileInfo";
 
 export type FormInputProps = {
   id: string;
