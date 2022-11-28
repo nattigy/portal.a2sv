@@ -8,6 +8,7 @@ import {
   GET_SINGLE_USER_QUERY,
   GET_STUDENTS_WITH_NO_GROUP_QUERY,
   GET_USERS_BY_GROUP_ID_QUERY,
+  GET_USER_PROFILE,
 } from "../apollo/Queries/usersQueries";
 
 export const useFilteredUsers = (tabIndex: number) => {
@@ -72,6 +73,15 @@ export const useGetSingleUser = (userId: String) => {
   return useLazyQuery(GET_SINGLE_USER_QUERY, {
     variables: {
       userId: userId,
+    },
+    errorPolicy: "none",
+    notifyOnNetworkStatusChange: true,
+  });
+};
+export const useGetUserProfile = (userId: String) => {
+  return useQuery(GET_USER_PROFILE, {
+    variables: {
+      userId,
     },
     errorPolicy: "none",
     notifyOnNetworkStatusChange: true,

@@ -16,6 +16,42 @@ export const GET_SINGLE_USER_QUERY = gql`
   }
 `;
 
+export const GET_USER_PROFILE = gql`
+  query User($userId: String!) {
+    user(id: $userId) {
+      userProfile {
+        bio
+        birthDate
+        codeforces
+        createdAt
+        educationDegree
+        educationField
+        educationPlace
+        educationYear
+        facebook
+        firstName
+        geekforgeeks
+        github
+        graduationYear
+        hackerrank
+        id
+        instagram
+        lastName
+        leetcode
+        linkedin
+        phone
+        photoUrl
+        resumeLink
+        tshirtSize
+        twitter
+        updatedAt
+        userId
+        website
+      }
+    }
+  }
+`;
+
 export const GET_ALL_USER_QUERY = gql`
   query Users {
     users {

@@ -237,10 +237,7 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
                 )}
                 <div className="flex justify-end items-center gap-x-3">
                   <FormRejectButton text="Cancel" onClick={() => onClose()} />
-                  <FormAffirmativeButton
-                    isLoading={isSubmitting}
-                    text="Save"
-                  />{" "}
+                  <FormAffirmativeButton isLoading={isSubmitting} text="Save" />
                 </div>
               </div>
             </Form>

@@ -3,7 +3,7 @@ import PhoneInput from "react-phone-number-input";
 import PropTypes from "prop-types";
 import "react-phone-number-input/style.css";
 import { getIn, FormikProps } from "formik";
-import { ProfileFormValues } from "./PersonalDetails";
+import { ProfileFormValues } from "./ProfileInfo";
 
 export type PhoneInputFieldProps = {
   name: string;
@@ -25,7 +25,9 @@ const PhoneInputField = (props: PhoneInputFieldProps) => {
           name={props.name}
           onChange={props.onChange}
           placeholder={props.placeholder}
+          value={props.formik.values?.phone}
           defaultCountry={props.country as any}
+
         />
       </div>
       {/* <div className="flex h-5 items-end text-red-100 text-xs">
