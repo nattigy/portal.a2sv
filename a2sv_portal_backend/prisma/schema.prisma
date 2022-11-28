@@ -6,7 +6,7 @@ datasource db {
   provider = "postgresql"
   //  url               = env("LOCAL_DB_URL")
   url      = env("DB_URL")
-  //  url               = env("DB_URL_ON_GCP")
+//    url               = "postgresql://postgres:portal-postgresql@35.198.93.142/portal-db-v1?host=35.198.93.142"
   //  shadowDatabaseUrl = env("SHADOW_DB_URL")
 }
 

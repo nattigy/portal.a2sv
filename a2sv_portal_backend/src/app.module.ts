@@ -42,15 +42,19 @@ import { ScheduleModule } from '@nestjs/schedule'
         res,
       }),
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      // autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
       playground: false,
+
+      debug: true,
+      introspection: true,
+      autoSchemaFile: true,
+
       plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],
       subscriptions: {
         'graphql-ws': true,
         'subscriptions-transport-ws': true,
       },
-      introspection: true,
       resolvers: { DateTime: GraphQLISODateTime },
     }),
     AuthModule,
