@@ -4,7 +4,7 @@ import { PrismaClient, User } from '@prisma/client'
 import { DeepMockProxy } from 'jest-mock-extended'
 import { PrismaService } from '../prisma/prisma.service'
 import { prismaMock } from '../prisma/singleton'
-import { CreateUserInput } from './dto/create-user.input'
+import { SignUpUserInput } from './dto/sign-up-user.input'
 import { UserService } from './user.service'
 
 describe('UserService', () => {
@@ -114,7 +114,7 @@ describe('UserService', () => {
         const expectedUser: User = user
         prismaService.user.create.mockResolvedValue(expectedUser)
 
-        const data: CreateUserInput = {
+        const data: SignUpUserInput = {
           email: '',
           password: '',
         }

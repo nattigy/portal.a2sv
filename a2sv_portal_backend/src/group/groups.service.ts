@@ -34,6 +34,9 @@ export class GroupsService {
         users: true,
         head: true,
         seasons: {
+          // where: {
+          //   id: "seasonId"
+          // },
           include: {
             seasonTopics: {
               include: {
@@ -311,48 +314,6 @@ export class GroupsService {
     for (let i = 0; i < groups.length; i++){
       groupStatResponses.push(await this.calculateGroupStat(groups[i]))
     }
-    // for (let i = 0; i < groups.length; i++) {
-    //   let numberOfAcceptedSubmissions = 0
-    //   let numberOfWrongSubmissions = 0
-    //   let totalTimeDedicated = 0
-    //   let numberOfTopicsCovered = 0
-    //   let numberOfProblems = 0
-    //   const contestsAttended = groups[i].groupContests.length
-    //   groups[i].users.forEach(u => {
-    //     u.seasonTopicProblems.forEach(g => {
-    //       if (groups[i].seasons.length > 0 && g.seasonId == groups[i].seasons[0].id) {
-    //         if (g.solved) numberOfAcceptedSubmissions += 1
-    //         numberOfWrongSubmissions += g.attempts
-    //         totalTimeDedicated += g.timeDedicated
-    //       }
-    //     })
-    //   })
-    //   groups[i].seasons.forEach(s => {
-    //     numberOfTopicsCovered += s.topics.length
-    //     s.topics.forEach(t => {
-    //       numberOfProblems += t.problems.length
-    //     })
-    //   })
-    //   groupStatResponses.push({
-    //     id: groups[i].id,
-    //     name: groups[i].name,
-    //     createdAt: groups[i].createdAt,
-    //     country: groups[i].country,
-    //     school: groups[i].school,
-    //     numberOfStudents: groups[i].users?.length,
-    //     numberOfTopicsCovered: numberOfTopicsCovered,
-    //     topicsCoverage: numberOfTopicsCovered,
-    //     // topics.length
-    //     // ? (numberOfTopicsCovered / topics.length) * 100
-    //     // : 0,
-    //     numberOfAcceptedSubmissions: numberOfAcceptedSubmissions,
-    //     numberOfWrongSubmissions: numberOfWrongSubmissions,
-    //     totalTimeDedicated: totalTimeDedicated,
-    //     numberOfProblems: numberOfProblems,
-    //     contestsAttended: contestsAttended,
-    //     // rank: groups[i].id,
-    //   })
-    // }
     return {
       items: groupStatResponses,
       pageInfo: {

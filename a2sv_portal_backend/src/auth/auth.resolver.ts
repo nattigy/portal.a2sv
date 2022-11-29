@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common'
 import { Args, Context, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { Response } from 'express'
-import { CreateUserInput } from '../user/dto/create-user.input'
+import { SignUpUserInput } from '../user/dto/sign-up-user.input'
 import { User } from '../user/entities/user.entity'
 import { CurrentUser, Public } from './auth.decorator'
 import { AuthService } from './auth.service'
@@ -28,7 +28,7 @@ export class AuthResolver {
   @Public()
   @Mutation(() => AuthResponse)
   async signUp(
-    @Args('createUserInput') createUserInput: CreateUserInput,
+    @Args('createUserInput') createUserInput: SignUpUserInput,
     @Context() context,
   ): Promise<AuthResponse> {
     return this.authService.signUp(context, createUserInput)

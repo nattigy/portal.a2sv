@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt'
 import { User } from '@prisma/client'
 import * as bcrypt from 'bcrypt'
 import { Response } from 'express'
-import { CreateUserInput } from '../user/dto/create-user.input'
+import { SignUpUserInput } from '../user/dto/sign-up-user.input'
 import { UserService } from '../user/user.service'
 import { AuthResponse } from './dto/auth-response.dto'
 
@@ -46,7 +46,7 @@ export class AuthService {
     return { accessToken, userId: user.id }
   }
 
-  async signUp(@Context() context, createUserInput: CreateUserInput): Promise<AuthResponse> {
+  async signUp(@Context() context, createUserInput: SignUpUserInput): Promise<AuthResponse> {
     const user = await this.usersService.create(createUserInput)
     const accessToken = await this.setToken(context, user)
     return { accessToken, userId: user.id }

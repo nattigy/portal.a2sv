@@ -11,7 +11,7 @@ import { PaginationUser } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { SeasonTopicUserProblem } from '../season-topic-user-problem/entities/season-topic-user-problem.entity'
 import { UserTopic } from '../user-topic/entities/user-topic.entity'
-import { CreateUserInput } from './dto/create-user.input'
+import { SignUpUserInput } from './dto/sign-up-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { StudentStat, TopicCoverageStat, TopicStudentStatInput } from './dto/user-dtos'
 import { ComfortLevelEnum } from './entities/comfort-level.enum'
@@ -48,9 +48,9 @@ export class UserResolver {
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.create)
   @Mutation(() => User, {
-    description: descriptions.createUser,
+    description: descriptions.createUser
   })
-  async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
+  async createUser(@Args('createUserInput') createUserInput: SignUpUserInput) {
     try {
       return await this.userService.create(createUserInput)
     } catch (e) {

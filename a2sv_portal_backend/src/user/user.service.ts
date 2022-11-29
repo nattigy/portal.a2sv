@@ -6,7 +6,7 @@ import { PaginationUser } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { GroupsService } from '../group/groups.service'
 import { PrismaService } from '../prisma/prisma.service'
-import { CreateUserInput } from './dto/create-user.input'
+import { SignUpUserInput } from './dto/sign-up-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { StudentStat, TopicCoverageStat, TopicStudentStatInput } from './dto/user-dtos'
 import { ComfortLevelEnum } from './entities/comfort-level.enum'
@@ -32,7 +32,7 @@ export class UserService {
     private readonly groupService: GroupsService,
   ) {}
 
-  async create(createUserInput: CreateUserInput): Promise<User> {
+  async create(createUserInput: SignUpUserInput): Promise<User> {
     const { email, password } = createUserInput
 
     const foundUser = await this.prismaService.user.findFirst({
@@ -50,7 +50,7 @@ export class UserService {
       where: { email },
     })
 
-    if (foundUser) throw new Error('Email is already in use')
+    if (foundUser) throw new Error('Email is already in use!')
 
     const saltOrRounds = 10
     const hash = await bcrypt.hash(password, saltOrRounds)
@@ -60,9 +60,8 @@ export class UserService {
         email,
         password: hash,
         status: Status.ACTIVE,
-        role: createUserInput.role,
+        role: RoleEnum.STUDENT,
         updatedAt: new Date().toISOString(),
-        groupId: createUserInput.groupId,
       },
       include: {
         group: true,
