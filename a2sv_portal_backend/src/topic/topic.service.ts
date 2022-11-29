@@ -77,6 +77,7 @@ export class TopicService {
     // const queryData = data as any
     return this.prismaService.topic.create({
       data: createTopicInput,
+
       include: {
         seasons: {
           include: {
