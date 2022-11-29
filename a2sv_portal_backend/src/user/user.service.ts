@@ -5,10 +5,11 @@ import * as bcrypt from 'bcrypt'
 import { PaginationUser } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { GroupsService } from '../group/groups.service'
+import { UserContestService } from '../user-contest/user-contest.service'
 import { PrismaService } from '../prisma/prisma.service'
 import { SignUpUserInput } from './dto/sign-up-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
-import { StudentStat, TopicCoverageStat, TopicStudentStatInput } from './dto/user-dtos'
+import { StudentStat, TopicCoverageStat, TopicStudentStatInput,ContestConversionRate } from './dto/user-dtos'
 import { ComfortLevelEnum } from './entities/comfort-level.enum'
 import { FilterUserInput } from './dto/filter-user-input'
 
@@ -30,6 +31,7 @@ export class UserService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly groupService: GroupsService,
+    private readonly userContestService: UserContestService,
   ) {}
 
   async create(createUserInput: SignUpUserInput): Promise<User> {
@@ -228,6 +230,7 @@ export class UserService {
     })
   }
 
+
   async studentStats(id: string): Promise<StudentStat> {
     const user = await this.findById(id)
     if (!user) {
@@ -405,6 +408,36 @@ export class UserService {
     } as StudentStat
   }
 
+ async studentContestConversionRate(studentId:string) :Promise<ContestConversionRate> {
+  const eachContestConversionRate = []
+  let totalContestConversionRate = 0
+  let totalNumberOfContest = 0
+  let sumOfEachContestConversionRate = 0
+  
+  const allUserContests = await this.userContestService.findAll(studentId)
+  for (const userContest of allUserContests.items) {
+    const userContestProblems = userContest.userContestProblems
+    const totalConstestQuestions =userContestProblems.length
+    totalNumberOfContest ++
+    let solvedInContest = 0
+    userContestProblems.forEach( problem=> {
+      if (problem.status == "SOLVED_IN_CONTEST"){
+        solvedInContest += 1
+      }
+    });
+    eachContestConversionRate.push({
+      contestId: userContest.contestId,
+      singleContestConvertionRate: (solvedInContest/totalConstestQuestions)
+    })
+    sumOfEachContestConversionRate += eachContestConversionRate[userContest.contestId]
+   
+  }
+  totalContestConversionRate = (sumOfEachContestConversionRate/totalNumberOfContest)
+  return {
+    eachContestConversionRate,
+    totalContestConversionRate
+  }
+ }
   async studentTopicStats({
     studentId,
     seasonId,

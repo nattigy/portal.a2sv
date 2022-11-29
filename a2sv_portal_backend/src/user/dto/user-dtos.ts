@@ -53,3 +53,19 @@ export class TopicCoverageStat {
   @Field(() => Float)
   unComfortability: number
 }
+
+@ObjectType()
+export class EachContestConversionRate {
+  @Field()
+  contestId: string
+  @Field(() => Float)
+  conversionRate: number
+}
+@ObjectType()
+export class ContestConversionRate {
+  @Field(() => [EachContestConversionRate])
+  eachContestConversionRate: EachContestConversionRate[]
+  @Field(() => Float)
+  totalContestConversionRate: number
+  
+}
