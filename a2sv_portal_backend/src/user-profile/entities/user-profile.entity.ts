@@ -53,6 +53,10 @@ export class UserProfile {
   @Field({ nullable: true })
   facebook?: string
   @Field({ nullable: true })
+  country?: string
+  @Field({ nullable: true })
+  city?: string
+  @Field({ nullable: true })
   createdAt?: Date
   @Field({ nullable: true })
   updatedAt?: Date
