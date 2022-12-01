@@ -8,69 +8,21 @@ import { GroupStatResponse } from './dto/group-stat-response'
 import { GroupsPaginated, GroupsUsersPaginated } from './dto/groups-return-dto'
 import { UpdateGroupInput } from './dto/update-group.input'
 import { Group } from './entities/group.entity'
+import { GroupRepository } from './group.repository'
 
 @Injectable()
 export class GroupsService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly groupRepository: GroupRepository,
+    ) {}
 
   async create(createGroupInput: CreateGroupInput): Promise<Group> {
-    return this.prismaService.group.create({
-      include: {
-        users: true,
-        head: true,
-        seasons: {
-          include: {
-            seasonTopics: true,
-          },
-        },
-      },
-      data: createGroupInput,
-    })
+    return this.groupRepository.create(createGroupInput)
   }
 
   async findOne(id: string): Promise<Group> {
-    const group = await this.prismaService.group.findUnique({
-      include: {
-        users: true,
-        head: true,
-        seasons: {
-          // where: {
-          //   id: "seasonId"
-          // },
-          include: {
-            seasonTopics: {
-              include: {
-                problems: {
-                  include: {
-                    users: {
-                      include: {
-                        seasonTopicProblem: {
-                          include: {
-                            problem: true,
-                          },
-                        },
-                      },
-                    },
-                    problem: {
-                      include: {
-                        users: true,
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-      where: {
-        id,
-      },
-    })
-    if (!group) {
-      throw new NotFoundException(`Group with id ${id} not found`)
-    }
-    return group
+    return this.groupRepository.findOne(id)
   }
 
   async findAll(
@@ -85,26 +37,13 @@ export class GroupsService {
         },
       })
     ).length
-    const groups = await this.prismaService.group.findMany({
+    const groups = await this.groupRepository.findAll({
       skip,
       take,
       where: filterGroupInput,
       include: {
         users: true,
         head: true,
-        seasons: {
-          include: {
-            seasonTopics: {
-              include: {
-                problems: {
-                  include: {
-                    problem: true,
-                  },
-                },
-              },
-            },
-          },
-        },
       },
     })
     return {

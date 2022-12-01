@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt'
 import { PaginationUser } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { GroupsService } from '../group/groups.service'
-import { UserContestService } from '../user-contest/user-contest.service'
+import { UserSeasonContestService } from '../user-season-contest/user-season-contest.service'
 import { PrismaService } from '../prisma/prisma.service'
 import { SignUpUserInput } from './dto/sign-up-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
@@ -31,7 +31,7 @@ export class UserService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly groupService: GroupsService,
-    private readonly userContestService: UserContestService,
+    private readonly userContestService: UserSeasonContestService,
   ) {}
 
   async create(createUserInput: SignUpUserInput): Promise<User> {

@@ -1,5 +1,5 @@
 import { Field, GraphQLISODateTime, InputType } from '@nestjs/graphql'
-import { SeasonType } from '@prisma/client'
+import { SeasonType } from '../entities/season-type.enum'
 
 @InputType()
 export class FilterSeasonInput {

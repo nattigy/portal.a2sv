@@ -1,24 +1,31 @@
 import { Field, ObjectType } from '@nestjs/graphql'
 import { Problem } from '../../problem/entities/problem.entity'
-import { SeasonTopicUserProblem } from '../../season-topic-user-problem/entities/season-topic-user-problem.entity'
+import { UserSeasonTopicProblem } from '../../user-season-topic-problem/entities/user-season-topic-problem.entity'
 import { SeasonTopic } from '../../season-topic/entities/season-topic.entity'
 
 @ObjectType()
 export class SeasonTopicProblem {
   @Field()
   seasonId: string
+
   @Field()
   topicId: string
+
   @Field()
   problemId: string
+
   @Field(() => SeasonTopic)
   seasonTopic: SeasonTopic
+
   @Field(() => Problem)
   problem: Problem
-  @Field(() => [SeasonTopicUserProblem], { nullable: true })
-  users?: SeasonTopicUserProblem[]
-  @Field({ nullable: true })
+
+  @Field(() => [UserSeasonTopicProblem])
+  userSeasonTopicProblems: UserSeasonTopicProblem[]
+
+  @Field(() => Date, { nullable: true })
   createdAt?: Date
-  @Field({ nullable: true })
+
+  @Field(() => Date, { nullable: true })
   updatedAt?: Date
 }

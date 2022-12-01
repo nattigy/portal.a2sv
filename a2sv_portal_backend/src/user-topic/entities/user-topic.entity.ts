@@ -8,16 +8,22 @@ import { ComfortLevelEnum } from '../../user/entities/comfort-level.enum'
 export class UserTopic {
   @Field()
   userId: string
+
   @Field()
   topicId: string
+
   @Field(() => ComfortLevelEnum, { defaultValue: ComfortLevel.UNCOMFORTABLE })
   comfortLevel: ComfortLevel = ComfortLevel.UNCOMFORTABLE
+
   @Field(() => Topic, { nullable: true })
   topic?: Topic
+
   @Field(() => User, { nullable: true })
   user?: User
-  @Field({ nullable: true })
+
+  @Field(() => Date, { nullable: true })
   createdAt?: Date
-  @Field({ nullable: true })
+
+  @Field(() => Date, { nullable: true })
   updatedAt?: Date
 }

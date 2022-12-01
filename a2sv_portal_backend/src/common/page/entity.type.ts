@@ -3,13 +3,13 @@ import { Contest } from '../../contest/entities/contest.entity'
 import { GroupContest } from '../../group-contest/entities/group-contest.entity'
 import { Group } from '../../group/entities/group.entity'
 import { Problem } from '../../problem/entities/problem.entity'
-import { SeasonTopicUserProblem } from '../../season-topic-user-problem/entities/season-topic-user-problem.entity'
+import { UserSeasonTopicProblem } from '../../user-season-topic-problem/entities/user-season-topic-problem.entity'
 import { SeasonTopicProblem } from '../../season-topic-problem/entities/season-topic-problem.entity'
 import { SeasonTopic } from '../../season-topic/entities/season-topic.entity'
 import { Season } from '../../season/entities/season.entity'
 import { Topic } from '../../topic/entities/topic.entity'
-import { UserContestProblem } from '../../user-contest-problem/entities/user-contest-problem.entity'
-import { UserContest } from '../../user-contest/entities/user-contest.entity'
+import { UserContestProblem } from '../../user-season-contest-problem/entities/user-season-contest-problem.entity'
+import { UserSeasonContest } from '../../user-season-contest/entities/user-season-contest.entity'
 import { UserTopic } from '../../user-topic/entities/user-topic.entity'
 import { User } from '../../user/entities/user.entity'
 
@@ -17,7 +17,7 @@ export const Entity = createUnionType({
   name: 'Entity',
   types: () => [
     Contest,
-    UserContest,
+    UserSeasonContest,
     UserContestProblem,
     GroupContest,
     User,
@@ -28,13 +28,13 @@ export const Entity = createUnionType({
     UserTopic,
     SeasonTopic,
     SeasonTopicProblem,
-    SeasonTopicUserProblem,
+    UserSeasonTopicProblem,
   ],
   resolveType(value) {
     if (value.email != undefined) {
       return User
     } else if (value.attempts != undefined && value.contestId == undefined) {
-      return SeasonTopicUserProblem
+      return UserSeasonTopicProblem
     } else if (
       value.seasonId != undefined &&
       value.topicId != undefined &&
@@ -73,7 +73,7 @@ export const Entity = createUnionType({
     } else if (value.country != undefined && value.name != undefined) {
       return Group
     } else if (value.contestAttended != undefined) {
-      return UserContest
+      return UserSeasonContest
     } else {
       return null
     }

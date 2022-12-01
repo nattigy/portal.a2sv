@@ -2,7 +2,7 @@ import { Field, Int, ObjectType } from '@nestjs/graphql'
 import { GroupContest } from '../../group-contest/entities/group-contest.entity'
 import { GroupStatResponse } from '../../group/dto/group-stat-response'
 // import { Entity } from './entity.type'
-import { UserContest } from '../../user-contest/entities/user-contest.entity'
+import { UserSeasonContest } from '../../user-season-contest/entities/user-season-contest.entity'
 import { User } from '../../user/entities/user.entity'
 import { Season } from '../../season/entities/season.entity'
 import { Topic } from '../../topic/entities/topic.entity'
@@ -11,8 +11,8 @@ import { Problem } from '../../problem/entities/problem.entity'
 import { Group } from '../../group/entities/group.entity'
 import { SeasonTopic } from '../../season-topic/entities/season-topic.entity'
 import { SeasonTopicProblem } from '../../season-topic-problem/entities/season-topic-problem.entity'
-import { SeasonTopicUserProblem } from '../../season-topic-user-problem/entities/season-topic-user-problem.entity'
-import { UserContestProblem } from '../../user-contest-problem/entities/user-contest-problem.entity'
+import { UserSeasonTopicProblem } from '../../user-season-topic-problem/entities/user-season-topic-problem.entity'
+import { UserContestProblem } from '../../user-season-contest-problem/entities/user-season-contest-problem.entity'
 import { UserProfile } from '../../user-profile/entities/user-profile.entity'
 import { UserTopic } from '../../user-topic/entities/user-topic.entity'
 
@@ -39,8 +39,8 @@ export class PaginationGroupContests {
 
 @ObjectType()
 export class PaginationUserContests {
-  @Field(() => [UserContest])
-  items: UserContest[]
+  @Field(() => [UserSeasonContest])
+  items: UserSeasonContest[]
 
   @Field(() => PaginationInfo)
   pageInfo: PaginationInfo
@@ -102,8 +102,8 @@ export class PaginationSeasonTopicProblem {
 
 @ObjectType()
 export class PaginationSeasonTopicProblemUser {
-  @Field(() => [SeasonTopicUserProblem])
-  items: SeasonTopicUserProblem[]
+  @Field(() => [UserSeasonTopicProblem])
+  items: UserSeasonTopicProblem[]
 
   @Field(() => PaginationInfo)
   pageInfo: PaginationInfo
@@ -129,8 +129,8 @@ export class PaginationContest {
 
 @ObjectType()
 export class PaginationUserContest {
-  @Field(() => [UserContest])
-  items: UserContest[]
+  @Field(() => [UserSeasonContest])
+  items: UserSeasonContest[]
 
   @Field(() => PaginationInfo)
   pageInfo: PaginationInfo
