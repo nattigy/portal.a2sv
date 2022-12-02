@@ -29,11 +29,17 @@ export class Group {
   @Field(() => [User], { nullable: true, description: 'Users that belong to that group' })
   users?: User[]
 
-  @Field(() => [GroupSeasonTopic], { nullable: true, description: 'Users that belong to that group' })
-  groupSeasonTopics: GroupSeasonTopic[]
+  @Field(() => [GroupSeasonTopic], {
+    nullable: true,
+    description: 'Users that belong to that group',
+  })
+  groupSeasonTopics?: GroupSeasonTopic[]
 
-  @Field(() => [GroupSeasonContest], { nullable: true, description: 'Users that belong to that group' })
-  groupSeasonContests: GroupSeasonContest[]
+  @Field(() => [GroupSeasonContest], {
+    nullable: true,
+    description: 'Users that belong to that group',
+  })
+  groupSeasonContests?: GroupSeasonContest[]
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date

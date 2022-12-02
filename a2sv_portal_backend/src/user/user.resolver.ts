@@ -48,7 +48,7 @@ export class UserResolver {
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.create)
   @Mutation(() => User, {
-    description: descriptions.createUser
+    description: descriptions.createUser,
   })
   async createUser(@Args('createUserInput') createUserInput: SignUpUserInput) {
     try {

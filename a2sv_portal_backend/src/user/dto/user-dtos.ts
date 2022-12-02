@@ -67,5 +67,4 @@ export class ContestConversionRate {
   eachContestConversionRate: EachContestConversionRate[]
   @Field(() => Float)
   totalContestConversionRate: number
-  
 }

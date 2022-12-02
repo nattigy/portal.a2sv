@@ -1,24 +1,21 @@
 import { UseGuards } from '@nestjs/common'
-import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
-import { User } from 'src/user/entities/user.entity'
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { GroupAbilities } from '../casl/handler/group-abilities.handler'
 import { CheckPolicies } from '../casl/policy/policy.decorator'
 import { PoliciesGuard } from '../casl/policy/policy.guard'
-import { GroupStatResponsePage, PaginationGroup } from '../common/page/pagination-info'
+import { PaginationGroup } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { Season } from '../season/entities/season.entity'
 import { CreateGroupInput } from './dto/create-group.input'
 import { FilterGroupInput } from './dto/filter-group.input'
-import { GroupStatResponse } from './dto/group-stat-response'
-import { GroupsPaginated } from './dto/groups-return-dto'
 import { UpdateGroupInput } from './dto/update-group.input'
 import { Group } from './entities/group.entity'
-import descriptions from './group.doc'
 import { GroupsService } from './groups.service'
+import descriptions from './group.doc'
 
 @Resolver(() => Group)
 export class GroupsResolver {
-  constructor(private readonly groupsService: GroupsService) {}
+  constructor(private readonly groupsService: GroupsService) {
+  }
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.create)
@@ -26,14 +23,14 @@ export class GroupsResolver {
   async createGroup(
     @Args('createGroupInput') createGroupInput: CreateGroupInput,
   ): Promise<Group> {
-    return this.groupsService.create(createGroupInput)
+    return this.groupsService.createGroup(createGroupInput)
   }
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.read)
   @Query(() => Group, { description: descriptions.group })
   async group(@Args('groupId') groupId: string): Promise<Group> {
-    return this.groupsService.findOne(groupId)
+    return this.groupsService.group(groupId)
   }
 
   @UseGuards(PoliciesGuard)
@@ -41,30 +38,30 @@ export class GroupsResolver {
   @Query(() => PaginationGroup)
   async groups(
     @Args('filterGroupInput', { type: () => FilterGroupInput, nullable: true })
-    filterGroupInput?: FilterGroupInput,
+      filterGroupInput?: FilterGroupInput,
     @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput?: PaginationInfoInput,
+      pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationGroup> {
-    return this.groupsService.findAll(filterGroupInput, pageInfoInput)
+    return this.groupsService.groups(filterGroupInput, pageInfoInput)
   }
 
-  @UseGuards(PoliciesGuard)
-  @CheckPolicies(GroupAbilities.read)
-  @Query(() => GroupsPaginated)
-  async groupsPagination(
-    @Args('filterGroupInput', { type: () => FilterGroupInput, nullable: true })
-    filterGroupInput?: FilterGroupInput,
-    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput?: PaginationInfoInput,
-    @Args('userPaginationInput', { type: () => PaginationInfoInput, nullable: true })
-    userPaginationInput?: PaginationInfoInput,
-  ): Promise<GroupsPaginated> {
-    return this.groupsService.groupsPagination(
-      filterGroupInput,
-      pageInfoInput,
-      userPaginationInput,
-    )
-  }
+  // @UseGuards(PoliciesGuard)
+  // @CheckPolicies(GroupAbilities.read)
+  // @Query(() => GroupsPaginated)
+  // async groupsPagination(
+  //   @Args('filterGroupInput', { type: () => FilterGroupInput, nullable: true })
+  //   filterGroupInput?: FilterGroupInput,
+  //   @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
+  //   pageInfoInput?: PaginationInfoInput,
+  //   @Args('userPaginationInput', { type: () => PaginationInfoInput, nullable: true })
+  //   userPaginationInput?: PaginationInfoInput,
+  // ): Promise<GroupsPaginated> {
+  //   return this.groupsService.groupsPagination(
+  //     filterGroupInput,
+  //     pageInfoInput,
+  //     userPaginationInput,
+  //   )
+  // }
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.update)
@@ -72,46 +69,39 @@ export class GroupsResolver {
   async updateGroup(
     @Args('updateGroupInput') updateGroupInput: UpdateGroupInput,
   ): Promise<Group> {
-    return this.groupsService.update(updateGroupInput)
+    return this.groupsService.updateGroup(updateGroupInput)
   }
 
-  @UseGuards(PoliciesGuard)
-  @CheckPolicies(GroupAbilities.read)
-  @ResolveField(() => [Season], { nullable: 'itemsAndList' })
-  async seasons(@Parent() group: Group): Promise<Season[] | null> {
-    return group.seasons
-  }
+  // @UseGuards(PoliciesGuard)
+  // @CheckPolicies(GroupAbilities.read)
+  // @ResolveField(() => [Season], { nullable: 'itemsAndList' })
+  // async seasons(@Parent() group: Group): Promise<Season[] | null> {
+  //   return group.seasons
+  // }
 
-  @UseGuards(PoliciesGuard)
-  @CheckPolicies(GroupAbilities.read)
-  @ResolveField(() => User, { nullable: true })
-  async head(@Parent() group: Group): Promise<User | null> {
-    return group.head
-  }
+  // @UseGuards(PoliciesGuard)
+  // @CheckPolicies(GroupAbilities.read)
+  // @Query(() => GroupStatResponsePage<GroupStatResponse>)
+  // async groupsStat(
+  //   @Args('filterGroupInput', { type: () => FilterGroupInput, nullable: true })
+  //   filterGroupInput?: FilterGroupInput,
+  //   @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
+  //   pageInfoInput?: PaginationInfoInput,
+  // ) {
+  //   return this.groupsService.groupsStat(filterGroupInput, pageInfoInput)
+  // }
 
-  @UseGuards(PoliciesGuard)
-  @CheckPolicies(GroupAbilities.read)
-  @Query(() => GroupStatResponsePage<GroupStatResponse>)
-  async groupsStat(
-    @Args('filterGroupInput', { type: () => FilterGroupInput, nullable: true })
-    filterGroupInput?: FilterGroupInput,
-    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput?: PaginationInfoInput,
-  ) {
-    return this.groupsService.groupsStat(filterGroupInput, pageInfoInput)
-  }
-
-  @UseGuards(PoliciesGuard)
-  @CheckPolicies(GroupAbilities.read)
-  @Query(() => GroupStatResponse)
-  async groupStat(@Args('groupId') groupId: string) {
-    return this.groupsService.groupStat(groupId)
-  }
+  // @UseGuards(PoliciesGuard)
+  // @CheckPolicies(GroupAbilities.read)
+  // @Query(() => GroupStatResponse)
+  // async groupStat(@Args('groupId') groupId: string) {
+  //   return this.groupsService.groupStat(groupId)
+  // }
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.delete)
   @Mutation(() => Int, { description: descriptions.deleteGroup })
   async removeGroup(@Args('groupId') groupId: string): Promise<number> {
-    return this.groupsService.remove(groupId)
+    return this.groupsService.removeGroup(groupId)
   }
 }

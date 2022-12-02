@@ -1,7 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
-import { GroupContest } from '../../group-contest/entities/group-contest.entity'
 import { GroupStatResponse } from '../../group/dto/group-stat-response'
-// import { Entity } from './entity.type'
 import { UserSeasonContest } from '../../user-season-contest/entities/user-season-contest.entity'
 import { User } from '../../user/entities/user.entity'
 import { Season } from '../../season/entities/season.entity'
@@ -26,15 +24,6 @@ export class PaginationInfo {
 
   @Field(() => Int)
   count: number
-}
-
-@ObjectType()
-export class PaginationGroupContests {
-  @Field(() => [GroupContest])
-  items: GroupContest[]
-
-  @Field(() => PaginationInfo)
-  pageInfo: PaginationInfo
 }
 
 @ObjectType()
@@ -158,15 +147,6 @@ export class PaginationProblem {
 export class PaginationGroup {
   @Field(() => [Group])
   items: Group[]
-
-  @Field(() => PaginationInfo)
-  pageInfo: PaginationInfo
-}
-
-@ObjectType()
-export class PaginationGroupContest {
-  @Field(() => [GroupContest])
-  items: GroupContest[]
 
   @Field(() => PaginationInfo)
   pageInfo: PaginationInfo

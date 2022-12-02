@@ -1,7 +1,13 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
 export class CreateGroupSeasonTopicInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field({ description: 'Example field (placeholder)' })
+  groupId: string
+
+  @Field({ description: 'Example field (placeholder)' })
+  seasonId: string
+
+  @Field({ description: 'Example field (placeholder)' })
+  topicId: string
 }

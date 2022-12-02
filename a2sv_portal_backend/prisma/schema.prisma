@@ -11,7 +11,7 @@ datasource db {
 
 model Group {
   id                  String               @id @default(uuid())
-  name                String
+  name                String @unique
   country             String?
   school              String?
   headId              String?              @unique

@@ -30,9 +30,9 @@ export class Contest {
   @Field(() => [UserContest])
   userContests: UserContest[]
 
-  @Field(()=>Date,{ nullable: true })
+  @Field(() => Date, { nullable: true })
   createdAt?: Date
 
-  @Field(()=>Date,{ nullable: true })
+  @Field(() => Date, { nullable: true })
   updatedAt?: Date
 }

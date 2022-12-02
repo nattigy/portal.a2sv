@@ -44,9 +44,9 @@ export class Problem {
   })
   userContestProblems: UserContestProblem[]
 
-  @Field(()=>Date,{ nullable: true })
+  @Field(() => Date, { nullable: true })
   createdAt?: Date
 
-  @Field(()=>Date,{ nullable: true })
+  @Field(() => Date, { nullable: true })
   updatedAt?: Date
 }

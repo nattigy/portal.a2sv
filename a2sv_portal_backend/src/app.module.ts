@@ -28,7 +28,7 @@ import { ScheduleModule } from '@nestjs/schedule'
 import { SeasonContestModule } from './season-contest/season-contest.module'
 import { GroupSeasonTopicModule } from './group-season-topic/group-season-topic.module'
 import { GroupSeasonContestModule } from './group-season-contest/group-season-contest.module'
-import { GroupSeasonModule } from './group-season/group-season.module';
+import { GroupSeasonModule } from './group-season/group-season.module'
 
 @Module({
   imports: [
@@ -87,5 +87,4 @@ import { GroupSeasonModule } from './group-season/group-season.module';
   ],
   providers: [AppService, AppResolver],
 })
-export class AppModule {
-}
+export class AppModule {}

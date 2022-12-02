@@ -29,9 +29,9 @@ export class Season {
   @Field(() => [SeasonContest], { description: `Topic that belong to the season` })
   seasonContests: SeasonContest[]
 
-  @Field(()=>Date,{ nullable: true })
+  @Field(() => Date, { nullable: true })
   createdAt?: Date
 
-  @Field(()=>Date,{ nullable: true })
+  @Field(() => Date, { nullable: true })
   updatedAt?: Date
 }

@@ -1,18 +1,18 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { GroupSeasonTopicService } from './group-season-topic.service';
+import { Test, TestingModule } from '@nestjs/testing'
+import { GroupSeasonTopicService } from './group-season-topic.service'
 
 describe('GroupSeasonTopicService', () => {
-  let service: GroupSeasonTopicService;
+  let service: GroupSeasonTopicService
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [GroupSeasonTopicService],
-    }).compile();
+    }).compile()
 
-    service = module.get<GroupSeasonTopicService>(GroupSeasonTopicService);
-  });
+    service = module.get<GroupSeasonTopicService>(GroupSeasonTopicService)
+  })
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-});
+    expect(service).toBeDefined()
+  })
+})
