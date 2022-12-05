@@ -6,7 +6,7 @@ import { ProblemAbilities } from '../casl/handler/problem-abilities.handler'
 import { CheckPolicies } from '../casl/policy/policy.decorator'
 import { PoliciesGuard } from '../casl/policy/policy.guard'
 import { PaginationProblem } from '../common/page/pagination-info'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { SeasonTopicProblem } from '../season-topic-problem/entities/season-topic-problem.entity'
 import { CreateProblemInput } from './dto/create-problem.input'
 import { UpdateProblemInput } from './dto/update-problem.input'
@@ -34,8 +34,8 @@ export class ProblemResolver {
   async problems(
     @Args('filterProblemInput', { type: () => FilterProblemInput, nullable: true })
     filterProblemInput: FilterProblemInput,
-    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput?: PaginationInfoInput,
+    @Args('pageInfoInput', { type: () => PaginationInput, nullable: true })
+    pageInfoInput?: PaginationInput,
   ): Promise<PaginationProblem> {
     return await this.problemService.findAll(filterProblemInput, pageInfoInput)
   }

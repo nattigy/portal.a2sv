@@ -1,6 +1,6 @@
 import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { PaginationSeason } from '../common/page/pagination-info'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { SeasonTopic } from '../season-topic/entities/season-topic.entity'
 import { CreateSeasonInput } from './dto/create-season.input'
 import { UpdateSeasonInput } from './dto/update-season.input'
@@ -24,8 +24,8 @@ export class SeasonResolver {
   async seasons(
     @Args('filterSeasonInput', { type: () => FilterSeasonInput, nullable: true })
     filterSeasonInput?: FilterSeasonInput,
-    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput?: PaginationInfoInput,
+    @Args('pageInfoInput', { type: () => PaginationInput, nullable: true })
+    pageInfoInput?: PaginationInput,
   ): Promise<PaginationSeason> {
     return this.seasonService.findAll(filterSeasonInput, pageInfoInput)
   }

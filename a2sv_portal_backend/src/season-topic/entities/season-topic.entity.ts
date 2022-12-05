@@ -12,21 +12,30 @@ export class SeasonTopic {
   @Field({ description: 'topic id of the topic' })
   topicId: string
 
-  @Field(() => Season, { nullable: true })
-  season?: Season
+  @Field(() => Season)
+  season: Season
 
-  @Field(() => Topic, { nullable: true })
-  topic?: Topic
+  @Field(() => Topic)
+  topic: Topic
 
   @Field(() => [SeasonTopicProblem])
   seasonTopicProblems: SeasonTopicProblem[]
 
-  @Field(() => [GroupSeasonTopic])
-  groupSeasonTopics: GroupSeasonTopic[]
+  @Field(() => [GroupSeasonTopic], { nullable: true })
+  groupSeasonTopics?: GroupSeasonTopic[]
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date
 
   @Field(() => Date, { nullable: true })
   updatedAt?: Date
+
+  // seasonId            String
+  // topicId             String
+  // season              Season?              @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+  // topic               Topic?               @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  // createdAt           DateTime?            @default(now())
+  // updatedAt           DateTime?            @updatedAt
+  // groupSeasonTopics   GroupSeasonTopic[]
+  // seasonTopicProblems SeasonTopicProblem[]
 }

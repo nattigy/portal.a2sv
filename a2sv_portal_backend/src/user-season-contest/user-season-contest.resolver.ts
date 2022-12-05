@@ -1,6 +1,6 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { PaginationUserContest } from '../common/page/pagination-info'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { UserSeasonContest } from './entities/user-season-contest.entity'
 import { UserSeasonContestService } from './user-season-contest.service'
 import { FilterGroupContestUsersInput } from './dto/filter-group-contest-users.input'
@@ -21,8 +21,8 @@ export class UserSeasonContestResolver {
   @Query(() => PaginationUserContest)
   async userContests(
     @Args('userId') userId: string,
-    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput?: PaginationInfoInput,
+    @Args('pageInfoInput', { type: () => PaginationInput, nullable: true })
+    pageInfoInput?: PaginationInput,
   ): Promise<PaginationUserContest> {
     return this.userContestService.findAll(userId, pageInfoInput)
   }
@@ -38,8 +38,8 @@ export class UserSeasonContestResolver {
   async groupContestUsers(
     @Args('filterGroupContestUsersInput', { type: () => FilterGroupContestUsersInput })
     filterGroupContestUsersInput: FilterGroupContestUsersInput,
-    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput?: PaginationInfoInput,
+    @Args('pageInfoInput', { type: () => PaginationInput, nullable: true })
+    pageInfoInput?: PaginationInput,
   ): Promise<PaginationUserContest> {
     return this.userContestService.groupContestUsers(
       filterGroupContestUsersInput,

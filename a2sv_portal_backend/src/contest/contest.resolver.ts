@@ -1,5 +1,5 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { ContestService } from './contest.service'
 import { CreateContestInput } from './dto/create-contest.input'
 import { UpdateContestInput } from './dto/update-contest.input'
@@ -21,7 +21,7 @@ export class ContestResolver {
   @Query(() => PaginationContest)
   async contests(
     @Args('filterContestInput', { nullable: true }) filterContestInput?: FilterContestInput,
-    @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInfoInput,
+    @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInput,
   ): Promise<PaginationContest> {
     return this.contestService.findAll(filterContestInput, pageInfoInput)
   }

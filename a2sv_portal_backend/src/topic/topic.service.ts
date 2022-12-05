@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { Topic } from '@prisma/client'
 import { PaginationTopic } from '../common/page/pagination-info'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { PrismaService } from '../prisma/prisma.service'
 import { AddTopicToSeasonInput } from './dto/add-topic-to-season-input'
 import { CreateTopicInput } from './dto/create-topic.input'
@@ -14,7 +14,7 @@ export class TopicService {
 
   async findAll(
     filterTopicInput: FilterTopicInput,
-    { take, skip }: PaginationInfoInput = { take: 50, skip: 0 },
+    { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationTopic> {
     const topicsCount = (
       await this.prismaService.topic.findMany({

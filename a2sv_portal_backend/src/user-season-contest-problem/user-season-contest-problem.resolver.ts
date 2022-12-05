@@ -5,7 +5,7 @@ import {
 } from './dto/update-user-contest-problem.input'
 import { UserContestProblem } from './entities/user-season-contest-problem.entity'
 import { UserSeasonContestProblemService } from './user-season-contest-problem.service'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { FilterUserContestProblemInput } from './dto/filter-user-contest-problem'
 import { PaginationUserContestProblem } from '../common/page/pagination-info'
 
@@ -25,8 +25,8 @@ export class UserSeasonContestProblemResolver {
       nullable: true,
     })
     filterUserContestProblemInput?: FilterUserContestProblemInput,
-    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput?: PaginationInfoInput,
+    @Args('pageInfoInput', { type: () => PaginationInput, nullable: true })
+    pageInfoInput?: PaginationInput,
   ) {
     return this.userContestProblemService.findAll(filterUserContestProblemInput, pageInfoInput)
   }

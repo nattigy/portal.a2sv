@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma/prisma.service'
 import { UpdateUserProfileInput } from './dto/update-user-profile.input'
 import { UserProfile } from './entities/user-profile.entity'
 import { PaginationUserProfile } from '../common/page/pagination-info'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { FilterUserProfileInput } from './dto/filter-user-profile.input'
 
 @Injectable()
@@ -18,7 +18,7 @@ export class UserProfileService {
 
   async findAll(
     filterUserProfileInput: FilterUserProfileInput,
-    { take, skip }: PaginationInfoInput = { take: 50, skip: 0 },
+    { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationUserProfile> {
     const count = (
       await this.prismaService.userProfile.findMany({

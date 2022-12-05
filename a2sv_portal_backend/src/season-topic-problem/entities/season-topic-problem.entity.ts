@@ -14,14 +14,14 @@ export class SeasonTopicProblem {
   @Field()
   problemId: string
 
-  @Field(() => SeasonTopic)
-  seasonTopic: SeasonTopic
+  @Field(() => SeasonTopic, { nullable: true })
+  seasonTopic?: SeasonTopic
 
   @Field(() => Problem)
   problem: Problem
 
-  @Field(() => [UserSeasonTopicProblem])
-  userSeasonTopicProblems: UserSeasonTopicProblem[]
+  @Field(() => [UserSeasonTopicProblem], { nullable: true })
+  userSeasonTopicProblems?: UserSeasonTopicProblem[]
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date

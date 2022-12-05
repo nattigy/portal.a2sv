@@ -3,7 +3,7 @@ import { SeasonTopicProblemUserId } from './dto/season-topic-problem-user.id'
 import { UpdateSeasonTopicProblemUserInput } from './dto/update-season-topic-problem-user.input'
 import { UserSeasonTopicProblem } from './entities/user-season-topic-problem.entity'
 import { UserSeasonTopicProblemService } from './user-season-topic-problem.service'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { PaginationSeasonTopicProblemUser } from '../common/page/pagination-info'
 
 @Resolver(() => UserSeasonTopicProblem)
@@ -39,7 +39,7 @@ export class UserSeasonTopicProblemResolver {
     @Args('userId') userId: string,
     @Args('topicId') topicId: string,
     @Args('paginationInfoInput', { nullable: true })
-    pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInput,
   ): Promise<PaginationSeasonTopicProblemUser> {
     return this.seasonTopicUserProblemService.seasonTopicUserProblems(
       seasonId,
@@ -55,7 +55,7 @@ export class UserSeasonTopicProblemResolver {
     @Args('topicId') topicId: string,
     @Args('groupId') groupId: string,
     @Args('paginationInfoInput', { nullable: true })
-    pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInput,
   ): Promise<PaginationSeasonTopicProblemUser> {
     return this.seasonTopicUserProblemService.seasonTopicUsersProblem(
       seasonId,

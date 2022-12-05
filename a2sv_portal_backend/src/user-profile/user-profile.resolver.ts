@@ -3,7 +3,7 @@ import { UpdateUserProfileInput } from './dto/update-user-profile.input'
 import { UserProfile } from './entities/user-profile.entity'
 import { UserProfileService } from './user-profile.service'
 import { PaginationUserProfile } from '../common/page/pagination-info'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { FilterUserProfileInput } from './dto/filter-user-profile.input'
 
 @Resolver(() => UserProfile)
@@ -22,8 +22,8 @@ export class UserProfileResolver {
   async userProfiles(
     @Args('filterUserProfileInput', { type: () => FilterUserProfileInput, nullable: true })
     filterUserProfileInput?: FilterUserProfileInput,
-    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput?: PaginationInfoInput,
+    @Args('pageInfoInput', { type: () => PaginationInput, nullable: true })
+    pageInfoInput?: PaginationInput,
   ): Promise<PaginationUserProfile> {
     return this.userProfileService.findAll(filterUserProfileInput, pageInfoInput)
   }

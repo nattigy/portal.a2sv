@@ -28,21 +28,23 @@ export class Problem {
   @Field()
   topicId: string
 
-  @Field(() => Topic)
-  topic: Topic
+  @Field(() => Topic, {nullable: true})
+  topic?: Topic
 
-  @Field(() => [Contest])
+  @Field(() => [Contest], {nullable: true})
   contests?: Contest[]
 
   @Field(() => [SeasonTopicProblem], {
+     nullable: true,
     description: 'Season and topic the problem belongs too',
   })
-  seasonTopicProblems: SeasonTopicProblem[]
+  seasonTopicProblems?: SeasonTopicProblem[]
 
   @Field(() => [UserContestProblem], {
+    nullable: true,
     description: 'Season and topic the problem belongs too',
   })
-  userContestProblems: UserContestProblem[]
+  userContestProblems?: UserContestProblem[]
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date

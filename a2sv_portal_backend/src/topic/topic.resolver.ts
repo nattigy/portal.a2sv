@@ -5,7 +5,7 @@ import { TopicAbilities } from '../casl/handler/topic-abilities.handler'
 import { CheckPolicies } from '../casl/policy/policy.decorator'
 import { PoliciesGuard } from '../casl/policy/policy.guard'
 import { PaginationTopic } from '../common/page/pagination-info'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { SeasonTopic } from '../season-topic/entities/season-topic.entity'
 import { UserTopic } from '../user-topic/entities/user-topic.entity'
 import { AddTopicToSeasonInput } from './dto/add-topic-to-season-input'
@@ -36,8 +36,8 @@ export class TopicResolver {
   async topics(
     @Args('filterTopicInput', { type: () => FilterTopicInput, nullable: true })
     filterTopicInput?: FilterTopicInput,
-    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput?: PaginationInfoInput,
+    @Args('pageInfoInput', { type: () => PaginationInput, nullable: true })
+    pageInfoInput?: PaginationInput,
   ): Promise<PaginationTopic> {
     return this.topicService.findAll(filterTopicInput, pageInfoInput)
   }

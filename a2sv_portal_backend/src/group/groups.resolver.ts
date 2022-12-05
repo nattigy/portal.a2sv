@@ -4,7 +4,7 @@ import { GroupAbilities } from '../casl/handler/group-abilities.handler'
 import { CheckPolicies } from '../casl/policy/policy.decorator'
 import { PoliciesGuard } from '../casl/policy/policy.guard'
 import { PaginationGroup } from '../common/page/pagination-info'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { CreateGroupInput } from './dto/create-group.input'
 import { FilterGroupInput } from './dto/filter-group.input'
 import { UpdateGroupInput } from './dto/update-group.input'
@@ -37,12 +37,10 @@ export class GroupsResolver {
   @CheckPolicies(GroupAbilities.read)
   @Query(() => PaginationGroup)
   async groups(
-    @Args('filterGroupInput', { type: () => FilterGroupInput, nullable: true })
-      filterGroupInput?: FilterGroupInput,
-    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    @Args('filterGroupInput', { nullable: true }) filterGroupInput?: FilterGroupInput,
+    @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<PaginationGroup> {
-    return this.groupsService.groups(filterGroupInput, pageInfoInput)
+    return this.groupsService.groups(filterGroupInput, paginationInput)
   }
 
   // @UseGuards(PoliciesGuard)

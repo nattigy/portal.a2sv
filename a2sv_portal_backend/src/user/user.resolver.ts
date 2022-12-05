@@ -6,7 +6,7 @@ import { UserAbilities } from '../casl/handler/user-abilities.handler'
 import { CheckPolicies } from '../casl/policy/policy.decorator'
 import { PoliciesGuard } from '../casl/policy/policy.guard'
 import { PaginationUser } from '../common/page/pagination-info'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { SignUpUserInput } from './dto/sign-up-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { User } from './entities/user.entity'
@@ -38,7 +38,7 @@ export class UserResolver {
     @Args('filterUserInput', { nullable: true })
       filterUserInput?: FilterUserInput,
     @Args('pageInfoInput', { nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+      pageInfoInput?: PaginationInput,
   ): Promise<PaginationUser> {
     try {
       return this.userService.findAll(filterUserInput, pageInfoInput)

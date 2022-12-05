@@ -4,7 +4,7 @@ import { CreateSeasonTopicProblemInput } from './dto/create-season-topic-problem
 import { UpdateSeasonTopicProblemInput } from './dto/update-season-topic-problem.input'
 import { SeasonTopicProblem } from './entities/season-topic-problem.entity'
 import { PaginationSeasonTopicProblem } from '../common/page/pagination-info'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { SeasonTopicProblemId } from '../season-topic/dto/filter-season-topic.input'
 import { SeasonTopicProblemFilter } from './dto/filter-season-topic-problem'
 
@@ -26,7 +26,7 @@ export class SeasonTopicProblemService {
 
   async findAll(
     seasonTopicProblemFilter: SeasonTopicProblemFilter,
-    { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
+    { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationSeasonTopicProblem> {
     const count = (
       await this.prismaService.seasonTopicProblem.findMany({

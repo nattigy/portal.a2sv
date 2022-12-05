@@ -6,7 +6,7 @@ import { UpdateUserTopicInput, UserTopicId } from './dto/update-user-topic.input
 import { UserTopic } from './entities/user-topic.entity'
 import { UserTopicService } from './user-topic.service'
 import { PaginationUserTopic } from '../common/page/pagination-info'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { FilterUserTopicInput } from './dto/filter-user-topic-input'
 
 @Resolver(() => UserTopic)
@@ -24,8 +24,8 @@ export class UserTopicResolver {
   async userTopics(
     @Args('filterUserTopicInput', { type: () => FilterUserTopicInput, nullable: true })
     filterUserTopicInput?: FilterUserTopicInput,
-    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput?: PaginationInfoInput,
+    @Args('pageInfoInput', { type: () => PaginationInput, nullable: true })
+    pageInfoInput?: PaginationInput,
   ) {
     return this.userTopicService.findAll(filterUserTopicInput, pageInfoInput)
   }

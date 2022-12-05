@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, UseGuards } from '@nestjs/common'
 import { SeasonAbilities } from '../casl/handler/season-abilities.handler'
 import { CheckPolicies } from '../casl/policy/policy.decorator'
 import { PoliciesGuard } from '../casl/policy/policy.guard'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateSeasonInput } from './dto/create-season.input'
 import { UpdateSeasonInput } from './dto/update-season.input'
@@ -18,7 +18,7 @@ export class SeasonService {
   @CheckPolicies(SeasonAbilities.read)
   async findAll(
     filterSeasonInput: FilterSeasonInput,
-    { take, skip }: PaginationInfoInput = { take: 50, skip: 0 },
+    { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationSeason> {
     const seasonsCount = (
       await this.prismaService.season.findMany({

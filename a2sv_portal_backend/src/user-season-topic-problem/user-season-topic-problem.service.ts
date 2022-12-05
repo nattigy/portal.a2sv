@@ -4,7 +4,7 @@ import { SeasonTopicProblemUserId } from './dto/season-topic-problem-user.id'
 import { UpdateSeasonTopicProblemUserInput } from './dto/update-season-topic-problem-user.input'
 import { UserSeasonTopicProblem } from './entities/user-season-topic-problem.entity'
 import { FilterSeasonTopicUserProblemInput } from './dto/filter-season-topic-user-problem.input'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { PaginationSeasonTopicProblemUser } from '../common/page/pagination-info'
 import { SeasonTopicProblem } from '../season-topic-problem/entities/season-topic-problem.entity'
 import { User } from '../user/entities/user.entity'
@@ -90,7 +90,7 @@ export class UserSeasonTopicProblemService {
 
   async findAll(
     filterSeasonTopicProblemUserInput: FilterSeasonTopicUserProblemInput,
-    { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
+    { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationSeasonTopicProblemUser> {
     const count = (
       await this.prismaService.seasonTopicProblemUser.findMany({
@@ -124,7 +124,7 @@ export class UserSeasonTopicProblemService {
     seasonId: string,
     userId: string,
     topicId: string,
-    { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
+    { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationSeasonTopicProblemUser> {
     const count = 0
     const seasonTopicUserProblems: UserSeasonTopicProblem[] = []
@@ -164,7 +164,7 @@ export class UserSeasonTopicProblemService {
     seasonId: string,
     topicId: string,
     groupId: string,
-    { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
+    { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationSeasonTopicProblemUser> {
     const count = (
       await this.prismaService.user.findMany({

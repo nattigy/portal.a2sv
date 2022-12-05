@@ -168,14 +168,14 @@ model SeasonContest {
 }
 
 model GroupSeasonTopic {
-  groupId                 String
-  seasonId                String
-  topicId                 String
+  groupId                  String
+  seasonId                 String
+  topicId                  String
   //group season topic stat should be added here
-  seasonTopic             SeasonTopic               @relation(fields: [topicId, seasonId], references: [topicId, seasonId], onDelete: Cascade)
-  group                   Group                     @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  createdAt               DateTime?                 @default(now())
-  updatedAt               DateTime?                 @updatedAt
+  seasonTopic              SeasonTopic               @relation(fields: [topicId, seasonId], references: [topicId, seasonId], onDelete: Cascade)
+  group                    Group                     @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  createdAt                DateTime?                 @default(now())
+  updatedAt                DateTime?                 @updatedAt
   groupSeasonTopicProblems GroupSeasonTopicProblem[]
 
   @@id([seasonId, topicId, groupId])
@@ -197,7 +197,7 @@ model SeasonTopicProblem {
   seasonId                String
   topicId                 String
   problemId               String
-  seasonTopic             SeasonTopic              @relation(fields: [topicId, seasonId], references: [topicId, seasonId], onDelete: Cascade)
+  seasonTopic             SeasonTopic?             @relation(fields: [topicId, seasonId], references: [topicId, seasonId], onDelete: Cascade)
   problem                 Problem                  @relation(fields: [problemId], references: [id], onDelete: Cascade)
   createdAt               DateTime?                @default(now())
   updatedAt               DateTime?                @updatedAt

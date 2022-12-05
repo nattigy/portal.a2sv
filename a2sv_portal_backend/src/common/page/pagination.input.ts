@@ -1,7 +1,7 @@
 import { Field, InputType, Int } from '@nestjs/graphql'
 
 @InputType()
-export class PaginationInfoInput {
+export class PaginationInput {
   @Field(() => Int, { nullable: true })
   take?: number
 

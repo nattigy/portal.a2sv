@@ -21,7 +21,7 @@ export class Topic {
   userTopics?: UserTopic[]
 
   @Field(() => [Problem], { nullable: true, description: 'Topic the user has' })
-  problems: Problem[]
+  problems?: Problem[]
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date

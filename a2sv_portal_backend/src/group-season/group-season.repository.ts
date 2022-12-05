@@ -8,7 +8,7 @@ export class GroupSeasonRepository {
   constructor(private readonly prismaService: PrismaService) {
   }
 
-  async create(data: Prisma.GroupSeasonCreateInput): Promise<GroupSeason> {
+  async create(data: Prisma.GroupSeasonCreateInput | Prisma.GroupSeasonUncheckedCreateInput): Promise<GroupSeason> {
     return this.prismaService.groupSeason.create({
       data,
       include: {

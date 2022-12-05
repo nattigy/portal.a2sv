@@ -3,7 +3,7 @@ import { CreateUserTopicInput } from './dto/create-user-topic.input'
 import { UpdateUserTopicInput, UserTopicId } from './dto/update-user-topic.input'
 import { PrismaService } from '../prisma/prisma.service'
 import { UserTopic } from './entities/user-topic.entity'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { FilterUserTopicInput } from './dto/filter-user-topic-input'
 import { PaginationUserTopic } from '../common/page/pagination-info'
 
@@ -23,7 +23,7 @@ export class UserTopicService {
 
   async findAll(
     filterUserTopicInput: FilterUserTopicInput,
-    { take, skip }: PaginationInfoInput = { take: 50, skip: 0 },
+    { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationUserTopic> {
     const count = (
       await this.prismaService.userTopic.findMany({

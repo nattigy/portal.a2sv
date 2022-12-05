@@ -3,7 +3,7 @@ import { CreateSeasonTopicProblemInput } from './dto/create-season-topic-problem
 import { UpdateSeasonTopicProblemInput } from './dto/update-season-topic-problem.input'
 import { SeasonTopicProblem } from './entities/season-topic-problem.entity'
 import { SeasonTopicProblemService } from './season-topic-problem.service'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { SeasonTopicProblemId } from '../season-topic/dto/filter-season-topic.input'
 import { PaginationSeasonTopicProblem } from '../common/page/pagination-info'
 import descriptions from './season-topic-problem.doc'
@@ -27,8 +27,8 @@ export class SeasonTopicProblemResolver {
   async seasonTopicProblems(
     @Args('seasonTopicProblemFilter', { type: () => SeasonTopicProblemFilter, nullable: true })
     seasonTopicProblemFilter: SeasonTopicProblemFilter,
-    @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-    pageInfoInput?: PaginationInfoInput,
+    @Args('pageInfoInput', { type: () => PaginationInput, nullable: true })
+    pageInfoInput?: PaginationInput,
   ): Promise<PaginationSeasonTopicProblem> {
     return this.seasonTopicProblemService.findAll(seasonTopicProblemFilter, pageInfoInput)
   }

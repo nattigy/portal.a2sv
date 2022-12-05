@@ -3,7 +3,7 @@ import { registerEnumType } from '@nestjs/graphql'
 import { RoleEnum, Status } from '@prisma/client'
 import * as bcrypt from 'bcrypt'
 import { PaginationUser } from '../common/page/pagination-info'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { GroupsService } from '../group/groups.service'
 import { UserSeasonContestService } from '../user-season-contest/user-season-contest.service'
 import { PrismaService } from '../prisma/prisma.service'
@@ -56,7 +56,7 @@ export class UserService {
 
   async findAll(
     filterUserInput: FilterUserInput,
-    { take, skip }: PaginationInfoInput = { take: 50, skip: 0 },
+    { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationUser> {
     const usersCount = (
       await this.prismaService.user.findMany({

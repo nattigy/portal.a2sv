@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateContestInput } from './dto/create-contest.input'
 import { UpdateContestInput } from './dto/update-contest.input'
@@ -32,7 +32,7 @@ export class ContestService {
 
   async findAll(
     filterContestInput: FilterContestInput,
-    { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
+    { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationContest> {
     const count = (
       await this.prismaService.contest.findMany({

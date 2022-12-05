@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { PaginationGroup } from '../common/page/pagination-info'
-import { PaginationInfoInput } from '../common/page/pagination-info.input'
+import { PaginationInput } from '../common/page/pagination.input'
 import { CreateGroupInput } from './dto/create-group.input'
 import { FilterGroupInput } from './dto/filter-group.input'
 import { UpdateGroupInput } from './dto/update-group.input'
@@ -27,7 +27,7 @@ export class GroupsService {
 
   async groups(
     filterGroupInput: FilterGroupInput,
-    { skip, take }: PaginationInfoInput = { take: 50, skip: 0 },
+    { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationGroup> {
     const count = await this.groupRepository.count(filterGroupInput)
     const groups = await this.groupRepository.findAll({

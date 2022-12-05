@@ -3,6 +3,8 @@ import { CreateGroupSeasonInput, GroupSeasonId } from './dto/create-group-season
 import { GroupSeasonRepository } from './group-season.repository'
 import { PrismaService } from '../prisma/prisma.service'
 import { GroupSeason } from './entities/group-season.entity'
+import { PaginationInput } from '../common/page/pagination.input'
+import { FilterGroupSeasonInput } from './dto/filter-group-season.input'
 
 @Injectable()
 export class GroupSeasonService {
@@ -43,12 +45,18 @@ export class GroupSeasonService {
     })
   }
 
-  async groupSeasonStat(groupSeasonId: GroupSeasonId) {
-    return `This action returns a #${groupSeasonId} groupSeason`
+  async groupSeasonStat({ seasonId, groupId }: GroupSeasonId) {
+    //generate state here
+    return this.groupSeasonRepository.findOne({
+      groupId_seasonId: { seasonId, groupId },
+    })
   }
 
-  async groupSeasonOverAllStat(groupId: string) {
-    return `This action returns a #${groupId} groupSeason`
+  async groupsSeasonsStats({ seasonId, groupId }: FilterGroupSeasonInput, paginationInput: PaginationInput) {
+    //generate multiple state here
+    return this.groupSeasonRepository.findAll({
+      where: { seasonId, groupId },
+    })
   }
 
   async removeGroupSeason({ seasonId, groupId }: GroupSeasonId) {
