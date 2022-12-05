@@ -30,6 +30,7 @@ import { GroupSeasonTopicModule } from './group-season-topic/group-season-topic.
 import { GroupSeasonContestModule } from './group-season-contest/group-season-contest.module'
 import { GroupSeasonModule } from './group-season/group-season.module'
 import { UserSeasonModule } from './user-season/user-season.module';
+import { GroupSeasonTopicProblemModule } from './group-season-topic-problem/group-season-topic-problem.module';
 
 @Module({
   imports: [
@@ -86,6 +87,7 @@ import { UserSeasonModule } from './user-season/user-season.module';
     GroupSeasonContestModule,
     GroupSeasonModule,
     UserSeasonModule,
+    GroupSeasonTopicProblemModule,
   ],
   providers: [AppService, AppResolver],
 })

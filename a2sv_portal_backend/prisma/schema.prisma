@@ -186,9 +186,8 @@ model GroupSeasonTopicProblem {
   seasonId         String
   topicId          String
   problemId        String
-  display          Boolean
-  groupSeasonTopic GroupSeasonTopic @relation(fields: [topicId, seasonId, groupId], references: [topicId, seasonId, groupId], onDelete: Cascade)
-  problem          Problem          @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  groupSeasonTopic GroupSeasonTopic? @relation(fields: [topicId, seasonId, groupId], references: [topicId, seasonId, groupId], onDelete: Cascade)
+  problem          Problem           @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
   @@id([seasonId, topicId, groupId, problemId])
 }

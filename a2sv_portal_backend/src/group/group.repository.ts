@@ -43,7 +43,7 @@ export class GroupRepository {
     return this.prismaService.group.update({ data, where })
   }
 
-  async remove(where: Prisma.GroupWhereUniqueInput): Promise<Group> {
+  async remove(where: Prisma.GroupWhereUniqueInput) {
     return this.prismaService.group.delete({ where })
   }
 }

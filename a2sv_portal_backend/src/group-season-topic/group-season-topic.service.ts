@@ -1,26 +1,52 @@
 import { Injectable } from '@nestjs/common'
-import { CreateGroupSeasonTopicInput } from './dto/create-group-season-topic.input'
-import { UpdateGroupSeasonTopicInput } from './dto/update-group-season-topic.input'
+import { CreateGroupSeasonTopicInput, GroupSeasonTopicId } from './dto/create-group-season-topic.input'
+import { PrismaService } from '../prisma/prisma.service'
+import { GroupSeasonTopicRepository } from './group-season-topic.repository'
+import { FilterGroupSeasonTopicInput } from './dto/filter-group-season-topic.input'
+import { PaginationInput } from '../common/page/pagination.input'
 
 @Injectable()
 export class GroupSeasonTopicService {
-  create(createGroupSeasonTopicInput: CreateGroupSeasonTopicInput) {
-    return 'This action adds a new groupSeasonTopic'
+  constructor(
+    private readonly groupSeasonTopicRepository: GroupSeasonTopicRepository,
+    private readonly prismaService: PrismaService,
+  ) {
   }
 
-  findAll() {
-    return `This action returns all groupSeasonTopic`
+  async addTopicToGroupSeason({ groupId, seasonId, topicId }: CreateGroupSeasonTopicInput) {
+    return this.groupSeasonTopicRepository.create({
+      groupId, seasonId, topicId,
+      seasonTopic: {
+        connect: {
+          seasonId_topicId: {
+            topicId, seasonId,
+          },
+        },
+      },
+    })
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} groupSeasonTopic`
+  async groupSeasonTopic({ groupId, seasonId, topicId }: GroupSeasonTopicId) {
+    return this.groupSeasonTopicRepository.findOne({
+      seasonId_topicId_groupId: {
+        topicId, seasonId, groupId,
+      },
+    })
   }
 
-  update(id: number, updateGroupSeasonTopicInput: UpdateGroupSeasonTopicInput) {
-    return `This action updates a #${id} groupSeasonTopic`
+  async groupSeasonTopics(
+    filterGroupSeasonTopicInput: FilterGroupSeasonTopicInput,
+    { skip, take }: PaginationInput = { take: 50, skip: 0 }
+  ) {
+    return this.groupSeasonTopicRepository.findAll({
+      skip, take,
+      where: filterGroupSeasonTopicInput,
+    })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} groupSeasonTopic`
+  async removeGroupSeasonTopic({ groupId, seasonId, topicId }: GroupSeasonTopicId) {
+    return this.groupSeasonTopicRepository.remove({
+      seasonId_topicId_groupId: { topicId, seasonId, groupId },
+    })
   }
 }

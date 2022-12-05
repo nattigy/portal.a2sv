@@ -1,125 +1,60 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
-import { CreateSeasonTopicProblemInput } from './dto/create-season-topic-problem.input'
-import { UpdateSeasonTopicProblemInput } from './dto/update-season-topic-problem.input'
+import { CreateSeasonTopicProblemInput, SeasonTopicProblemId } from './dto/create-season-topic-problem.input'
 import { SeasonTopicProblem } from './entities/season-topic-problem.entity'
 import { PaginationSeasonTopicProblem } from '../common/page/pagination-info'
 import { PaginationInput } from '../common/page/pagination.input'
-import { SeasonTopicProblemId } from '../season-topic/dto/filter-season-topic.input'
 import { SeasonTopicProblemFilter } from './dto/filter-season-topic-problem'
+import { SeasonTopicProblemRepository } from './season-topic-problem.repository'
 
 @Injectable()
 export class SeasonTopicProblemService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly seasonTopicProblemRepository: SeasonTopicProblemRepository,
+    private readonly prismaService: PrismaService,
+  ) {
+  }
 
-  async create(
-    createSeasonTopicProblemInput: CreateSeasonTopicProblemInput,
+  async addProblemToSeasonTopic(
+    { seasonId, topicId, problemId }: CreateSeasonTopicProblemInput,
   ): Promise<SeasonTopicProblem> {
-    return this.prismaService.seasonTopicProblem.create({
-      include: {
-        problem: true,
-        seasonTopic: true,
+    return this.seasonTopicProblemRepository.create({
+      seasonId, topicId, problemId,
+      seasonTopic: {
+        connect: {
+          seasonId_topicId: {
+            topicId, seasonId,
+          },
+        },
       },
-      data: createSeasonTopicProblemInput,
     })
   }
 
-  async findAll(
+  async seasonTopicProblem({ seasonId, topicId, problemId }: SeasonTopicProblemId): Promise<SeasonTopicProblem> {
+    return this.seasonTopicProblemRepository.findOne({
+      seasonId_topicId_problemId: { seasonId, topicId, problemId },
+    })
+  }
+
+  async seasonTopicProblems(
     seasonTopicProblemFilter: SeasonTopicProblemFilter,
     { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationSeasonTopicProblem> {
-    const count = (
-      await this.prismaService.seasonTopicProblem.findMany({
-        where: seasonTopicProblemFilter,
-      })
-    ).length
+    const count = await this.seasonTopicProblemRepository.count(seasonTopicProblemFilter)
     const seasonTopicProblems: SeasonTopicProblem[] =
-      await this.prismaService.seasonTopicProblem.findMany({
+      await this.seasonTopicProblemRepository.findAll({
         where: seasonTopicProblemFilter,
-        include: {
-          problem: true,
-          seasonTopic: {
-            include: {
-              season: {
-                include: {
-                  group: {
-                    include: {
-                      users: true,
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
+        skip, take,
       })
     return {
       items: seasonTopicProblems,
-      pageInfo: {
-        skip,
-        take,
-        count,
-      },
+      pageInfo: { skip, take, count },
     }
-  }
-
-  async findOne({
-    seasonId,
-    topicId,
-    problemId,
-  }: SeasonTopicProblemId): Promise<SeasonTopicProblem> {
-    return this.prismaService.seasonTopicProblem.findUnique({
-      where: {
-        seasonId_topicId_problemId: {
-          seasonId,
-          topicId,
-          problemId,
-        },
-      },
-      include: {
-        problem: true,
-        seasonTopic: true,
-      },
-    })
-  }
-
-  async update({
-    seasonId,
-    topicId,
-    problemId,
-    ...updates
-  }: UpdateSeasonTopicProblemInput): Promise<SeasonTopicProblem> {
-    return this.prismaService.seasonTopicProblem.update({
-      where: {
-        seasonId_topicId_problemId: {
-          seasonId,
-          topicId,
-          problemId,
-        },
-      },
-      data: updates,
-      include: {
-        problem: true,
-        seasonTopic: true,
-      },
-    })
   }
 
   async remove({ seasonId, problemId, topicId }: SeasonTopicProblemId) {
-    try {
-      await this.prismaService.seasonTopicProblem.delete({
-        where: {
-          seasonId_topicId_problemId: {
-            seasonId,
-            problemId,
-            topicId,
-          },
-        },
-      })
-    } catch (e) {
-      console.log(`Fail to delete season topic problem with id ${seasonId}`, ' : ', e)
-      throw new Error(`Fail to delete season topic problem with id ${seasonId}`)
-    }
-    return 1
+    return this.seasonTopicProblemRepository.remove({
+      seasonId_topicId_problemId: { seasonId, topicId, problemId },
+    })
   }
 }

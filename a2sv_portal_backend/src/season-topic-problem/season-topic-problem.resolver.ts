@@ -1,61 +1,59 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { CreateSeasonTopicProblemInput } from './dto/create-season-topic-problem.input'
-import { UpdateSeasonTopicProblemInput } from './dto/update-season-topic-problem.input'
+import { CreateSeasonTopicProblemInput, SeasonTopicProblemId } from './dto/create-season-topic-problem.input'
 import { SeasonTopicProblem } from './entities/season-topic-problem.entity'
 import { SeasonTopicProblemService } from './season-topic-problem.service'
 import { PaginationInput } from '../common/page/pagination.input'
-import { SeasonTopicProblemId } from '../season-topic/dto/filter-season-topic.input'
 import { PaginationSeasonTopicProblem } from '../common/page/pagination-info'
 import descriptions from './season-topic-problem.doc'
-import { SeasonTopicProblemFilter } from './dto/filter-season-topic-problem'
+import { SeasonTopicId } from '../season-topic/dto/create-season-topic.input'
 
 @Resolver(() => SeasonTopicProblem)
 export class SeasonTopicProblemResolver {
-  constructor(private readonly seasonTopicProblemService: SeasonTopicProblemService) {}
+  constructor(private readonly seasonTopicProblemService: SeasonTopicProblemService) {
+  }
 
   @Mutation(() => SeasonTopicProblem, {
     description: descriptions.createSeasonTopicProblem,
   })
-  async createSeasonTopicProblem(
-    @Args('createSeasonTopicProblemInput')
-    createSeasonTopicProblemInput: CreateSeasonTopicProblemInput,
-  ) {
-    return this.seasonTopicProblemService.create(createSeasonTopicProblemInput)
+  async addProblemToSeasonTopic(
+    @Args('createSeasonTopicProblemInput') createSeasonTopicProblemInput: CreateSeasonTopicProblemInput,
+  ): Promise<SeasonTopicProblem> {
+    return this.seasonTopicProblemService.addProblemToSeasonTopic(createSeasonTopicProblemInput)
+  }
+
+  @Query(() => SeasonTopicProblem, { description: descriptions.seasonTopicProblem })
+  async seasonTopicProblem(
+    @Args('seasonTopicProblemId') seasonTopicProblemId: SeasonTopicProblemId,
+  ): Promise<SeasonTopicProblem> {
+    return this.seasonTopicProblemService.seasonTopicProblem(seasonTopicProblemId)
   }
 
   @Query(() => PaginationSeasonTopicProblem, { description: descriptions.seasonTopicProblems })
   async seasonTopicProblems(
-    @Args('seasonTopicProblemFilter', { type: () => SeasonTopicProblemFilter, nullable: true })
-    seasonTopicProblemFilter: SeasonTopicProblemFilter,
-    @Args('pageInfoInput', { type: () => PaginationInput, nullable: true })
-    pageInfoInput?: PaginationInput,
+    @Args('seasonTopicId') seasonTopicId: SeasonTopicId,
+    @Args('pageInfoInput', { nullable: true })
+      pageInfoInput?: PaginationInput,
   ): Promise<PaginationSeasonTopicProblem> {
-    return this.seasonTopicProblemService.findAll(seasonTopicProblemFilter, pageInfoInput)
+    return this.seasonTopicProblemService.seasonTopicProblems(seasonTopicId, pageInfoInput)
   }
 
-  @Query(() => SeasonTopicProblem, {
-    description: descriptions.seasonTopicProblem,
-  })
-  async seasonTopicProblem(
-    @Args('seasonTopicProblemId') seasonTopicProblemId: SeasonTopicProblemId,
-  ) {
-    return this.seasonTopicProblemService.findOne(seasonTopicProblemId)
-  }
-
-  @Mutation(() => SeasonTopicProblem, {
-    description: descriptions.updateSeasonTopicProblem,
-  })
-  async updateSeasonTopicProblem(
-    @Args('updateSeasonTopicProblemInput')
-    updateSeasonTopicProblemInput: UpdateSeasonTopicProblemInput,
-  ) {
-    return this.seasonTopicProblemService.update(updateSeasonTopicProblemInput)
-  }
-
-  @Mutation(() => Int, { description: descriptions.removeSeasonTopicProblem })
+  @Mutation(() => SeasonTopicProblem, { description: descriptions.removeSeasonTopicProblem })
   async removeSeasonTopicProblem(
     @Args('seasonTopicProblemId') seasonTopicProblemId: SeasonTopicProblemId,
   ) {
     return this.seasonTopicProblemService.remove(seasonTopicProblemId)
+  }
+
+  @Mutation(() => Int, { description: descriptions.removeSeasonTopicProblem })
+  async removeSeasonTopicProblems(
+    @Args('seasonTopicId') { seasonId, topicId }: SeasonTopicId,
+    @Args('problemIds') problemIds: string[],
+  ): Promise<number> {
+    for (const problemId of problemIds) {
+      await this.seasonTopicProblemService.remove({
+        seasonId, topicId, problemId,
+      })
+    }
+    return problemIds.length
   }
 }

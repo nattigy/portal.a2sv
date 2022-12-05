@@ -1,8 +1,14 @@
 import { CreateGroupSeasonTopicInput } from './create-group-season-topic.input'
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql'
+import { Field, InputType, PartialType } from '@nestjs/graphql'
 
 @InputType()
 export class UpdateGroupSeasonTopicInput extends PartialType(CreateGroupSeasonTopicInput) {
-  @Field(() => Int)
-  id: number
+  @Field({ description: 'Example field (placeholder)' })
+  groupId: string
+
+  @Field({ description: 'Example field (placeholder)' })
+  seasonId: string
+
+  @Field({ description: 'Example field (placeholder)' })
+  topicId: string
 }

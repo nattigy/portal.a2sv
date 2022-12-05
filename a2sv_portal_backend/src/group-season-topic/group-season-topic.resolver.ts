@@ -1,44 +1,37 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { GroupSeasonTopicService } from './group-season-topic.service'
 import { GroupSeasonTopic } from './entities/group-season-topic.entity'
-import { CreateGroupSeasonTopicInput } from './dto/create-group-season-topic.input'
-import { UpdateGroupSeasonTopicInput } from './dto/update-group-season-topic.input'
+import { CreateGroupSeasonTopicInput, GroupSeasonTopicId } from './dto/create-group-season-topic.input'
+import { PaginationInput } from '../common/page/pagination.input'
+import { GroupSeasonId } from '../group-season/dto/create-group-season.input'
 
 @Resolver(() => GroupSeasonTopic)
 export class GroupSeasonTopicResolver {
-  constructor(private readonly groupSeasonTopicService: GroupSeasonTopicService) {}
+  constructor(private readonly groupSeasonTopicService: GroupSeasonTopicService) {
+  }
 
   @Mutation(() => GroupSeasonTopic)
-  createGroupSeasonTopic(
-    @Args('createGroupSeasonTopicInput')
-    createGroupSeasonTopicInput: CreateGroupSeasonTopicInput,
+  async addTopicToGroupSeason(
+    @Args('createGroupSeasonTopicInput') createGroupSeasonTopicInput: CreateGroupSeasonTopicInput,
+  ): Promise<GroupSeasonTopic> {
+    return this.groupSeasonTopicService.addTopicToGroupSeason(createGroupSeasonTopicInput)
+  }
+
+  @Query(() => GroupSeasonTopic)
+  async groupSeasonTopic(@Args('groupSeasonTopicId') groupSeasonTopicId: GroupSeasonTopicId) {
+    return this.groupSeasonTopicService.groupSeasonTopic(groupSeasonTopicId)
+  }
+
+  @Query(() => [GroupSeasonTopic])
+  async groupSeasonTopics(
+    @Args('groupSeasonId') groupSeasonId: GroupSeasonId,
+    @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ) {
-    return this.groupSeasonTopicService.create(createGroupSeasonTopicInput)
-  }
-
-  @Query(() => [GroupSeasonTopic], { name: 'groupSeasonTopic' })
-  findAll() {
-    return this.groupSeasonTopicService.findAll()
-  }
-
-  @Query(() => GroupSeasonTopic, { name: 'groupSeasonTopic' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.groupSeasonTopicService.findOne(id)
+    return this.groupSeasonTopicService.groupSeasonTopics(groupSeasonId, paginationInput)
   }
 
   @Mutation(() => GroupSeasonTopic)
-  updateGroupSeasonTopic(
-    @Args('updateGroupSeasonTopicInput')
-    updateGroupSeasonTopicInput: UpdateGroupSeasonTopicInput,
-  ) {
-    return this.groupSeasonTopicService.update(
-      updateGroupSeasonTopicInput.id,
-      updateGroupSeasonTopicInput,
-    )
-  }
-
-  @Mutation(() => GroupSeasonTopic)
-  removeGroupSeasonTopic(@Args('id', { type: () => Int }) id: number) {
-    return this.groupSeasonTopicService.remove(id)
+  async removeGroupSeasonTopic(@Args('groupSeasonTopicId') groupSeasonTopicId: GroupSeasonTopicId) {
+    return this.groupSeasonTopicService.removeGroupSeasonTopic(groupSeasonTopicId)
   }
 }
