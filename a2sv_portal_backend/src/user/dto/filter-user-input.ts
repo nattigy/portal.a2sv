@@ -28,3 +28,13 @@ export class FilterUserInput {
   updatedAt?: Date
 }
 
+@InputType()
+export class UniqueUserInput {
+  
+  @Field({ nullable: true })
+  id?: string
+
+  @Field({ nullable: true })
+  email?: string
+
+}

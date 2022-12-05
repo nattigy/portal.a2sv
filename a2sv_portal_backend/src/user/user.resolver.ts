@@ -11,7 +11,7 @@ import { SignUpUserInput } from './dto/sign-up-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { User } from './entities/user.entity'
 import { UserService } from './user.service'
-import { FilterUserInput } from './dto/filter-user-input'
+import { FilterUserInput, UniqueUserInput } from './dto/filter-user-input'
 import descriptions from './user.doc'
 
 @Resolver(() => User)
@@ -41,7 +41,7 @@ export class UserResolver {
       pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationUser> {
     try {
-      return this.userService.findAll(filterUserInput, pageInfoInput)
+      return this.userService.users(filterUserInput, pageInfoInput)
     } catch (e) {
       return e.message
     }
@@ -50,9 +50,9 @@ export class UserResolver {
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.read)
   @Query(() => User, { description: descriptions.findOne })
-  async user(@Args('id') id: string) {
+  async user( @Args('UniqueUserInput') uniqueUserInput: UniqueUserInput,) {
     try {
-      return await this.userService.findOne(id)
+      return await this.userService.user(uniqueUserInput)
     } catch (e) {
       return e.message
     }

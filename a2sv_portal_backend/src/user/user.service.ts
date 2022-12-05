@@ -9,32 +9,29 @@ import { UserSeasonContestService } from '../user-season-contest/user-season-con
 import { PrismaService } from '../prisma/prisma.service'
 import { SignUpUserInput } from './dto/sign-up-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
-import { FilterUserInput } from './dto/filter-user-input'
+import { FilterUserInput, UniqueUserInput } from './dto/filter-user-input'
 import { UserRepository } from './user.repository'
 import { User } from './entities/user.entity'
 
-export enum StatTimeRange {
-  MONTH,
-  WEEK,
-  ALL,
-}
+// export enum StatTimeRange {
+//   MONTH,
+//   WEEK,
+//   ALL,
+// }
 
 // type sortComparator = (
 //   a: User & { seasonTopicProblems: SeasonTopicProblemUser[] },
 //   b: User & { seasonTopicProblems: SeasonTopicProblemUser[] },
 // ) => number
 
-registerEnumType(StatTimeRange, { name: 'StatTimeRange' })
+// registerEnumType(StatTimeRange, { name: 'StatTimeRange' })
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly prismaService: PrismaService,
-    private readonly groupService: GroupsService,
-    private readonly userContestService: UserSeasonContestService,
-  ) {
-  }
+  ) {}
 
   async createUser(createUserInput: SignUpUserInput): Promise<User> {
     const { email, password } = createUserInput
@@ -54,19 +51,16 @@ export class UserService {
     })
   }
 
-  async findAll(
+  async users(
     filterUserInput: FilterUserInput,
     { take, skip }: PaginationInfoInput = { take: 50, skip: 0 },
   ): Promise<PaginationUser> {
     const usersCount = (
-      await this.prismaService.user.findMany({
+      await this.userRepository.findAll({
         where: filterUserInput,
-        select: {
-          id: true,
-        },
       })
     ).length
-    const users: User[] = await this.prismaService.user.findMany({
+    const users: User[] = await this.userRepository.findAll({
       skip,
       take,
       where: filterUserInput,
@@ -82,16 +76,6 @@ export class UserService {
     }
   }
 
-  async findOne(id: string): Promise<User> {
-    const user = await this.prismaService.user.findUnique({
-      where: {
-        id: id,
-      },
-    })
-    if (!user) throw new NotFoundException('User not found')
-    return user
-  }
-
   async update(updateUserInput: UpdateUserInput | UpdateUserInput[]) {
     if (Array.isArray(updateUserInput)) {
       return this.prismaService.user.updateMany({
@@ -105,35 +89,9 @@ export class UserService {
     })
   }
 
-  async findByEmail(email: string): Promise<User | null> {
-    return this.prismaService.user.findFirst({
-      where: { email },
-      include: {
-        headToGroup: true,
-        userProfile: true,
-        topics: {
-          include: {
-            topic: true,
-          },
-        },
-      },
-    })
-  }
-
-  async findById(id: string) {
-    return await this.prismaService.user.findUnique({
-      where: {
-        id: id,
-      },
-      include: {
-        headToGroup: true,
-        userProfile: true,
-        topics: {
-          include: {
-            topic: true,
-          },
-        },
-      },
+  async user({id, email}: UniqueUserInput ) {
+    return this.userRepository.findOne({
+      id, email
     })
   }
 
@@ -430,9 +388,9 @@ export class UserService {
   //   }
   // }
 
-  async remove(id: string): Promise<number> {
+  async remove(id: string) {
     try {
-      await this.prismaService.user.delete({ where: { id } })
+      await this.userRepository.remove({ id })
     } catch (e) {
       console.log(`Fail to delete user with id ${id}`, ' : ', e)
       throw new Error(`Fail to delete user with id ${id}`)
