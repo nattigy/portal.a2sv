@@ -1,7 +1,7 @@
-import {Injectable} from '@nestjs/common'
-import {PrismaService} from '../prisma/prisma.service'
-import {Prisma} from '@prisma/client'
-import {Group} from "./entities/group.entity";
+import { Injectable } from '@nestjs/common'
+import { PrismaService } from '../prisma/prisma.service'
+import { Prisma } from '@prisma/client'
+import { Group } from './entities/group.entity'
 
 @Injectable()
 export class GroupRepository {
@@ -9,11 +9,11 @@ export class GroupRepository {
   }
 
   async create(data: Prisma.GroupCreateInput): Promise<Group> {
-    return this.prismaService.group.create({data})
+    return this.prismaService.group.create({ data })
   }
 
   async count(where?: Prisma.GroupWhereInput): Promise<number> {
-    return this.prismaService.group.count({where})
+    return this.prismaService.group.count({ where })
   }
 
   async findAll(params: {
@@ -22,7 +22,7 @@ export class GroupRepository {
     where?: Prisma.GroupWhereInput
     orderBy?: Prisma.GroupOrderByWithRelationInput
   }): Promise<Group[]> {
-    const {skip, take, where, orderBy} = params
+    const { skip, take, where, orderBy } = params
     return this.prismaService.group.findMany({
       skip,
       take,
@@ -32,18 +32,18 @@ export class GroupRepository {
   }
 
   async findOne(where: Prisma.GroupWhereUniqueInput): Promise<Group> {
-    return this.prismaService.group.findUnique({where})
+    return this.prismaService.group.findUnique({ where })
   }
 
   async update(params: {
     where: Prisma.GroupWhereUniqueInput
-    data: Prisma.GroupUpdateInput
+    data: Prisma.GroupUpdateInput | Prisma.GroupUncheckedUpdateInput
   }): Promise<Group> {
-    const {where, data} = params
-    return this.prismaService.group.update({data, where})
+    const { where, data } = params
+    return this.prismaService.group.update({ data, where })
   }
 
   async remove(where: Prisma.GroupWhereUniqueInput): Promise<Group> {
-    return this.prismaService.group.delete({where})
+    return this.prismaService.group.delete({ where })
   }
 }

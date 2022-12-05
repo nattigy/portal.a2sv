@@ -14,7 +14,7 @@ export class Season {
   @Field({ description: `Type of the season is it Camp or Education or Project` })
   seasonType: SeasonType
 
-  @Field({ description: `Implies if the season active currently or ended/inactive` })
+  @Field({ nullable: true, description: `Implies if the season active currently or ended/inactive` })
   isActive?: boolean
 
   @Field(() => Date, { description: `The start date of the season` })
@@ -23,11 +23,11 @@ export class Season {
   @Field(() => Date, { description: `The end date of the season` })
   endDate: Date
 
-  @Field(() => [SeasonTopic], { description: `Topic that belong to the season` })
+  @Field(() => [SeasonTopic], { nullable: true, description: `Topic that belong to the season` })
   seasonTopics?: SeasonTopic[]
 
-  @Field(() => [SeasonContest], { description: `Topic that belong to the season` })
-  seasonContests: SeasonContest[]
+  @Field(() => [SeasonContest], { nullable: true, description: `Topic that belong to the season` })
+  seasonContests?: SeasonContest[]
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date

@@ -47,7 +47,7 @@ export class AuthService {
   }
 
   async signUp(@Context() context, createUserInput: SignUpUserInput): Promise<AuthResponse> {
-    const user = await this.usersService.create(createUserInput)
+    const user = await this.usersService.createUser(createUserInput)
     const accessToken = await this.setToken(context, user)
     return { accessToken, userId: user.id }
   }

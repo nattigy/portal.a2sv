@@ -1,25 +1,27 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { PaginationGroup } from '../common/page/pagination-info'
 import { PaginationInfoInput } from '../common/page/pagination-info.input'
-import { PrismaService } from '../prisma/prisma.service'
 import { CreateGroupInput } from './dto/create-group.input'
 import { FilterGroupInput } from './dto/filter-group.input'
 import { UpdateGroupInput } from './dto/update-group.input'
 import { Group } from './entities/group.entity'
 import { GroupRepository } from './group.repository'
+import { Prisma } from '@prisma/client'
+import { PrismaService } from '../prisma/prisma.service'
 
 @Injectable()
 export class GroupsService {
   constructor(
     private readonly groupRepository: GroupRepository,
+    private readonly prismaService: PrismaService,
   ) {
   }
 
-  async createGroup(createGroupInput: CreateGroupInput) {
+  async createGroup(createGroupInput: CreateGroupInput): Promise<Group> {
     return this.groupRepository.create(createGroupInput)
   }
 
-  async group(id: string) {
+  async group(id: string): Promise<Group> {
     return this.groupRepository.findOne({ id })
   }
 
@@ -32,7 +34,7 @@ export class GroupsService {
       skip,
       take,
       where: filterGroupInput,
-      orderBy: {}
+      orderBy: {},
     })
     return {
       items: groups,
@@ -97,9 +99,21 @@ export class GroupsService {
   // }
 
   async updateGroup({ id, ...updates }: UpdateGroupInput): Promise<Group> {
+    const newUpdates: Prisma.GroupUpdateInput | Prisma.GroupUncheckedUpdateInput = { ...updates, head: null }
+    if (updates.headId) {
+      const getHead = await this.prismaService.user.findUnique({ where: { id: updates.headId } })
+      if (!getHead) {
+        throw new NotFoundException(`User with id:${updates.headId} not found`)
+      }
+      newUpdates.head = {
+        connect: {
+          id: updates.headId,
+        },
+      }
+    }
     return this.groupRepository.update({
       where: { id },
-      data: updates,
+      data: newUpdates,
     })
   }
 

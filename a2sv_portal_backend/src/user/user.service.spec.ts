@@ -118,7 +118,7 @@ describe('UserService', () => {
           email: '',
           password: '',
         }
-        const userResult = await service.create(data)
+        const userResult = await service.createUser(data)
         expect(userResult).toEqual(expectedUser)
       })
     })

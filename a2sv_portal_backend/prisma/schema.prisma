@@ -4,14 +4,14 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  //  url               = env("LOCAL_DB_URL")
-  url      = env("DB_URL")
+  url      = env("LOCAL_DB_URL")
+  //  url      = env("DB_URL")
   //  shadowDatabaseUrl = env("SHADOW_DB_URL")
 }
 
 model Group {
   id                  String               @id @default(uuid())
-  name                String @unique
+  name                String               @unique
   country             String?
   school              String?
   headId              String?              @unique
@@ -36,6 +36,7 @@ model Season {
   groupSeasons   GroupSeason[]
   seasonTopics   SeasonTopic[]
   seasonContests SeasonContest[]
+  UserSeason     UserSeason[]
 }
 
 model Contest {
@@ -70,13 +71,14 @@ model Problem {
   link                      String
   difficulty                ProblemDifficultyType
   tags                      Tag[]
-  topicId                   String
+  topicId                   String?
   topic                     Topic?                     @relation(fields: [topicId], references: [id], onDelete: Cascade)
   createdAt                 DateTime?                  @default(now())
   updatedAt                 DateTime?                  @updatedAt
   contests                  Contest[]
   seasonTopicProblems       SeasonTopicProblem[]
   userSeasonContestProblems UserSeasonContestProblem[]
+  GroupSeasonTopicProblem   GroupSeasonTopicProblem[]
 }
 
 model User {
@@ -94,19 +96,35 @@ model User {
   userSeasonContests      UserSeasonContest[]
   userSeasonTopicProblems UserSeasonTopicProblem[]
   userProfile             UserProfile?
+  GroupSeason             GroupSeason[]
+  UserSeason              UserSeason[]
 }
 
 model GroupSeason {
   groupId   String
   seasonId  String
   isActive  Boolean
+  headId    String
   //group stat info should be added here
   group     Group     @relation(fields: [groupId], references: [id])
   season    Season    @relation(fields: [seasonId], references: [id])
+  head      User?     @relation(fields: [headId], references: [id])
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
   @@id([groupId, seasonId])
+}
+
+model UserSeason {
+  userId    String
+  seasonId  String
+  //user stat info should be added here
+  user      User      @relation(fields: [userId], references: [id])
+  season    Season    @relation(fields: [seasonId], references: [id])
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  @@id([userId, seasonId])
 }
 
 model UserTopic {
@@ -150,16 +168,29 @@ model SeasonContest {
 }
 
 model GroupSeasonTopic {
-  groupId     String
-  seasonId    String
-  topicId     String
+  groupId                 String
+  seasonId                String
+  topicId                 String
   //group season topic stat should be added here
-  seasonTopic SeasonTopic @relation(fields: [topicId, seasonId], references: [topicId, seasonId], onDelete: Cascade)
-  group       Group       @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  createdAt   DateTime?   @default(now())
-  updatedAt   DateTime?   @updatedAt
+  seasonTopic             SeasonTopic               @relation(fields: [topicId, seasonId], references: [topicId, seasonId], onDelete: Cascade)
+  group                   Group                     @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  createdAt               DateTime?                 @default(now())
+  updatedAt               DateTime?                 @updatedAt
+  groupSeasonTopicProblems GroupSeasonTopicProblem[]
 
   @@id([seasonId, topicId, groupId])
+}
+
+model GroupSeasonTopicProblem {
+  groupId          String
+  seasonId         String
+  topicId          String
+  problemId        String
+  display          Boolean
+  groupSeasonTopic GroupSeasonTopic @relation(fields: [topicId, seasonId, groupId], references: [topicId, seasonId, groupId], onDelete: Cascade)
+  problem          Problem          @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@id([seasonId, topicId, groupId, problemId])
 }
 
 model SeasonTopicProblem {

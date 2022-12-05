@@ -17,6 +17,8 @@ export class User {
   @Field({ description: 'Email of the user' })
   email: string
 
+  password: string
+
   @Field(() => Status)
   status: Status
 
@@ -29,8 +31,8 @@ export class User {
   })
   groupId?: string
 
-  @Field(() => [UserSeasonTopicProblem])
-  seasonTopicProblems: UserSeasonTopicProblem[]
+  @Field(() => [UserSeasonTopicProblem],{nullable: true})
+  seasonTopicProblems?: UserSeasonTopicProblem[]
 
   @Field(() => Group, {
     nullable: true,
@@ -48,17 +50,17 @@ export class User {
     nullable: true,
     description: 'topics the user has to cover, covering , covered ',
   })
-  userTopics: UserTopic[]
+  userTopics?: UserTopic[]
 
   @Field(() => [UserSeasonContest], {
     description: 'topics the user has to cover, covering , covered ',
   })
-  userContests: UserSeasonContest[]
+  userContests?: UserSeasonContest[]
 
   @Field(() => [UserSeasonTopicProblem], {
     description: 'topics the user has to cover, covering , covered ',
   })
-  userSeasonTopicProblems: UserSeasonTopicProblem[]
+  userSeasonTopicProblems?: UserSeasonTopicProblem[]
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date
@@ -68,5 +70,9 @@ export class User {
 }
 
 registerEnumType(Status, {
-  name: 'Status',
+  name: 'status',
+})
+
+registerEnumType(RoleEnum, {
+  name: 'role',
 })

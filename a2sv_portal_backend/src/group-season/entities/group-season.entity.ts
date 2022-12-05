@@ -1,7 +1,30 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql'
+import { Field, ObjectType } from '@nestjs/graphql'
+import { Group } from '../../group/entities/group.entity'
+import { Season } from '../../season/entities/season.entity'
 
 @ObjectType()
 export class GroupSeason {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number
+  @Field()
+  groupId: string
+
+  @Field()
+  seasonId: string
+
+  @Field()
+  isActive: boolean
+
+  @Field()
+  headId: string
+
+  @Field(() => Group)
+  group: Group
+
+  @Field(() => Season)
+  season: Season
+
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date
+
+  @Field(() => Date, { nullable: true })
+  updatedAt?: Date
 }

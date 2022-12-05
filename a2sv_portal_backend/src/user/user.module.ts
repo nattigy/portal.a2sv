@@ -3,9 +3,10 @@ import { UserSeasonContestService } from 'src/user-season-contest/user-season-co
 import { GroupsService } from '../group/groups.service'
 import { UserResolver } from './user.resolver'
 import { UserService } from './user.service'
+import { UserRepository } from './user.repository'
 
 @Module({
-  providers: [UserResolver, UserService, GroupsService, UserSeasonContestService],
+  providers: [UserRepository, UserResolver, UserService, GroupsService, UserSeasonContestService],
   exports: [UserService],
 })
 export class UserModule {}
