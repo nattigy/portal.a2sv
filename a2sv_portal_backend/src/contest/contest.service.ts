@@ -6,10 +6,14 @@ import { UpdateContestInput } from './dto/update-contest.input'
 import { Contest } from './entities/contest.entity'
 import { FilterContestInput } from './dto/filter-contest.input'
 import { PaginationContest } from '../common/page/pagination-info'
+import { ContestRepository } from './contest.repository'
 
 @Injectable()
 export class ContestService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly contestRepository: ContestRepository,
+    ) {}
 
   async create({ problems, ...createInput }: CreateContestInput): Promise<Contest> {
     return this.prismaService.contest.create({

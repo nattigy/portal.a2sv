@@ -10,6 +10,10 @@ export class ContestRepository {
     return this.prismaService.contest.create({ data })
   }
 
+  async count(where?: Prisma.ContestWhereInput): Promise<number> {
+    return this.prismaService.contest.count({ where })
+  }
+
   async findAll(params: {
     skip?: number
     take?: number
