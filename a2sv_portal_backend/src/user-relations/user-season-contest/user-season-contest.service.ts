@@ -3,7 +3,7 @@ import { PaginationInput } from '../../common/page/pagination.input'
 import { PrismaService } from '../../prisma/prisma.service'
 import { UpdateUserContestInput, UserContestId } from './dto/update-user-contest.input'
 import { UserSeasonContest } from './entities/user-season-contest.entity'
-import { PaginationUserContest } from '../../common/page/pagination-info'
+import { PaginationUserSeasonContest } from '../../common/page/pagination-info'
 import { FilterGroupContestUsersInput } from './dto/filter-group-contest-users.input'
 import { UserContestProblemStatus } from '@prisma/client'
 import { UserContestProblem } from '../user-season-contest-problem/entities/user-season-contest-problem.entity'
@@ -119,7 +119,7 @@ export class UserSeasonContestService {
       take: 50,
       skip: 0,
     },
-  ): Promise<PaginationUserContest> {
+  ): Promise<PaginationUserSeasonContest> {
     const user = await this.prismaService.user.findUnique({
       where: {
         id: userId,
@@ -157,7 +157,7 @@ export class UserSeasonContestService {
   async groupContestUsers(
     { groupId, contestId }: FilterGroupContestUsersInput,
     { skip, take }: PaginationInput = { take: 50, skip: 0 },
-  ): Promise<PaginationUserContest> {
+  ): Promise<PaginationUserSeasonContest> {
     const count = (
       await this.prismaService.user.findMany({
         where: {

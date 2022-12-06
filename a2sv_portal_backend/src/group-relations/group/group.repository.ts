@@ -8,7 +8,7 @@ export class GroupRepository {
   constructor(private readonly prismaService: PrismaService) {
   }
 
-  async create(data: Prisma.GroupCreateInput): Promise<Group> {
+  async create(data: Prisma.GroupCreateInput | Prisma.GroupUncheckedCreateInput): Promise<Group> {
     return this.prismaService.group.create({ data })
   }
 

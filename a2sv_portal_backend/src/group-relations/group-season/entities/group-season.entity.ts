@@ -20,6 +20,12 @@ export class GroupSeason {
   @Field(() => JoinRequestEnum)
   joinRequest: JoinRequestEnum
 
+  @Field(() => Date)
+  startDate: Date
+
+  @Field(() => Date, { nullable: true })
+  endDate?: Date
+
   @Field(() => Group)
   group: Group
 

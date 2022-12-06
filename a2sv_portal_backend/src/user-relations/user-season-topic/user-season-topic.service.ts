@@ -5,7 +5,7 @@ import { PrismaService } from '../../prisma/prisma.service'
 import { UserSeasonTopic } from './entities/user-season-topic.entity'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { FilterUserSeasonTopicInput } from './dto/filter-user-season-topic-input'
-import { PaginationUserTopic } from '../../common/page/pagination-info'
+import { PaginationUserSeasonTopic } from '../../common/page/pagination-info'
 
 @Injectable()
 export class UserSeasonTopicService {
@@ -24,7 +24,7 @@ export class UserSeasonTopicService {
   async findAll(
     filterUserTopicInput: FilterUserSeasonTopicInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
-  ): Promise<PaginationUserTopic> {
+  ): Promise<PaginationUserSeasonTopic> {
     const count = (
       await this.prismaService.userTopic.findMany({
         where: filterUserTopicInput,

@@ -6,6 +6,8 @@ import { GroupSeason } from './entities/group-season.entity'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { FilterGroupSeasonInput } from './dto/filter-group-season.input'
 import { JoinRequestEnum } from '@prisma/client'
+import { UpdateGroupSeasonInput } from './dto/update-group-season.input'
+import { PaginationGroupSeason } from '../../common/page/pagination-info'
 
 @Injectable()
 export class GroupSeasonService {
@@ -15,9 +17,12 @@ export class GroupSeasonService {
   ) {
   }
 
-  async addSeasonToAGroup({ seasonId, groupId }: CreateGroupSeasonInput): Promise<GroupSeason> {
+  async addSeasonToAGroup({ seasonId, groupId, startDate, endDate }: CreateGroupSeasonInput): Promise<GroupSeason> {
     const group = await this.prismaService.group.findUnique({ where: { id: groupId } })
     const season = await this.prismaService.season.findUnique({ where: { id: seasonId } })
+    const groupSeasons = await this.prismaService.groupSeason.findMany({
+      where: { groupId, isActive: true },
+    })
     if (!season) {
       throw new NotFoundException(`Season with id: ${seasonId} not found!`)
     }
@@ -30,21 +35,18 @@ export class GroupSeasonService {
     if (!group.headId) {
       throw new Error('Group does not have an HoE, please assign head of education for the group first!')
     }
+    if (groupSeasons.length > 0) {
+      throw new Error('Group has other active seasons, please deactivate all seasons before creating a new one!')
+    }
     return this.groupSeasonRepository.create({
-      isActive: true,
+      isActive: false,
       joinRequest: JoinRequestEnum.REQUESTED,
-      startDate: "",
+      startDate,
+      endDate,
       headId: group.headId,
-      season: {
-        connect: {
-          id: seasonId,
-        },
-      },
-      group: {
-        connect: {
-          id: groupId,
-        },
-      },
+      head: { connect: { id: group.headId } },
+      season: { connect: { id: seasonId } },
+      group: { connect: { id: groupId } },
     })
   }
 
@@ -55,10 +57,54 @@ export class GroupSeasonService {
     })
   }
 
-  async groupsSeasonsStats({ seasonId, groupId }: FilterGroupSeasonInput, paginationInput: PaginationInput) {
+  async groupsSeasonsStats(
+    filterGroupSeasonInput: FilterGroupSeasonInput,
+    { skip, take }: PaginationInput = { take: 50, skip: 0 },
+  ): Promise<PaginationGroupSeason> {
     //generate multiple state here
-    return this.groupSeasonRepository.findAll({
-      where: { seasonId, groupId },
+    const count = await this.groupSeasonRepository.count(filterGroupSeasonInput)
+    const groupSeasons = await this.groupSeasonRepository.findAll({
+      where: filterGroupSeasonInput,
+    })
+    return {
+      items: groupSeasons,
+      pageInfo: { skip, count, take },
+    }
+  }
+
+  async updateGroupSeason({ seasonId, groupId, ...updates }: UpdateGroupSeasonInput) {
+    //generate multiple state here
+    const groupSeason = await this.prismaService.groupSeason.findUnique({
+      where: { groupId_seasonId: { groupId, seasonId } },
+    })
+    if (!groupSeason) {
+      throw new Error('No group season found!')
+    }
+    if (groupSeason.joinRequest !== JoinRequestEnum.APPROVED) {
+      throw new Error('You must get approval from the HoA to make updates!')
+    }
+    if (updates.isActive) {
+      await this.prismaService.groupSeason.updateMany({
+        where: { groupId },
+        data: { isActive: false },
+      })
+    }
+    return this.groupSeasonRepository.update({
+      where: { groupId_seasonId: { seasonId, groupId } },
+      data: updates,
+    })
+  }
+
+  async updateJoinRequestGroupSeason({ seasonId, groupId, joinRequest }: UpdateGroupSeasonInput) {
+    const groupSeason = await this.prismaService.groupSeason.findUnique({
+      where: { groupId_seasonId: { groupId, seasonId } },
+    })
+    if (!groupSeason) {
+      throw new Error('No group season found!')
+    }
+    return this.groupSeasonRepository.update({
+      where: { groupId_seasonId: { seasonId, groupId } },
+      data: { joinRequest },
     })
   }
 

@@ -4,7 +4,7 @@ import {
   UpdateUserContestProblemInput,
   UserContestProblemId,
 } from './dto/update-user-contest-problem.input'
-import { PaginationUserContestProblem } from '../../common/page/pagination-info'
+import { PaginationUserSeasonContestProblem } from '../../common/page/pagination-info'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { UserContestProblem } from './entities/user-season-contest-problem.entity'
 import { FilterUserContestProblemInput } from './dto/filter-user-contest-problem'
@@ -26,7 +26,7 @@ export class UserSeasonContestProblemService {
   async findAll(
     filterUserContestInput: FilterUserContestProblemInput,
     { skip, take }: PaginationInput = { take: 50, skip: 0 },
-  ): Promise<PaginationUserContestProblem> {
+  ): Promise<PaginationUserSeasonContestProblem> {
     const count = (
       await this.prismaService.userContestProblem.findMany({
         where: filterUserContestInput,

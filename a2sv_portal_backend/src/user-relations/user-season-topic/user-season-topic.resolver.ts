@@ -5,7 +5,7 @@ import { CreateUserSeasonTopicInput } from './dto/create-user-season-topic.input
 import { UpdateUserSeasonTopicInput, UserTopicId } from './dto/update-user-season-topic.input'
 import { UserSeasonTopic } from './entities/user-season-topic.entity'
 import { UserSeasonTopicService } from './user-season-topic.service'
-import { PaginationUserTopic } from '../../common/page/pagination-info'
+import { PaginationUserSeasonTopic } from '../../common/page/pagination-info'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { FilterUserSeasonTopicInput } from './dto/filter-user-season-topic-input'
 
@@ -20,7 +20,7 @@ export class UserSeasonTopicResolver {
     return this.userTopicService.create(createUserTopicInput)
   }
 
-  @Query(() => PaginationUserTopic)
+  @Query(() => PaginationUserSeasonTopic)
   async userTopics(
     @Args('filterUserTopicInput', { type: () => FilterUserSeasonTopicInput, nullable: true })
     filterUserTopicInput?: FilterUserSeasonTopicInput,

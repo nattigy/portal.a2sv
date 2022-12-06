@@ -7,6 +7,12 @@ export class CreateGroupSeasonInput {
 
   @Field()
   seasonId: string
+
+  @Field(() => Date)
+  startDate: Date
+
+  @Field(() => Date, { nullable: true })
+  endDate?: Date
 }
 
 @InputType()

@@ -1,6 +1,5 @@
 import { UseGuards } from '@nestjs/common'
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { GroupsService } from 'src/group-relations/group/groups.service'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
 import { UserAbilities } from '../casl/handler/user-abilities.handler'
 import { CheckPolicies } from '../casl/policy/policy.decorator'
@@ -16,10 +15,7 @@ import descriptions from './user.doc'
 
 @Resolver(() => User)
 export class UserResolver {
-  constructor(
-    private readonly userService: UserService,
-    private readonly groupService: GroupsService,
-  ) {
+  constructor(private readonly userService: UserService) {
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
@@ -67,12 +63,28 @@ export class UserResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.update)
+  @Mutation(() => User, { description: descriptions.updateUser })
+  async removeUserFromAGroup(@Args('userId') userId: string) {
+    return this.userService.update({ id: userId, groupId: null })
+  }
+
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.update)
   @Mutation(() => Int, { description: descriptions.updateUser })
   async addUsersToAGroup(
     @Args('groupId') groupId: string,
     @Args('studentIds', { type: () => [String] }) studentIds: string[],
   ) {
     return this.userService.update(studentIds.map(id => ({ id, groupId })))
+  }
+
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.update)
+  @Mutation(() => Int, { description: descriptions.updateUser })
+  async addUsersFromAGroup(
+    @Args('studentIds', { type: () => [String] }) studentIds: string[],
+  ) {
+    return this.userService.update(studentIds.map(id => ({ id, groupId: null })))
   }
 
   // @UseGuards(JwtAuthGuard, PoliciesGuard)

@@ -19,16 +19,8 @@ export class SeasonTopicService {
   async addTopicToASeason({ seasonId, topicId, problems }: CreateSeasonTopicInput): Promise<SeasonTopic> {
     return this.seasonTopicRepository.create({
       seasonId, topicId,
-      season: {
-        connect: {
-          id: seasonId,
-        },
-      },
-      topic: {
-        connect: {
-          id: topicId,
-        },
-      },
+      season: { connect: { id: seasonId } },
+      topic: { connect: { id: topicId } },
       seasonTopicProblems: {
         createMany: {
           skipDuplicates: true,
@@ -49,7 +41,7 @@ export class SeasonTopicService {
 
   async seasonsTopics(
     filterSeasonTopicInput: FilterSeasonTopicInput,
-    { skip, take }: PaginationInput = { take: 50, skip: 0 }
+    { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationSeasonTopic> {
     const count = await this.seasonTopicRepository.count(filterSeasonTopicInput)
     ///TODO: generate stat here
@@ -59,11 +51,7 @@ export class SeasonTopicService {
     })
     return {
       items: seasonTopics,
-      pageInfo: {
-        take,
-        skip,
-        count,
-      },
+      pageInfo: { take, skip, count },
     }
   }
 

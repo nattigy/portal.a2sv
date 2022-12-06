@@ -1,9 +1,10 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { GroupSeasonService } from './group-season.service'
 import { GroupSeason } from './entities/group-season.entity'
 import { CreateGroupSeasonInput, GroupSeasonId } from './dto/create-group-season.input'
-import { FilterGroupSeasonInput } from './dto/filter-group-season.input'
 import { PaginationInput } from '../../common/page/pagination.input'
+import { UpdateGroupSeasonInput } from './dto/update-group-season.input'
+import { PaginationGroupSeason } from '../../common/page/pagination-info'
 
 @Resolver(() => GroupSeason)
 export class GroupSeasonResolver {
@@ -22,20 +23,32 @@ export class GroupSeasonResolver {
     return this.groupSeasonService.groupSeasonStat(groupSeasonId)
   }
 
-  @Query(() => [GroupSeason])
+  @Query(() => PaginationGroupSeason)
   async groupSeasonsStats(
     @Args('groupId') groupId: string,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
-    ): Promise<GroupSeason[]> {
-    return this.groupSeasonService.groupsSeasonsStats({ groupId },paginationInput)
+  ): Promise<PaginationGroupSeason> {
+    return this.groupSeasonService.groupsSeasonsStats({ groupId }, paginationInput)
   }
 
-  @Query(() => [GroupSeason])
+  @Query(() =>PaginationGroupSeason)
   async seasonGroupsStats(
     @Args('seasonId') seasonId: string,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
-    ): Promise<GroupSeason[]> {
-    return this.groupSeasonService.groupsSeasonsStats({ seasonId },paginationInput)
+  ): Promise<PaginationGroupSeason> {
+    return this.groupSeasonService.groupsSeasonsStats({ seasonId }, paginationInput)
+  }
+
+  @Query(() => GroupSeason)
+  async updateGroupSeason(@Args('updateGroupSeasonInput') updateGroupSeasonInput: UpdateGroupSeasonInput): Promise<GroupSeason> {
+    return this.groupSeasonService.updateGroupSeason(updateGroupSeasonInput)
+  }
+
+  @Query(() => GroupSeason)
+  async updateJoinRequestGroupSeason(
+    @Args('updateGroupSeasonInput') updateGroupSeasonInput: UpdateGroupSeasonInput
+  ): Promise<GroupSeason> {
+    return this.groupSeasonService.updateJoinRequestGroupSeason(updateGroupSeasonInput)
   }
 
   @Mutation(() => GroupSeason)

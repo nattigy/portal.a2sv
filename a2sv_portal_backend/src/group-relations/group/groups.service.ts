@@ -18,7 +18,12 @@ export class GroupsService {
   }
 
   async createGroup(createGroupInput: CreateGroupInput): Promise<Group> {
-    return this.groupRepository.create(createGroupInput)
+    return this.groupRepository.create({
+      ...createGroupInput,
+      headId: createGroupInput.headId,
+      head: { connect: { id: createGroupInput.headId }
+      }
+    })
   }
 
   async group(id: string): Promise<Group> {
@@ -31,10 +36,8 @@ export class GroupsService {
   ): Promise<PaginationGroup> {
     const count = await this.groupRepository.count(filterGroupInput)
     const groups = await this.groupRepository.findAll({
-      skip,
-      take,
+      skip, take,
       where: filterGroupInput,
-      orderBy: {},
     })
     return {
       items: groups,
@@ -105,10 +108,26 @@ export class GroupsService {
       if (!getHead) {
         throw new NotFoundException(`User with id:${updates.headId} not found`)
       }
+      // newUpdates.headId = updates.headId
       newUpdates.head = {
-        connect: {
-          id: updates.headId,
-        },
+        connect: { id: updates.headId},
+      }
+      const groupSeason = await this.prismaService.groupSeason.findFirst({
+        where: { groupId: id, isActive: true }
+      })
+      if(groupSeason){
+        const { groupId, seasonId } = groupSeason
+        await this.prismaService.groupSeason.update({
+          where: { groupId_seasonId: { groupId, seasonId } },
+          data: {
+            headId: updates.headId,
+            // head: {
+            //   connect: {
+            //     id: updates.headId
+            //   }
+            // }
+          }
+        })
       }
     }
     return this.groupRepository.update({

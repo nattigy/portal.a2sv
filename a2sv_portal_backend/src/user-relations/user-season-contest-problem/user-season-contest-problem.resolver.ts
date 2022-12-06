@@ -7,7 +7,7 @@ import { UserContestProblem } from './entities/user-season-contest-problem.entit
 import { UserSeasonContestProblemService } from './user-season-contest-problem.service'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { FilterUserContestProblemInput } from './dto/filter-user-contest-problem'
-import { PaginationUserContestProblem } from '../../common/page/pagination-info'
+import { PaginationUserSeasonContestProblem } from '../../common/page/pagination-info'
 
 @Resolver(() => UserContestProblem)
 export class UserSeasonContestProblemResolver {
@@ -18,7 +18,7 @@ export class UserSeasonContestProblemResolver {
   //   return this.userContestProblemService.create(createUserContestProblemInput);
   // }
 
-  @Query(() => PaginationUserContestProblem)
+  @Query(() => PaginationUserSeasonContestProblem)
   async userContestProblems(
     @Args('filterUserContestProblemInput', {
       type: () => FilterUserContestProblemInput,

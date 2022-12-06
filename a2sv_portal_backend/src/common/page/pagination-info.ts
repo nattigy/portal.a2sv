@@ -13,6 +13,7 @@ import { UserSeasonTopicProblem } from '../../user-relations/user-season-topic-p
 import { UserContestProblem } from '../../user-relations/user-season-contest-problem/entities/user-season-contest-problem.entity'
 import { UserProfile } from '../../user-profile/entities/user-profile.entity'
 import { UserSeasonTopic } from '../../user-relations/user-season-topic/entities/user-season-topic.entity'
+import { GroupSeason } from '../../group-relations/group-season/entities/group-season.entity'
 
 @ObjectType()
 export class PaginationInfo {
@@ -27,7 +28,7 @@ export class PaginationInfo {
 }
 
 @ObjectType()
-export class PaginationUserContests {
+export class PaginationUserSeasonContests {
   @Field(() => [UserSeasonContest])
   items: UserSeasonContest[]
 
@@ -45,7 +46,7 @@ export class PaginationUser {
 }
 
 @ObjectType()
-export class PaginationUserTopic {
+export class PaginationUserSeasonTopic {
   @Field(() => [UserSeasonTopic])
   items: UserSeasonTopic[]
 
@@ -117,7 +118,7 @@ export class PaginationContest {
 }
 
 @ObjectType()
-export class PaginationUserContest {
+export class PaginationUserSeasonContest {
   @Field(() => [UserSeasonContest])
   items: UserSeasonContest[]
 
@@ -126,7 +127,7 @@ export class PaginationUserContest {
 }
 
 @ObjectType()
-export class PaginationUserContestProblem {
+export class PaginationUserSeasonContestProblem {
   @Field(() => [UserContestProblem])
   items: UserContestProblem[]
 
@@ -147,6 +148,15 @@ export class PaginationProblem {
 export class PaginationGroup {
   @Field(() => [Group])
   items: Group[]
+
+  @Field(() => PaginationInfo)
+  pageInfo: PaginationInfo
+}
+
+@ObjectType()
+export class PaginationGroupSeason {
+  @Field(() => [GroupSeason])
+  items: GroupSeason[]
 
   @Field(() => PaginationInfo)
   pageInfo: PaginationInfo
