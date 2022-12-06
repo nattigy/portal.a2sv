@@ -5,6 +5,7 @@ import { PrismaService } from '../../prisma/prisma.service'
 import { GroupSeason } from './entities/group-season.entity'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { FilterGroupSeasonInput } from './dto/filter-group-season.input'
+import { JoinRequestEnum } from '@prisma/client'
 
 @Injectable()
 export class GroupSeasonService {
@@ -31,6 +32,8 @@ export class GroupSeasonService {
     }
     return this.groupSeasonRepository.create({
       isActive: true,
+      joinRequest: JoinRequestEnum.REQUESTED,
+      startDate: "",
       headId: group.headId,
       season: {
         connect: {

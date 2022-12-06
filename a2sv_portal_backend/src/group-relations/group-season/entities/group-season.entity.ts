@@ -1,6 +1,7 @@
-import { Field, ObjectType } from '@nestjs/graphql'
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { Group } from '../../group/entities/group.entity'
 import { Season } from '../../../season-relations/season/entities/season.entity'
+import { JoinRequestEnum } from '@prisma/client'
 
 @ObjectType()
 export class GroupSeason {
@@ -16,6 +17,9 @@ export class GroupSeason {
   @Field()
   headId: string
 
+  @Field(() => JoinRequestEnum)
+  joinRequest: JoinRequestEnum
+
   @Field(() => Group)
   group: Group
 
@@ -28,3 +32,7 @@ export class GroupSeason {
   @Field(() => Date, { nullable: true })
   updatedAt?: Date
 }
+
+registerEnumType(JoinRequestEnum, {
+  name: 'JoinRequestEnum',
+})
