@@ -24,12 +24,6 @@ export class Contest {
   @Field(() => [Problem])
   problems: Problem[]
 
-  @Field(() => [SeasonContest])
-  seasonContests: SeasonContest[]
-
-  @Field(() => [UserContest])
-  userContests: UserContest[]
-
   @Field(() => Date, { nullable: true })
   createdAt?: Date
 
