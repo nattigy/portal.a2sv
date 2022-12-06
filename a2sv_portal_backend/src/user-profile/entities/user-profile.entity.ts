@@ -16,6 +16,9 @@ export class UserProfile {
   lastName?: string
 
   @Field({ nullable: true })
+  photoUrl?: string
+
+  @Field({ nullable: true })
   phone?: string
 
   @Field({ nullable: true })
@@ -25,10 +28,31 @@ export class UserProfile {
   resumeLink?: string
 
   @Field({ nullable: true })
-  photoUrl?: string
+  github?: string
 
   @Field({ nullable: true })
-  bio?: string
+  linkedin?: string
+
+  @Field({ nullable: true })
+  twitter?: string
+
+  @Field({ nullable: true })
+  facebook?: string
+
+  @Field({ nullable: true })
+  instagram?: string
+
+  @Field({ nullable: true })
+  leetcode?: string
+
+  @Field({ nullable: true })
+  codeforces?: string
+
+  @Field({ nullable: true })
+  hackerrank?: string
+
+  @Field({ nullable: true })
+  geekforgeeks?: string
 
   @Field({ nullable: true })
   educationPlace?: string
@@ -49,34 +73,10 @@ export class UserProfile {
   tshirtSize?: string
 
   @Field({ nullable: true })
-  leetcode?: string
-
-  @Field({ nullable: true })
-  github?: string
-
-  @Field({ nullable: true })
-  linkedin?: string
-
-  @Field({ nullable: true })
   website?: string
 
   @Field({ nullable: true })
-  hackerrank?: string
-
-  @Field({ nullable: true })
-  codeforces?: string
-
-  @Field({ nullable: true })
-  geekforgeeks?: string
-
-  @Field({ nullable: true })
-  instagram?: string
-
-  @Field({ nullable: true })
-  twitter?: string
-
-  @Field({ nullable: true })
-  facebook?: string
+  bio?: string
 
   @Field({ nullable: true })
   country?: string
@@ -84,12 +84,12 @@ export class UserProfile {
   @Field({ nullable: true })
   city?: string
 
-  @Field(() => User, { nullable: true })
-  user?: User
-
   @Field(() => Date, { nullable: true })
   createdAt?: Date
 
   @Field(() => Date, { nullable: true })
   updatedAt?: Date
+
+  @Field(() => User)
+  user?: User
 }
