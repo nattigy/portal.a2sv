@@ -1,6 +1,6 @@
 import { UseGuards } from '@nestjs/common'
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { GroupsService } from 'src/group/groups.service'
+import { GroupsService } from 'src/group-relations/group/groups.service'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
 import { UserAbilities } from '../casl/handler/user-abilities.handler'
 import { CheckPolicies } from '../casl/policy/policy.decorator'

@@ -25,18 +25,20 @@ model Group {
 }
 
 model Season {
-  id             String          @id @default(uuid())
-  name           String
-  seasonType     SeasonType      @default(EDUCATION)
-  startDate      DateTime
-  endDate        DateTime
-  isActive       Boolean         @default(false)
-  createdAt      DateTime?       @default(now())
-  updatedAt      DateTime?       @updatedAt
-  groupSeasons   GroupSeason[]
-  seasonTopics   SeasonTopic[]
-  seasonContests SeasonContest[]
-  UserSeason     UserSeason[]
+  id              String            @id @default(uuid())
+  name            String
+  seasonType      SeasonTypeEnum
+  duration        String
+  startDate       DateTime
+  endDate         DateTime
+  isActive        Boolean           @default(false)
+  createdAt       DateTime?         @default(now())
+  updatedAt       DateTime?         @updatedAt
+  groupSeasons    GroupSeason[]
+  seasonTopics    SeasonTopic[]
+  seasonContests  SeasonContest[]
+  UserSeason      UserSeason[]
+  UserSeasonTopic UserSeasonTopic[]
 }
 
 model Contest {
@@ -54,14 +56,14 @@ model Contest {
 }
 
 model Topic {
-  id           String        @id @default(uuid())
-  name         String
-  description  String
-  createdAt    DateTime?     @default(now())
-  updatedAt    DateTime?     @updatedAt
-  problems     Problem[]
-  userTopics   UserTopic[]
-  seasonTopics SeasonTopic[]
+  id              String            @id @default(uuid())
+  name            String
+  description     String
+  createdAt       DateTime?         @default(now())
+  updatedAt       DateTime?         @updatedAt
+  problems        Problem[]
+  seasonTopics    SeasonTopic[]
+  UserSeasonTopic UserSeasonTopic[]
 }
 
 model Problem {
@@ -69,35 +71,40 @@ model Problem {
   title                     String
   platform                  String
   link                      String
-  difficulty                ProblemDifficultyType
+  difficulty                ProblemDifficultyTypeEnum
   tags                      Tag[]
-  topicId                   String?
-  topic                     Topic?                     @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  //  topicId                   String?
+  //  topic                     Topic?                     @relation(fields: [topicId], references: [id], onDelete: Cascade)
   createdAt                 DateTime?                  @default(now())
   updatedAt                 DateTime?                  @updatedAt
   contests                  Contest[]
   seasonTopicProblems       SeasonTopicProblem[]
   userSeasonContestProblems UserSeasonContestProblem[]
   GroupSeasonTopicProblem   GroupSeasonTopicProblem[]
+  Topic                     Topic?                     @relation(fields: [topicId], references: [id])
+  topicId                   String?
 }
 
 model User {
   id                      String                   @id @default(uuid())
+  firstName               String
+  middleName              String
+  lastName                String
   role                    RoleEnum
   email                   String                   @unique
   password                String
-  status                  Status
+  statusEnum              StatusEnum
   group                   Group?                   @relation(fields: [groupId], references: [id])
   groupId                 String?
   createdAt               DateTime?                @default(now())
   updatedAt               DateTime?
   headToGroup             Group?                   @relation("GroupHead")
-  userTopics              UserTopic[]
   userSeasonContests      UserSeasonContest[]
   userSeasonTopicProblems UserSeasonTopicProblem[]
   userProfile             UserProfile?
   GroupSeason             GroupSeason[]
   UserSeason              UserSeason[]
+  UserSeasonTopic         UserSeasonTopic[]
 }
 
 model GroupSeason {
@@ -106,8 +113,11 @@ model GroupSeason {
   isActive  Boolean
   headId    String
   //group stat info should be added here
-  group     Group     @relation(fields: [groupId], references: [id])
-  season    Season    @relation(fields: [seasonId], references: [id])
+  //number of students, total submissions, total accepted, acceptance rate
+  //group contest rating, number of contest attended,
+  //join request approved / pendding
+  group     Group     @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  season    Season    @relation(fields: [seasonId], references: [id], onDelete: Cascade)
   head      User?     @relation(fields: [headId], references: [id])
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
@@ -119,24 +129,26 @@ model UserSeason {
   userId    String
   seasonId  String
   //user stat info should be added here
-  user      User      @relation(fields: [userId], references: [id])
-  season    Season    @relation(fields: [seasonId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  season    Season    @relation(fields: [seasonId], references: [id], onDelete: Cascade)
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
   @@id([userId, seasonId])
 }
 
-model UserTopic {
+model UserSeasonTopic {
   userId       String
+  seasonId     String
   topicId      String
-  comfortLevel ComfortLevel @default(UNCOMFORTABLE)
-  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  topic        Topic        @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  createdAt    DateTime?    @default(now())
-  updatedAt    DateTime?    @updatedAt
+  comfortLevel ComfortLevelEnum @default(UNCOMFORTABLE)
+  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  season       Season           @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+  topic        Topic            @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  createdAt    DateTime?        @default(now())
+  updatedAt    DateTime?        @updatedAt
 
-  @@id([userId, topicId])
+  @@id([userId, seasonId, topicId])
 }
 
 model SeasonTopic {
@@ -150,7 +162,6 @@ model SeasonTopic {
   seasonTopicProblems SeasonTopicProblem[]
 
   @@id([seasonId, topicId])
-  @@unique([topicId, seasonId])
 }
 
 model SeasonContest {
@@ -164,7 +175,6 @@ model SeasonContest {
   UserSeasonContest   UserSeasonContest[]
 
   @@id([seasonId, contestId])
-  @@unique([contestId, seasonId])
 }
 
 model GroupSeasonTopic {
@@ -172,13 +182,14 @@ model GroupSeasonTopic {
   seasonId                 String
   topicId                  String
   //group season topic stat should be added here
+  // comfortablity percentage
   seasonTopic              SeasonTopic               @relation(fields: [topicId, seasonId], references: [topicId, seasonId], onDelete: Cascade)
   group                    Group                     @relation(fields: [groupId], references: [id], onDelete: Cascade)
   createdAt                DateTime?                 @default(now())
   updatedAt                DateTime?                 @updatedAt
   groupSeasonTopicProblems GroupSeasonTopicProblem[]
 
-  @@id([seasonId, topicId, groupId])
+  @@id([groupId, seasonId, topicId])
 }
 
 model GroupSeasonTopicProblem {
@@ -189,7 +200,7 @@ model GroupSeasonTopicProblem {
   groupSeasonTopic GroupSeasonTopic? @relation(fields: [topicId, seasonId, groupId], references: [topicId, seasonId, groupId], onDelete: Cascade)
   problem          Problem           @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
-  @@id([seasonId, topicId, groupId, problemId])
+  @@id([groupId, seasonId, topicId, problemId])
 }
 
 model SeasonTopicProblem {
@@ -215,7 +226,7 @@ model GroupSeasonContest {
   createdAt     DateTime?     @default(now())
   updatedAt     DateTime?     @updatedAt
 
-  @@id([groupId, contestId, seasonId])
+  @@id([groupId, seasonId, contestId])
 }
 
 model UserSeasonContest {
@@ -231,10 +242,10 @@ model UserSeasonContest {
   contestAttended          Boolean                    @default(false)
   createdAt                DateTime?                  @default(now())
   updatedAt                DateTime?                  @updatedAt
-  Contest                  Contest                    @relation(fields: [contestId], references: [id])
   UserSeasonContestProblem UserSeasonContestProblem[]
+  Contest                  Contest                    @relation(fields: [contestId], references: [id])
 
-  @@id([userId, contestId, seasonId])
+  @@id([userId, seasonId, contestId])
 }
 
 model UserSeasonContestProblem {
@@ -242,15 +253,15 @@ model UserSeasonContestProblem {
   seasonId          String
   contestId         String
   problemId         String
-  userSeasonContest UserSeasonContest?       @relation(fields: [userId, contestId, seasonId], references: [userId, contestId, seasonId], onDelete: Cascade)
-  problem           Problem                  @relation(fields: [problemId], references: [id], onDelete: Cascade)
-  status            UserContestProblemStatus @default(NOT_SOLVED)
+  userSeasonContest UserSeasonContest?           @relation(fields: [userId, contestId, seasonId], references: [userId, contestId, seasonId], onDelete: Cascade)
+  problem           Problem                      @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  statusEnum        UserContestProblemStatusEnum @default(NOT_SOLVED)
   numberOfAttempts  Int
   numberOfMinutes   Int
-  createdAt         DateTime?                @default(now())
-  updatedAt         DateTime?                @updatedAt
+  createdAt         DateTime?                    @default(now())
+  updatedAt         DateTime?                    @updatedAt
 
-  @@id([userId, contestId, problemId, seasonId])
+  @@id([userId, seasonId, contestId, problemId])
 }
 
 model UserSeasonTopicProblem {
@@ -268,40 +279,76 @@ model UserSeasonTopicProblem {
   seasonTopicProblem SeasonTopicProblem @relation(fields: [topicId, problemId, seasonId], references: [topicId, problemId, seasonId], onDelete: Cascade)
   user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@id([seasonId, topicId, problemId, userId])
+  @@id([userId, seasonId, topicId, problemId])
 }
 
 model UserProfile {
-  id              String    @id @default(uuid())
-  userId          String    @unique
-  firstName       String?
-  lastName        String?
-  photoUrl        String?
-  phone           String?
-  birthDate       DateTime?
-  resumeLink      String?
-  github          String?
-  linkedin        String?
-  twitter         String?
-  facebook        String?
-  instagram       String?
-  leetcode        String?
-  codeforces      String?
-  hackerrank      String?
-  geekforgeeks    String?
-  educationPlace  String?
-  educationYear   Int?
-  educationDegree String?
-  educationField  String?
-  graduationYear  Int?
-  tshirtSize      String?
-  website         String?
-  bio             String?
-  country         String?
-  city            String?
-  createdAt       DateTime? @default(now())
-  updatedAt       DateTime? @updatedAt
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                        String                      @id @default(uuid())
+  userId                    String                      @unique
+  //  firstName                  String
+  //  middleName                 String?
+  //  lastName                   String
+  photoUrl                  String?
+  phone                     String
+  countryCode               String
+  birthDate                 DateTime?
+  resumeLink                String
+  github                    String?
+  linkedin                  String?
+  twitter                   String?
+  facebook                  String?
+  instagram                 String?
+  //  programmingPlatformHandles ProgrammingPlatformHandle[]
+  //  socialMediaPlatformHandles SocialMediaPlatformHandle[]
+  leetcode                  String
+  codeforces                String
+  hackerrank                String
+  geekforgeeks              String?
+  currentWorkStatus         CurrentWorkStatusEnum
+  currentEducationStatus    CurrentEducationStatusEnum
+  educationPlace            String
+  educationYear             Int?
+  educationDegree           String?
+  educationField            String?
+  graduationYear            Int?
+  tshirtSize                String?
+  website                   String?
+  bio                       String
+  userProfileAddress        UserProfileAddress?
+  //  country         String?
+  //  city            String?
+  createdAt                 DateTime?                   @default(now())
+  updatedAt                 DateTime?                   @updatedAt
+  user                      User                        @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+//model ProgrammingPlatformHandle {
+//  id             String      @id @default(uuid())
+//  profileId      String
+//  //type PlatformTypeEnum
+//  platformName   String
+//  platformHandle String
+//  iconUrl        String
+//  userProfile    UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+//}
+//
+//model SocialMediaPlatformHandle {
+//  id             String      @id @default(uuid())
+//  profileId      String
+//  //type PlatformTypeEnum
+//  platformName   String
+//  platformHandle String
+//  iconUrl        String
+//  userProfile    UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+//}
+
+model UserProfileAddress {
+  profileId   String      @unique
+  country     String
+  city        String
+  userProfile UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@id([profileId])
 }
 
 model Permission {
@@ -326,9 +373,24 @@ model Tag {
   problems Problem[]
 }
 
-enum Status {
+//enum PlatformTypeEnum {
+//  SOCIAL_MEDIA
+//  PROGRAMMING
+//}
+
+enum StatusEnum {
   ACTIVE
   INACTIVE
+}
+
+enum CurrentWorkStatusEnum {
+  EMPLOYED
+  UNEMPLOYED
+}
+
+enum CurrentEducationStatusEnum {
+  CONTINUING
+  GRADUATED
 }
 
 enum RoleEnum {
@@ -339,26 +401,26 @@ enum RoleEnum {
   ADMIN
 }
 
-enum ComfortLevel {
+enum ComfortLevelEnum {
   COMFORTABLE
   UNCOMFORTABLE
   MEDIOCRE
 }
 
-enum SeasonType {
+enum SeasonTypeEnum {
   CAMP
   EDUCATION
   PROJECT
   IN_ACTIVE
 }
 
-enum ProblemDifficultyType {
+enum ProblemDifficultyTypeEnum {
   EASY
   MEDIUM
   HARD
 }
 
-enum UserContestProblemStatus {
+enum UserContestProblemStatusEnum {
   SOLVED_IN_CONTEST
   SOLVED_AFTER_CONTEST
   NOT_SOLVED

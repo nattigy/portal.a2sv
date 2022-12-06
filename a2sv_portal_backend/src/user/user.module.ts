@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
-import { UserSeasonContestService } from 'src/user-season-contest/user-season-contest.service'
-import { GroupsService } from '../group/groups.service'
+import { UserSeasonContestService } from 'src/user-relations/user-season-contest/user-season-contest.service'
+import { GroupsService } from '../group-relations/group/groups.service'
 import { UserResolver } from './user.resolver'
 import { UserService } from './user.service'
 import { UserRepository } from './user.repository'

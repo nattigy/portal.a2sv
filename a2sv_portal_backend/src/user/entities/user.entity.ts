@@ -1,10 +1,10 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { RoleEnum, Status } from '@prisma/client'
-import { Group } from 'src/group/entities/group.entity'
+import { Group } from 'src/group-relations/group/entities/group.entity'
 import { UserProfile } from 'src/user-profile/entities/user-profile.entity'
-import { UserSeasonTopicProblem } from '../../user-season-topic-problem/entities/user-season-topic-problem.entity'
-import { UserTopic } from '../../user-topic/entities/user-topic.entity'
-import { UserSeasonContest } from '../../user-season-contest/entities/user-season-contest.entity'
+import { UserSeasonTopicProblem } from '../../user-relations/user-season-topic-problem/entities/user-season-topic-problem.entity'
+import { UserSeasonTopic } from '../../user-relations/user-season-topic/entities/user-season-topic.entity'
+import { UserSeasonContest } from '../../user-relations/user-season-contest/entities/user-season-contest.entity'
 
 @ObjectType()
 export class User {
@@ -46,11 +46,11 @@ export class User {
   @Field(() => UserProfile, { nullable: true, description: 'user profile of the user' })
   userProfile?: UserProfile
 
-  @Field(() => [UserTopic], {
+  @Field(() => [UserSeasonTopic], {
     nullable: true,
     description: 'topics the user has to cover, covering , covered ',
   })
-  userTopics?: UserTopic[]
+  userTopics?: UserSeasonTopic[]
 
   @Field(() => [UserSeasonContest], {
     description: 'topics the user has to cover, covering , covered ',

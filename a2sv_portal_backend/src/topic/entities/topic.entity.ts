@@ -1,6 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql'
-import { UserTopic } from '../../user-topic/entities/user-topic.entity'
-import { SeasonTopic } from '../../season-topic/entities/season-topic.entity'
+import { UserSeasonTopic } from '../../user-relations/user-season-topic/entities/user-season-topic.entity'
+import { SeasonTopic } from '../../season-relations/season-topic/entities/season-topic.entity'
 import { Problem } from '../../problem/entities/problem.entity'
 
 @ObjectType()
@@ -17,8 +17,8 @@ export class Topic {
   @Field(() => [SeasonTopic], { nullable: true, description: 'Season the topic belongs to' })
   seasonTopics?: SeasonTopic[]
 
-  @Field(() => [UserTopic], { nullable: true, description: 'Topic the user has' })
-  userTopics?: UserTopic[]
+  @Field(() => [UserSeasonTopic], { nullable: true, description: 'Topic the user has' })
+  userTopics?: UserSeasonTopic[]
 
   @Field(() => [Problem], { nullable: true, description: 'Topic the user has' })
   problems?: Problem[]

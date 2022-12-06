@@ -6,8 +6,8 @@ import { CheckPolicies } from '../casl/policy/policy.decorator'
 import { PoliciesGuard } from '../casl/policy/policy.guard'
 import { PaginationTopic } from '../common/page/pagination-info'
 import { PaginationInput } from '../common/page/pagination.input'
-import { SeasonTopic } from '../season-topic/entities/season-topic.entity'
-import { UserTopic } from '../user-topic/entities/user-topic.entity'
+import { SeasonTopic } from '../season-relations/season-topic/entities/season-topic.entity'
+import { UserSeasonTopic } from '../user-relations/user-season-topic/entities/user-season-topic.entity'
 import { AddTopicToSeasonInput } from './dto/add-topic-to-season-input'
 import { CreateTopicInput } from './dto/create-topic.input'
 import { UpdateTopicInput } from './dto/update-topic.input'
@@ -83,8 +83,8 @@ export class TopicResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.read)
-  @ResolveField(() => [UserTopic])
-  users(@Parent() topic: Topic): UserTopic[] {
+  @ResolveField(() => [UserSeasonTopic])
+  users(@Parent() topic: Topic): UserSeasonTopic[] {
     return topic.users
   }
 
