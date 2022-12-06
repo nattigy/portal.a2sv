@@ -1,26 +1,33 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserSeasonInput } from './dto/create-user-season.input';
-import { UpdateUserSeasonInput } from './dto/update-user-season.input';
+import { Injectable } from '@nestjs/common'
+import { PaginationInput } from 'src/common/page/pagination.input'
+import { CreateUserSeasonInput, UserSeasonId } from './dto/create-user-season.input'
+import { FilterUserSeasonInput } from './dto/filter-user-season-input'
+import { UpdateUserSeasonInput } from './dto/update-user-season.input'
+import { UserSeasonRepository } from './user-season.repository'
 
 @Injectable()
 export class UserSeasonService {
-  create(createUserSeasonInput: CreateUserSeasonInput) {
-    return 'This action adds a new userSeason';
+  constructor(private readonly userSeasonRepository: UserSeasonRepository) {}
+
+  async usersSeasonsStats(
+    { seasonId, userId }: FilterUserSeasonInput,
+    paginationInput: PaginationInput,
+  ) {
+    //generate multiple state here
+    return this.userSeasonRepository.findAll({
+      where: { seasonId, userId },
+    })
+  }
+  async userSeasonStat({ seasonId, userId }: UserSeasonId) {
+    //generate state here
+    return this.userSeasonRepository.findOne({
+      userId_seasonId: { seasonId, userId },
+    })
   }
 
-  findAll() {
-    return `This action returns all userSeason`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} userSeason`;
-  }
-
-  update(id: number, updateUserSeasonInput: UpdateUserSeasonInput) {
-    return `This action updates a #${id} userSeason`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} userSeason`;
+  async removeUserSeason({ seasonId, userId }: UserSeasonId) {
+    return this.userSeasonRepository.remove({
+      userId_seasonId: { seasonId, userId },
+    })
   }
 }
