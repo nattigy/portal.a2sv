@@ -31,7 +31,7 @@ export class User {
   })
   groupId?: string
 
-  @Field(() => [UserSeasonTopicProblem],{nullable: true})
+  @Field(() => [UserSeasonTopicProblem], { nullable: true })
   seasonTopicProblems?: UserSeasonTopicProblem[]
 
   @Field(() => Group, {

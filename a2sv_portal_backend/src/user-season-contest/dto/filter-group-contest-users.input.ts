@@ -4,6 +4,7 @@ import { Field, InputType } from '@nestjs/graphql'
 export class FilterGroupContestUsersInput {
   @Field()
   contestId: string
+
   @Field()
   groupId: string
 }

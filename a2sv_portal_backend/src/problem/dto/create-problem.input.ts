@@ -5,12 +5,16 @@ import { CreateTagInput } from '../../tag/dto/create-tag.input'
 export class CreateProblemInput {
   @Field()
   title: string
+
   @Field()
   platform: string
+
   @Field()
   link: string
+
   @Field()
   difficulty: string
+
   @Field(() => [CreateTagInput])
   tags: CreateTagInput[]
 }

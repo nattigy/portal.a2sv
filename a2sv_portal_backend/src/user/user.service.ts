@@ -89,9 +89,10 @@ export class UserService {
     })
   }
 
-  async user({id, email}: UniqueUserInput ) {
+  async user({ id, email }: UniqueUserInput) {
     return this.userRepository.findOne({
-      id, email
+      id,
+      email,
     })
   }
 

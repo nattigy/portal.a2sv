@@ -6,7 +6,13 @@ import { UserService } from './user.service'
 import { UserRepository } from './user.repository'
 
 @Module({
-  providers: [UserRepository, UserResolver, UserService, GroupsService, UserSeasonContestService],
+  providers: [
+    UserRepository,
+    UserResolver,
+    UserService,
+    GroupsService,
+    UserSeasonContestService,
+  ],
   exports: [UserService],
 })
 export class UserModule {}

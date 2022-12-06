@@ -19,8 +19,7 @@ export class UserResolver {
   constructor(
     private readonly userService: UserService,
     private readonly groupService: GroupsService,
-  ) {
-  }
+  ) {}
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.create)
@@ -36,9 +35,9 @@ export class UserResolver {
   @Query(() => PaginationUser)
   async users(
     @Args('filterUserInput', { nullable: true })
-      filterUserInput?: FilterUserInput,
+    filterUserInput?: FilterUserInput,
     @Args('pageInfoInput', { nullable: true })
-      pageInfoInput?: PaginationInfoInput,
+    pageInfoInput?: PaginationInfoInput,
   ): Promise<PaginationUser> {
     try {
       return this.userService.users(filterUserInput, pageInfoInput)
@@ -50,7 +49,7 @@ export class UserResolver {
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.read)
   @Query(() => User, { description: descriptions.findOne })
-  async user( @Args('UniqueUserInput') uniqueUserInput: UniqueUserInput,) {
+  async user(@Args('UniqueUserInput') uniqueUserInput: UniqueUserInput) {
     try {
       return await this.userService.user(uniqueUserInput)
     } catch (e) {

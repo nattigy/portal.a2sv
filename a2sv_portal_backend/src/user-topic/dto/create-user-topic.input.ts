@@ -5,8 +5,10 @@ import { ComfortLevelEnum } from '../../user/entities/comfort-level.enum'
 export class CreateUserTopicInput {
   @Field()
   userId: string
+
   @Field()
   topicId: string
+
   @Field(() => ComfortLevelEnum, { defaultValue: ComfortLevelEnum.UNCOMFORTABLE })
   comfortLevel: ComfortLevelEnum = ComfortLevelEnum.UNCOMFORTABLE
 }

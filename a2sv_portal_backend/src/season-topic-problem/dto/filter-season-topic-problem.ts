@@ -4,8 +4,10 @@ import { Field, InputType } from '@nestjs/graphql'
 export class SeasonTopicProblemFilter {
   @Field({ nullable: true })
   seasonId?: string
+
   @Field({ nullable: true })
   topicId?: string
+
   @Field({ nullable: true })
   problemId?: string
 }
