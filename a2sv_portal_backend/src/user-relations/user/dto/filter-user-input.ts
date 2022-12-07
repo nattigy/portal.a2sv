@@ -1,5 +1,5 @@
 import { Field, InputType, registerEnumType } from '@nestjs/graphql'
-import { RoleEnum, Status } from '@prisma/client'
+import { RoleEnum, StatusEnum } from '@prisma/client'
 
 @InputType()
 export class FilterUserInput {
@@ -12,8 +12,8 @@ export class FilterUserInput {
   @Field({ nullable: true })
   email?: string
 
-  @Field(() => Status, { nullable: true })
-  status?: Status
+  @Field(() => StatusEnum, { nullable: true })
+  status?: StatusEnum
 
   @Field(() => String, { nullable: true })
   groupId?: string

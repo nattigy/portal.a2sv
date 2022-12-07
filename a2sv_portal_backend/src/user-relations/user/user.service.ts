@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { registerEnumType } from '@nestjs/graphql'
-import { RoleEnum, Status } from '@prisma/client'
+import { RoleEnum, StatusEnum } from '@prisma/client'
 import * as bcrypt from 'bcrypt'
 import { PaginationUser } from '../../common/page/pagination-info'
 import { PaginationInput } from '../../common/page/pagination.input'
@@ -34,7 +34,7 @@ export class UserService {
   ) {}
 
   async createUser(createUserInput: SignUpUserInput): Promise<User> {
-    const { email, password } = createUserInput
+    const { email, firstName, middleName, lastName, password } = createUserInput
 
     const foundUser = await this.userRepository.findOne({ email })
 
@@ -45,8 +45,11 @@ export class UserService {
 
     return this.userRepository.create({
       email,
+      firstName,
+      middleName,
+      lastName,
       password: hash,
-      status: Status.ACTIVE,
+      statusEnum: StatusEnum.ACTIVE,
       role: RoleEnum.STUDENT,
     })
   }
