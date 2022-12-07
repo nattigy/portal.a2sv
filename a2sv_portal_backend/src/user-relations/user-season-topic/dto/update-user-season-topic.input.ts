@@ -6,8 +6,10 @@ import { ComfortLevelEnum } from '../../../user/entities/comfort-level.enum'
 export class UpdateUserSeasonTopicInput extends PartialType(CreateUserSeasonTopicInput) {
   @Field()
   userId: string
+
   @Field()
   topicId: string
+
   @Field(() => ComfortLevelEnum, {
     defaultValue: ComfortLevelEnum.UNCOMFORTABLE,
     nullable: true,
@@ -19,6 +21,7 @@ export class UpdateUserSeasonTopicInput extends PartialType(CreateUserSeasonTopi
 export class UserTopicId {
   @Field()
   userId: string
+
   @Field()
   topicId: string
 }

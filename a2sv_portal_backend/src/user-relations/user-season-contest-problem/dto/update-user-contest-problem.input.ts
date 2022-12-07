@@ -5,14 +5,19 @@ import { UserContestProblemEnum } from '../entities/user-season-contest-problem-
 export class UpdateUserContestProblemInput {
   @Field(() => String)
   userId: string
+
   @Field(() => String)
   contestId: string
+
   @Field(() => String)
   problemId: string
+
   @Field(() => UserContestProblemEnum)
   status: UserContestProblemEnum
+
   @Field(() => Int)
   numberOfAttempts: number
+
   @Field(() => Int)
   numberOfMinutes: number
 }
@@ -21,8 +26,10 @@ export class UpdateUserContestProblemInput {
 export class UserContestProblemId {
   @Field()
   userId: string
+
   @Field()
   contestId: string
+
   @Field()
   problemId: string
 }

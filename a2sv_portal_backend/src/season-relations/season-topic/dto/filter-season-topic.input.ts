@@ -8,3 +8,15 @@ export class FilterSeasonTopicInput {
   @Field({ description: 'topic id of the topic', nullable: true })
   topicId?: string
 }
+
+@InputType()
+export class SeasonTopicProblemId {
+  @Field()
+  seasonId: string
+
+  @Field()
+  problemId: string
+
+  @Field()
+  topicId: string
+}

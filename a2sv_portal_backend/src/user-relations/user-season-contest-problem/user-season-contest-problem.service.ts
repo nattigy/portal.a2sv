@@ -108,7 +108,7 @@ export class UserSeasonContestProblemService {
         },
         ...update,
       },
-      update: update,
+      update,
     })
   }
 

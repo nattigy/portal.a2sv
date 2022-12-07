@@ -5,10 +5,13 @@ import { ComfortLevelEnum } from '../../../user/entities/comfort-level.enum'
 export class FilterUserSeasonTopicInput {
   @Field({ nullable: true })
   userId?: string
+
   @Field({ nullable: true })
   topicId?: string
+
   @Field({ nullable: true })
   groupId?: string
+
   @Field(() => ComfortLevelEnum, {
     defaultValue: ComfortLevelEnum.UNCOMFORTABLE,
     nullable: true,

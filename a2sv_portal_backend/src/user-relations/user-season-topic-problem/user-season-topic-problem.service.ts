@@ -291,7 +291,7 @@ export class UserSeasonTopicProblemService {
   }
 
   async problemSolved({ seasonId, topicId, problemId, userId }: SeasonTopicProblemUserId) {
-    //update season/problem/topic/user => solved
+    // update season/problem/topic/user => solved
     const seasonTopicproblemUser = this.prismaService.seasonTopicProblemUser.update({
       where: {
         seasonId_topicId_problemId_userId: {

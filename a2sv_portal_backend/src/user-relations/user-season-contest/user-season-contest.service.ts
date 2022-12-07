@@ -91,7 +91,7 @@ export class UserSeasonContestService {
           numberOfMinutes: 0,
           numberOfAttempts: 0,
           status: UserContestProblemStatus.NOT_SOLVED,
-          problem: problem,
+          problem,
           user,
           contest,
         }

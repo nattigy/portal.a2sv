@@ -8,8 +8,10 @@ export class WhereUserFilter {
 
   @Field({ nullable: true })
   email?: string
+
   @Field({ nullable: true })
   groupId?: string
+
   @Field({ nullable: true })
   role?: string
 }

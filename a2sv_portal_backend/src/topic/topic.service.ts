@@ -52,7 +52,7 @@ export class TopicService {
 
   async findOne(id: string): Promise<Topic> {
     const topic = await this.prismaService.topic.findUnique({
-      where: { id: id },
+      where: { id },
       include: {
         seasons: {
           include: {
@@ -96,7 +96,7 @@ export class TopicService {
     const { id, ...data } = updateTopicInput
     const queryData = data as any
     return this.prismaService.topic.update({
-      where: { id: id },
+      where: { id },
       data: queryData,
       include: {
         seasons: {

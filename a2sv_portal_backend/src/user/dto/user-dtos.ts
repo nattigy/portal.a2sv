@@ -4,26 +4,37 @@ import { Field, Float, InputType, Int, ObjectType } from '@nestjs/graphql'
 export class StudentStat {
   @Field(() => Float)
   acceptanceRate: number
+
   @Field(() => Int)
   numberOfCorrectSubmissions: number
+
   @Field(() => Int)
   numberOfIncorrectSubmissions: number
+
   @Field(() => Int)
   totalTimeDedicated: number
+
   @Field(() => Float)
   unComfortability: number
+
   @Field(() => Int)
   easyCount: number
+
   @Field(() => Int)
   mediumCount: number
+
   @Field(() => Int)
   hardCount: number
+
   @Field(() => Int)
   totalUsers: number
+
   @Field(() => Int)
   weeklyRank
+
   @Field(() => Int)
   monthlyRank
+
   @Field(() => Int)
   allTimeRank
 }
@@ -32,6 +43,7 @@ export class StudentStat {
 export class TopicStudentStatInput {
   @Field()
   studentId: string
+
   @Field()
   seasonId: string
 }
@@ -40,6 +52,7 @@ export class TopicStudentStatInput {
 export class EachTopicCoverageStat {
   @Field()
   topicId: string
+
   @Field(() => Float)
   topicCoverage: number
 }
@@ -48,8 +61,10 @@ export class EachTopicCoverageStat {
 export class TopicCoverageStat {
   @Field(() => [EachTopicCoverageStat])
   eachTopicCoverageStat: EachTopicCoverageStat[]
+
   @Field(() => Float)
   totalTopicCoverage: number
+
   @Field(() => Float)
   unComfortability: number
 }
@@ -58,6 +73,7 @@ export class TopicCoverageStat {
 export class EachContestConversionRate {
   @Field()
   contestId: string
+
   @Field(() => Float)
   conversionRate: number
 }
@@ -65,6 +81,7 @@ export class EachContestConversionRate {
 export class ContestConversionRate {
   @Field(() => [EachContestConversionRate])
   eachContestConversionRate: EachContestConversionRate[]
+
   @Field(() => Float)
   totalContestConversionRate: number
 }

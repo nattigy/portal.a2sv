@@ -4,6 +4,7 @@ import { Field, InputType } from '@nestjs/graphql'
 export class UpdateUserContestInput {
   @Field()
   contestId: string
+
   @Field()
   userId: string
 }
@@ -12,6 +13,7 @@ export class UpdateUserContestInput {
 export class UserContestId {
   @Field()
   contestId: string
+
   @Field()
   userId: string
 }

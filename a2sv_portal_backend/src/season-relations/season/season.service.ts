@@ -98,7 +98,7 @@ export class SeasonService {
   @CheckPolicies(SeasonAbilities.update)
   async update(id: string, updateSeasonInput: UpdateSeasonInput): Promise<Season> {
     return this.prismaService.season.update({
-      where: { id: id },
+      where: { id },
       data: updateSeasonInput,
       include: {
         seasonTopics: {
