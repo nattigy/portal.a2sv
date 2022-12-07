@@ -23,7 +23,7 @@ export class ContestResolver {
     @Args('filterContestInput', { nullable: true }) filterContestInput?: FilterContestInput,
     @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInput,
   ): Promise<PaginationContest> {
-    return this.contestService.findAll(filterContestInput, pageInfoInput)
+    return this.contestService.contests(filterContestInput, pageInfoInput)
   }
 
   @Query(() => Contest)
@@ -34,17 +34,18 @@ export class ContestResolver {
   @Mutation(() => Contest)
   async updateContest(
     @Args('updateContestInput') updateContestInput: UpdateContestInput,
+    @Args('contestId') contestId: string
   ): Promise<Contest> {
-    return this.contestService.update(updateContestInput)
+    return this.contestService.update(contestId,updateContestInput)
   }
 
-  @Mutation(() => Contest)
-  async removeProblemFromContest(
-    @Args('contestId') contestId: string,
-    @Args('problemId') problemId: string,
-  ): Promise<Contest> {
-    return this.contestService.removeProblemFromContest(contestId, problemId)
-  }
+  // @Mutation(() => Contest)
+  // async removeProblemFromContest(
+  //   @Args('contestId') contestId: string,
+  //   @Args('problemId') problemId: string,
+  // ): Promise<Contest> {
+  //   return this.contestService.removeProblemFromContest(contestId, problemId)
+  // }
 
   // @ResolveField(() => [Problem])
   // async problems(@Parent() contest: Contest) {

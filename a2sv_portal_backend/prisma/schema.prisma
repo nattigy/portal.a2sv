@@ -27,7 +27,7 @@ model Group {
 model Season {
   id              String            @id @default(uuid())
   name            String
-  seasonType      SeasonTypeEnum
+  seasonType      SeasonTypeEnum  @default(IN_ACTIVE)
   duration        String
   startDate       DateTime
   endDate         DateTime?

@@ -18,6 +18,7 @@ export class SeasonRepository {
     orderBy?: Prisma.SeasonOrderByWithRelationInput
   }) {
     const { skip, take, cursor, where, orderBy } = params
+
     return this.prismaService.season.findMany({
       skip,
       take,
@@ -41,5 +42,9 @@ export class SeasonRepository {
 
   async remove(where: Prisma.SeasonWhereUniqueInput) {
     return this.prismaService.season.delete({ where })
+  }
+
+  async count(where?: Prisma.SeasonWhereInput): Promise<number> {
+    return this.prismaService.season.count({ where })
   }
 }
