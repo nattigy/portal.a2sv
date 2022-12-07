@@ -1,6 +1,5 @@
 import { createUnionType } from '@nestjs/graphql'
 import { Contest } from '../../contest/entities/contest.entity'
-import { GroupContest } from '../../group-contest/entities/group-contest.entity'
 import { Group } from '../../group-relations/group/entities/group.entity'
 import { Problem } from '../../problem/entities/problem.entity'
 import { UserSeasonTopicProblem } from '../../user-relations/user-season-topic-problem/entities/user-season-topic-problem.entity'

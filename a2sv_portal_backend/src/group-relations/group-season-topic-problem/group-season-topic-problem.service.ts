@@ -21,7 +21,7 @@ export class GroupSeasonTopicProblemService {
     return this.groupSeasonTopicProblemRepository.create({
       groupId, seasonId, topicId, problemId,
       groupSeasonTopic: {
-        connect: { seasonId_topicId_groupId: { topicId, seasonId, groupId } },
+        connect: { groupId_seasonId_topicId: { topicId, seasonId, groupId } },
       },
       problem: { connect: { id: problemId } },
     })
@@ -29,7 +29,7 @@ export class GroupSeasonTopicProblemService {
 
   async groupSeasonTopicProblem({ groupId, seasonId, topicId, problemId }: GroupSeasonTopicProblemId) {
     return this.groupSeasonTopicProblemRepository.findOne({
-      seasonId_topicId_groupId_problemId: {
+      groupId_seasonId_topicId_problemId: {
         problemId, topicId, seasonId, groupId,
       },
     })
@@ -45,21 +45,9 @@ export class GroupSeasonTopicProblemService {
     })
   }
 
-  async updateGroupSeasonTopicProblem(
-    { groupId, seasonId, topicId, problemId }: UpdateGroupSeasonTopicProblemInput,
-  ) {
-    return this.groupSeasonTopicProblemRepository.update({
-      where: {
-        seasonId_topicId_groupId_problemId: {
-          problemId, topicId, seasonId, groupId,
-        },
-      },
-    })
-  }
-
   async removeGroupSeasonTopicProblem({ groupId, seasonId, topicId, problemId }: GroupSeasonTopicProblemId) {
     return this.groupSeasonTopicProblemRepository.remove({
-      seasonId_topicId_groupId_problemId: {
+      groupId_seasonId_topicId_problemId: {
         problemId, topicId, seasonId, groupId,
       },
     })

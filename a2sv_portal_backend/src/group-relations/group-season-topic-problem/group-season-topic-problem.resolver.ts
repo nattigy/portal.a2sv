@@ -5,7 +5,6 @@ import {
   CreateGroupSeasonTopicProblemInput,
   GroupSeasonTopicProblemId,
 } from './dto/create-group-season-topic-problem.input'
-import { UpdateGroupSeasonTopicProblemInput } from './dto/update-group-season-topic-problem.input'
 import { GroupSeasonTopicId } from '../group-season-topic/dto/create-group-season-topic.input'
 import { PaginationInput } from '../../common/page/pagination.input'
 
