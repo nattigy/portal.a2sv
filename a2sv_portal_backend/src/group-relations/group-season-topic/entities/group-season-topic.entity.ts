@@ -1,6 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql'
 import { Group } from '../../group/entities/group.entity'
 import { SeasonTopic } from '../../../season-relations/season-topic/entities/season-topic.entity'
+import { GroupSeasonTopicProblem } from '../../group-season-topic-problem/entities/group-season-topic-problem.entity'
 
 @ObjectType()
 export class GroupSeasonTopic {
@@ -15,6 +16,9 @@ export class GroupSeasonTopic {
 
   @Field(() => SeasonTopic, { description: 'Example field (placeholder)' })
   seasonTopic: SeasonTopic
+
+  @Field(() => [GroupSeasonTopicProblem], { description: 'Example field (placeholder)' })
+  groupSeasonTopicProblems: GroupSeasonTopicProblem[]
 
   @Field(() => Group, { description: 'Example field (placeholder)' })
   group: Group

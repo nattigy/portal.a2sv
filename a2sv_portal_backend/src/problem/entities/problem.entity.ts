@@ -25,12 +25,6 @@ export class Problem {
   @Field(() => [Tag], { description: 'Tag of the question' })
   tags: Tag[]
 
-  @Field()
-  topicId: string
-
-  @Field(() => Topic, {nullable: true})
-  topic?: Topic
-
   @Field(() => [Contest], {nullable: true})
   contests?: Contest[]
 

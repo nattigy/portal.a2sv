@@ -8,84 +8,46 @@ import { PaginationInput } from '../../common/page/pagination.input'
 import { PaginationSeasonTopicProblemUser } from '../../common/page/pagination-info'
 import { SeasonTopicProblem } from '../../season-relations/season-topic-problem/entities/season-topic-problem.entity'
 import { User } from '../user/entities/user.entity'
+import { UserSeasonTopicProblemRepository } from './user-season-topic-problem.repository'
+import { GroupSeasonTopicProblem } from 'src/group-relations/group-season-topic-problem/entities/group-season-topic-problem.entity'
+import { GroupSeasonTopicProblemRepository } from 'src/group-relations/group-season-topic-problem/group-season-topic-problem.repository'
 
 @Injectable()
 export class UserSeasonTopicProblemService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly userSeasonTopicProblemRepository: UserSeasonTopicProblemRepository,
+    private readonly groupSeasonTopicProblemRepository: GroupSeasonTopicProblemRepository,
+    private readonly prismaService: PrismaService,
+  ) { }
 
-  // async create(
-  //   createSeasonTopicProblemUserInput: CreateSeasonTopicProblemUserInput,
-  // ): Promise<SeasonTopicUserProblem> {
-  //   return this.prismaService.seasonTopicProblemUser.create({
-  //     data: createSeasonTopicProblemUserInput,
-  //     include: {
-  //       seasonTopicProblem: {
-  //         include: {
-  //           seasonTopic: true,
-  //           problem: true,
-  //         },
-  //       },
-  //       user: true,
-  //     },
-  //   })
-  // }
-
-  async findOne({
-    seasonId,
-    topicId,
-    problemId,
-    userId,
-  }: SeasonTopicProblemUserId): Promise<UserSeasonTopicProblem> {
-    const seasonTopicUserProblem: UserSeasonTopicProblem =
-      await this.prismaService.seasonTopicProblemUser.findUnique({
-        where: {
-          seasonId_topicId_problemId_userId: {
-            seasonId,
-            topicId,
-            problemId,
-            userId,
-          },
-        },
-        include: {
-          seasonTopicProblem: {
-            include: {
-              seasonTopic: true,
-              problem: true,
-            },
-          },
-          user: true,
-        },
+  async userSeasonTopicProblem(
+    { seasonId, topicId, problemId, userId }: SeasonTopicProblemUserId
+  ): Promise<UserSeasonTopicProblem> {
+    let userSeasonTopicProblem: UserSeasonTopicProblem =
+      await this.userSeasonTopicProblemRepository.findOne({
+        userId_seasonId_topicId_problemId: {
+          seasonId, topicId, problemId, userId
+        }
       })
-    if (seasonTopicUserProblem === null || seasonTopicUserProblem === undefined) {
+    if (userSeasonTopicProblem === null || userSeasonTopicProblem === undefined) {
       const user = await this.prismaService.user.findUnique({ where: { id: userId } })
-      const seasonTopicProblem = await this.prismaService.seasonTopicProblem.findUnique({
-        where: {
-          seasonId_topicId_problemId: {
-            seasonId,
-            topicId,
-            problemId,
-          },
-        },
-        include: {
-          seasonTopic: true,
-          problem: true,
-        },
+      const groupSeasonTopicProblem: GroupSeasonTopicProblem = await this.groupSeasonTopicProblemRepository.findOne({
+        groupId_seasonId_topicId_problemId: {
+          seasonId, topicId, problemId, groupId: user.groupId
+        }
       })
-      return {
-        seasonId,
-        userId,
-        problemId,
-        topicId,
-        attempts: 0,
-        needHelp: false,
-        solved: false,
-        solutionLink: '',
-        timeDedicated: 0,
-        seasonTopicProblem,
-        user,
+      userSeasonTopicProblem = {
+        seasonId, topicId, problemId, userId,
+        solved: false, attempts: 0, needHelp: false, solutionLink: "", timeDedicated: 0,
+        seasonTopicProblem: {
+          seasonId, topicId, problemId,
+          seasonTopic: groupSeasonTopicProblem.groupSeasonTopic.seasonTopic,
+          problem: groupSeasonTopicProblem.problem,
+        },
+        user
       }
     }
-    return seasonTopicUserProblem
+    return userSeasonTopicProblem
   }
 
   async findAll(
@@ -142,7 +104,7 @@ export class UserSeasonTopicProblemService {
         },
       })
     for (const seasonTopicProblem of seasonTopicProblems) {
-      const seasonTopicUserProblem: UserSeasonTopicProblem = await this.findOne({
+      const seasonTopicUserProblem: UserSeasonTopicProblem = await this.userSeasonTopicProblem({
         userId,
         seasonId,
         topicId,
@@ -194,7 +156,7 @@ export class UserSeasonTopicProblemService {
     })
     for (const user of users) {
       for (const seasonTopicProblem of seasonTopicProblems) {
-        const seasonTopicUserProblem: UserSeasonTopicProblem = await this.findOne({
+        const seasonTopicUserProblem: UserSeasonTopicProblem = await this.userSeasonTopicProblem({
           userId: user.id,
           seasonId,
           topicId,

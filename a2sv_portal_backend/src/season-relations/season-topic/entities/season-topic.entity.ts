@@ -29,13 +29,4 @@ export class SeasonTopic {
 
   @Field(() => Date, { nullable: true })
   updatedAt?: Date
-
-  // seasonId            String
-  // topicId             String
-  // season              Season?              @relation(fields: [seasonId], references: [id], onDelete: Cascade)
-  // topic               Topic?               @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  // createdAt           DateTime?            @default(now())
-  // updatedAt           DateTime?            @updatedAt
-  // groupSeasonTopics   GroupSeasonTopic[]
-  // seasonTopicProblems SeasonTopicProblem[]
 }

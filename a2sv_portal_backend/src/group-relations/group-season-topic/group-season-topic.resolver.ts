@@ -30,6 +30,14 @@ export class GroupSeasonTopicResolver {
     return this.groupSeasonTopicService.groupSeasonTopics(groupSeasonId, paginationInput)
   }
 
+  @Query(() => [GroupSeasonTopic])
+  async seasonGroupTopics(
+    @Args('seasonId') seasonId: string,
+    @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
+  ) {
+    return this.groupSeasonTopicService.groupSeasonTopics({seasonId}, paginationInput)
+  }
+
   @Mutation(() => GroupSeasonTopic)
   async removeGroupSeasonTopic(@Args('groupSeasonTopicId') groupSeasonTopicId: GroupSeasonTopicId) {
     return this.groupSeasonTopicService.removeGroupSeasonTopic(groupSeasonTopicId)

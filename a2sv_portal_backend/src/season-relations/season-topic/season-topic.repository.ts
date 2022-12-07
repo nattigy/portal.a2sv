@@ -14,21 +14,13 @@ export class SeasonTopicRepository {
       include: {
         season: true,
         topic: true,
-        seasonTopicProblems: {
-          include: {
-            problem: {
-              include: {
-                tags: true,
-              },
-            },
-          },
-        },
+        seasonTopicProblems: { include: { problem: { include: { tags: true } } } },
       },
     })
   }
 
   async count(where?: Prisma.SeasonTopicWhereInput): Promise<number> {
-    return this.prismaService.seasonTopic.count({where})
+    return this.prismaService.seasonTopic.count({ where })
   }
 
   async findAll(params: {
@@ -46,15 +38,7 @@ export class SeasonTopicRepository {
       include: {
         season: true,
         topic: true,
-        seasonTopicProblems: {
-          include: {
-            problem: {
-              include: {
-                tags: true,
-              },
-            },
-          },
-        },
+        seasonTopicProblems: { include: { problem: { include: { tags: true } } } },
       },
     })
   }
@@ -64,15 +48,7 @@ export class SeasonTopicRepository {
       where, include: {
         season: true,
         topic: true,
-        seasonTopicProblems: {
-          include: {
-            problem: {
-              include: {
-                tags: true,
-              },
-            },
-          },
-        },
+        seasonTopicProblems: { include: { problem: { include: { tags: true } } } },
       },
     })
   }
@@ -87,15 +63,7 @@ export class SeasonTopicRepository {
       include: {
         season: true,
         topic: true,
-        seasonTopicProblems: {
-          include: {
-            problem: {
-              include: {
-                tags: true,
-              },
-            },
-          },
-        },
+        seasonTopicProblems: { include: { problem: { include: { tags: true } } } },
       },
     })
   }

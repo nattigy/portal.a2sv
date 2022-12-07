@@ -1,5 +1,5 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
-import { RoleEnum, Status } from '@prisma/client'
+import { RoleEnum, StatusEnum } from '@prisma/client'
 import { Group } from 'src/group-relations/group/entities/group.entity'
 import { UserProfile } from 'src/user-relations/user/user-profile/entities/user-profile.entity'
 import { UserSeasonTopicProblem } from '../../user-season-topic-problem/entities/user-season-topic-problem.entity'
@@ -19,8 +19,8 @@ export class User {
 
   password: string
 
-  @Field(() => Status)
-  status: Status
+  @Field(() => StatusEnum)
+  status: StatusEnum
 
   @Field(() => Group, { nullable: true, description: 'Group the user belongs to' })
   group?: Group
@@ -69,8 +69,8 @@ export class User {
   updatedAt?: Date
 }
 
-registerEnumType(Status, {
-  name: 'status',
+registerEnumType(StatusEnum, {
+  name: 'StatusEnum',
 })
 
 registerEnumType(RoleEnum, {

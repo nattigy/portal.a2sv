@@ -11,7 +11,7 @@ export class GroupSeasonRepository {
   async create(data: Prisma.GroupSeasonCreateInput | Prisma.GroupSeasonUncheckedCreateInput): Promise<GroupSeason> {
     return this.prismaService.groupSeason.create({
       data,
-      include: { group: true, season: true },
+      include: { group: true, season: true, head: true },
     })
   }
 
@@ -28,14 +28,14 @@ export class GroupSeasonRepository {
     const { skip, take, where, orderBy } = params
     return this.prismaService.groupSeason.findMany({
       skip, take, where, orderBy,
-      include: { group: true, season: true },
+      include: { group: true, season: true, head: true },
     })
   }
 
   async findOne(where: Prisma.GroupSeasonWhereUniqueInput): Promise<GroupSeason> {
     return this.prismaService.groupSeason.findUnique({
       where,
-      include: { group: true, season: true },
+      include: { group: true, season: true, head: true },
     })
   }
 
@@ -47,14 +47,11 @@ export class GroupSeasonRepository {
     return this.prismaService.groupSeason.update({
       data,
       where,
-      include: { group: true, season: true },
+      include: { group: true, season: true, head: true },
     })
   }
 
-  async remove(where: Prisma.GroupSeasonWhereUniqueInput): Promise<GroupSeason> {
-    return this.prismaService.groupSeason.delete({
-      where,
-      include: { group: true, season: true },
-    })
+  async remove(where: Prisma.GroupSeasonWhereUniqueInput) {
+    return this.prismaService.groupSeason.delete({where})
   }
 }

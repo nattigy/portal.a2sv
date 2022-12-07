@@ -16,21 +16,13 @@ export class GroupSeasonTopicService {
   async addTopicToGroupSeason({ groupId, seasonId, topicId }: CreateGroupSeasonTopicInput) {
     return this.groupSeasonTopicRepository.create({
       groupId, seasonId, topicId,
-      seasonTopic: {
-        connect: {
-          seasonId_topicId: {
-            topicId, seasonId,
-          },
-        },
-      },
+      seasonTopic: { connect: { seasonId_topicId: { topicId, seasonId } } },
     })
   }
 
   async groupSeasonTopic({ groupId, seasonId, topicId }: GroupSeasonTopicId) {
     return this.groupSeasonTopicRepository.findOne({
-      seasonId_topicId_groupId: {
-        topicId, seasonId, groupId,
-      },
+      groupId_seasonId_topicId: { topicId, seasonId, groupId },
     })
   }
 
@@ -46,7 +38,7 @@ export class GroupSeasonTopicService {
 
   async removeGroupSeasonTopic({ groupId, seasonId, topicId }: GroupSeasonTopicId) {
     return this.groupSeasonTopicRepository.remove({
-      seasonId_topicId_groupId: { topicId, seasonId, groupId },
+      groupId_seasonId_topicId: { topicId, seasonId, groupId },
     })
   }
 }

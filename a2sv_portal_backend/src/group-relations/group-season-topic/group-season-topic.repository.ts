@@ -18,17 +18,15 @@ export class GroupSeasonTopicRepository {
             season: true,
             topic: true,
             seasonTopicProblems: {
-              include: {
-                problem: {
-                  include: {
-                    tags: true,
-                  },
-                },
-              },
+              include: { problem: { include: { tags: true } } },
             },
           },
         },
-        groupSeasonTopicProblems: true,
+        groupSeasonTopicProblems: {
+          include: {
+            problem: { include: { tags: true } },
+          },
+        },
       },
     })
   }
@@ -39,7 +37,7 @@ export class GroupSeasonTopicRepository {
     cursor?: Prisma.GroupSeasonTopicWhereUniqueInput
     where?: Prisma.GroupSeasonTopicWhereInput
     orderBy?: Prisma.GroupSeasonTopicOrderByWithRelationInput
-  }):Promise<GroupSeasonTopic[]> {
+  }): Promise<GroupSeasonTopic[]> {
     const { skip, take, cursor, where, orderBy } = params
     return this.prismaService.groupSeasonTopic.findMany({
       skip,
@@ -54,22 +52,20 @@ export class GroupSeasonTopicRepository {
             season: true,
             topic: true,
             seasonTopicProblems: {
-              include: {
-                problem: {
-                  include: {
-                    tags: true,
-                  },
-                },
-              },
+              include: { problem: { include: { tags: true } } },
             },
           },
         },
-        groupSeasonTopicProblems: true,
+        groupSeasonTopicProblems: {
+          include: {
+            problem: { include: { tags: true } },
+          },
+        },
       },
     })
   }
 
-  async findOne(where: Prisma.GroupSeasonTopicWhereUniqueInput):Promise<GroupSeasonTopic> {
+  async findOne(where: Prisma.GroupSeasonTopicWhereUniqueInput): Promise<GroupSeasonTopic> {
     return this.prismaService.groupSeasonTopic.findUnique({
       where,
       include: {
@@ -79,17 +75,15 @@ export class GroupSeasonTopicRepository {
             season: true,
             topic: true,
             seasonTopicProblems: {
-              include: {
-                problem: {
-                  include: {
-                    tags: true,
-                  },
-                },
-              },
+              include: { problem: { include: { tags: true } } },
             },
           },
         },
-        groupSeasonTopicProblems: true,
+        groupSeasonTopicProblems: {
+          include: {
+            problem: { include: { tags: true } },
+          },
+        },
       },
     })
   }
@@ -97,7 +91,7 @@ export class GroupSeasonTopicRepository {
   async update(params: {
     where: Prisma.GroupSeasonTopicWhereUniqueInput
     data: Prisma.GroupSeasonTopicUpdateInput
-  }):Promise<GroupSeasonTopic> {
+  }): Promise<GroupSeasonTopic> {
     const { where, data } = params
     return this.prismaService.groupSeasonTopic.update({
       data, where,
@@ -108,17 +102,15 @@ export class GroupSeasonTopicRepository {
             season: true,
             topic: true,
             seasonTopicProblems: {
-              include: {
-                problem: {
-                  include: {
-                    tags: true,
-                  },
-                },
-              },
+              include: { problem: { include: { tags: true } } },
             },
           },
         },
-        groupSeasonTopicProblems: true,
+        groupSeasonTopicProblems: {
+          include: {
+            problem: { include: { tags: true } },
+          },
+        },
       },
     })
   }

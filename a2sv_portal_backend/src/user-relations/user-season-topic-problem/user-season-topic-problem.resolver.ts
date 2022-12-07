@@ -10,27 +10,11 @@ import { PaginationSeasonTopicProblemUser } from '../../common/page/pagination-i
 export class UserSeasonTopicProblemResolver {
   constructor(private readonly seasonTopicUserProblemService: UserSeasonTopicProblemService) {}
 
-  // @Mutation(() => SeasonTopicProblemUser)
-  // async createSeasonTopicProblemUser(
-  //   @Args('createSeasonTopicProblemUserInput')
-  //   createSeasonTopicProblemUserInput: CreateSeasonTopicProblemUserInput,
-  // ): Promise<SeasonTopicProblemUser> {
-  //   return this.seasonTopicUserProblemService.create(createSeasonTopicProblemUserInput)
-  // }
-
-  // @Query(() => SeasonTopicUserProblem)
-  // async seasonTopicUserProblem(
-  //   @Args('id', { type: () => SeasonTopicProblemUserId })
-  //     id: SeasonTopicProblemUserId,
-  // ): Promise<SeasonTopicUserProblem> {
-  //   return this.seasonTopicUserProblemService.findOne(id)
-  // }
-
   @Query(() => UserSeasonTopicProblem)
-  async seasonTopicUserProblem(
+  async userSeasonTopicProblem(
     @Args('seasonTopicProblemUserId') seasonTopicProblemUserId: SeasonTopicProblemUserId,
   ): Promise<UserSeasonTopicProblem> {
-    return this.seasonTopicUserProblemService.findOne(seasonTopicProblemUserId)
+    return this.seasonTopicUserProblemService.userSeasonTopicProblem(seasonTopicProblemUserId)
   }
 
   @Query(() => PaginationSeasonTopicProblemUser)
