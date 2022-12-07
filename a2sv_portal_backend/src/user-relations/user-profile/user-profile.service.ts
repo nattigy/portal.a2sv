@@ -15,13 +15,7 @@ export class UserProfileService {
     private readonly userProfileRepository: UserProfileRepository,
   ) {}
 
-  // async create(createUserProfileInput: CreateUserProfileInput): Promise<UserProfile> {
-  //   return this.userProfileRepository.create({
-  //     createUserProfileInput
-  //   })
-  // }
-
-  async findAll(
+  async userProfiles(
     filterUserProfileInput: FilterUserProfileInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationUserProfile> {
@@ -43,18 +37,21 @@ export class UserProfileService {
     }
   }
 
-  async findOne(id: string): Promise<UserProfile> {
+  async userProfile(id: string): Promise<UserProfile> {
     return this.userProfileRepository.findOne({
       id,
     })
   }
 
-  async update(updateUserProfileInput: UpdateUserProfileInput) {
-    return this.userProfileRepository.update({
+  async updateUserProfile(updateUserProfileInput: UpdateUserProfileInput) {
+    return this.prismaService.userProfile.upsert({
       where: {
         userId: updateUserProfileInput.userId,
       },
-      data: updateUserProfileInput,
+      update: {},
+      create: {
+        ...updateUserProfileInput
+      }
     })
   }
 

@@ -8,16 +8,16 @@ import { UserSeasonContest } from '../../user-season-contest/entities/user-seaso
 
 @ObjectType()
 export class User {
-  @Field(() => String, { description: 'Id of the user' })
+  @Field({ description: 'Id of the user' })
   id: string
 
-  @Field(() => String)
+  @Field()
   firstName: string
 
-  @Field(() => String)
+  @Field()
   middleName: string
 
-  @Field(() => String)
+  @Field()
   lastName: string
 
   @Field(() => RoleEnum, { defaultValue: RoleEnum.STUDENT, description: 'Role of the user' })
@@ -34,7 +34,7 @@ export class User {
   @Field(() => Group, { nullable: true, description: 'Group the user belongs to' })
   group?: Group
 
-  @Field(() => String, {
+  @Field({
     nullable: true,
     description: 'Group id of the group the user belongs to',
   })
@@ -49,7 +49,7 @@ export class User {
   })
   headToGroup?: Group
 
-  @Field(() => String, { nullable: true, description: 'Id of the userprofile for the user ' })
+  @Field({ nullable: true, description: 'Id of the userprofile for the user ' })
   userProfilesId?: string
 
   @Field(() => UserProfile, { nullable: true, description: 'user profile of the user' })

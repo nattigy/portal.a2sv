@@ -21,17 +21,18 @@ export class UserSeasonRepository {
   async findAll(params: {
     skip?: number
     take?: number
+    groupId?: string
     where?: Prisma.UserSeasonWhereInput
     orderBy?: Prisma.UserSeasonOrderByWithRelationInput
   }): Promise<UserSeason[]> {
-    const { skip, take, where, orderBy } = params
+    const { skip, take, where, groupId, orderBy } = params
     return this.prismaService.userSeason.findMany({
       skip,
       take,
       where,
       orderBy,
       include: {
-        user: true,
+        user: { where: { groupId } },
         season: true,
       },
     })

@@ -13,8 +13,8 @@ export class SignUpUserInput {
   @Field()
   lastName: string
 
-  @Field({ name: 'status', nullable: true })
-  statusEnum: StatusEnum
+  @Field({ nullable: true })
+  status: StatusEnum
   
   @Field()
   email: string

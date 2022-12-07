@@ -13,7 +13,7 @@ import { User } from './entities/user.entity'
 import { UserService } from './user.service'
 import { FilterUserInput, UniqueUserInput } from './dto/filter-user-input'
 import descriptions from './user.doc'
-import { PaginationInfoInput } from 'dist/src/common/page/pagination-info.input'
+import { PaginationInput } from '../../common/page/pagination.input'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -35,10 +35,8 @@ export class UserResolver {
   @CheckPolicies(UserAbilities.read)
   @Query(() => PaginationUser)
   async users(
-    @Args('filterUserInput', { nullable: true })
-    filterUserInput?: FilterUserInput,
-    @Args('pageInfoInput', { nullable: true })
-    pageInfoInput?: PaginationInfoInput,
+    @Args('filterUserInput', { nullable: true }) filterUserInput?: FilterUserInput,
+    @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInput,
   ): Promise<PaginationUser> {
     try {
       return this.userService.users(filterUserInput, pageInfoInput)

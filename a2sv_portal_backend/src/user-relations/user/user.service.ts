@@ -1,11 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
-import { registerEnumType } from '@nestjs/graphql'
+import { Injectable } from '@nestjs/common'
 import { RoleEnum, StatusEnum } from '@prisma/client'
 import * as bcrypt from 'bcrypt'
 import { PaginationUser } from '../../common/page/pagination-info'
 import { PaginationInput } from '../../common/page/pagination.input'
-import { GroupsService } from '../../group-relations/group/groups.service'
-import { UserSeasonContestService } from '../user-season-contest/user-season-contest.service'
 import { PrismaService } from '../../prisma/prisma.service'
 import { SignUpUserInput } from './dto/sign-up-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
@@ -31,7 +28,8 @@ export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly prismaService: PrismaService,
-  ) {}
+  ) {
+  }
 
   async createUser(createUserInput: SignUpUserInput): Promise<User> {
     const { email, firstName, middleName, lastName, password } = createUserInput
@@ -49,7 +47,7 @@ export class UserService {
       middleName,
       lastName,
       password: hash,
-      statusEnum: StatusEnum.ACTIVE,
+      status: StatusEnum.ACTIVE,
       role: RoleEnum.STUDENT,
     })
   }
@@ -58,15 +56,18 @@ export class UserService {
     filterUserInput: FilterUserInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationUser> {
-    const usersCount = (
-      await this.userRepository.findAll({
-        where: filterUserInput,
-      })
-    ).length
+    const usersCount = await this.userRepository.count(filterUserInput)
     const users: User[] = await this.userRepository.findAll({
       skip,
       take,
-      where: filterUserInput,
+      where: {
+        ...filterUserInput,
+        OR: [
+          { firstName: filterUserInput.name },
+          { middleName: filterUserInput.name },
+          { lastName: filterUserInput.name },
+        ],
+      },
     })
 
     return {

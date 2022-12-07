@@ -10,27 +10,19 @@ import { FilterUserProfileInput } from './dto/filter-user-profile.input'
 export class UserProfileResolver {
   constructor(private readonly userProfileService: UserProfileService) {}
 
-  // @Mutation(() => UserProfile)
-  // async createUserProfile(
-  //   @Args('createUserProfileInput')
-  //     createUserProfileInput: CreateUserProfileInput,
-  // ) {
-  //   return this.userProfileService.create(createUserProfileInput)
-  // }
-
   @Query(() => PaginationUserProfile)
   async userProfiles(
-    @Args('filterUserProfileInput', { type: () => FilterUserProfileInput, nullable: true })
+    @Args('filterUserProfileInput', {  nullable: true })
     filterUserProfileInput?: FilterUserProfileInput,
-    @Args('pageInfoInput', { type: () => PaginationInput, nullable: true })
+    @Args('pageInfoInput', { nullable: true })
     pageInfoInput?: PaginationInput,
   ): Promise<PaginationUserProfile> {
-    return this.userProfileService.findAll(filterUserProfileInput, pageInfoInput)
+    return this.userProfileService.userProfiles(filterUserProfileInput, pageInfoInput)
   }
 
   @Query(() => UserProfile)
-  async userProfile(@Args('id') id: string) {
-    return this.userProfileService.findOne(id)
+  async userProfile(@Args('userProfileId') userProfileId: string) {
+    return this.userProfileService.userProfile(userProfileId)
   }
 
   @Mutation(() => UserProfile)
@@ -38,7 +30,7 @@ export class UserProfileResolver {
     @Args('updateUserProfileInput')
     updateUserProfileInput: UpdateUserProfileInput,
   ) {
-    return this.userProfileService.update(updateUserProfileInput)
+    return this.userProfileService.updateUserProfile(updateUserProfileInput)
   }
 
   @Mutation(() => Int)

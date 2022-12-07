@@ -1,13 +1,14 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
-import { PaginationInput } from '../common/page/pagination.input'
 import { UserSeasonId } from './dto/create-user-season.input'
 import { UserSeason } from './entities/user-season.entity'
 import { UserSeasonService } from './user-season.service'
+import { PaginationInput } from '../../common/page/pagination.input'
 
 @Resolver(() => UserSeason)
 export class GroupSeasonResolver {
-  constructor(private readonly userSeasonService: UserSeasonService) {}
+  constructor(private readonly userSeasonService: UserSeasonService) {
+  }
 
   @Query(() => UserSeason)
   async userSeasonStat(@Args('userSeasonId') userSeasonId: UserSeasonId): Promise<UserSeason> {
