@@ -14,12 +14,6 @@ export class Topic {
   @Field({ nullable: true, description: 'Description of the topic' })
   description?: string
 
-  @Field(() => [SeasonTopic], { nullable: true, description: 'Season the topic belongs to' })
-  seasonTopics?: SeasonTopic[]
-
-  @Field(() => [UserSeasonTopic], { nullable: true, description: 'Topic the user has' })
-  userTopics?: UserSeasonTopic[]
-
   @Field(() => Date, { nullable: true })
   createdAt?: Date
 

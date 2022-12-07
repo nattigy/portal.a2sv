@@ -1,7 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql'
 import { User } from 'src/user-relations/user/entities/user.entity'
-import { GroupSeasonTopic } from '../../group-season-topic/entities/group-season-topic.entity'
-import { GroupSeasonContest } from '../../group-season-contest/entities/group-season-contest.entity'
 
 @ObjectType()
 export class Group {
@@ -28,18 +26,6 @@ export class Group {
 
   @Field(() => [User], { nullable: true, description: 'Users that belong to that group' })
   users?: User[]
-
-  @Field(() => [GroupSeasonTopic], {
-    nullable: true,
-    description: 'Users that belong to that group',
-  })
-  groupSeasonTopics?: GroupSeasonTopic[]
-
-  @Field(() => [GroupSeasonContest], {
-    nullable: true,
-    description: 'Users that belong to that group',
-  })
-  groupSeasonContests?: GroupSeasonContest[]
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date

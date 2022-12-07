@@ -43,6 +43,4 @@ export class GroupSeason {
   updatedAt?: Date
 }
 
-registerEnumType(JoinRequestEnum, {
-  name: 'JoinRequestEnum',
-})
+registerEnumType(JoinRequestEnum, { name: 'JoinRequestEnum' })

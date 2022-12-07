@@ -3,16 +3,16 @@ import { Topic } from '@prisma/client'
 import { PaginationTopic } from '../common/page/pagination-info'
 import { PaginationInput } from '../common/page/pagination.input'
 import { PrismaService } from '../prisma/prisma.service'
-import { AddTopicToSeasonInput } from './dto/add-topic-to-season-input'
 import { CreateTopicInput } from './dto/create-topic.input'
 import { UpdateTopicInput } from './dto/update-topic.input'
 import { FilterTopicInput } from './dto/filter-topic-input'
 
 @Injectable()
 export class TopicService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
-  async findAll(
+  async topics(
     filterTopicInput: FilterTopicInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationTopic> {
@@ -50,7 +50,7 @@ export class TopicService {
     }
   }
 
-  async findOne(id: string): Promise<Topic> {
+  async topic(id: string): Promise<Topic> {
     const topic = await this.prismaService.topic.findUnique({
       where: { id },
       include: {
@@ -108,25 +108,6 @@ export class TopicService {
             },
           },
         },
-      },
-    })
-  }
-
-  async addTopicToSeason(addTopicToSeasonInput: AddTopicToSeasonInput) {
-    return this.prismaService.season.update({
-      data: {
-        seasonTopics: {
-          create: {
-            topic: {
-              connect: {
-                id: addTopicToSeasonInput.topicId,
-              },
-            },
-          },
-        },
-      },
-      where: {
-        id: addTopicToSeasonInput.seasonId,
       },
     })
   }

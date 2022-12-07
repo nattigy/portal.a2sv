@@ -11,3 +11,15 @@ export class CreateSeasonTopicProblemInput {
   @Field()
   problemId: string
 }
+
+@InputType()
+export class SeasonTopicProblemId {
+  @Field()
+  seasonId: string
+
+  @Field()
+  topicId: string
+
+  @Field()
+  problemId: string
+}

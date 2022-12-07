@@ -10,6 +10,10 @@ export class SeasonRepository {
     return this.prismaService.season.create({ data })
   }
 
+  async count(where?: Prisma.SeasonWhereInput): Promise<number> {
+    return this.prismaService.season.count({ where })
+  }
+
   async findAll(params: {
     skip?: number
     take?: number
@@ -42,9 +46,5 @@ export class SeasonRepository {
 
   async remove(where: Prisma.SeasonWhereUniqueInput) {
     return this.prismaService.season.delete({ where })
-  }
-
-  async count(where?: Prisma.SeasonWhereInput): Promise<number> {
-    return this.prismaService.season.count({ where })
   }
 }

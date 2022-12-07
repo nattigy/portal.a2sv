@@ -170,8 +170,8 @@ model SeasonTopic {
 model SeasonContest {
   seasonId            String
   contestId           String
-  season              Season?              @relation(fields: [seasonId], references: [id], onDelete: Cascade)
-  contest             Contest?             @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  season              Season              @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+  contest             Contest             @relation(fields: [contestId], references: [id], onDelete: Cascade)
   createdAt           DateTime?            @default(now())
   updatedAt           DateTime?            @updatedAt
   groupSeasonContests GroupSeasonContest[]
@@ -258,7 +258,7 @@ model UserSeasonContestProblem {
   problemId         String
   userSeasonContest UserSeasonContest?           @relation(fields: [userId, seasonId, contestId], references: [userId, seasonId, contestId], onDelete: Cascade)
   problem           Problem                      @relation(fields: [problemId], references: [id], onDelete: Cascade)
-  statusEnum        UserContestProblemStatusEnum @default(NOT_SOLVED)
+  status        UserContestProblemStatusEnum @default(NOT_SOLVED)
   numberOfAttempts  Int
   numberOfMinutes   Int
   createdAt         DateTime?                    @default(now())

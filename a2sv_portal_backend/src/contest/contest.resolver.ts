@@ -6,6 +6,7 @@ import { UpdateContestInput } from './dto/update-contest.input'
 import { Contest } from './entities/contest.entity'
 import { FilterContestInput } from './dto/filter-contest.input'
 import { PaginationContest } from '../common/page/pagination-info'
+import { type } from 'os'
 
 @Resolver(() => Contest)
 export class ContestResolver {
@@ -39,18 +40,13 @@ export class ContestResolver {
     return this.contestService.update(contestId,updateContestInput)
   }
 
-  // @Mutation(() => Contest)
-  // async removeProblemFromContest(
-  //   @Args('contestId') contestId: string,
-  //   @Args('problemId') problemId: string,
-  // ): Promise<Contest> {
-  //   return this.contestService.removeProblemFromContest(contestId, problemId)
-  // }
-
-  // @ResolveField(() => [Problem])
-  // async problems(@Parent() contest: Contest) {
-  //   return contest.problems
-  // }
+  @Mutation(() => Contest)
+  async removeProblemsFromContest(
+    @Args('contestId') contestId: string,
+    @Args('problemIds') problemIds: string[],
+  ): Promise<Contest> {
+    return this.contestService.removeProblemsFromContest(contestId, problemIds)
+  }
 
   @Mutation(() => Int)
   async removeContest(@Args('contestId') contestId: string): Promise<number> {
