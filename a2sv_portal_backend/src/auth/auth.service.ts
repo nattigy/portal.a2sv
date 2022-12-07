@@ -4,8 +4,8 @@ import { JwtService } from '@nestjs/jwt'
 import { User } from '@prisma/client'
 import * as bcrypt from 'bcrypt'
 import { Response } from 'express'
-import { SignUpUserInput } from '../user/dto/sign-up-user.input'
-import { UserService } from '../user/user.service'
+import { SignUpUserInput } from '../user-relations/user/dto/sign-up-user.input'
+import { UserService } from '../user-relations/user/user.service'
 import { AuthResponse } from './dto/auth-response.dto'
 
 @Injectable()

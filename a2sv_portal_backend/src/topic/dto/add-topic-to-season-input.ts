@@ -4,6 +4,7 @@ import { Field, InputType } from '@nestjs/graphql'
 export class AddTopicToSeasonInput {
   @Field()
   topicId: string
+
   @Field()
   seasonId: string
 }

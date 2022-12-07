@@ -4,6 +4,7 @@ import { Field, InputType } from '@nestjs/graphql'
 export class CreateTopicInput {
   @Field()
   name: string
+
   @Field()
   description: string
 }

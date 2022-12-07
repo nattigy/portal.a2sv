@@ -1,9 +1,9 @@
 import { Field, ObjectType } from '@nestjs/graphql'
-import { SeasonTopicProblem } from '../../season-topic-problem/entities/season-topic-problem.entity'
+import { SeasonTopicProblem } from '../../season-relations/season-topic-problem/entities/season-topic-problem.entity'
 import { Tag } from '../../tag/entities/tag.entity'
 import { Topic } from '../../topic/entities/topic.entity'
 import { Contest } from '../../contest/entities/contest.entity'
-import { UserContestProblem } from '../../user-season-contest-problem/entities/user-season-contest-problem.entity'
+import { UserContestProblem } from '../../user-relations/user-season-contest-problem/entities/user-season-contest-problem.entity'
 
 @ObjectType()
 export class Problem {

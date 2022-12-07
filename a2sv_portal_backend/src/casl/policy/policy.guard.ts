@@ -27,7 +27,7 @@ export class PoliciesGuard implements CanActivate {
   }
 
   private execPolicyHandler(handler: PolicyHandler, ability: Ability<[Action, Subjects]>) {
-    if (typeof handler == 'function') {
+    if (typeof handler === 'function') {
       return handler(ability)
     }
     return handler.handle(ability)
