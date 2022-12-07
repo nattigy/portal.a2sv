@@ -1,35 +1,29 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { UserSeasonService } from './user-season.service';
-import { UserSeason } from './entities/user-season.entity';
-import { CreateUserSeasonInput } from './dto/create-user-season.input';
-import { UpdateUserSeasonInput } from './dto/update-user-season.input';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
+
+import { PaginationInput } from '../common/page/pagination.input'
+import { UserSeasonId } from './dto/create-user-season.input'
+import { UserSeason } from './entities/user-season.entity'
+import { UserSeasonService } from './user-season.service'
 
 @Resolver(() => UserSeason)
-export class UserSeasonResolver {
+export class GroupSeasonResolver {
   constructor(private readonly userSeasonService: UserSeasonService) {}
 
-  @Mutation(() => UserSeason)
-  createUserSeason(@Args('createUserSeasonInput') createUserSeasonInput: CreateUserSeasonInput) {
-    return this.userSeasonService.create(createUserSeasonInput);
+  @Query(() => UserSeason)
+  async userSeasonStat(@Args('userSeasonId') userSeasonId: UserSeasonId): Promise<UserSeason> {
+    return this.userSeasonService.userSeasonStat(userSeasonId)
   }
 
-  @Query(() => [UserSeason], { name: 'userSeason' })
-  findAll() {
-    return this.userSeasonService.findAll();
-  }
-
-  @Query(() => UserSeason, { name: 'userSeason' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.userSeasonService.findOne(id);
-  }
-
-  @Mutation(() => UserSeason)
-  updateUserSeason(@Args('updateUserSeasonInput') updateUserSeasonInput: UpdateUserSeasonInput) {
-    return this.userSeasonService.update(updateUserSeasonInput.id, updateUserSeasonInput);
+  @Query(() => UserSeason)
+  async userSeasonsStats(
+    @Args('userId') userId: string,
+    @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
+  ): Promise<UserSeason[]> {
+    return this.userSeasonService.usersSeasonsStats({ userId }, paginationInput)
   }
 
   @Mutation(() => UserSeason)
-  removeUserSeason(@Args('id', { type: () => Int }) id: number) {
-    return this.userSeasonService.remove(id);
+  async removeSeasonFromAGroup(@Args('userSeasonId') userSeasonId: UserSeasonId) {
+    return this.userSeasonService.removeUserSeason(userSeasonId)
   }
 }

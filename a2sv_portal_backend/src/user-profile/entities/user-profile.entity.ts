@@ -85,7 +85,7 @@ export class UserProfile {
   city?: string
 
   @Field(() => User, { nullable: true })
-  user?: User
+  user: User
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date

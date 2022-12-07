@@ -2,6 +2,17 @@ import { InputType, Int, Field } from '@nestjs/graphql';
 
 @InputType()
 export class CreateUserSeasonInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field()
+  userId: string
+  @Field()
+  seasonId: string
+}
+
+@InputType()
+export class UserSeasonId {
+  @Field()
+  userId: string
+
+  @Field()
+  seasonId: string
 }
