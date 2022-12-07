@@ -12,9 +12,9 @@ import { Tag } from '../tag/entities/tag.entity'
 import { Topic } from '../topic/entities/topic.entity'
 import { UserContestProblem } from '../user-relations/user-season-contest-problem/entities/user-season-contest-problem.entity'
 import { UserSeasonContest } from '../user-relations/user-season-contest/entities/user-season-contest.entity'
-import { UserProfile } from '../user-profile/entities/user-profile.entity'
+import { UserProfile } from '../user-relations/user/user-profile/entities/user-profile.entity'
 import { UserSeasonTopic } from '../user-relations/user-season-topic/entities/user-season-topic.entity'
-import { User } from '../user/entities/user.entity'
+import { User } from '../user-relations/user/entities/user.entity'
 
 export type Subjects =
   | InferSubjects<

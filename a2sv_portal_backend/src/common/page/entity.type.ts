@@ -11,7 +11,7 @@ import { Topic } from '../../topic/entities/topic.entity'
 import { UserContestProblem } from '../../user-relations/user-season-contest-problem/entities/user-season-contest-problem.entity'
 import { UserSeasonContest } from '../../user-relations/user-season-contest/entities/user-season-contest.entity'
 import { UserSeasonTopic } from '../../user-relations/user-season-topic/entities/user-season-topic.entity'
-import { User } from '../../user/entities/user.entity'
+import { User } from '../../user-relations/user/entities/user.entity'
 
 export const Entity = createUnionType({
   name: 'Entity',

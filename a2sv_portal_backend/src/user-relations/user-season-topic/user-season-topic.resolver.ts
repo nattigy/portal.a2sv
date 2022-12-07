@@ -1,6 +1,6 @@
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { Topic } from '../../topic/entities/topic.entity'
-import { User } from '../../user/entities/user.entity'
+import { User } from '../user/entities/user.entity'
 import { CreateUserSeasonTopicInput } from './dto/create-user-season-topic.input'
 import { UpdateUserSeasonTopicInput, UserTopicId } from './dto/update-user-season-topic.input'
 import { UserSeasonTopic } from './entities/user-season-topic.entity'

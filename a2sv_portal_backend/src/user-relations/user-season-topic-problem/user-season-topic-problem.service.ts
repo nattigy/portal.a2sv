@@ -7,7 +7,7 @@ import { FilterSeasonTopicUserProblemInput } from './dto/filter-season-topic-use
 import { PaginationInput } from '../../common/page/pagination.input'
 import { PaginationSeasonTopicProblemUser } from '../../common/page/pagination-info'
 import { SeasonTopicProblem } from '../../season-relations/season-topic-problem/entities/season-topic-problem.entity'
-import { User } from '../../user/entities/user.entity'
+import { User } from '../user/entities/user.entity'
 
 @Injectable()
 export class UserSeasonTopicProblemService {

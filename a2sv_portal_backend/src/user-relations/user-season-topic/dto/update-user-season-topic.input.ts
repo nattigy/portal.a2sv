@@ -1,6 +1,6 @@
 import { Field, InputType, PartialType } from '@nestjs/graphql'
 import { CreateUserSeasonTopicInput } from './create-user-season-topic.input'
-import { ComfortLevelEnum } from '../../../user/entities/comfort-level.enum'
+import { ComfortLevelEnum } from '../../user/entities/comfort-level.enum'
 
 @InputType()
 export class UpdateUserSeasonTopicInput extends PartialType(CreateUserSeasonTopicInput) {

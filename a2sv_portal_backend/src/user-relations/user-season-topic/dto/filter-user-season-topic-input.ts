@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { ComfortLevelEnum } from '../../../user/entities/comfort-level.enum'
+import { ComfortLevelEnum } from '../../user/entities/comfort-level.enum'
 
 @InputType()
 export class FilterUserSeasonTopicInput {

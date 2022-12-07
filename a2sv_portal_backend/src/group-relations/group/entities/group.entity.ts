@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql'
-import { User } from 'src/user/entities/user.entity'
+import { User } from 'src/user-relations/user/entities/user.entity'
 import { GroupSeasonTopic } from '../../group-season-topic/entities/group-season-topic.entity'
 import { GroupSeasonContest } from '../../group-season-contest/entities/group-season-contest.entity'
 
