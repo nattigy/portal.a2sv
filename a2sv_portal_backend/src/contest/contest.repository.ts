@@ -9,7 +9,7 @@ import { PaginationContest } from 'src/common/page/pagination-info'
 export class ContestRepository {
   constructor(private readonly prismaService: PrismaService) { }
 
-  async create(data: Prisma.ContestCreateInput): Promise<Contest> {
+  async create(data: Prisma.ContestCreateInput|Prisma.ContestUncheckedCreateInput) : Promise<Contest> {
     return this.prismaService.contest.create({
       data,
       include: {
