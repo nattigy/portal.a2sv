@@ -13,15 +13,13 @@ export class UserProfileRepository {
   async findAll(params: {
     skip?: number
     take?: number
-    cursor?: Prisma.UserProfileWhereUniqueInput
     where?: Prisma.UserProfileWhereInput
     orderBy?: Prisma.UserProfileOrderByWithRelationInput
   }) {
-    const { skip, take, cursor, where, orderBy } = params
+    const { skip, take, where, orderBy } = params
     return this.prismaService.userProfile.findMany({
       skip,
       take,
-      cursor,
       where,
       orderBy,
     })

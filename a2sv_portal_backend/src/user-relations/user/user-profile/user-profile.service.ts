@@ -1,18 +1,23 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../prisma/prisma.service'
 import { UpdateUserProfileInput } from './dto/update-user-profile.input'
+import { CreateUserProfileInput } from './dto/create-user-profile.input'
 import { UserProfile } from './entities/user-profile.entity'
 import { PaginationUserProfile } from '../../../common/page/pagination-info'
 import { PaginationInput } from '../../../common/page/pagination.input'
 import { FilterUserProfileInput } from './dto/filter-user-profile.input'
+import { UserProfileRepository } from './user-profile.repository'
 
 @Injectable()
 export class UserProfileService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly userProfileRepository: UserProfileRepository,
+  ) {}
 
   // async create(createUserProfileInput: CreateUserProfileInput): Promise<UserProfile> {
-  //   return this.prismaService.userProfile.create({
-  //     data: createUserProfileInput,
+  //   return this.userProfileRepository.create({
+  //     createUserProfileInput
   //   })
   // }
 
@@ -21,14 +26,11 @@ export class UserProfileService {
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationUserProfile> {
     const count = (
-      await this.prismaService.userProfile.findMany({
+      await this.userProfileRepository.findAll({
         where: filterUserProfileInput,
-        select: {
-          id: true,
-        },
       })
     ).length
-    const userProfiles: UserProfile[] = await this.prismaService.userProfile.findMany({
+    const userProfiles: UserProfile[] = await this.userProfileRepository.findAll({
       where: filterUserProfileInput,
     })
     return {
@@ -42,33 +44,23 @@ export class UserProfileService {
   }
 
   async findOne(id: string): Promise<UserProfile> {
-    return this.prismaService.userProfile.findUnique({
-      where: {
-        id,
-      },
+    return this.userProfileRepository.findOne({
+      id,
     })
   }
 
   async update(updateUserProfileInput: UpdateUserProfileInput) {
-    return this.prismaService.userProfile.upsert({
+    return this.userProfileRepository.update({
       where: {
         userId: updateUserProfileInput.userId,
       },
-      create: {
-        ...updateUserProfileInput,
-        // user: {
-        //   connect: {
-        //     id: updateUserProfileInput.userId
-        //   }
-        // }
-      },
-      update: updateUserProfileInput,
+      data: updateUserProfileInput,
     })
   }
 
   async remove(id: string) {
     try {
-      await this.prismaService.userProfile.delete({ where: { id } })
+      await this.userProfileRepository.remove({ id })
     } catch (e) {
       console.log(`Fail to delete user profile with id ${id}`, ' : ', e)
       throw new Error(`Fail to delete user profile with id ${id}`)
