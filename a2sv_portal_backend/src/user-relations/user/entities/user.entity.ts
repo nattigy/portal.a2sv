@@ -11,6 +11,15 @@ export class User {
   @Field(() => String, { description: 'Id of the user' })
   id: string
 
+  @Field(() => String)
+  firstName: string
+
+  @Field(() => String)
+  middleName: string
+
+  @Field(() => String)
+  lastName: string
+
   @Field(() => RoleEnum, { defaultValue: RoleEnum.STUDENT, description: 'Role of the user' })
   role: RoleEnum
 
@@ -74,5 +83,5 @@ registerEnumType(StatusEnum, {
 })
 
 registerEnumType(RoleEnum, {
-  name: 'role',
+  name: 'RoleEnum',
 })
