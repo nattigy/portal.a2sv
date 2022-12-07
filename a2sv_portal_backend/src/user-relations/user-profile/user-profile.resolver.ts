@@ -2,8 +2,8 @@ import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { UpdateUserProfileInput } from './dto/update-user-profile.input'
 import { UserProfile } from './entities/user-profile.entity'
 import { UserProfileService } from './user-profile.service'
-import { PaginationUserProfile } from '../../../common/page/pagination-info'
-import { PaginationInput } from '../../../common/page/pagination.input'
+import { PaginationUserProfile } from '../../common/page/pagination-info'
+import { PaginationInput } from '../../common/page/pagination.input'
 import { FilterUserProfileInput } from './dto/filter-user-profile.input'
 
 @Resolver(() => UserProfile)

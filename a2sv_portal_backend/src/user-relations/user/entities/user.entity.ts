@@ -1,7 +1,7 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { RoleEnum, StatusEnum } from '@prisma/client'
 import { Group } from 'src/group-relations/group/entities/group.entity'
-import { UserProfile } from 'src/user-relations/user/user-profile/entities/user-profile.entity'
+import { UserProfile } from 'src/user-relations/user-profile/entities/user-profile.entity'
 import { UserSeasonTopicProblem } from '../../user-season-topic-problem/entities/user-season-topic-problem.entity'
 import { UserSeasonTopic } from '../../user-season-topic/entities/user-season-topic.entity'
 import { UserSeasonContest } from '../../user-season-contest/entities/user-season-contest.entity'

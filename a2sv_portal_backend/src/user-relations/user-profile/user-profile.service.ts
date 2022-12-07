@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../../../prisma/prisma.service'
+import { PrismaService } from '../../prisma/prisma.service'
 import { UpdateUserProfileInput } from './dto/update-user-profile.input'
 import { CreateUserProfileInput } from './dto/create-user-profile.input'
 import { UserProfile } from './entities/user-profile.entity'
-import { PaginationUserProfile } from '../../../common/page/pagination-info'
-import { PaginationInput } from '../../../common/page/pagination.input'
+import { PaginationUserProfile } from '../../common/page/pagination-info'
+import { PaginationInput } from '../../common/page/pagination.input'
 import { FilterUserProfileInput } from './dto/filter-user-profile.input'
 import { UserProfileRepository } from './user-profile.repository'
 

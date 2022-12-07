@@ -11,7 +11,7 @@ import { SeasonTopic } from '../../season-relations/season-topic/entities/season
 import { SeasonTopicProblem } from '../../season-relations/season-topic-problem/entities/season-topic-problem.entity'
 import { UserSeasonTopicProblem } from '../../user-relations/user-season-topic-problem/entities/user-season-topic-problem.entity'
 import { UserContestProblem } from '../../user-relations/user-season-contest-problem/entities/user-season-contest-problem.entity'
-import { UserProfile } from '../../user-relations/user/user-profile/entities/user-profile.entity'
+import { UserProfile } from '../../user-relations/user-profile/entities/user-profile.entity'
 import { UserSeasonTopic } from '../../user-relations/user-season-topic/entities/user-season-topic.entity'
 import { GroupSeason } from '../../group-relations/group-season/entities/group-season.entity'
 
