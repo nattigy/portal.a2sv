@@ -58,27 +58,37 @@ export class ContestService {
   }
 
   async removeProblemsFromContest(contestId: string, problemId: string[]): Promise<Contest> {
-    return this.prismaService.contest.update({
-      where: {
-        id: contestId,
-      },
-      data: {
-        problems: {
-          disconnect: {
-            id: problemId,
-          },
-        },
-      },
-      include: {
-        problems: true,
-        groupContests: {
-          include: {
-            group: true,
-          },
-        },
-        userContests: true,
-      },
+    return this.contestRepository.update({
+      where:{id:contestId},
+      data:{
+        problems:{
+          disconnect:{
+            // id:problemId,
+          }
+        }
+      }
     })
+    // return this.prismaService.contest.update({
+    //   where: {
+    //     id: contestId,
+    //   },
+    //   data: {
+    //     problems: {
+    //       disconnect: {
+    //         id: problemId,
+    //       },
+    //     },
+    //   },
+    //   include: {
+    //     problems: true,
+    //     groupContests: {
+    //       include: {
+    //         group: true,
+    //       },
+    //     },
+    //     userContests: true,
+    //   },
+    // })
   }
 
   async remove(id: string): Promise<number> {

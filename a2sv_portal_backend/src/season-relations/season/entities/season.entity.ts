@@ -9,6 +9,9 @@ export class Season {
   @Field({ description: `Season Name` })
   name: string
 
+  @Field({ description: `Season Duration` })
+  duration: string
+
   @Field(() => SeasonTypeEnum, { description: `Type of the season is it Camp or Education or Project` })
   seasonType: SeasonTypeEnum
 

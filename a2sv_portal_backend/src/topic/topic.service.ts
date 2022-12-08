@@ -6,40 +6,23 @@ import { PrismaService } from '../prisma/prisma.service'
 import { CreateTopicInput } from './dto/create-topic.input'
 import { UpdateTopicInput } from './dto/update-topic.input'
 import { FilterTopicInput } from './dto/filter-topic-input'
+import { TopicRepository } from './topic.repository';
 
 @Injectable()
 export class TopicService {
-  constructor(private readonly prismaService: PrismaService) {
+  constructor(private readonly prismaService: PrismaService,
+    private readonly topicRepository: TopicRepository) {
   }
 
   async topics(
     filterTopicInput: FilterTopicInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationTopic> {
-    const topicsCount = (
-      await this.prismaService.topic.findMany({
-        where: filterTopicInput,
-        select: {
-          id: true,
-        },
-      })
-    ).length
-    const topics = await this.prismaService.topic.findMany({
-      skip,
-      take,
-      where: filterTopicInput,
-      include: {
-        seasons: {
-          include: {
-            problems: {
-              include: {
-                problem: true,
-              },
-            },
-          },
-        },
-      },
+    const topicsCount = await this.topicRepository.count(filterTopicInput)
+    const topics = await this.topicRepository.findAll({
+      skip,take,where:filterTopicInput
     })
+    
     return {
       items: topics,
       pageInfo: {
@@ -50,73 +33,30 @@ export class TopicService {
     }
   }
 
-  async topic(id: string): Promise<Topic> {
-    const topic = await this.prismaService.topic.findUnique({
-      where: { id },
-      include: {
-        seasons: {
-          include: {
-            topic: true,
-            problems: {
-              include: {
-                problem: true,
-              },
-            },
-          },
-        },
-      },
-    })
+  async topic(topicId: string): Promise<Topic> {
+    const topic = await this.topicRepository.findOne({id: topicId})
+  
     if (!topic) {
-      throw new NotFoundException(`Topic with id ${id} not found`)
+      throw new NotFoundException(`Topic with id ${topicId} not found`)
     }
     return topic
   }
 
   async create(createTopicInput: CreateTopicInput): Promise<Topic> {
-    // const { ...data } = createTopicInput
-    // const queryData = data as any
-    return this.prismaService.topic.create({
-      data: createTopicInput,
-
-      include: {
-        seasons: {
-          include: {
-            problems: {
-              include: {
-                problem: true,
-              },
-            },
-          },
-        },
-      },
-    })
+    return this.topicRepository.create(createTopicInput)
   }
 
-  async update(givenId: string, updateTopicInput: UpdateTopicInput): Promise<Topic> {
-    const { id, ...data } = updateTopicInput
-    const queryData = data as any
-    return this.prismaService.topic.update({
-      where: { id },
-      data: queryData,
-      include: {
-        seasons: {
-          include: {
-            problems: {
-              include: {
-                problem: true,
-              },
-            },
-          },
-        },
-      },
+  async update(topicId: string, updateTopicInput: UpdateTopicInput): Promise<Topic> {
+    return this.topicRepository.update({
+      where: { id: topicId },
+      data: updateTopicInput
     })
   }
 
   async remove(id: string): Promise<number> {
     try {
-      await this.prismaService.topic.delete({ where: { id } })
+      await this.topicRepository.remove({ id })
     } catch (e) {
-      console.log(`Fail to delete topic with id ${id}`, ' : ', e)
       throw new Error(`Fail to delete topic with id ${id}`)
     }
     return 1
