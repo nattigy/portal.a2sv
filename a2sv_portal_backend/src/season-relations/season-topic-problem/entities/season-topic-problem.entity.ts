@@ -12,9 +12,6 @@ export class SeasonTopicProblem {
   @Field()
   problemId: string
 
-  // @Field(() => SeasonTopic)
-  // seasonTopic: SeasonTopic
-
   @Field(() => Problem)
   problem: Problem
 

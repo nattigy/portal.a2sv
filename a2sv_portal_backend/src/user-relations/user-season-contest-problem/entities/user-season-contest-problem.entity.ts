@@ -1,10 +1,9 @@
 import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { UserContestProblemStatusEnum } from '@prisma/client'
 import { Problem } from '../../../problem/entities/problem.entity'
-import { UserSeasonContest } from '../../user-season-contest/entities/user-season-contest.entity'
 
 @ObjectType()
-export class UserContestProblem {
+export class UserSeasonContestProblem {
   @Field()
   userId: string
 
@@ -25,9 +24,6 @@ export class UserContestProblem {
 
   @Field(() => Problem)
   problem: Problem
-
-  @Field(() => UserSeasonContest)
-  userSeasonContest: UserSeasonContest
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date

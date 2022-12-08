@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
-import { UserContestProblem } from './entities/user-season-contest-problem.entity'
+import { UserSeasonContestProblem } from './entities/user-season-contest-problem.entity'
 
 @Injectable()
 export class UserSeasonContestProblemRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(data: Prisma.UserSeasonContestProblemCreateInput):Promise<UserContestProblem> {
+  async create(data: Prisma.UserSeasonContestProblemCreateInput):Promise<UserSeasonContestProblem> {
     return this.prismaService.userSeasonContestProblem.create({
       data,
       include: {

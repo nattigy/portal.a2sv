@@ -10,7 +10,7 @@ import { SeasonTopic } from '../season-relations/season-topic/entities/season-to
 import { Season } from '../season-relations/season/entities/season.entity'
 import { Tag } from '../tag/entities/tag.entity'
 import { Topic } from '../topic/entities/topic.entity'
-import { UserContestProblem } from '../user-relations/user-season-contest-problem/entities/user-season-contest-problem.entity'
+import { UserSeasonContestProblem } from '../user-relations/user-season-contest-problem/entities/user-season-contest-problem.entity'
 import { UserSeasonContest } from '../user-relations/user-season-contest/entities/user-season-contest.entity'
 import { UserProfile } from '../user-relations/user-profile/entities/user-profile.entity'
 import { UserSeasonTopic } from '../user-relations/user-season-topic/entities/user-season-topic.entity'
@@ -27,7 +27,7 @@ export type Subjects =
       | typeof Topic
       | typeof UserProfile
       | typeof UserSeasonContest
-      | typeof UserContestProblem
+      | typeof UserSeasonContestProblem
       | typeof UserSeasonTopic
       | typeof SeasonTopic
       | typeof SeasonTopicProblem
@@ -49,7 +49,7 @@ export class CaslAbilityFactory {
         can(Action.Manage, Problem)
         can(Action.Manage, Contest)
         can(Action.Manage, UserSeasonContest)
-        can(Action.Manage, UserContestProblem)
+        can(Action.Manage, UserSeasonContestProblem)
         can(Action.Manage, SeasonTopic)
         can(Action.Manage, SeasonTopicProblem)
         can(Action.Manage, UserSeasonTopicProblem)
@@ -62,7 +62,7 @@ export class CaslAbilityFactory {
         can(Action.Manage, Problem)
         can(Action.Manage, Contest)
         can(Action.Manage, UserSeasonContest)
-        can(Action.Manage, UserContestProblem)
+        can(Action.Manage, UserSeasonContestProblem)
         can(Action.Manage, SeasonTopic)
         can(Action.Manage, SeasonTopicProblem)
         can(Action.Manage, UserSeasonTopicProblem)
@@ -75,7 +75,7 @@ export class CaslAbilityFactory {
         can(Action.Manage, Problem)
         can(Action.Manage, Contest)
         can(Action.Manage, UserSeasonContest)
-        can(Action.Manage, UserContestProblem)
+        can(Action.Manage, UserSeasonContestProblem)
         can(Action.Manage, SeasonTopic)
         can(Action.Manage, SeasonTopicProblem)
         can(Action.Manage, UserSeasonTopicProblem)
@@ -88,7 +88,7 @@ export class CaslAbilityFactory {
         can(Action.Manage, Problem)
         can(Action.Manage, Contest)
         can(Action.Manage, UserSeasonContest)
-        can(Action.Manage, UserContestProblem)
+        can(Action.Manage, UserSeasonContestProblem)
         can(Action.Manage, SeasonTopic)
         can(Action.Manage, SeasonTopicProblem)
         can(Action.Manage, UserSeasonTopicProblem)
@@ -101,7 +101,7 @@ export class CaslAbilityFactory {
         can(Action.Manage, Problem)
         can(Action.Manage, Contest)
         can(Action.Manage, UserSeasonContest)
-        can(Action.Manage, UserContestProblem)
+        can(Action.Manage, UserSeasonContestProblem)
         can(Action.Manage, SeasonTopic)
         can(Action.Manage, SeasonTopicProblem)
         can(Action.Manage, UserSeasonTopicProblem)

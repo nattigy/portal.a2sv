@@ -31,8 +31,8 @@ export class User {
   @Field(() => StatusEnum)
   status: StatusEnum
 
-  @Field(() => Group, { nullable: true, description: 'Group the user belongs to' })
-  group?: Group
+  @Field(() => Group, { description: 'Group the user belongs to' })
+  group: Group
 
   @Field({
     nullable: true,
@@ -59,10 +59,6 @@ export class User {
   updatedAt?: Date
 }
 
-registerEnumType(StatusEnum, {
-  name: 'StatusEnum',
-})
+registerEnumType(StatusEnum, { name: 'StatusEnum'})
 
-registerEnumType(RoleEnum, {
-  name: 'RoleEnum',
-})
+registerEnumType(RoleEnum, { name: 'RoleEnum'})

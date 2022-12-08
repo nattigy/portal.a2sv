@@ -6,7 +6,7 @@ import { UserSeasonContest } from './entities/user-season-contest.entity'
 import { PaginationUserSeasonContest } from '../../common/page/pagination-info'
 import { FilterGroupContestUsersInput } from './dto/filter-group-contest-users.input'
 import { UserContestProblemStatus } from '@prisma/client'
-import { UserContestProblem } from '../user-season-contest-problem/entities/user-season-contest-problem.entity'
+import { UserSeasonContestProblem } from '../user-season-contest-problem/entities/user-season-contest-problem.entity'
 
 @Injectable()
 export class UserSeasonContestService {
@@ -82,9 +82,9 @@ export class UserSeasonContestService {
           },
         },
       })
-      const userContestProblems: UserContestProblem[] = []
+      const userContestProblems: UserSeasonContestProblem[] = []
       for (const problem of contest.problems) {
-        const userContestProblem: UserContestProblem = {
+        const userContestProblem: UserSeasonContestProblem = {
           contestId,
           userId,
           problemId: problem.id,

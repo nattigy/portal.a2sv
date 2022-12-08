@@ -17,6 +17,9 @@ export class UserSeason {
   @Field(() => Season, { nullable: true })
   season: Season
 
+  // userSeasonTopics   UserSeasonTopic[]
+  // userSeasonContests UserSeasonContest[]
+
   @Field(() => Date, { nullable: true })
   createdAt?: Date
 

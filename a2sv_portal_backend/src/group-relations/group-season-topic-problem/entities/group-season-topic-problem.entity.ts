@@ -15,9 +15,6 @@ export class GroupSeasonTopicProblem {
   @Field()
   problemId: string
 
-  // @Field(() => GroupSeasonTopic, { nullable: true })
-  // groupSeasonTopic?: GroupSeasonTopic
-
   @Field(() => Problem)
   problem: Problem
 }

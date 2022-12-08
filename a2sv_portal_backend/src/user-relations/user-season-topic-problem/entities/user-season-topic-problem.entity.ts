@@ -1,6 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
 import { SeasonTopicProblem } from '../../../season-relations/season-topic-problem/entities/season-topic-problem.entity'
 import { User } from '../../user/entities/user.entity'
+import { Problem } from '../../../problem/entities/problem.entity'
 
 @ObjectType()
 export class UserSeasonTopicProblem {
@@ -31,11 +32,8 @@ export class UserSeasonTopicProblem {
   @Field(() => Int)
   timeDedicated: number
 
-  @Field(() => SeasonTopicProblem)
-  seasonTopicProblem: SeasonTopicProblem
-
-  @Field(() => User)
-  user: User
+  @Field(() => Problem)
+  problem: Problem
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date

@@ -20,9 +20,6 @@ export class SeasonTopic {
   @Field(() => [SeasonTopicProblem])
   seasonTopicProblems: SeasonTopicProblem[]
 
-  // @Field(() => [GroupSeasonTopic], { nullable: true })
-  // groupSeasonTopics?: GroupSeasonTopic[]
-
   @Field(() => Date, { nullable: true })
   createdAt?: Date
 

@@ -6,7 +6,7 @@ import {
 } from './dto/update-user-contest-problem.input'
 import { PaginationUserSeasonContestProblem } from '../../common/page/pagination-info'
 import { PaginationInput } from '../../common/page/pagination.input'
-import { UserContestProblem } from './entities/user-season-contest-problem.entity'
+import { UserSeasonContestProblem } from './entities/user-season-contest-problem.entity'
 import { FilterUserContestProblemInput } from './dto/filter-user-contest-problem'
 import { UserSeasonContestService } from '../user-season-contest/user-season-contest.service'
 
@@ -52,7 +52,7 @@ export class UserSeasonContestProblemService {
     userId,
     contestId,
     problemId,
-  }: UserContestProblemId): Promise<UserContestProblem> {
+  }: UserContestProblemId): Promise<UserSeasonContestProblem> {
     return this.prismaService.userContestProblem.findUnique({
       where: {
         userId_contestId_problemId: {

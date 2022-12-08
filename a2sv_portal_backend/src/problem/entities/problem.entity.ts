@@ -19,7 +19,6 @@ export class Problem {
   @Field(() => ProblemDifficultyTypeEnum, {description: 'Difficulty of the question' })
   difficulty: ProblemDifficultyTypeEnum
 
-
   @Field(() => [Tag], { description: 'Tag of the question' })
   tags: Tag[]
 

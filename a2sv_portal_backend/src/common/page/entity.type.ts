@@ -10,7 +10,7 @@ import { SeasonTopic } from '../../season-relations/season-topic/entities/season
 import { Season } from '../../season-relations/season/entities/season.entity'
 import { Topic } from '../../topic/entities/topic.entity'
 import {
-  UserContestProblem,
+  UserSeasonContestProblem,
 } from '../../user-relations/user-season-contest-problem/entities/user-season-contest-problem.entity'
 import { UserSeasonContest } from '../../user-relations/user-season-contest/entities/user-season-contest.entity'
 import { UserSeasonTopic } from '../../user-relations/user-season-topic/entities/user-season-topic.entity'
@@ -21,7 +21,7 @@ export const Entity = createUnionType({
   types: () => [
     Contest,
     UserSeasonContest,
-    UserContestProblem,
+    UserSeasonContestProblem,
     User,
     Group,
     Topic,

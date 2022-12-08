@@ -36,6 +36,9 @@ export class GroupSeason {
   @Field(() => User)
   head: User
 
+  // groupSeasonTopics   GroupSeasonTopic[]
+  // groupSeasonContests GroupSeasonContest[]
+
   @Field(() => Date, { nullable: true })
   createdAt?: Date
 
