@@ -33,7 +33,7 @@ export class SeasonTopicService {
   }
 
   async seasonTopic({ seasonId, topicId }: SeasonTopicId): Promise<SeasonTopic> {
-    ///TODO: generate stat here
+    /// TODO: generate stat here
     return this.seasonTopicRepository.findOne({
       seasonId_topicId: { seasonId, topicId },
     })
@@ -44,7 +44,7 @@ export class SeasonTopicService {
     { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationSeasonTopic> {
     const count = await this.seasonTopicRepository.count(filterSeasonTopicInput)
-    ///TODO: generate stat here
+    /// TODO: generate stat here
     const seasonTopics: SeasonTopic[] = await this.seasonTopicRepository.findAll({
       skip, take,
       where: filterSeasonTopicInput,

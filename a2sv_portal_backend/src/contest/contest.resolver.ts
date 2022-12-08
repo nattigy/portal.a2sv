@@ -6,6 +6,7 @@ import { UpdateContestInput } from './dto/update-contest.input'
 import { Contest } from './entities/contest.entity'
 import { FilterContestInput } from './dto/filter-contest.input'
 import { PaginationContest } from '../common/page/pagination-info'
+import { type } from 'os'
 
 @Resolver(() => Contest)
 export class ContestResolver {
@@ -23,7 +24,7 @@ export class ContestResolver {
     @Args('filterContestInput', { nullable: true }) filterContestInput?: FilterContestInput,
     @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInput,
   ): Promise<PaginationContest> {
-    return this.contestService.findAll(filterContestInput, pageInfoInput)
+    return this.contestService.contests(filterContestInput, pageInfoInput)
   }
 
   @Query(() => Contest)
@@ -34,22 +35,18 @@ export class ContestResolver {
   @Mutation(() => Contest)
   async updateContest(
     @Args('updateContestInput') updateContestInput: UpdateContestInput,
+    @Args('contestId') contestId: string
   ): Promise<Contest> {
-    return this.contestService.update(updateContestInput)
+    return this.contestService.update(contestId,updateContestInput)
   }
 
   @Mutation(() => Contest)
-  async removeProblemFromContest(
+  async removeProblemsFromContest(
     @Args('contestId') contestId: string,
-    @Args('problemId') problemId: string,
+    @Args('problemIds') problemIds: string[],
   ): Promise<Contest> {
-    return this.contestService.removeProblemFromContest(contestId, problemId)
+    return this.contestService.removeProblemsFromContest(contestId, problemIds)
   }
-
-  // @ResolveField(() => [Problem])
-  // async problems(@Parent() contest: Contest) {
-  //   return contest.problems
-  // }
 
   @Mutation(() => Int)
   async removeContest(@Args('contestId') contestId: string): Promise<number> {

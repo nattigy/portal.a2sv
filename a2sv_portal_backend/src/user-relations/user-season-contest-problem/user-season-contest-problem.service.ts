@@ -23,7 +23,7 @@ export class UserSeasonContestProblemService {
   //   })
   // }
 
-  async findAll(
+  async userContestProblems(
     filterUserContestInput: FilterUserContestProblemInput,
     { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationUserSeasonContestProblem> {
@@ -48,7 +48,7 @@ export class UserSeasonContestProblemService {
     }
   }
 
-  async findOne({
+  async userContestProblem({
     userId,
     contestId,
     problemId,
@@ -67,7 +67,7 @@ export class UserSeasonContestProblemService {
     })
   }
 
-  async update({ userId, contestId, problemId, ...update }: UpdateUserContestProblemInput) {
+  async updateUserContestProblem({ userId, contestId, problemId, ...update }: UpdateUserContestProblemInput) {
     await this.userContestService.update({ userId, contestId })
     return this.prismaService.userContestProblem.upsert({
       include: {
@@ -112,7 +112,7 @@ export class UserSeasonContestProblemService {
     })
   }
 
-  async remove({ userId, contestId, problemId }: UserContestProblemId) {
+  async removeUserContestProblem({ userId, contestId, problemId }: UserContestProblemId) {
     try {
       await this.prismaService.userContestProblem.delete({
         where: {

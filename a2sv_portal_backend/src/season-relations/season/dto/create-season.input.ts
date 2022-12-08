@@ -1,24 +1,25 @@
-import { Field, GraphQLISODateTime, InputType } from '@nestjs/graphql'
-import { SeasonType } from '../entities/season-type.enum'
+import { Field, InputType } from '@nestjs/graphql'
+import { SeasonTypeEnum } from '@prisma/client'
 
 @InputType()
 export class CreateSeasonInput {
   @Field()
   name: string
 
-  @Field(() => String, {
-    description: 'groupId indicates the group id that this season belongs to',
-  })
-  groupId: string
-
-  @Field(() => SeasonType, {
+  @Field(() => SeasonTypeEnum, {
     description: 'seasonType indicates the type of season being created',
   })
-  seasonType: SeasonType
+  seasonType: SeasonTypeEnum
 
-  @Field(() => GraphQLISODateTime, { defaultValue: new Date(), nullable: true })
-  startDate?: Date
+  @Field()
+  duration: string
 
-  @Field(() => GraphQLISODateTime, { defaultValue: new Date(), nullable: true })
+  @Field()
+  isActive: boolean
+
+  @Field(() => Date)
+  startDate: Date
+
+  @Field(() => Date)
   endDate?: Date
 }

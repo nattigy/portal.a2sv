@@ -40,9 +40,6 @@ export class User {
   })
   groupId?: string
 
-  @Field(() => [UserSeasonTopicProblem], { nullable: true })
-  seasonTopicProblems?: UserSeasonTopicProblem[]
-
   @Field(() => Group, {
     nullable: true,
     description: 'If the user is a head, the group he is a head to',
@@ -54,22 +51,6 @@ export class User {
 
   @Field(() => UserProfile, { nullable: true, description: 'user profile of the user' })
   userProfile?: UserProfile
-
-  @Field(() => [UserSeasonTopic], {
-    nullable: true,
-    description: 'topics the user has to cover, covering , covered ',
-  })
-  userTopics?: UserSeasonTopic[]
-
-  @Field(() => [UserSeasonContest], {
-    description: 'topics the user has to cover, covering , covered ',
-  })
-  userContests?: UserSeasonContest[]
-
-  @Field(() => [UserSeasonTopicProblem], {
-    description: 'topics the user has to cover, covering , covered ',
-  })
-  userSeasonTopicProblems?: UserSeasonTopicProblem[]
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date

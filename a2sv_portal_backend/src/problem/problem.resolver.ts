@@ -7,7 +7,6 @@ import { CheckPolicies } from '../casl/policy/policy.decorator'
 import { PoliciesGuard } from '../casl/policy/policy.guard'
 import { PaginationProblem } from '../common/page/pagination-info'
 import { PaginationInput } from '../common/page/pagination.input'
-import { SeasonTopicProblem } from '../season-relations/season-topic-problem/entities/season-topic-problem.entity'
 import { CreateProblemInput } from './dto/create-problem.input'
 import { UpdateProblemInput } from './dto/update-problem.input'
 import { Problem } from './entities/problem.entity'
@@ -17,7 +16,8 @@ import descriptions from './problem.doc'
 
 @Resolver(() => Problem)
 export class ProblemResolver {
-  constructor(private readonly problemService: ProblemService) {}
+  constructor(private readonly problemService: ProblemService) {
+  }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.create)
@@ -33,9 +33,9 @@ export class ProblemResolver {
   @Query(() => PaginationProblem, { description: 'Find all problems with populated tags' })
   async problems(
     @Args('filterProblemInput', { type: () => FilterProblemInput, nullable: true })
-    filterProblemInput: FilterProblemInput,
+      filterProblemInput: FilterProblemInput,
     @Args('pageInfoInput', { type: () => PaginationInput, nullable: true })
-    pageInfoInput?: PaginationInput,
+      pageInfoInput?: PaginationInput,
   ): Promise<PaginationProblem> {
     return await this.problemService.findAll(filterProblemInput, pageInfoInput)
   }
@@ -61,13 +61,6 @@ export class ProblemResolver {
   @ResolveField()
   async tags(@Parent() problem: Problem): Promise<Tag[]> {
     return problem.tags
-  }
-
-  @UseGuards(JwtAuthGuard, PoliciesGuard)
-  @CheckPolicies(ProblemAbilities.read)
-  @ResolveField(() => [SeasonTopicProblem], { nullable: 'itemsAndList' })
-  seasonTopics(@Parent() problem: Problem): SeasonTopicProblem[] {
-    return problem.seasonTopics
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)

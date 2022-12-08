@@ -12,9 +12,10 @@ export class SeasonTopicRepository {
     return this.prismaService.seasonTopic.create({
       data,
       include: {
-        season: true,
-        topic: true,
-        seasonTopicProblems: { include: { problem: { include: { tags: true } } } },
+        season: true, topic: true,
+        seasonTopicProblems: {
+          include: { problem: { include: { tags: true } } },
+        },
       },
     })
   }
@@ -36,19 +37,22 @@ export class SeasonTopicRepository {
       where,
       orderBy,
       include: {
-        season: true,
-        topic: true,
-        seasonTopicProblems: { include: { problem: { include: { tags: true } } } },
+        season: true, topic: true,
+        seasonTopicProblems: {
+          include: { problem: { include: { tags: true } } },
+        },
       },
     })
   }
 
   async findOne(where: Prisma.SeasonTopicWhereUniqueInput): Promise<SeasonTopic> {
     return this.prismaService.seasonTopic.findUnique({
-      where, include: {
-        season: true,
-        topic: true,
-        seasonTopicProblems: { include: { problem: { include: { tags: true } } } },
+      where,
+      include: {
+        season: true, topic: true,
+        seasonTopicProblems: {
+          include: { problem: { include: { tags: true } } },
+        },
       },
     })
   }
@@ -61,9 +65,10 @@ export class SeasonTopicRepository {
     return this.prismaService.seasonTopic.update({
       data, where,
       include: {
-        season: true,
-        topic: true,
-        seasonTopicProblems: { include: { problem: { include: { tags: true } } } },
+        season: true, topic: true,
+        seasonTopicProblems: {
+          include: { problem: { include: { tags: true } } },
+        },
       },
     })
   }

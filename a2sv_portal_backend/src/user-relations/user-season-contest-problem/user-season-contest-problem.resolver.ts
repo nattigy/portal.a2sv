@@ -13,29 +13,20 @@ import { PaginationUserSeasonContestProblem } from '../../common/page/pagination
 export class UserSeasonContestProblemResolver {
   constructor(private readonly userContestProblemService: UserSeasonContestProblemService) {}
 
-  // @Mutation(() => UserContestProblem)
-  // async createUserContestProblem(@Args('createUserContestProblemInput') createUserContestProblemInput: CreateUserContestProblemInput) {
-  //   return this.userContestProblemService.create(createUserContestProblemInput);
-  // }
-
   @Query(() => PaginationUserSeasonContestProblem)
   async userContestProblems(
-    @Args('filterUserContestProblemInput', {
-      type: () => FilterUserContestProblemInput,
-      nullable: true,
-    })
+    @Args('filterUserContestProblemInput', { nullable: true})
     filterUserContestProblemInput?: FilterUserContestProblemInput,
-    @Args('pageInfoInput', { type: () => PaginationInput, nullable: true })
-    pageInfoInput?: PaginationInput,
+    @Args('pageInfoInput', {  nullable: true }) pageInfoInput?: PaginationInput,
   ) {
-    return this.userContestProblemService.findAll(filterUserContestProblemInput, pageInfoInput)
+    return this.userContestProblemService.userContestProblems(filterUserContestProblemInput, pageInfoInput)
   }
 
   @Query(() => UserContestProblem)
   async userContestProblem(
     @Args('userContestProblemId') userContestProblemId: UserContestProblemId,
   ) {
-    return this.userContestProblemService.findOne(userContestProblemId)
+    return this.userContestProblemService.userContestProblem(userContestProblemId)
   }
 
   @Mutation(() => UserContestProblem)
@@ -43,13 +34,13 @@ export class UserSeasonContestProblemResolver {
     @Args('updateUserContestProblemInput')
     updateUserContestProblemInput: UpdateUserContestProblemInput,
   ) {
-    return this.userContestProblemService.update(updateUserContestProblemInput)
+    return this.userContestProblemService.updateUserContestProblem(updateUserContestProblemInput)
   }
 
   @Mutation(() => Int)
   async removeUserContestProblem(
     @Args('userContestProblemId') userContestProblemId: UserContestProblemId,
   ) {
-    return this.userContestProblemService.remove(userContestProblemId)
+    return this.userContestProblemService.removeUserContestProblem(userContestProblemId)
   }
 }

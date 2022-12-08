@@ -2,23 +2,16 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
 import { Contest } from './entities/contest.entity'
-import { NumberScalarMode } from '@nestjs/graphql'
-import { PaginationContest } from 'src/common/page/pagination-info'
 
 @Injectable()
 export class ContestRepository {
-  constructor(private readonly prismaService: PrismaService) { }
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
-  async create(data: Prisma.ContestCreateInput): Promise<Contest> {
+  async create(data: Prisma.ContestCreateInput | Prisma.ContestUncheckedCreateInput): Promise<Contest> {
     return this.prismaService.contest.create({
       data,
-      include: {
-        problems: {
-          include: {
-            tags: true
-          }
-        }
-      }
+      include: { problems: { include: { tags: true } } },
     })
   }
 
@@ -35,13 +28,13 @@ export class ContestRepository {
     const { skip, take, where, orderBy } = params
 
     return this.prismaService.contest.findMany({
-      skip, take, orderBy, where, include:{ problems:{ include:{ tags:true } } }
+      skip, take, orderBy, where, include: { problems: { include: { tags: true } } },
     })
   }
 
   async findOne(where: Prisma.ContestWhereUniqueInput): Promise<Contest> {
-    return this.prismaService.contest.findUnique({ 
-      where,include:{ problems:{ include:{ tags:true } } }
+    return this.prismaService.contest.findUnique({
+      where, include: { problems: { include: { tags: true } } },
     })
   }
 
@@ -51,7 +44,8 @@ export class ContestRepository {
   }): Promise<Contest> {
     const { where, data } = params
     return this.prismaService.contest.update({
-       data, where, include:{ problems:{include:{tags:true}}} })
+      data, where, include: { problems: { include: { tags: true } } },
+    })
   }
 
   async remove(where: Prisma.ContestWhereUniqueInput) {

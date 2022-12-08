@@ -1,42 +1,37 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { SeasonContestService } from './season-contest.service'
 import { SeasonContest } from './entities/season-contest.entity'
-import { CreateSeasonContestInput } from './dto/create-season-contest.input'
-import { UpdateSeasonContestInput } from './dto/update-season-contest.input'
+import { CreateSeasonContestInput, SeasonContestId } from './dto/create-season-contest.input'
+import { PaginationInput } from '../../common/page/pagination.input'
+import { FilterSeasonContestInput } from './dto/filter-season-contest.input'
 
 @Resolver(() => SeasonContest)
 export class SeasonContestResolver {
-  constructor(private readonly seasonContestService: SeasonContestService) {}
+  constructor(private readonly seasonContestService: SeasonContestService) {
+  }
 
   @Mutation(() => SeasonContest)
-  createSeasonContest(
+  async createSeasonContest(
     @Args('createSeasonContestInput') createSeasonContestInput: CreateSeasonContestInput,
-  ) {
-    return this.seasonContestService.create(createSeasonContestInput)
+  ): Promise<SeasonContest> {
+    return this.seasonContestService.createSeasonContest(createSeasonContestInput)
   }
 
-  @Query(() => [SeasonContest], { name: 'seasonContest' })
-  findAll() {
-    return this.seasonContestService.findAll()
+  @Query(() => [SeasonContest])
+  async seasonContests(
+    @Args('filterSeasonContestInput', { nullable: true }) filterSeasonContestInput?: FilterSeasonContestInput,
+    @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInput,
+  ): Promise<SeasonContest[]> {
+    return this.seasonContestService.seasonContests(filterSeasonContestInput)
   }
 
-  @Query(() => SeasonContest, { name: 'seasonContest' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.seasonContestService.findOne(id)
-  }
-
-  @Mutation(() => SeasonContest)
-  updateSeasonContest(
-    @Args('updateSeasonContestInput') updateSeasonContestInput: UpdateSeasonContestInput,
-  ) {
-    return this.seasonContestService.update(
-      updateSeasonContestInput.id,
-      updateSeasonContestInput,
-    )
+  @Query(() => SeasonContest)
+  async seasonContest(@Args('seasonContestId') seasonContestId: SeasonContestId): Promise<SeasonContest> {
+    return this.seasonContestService.seasonContest(seasonContestId)
   }
 
   @Mutation(() => SeasonContest)
-  removeSeasonContest(@Args('id', { type: () => Int }) id: number) {
-    return this.seasonContestService.remove(id)
+  async removeSeasonContest(@Args('seasonContestId') seasonContestId: SeasonContestId) {
+    return this.seasonContestService.removeSeasonContest(seasonContestId)
   }
 }

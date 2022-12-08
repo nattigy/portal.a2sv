@@ -1,5 +1,5 @@
-import { Field, GraphQLISODateTime, InputType } from '@nestjs/graphql'
-import { SeasonType } from '../entities/season-type.enum'
+import { Field, InputType } from '@nestjs/graphql'
+import { SeasonTypeEnum } from '@prisma/client'
 
 @InputType()
 export class FilterSeasonInput {
@@ -13,20 +13,20 @@ export class FilterSeasonInput {
   groupId?: string
 
   @Field({ nullable: true })
-  seasonType?: SeasonType
+  seasonType?: SeasonTypeEnum
 
   @Field({ nullable: true })
   isActive?: boolean
 
-  @Field(() => GraphQLISODateTime, { nullable: true })
+  @Field(() => Date, { nullable: true })
   startDate?: Date
 
-  @Field(() => GraphQLISODateTime, { nullable: true })
+  @Field(() => Date, { nullable: true })
   endDate?: Date
 
-  @Field({ nullable: true })
+  @Field(() => Date, { nullable: true })
   createdAt?: Date
 
-  @Field({ nullable: true })
+  @Field(() => Date, { nullable: true })
   updatedAt?: Date
 }
