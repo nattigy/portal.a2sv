@@ -3,10 +3,10 @@ import { UpdateSeasonTopicProblemInput } from '../../season-topic-problem/dto/up
 
 @InputType()
 export class CreateSeasonTopicInput {
-  @Field(() => String, { description: 'seasonId represents the season id' })
+  @Field({ description: 'seasonId represents the season id' })
   seasonId: string
 
-  @Field(() => String, {
+  @Field({
     description: 'topic id represents the topic id to add to the season',
   })
   topicId: string

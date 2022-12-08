@@ -17,16 +17,12 @@ export class UserProfileService {
 
   async createProfile({ userId, ...createUserProfileInput }: CreateUserProfileInput) {
     return this.userProfileRepository.create({
-      // user: { connect: { id: Id } },
       ...createUserProfileInput,
       user: {
-        connect: { id:"" },
+        connect: { id: userId },
       },
       userProfileAddress: {
-        create: {
-          city: "",
-          country: ""
-        }
+        create: createUserProfileInput.userProfileAddress
       }
     })
   }

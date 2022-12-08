@@ -43,7 +43,7 @@ export class ContestResolver {
   @Mutation(() => Contest)
   async removeProblemsFromContest(
     @Args('contestId') contestId: string,
-    @Args('problemIds') problemIds: string[],
+    @Args('problemIds',{type: ()=>[String]}) problemIds: string[],
   ): Promise<Contest> {
     return this.contestService.removeProblemsFromContest(contestId, problemIds)
   }

@@ -29,4 +29,4 @@ export class Problem {
   updatedAt?: Date
 }
 
-registerEnumType(ProblemDifficultyTypeEnum, { name: 'SeasonTypeEnum' })
+registerEnumType(ProblemDifficultyTypeEnum, { name: 'ProblemDifficultyTypeEnum' })

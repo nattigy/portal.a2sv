@@ -46,7 +46,7 @@ export class SeasonTopicProblemResolver {
   @Mutation(() => Int, { description: descriptions.removeSeasonTopicProblem })
   async removeSeasonTopicProblems(
     @Args('seasonTopicId') { seasonId, topicId }: SeasonTopicId,
-    @Args('problemIds') problemIds: string[],
+    @Args('problemIds',{type: ()=>[String]}) problemIds: string[],
   ): Promise<number> {
     for (const problemId of problemIds) {
       await this.seasonTopicProblemService.remove({
