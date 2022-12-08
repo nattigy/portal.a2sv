@@ -1,14 +1,11 @@
 import { Field, InputType, PartialType } from '@nestjs/graphql'
-import { CreateUserSeasonTopicInput } from './create-user-season-topic.input'
-import { ComfortLevelEnum } from '../../user/entities/comfort-level.enum'
+import { CreateUserSeasonTopicInput, UserSeasonTopicId } from './create-user-season-topic.input'
+import { ComfortLevelEnum } from '@prisma/client'
 
 @InputType()
 export class UpdateUserSeasonTopicInput extends PartialType(CreateUserSeasonTopicInput) {
-  @Field()
-  userId: string
-
-  @Field()
-  topicId: string
+  @Field(() => UserSeasonTopicId)
+  id: UserSeasonTopicId
 
   @Field(() => ComfortLevelEnum, {
     defaultValue: ComfortLevelEnum.UNCOMFORTABLE,
@@ -17,11 +14,3 @@ export class UpdateUserSeasonTopicInput extends PartialType(CreateUserSeasonTopi
   comfortLevel?: ComfortLevelEnum = ComfortLevelEnum.UNCOMFORTABLE
 }
 
-@InputType()
-export class UserTopicId {
-  @Field()
-  userId: string
-
-  @Field()
-  topicId: string
-}

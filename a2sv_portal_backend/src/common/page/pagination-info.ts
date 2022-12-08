@@ -91,7 +91,7 @@ export class PaginationSeasonTopicProblem {
 }
 
 @ObjectType()
-export class PaginationSeasonTopicProblemUser {
+export class PaginationUserSeasonTopicProblem {
   @Field(() => [UserSeasonTopicProblem])
   items: UserSeasonTopicProblem[]
 

@@ -15,6 +15,10 @@ export class UserSeasonRepository {
     })
   }
 
+  async count(where?: Prisma.UserSeasonWhereInput): Promise<number> {
+    return this.prismaService.userSeason.count({ where })
+  }
+
   async findAll(params: {
     skip?: number
     take?: number

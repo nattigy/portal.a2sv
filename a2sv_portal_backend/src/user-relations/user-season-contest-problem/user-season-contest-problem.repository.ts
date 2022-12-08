@@ -5,24 +5,16 @@ import { UserSeasonContestProblem } from './entities/user-season-contest-problem
 
 @Injectable()
 export class UserSeasonContestProblemRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
-  async create(data: Prisma.UserSeasonContestProblemCreateInput):Promise<UserSeasonContestProblem> {
+  async create(data: Prisma.UserSeasonContestProblemCreateInput): Promise<UserSeasonContestProblem> {
     return this.prismaService.userSeasonContestProblem.create({
       data,
       include: {
-        problem: {
-          include: {
-            tags: true
-          }
-        },
-        userSeasonContest: {
-          include: {
-            user: true,
-            seasonContest: true
-          }
-        }
-      }
+        problem: { include: { tags: true } },
+        userSeasonContest: { include: { user: true, seasonContest: true } },
+      },
     })
   }
 

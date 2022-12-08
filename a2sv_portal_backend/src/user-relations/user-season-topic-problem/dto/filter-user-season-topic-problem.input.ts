@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
-export class FilterSeasonTopicUserProblemInput {
+export class FilterUserSeasonTopicProblemInput {
   @Field({ nullable: true })
   seasonId?: string
 

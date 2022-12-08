@@ -1,7 +1,8 @@
-import { Field, ObjectType } from '@nestjs/graphql'
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { ComfortLevelEnum } from '@prisma/client'
 import { UserSeason } from '../../user-season/entities/user-season.entity'
 import { SeasonTopic } from '../../../season-relations/season-topic/entities/season-topic.entity'
+import { UserSeasonTopicProblem } from '../../user-season-topic-problem/entities/user-season-topic-problem.entity'
 
 @ObjectType()
 export class UserSeasonTopic {
@@ -10,6 +11,9 @@ export class UserSeasonTopic {
 
   @Field()
   topicId: string
+
+  @Field()
+  seasonId: string
 
   @Field(() => ComfortLevelEnum, { defaultValue: ComfortLevelEnum.UNCOMFORTABLE })
   comfortLevel: ComfortLevelEnum = ComfortLevelEnum.UNCOMFORTABLE
@@ -20,7 +24,8 @@ export class UserSeasonTopic {
   @Field(() => UserSeason)
   userSeason: UserSeason
 
-  // userSeasonTopicProblems UserSeasonTopicProblem[]
+  @Field(() => [UserSeasonTopicProblem])
+  userSeasonTopicProblems: UserSeasonTopicProblem[]
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date
@@ -28,3 +33,5 @@ export class UserSeasonTopic {
   @Field(() => Date, { nullable: true })
   updatedAt?: Date
 }
+
+registerEnumType(ComfortLevelEnum, {name: "ComfortLevelEnum"})

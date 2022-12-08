@@ -9,6 +9,9 @@ export class UserSeasonContest {
   contestId: string
 
   @Field()
+  seasonId: string
+
+  @Field()
   userId: string
 
   @Field(() => Boolean)

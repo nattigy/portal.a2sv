@@ -31,8 +31,7 @@ export class SeasonTopicProblemResolver {
   @Query(() => PaginationSeasonTopicProblem, { description: descriptions.seasonTopicProblems })
   async seasonTopicProblems(
     @Args('seasonTopicId') seasonTopicId: SeasonTopicId,
-    @Args('pageInfoInput', { nullable: true })
-      pageInfoInput?: PaginationInput,
+    @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInput,
   ): Promise<PaginationSeasonTopicProblem> {
     return this.seasonTopicProblemService.seasonTopicProblems(seasonTopicId, pageInfoInput)
   }

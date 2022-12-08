@@ -1,5 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql'
-import { UserContestProblemEnum } from '../entities/user-season-contest-problem-status.enum'
+import { UserContestProblemStatusEnum } from '@prisma/client'
 
 @InputType()
 export class FilterUserContestProblemInput {
@@ -12,8 +12,8 @@ export class FilterUserContestProblemInput {
   @Field(() => String, { nullable: true })
   problemId?: string
 
-  @Field(() => UserContestProblemEnum, { nullable: true })
-  status?: UserContestProblemEnum
+  @Field(() => UserContestProblemStatusEnum, { nullable: true })
+  status?: UserContestProblemStatusEnum
 
   @Field(() => Int, { nullable: true })
   numberOfAttempts?: number
