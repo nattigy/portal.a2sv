@@ -13,7 +13,6 @@ export class UserSeasonContestProblemRepository {
       data,
       include: {
         problem: { include: { tags: true } },
-        userSeasonContest: { include: { user: true, seasonContest: true } },
       },
     })
   }
@@ -24,7 +23,7 @@ export class UserSeasonContestProblemRepository {
     cursor?: Prisma.UserSeasonContestProblemWhereUniqueInput
     where?: Prisma.UserSeasonContestProblemWhereInput
     orderBy?: Prisma.UserSeasonContestProblemOrderByWithRelationInput
-  }) {
+  }): Promise<UserSeasonContestProblem[]> {
     const { skip, take, cursor, where, orderBy } = params
     return this.prismaService.userSeasonContestProblem.findMany({
       skip,
@@ -32,19 +31,32 @@ export class UserSeasonContestProblemRepository {
       cursor,
       where,
       orderBy,
+      include: {
+        problem: { include: { tags: true } },
+      },
     })
   }
 
-  async findOne(where: Prisma.UserSeasonContestProblemWhereUniqueInput) {
-    return this.prismaService.userSeasonContestProblem.findUnique({ where })
+  async findOne(where: Prisma.UserSeasonContestProblemWhereUniqueInput): Promise<UserSeasonContestProblem> {
+    return this.prismaService.userSeasonContestProblem.findUnique({
+      where,
+      include: {
+        problem: { include: { tags: true } },
+      },
+    })
   }
 
   async update(params: {
     where: Prisma.UserSeasonContestProblemWhereUniqueInput
     data: Prisma.UserSeasonContestProblemUpdateInput
-  }) {
+  }): Promise<UserSeasonContestProblem> {
     const { where, data } = params
-    return this.prismaService.userSeasonContestProblem.update({ data, where })
+    return this.prismaService.userSeasonContestProblem.update({
+      data, where,
+      include: {
+        problem: { include: { tags: true } },
+      },
+    })
   }
 
   async remove(where: Prisma.UserSeasonContestProblemWhereUniqueInput) {

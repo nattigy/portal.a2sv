@@ -17,32 +17,32 @@ export class AuthService {
   ) {
   }
 
-  async validateUser(email: UniqueUserInput, pass: string): Promise<User | null> {
-    const user = await this.usersService.user(email)
+  async validateUser(email: string, pass: string): Promise<User | null> {
+    const user = await this.usersService.user({ email })
     if (user && bcrypt.compareSync(pass, user.password)) {
       return user
     }
     return null
   }
 
-  async forgotPassword(email: UniqueUserInput): Promise<User | null> {
-    const user = await this.usersService.user(email)
+  async forgotPassword(email: string): Promise<User | null> {
+    const user = await this.usersService.user({ email })
     if (user) {
       return user
     }
     return null
   }
 
-  async resetPassword(email: UniqueUserInput, pass: string) {
-    const user = await this.usersService.user(email)
+  async resetPassword(email: string, pass: string) {
+    const user = await this.usersService.user({ email })
     if (user) {
       user.password = pass
     }
   }
 
 
-  async getUser(id: UniqueUserInput): Promise<User | null> {
-    const user = await this.usersService.user(id)
+  async getUser(id: string): Promise<User | null> {
+    const user = await this.usersService.user({ id })
     if (user) {
       return user
     }
