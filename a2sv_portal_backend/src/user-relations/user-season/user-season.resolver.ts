@@ -6,7 +6,7 @@ import { UserSeasonService } from './user-season.service'
 import { PaginationInput } from '../../common/page/pagination.input'
 
 @Resolver(() => UserSeason)
-export class GroupSeasonResolver {
+export class UserSeasonResolver {
   constructor(private readonly userSeasonService: UserSeasonService) {
   }
 
@@ -23,8 +23,5 @@ export class GroupSeasonResolver {
     return this.userSeasonService.usersSeasonsStats({ userId }, paginationInput)
   }
 
-  @Mutation(() => UserSeason)
-  async removeSeasonFromAGroup(@Args('userSeasonId') userSeasonId: UserSeasonId) {
-    return this.userSeasonService.removeUserSeason(userSeasonId)
-  }
+  
 }

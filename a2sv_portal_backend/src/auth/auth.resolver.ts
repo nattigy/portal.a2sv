@@ -30,7 +30,7 @@ export class AuthResolver {
     return this.authService.forgotPassword(email)
   }
 
-  async resetPassword(@Args('email') email: UniqueUserInput,pass:String){
+  async resetPassword(@Args('email') email: UniqueUserInput,pass:string){
     return this.authService.resetPassword(email, pass)
   }
   @Public()
