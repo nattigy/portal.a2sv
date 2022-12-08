@@ -4,7 +4,7 @@ import { RoleEnum, StatusEnum } from '@prisma/client'
 @InputType()
 export class UpdateUserInput {
   @Field()
-  id: string
+  userId: string
 
   @Field({ nullable: true })
   firstName?: string

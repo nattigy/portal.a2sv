@@ -4,11 +4,11 @@ import * as bcrypt from 'bcrypt'
 import { PaginationUser } from '../../common/page/pagination-info'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { PrismaService } from '../../prisma/prisma.service'
-import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { FilterUserInput, UniqueUserInput } from './dto/filter-user-input'
 import { UserRepository } from './user.repository'
 import { User } from './entities/user.entity'
+import { CreateUserInput } from './dto/create-user.input'
 
 // export enum StatTimeRange {
 //   MONTH,
@@ -53,20 +53,22 @@ export class UserService {
   }
 
   async users(
-    filterUserInput: FilterUserInput,
+    filterUserInput?: FilterUserInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationUser> {
+    const name = filterUserInput?.name
+    delete filterUserInput?.name
     const usersCount = await this.userRepository.count(filterUserInput)
     const users: User[] = await this.userRepository.findAll({
       skip,
       take,
       where: {
         ...filterUserInput,
-        OR: [
-          { firstName: filterUserInput.name },
-          { middleName: filterUserInput.name },
-          { lastName: filterUserInput.name },
-        ],
+        // OR: [
+        // { firstName: name },
+        // { middleName: name },
+        // { lastName: name },
+        // ],
       },
     })
     return {
@@ -85,13 +87,19 @@ export class UserService {
 
   async updateUser(updateUserInput: UpdateUserInput | UpdateUserInput[]) {
     if (Array.isArray(updateUserInput)) {
-      return this.prismaService.user.updateMany({
-        data: updateUserInput,
-      })
+      let groupId = null
+      if (updateUserInput.length > 0)
+        groupId = updateUserInput[0].groupId
+      return (await this.prismaService.user.updateMany({
+        where: {
+          id: { in: updateUserInput.map(u => u.userId) },
+        },
+        data: { groupId },
+      })).count
     }
-    const { id, ...updates } = updateUserInput
+    const { userId, ...updates } = updateUserInput
     return this.userRepository.update({
-      where: { id },
+      where: { id: userId },
       data: updates,
     })
   }

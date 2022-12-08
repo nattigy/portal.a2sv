@@ -18,13 +18,10 @@ export class GroupsService {
   }
 
   async createGroup(createGroupInput: CreateGroupInput): Promise<Group> {
-    return this.groupRepository.create({
-      ...createGroupInput,
-      headId: createGroupInput.headId,
-      head: {
-        connect: { id: createGroupInput.headId },
-      },
-    })
+    // TODO: if headId is in the create input check if the user with the headId exists
+    // if not return user not found
+    // if the user is there check if the user has been assigned to another group
+    return this.groupRepository.create(createGroupInput)
   }
 
   async group(id: string): Promise<Group> {
@@ -47,33 +44,33 @@ export class GroupsService {
   }
 
   async updateGroup({ groupId, ...updates }: UpdateGroupInput): Promise<Group> {
-    const newUpdates: Prisma.GroupUpdateInput | Prisma.GroupUncheckedUpdateInput = { ...updates, head: null }
+    const newUpdates: Prisma.GroupUncheckedUpdateInput = { ...updates }
     if (updates.headId) {
       const getHead = await this.prismaService.user.findUnique({ where: { id: updates.headId } })
       if (!getHead) {
         throw new NotFoundException(`User with id:${updates.headId} not found`)
       }
-      // newUpdates.headId = updates.headId
-      newUpdates.head = {
-        connect: { id: updates.headId },
-      }
-      const groupSeason = await this.prismaService.groupSeason.findFirst({
-        where: { groupId: groupId, isActive: true },
-      })
-      if (groupSeason) {
-        const { groupId, seasonId } = groupSeason
-        await this.prismaService.groupSeason.update({
-          where: { groupId_seasonId: { groupId, seasonId } },
-          data: {
-            headId: updates.headId,
-            // head: {
-            //   connect: {
-            //     id: updates.headId
-            //   }
-            // }
-          },
-        })
-      }
+      newUpdates.headId = updates.headId
+      // newUpdates.head = {
+      //   connect: { id: updates.headId },
+      // }
+      // const groupSeason = await this.prismaService.groupSeason.findFirst({
+      //   where: { groupId: groupId, isActive: true },
+      // })
+      // if (groupSeason) {
+      //   const { groupId, seasonId } = groupSeason
+      //   await this.prismaService.groupSeason.update({
+      //     where: { groupId_seasonId: { groupId, seasonId } },
+      //     data: {
+      //       headId: updates.headId,
+      //       // head: {
+      //       //   connect: {
+      //       //     id: updates.headId
+      //       //   }
+      //       // }
+      //     },
+      //   })
+      // }
     }
     return this.groupRepository.update({
       where: { id: groupId },

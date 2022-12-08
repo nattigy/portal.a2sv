@@ -1,12 +1,12 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { PaginationUser } from '../../common/page/pagination-info'
-import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { User } from './entities/user.entity'
 import { UserService } from './user.service'
 import { FilterUserInput, UniqueUserInput } from './dto/filter-user-input'
 import descriptions from './user.doc'
 import { PaginationInput } from '../../common/page/pagination.input'
+import { CreateUserInput } from './dto/create-user.input'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -63,7 +63,7 @@ export class UserResolver {
     @Args('groupId') groupId: string,
     @Args('studentIds', { type: () => [String] }) studentIds: string[],
   ) {
-    return this.userService.updateUser(studentIds.map(id => ({ id, groupId })))
+    return this.userService.updateUser(studentIds.map(userId => ({ userId, groupId })))
   }
 
   // @UseGuards(JwtAuthGuard, PoliciesGuard)
