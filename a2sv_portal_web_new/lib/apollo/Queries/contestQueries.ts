@@ -4,7 +4,6 @@ export const GET_ALL_GROUP_CONTESTS_QUERY = gql`
 query GroupContests($filterGroupContestInput: FilterGroupContestInput) {
   groupContests(filterGroupContestInput: $filterGroupContestInput) {
     items {
-      contestId
       contestAttendance
       contest {
         id
@@ -18,6 +17,36 @@ query GroupContests($filterGroupContestInput: FilterGroupContestInput) {
         problems {
           id
         }
+      }
+    }
+  }
+}`;
+
+export const GET_SINGLE_GROUP_CONTESTS_QUERY = gql`
+query GroupContest($groupContestId: GroupContestId!) {
+  groupContest(groupContestId: $groupContestId) {
+    contest {
+      id
+      name
+      link
+      div
+      startTime
+      problems {
+        id
+        title
+        link
+        difficulty
+        platform
+      }
+    }
+    contestAttendance
+    problemsStat {
+      numberOfStudents
+      problemId
+    }
+    group {
+      users {
+        id
       }
     }
   }

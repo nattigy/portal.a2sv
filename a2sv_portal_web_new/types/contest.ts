@@ -1,10 +1,26 @@
 import { ProblemDifficultyType, ProblemStatus } from "./problems";
 
 export type GroupContestDetail = {
-    contestId: string;
     contestAttendance: number;
+    problemsStat: ProblemsStat[];
+    group: any;
     totalProblems: number;
     contest: GroupContest;
+}
+
+export type GroupContest = {
+    id: string;
+    name: string;
+    link: string;
+    div: number;
+    startTime: string;
+    endTime: string;
+    problems: ContestProblemsInfo[];
+};
+
+export type ProblemsStat = {
+    numberOfStudents: number;
+    problemId: String;
 }
 
 export type ContestDetail = {
@@ -17,16 +33,6 @@ export type ContestDetail = {
     contest: Contest;
     userContestProblems: ContestProblem[];
 }  
-
-export type GroupContest = {
-    id: string;
-    name: string;
-    link: string;
-    div: number;
-    startTime: string;
-    endTime: string;
-};
-
 
 export type Contest = {
     id: string;
@@ -46,9 +52,10 @@ export type ContestProblem = {
 }
 
 export type ContestProblemsInfo = {
-    id: number;
+    id: string;
     title: string;
     difficulty: ProblemDifficultyType;
+    platform?: string;
     status: ProblemStatus;
     time?: number;
     tried: number;

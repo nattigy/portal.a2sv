@@ -3,7 +3,7 @@ import React from "react";
 import ContestStatItem from "./ContestStatItem";
 import SingleContestStatItem from "./ContestStatItem";
 
-export type ContestStatProps = {
+export type StudentContestStatProps = {
   id: number;
   hour: number;
   minute: number;
@@ -15,7 +15,7 @@ export type ContestStatProps = {
 };
 
 type Props = {
-  rankItem: ContestStatProps;
+  rankItem: StudentContestStatProps;
 };
 
 const SingleContestStat = (props: Props) => {
@@ -31,7 +31,6 @@ const SingleContestStat = (props: Props) => {
               <span className="text-sm">/{props.rankItem.totalStudents}</span>
             </div>
           ),
-          id: 1,
         }}
       />
       <ContestStatItem
@@ -50,7 +49,6 @@ const SingleContestStat = (props: Props) => {
               </div>
             </div>
           ),
-          id: 2,
         }}
       />
       <ContestStatItem
@@ -60,7 +58,6 @@ const SingleContestStat = (props: Props) => {
           content: (
             <span className="text-2xl">{props.rankItem.wrong.toString()}</span>
           ),
-          id: 3,
         }}
       />
       <ContestStatItem
@@ -72,7 +69,6 @@ const SingleContestStat = (props: Props) => {
               {props.rankItem.solved}/{props.rankItem.totalQuestions}
             </span>
           ),
-          id: 4,
         }}
       />
     </div>

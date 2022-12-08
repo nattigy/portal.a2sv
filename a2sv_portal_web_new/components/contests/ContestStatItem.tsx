@@ -2,7 +2,6 @@ import clsx from "clsx";
 import React from "react";
 
 export type ContestRankItemProps = {
-  id: number;
   color: string;
   title: string;
   content: any;

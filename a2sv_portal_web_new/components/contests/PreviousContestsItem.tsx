@@ -121,7 +121,7 @@ const PreviousContestsItem = () => {
                   (groupContest: GroupContestDetail, index: number) => {
                     return (
                       <Link
-                        href={`contests/${groupContest.contestId}`}
+                        href={`contests/${groupContest.contest.id}`}
                         key={index}
                       >
                         <tr

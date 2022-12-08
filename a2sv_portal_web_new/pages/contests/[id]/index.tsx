@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import GroupComparisonChart from "../../../components/charts/GroupComparisonChart";
 import BaseLayout from "../../../components/common/BaseLayout";
 import { LoaderSmall } from "../../../components/common/Loaders";
+import GroupContestProblems from "../../../components/contests/GroupContestProblems";
+import GroupContestStat from "../../../components/contests/GroupContestStat";
 import Leaderboard, {
   LeaderboardProps,
 } from "../../../components/contests/Leaderboard";
@@ -14,8 +16,16 @@ import WithPermission from "../../../lib/Guard/WithPermission";
 import {
   useGetAllGroupContests,
   useGetContestDetailsForStudent,
+  useGetSingleGroupContests,
 } from "../../../lib/hooks/useAllContests";
-import { ContestDetail, ContestProblem, GroupContest, GroupContestDetail } from "../../../types/contest";
+import {
+  ContestDetail,
+  ContestProblem,
+  ContestProblemsInfo,
+  GroupContest,
+  GroupContestDetail,
+  ProblemsStat,
+} from "../../../types/contest";
 import { GraphqlUserRole } from "../../../types/user";
 
 const IndexPage = () => {
@@ -166,7 +176,10 @@ const IndexPage = () => {
       error: groupError,
       refetch: groupRefetch,
     },
-  ] = useGetAllGroupContests((authUser as any).groupId, (router.query?.id as string) || "");
+  ] = useGetSingleGroupContests(
+    (authUser as any).groupId,
+    router.query?.id as string
+  );
 
   const [userContest, setUserContest] = useState<ContestDetail>();
   const [groupContest, setGroupContest] = useState<GroupContestDetail>();
@@ -194,14 +207,21 @@ const IndexPage = () => {
           : data.userContest.userContestProblems.length,
       };
       setUserContest(fetchedContest);
-      console.log("Student")
+      console.log("Student");
     }
     if (groupData) {
-      const fetchedContest = groupData.groupContests.items;
+      const fetchedContest = {
+        ...groupData.groupContest,
+        totalProblems: groupData.groupContest.totalProblems
+          ? groupData.groupContest.totalProblems
+          : groupData.groupContest.contest.problems.length,
+        totalStudents: groupData.groupContest.totalStudents
+          ? groupData.groupContest.totalStudents
+          : groupData.groupContest.group.users?.length,
+      };
       setGroupContest(fetchedContest);
-      console.log("Group")
     }
-  }, [data]);
+  }, [data, groupData]);
 
   return (
     <BaseLayout sidebar={<Sidebar />}>
@@ -213,56 +233,69 @@ const IndexPage = () => {
           ]}
         >
           <>
-            <div className="flex items-center gap-x-4">
-              <h1 className="font-bold text-2xl">{groupContest?.contest?.name}</h1>
-              {/* <span className="bg-white px-2 text-xs text-primary">
-                Div {div}
-              </span> */}
-            </div>
-            <SingleContestStat
-              rankItem={{
-                id: 1,
-                rank: 3,
-                totalStudents: 74,
-                solved: 3,
-                totalQuestions: 4,
-                hour: 2,
-                minute: 30,
-                wrong: 3,
-              }}
-            />
-            <div className="no-scrollbar w-full h-full flex flex-col  justify-between bg-white rounded-md p-6">
-              <div className="flex flex-col">
-                <h1 className="font-semibold">Group Comparsion</h1>
+            {loading && (
+              <div className="flex h-full items-center justify-center min-w-full min-h-full">
+                <LoaderSmall />
               </div>
-              <div className="flex flex-row gap-x-3 items-end h-full">
-                {loading && (
-                  <div className="flex items-center justify-center w-full">
-                    <LoaderSmall />
-                  </div>
-                )}
-                <div className="w-full h-full">
-                  {/* {data && ( */}
-                  <GroupComparisonChart />
-                  {/* )} */}
+            )}
+            {error && <p>Something went wrong</p>}
+            {groupContest && (
+              <>
+                <div className="flex items-center gap-x-4">
+                  <h1 className="font-bold text-2xl">
+                    {groupContest.contest?.name}
+                  </h1>
+                  <span className="bg-white px-2 text-xs text-primary">
+                    Div {groupContest?.contest?.div}
+                  </span>
                 </div>
-                {/* <ConsistencyDiagramItem /> */}
-              </div>
-            </div>
-            <div className="no-scrollbar w-full h-full flex flex-col  justify-between bg-white rounded-md p-6">
-              <div className="flex flex-col">
-                <h1 className="font-semibold">Problem Set</h1>
-              </div>
-              <div className="flex flex-row gap-x-3 items-end h-full">
-                {loading && (
-                  <div className="flex items-center justify-center w-full">
-                    <LoaderSmall />
+                <GroupContestStat
+                  rankItem={{
+                    totalStudents: 0,
+                    date: groupContest.contest.startTime,
+                    timeDedicated: 0,
+                    totalAttendance: groupContest.contestAttendance,
+                    totalQuestions: groupContest.totalProblems,
+                  }}
+                />
+                <div className="no-scrollbar w-full h-full flex flex-col  justify-between bg-white rounded-md p-6">
+                  <div className="flex flex-col">
+                    <h1 className="font-semibold">Group Comparsion</h1>
                   </div>
-                )}
-
-                {/* <SingleContestProblems problemSolvedProps={} /> */}
-              </div>
-            </div>
+                  <div className="flex flex-row gap-x-3 items-end h-full">
+                    {loading && (
+                      <div className="flex items-center justify-center w-full">
+                        <LoaderSmall />
+                      </div>
+                    )}
+                    <div className="w-full h-full">
+                      {/* {data && ( */}
+                      <GroupComparisonChart />
+                      {/* )} */}
+                    </div>
+                    {/* <ConsistencyDiagramItem /> */}
+                  </div>
+                </div>
+                <div className="no-scrollbar w-full h-full flex flex-col  justify-between bg-white rounded-md p-6">
+                  <div className="flex flex-col">
+                    <h1 className="font-semibold">Problem Set</h1>
+                  </div>
+                  <div className="flex flex-row gap-x-3 items-end h-full">
+                    {loading && (
+                      <div className="flex items-center justify-center w-full">
+                        <LoaderSmall />
+                      </div>
+                    )}
+                    <GroupContestProblems
+                      contestProblems={
+                        groupContest.contest.problems as ContestProblemsInfo[]
+                      }
+                      problemsStat={groupContest.problemsStat as ProblemsStat[]}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
           </>
         </WithPermission>
         <WithPermission allowedRoles={[GraphqlUserRole.STUDENT]}>
