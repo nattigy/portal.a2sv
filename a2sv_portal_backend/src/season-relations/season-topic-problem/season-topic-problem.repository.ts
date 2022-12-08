@@ -12,9 +12,6 @@ export class SeasonTopicProblemRepository {
     return this.prismaService.seasonTopicProblem.create({
       data,
       include: {
-        seasonTopic: {
-          include: { season: true, topic: true },
-        },
         problem: { include: { tags: true } },
       },
     })
@@ -37,9 +34,6 @@ export class SeasonTopicProblemRepository {
       where,
       orderBy,
       include: {
-        seasonTopic: {
-          include: { season: true, topic: true },
-        },
         problem: { include: { tags: true } },
       },
     })
@@ -49,9 +43,6 @@ export class SeasonTopicProblemRepository {
     return this.prismaService.seasonTopicProblem.findUnique({
       where,
       include: {
-        seasonTopic: {
-          include: { season: true, topic: true },
-        },
         problem: { include: { tags: true } },
       },
     })
@@ -65,9 +56,6 @@ export class SeasonTopicProblemRepository {
     return this.prismaService.seasonTopicProblem.update({
       data, where,
       include: {
-        seasonTopic: {
-          include: { season: true, topic: true },
-        },
         problem: { include: { tags: true } },
       },
     })

@@ -3,7 +3,6 @@ import {
   CreateGroupSeasonTopicProblemInput,
   GroupSeasonTopicProblemId,
 } from './dto/create-group-season-topic-problem.input'
-import { UpdateGroupSeasonTopicProblemInput } from './dto/update-group-season-topic-problem.input'
 import { PrismaService } from '../../prisma/prisma.service'
 import { GroupSeasonTopicProblemRepository } from './group-season-topic-problem.repository'
 import { PaginationInput } from '../../common/page/pagination.input'

@@ -1,6 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql'
 import { Problem } from '../../../problem/entities/problem.entity'
-import { SeasonTopic } from '../../season-topic/entities/season-topic.entity'
 
 @ObjectType()
 export class SeasonTopicProblem {
@@ -13,8 +12,8 @@ export class SeasonTopicProblem {
   @Field()
   problemId: string
 
-  @Field(() => SeasonTopic)
-  seasonTopic: SeasonTopic
+  // @Field(() => SeasonTopic)
+  // seasonTopic: SeasonTopic
 
   @Field(() => Problem)
   problem: Problem
