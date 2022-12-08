@@ -13,13 +13,13 @@ export class UserSeasonService {
     { seasonId, userId }: FilterUserSeasonInput,
     paginationInput: PaginationInput,
   ) {
-    //generate multiple state here
+    ///TODO generate multiple stat here
     return this.userSeasonRepository.findAll({
       where: { seasonId, userId },
     })
   }
   async userSeasonStat({ seasonId, userId }: UserSeasonId) {
-    //generate state here
+    ///TODO generate stat here
     return this.userSeasonRepository.findOne({
       userId_seasonId: { seasonId, userId },
     })

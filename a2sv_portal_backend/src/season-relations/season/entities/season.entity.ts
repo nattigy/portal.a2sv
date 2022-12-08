@@ -3,7 +3,7 @@ import { SeasonTypeEnum } from '@prisma/client'
 
 @ObjectType()
 export class Season {
-  @Field(() => String, { description: `Season Id` })
+  @Field({ description: `Season Id` })
   id: string
 
   @Field({ description: `Season Name` })

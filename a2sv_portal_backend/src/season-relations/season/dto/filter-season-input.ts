@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { SeasonType } from '../entities/season-type.enum'
+import { SeasonTypeEnum } from '@prisma/client'
 
 @InputType()
 export class FilterSeasonInput {
@@ -13,7 +13,7 @@ export class FilterSeasonInput {
   groupId?: string
 
   @Field({ nullable: true })
-  seasonType?: SeasonType
+  seasonType?: SeasonTypeEnum
 
   @Field({ nullable: true })
   isActive?: boolean
