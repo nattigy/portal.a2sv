@@ -1,9 +1,10 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
 export class CreateUserSeasonInput {
   @Field()
   userId: string
+
   @Field()
   seasonId: string
 }

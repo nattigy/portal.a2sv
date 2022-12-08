@@ -78,23 +78,22 @@ model Problem {
 }
 
 model User {
-  id                 String              @id @default(uuid())
-  firstName          String
-  middleName         String
-  lastName           String
-  role               RoleEnum
-  email              String              @unique
-  password           String
-  status             StatusEnum
-  groupId            String?
-  createdAt          DateTime?           @default(now())
-  updatedAt          DateTime?
-  headToGroup        Group?              @relation("GroupHead")
-  group              Group?              @relation(fields: [groupId], references: [id])
-  groupSeasons       GroupSeason[]
-  userSeasons        UserSeason[]
-  userSeasonContests UserSeasonContest[]
-  userProfile        UserProfile?
+  id           String        @id @default(uuid())
+  firstName    String
+  middleName   String
+  lastName     String
+  role         RoleEnum
+  email        String        @unique
+  password     String
+  status       StatusEnum
+  groupId      String?
+  createdAt    DateTime?     @default(now())
+  updatedAt    DateTime?
+  headToGroup  Group?        @relation("GroupHead")
+  group        Group?        @relation(fields: [groupId], references: [id])
+  groupSeasons GroupSeason[]
+  userSeasons  UserSeason[]
+  userProfile  UserProfile?
 }
 
 model GroupSeason {
@@ -232,7 +231,6 @@ model UserSeasonContest {
   userId                    String
   seasonId                  String
   contestId                 String
-  user                      User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
   problemsSolved            Int                        @default(0)
   wrongSubmissions          Int                        @default(0)
   rank                      Int                        @default(0)

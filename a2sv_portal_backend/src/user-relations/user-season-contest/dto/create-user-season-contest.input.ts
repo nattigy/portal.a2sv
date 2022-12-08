@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
-export class CreateUserContestInput {
+export class CreateUserSeasonContestInput {
   @Field()
   contestId: string
 

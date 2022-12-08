@@ -40,11 +40,7 @@ export class UserSeasonTopicService {
     })
     return {
       items: userSeasonTopics,
-      pageInfo: {
-        skip,
-        take,
-        count,
-      },
+      pageInfo: { skip, take, count },
     }
   }
 

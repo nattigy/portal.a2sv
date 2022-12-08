@@ -11,7 +11,7 @@ export class UserSeasonService {
 
   async usersSeasonsStats(
     { seasonId, userId }: FilterUserSeasonInput,
-    paginationInput: PaginationInput,
+    { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ) {
     ///TODO generate multiple stat here
     return this.userSeasonRepository.findAll({

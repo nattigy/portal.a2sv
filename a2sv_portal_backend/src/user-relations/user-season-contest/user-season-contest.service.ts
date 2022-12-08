@@ -4,9 +4,11 @@ import { PrismaService } from '../../prisma/prisma.service'
 import { UserSeasonContest } from './entities/user-season-contest.entity'
 import { PaginationUserSeasonContest } from '../../common/page/pagination-info'
 import { UserSeasonContestProblem } from '../user-season-contest-problem/entities/user-season-contest-problem.entity'
-import { UserSeasonContestId } from './dto/create-user-contest.input'
+import { UserSeasonContestId } from './dto/create-user-season-contest.input'
 import { UserSeasonContestRepository } from './user-season-contest.repository'
 import { UserContestProblemStatusEnum } from '@prisma/client'
+import { FilterUserSeasonContestInput } from './dto/filter-user-season-contest.input'
+import { UpdateUserSeasonContestInput } from './dto/update-user-season-contest.input'
 
 @Injectable()
 export class UserSeasonContestService {
@@ -16,27 +18,7 @@ export class UserSeasonContestService {
   ) {
   }
 
-  // async create(createUserSeasonContestInput: CreateUserSeasonContestInput): Promise<UserSeasonContest> {
-  //   return this.prismaService.userSeasonContest.create({
-  //     data: createUserSeasonContestInput,
-  //     include: {
-  //       userSeasonContestProblems: {
-  //         include: {
-  //           problem: true,
-  //         },
-  //       },
-  //       user: true,
-  //       contest: {
-  //         include: {
-  //           problems: true,
-  //           groupContests: true,
-  //         },
-  //       },
-  //     },
-  //   })
-  // }
-
-  async findOne({ userId, seasonId, contestId }: UserSeasonContestId): Promise<UserSeasonContest> {
+  async userContest({ userId, seasonId, contestId }: UserSeasonContestId): Promise<UserSeasonContest> {
     const userSeasonContest: UserSeasonContest = await this.userSeasonContestRepository.findOne({
       userId_seasonId_contestId: { userId, seasonId, contestId },
     })
@@ -84,8 +66,8 @@ export class UserSeasonContestService {
     return userSeasonContest
   }
 
-  async findAll(
-    userId: string,
+  async userContests(
+    { userId, seasonId, contestId }: FilterUserSeasonContestInput,
     { skip, take }: PaginationInput = {
       take: 50,
       skip: 0,
@@ -124,75 +106,50 @@ export class UserSeasonContestService {
     }
   }
 
-  // async update({
-  //   userId,
-  //   contestId,
-  //   ...updates
-  // }: UpdateUserSeasonContestInput): Promise<UserSeasonContest> {
-  //   const problems = (
-  //     await this.prismaService.contest.findUnique({
-  //       where: {
-  //         id: contestId,
-  //       },
-  //       include: {
-  //         problems: true,
-  //       },
-  //     })
-  //   ).problems
-  //   return this.prismaService.userSeasonContest.upsert({
-  //     where: {
-  //       userId_contestId: {
-  //         userId,
-  //         contestId,
-  //       },
-  //     },
-  //     create: {
-  //       contest: {
-  //         connect: {
-  //           id: contestId,
-  //         },
-  //       },
-  //       user: {
-  //         connect: {
-  //           id: userId,
-  //         },
-  //       },
-  //       userSeasonContestProblems: {
-  //         createMany: {
-  //           skipDuplicates: true,
-  //           data: problems.map(p => ({
-  //             userSeasonContestUserId: userId,
-  //             userSeasonContestContestId: contestId,
-  //             problemId: p.id,
-  //             numberOfAttempts: 0,
-  //             numberOfMinutes: 0,
-  //             status: UserSeasonContestProblemStatus.NOT_SOLVED,
-  //           })),
-  //         },
-  //       },
-  //     },
-  //     update: {
-  //       userId,
-  //       contestId,
-  //     },
-  //     include: {
-  //       userSeasonContestProblems: {
-  //         include: {
-  //           problem: true,
-  //         },
-  //       },
-  //       user: true,
-  //       contest: {
-  //         include: {
-  //           problems: true,
-  //           groupContests: true,
-  //         },
-  //       },
-  //     },
-  //   })
-  // }
+  async updateUserContest({ id, ...updates }: UpdateUserSeasonContestInput): Promise<UserSeasonContest> {
+    const { userId, seasonId, contestId } = id
+    return this.prismaService.userSeasonContest.upsert({
+      where: { userId_seasonId_contestId: id },
+      create: {
+        // seasonId, userId, contestId,
+        seasonContest: {
+          connect: {
+            seasonId_contestId: { seasonId, contestId },
+          },
+        },
+        userSeason: {
+          connect: {
+            userId_seasonId: { userId, seasonId },
+          },
+        },
+        userSeasonContestProblems: {
+          createMany: {
+            skipDuplicates: true,
+            data: [],
+          },
+        },
+      },
+      update: updates,
+      include: {
+        seasonContest: {
+          include: {
+            season: true,
+            contest: {
+              include: { problems: { include: { tags: true } } },
+            },
+          },
+        },
+        userSeason: {
+          include: { user: true, season: true },
+        },
+        userSeasonContestProblems: {
+          include: { problem: { include: { tags: true } } },
+        },
+      },
+    })
+  }
 
-  async remove({ userId, seasonId, contestId }: UserSeasonContestId): Promise<number> {
+  async removeUserSeasonContest({ userId, seasonId, contestId }: UserSeasonContestId): Promise<number> {
     try {
       await this.userSeasonContestRepository.remove({
         userId_seasonId_contestId: {
