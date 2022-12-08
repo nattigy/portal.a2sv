@@ -4,7 +4,7 @@ import * as bcrypt from 'bcrypt'
 import { PaginationUser } from '../../common/page/pagination-info'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { PrismaService } from '../../prisma/prisma.service'
-import { SignUpUserInput } from './dto/sign-up-user.input'
+import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { FilterUserInput, UniqueUserInput } from './dto/filter-user-input'
 import { UserRepository } from './user.repository'
@@ -31,7 +31,7 @@ export class UserService {
   ) {
   }
 
-  async createUser(createUserInput: SignUpUserInput): Promise<User> {
+  async createUser(createUserInput: CreateUserInput): Promise<User> {
     const { email, firstName, middleName, lastName, password } = createUserInput
 
     const foundUser = await this.userRepository.findOne({ email })
@@ -69,7 +69,6 @@ export class UserService {
         ],
       },
     })
-
     return {
       items: users,
       pageInfo: {
@@ -80,7 +79,11 @@ export class UserService {
     }
   }
 
-  async update(updateUserInput: UpdateUserInput | UpdateUserInput[]) {
+  async user({ id, email }: UniqueUserInput) {
+    return this.userRepository.findOne({ id, email })
+  }
+
+  async updateUser(updateUserInput: UpdateUserInput | UpdateUserInput[]) {
     if (Array.isArray(updateUserInput)) {
       return this.prismaService.user.updateMany({
         data: updateUserInput,
@@ -90,13 +93,6 @@ export class UserService {
     return this.userRepository.update({
       where: { id },
       data: updates,
-    })
-  }
-
-  async user({ id, email }: UniqueUserInput) {
-    return this.userRepository.findOne({
-      id,
-      email,
     })
   }
 
@@ -393,7 +389,7 @@ export class UserService {
   //   }
   // }
 
-  async remove(id: string) {
+  async removeUser(id: string) {
     try {
       await this.userRepository.remove({ id })
     } catch (e) {

@@ -1,19 +1,18 @@
 import { Field, InputType } from '@nestjs/graphql'
+import { DateTimeFilter } from '../../common/filter-types/date-filter'
+import { StringFilter } from '../../common/filter-types/string-filter'
 
 @InputType()
 export class FilterTopicInput {
   @Field({ nullable: true })
   id?: string
 
-  @Field({ nullable: true })
-  name?: string
+  @Field(() => StringFilter, { nullable: true })
+  name?: StringFilter
 
-  @Field({ nullable: true })
-  description?: string
+  @Field(() => StringFilter, { nullable: true })
+  description?: StringFilter
 
-  @Field({ nullable: true })
-  createdAt?: Date
-
-  @Field({ nullable: true })
-  updatedAt?: Date
+  @Field(() => DateTimeFilter, { nullable: true })
+  createdAt?: DateTimeFilter
 }

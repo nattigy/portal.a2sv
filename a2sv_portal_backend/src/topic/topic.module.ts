@@ -4,6 +4,7 @@ import { TopicResolver } from './topic.resolver'
 import { TopicService } from './topic.service'
 
 @Module({
-  providers: [TopicRepository,TopicService, TopicResolver],
+  providers: [TopicRepository, TopicService, TopicResolver],
 })
-export class TopicModule {}
+export class TopicModule {
+}

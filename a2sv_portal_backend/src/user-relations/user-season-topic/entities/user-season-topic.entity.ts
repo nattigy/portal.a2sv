@@ -34,4 +34,4 @@ export class UserSeasonTopic {
   updatedAt?: Date
 }
 
-registerEnumType(ComfortLevelEnum, {name: "ComfortLevelEnum"})
+registerEnumType(ComfortLevelEnum, { name: 'ComfortLevelEnum' })

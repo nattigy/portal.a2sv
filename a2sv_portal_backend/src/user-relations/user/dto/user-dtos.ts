@@ -77,6 +77,7 @@ export class EachContestConversionRate {
   @Field(() => Float)
   conversionRate: number
 }
+
 @ObjectType()
 export class ContestConversionRate {
   @Field(() => [EachContestConversionRate])

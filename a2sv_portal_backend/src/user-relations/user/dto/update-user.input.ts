@@ -1,12 +1,21 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { RoleEnum } from '@prisma/client'
+import { RoleEnum, StatusEnum } from '@prisma/client'
 
 @InputType()
 export class UpdateUserInput {
   @Field()
   id: string
 
-  @Field( { nullable: true })
+  @Field({ nullable: true })
+  firstName?: string
+
+  @Field({ nullable: true })
+  middleName?: string
+
+  @Field({ nullable: true })
+  lastName?: string
+
+  @Field({ nullable: true })
   groupId?: string
 
   @Field({ nullable: true })
@@ -14,4 +23,7 @@ export class UpdateUserInput {
 
   @Field(() => RoleEnum, { nullable: true })
   role?: RoleEnum
+
+  @Field(() => StatusEnum, { nullable: true })
+  status?: StatusEnum
 }

@@ -1,11 +1,6 @@
-import { UseGuards } from '@nestjs/common'
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard.service'
-import { UserAbilities } from '../../casl/handler/user-abilities.handler'
-import { CheckPolicies } from '../../casl/policy/policy.decorator'
-import { PoliciesGuard } from '../../casl/policy/policy.guard'
 import { PaginationUser } from '../../common/page/pagination-info'
-import { SignUpUserInput } from './dto/sign-up-user.input'
+import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { User } from './entities/user.entity'
 import { UserService } from './user.service'
@@ -17,57 +12,58 @@ import { PaginationInput } from '../../common/page/pagination.input'
 export class UserResolver {
   constructor(
     private readonly userService: UserService,
-  ) {}
+  ) {
+  }
 
-  @UseGuards(JwtAuthGuard, PoliciesGuard)
-  @CheckPolicies(UserAbilities.create)
+  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  // @CheckPolicies(UserAbilities.create)
   @Mutation(() => User, {
     description: descriptions.createUser,
   })
-  async createUser(@Args('createUserInput') createUserInput: SignUpUserInput): Promise<User> {
+  async createUser(@Args('createUserInput') createUserInput: CreateUserInput): Promise<User> {
     return this.userService.createUser(createUserInput)
   }
 
-  @UseGuards(JwtAuthGuard, PoliciesGuard)
-  @CheckPolicies(UserAbilities.read)
+  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  // @CheckPolicies(UserAbilities.read)
   @Query(() => PaginationUser)
   async users(
     @Args('filterUserInput', { nullable: true }) filterUserInput?: FilterUserInput,
-    @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInput,
+    @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<PaginationUser> {
     try {
-      return this.userService.users(filterUserInput, pageInfoInput)
+      return this.userService.users(filterUserInput, paginationInput)
     } catch (e) {
       return e.message
     }
   }
 
-  @UseGuards(JwtAuthGuard, PoliciesGuard)
-  @CheckPolicies(UserAbilities.read)
+  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  // @CheckPolicies(UserAbilities.read)
   @Query(() => User, { description: descriptions.findOne })
-  async user(@Args('UniqueUserInput') uniqueUserInput: UniqueUserInput) {
+  async user(@Args('uniqueUserInput') uniqueUserInput: UniqueUserInput) {
     try {
-      return await this.userService.user(uniqueUserInput)
+      return this.userService.user(uniqueUserInput)
     } catch (e) {
       return e.message
     }
   }
 
-  @UseGuards(JwtAuthGuard, PoliciesGuard)
-  @CheckPolicies(UserAbilities.update)
+  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  // @CheckPolicies(UserAbilities.update)
   @Mutation(() => User, { description: descriptions.updateUser })
   async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return this.userService.update(updateUserInput)
+    return this.userService.updateUser(updateUserInput)
   }
 
-  @UseGuards(JwtAuthGuard, PoliciesGuard)
-  @CheckPolicies(UserAbilities.update)
+  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  // @CheckPolicies(UserAbilities.update)
   @Mutation(() => Int, { description: descriptions.updateUser })
   async addUsersToAGroup(
     @Args('groupId') groupId: string,
     @Args('studentIds', { type: () => [String] }) studentIds: string[],
   ) {
-    return this.userService.update(studentIds.map(id => ({ id, groupId })))
+    return this.userService.updateUser(studentIds.map(id => ({ id, groupId })))
   }
 
   // @UseGuards(JwtAuthGuard, PoliciesGuard)
@@ -105,10 +101,10 @@ export class UserResolver {
   //   return this.userService.studentTopicStats(topicStudentStatInput)
   // }
 
-  @UseGuards(JwtAuthGuard, PoliciesGuard)
-  @CheckPolicies(UserAbilities.delete)
+  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  // @CheckPolicies(UserAbilities.delete)
   @Mutation(() => Int, { description: descriptions.deleteUser })
   async removeUser(@Args('userId') userId: string) {
-    return this.userService.remove(userId)
+    return this.userService.removeUser(userId)
   }
 }

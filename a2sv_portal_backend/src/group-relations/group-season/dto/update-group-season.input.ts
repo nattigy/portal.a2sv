@@ -13,6 +13,6 @@ export class UpdateGroupSeasonInput extends PartialType(CreateGroupSeasonInput) 
   @Field()
   isActive: boolean
 
-  @Field(() => JoinRequestEnum, {nullable: true})
+  @Field(() => JoinRequestEnum, { nullable: true })
   joinRequest?: JoinRequestEnum
 }

@@ -23,7 +23,7 @@ export class UserSeasonTopicResolver {
   async userSeasonTopics(
     @Args('filterUserSeasonTopicInput', { nullable: true })
       filterUserSeasonTopicInput?: FilterUserSeasonTopicInput,
-    @Args('pageInfoInput', {  nullable: true })
+    @Args('pageInfoInput', { nullable: true })
       pageInfoInput?: PaginationInput,
   ) {
     return this.userSeasonTopicService.userSeasonTopics(filterUserSeasonTopicInput, pageInfoInput)

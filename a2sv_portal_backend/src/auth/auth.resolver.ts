@@ -1,7 +1,6 @@
 import { UseGuards } from '@nestjs/common'
 import { Args, Context, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { Response } from 'express'
-import { SignUpUserInput } from '../user-relations/user/dto/sign-up-user.input'
 import { User } from '../user-relations/user/entities/user.entity'
 import { CurrentUser, Public } from './auth.decorator'
 import { AuthService } from './auth.service'
@@ -36,14 +35,14 @@ export class AuthResolver {
     return this.authService.resetPassword(email, pass)
   }
 
-  @Public()
-  @Mutation(() => AuthResponse)
-  async signUp(
-    @Args('createUserInput') createUserInput: SignUpUserInput,
-    @Context() context,
-  ): Promise<AuthResponse> {
-    return this.authService.signUp(context, createUserInput)
-  }
+  // @Public()
+  // @Mutation(() => AuthResponse)
+  // async signUp(
+  //   @Args('createUserInput') createUserInput: SignUpUserInput,
+  //   @Context() context,
+  // ): Promise<AuthResponse> {
+  //   return this.authService.signUp(context, createUserInput)
+  // }
 
   @Mutation(() => Int)
   async logout(@Context('res') response: Response) {

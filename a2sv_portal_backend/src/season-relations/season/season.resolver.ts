@@ -25,24 +25,23 @@ export class SeasonResolver {
     @Args('filterSeasonInput', { nullable: true }) filterSeasonInput?: FilterSeasonInput,
     @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInput,
   ): Promise<PaginationSeason> {
-    return this.seasonService.findAll(filterSeasonInput, pageInfoInput)
+    return this.seasonService.seasons(filterSeasonInput, pageInfoInput)
   }
 
   @Query(() => Season, { description: descriptions.season })
   async season(@Args('seasonId') seasonId: string) {
-    return this.seasonService.findOne(seasonId)
+    return this.seasonService.season(seasonId)
   }
 
   @Mutation(() => Season, { description: descriptions.updateSeason })
   async updateSeason(
-    @Args('seasonId') seasonId: string,
     @Args('updateSeasonInput') updateSeasonInput: UpdateSeasonInput,
   ): Promise<Season> {
-    return this.seasonService.update(seasonId, updateSeasonInput)
+    return this.seasonService.updateSeason(updateSeasonInput)
   }
 
   @Mutation(() => Int, { description: descriptions.deleteSeason })
   async removeSeason(@Args('seasonId') seasonId: string) {
-    return this.seasonService.remove(seasonId)
+    return this.seasonService.removeSeason(seasonId)
   }
 }

@@ -1,12 +1,11 @@
-import { Field, InputType } from "@nestjs/graphql";
-import { UniqueUserInput } from "./filter-user-input";
+import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
 export class ResetPasswordInput {
 
-    @Field()
-    email: string
-    
-    @Field()
-    password: string
+  @Field()
+  email: string
+
+  @Field()
+  password: string
 }

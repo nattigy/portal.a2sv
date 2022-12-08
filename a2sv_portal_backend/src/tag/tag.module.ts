@@ -6,4 +6,5 @@ import { TagService } from './tag.service'
   providers: [TagResolver, TagService],
   exports: [TagService],
 })
-export class TagModule {}
+export class TagModule {
+}

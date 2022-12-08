@@ -46,6 +46,41 @@ export class GroupsService {
     }
   }
 
+  async updateGroup({ groupId, ...updates }: UpdateGroupInput): Promise<Group> {
+    const newUpdates: Prisma.GroupUpdateInput | Prisma.GroupUncheckedUpdateInput = { ...updates, head: null }
+    if (updates.headId) {
+      const getHead = await this.prismaService.user.findUnique({ where: { id: updates.headId } })
+      if (!getHead) {
+        throw new NotFoundException(`User with id:${updates.headId} not found`)
+      }
+      // newUpdates.headId = updates.headId
+      newUpdates.head = {
+        connect: { id: updates.headId },
+      }
+      const groupSeason = await this.prismaService.groupSeason.findFirst({
+        where: { groupId: groupId, isActive: true },
+      })
+      if (groupSeason) {
+        const { groupId, seasonId } = groupSeason
+        await this.prismaService.groupSeason.update({
+          where: { groupId_seasonId: { groupId, seasonId } },
+          data: {
+            headId: updates.headId,
+            // head: {
+            //   connect: {
+            //     id: updates.headId
+            //   }
+            // }
+          },
+        })
+      }
+    }
+    return this.groupRepository.update({
+      where: { id: groupId },
+      data: newUpdates,
+    })
+  }
+
   // async groupsPagination(
   //   filterGroupInput: FilterGroupInput,
   //   {skip, take}: PaginationInfoInput,
@@ -98,172 +133,6 @@ export class GroupsService {
   //       skip,
   //       take,
   //       count: groupsCount,
-  //     },
-  //   }
-  // }
-
-  async updateGroup({ id, ...updates }: UpdateGroupInput): Promise<Group> {
-    const newUpdates: Prisma.GroupUpdateInput | Prisma.GroupUncheckedUpdateInput = { ...updates, head: null }
-    if (updates.headId) {
-      const getHead = await this.prismaService.user.findUnique({ where: { id: updates.headId } })
-      if (!getHead) {
-        throw new NotFoundException(`User with id:${updates.headId} not found`)
-      }
-      // newUpdates.headId = updates.headId
-      newUpdates.head = {
-        connect: { id: updates.headId },
-      }
-      const groupSeason = await this.prismaService.groupSeason.findFirst({
-        where: { groupId: id, isActive: true },
-      })
-      if (groupSeason) {
-        const { groupId, seasonId } = groupSeason
-        await this.prismaService.groupSeason.update({
-          where: { groupId_seasonId: { groupId, seasonId } },
-          data: {
-            headId: updates.headId,
-            // head: {
-            //   connect: {
-            //     id: updates.headId
-            //   }
-            // }
-          },
-        })
-      }
-    }
-    return this.groupRepository.update({
-      where: { id },
-      data: newUpdates,
-    })
-  }
-
-  // async calculateGroupStat(group: Group): Promise<GroupStatResponse> {
-  //   let numberOfAcceptedSubmissions = 0
-  //   let numberOfWrongSubmissions = 0
-  //   let totalTimeDedicated = 0
-  //   let numberOfTopicsCovered = 0
-  //   let numberOfProblems = 0
-  //   const contestsAttended = group.groupContests.length
-  //   group.users.forEach(u => {
-  //     u.seasonTopicProblems.forEach(g => {
-  //       if (group.seasons.length > 0 && g.seasonId == group.seasons[0].id) {
-  //         if (g.solved) numberOfAcceptedSubmissions += 1
-  //         numberOfWrongSubmissions += g.attempts
-  //         totalTimeDedicated += g.timeDedicated
-  //       }
-  //     })
-  //   })
-  //   group.seasons.forEach(s => {
-  //     numberOfTopicsCovered += s.seasonTopics.length
-  //     s.seasonTopics.forEach(t => {
-  //       numberOfProblems += t.problems.length
-  //     })
-  //   })
-  //   return {
-  //     id: group.id,
-  //     name: group.name,
-  //     createdAt: group.createdAt,
-  //     country: group.country,
-  //     school: group.school,
-  //     numberOfStudents: group.users?.length,
-  //     numberOfTopicsCovered: numberOfTopicsCovered,
-  //     topicsCoverage: numberOfTopicsCovered,
-  //     // topics.length
-  //     // ? (numberOfTopicsCovered / topics.length) * 100
-  //     // : 0,
-  //     numberOfAcceptedSubmissions: numberOfAcceptedSubmissions,
-  //     numberOfWrongSubmissions: numberOfWrongSubmissions,
-  //     totalTimeDedicated: totalTimeDedicated,
-  //     numberOfProblems: numberOfProblems,
-  //     contestsAttended: contestsAttended,
-  //     // rank: groups[i].id,
-  //   }
-  // }
-  //
-  // async groupStat(groupId: string): Promise<GroupStatResponse> {
-  //   const group = await this.prismaService.group.findUnique({
-  //     where: {
-  //       id: groupId,
-  //     },
-  //     include: {
-  //       users: {
-  //         include: {
-  //           seasonTopicProblems: true,
-  //         },
-  //       },
-  //       seasons: {
-  //         take: 1,
-  //         where: {
-  //           isActive: true,
-  //         },
-  //         include: {
-  //           seasonTopics: {
-  //             include: {
-  //               problems: true,
-  //             },
-  //           },
-  //         },
-  //       },
-  //       groupContests: true,
-  //     },
-  //   })
-  //   if (!group) {
-  //     throw new NotFoundException(`Group not found`)
-  //   }
-  //   return this.calculateGroupStat(group)
-  // }
-  //
-  // async groupsStat(
-  //   filterGroupInput: FilterGroupInput,
-  //   {skip, take}: PaginationInfoInput = {take: 50, skip: 0},
-  // ): Promise<GroupStatResponsePage<GroupStatResponse>> {
-  //   const groupStatResponses: GroupStatResponse[] = []
-  //   const groupCount = (
-  //     await this.prismaService.group.findMany({
-  //       where: filterGroupInput,
-  //       select: {
-  //         id: true,
-  //       },
-  //     })
-  //   ).length
-  //   const groups = await this.prismaService.group.findMany({
-  //     skip,
-  //     take,
-  //     where: filterGroupInput,
-  //     include: {
-  //       users: {
-  //         include: {
-  //           seasonTopicProblems: true,
-  //         },
-  //       },
-  //       seasons: {
-  //         take: 1,
-  //         where: {
-  //           isActive: true,
-  //         },
-  //         include: {
-  //           seasonTopics: {
-  //             include: {
-  //               problems: true,
-  //             },
-  //           },
-  //         },
-  //       },
-  //       groupContests: true,
-  //     },
-  //   })
-  //   if (!groups) {
-  //     throw new NotFoundException(`No groups found`)
-  //   }
-  //   for (let i = 0; i < groups.length; i++) {
-  //     groupStatResponses.push(await this.calculateGroupStat(groups[i]))
-  //   }
-  //   return {
-  //     items: groupStatResponses,
-  //     pageInfo: {
-  //       skip,
-  //       take,
-  //       count: groupCount,
   //     },
   //   }
   // }

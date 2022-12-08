@@ -4,7 +4,7 @@ import { PrismaClient, User } from '@prisma/client'
 import { DeepMockProxy } from 'jest-mock-extended'
 import { PrismaService } from '../../prisma/prisma.service'
 import { prismaMock } from '../prisma/singleton'
-import { SignUpUserInput } from './dto/sign-up-user.input'
+import { CreateUserInput } from './dto/create-user.input'
 import { UserService } from './user.service'
 
 describe('UserService', () => {
@@ -83,7 +83,7 @@ describe('UserService', () => {
         prismaService.user.update.mockResolvedValue(expectedUser)
         prismaService.user.findFirst.mockResolvedValue(expectedUser)
 
-        const userResult = await service.update(userId, {
+        const userResult = await service.updateUser(userId, {
           id: 0,
         })
         expect(userResult).toEqual(expectedUser)
@@ -96,7 +96,7 @@ describe('UserService', () => {
         prismaService.user.findFirst.mockResolvedValue(undefined)
 
         try {
-          await service.update(userId, {
+          await service.updateUser(userId, {
             id: 0,
           })
         } catch (err) {
@@ -114,7 +114,7 @@ describe('UserService', () => {
         const expectedUser: User = user
         prismaService.user.create.mockResolvedValue(expectedUser)
 
-        const data: SignUpUserInput = {
+        const data: CreateUserInput = {
           email: '',
           password: '',
         }
@@ -143,7 +143,7 @@ describe('UserService', () => {
         prismaService.user.findFirst.mockResolvedValue(expectedValue)
         prismaService.user.delete.mockResolvedValue(expectedValue)
         try {
-          await service.remove(userId)
+          await service.removeUser(userId)
         } catch (err) {
           expect(err).toBeInstanceOf(HttpException)
           expect(err.message).toEqual('')

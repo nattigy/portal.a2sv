@@ -12,6 +12,10 @@ export class TopicRepository {
     return this.prismaService.topic.create({ data })
   }
 
+  async count(where: Prisma.TopicWhereInput): Promise<number> {
+    return this.prismaService.topic.count({ where })
+  }
+
   async findAll(params: {
     skip?: number
     take?: number
@@ -43,9 +47,5 @@ export class TopicRepository {
 
   async remove(where: Prisma.TopicWhereUniqueInput) {
     return this.prismaService.topic.delete({ where })
-  }
-
-  async count(where: Prisma.TopicWhereInput): Promise<number> {
-    return this.prismaService.topic.count({ where })
   }
 }

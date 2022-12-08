@@ -4,5 +4,5 @@ import { CreateGroupInput } from './create-group.input'
 @InputType()
 export class UpdateGroupInput extends PartialType(CreateGroupInput) {
   @Field()
-  id: string
+  groupId: string
 }

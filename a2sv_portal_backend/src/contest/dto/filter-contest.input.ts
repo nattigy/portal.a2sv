@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql'
+import { DateTimeFilter } from '../../common/filter-types/date-filter'
 
 @InputType()
 export class FilterContestInput {
@@ -14,9 +15,12 @@ export class FilterContestInput {
   @Field({ nullable: true })
   div?: string
 
-  @Field({ nullable: true })
+  @Field(() => DateTimeFilter, { nullable: true })
   startTime?: Date
 
-  @Field({ nullable: true })
+  @Field(() => DateTimeFilter, { nullable: true })
   endTime?: Date
+
+  @Field(() => DateTimeFilter, { nullable: true })
+  createdAt?: DateTimeFilter
 }

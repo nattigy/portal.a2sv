@@ -16,10 +16,10 @@ export class ContestService {
   ) {
   }
 
-  async create({ problems, ...contestInput }: CreateContestInput): Promise<Contest> {
+  async createContest({ problems, ...contestInput }: CreateContestInput): Promise<Contest> {
     return this.contestRepository.create({
       ...contestInput,
-      problems: { connect: problems },
+      problems: { connect: problems.map(p => ({ id: p.problemId })) },
     })
   }
 
@@ -41,7 +41,7 @@ export class ContestService {
     }
   }
 
-  async findOne(contestId: string): Promise<Contest> {
+  async contest(contestId: string): Promise<Contest> {
     return this.contestRepository.findOne({ id: contestId })
   }
 
@@ -51,7 +51,7 @@ export class ContestService {
       data: {
         ...updateContest,
         problems: {
-          connect: problems,
+          connect: problems.map(p => ({ id: p.problemId })),
         },
       },
     })
@@ -91,7 +91,7 @@ export class ContestService {
     // })
   }
 
-  async remove(id: string): Promise<number> {
+  async removeContest(id: string): Promise<number> {
     try {
       await this.contestRepository.remove({ id })
     } catch (e) {

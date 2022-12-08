@@ -9,6 +9,6 @@ export class Tag {
   @Field()
   name: string
 
-  @Field(() => [Problem], {nullable: true})
+  @Field(() => [Problem], { nullable: true })
   problems?: Problem[]
 }

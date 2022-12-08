@@ -9,7 +9,10 @@ export class GroupRepository {
   }
 
   async create(data: Prisma.GroupCreateInput | Prisma.GroupUncheckedCreateInput): Promise<Group> {
-    return this.prismaService.group.create({ data })
+    return this.prismaService.group.create({
+      data,
+      include: { users: true },
+    })
   }
 
   async count(where?: Prisma.GroupWhereInput): Promise<number> {
@@ -28,11 +31,12 @@ export class GroupRepository {
       take,
       where,
       orderBy,
+      include: { users: true },
     })
   }
 
   async findOne(where: Prisma.GroupWhereUniqueInput): Promise<Group> {
-    return this.prismaService.group.findUnique({ where })
+    return this.prismaService.group.findUnique({ where, include: { users: true } })
   }
 
   async update(params: {
@@ -40,7 +44,7 @@ export class GroupRepository {
     data: Prisma.GroupUpdateInput | Prisma.GroupUncheckedUpdateInput
   }): Promise<Group> {
     const { where, data } = params
-    return this.prismaService.group.update({ data, where })
+    return this.prismaService.group.update({ data, where, include: { users: true } })
   }
 
   async remove(where: Prisma.GroupWhereUniqueInput) {

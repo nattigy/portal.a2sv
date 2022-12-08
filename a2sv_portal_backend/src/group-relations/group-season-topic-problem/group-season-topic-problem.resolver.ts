@@ -39,7 +39,7 @@ export class GroupSeasonTopicProblemResolver {
   @Mutation(() => Int)
   async addProblemsToGroupSeasonTopic(
     @Args('groupSeasonTopicId') { groupId, topicId, seasonId }: GroupSeasonTopicId,
-    @Args('problemIds',{type: ()=>[String]}) problemIds: string[],
+    @Args('problemIds', { type: () => [String] }) problemIds: string[],
   ): Promise<number> {
     for (const problemId of problemIds) {
       await this.groupSeasonTopicProblemService.addProblemToGroupSeasonTopic({
@@ -59,7 +59,7 @@ export class GroupSeasonTopicProblemResolver {
   @Mutation(() => GroupSeasonTopicProblem)
   async removeGroupSeasonTopicProblems(
     @Args('groupSeasonTopicId') { groupId, topicId, seasonId }: GroupSeasonTopicId,
-    @Args('problemIds',{type: ()=>[String]}) problemIds: string[],
+    @Args('problemIds', { type: () => [String] }) problemIds: string[],
   ): Promise<number> {
     for (const problemId of problemIds) {
       await this.groupSeasonTopicProblemService.removeGroupSeasonTopicProblem({

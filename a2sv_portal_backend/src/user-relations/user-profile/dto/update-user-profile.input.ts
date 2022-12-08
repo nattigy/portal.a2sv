@@ -1,6 +1,5 @@
-import { Field, InputType, Int, PartialType } from '@nestjs/graphql'
+import { Field, InputType, Int } from '@nestjs/graphql'
 import { CurrentEducationStatusEnum, CurrentWorkStatusEnum } from '@prisma/client'
-import { CreateUserProfileInput } from './create-user-profile.input'
 import { UpdateUserProfileAddressInput } from './user-profile-addres.input'
 
 @InputType()

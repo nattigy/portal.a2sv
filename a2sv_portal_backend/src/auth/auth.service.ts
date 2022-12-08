@@ -3,9 +3,8 @@ import { Context } from '@nestjs/graphql'
 import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
 import { Response } from 'express'
-import { UniqueUserInput } from 'src/user-relations/user/dto/filter-user-input'
 import { User } from 'src/user-relations/user/entities/user.entity'
-import { SignUpUserInput } from '../user-relations/user/dto/sign-up-user.input'
+import { CreateUserInput } from '../user-relations/user/dto/create-user.input'
 import { UserService } from '../user-relations/user/user.service'
 import { AuthResponse } from './dto/auth-response.dto'
 
@@ -64,7 +63,7 @@ export class AuthService {
     return { accessToken, userId: user.id }
   }
 
-  async signUp(@Context() context, createUserInput: SignUpUserInput): Promise<AuthResponse> {
+  async signUp(@Context() context, createUserInput: CreateUserInput): Promise<AuthResponse> {
     const user = await this.usersService.createUser(createUserInput)
     const accessToken = await this.setToken(context, user)
     return { accessToken, userId: user.id }

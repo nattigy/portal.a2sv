@@ -14,7 +14,7 @@ import { SeasonRepository } from './season.repository'
 export class SeasonService {
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly seasonRepository: SeasonRepository
+    private readonly seasonRepository: SeasonRepository,
   ) {
   }
 
@@ -22,7 +22,7 @@ export class SeasonService {
     return this.seasonRepository.create(seasonInput)
   }
 
-  async findAll(
+  async seasons(
     filterSeasonInput: FilterSeasonInput,
     { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationSeason> {
@@ -34,18 +34,18 @@ export class SeasonService {
     }
   }
 
-  async findOne(seasonId: string): Promise<Season> {
+  async season(seasonId: string): Promise<Season> {
     return this.seasonRepository.findOne({ id: seasonId })
   }
 
-  async update(seasonId: string, updateSeasonInput: UpdateSeasonInput) {
+  async updateSeason({ seasonId, ...updates }: UpdateSeasonInput) {
     return this.seasonRepository.update({
       where: { id: seasonId },
-      data: updateSeasonInput,
+      data: updates,
     })
   }
 
-  async remove(id: string): Promise<number> {
+  async removeSeason(id: string): Promise<number> {
     try {
       await this.prismaService.season.delete({ where: { id } })
     } catch (e) {

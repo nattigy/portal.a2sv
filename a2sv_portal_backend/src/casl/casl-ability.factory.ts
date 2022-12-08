@@ -4,35 +4,37 @@ import { Contest } from '../contest/entities/contest.entity'
 import { Group } from '../group-relations/group/entities/group.entity'
 import { Problem } from '../problem/entities/problem.entity'
 import { RoleEnum } from '../roles/interfaces/role.enum'
-import { UserSeasonTopicProblem } from '../user-relations/user-season-topic-problem/entities/user-season-topic-problem.entity'
+import {
+  UserSeasonTopicProblem,
+} from '../user-relations/user-season-topic-problem/entities/user-season-topic-problem.entity'
 import { SeasonTopicProblem } from '../season-relations/season-topic-problem/entities/season-topic-problem.entity'
 import { SeasonTopic } from '../season-relations/season-topic/entities/season-topic.entity'
 import { Season } from '../season-relations/season/entities/season.entity'
 import { Tag } from '../tag/entities/tag.entity'
 import { Topic } from '../topic/entities/topic.entity'
-import { UserSeasonContestProblem } from '../user-relations/user-season-contest-problem/entities/user-season-contest-problem.entity'
+import {
+  UserSeasonContestProblem,
+} from '../user-relations/user-season-contest-problem/entities/user-season-contest-problem.entity'
 import { UserSeasonContest } from '../user-relations/user-season-contest/entities/user-season-contest.entity'
 import { UserProfile } from '../user-relations/user-profile/entities/user-profile.entity'
 import { UserSeasonTopic } from '../user-relations/user-season-topic/entities/user-season-topic.entity'
 import { User } from '../user-relations/user/entities/user.entity'
 
 export type Subjects =
-  | InferSubjects<
-      | typeof User
-      | typeof Group
-      | typeof Tag
-      | typeof Contest
-      | typeof Problem
-      | typeof Season
-      | typeof Topic
-      | typeof UserProfile
-      | typeof UserSeasonContest
-      | typeof UserSeasonContestProblem
-      | typeof UserSeasonTopic
-      | typeof SeasonTopic
-      | typeof SeasonTopicProblem
-      | typeof UserSeasonTopicProblem
-    >
+  | InferSubjects<| typeof User
+  | typeof Group
+  | typeof Tag
+  | typeof Contest
+  | typeof Problem
+  | typeof Season
+  | typeof Topic
+  | typeof UserProfile
+  | typeof UserSeasonContest
+  | typeof UserSeasonContestProblem
+  | typeof UserSeasonTopic
+  | typeof SeasonTopic
+  | typeof SeasonTopicProblem
+  | typeof UserSeasonTopicProblem>
   | 'all'
 
 export type AppAbility = Ability<[Action, Subjects]>

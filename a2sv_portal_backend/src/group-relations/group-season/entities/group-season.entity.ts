@@ -47,3 +47,32 @@ export class GroupSeason {
 }
 
 registerEnumType(JoinRequestEnum, { name: 'JoinRequestEnum' })
+
+/*
+* @Field(() => Int)
+  numberOfStudents: number
+
+  @Field(() => Int)
+  numberOfTopicsCovered: number
+
+  @Field(() => Int)
+  topicsCoverage: number
+
+  @Field(() => Int)
+  numberOfAcceptedSubmissions: number
+
+  @Field(() => Int)
+  numberOfWrongSubmissions: number
+
+  @Field(() => Int)
+  totalTimeDedicated: number
+
+  // @Field(() => Int)
+  // rank: number
+
+  @Field(() => Int)
+  contestsAttended: number
+
+  @Field(() => Int)
+  numberOfProblems: number
+* */

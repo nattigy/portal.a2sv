@@ -1,13 +1,15 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { ProblemDifficultyTypeEnum } from '@prisma/client';
+import { ProblemDifficultyTypeEnum } from '@prisma/client'
+import { StringFilter } from '../../common/filter-types/string-filter'
+import { DateTimeFilter } from '../../common/filter-types/date-filter'
 
 @InputType()
 export class FilterProblemInput {
   @Field({ nullable: true })
   id?: string
 
-  @Field({ nullable: true })
-  title?: string
+  @Field(() => StringFilter, { nullable: true })
+  title?: StringFilter
 
   @Field({ nullable: true })
   platform?: string
@@ -21,9 +23,6 @@ export class FilterProblemInput {
   @Field(() => [String], { nullable: true })
   tags?: string[]
 
-  @Field({ nullable: true })
-  createdAt?: Date
-
-  @Field({ nullable: true })
-  updatedAt?: Date
+  @Field(() => DateTimeFilter, { nullable: true })
+  createdAt?: DateTimeFilter
 }

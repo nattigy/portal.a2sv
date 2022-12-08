@@ -14,8 +14,7 @@ export class CreateSeasonInput {
   @Field()
   duration: string
 
-  @Field()
-  isActive: boolean
+  isActive: boolean = false
 
   @Field(() => Date)
   startDate: Date

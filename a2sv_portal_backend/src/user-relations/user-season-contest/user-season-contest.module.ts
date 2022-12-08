@@ -7,4 +7,5 @@ import { UserSeasonContestService } from './user-season-contest.service'
   providers: [UserSeasonContestRepository, UserSeasonContestResolver, UserSeasonContestService],
   exports: [UserSeasonContestService],
 })
-export class UserSeasonContestModule {}
+export class UserSeasonContestModule {
+}

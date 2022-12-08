@@ -16,7 +16,7 @@ export class Problem {
   @Field({ description: 'Link of the question' })
   link: string
 
-  @Field(() => ProblemDifficultyTypeEnum, {description: 'Difficulty of the question' })
+  @Field(() => ProblemDifficultyTypeEnum, { description: 'Difficulty of the question' })
   difficulty: ProblemDifficultyTypeEnum
 
   @Field(() => [Tag], { description: 'Tag of the question' })

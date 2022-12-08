@@ -46,14 +46,14 @@ export class TopicService {
     return topic
   }
 
-  async update(topicId: string, updateTopicInput: UpdateTopicInput): Promise<Topic> {
+  async updateTopic({ topicId, ...update }: UpdateTopicInput): Promise<Topic> {
     return this.topicRepository.update({
       where: { id: topicId },
-      data: updateTopicInput,
+      data: update,
     })
   }
 
-  async remove(id: string): Promise<number> {
+  async removeTopic(id: string): Promise<number> {
     try {
       await this.topicRepository.remove({ id })
     } catch (e) {

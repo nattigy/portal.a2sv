@@ -3,6 +3,6 @@ import { CreateTopicInput } from './create-topic.input'
 
 @InputType()
 export class UpdateTopicInput extends PartialType(CreateTopicInput) {
-  @Field(() => String)
-  id: string
+  @Field()
+  topicId: string
 }

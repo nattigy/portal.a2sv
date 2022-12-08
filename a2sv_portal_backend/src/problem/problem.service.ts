@@ -10,11 +10,13 @@ import { Problem } from './entities/problem.entity'
 
 @Injectable()
 export class ProblemService {
-  constructor(private readonly prismaService: PrismaService,
-              private readonly problemRepository: ProblemRepository) {
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly problemRepository: ProblemRepository,
+  ) {
   }
 
-  async create({ tags, ...createInput }: CreateProblemInput): Promise<Problem> {
+  async createProblem({ tags, ...createInput }: CreateProblemInput): Promise<Problem> {
     return this.problemRepository.create({
       ...createInput,
       tags: { connect: tags },
@@ -40,11 +42,11 @@ export class ProblemService {
     }
   }
 
-  async findOne(problemId: string): Promise<Problem> {
+  async problem(problemId: string): Promise<Problem> {
     return this.problemRepository.findOne({ id: problemId })
   }
 
-  async update(problemId: string, { tags, ...updateInput }: UpdateProblemInput): Promise<Problem> {
+  async updateProblem({ tags, problemId, ...updateInput }: UpdateProblemInput): Promise<Problem> {
     return this.problemRepository.update({
       where: { id: problemId },
       data: {
@@ -52,8 +54,6 @@ export class ProblemService {
         tags: { connect: tags },
       },
     })
-
-
   }
 
   async remove(id: string): Promise<number> {

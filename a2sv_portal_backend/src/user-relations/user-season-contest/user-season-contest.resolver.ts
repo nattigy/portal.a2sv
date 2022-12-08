@@ -24,13 +24,13 @@ export class UserSeasonContestResolver {
     @Args('filterUserSeasonContestInput') filterUserSeasonContestInput: FilterUserSeasonContestInput,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<PaginationUserSeasonContest> {
-    return this.userSeasonContestService.userContests(filterUserSeasonContestInput,paginationInput)
+    return this.userSeasonContestService.userContests(filterUserSeasonContestInput, paginationInput)
   }
 
   @Mutation(() => UserSeasonContest)
   async updateUserContest(
     @Args('updateUserContestInput')
-    updateUserContestInput: UpdateUserSeasonContestInput,
+      updateUserContestInput: UpdateUserSeasonContestInput,
   ): Promise<UserSeasonContest> {
     return this.userSeasonContestService.updateUserContest(updateUserContestInput)
   }

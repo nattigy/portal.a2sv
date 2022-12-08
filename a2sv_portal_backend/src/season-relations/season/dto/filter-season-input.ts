@@ -1,5 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql'
 import { SeasonTypeEnum } from '@prisma/client'
+import { DateTimeFilter } from '../../../common/filter-types/date-filter'
 
 @InputType()
 export class FilterSeasonInput {
@@ -18,15 +19,12 @@ export class FilterSeasonInput {
   @Field({ nullable: true })
   isActive?: boolean
 
-  @Field(() => Date, { nullable: true })
-  startDate?: Date
+  @Field(() => DateTimeFilter, { nullable: true })
+  startDate?: DateTimeFilter
 
-  @Field(() => Date, { nullable: true })
-  endDate?: Date
+  @Field(() => DateTimeFilter, { nullable: true })
+  endDate?: DateTimeFilter
 
-  @Field(() => Date, { nullable: true })
-  createdAt?: Date
-
-  @Field(() => Date, { nullable: true })
-  updatedAt?: Date
+  @Field(() => DateTimeFilter, { nullable: true })
+  createdAt?: DateTimeFilter
 }

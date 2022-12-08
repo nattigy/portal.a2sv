@@ -16,7 +16,7 @@ export class ContestResolver {
   async createContest(
     @Args('createContestInput') createContestInput: CreateContestInput,
   ): Promise<Contest> {
-    return this.contestService.create(createContestInput)
+    return this.contestService.createContest(createContestInput)
   }
 
   @Query(() => PaginationContest)
@@ -29,7 +29,7 @@ export class ContestResolver {
 
   @Query(() => Contest)
   async contest(@Args('contestId') contestId: string): Promise<Contest> {
-    return this.contestService.findOne(contestId)
+    return this.contestService.contest(contestId)
   }
 
   @Mutation(() => Contest)
@@ -43,13 +43,13 @@ export class ContestResolver {
   @Mutation(() => Contest)
   async removeProblemsFromContest(
     @Args('contestId') contestId: string,
-    @Args('problemIds',{type: ()=>[String]}) problemIds: string[],
+    @Args('problemIds', { type: () => [String] }) problemIds: string[],
   ): Promise<Contest> {
     return this.contestService.removeProblemsFromContest(contestId, problemIds)
   }
 
   @Mutation(() => Int)
   async removeContest(@Args('contestId') contestId: string): Promise<number> {
-    return this.contestService.remove(contestId)
+    return this.contestService.removeContest(contestId)
   }
 }
