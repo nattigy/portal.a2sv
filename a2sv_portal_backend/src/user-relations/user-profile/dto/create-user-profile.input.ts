@@ -2,7 +2,7 @@ import { Field, InputType, Int } from '@nestjs/graphql'
 import { PartialType } from '@nestjs/mapped-types'
 import { CurrentEducationStatusEnum, CurrentWorkStatusEnum } from '@prisma/client'
 import { UserProfile } from '../entities/user-profile.entity'
-import { UserProfileAddressInput } from './user-profile-addres.input'
+import { CreateUserProfileAddressInput } from './user-profile-addres.input'
 
 @InputType()
 export class CreateUserProfileInput extends PartialType(UserProfile) {
@@ -81,6 +81,6 @@ export class CreateUserProfileInput extends PartialType(UserProfile) {
   @Field({ nullable: true })
   facebook?: string
 
-  @Field({ nullable: true })
-  userProfileAddress?: UserProfileAddressInput
+  @Field(() => CreateUserProfileAddressInput, { nullable: true })
+  userProfileAddress?: CreateUserProfileAddressInput
 }

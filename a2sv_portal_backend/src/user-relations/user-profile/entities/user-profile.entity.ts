@@ -53,10 +53,10 @@ export class UserProfile {
   @Field({ nullable: true })
   geekforgeeks?: string
 
-  @Field()
+  @Field(() => CurrentWorkStatusEnum)
   currentWorkStatus: CurrentWorkStatusEnum
 
-  @Field()
+  @Field(() => CurrentEducationStatusEnum)
   currentEducationStatus: CurrentEducationStatusEnum
 
   @Field()
