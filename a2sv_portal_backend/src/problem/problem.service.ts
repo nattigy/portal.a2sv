@@ -1,131 +1,64 @@
 import { Injectable } from '@nestjs/common'
-import { Problem } from '@prisma/client'
 import { PaginationProblem } from '../common/page/pagination-info'
 import { PaginationInput } from '../common/page/pagination.input'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateProblemInput } from './dto/create-problem.input'
 import { UpdateProblemInput } from './dto/update-problem.input'
 import { FilterProblemInput } from './dto/filter-problem-input'
+import { ProblemRepository } from './problem.repository';
+import { Problem } from './entities/problem.entity'
 
 @Injectable()
 export class ProblemService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService,
+    private readonly problemRepository: ProblemRepository) { }
 
   async create({ tags, ...createInput }: CreateProblemInput): Promise<Problem> {
-    return this.prismaService.problem.create({
-      data: {
-        ...createInput,
-        tags: {
-          connectOrCreate: tags.map(({ name }) => ({
-            where: {
-              name,
-            },
-            create: {
-              name,
-            },
-          })),
-        },
-      },
+    return this.problemRepository.create({
+      ...createInput,
+      tags: { connect: tags }
     })
   }
 
-  async findAll(
+  async problems(
     filterProblemInput: FilterProblemInput,
     { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationProblem> {
-    const problemsCount = (
-      await this.prismaService.problem.findMany({
-        where: {
-          ...filterProblemInput,
-          tags: filterProblemInput?.tags && {
-            some: {
-              name: {
-                in: filterProblemInput?.tags,
-              },
-            },
-          },
-        },
-        select: {
-          id: true,
-        },
-      })
-    ).length
-    const problems: Problem[] = await this.prismaService.problem.findMany({
-      skip,
-      take,
-      where: {
-        ...filterProblemInput,
-        tags: filterProblemInput?.tags && {
-          some: {
-            name: {
-              in: filterProblemInput?.tags,
-            },
-          },
-        },
-      },
-      include: {
-        tags: true,
-        seasonTopics: {
-          include: {
-            problem: true,
-          },
-        },
-      },
+    const problems = await this.problemRepository.findAll({
+      skip, take,
+      where: filterProblemInput
     })
+
+    const count = await this.problemRepository.count(filterProblemInput)
     return {
       items: problems,
       pageInfo: {
         skip,
         take,
-        count: problemsCount,
+        count
       },
     }
   }
 
-  async findOne(id: string): Promise<Problem> {
-    return this.prismaService.problem.findUnique({
-      where: { id },
-      include: {
-        tags: true,
-        seasonTopics: {
-          include: {
-            problem: true,
-          },
-        },
-      },
-    })
+  async findOne(problemId: string): Promise<Problem> {
+    return this.problemRepository.findOne({ id: problemId })
   }
 
-  async update(id: string, { tags, ...updateInput }: UpdateProblemInput): Promise<Problem> {
-    return this.prismaService.problem.update({
-      where: { id },
-      data: {
-        ...updateInput,
-        tags: {
-          connectOrCreate: tags.map(({ name }) => ({
-            where: {
-              name,
-            },
-            create: {
-              name,
-            },
-          })),
-        },
-      },
-      include: {
-        tags: true,
-        seasonTopics: {
-          include: {
-            problem: true,
-          },
+  async update(problemId: string, { tags, ...updateInput }: UpdateProblemInput): Promise<Problem> {
+    return this.problemRepository.update({ where:{id:problemId},
+      data:{ ...updateInput,
+        tags:{
+          connect:tags
         },
       },
     })
+
+    
   }
 
   async remove(id: string): Promise<number> {
     try {
-      await this.prismaService.problem.delete({ where: { id } })
+      await this.problemRepository.remove({ id })
     } catch (e) {
       console.log(`Fail to delete problem with id ${id}`, ' : ', e)
       throw new Error(`Fail to delete problem with id ${id}`)
