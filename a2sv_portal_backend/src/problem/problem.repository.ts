@@ -5,13 +5,18 @@ import { Problem } from './entities/problem.entity'
 
 @Injectable()
 export class ProblemRepository {
-  constructor(private readonly prismaService: PrismaService) { }
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
-  async create(data: Prisma.ProblemCreateInput):Promise<Problem> {
+  async create(data: Prisma.ProblemCreateInput): Promise<Problem> {
     return this.prismaService.problem.create({
       data,
-      include: { tags: true }
+      include: { tags: true },
     })
+  }
+
+  async count(where?: Prisma.GroupWhereInput): Promise<number> {
+    return this.prismaService.problem.count({ where })
   }
 
   async findAll(params: {
@@ -31,24 +36,22 @@ export class ProblemRepository {
   }
 
   async findOne(where: Prisma.ProblemWhereUniqueInput) {
-    return this.prismaService.problem.findUnique({ where,include:{tags:true} })
+    return this.prismaService.problem.findUnique({ where, include: { tags: true } })
   }
 
   async update(params: {
     where: Prisma.ProblemWhereUniqueInput
     data: Prisma.ProblemUpdateInput
-  }):Promise<Problem> {
+  }): Promise<Problem> {
     const { where, data } = params
-    return this.prismaService.problem.update({ data, where, include:{tags:true
-    } })
-  }
-
-  async count(where?: Prisma.GroupWhereInput): Promise<number> {
-    return this.prismaService.problem.count({ where })
+    return this.prismaService.problem.update({
+      data, where, include: {
+        tags: true,
+      },
+    })
   }
 
   async remove(where: Prisma.ProblemWhereUniqueInput) {
     return this.prismaService.problem.delete({ where })
   }
-
 }
