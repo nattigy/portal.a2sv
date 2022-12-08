@@ -1,33 +1,38 @@
 import { Field, InputType, Int } from '@nestjs/graphql'
+import { CurrentEducationStatusEnum, CurrentWorkStatusEnum } from '@prisma/client'
+import { FilterUserProfileAddressInput} from './user-profile-addres.input'
 
 @InputType()
 export class FilterUserProfileInput {
   @Field({ nullable: true })
   id?: string
 
-  @Field({ nullable: true })
+  @Field(() => String)
   userId?: string
 
-  @Field({ nullable: true })
-  firstName?: string
-
-  @Field({ nullable: true })
-  lastName?: string
-
-  @Field({ nullable: true })
+  @Field()
   phone?: string
+
+  @Field()
+  countryCode?: string
 
   @Field({ nullable: true })
   birthDate?: Date
 
-  @Field({ nullable: true })
+  @Field()
   resumeLink?: string
 
   @Field({ nullable: true })
   photoUrl?: string
 
-  @Field({ nullable: true })
+  @Field()
   bio?: string
+
+  @Field(() => CurrentWorkStatusEnum)
+  currentWorkStatus?: CurrentWorkStatusEnum
+
+  @Field(() => CurrentEducationStatusEnum)
+  currentEducationStatus?: CurrentEducationStatusEnum
 
   @Field({ nullable: true })
   educationPlace?: string
@@ -47,7 +52,7 @@ export class FilterUserProfileInput {
   @Field({ nullable: true })
   tshirtSize?: string
 
-  @Field({ nullable: true })
+  @Field()
   leetcode?: string
 
   @Field({ nullable: true })
@@ -59,10 +64,10 @@ export class FilterUserProfileInput {
   @Field({ nullable: true })
   website?: string
 
-  @Field({ nullable: true })
+  @Field()
   hackerrank?: string
 
-  @Field({ nullable: true })
+  @Field()
   codeforces?: string
 
   @Field({ nullable: true })
@@ -76,4 +81,7 @@ export class FilterUserProfileInput {
 
   @Field({ nullable: true })
   facebook?: string
+
+  @Field(()=> FilterUserProfileAddressInput, { nullable: true })
+  userProfileAddress?: FilterUserProfileAddressInput
 }

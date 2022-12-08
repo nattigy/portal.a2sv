@@ -12,9 +12,6 @@ export class SignUpUserInput {
 
   @Field()
   lastName: string
-
-  @Field({ nullable: true })
-  status: StatusEnum
   
   @Field()
   email: string
