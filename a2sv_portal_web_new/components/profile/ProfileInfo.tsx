@@ -135,3 +135,4 @@ const ProfileInfo = ({ userProfile }: Props) => {
 };
 
 export default ProfileInfo;
+

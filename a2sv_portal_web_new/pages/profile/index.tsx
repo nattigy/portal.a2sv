@@ -13,7 +13,8 @@ const IndexPage = () => {
 
   return (
     <BaseLayout>
-      {loading ? (
+    <ProfileInfo userProfile={data?.user.userProfile} />
+      {/* {loading ? (
         <div className="h-full flex items-center justify-center">
           <LoaderSmall />
         </div>
@@ -21,7 +22,7 @@ const IndexPage = () => {
         <ProfileInfo userProfile={data.user.userProfile} />
       ) : (
         <p>Something went wrong</p>
-      )}
+      )} */}
     </BaseLayout>
   );
 };

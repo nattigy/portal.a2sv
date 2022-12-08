@@ -1,12 +1,13 @@
 import { Form, Formik, FormikProps } from "formik";
 import React, { useRef, useState } from "react";
-import ProfileForm from "./ProfileForm";
+import FileForm from "./FileForm";
 import * as yup from "yup";
 import clsx from "clsx";
 import PhoneInputField from "./PhoneInputField";
 import DOBInputField from "./DOBInputField";
 import { ProfileFormValues } from "./ProfileInfo";
 import FormField from "../common/FormField";
+import CustomFormField from "./CustomFormField";
 
 type Props = {
   formik: FormikProps<ProfileFormValues>;
@@ -39,30 +40,44 @@ const PersonalDetails = ({ formik }: Props) => {
       </div>
       <hr className="ml-4" />
       <div className="flex flex-col gap-y-2 w-1/2">
-        <ProfileForm
-          inputProps={{
-            id: "name",
-            name: "Name",
-            placeholder: "Name",
-            type: "text",
-            formik: formik,
-          }}
-          type="name"
-          label="Name"
-        />
+        <div className="w-full flex justify-between items-center p-2">
+          <h1 className="text-sm font-semibold">Full Name</h1>
+
+          <div className="flex w-2/3 justify-between gap-x-3">
+            <CustomFormField
+              id="firstName"
+              name={`firstName`}
+              placeholder="Enter First Name"
+              type="text"
+              formik={formik}
+            />
+            <CustomFormField
+              id="lastName"
+              name={`lastName`}
+              placeholder="Enter Last Name"
+              type="text"
+              formik={formik}
+            />
+          </div>
+        </div>
+
         <hr className="mx-2" />
-        <ProfileForm
-          inputProps={{
-            id: "email",
-            name: "email",
-            placeholder: "Enter Email Address",
-            type: "text",
-            formik: formik,
-          }}
-          type="email"
-          label="Email Address"
-        />
+        <div className="w-full flex justify-between items-center p-2">
+          <h1 className="text-sm font-semibold">Email Address</h1>
+
+          <div className="w-2/3">
+            <CustomFormField
+              id="email"
+              name="email"
+              placeholder="Enter Email Address"
+              type="text"
+              formik={formik}
+            />
+          </div>
+        </div>
+
         <hr className="mx-2" />
+
         <PhoneInputField
           className="w-full text-xs placeholder-[#767676] rounded-md appearance-none focus:outline-none px-4 py-1 border border-[#D2D2D2]"
           country="ET"
@@ -82,19 +97,21 @@ const PersonalDetails = ({ formik }: Props) => {
           onChange={(e: any) => formik.setFieldValue("dob", e)}
         />
         <hr className="mx-2" />
-        <ProfileForm
-          inputProps={{
-            id: "linkedin",
-            name: "linkedin",
-            placeholder: "Enter Linkedin Profile",
-            type: "text",
-            formik: formik,
-          }}
-          type="linkedin"
-          label="Linkedin URL"
-        />
+        <div className="w-full flex justify-between items-center p-2">
+          <h1 className="text-sm font-semibold">Linkedin URL</h1>
+
+          <div className="w-2/3">
+            <CustomFormField
+              id="linkedin"
+              name="linkedin"
+              placeholder="Enter Linkedin Profile"
+              type="text"
+              formik={formik}
+            />
+          </div>
+        </div>
         <hr className="mx-2" />
-        <ProfileForm
+        <FileForm
           inputProps={{
             id: "photo",
             name: "photo",
@@ -106,20 +123,21 @@ const PersonalDetails = ({ formik }: Props) => {
           label="Your Photo"
         />
         <hr className="mx-2" />
-        <ProfileForm
-          inputProps={{
-            id: "status",
-            name: "status",
-            placeholder: "",
-            type: "select",
-            formik: formik,
-            options: ["Employed", "Unemployed"],
-          }}
-          type="select"
-          label="Work Status"
-        />
+        <div className="w-full flex justify-between items-center p-2">
+          <h1 className="text-sm font-semibold">Work Status</h1>
+          <div className="w-2/3">
+            <CustomFormField
+              id="status"
+              name="status"
+              placeholder=""
+              type="select"
+              formik={formik}
+              // options={props.inputProps.options}
+            />
+          </div>
+        </div>
         <hr className="mx-2" />
-        <ProfileForm
+        <FileForm
           inputProps={{
             id: "cv",
             name: "cv",
@@ -131,17 +149,6 @@ const PersonalDetails = ({ formik }: Props) => {
           label="CV"
         />
       </div>
-
-      {/* Name */}
-      {/* <div>
-        <ProfileForm label="Name" type="name" />
-      </div> */}
-      {/* Email */}
-      {/* Phone */}
-      {/* Linkedin  */}
-      {/* Photo  */}
-      {/* Work Status  */}
-      {/* CV  */}
     </div>
   );
 };
