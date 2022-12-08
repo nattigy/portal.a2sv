@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql'
+import { Field, Int, ObjectType } from '@nestjs/graphql'
 import { User } from 'src/user-relations/user/entities/user.entity'
 
 @ObjectType()
@@ -23,6 +23,9 @@ export class Group {
     description: 'User object of the head user to the group',
   })
   head?: User
+
+  // @Field(() => Int)
+  // usersCount: number
 
   @Field(() => [User], { nullable: true, description: 'Users that belong to that group' })
   users?: User[]
