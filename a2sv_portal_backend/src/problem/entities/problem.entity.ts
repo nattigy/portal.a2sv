@@ -1,4 +1,5 @@
-import { Field, ObjectType } from '@nestjs/graphql'
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
+import { ProblemDifficultyTypeEnum } from '@prisma/client'
 import { Tag } from '../../tag/entities/tag.entity'
 
 @ObjectType()
@@ -15,8 +16,9 @@ export class Problem {
   @Field({ description: 'Link of the question' })
   link: string
 
-  @Field({ description: 'Difficulty of the question' })
-  difficulty: string
+  @Field(() => ProblemDifficultyTypeEnum, {description: 'Difficulty of the question' })
+  difficulty: ProblemDifficultyTypeEnum
+
 
   @Field(() => [Tag], { description: 'Tag of the question' })
   tags: Tag[]
@@ -27,3 +29,5 @@ export class Problem {
   @Field(() => Date, { nullable: true })
   updatedAt?: Date
 }
+
+registerEnumType(ProblemDifficultyTypeEnum, { name: 'SeasonTypeEnum' })
