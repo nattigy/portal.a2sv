@@ -37,7 +37,7 @@ export class ProblemResolver {
     @Args('pageInfoInput', { type: () => PaginationInput, nullable: true })
       pageInfoInput?: PaginationInput,
   ): Promise<PaginationProblem> {
-    return await this.problemService.findAll(filterProblemInput, pageInfoInput)
+    return await this.problemService.problems(filterProblemInput, pageInfoInput)
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)

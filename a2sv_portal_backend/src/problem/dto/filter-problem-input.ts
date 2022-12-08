@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql'
+import { ProblemDifficultyTypeEnum } from '@prisma/client';
 
 @InputType()
 export class FilterProblemInput {
@@ -15,10 +16,10 @@ export class FilterProblemInput {
   link?: string
 
   @Field({ nullable: true })
-  difficulty?: string
+  difficulty?: ProblemDifficultyTypeEnum
 
-  @Field(() => [String], { nullable: true })
-  tags?: string[]
+  // @Field(() => [String], { nullable: true })
+  // tags?: string[]
 
   @Field({ nullable: true })
   createdAt?: Date
