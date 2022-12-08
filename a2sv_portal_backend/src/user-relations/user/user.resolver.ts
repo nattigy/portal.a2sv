@@ -1,12 +1,10 @@
 import { UseGuards } from '@nestjs/common'
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-// import { GroupsService } from 'src/group/groups.service'
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard.service'
 import { UserAbilities } from '../../casl/handler/user-abilities.handler'
 import { CheckPolicies } from '../../casl/policy/policy.decorator'
 import { PoliciesGuard } from '../../casl/policy/policy.guard'
 import { PaginationUser } from '../../common/page/pagination-info'
-// import { PaginationInfoInput } from '../common/page/pagination-info.input'
 import { SignUpUserInput } from './dto/sign-up-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { User } from './entities/user.entity'
@@ -19,7 +17,6 @@ import { PaginationInput } from '../../common/page/pagination.input'
 export class UserResolver {
   constructor(
     private readonly userService: UserService,
-    // private readonly groupService: GroupsService,
   ) {}
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)

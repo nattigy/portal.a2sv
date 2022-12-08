@@ -21,8 +21,9 @@ export class GroupsService {
     return this.groupRepository.create({
       ...createGroupInput,
       headId: createGroupInput.headId,
-      head: { connect: { id: createGroupInput.headId }
-      }
+      head: {
+        connect: { id: createGroupInput.headId },
+      },
     })
   }
 
@@ -110,12 +111,12 @@ export class GroupsService {
       }
       // newUpdates.headId = updates.headId
       newUpdates.head = {
-        connect: { id: updates.headId},
+        connect: { id: updates.headId },
       }
       const groupSeason = await this.prismaService.groupSeason.findFirst({
-        where: { groupId: id, isActive: true }
+        where: { groupId: id, isActive: true },
       })
-      if(groupSeason){
+      if (groupSeason) {
         const { groupId, seasonId } = groupSeason
         await this.prismaService.groupSeason.update({
           where: { groupId_seasonId: { groupId, seasonId } },
@@ -126,7 +127,7 @@ export class GroupsService {
             //     id: updates.headId
             //   }
             // }
-          }
+          },
         })
       }
     }

@@ -6,11 +6,11 @@ import { UpdateContestInput } from './dto/update-contest.input'
 import { Contest } from './entities/contest.entity'
 import { FilterContestInput } from './dto/filter-contest.input'
 import { PaginationContest } from '../common/page/pagination-info'
-import { type } from 'os'
 
 @Resolver(() => Contest)
 export class ContestResolver {
-  constructor(private readonly contestService: ContestService) {}
+  constructor(private readonly contestService: ContestService) {
+  }
 
   @Mutation(() => Contest)
   async createContest(
@@ -35,9 +35,9 @@ export class ContestResolver {
   @Mutation(() => Contest)
   async updateContest(
     @Args('updateContestInput') updateContestInput: UpdateContestInput,
-    @Args('contestId') contestId: string
+    @Args('contestId') contestId: string,
   ): Promise<Contest> {
-    return this.contestService.update(contestId,updateContestInput)
+    return this.contestService.update(contestId, updateContestInput)
   }
 
   @Mutation(() => Contest)

@@ -31,7 +31,7 @@ export class GroupSeasonResolver {
     return this.groupSeasonService.groupsSeasonsStats({ groupId }, paginationInput)
   }
 
-  @Query(() =>PaginationGroupSeason)
+  @Query(() => PaginationGroupSeason)
   async seasonGroupsStats(
     @Args('seasonId') seasonId: string,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
@@ -46,7 +46,7 @@ export class GroupSeasonResolver {
 
   @Query(() => GroupSeason)
   async updateJoinRequestGroupSeason(
-    @Args('updateGroupSeasonInput') updateGroupSeasonInput: UpdateGroupSeasonInput
+    @Args('updateGroupSeasonInput') updateGroupSeasonInput: UpdateGroupSeasonInput,
   ): Promise<GroupSeason> {
     return this.groupSeasonService.updateJoinRequestGroupSeason(updateGroupSeasonInput)
   }

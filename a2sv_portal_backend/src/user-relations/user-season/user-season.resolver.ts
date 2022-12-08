@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Args, Query, Resolver } from '@nestjs/graphql'
 
 import { UserSeasonId } from './dto/create-user-season.input'
 import { UserSeason } from './entities/user-season.entity'
@@ -22,6 +22,4 @@ export class UserSeasonResolver {
   ): Promise<UserSeason[]> {
     return this.userSeasonService.usersSeasonsStats({ userId }, paginationInput)
   }
-
-  
 }

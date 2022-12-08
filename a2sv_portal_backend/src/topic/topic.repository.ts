@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
-import { Prisma, Topic } from '@prisma/client'
+import { Prisma } from '@prisma/client'
+import { Topic } from './entities/topic.entity'
 
 @Injectable()
 export class TopicRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
-  async create(data: Prisma.TopicCreateInput) {
+  async create(data: Prisma.TopicCreateInput): Promise<Topic> {
     return this.prismaService.topic.create({ data })
   }
 
@@ -16,7 +18,7 @@ export class TopicRepository {
     cursor?: Prisma.TopicWhereUniqueInput
     where?: Prisma.TopicWhereInput
     orderBy?: Prisma.TopicOrderByWithRelationInput
-  }):Promise<Topic[]> {
+  }): Promise<Topic[]> {
     const { skip, take, cursor, where, orderBy } = params
     return this.prismaService.topic.findMany({
       skip,
@@ -27,14 +29,14 @@ export class TopicRepository {
     })
   }
 
-  async findOne(where: Prisma.TopicWhereUniqueInput) :Promise<Topic>{
+  async findOne(where: Prisma.TopicWhereUniqueInput): Promise<Topic> {
     return this.prismaService.topic.findUnique({ where })
   }
 
   async update(params: {
     where: Prisma.TopicWhereUniqueInput
     data: Prisma.TopicUpdateInput
-  }) :Promise<Topic>{
+  }): Promise<Topic> {
     const { where, data } = params
     return this.prismaService.topic.update({ data, where })
   }
@@ -43,7 +45,7 @@ export class TopicRepository {
     return this.prismaService.topic.delete({ where })
   }
 
-  async count(where:Prisma.TopicWhereInput):Promise<number>{
-    return this.prismaService.topic.count({where})
+  async count(where: Prisma.TopicWhereInput): Promise<number> {
+    return this.prismaService.topic.count({ where })
   }
 }

@@ -28,7 +28,7 @@ export class GroupSeasonTopicService {
 
   async groupSeasonTopics(
     filterGroupSeasonTopicInput: FilterGroupSeasonTopicInput,
-    { skip, take }: PaginationInput = { take: 50, skip: 0 }
+    { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ) {
     return this.groupSeasonTopicRepository.findAll({
       skip, take,

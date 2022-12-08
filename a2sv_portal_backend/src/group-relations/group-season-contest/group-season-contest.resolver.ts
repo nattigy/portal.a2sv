@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql'
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { GroupSeasonContestService } from './group-season-contest.service'
 import { GroupSeasonContest } from './entities/group-season-contest.entity'
 import { CreateGroupSeasonContestInput } from './dto/create-group-season-contest.input'
@@ -6,12 +6,13 @@ import { UpdateGroupSeasonContestInput } from './dto/update-group-season-contest
 
 @Resolver(() => GroupSeasonContest)
 export class GroupSeasonContestResolver {
-  constructor(private readonly groupSeasonContestService: GroupSeasonContestService) {}
+  constructor(private readonly groupSeasonContestService: GroupSeasonContestService) {
+  }
 
   @Mutation(() => GroupSeasonContest)
   createGroupSeasonContest(
     @Args('createGroupSeasonContestInput')
-    createGroupSeasonContestInput: CreateGroupSeasonContestInput,
+      createGroupSeasonContestInput: CreateGroupSeasonContestInput,
   ) {
     return this.groupSeasonContestService.create(createGroupSeasonContestInput)
   }
@@ -29,7 +30,7 @@ export class GroupSeasonContestResolver {
   @Mutation(() => GroupSeasonContest)
   updateGroupSeasonContest(
     @Args('updateGroupSeasonContestInput')
-    updateGroupSeasonContestInput: UpdateGroupSeasonContestInput,
+      updateGroupSeasonContestInput: UpdateGroupSeasonContestInput,
   ) {
     return this.groupSeasonContestService.update(
       updateGroupSeasonContestInput.id,

@@ -5,10 +5,18 @@ import { User } from './entities/user.entity'
 
 @Injectable()
 export class UserRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(data: Prisma.UserCreateInput): Promise<User> {
-    return this.prismaService.user.create({ data })
+    return this.prismaService.user.create({
+      data,
+      include: {
+        group: true,
+        userProfile: { include: { user: true } },
+        headToGroup: true,
+      },
+    })
   }
 
   async count(where?: Prisma.UserWhereInput): Promise<number> {
@@ -27,11 +35,23 @@ export class UserRepository {
       take,
       where,
       orderBy,
+      include: {
+        group: true,
+        userProfile: { include: { user: true } },
+        headToGroup: true,
+      },
     })
   }
 
   async findOne(where: Prisma.UserWhereUniqueInput): Promise<User> {
-    return this.prismaService.user.findUnique({ where })
+    return this.prismaService.user.findUnique({
+      where,
+      include: {
+        group: true,
+        userProfile: { include: { user: true } },
+        headToGroup: true,
+      },
+    })
   }
 
   async update(params: {
@@ -39,7 +59,14 @@ export class UserRepository {
     data: Prisma.UserUpdateInput
   }): Promise<User> {
     const { where, data } = params
-    return this.prismaService.user.update({ data, where })
+    return this.prismaService.user.update({
+      data, where,
+      include: {
+        group: true,
+        userProfile: { include: { user: true } },
+        headToGroup: true,
+      },
+    })
   }
 
   async remove(where: Prisma.UserWhereUniqueInput) {

@@ -4,7 +4,6 @@ import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
 import { Response } from 'express'
 import { UniqueUserInput } from 'src/user-relations/user/dto/filter-user-input'
-import { ResetPasswordInput } from 'src/user-relations/user/dto/reset-password-input'
 import { User } from 'src/user-relations/user/entities/user.entity'
 import { SignUpUserInput } from '../user-relations/user/dto/sign-up-user.input'
 import { UserService } from '../user-relations/user/user.service'
@@ -15,10 +14,11 @@ export class AuthService {
   constructor(
     private readonly usersService: UserService,
     private readonly jwtService: JwtService,
-  ) {}
+  ) {
+  }
 
   async validateUser(email: UniqueUserInput, pass: string): Promise<User | null> {
-    const user = await this.usersService.user( email)
+    const user = await this.usersService.user(email)
     if (user && bcrypt.compareSync(pass, user.password)) {
       return user
     }
@@ -26,7 +26,7 @@ export class AuthService {
   }
 
   async forgotPassword(email: UniqueUserInput): Promise<User | null> {
-    const user = await this.usersService.user( email)
+    const user = await this.usersService.user(email)
     if (user) {
       return user
     }
@@ -35,7 +35,7 @@ export class AuthService {
 
   async resetPassword(email: UniqueUserInput, pass: string) {
     const user = await this.usersService.user(email)
-    if (user){
+    if (user) {
       user.password = pass
     }
   }

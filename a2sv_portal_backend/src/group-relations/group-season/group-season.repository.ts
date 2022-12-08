@@ -52,6 +52,6 @@ export class GroupSeasonRepository {
   }
 
   async remove(where: Prisma.GroupSeasonWhereUniqueInput) {
-    return this.prismaService.groupSeason.delete({where})
+    return this.prismaService.groupSeason.delete({ where })
   }
 }

@@ -19,7 +19,7 @@ export class ContestService {
   async create({ problems, ...contestInput }: CreateContestInput): Promise<Contest> {
     return this.contestRepository.create({
       ...contestInput,
-      problems: { connect: problems},
+      problems: { connect: problems },
     })
   }
 
@@ -59,14 +59,14 @@ export class ContestService {
 
   async removeProblemsFromContest(contestId: string, problemId: string[]): Promise<Contest> {
     return this.contestRepository.update({
-      where:{id:contestId},
-      data:{
-        problems:{
-          disconnect:{
+      where: { id: contestId },
+      data: {
+        problems: {
+          disconnect: {
             // id:problemId,
-          }
-        }
-      }
+          },
+        },
+      },
     })
     // return this.prismaService.contest.update({
     //   where: {

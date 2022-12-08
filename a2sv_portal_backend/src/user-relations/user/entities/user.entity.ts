@@ -2,9 +2,6 @@ import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { RoleEnum, StatusEnum } from '@prisma/client'
 import { Group } from 'src/group-relations/group/entities/group.entity'
 import { UserProfile } from 'src/user-relations/user-profile/entities/user-profile.entity'
-import { UserSeasonTopicProblem } from '../../user-season-topic-problem/entities/user-season-topic-problem.entity'
-import { UserSeasonTopic } from '../../user-season-topic/entities/user-season-topic.entity'
-import { UserSeasonContest } from '../../user-season-contest/entities/user-season-contest.entity'
 
 @ObjectType()
 export class User {
@@ -31,8 +28,8 @@ export class User {
   @Field(() => StatusEnum)
   status: StatusEnum
 
-  @Field(() => Group, { description: 'Group the user belongs to' })
-  group: Group
+  @Field(() => Group, { nullable: true, description: 'Group the user belongs to' })
+  group?: Group
 
   @Field({
     nullable: true,
@@ -59,6 +56,6 @@ export class User {
   updatedAt?: Date
 }
 
-registerEnumType(StatusEnum, { name: 'StatusEnum'})
+registerEnumType(StatusEnum, { name: 'StatusEnum' })
 
-registerEnumType(RoleEnum, { name: 'RoleEnum'})
+registerEnumType(RoleEnum, { name: 'RoleEnum' })

@@ -35,7 +35,7 @@ export class GroupSeasonTopicResolver {
     @Args('seasonId') seasonId: string,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ) {
-    return this.groupSeasonTopicService.groupSeasonTopics({seasonId}, paginationInput)
+    return this.groupSeasonTopicService.groupSeasonTopics({ seasonId }, paginationInput)
   }
 
   @Mutation(() => GroupSeasonTopic)

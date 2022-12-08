@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
-import { SeasonRepository } from 'dist/src/season/season.repository'
 import { SeasonResolver } from './season.resolver'
 import { SeasonService } from './season.service'
+import { SeasonRepository } from './season.repository'
 
 @Module({
   providers: [SeasonRepository,SeasonService, SeasonResolver],

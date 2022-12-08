@@ -1,17 +1,23 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { Topic } from '@prisma/client'
 import { PaginationTopic } from '../common/page/pagination-info'
 import { PaginationInput } from '../common/page/pagination.input'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateTopicInput } from './dto/create-topic.input'
 import { UpdateTopicInput } from './dto/update-topic.input'
 import { FilterTopicInput } from './dto/filter-topic-input'
-import { TopicRepository } from './topic.repository';
+import { TopicRepository } from './topic.repository'
+import { Topic } from './entities/topic.entity'
 
 @Injectable()
 export class TopicService {
-  constructor(private readonly prismaService: PrismaService,
-    private readonly topicRepository: TopicRepository) {
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly topicRepository: TopicRepository,
+  ) {
+  }
+
+  async create(createTopicInput: CreateTopicInput): Promise<Topic> {
+    return this.topicRepository.create(createTopicInput)
   }
 
   async topics(
@@ -20,9 +26,8 @@ export class TopicService {
   ): Promise<PaginationTopic> {
     const topicsCount = await this.topicRepository.count(filterTopicInput)
     const topics = await this.topicRepository.findAll({
-      skip,take,where:filterTopicInput
+      skip, take, where: filterTopicInput,
     })
-    
     return {
       items: topics,
       pageInfo: {
@@ -34,22 +39,17 @@ export class TopicService {
   }
 
   async topic(topicId: string): Promise<Topic> {
-    const topic = await this.topicRepository.findOne({id: topicId})
-  
+    const topic = await this.topicRepository.findOne({ id: topicId })
     if (!topic) {
       throw new NotFoundException(`Topic with id ${topicId} not found`)
     }
     return topic
   }
 
-  async create(createTopicInput: CreateTopicInput): Promise<Topic> {
-    return this.topicRepository.create(createTopicInput)
-  }
-
   async update(topicId: string, updateTopicInput: UpdateTopicInput): Promise<Topic> {
     return this.topicRepository.update({
       where: { id: topicId },
-      data: updateTopicInput
+      data: updateTopicInput,
     })
   }
 
