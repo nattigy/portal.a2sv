@@ -1,13 +1,14 @@
 import { Field, InputType, Int } from '@nestjs/graphql'
-import { PartialType } from '@nestjs/mapped-types'
 import { CurrentEducationStatusEnum, CurrentWorkStatusEnum } from '@prisma/client'
-import { UserProfile } from '../entities/user-profile.entity'
 import { CreateUserProfileAddressInput } from './user-profile-addres.input'
 
 @InputType()
-export class CreateUserProfileInput extends PartialType(UserProfile) {
+export class CreateUserProfileInput {
   @Field(() => String)
   userId: string
+
+  @Field({ nullable: true })
+  photoUrl?: string
 
   @Field()
   phone: string
@@ -22,7 +23,22 @@ export class CreateUserProfileInput extends PartialType(UserProfile) {
   resumeLink: string
 
   @Field({ nullable: true })
-  photoUrl?: string
+  github?: string
+
+  @Field({ nullable: true })
+  linkedin?: string
+
+  @Field({ nullable: true })
+  instagram?: string
+
+  @Field({ nullable: true })
+  twitter?: string
+
+  @Field({ nullable: true })
+  facebook?: string
+
+  @Field({ nullable: true })
+  website?: string
 
   @Field()
   bio: string
@@ -54,15 +70,6 @@ export class CreateUserProfileInput extends PartialType(UserProfile) {
   @Field()
   leetcode: string
 
-  @Field({ nullable: true })
-  github?: string
-
-  @Field({ nullable: true })
-  linkedin?: string
-
-  @Field({ nullable: true })
-  website?: string
-
   @Field()
   hackerrank: string
 
@@ -71,15 +78,6 @@ export class CreateUserProfileInput extends PartialType(UserProfile) {
 
   @Field({ nullable: true })
   geekforgeeks?: string
-
-  @Field({ nullable: true })
-  instagram?: string
-
-  @Field({ nullable: true })
-  twitter?: string
-
-  @Field({ nullable: true })
-  facebook?: string
 
   @Field(() => CreateUserProfileAddressInput, { nullable: true })
   userProfileAddress?: CreateUserProfileAddressInput

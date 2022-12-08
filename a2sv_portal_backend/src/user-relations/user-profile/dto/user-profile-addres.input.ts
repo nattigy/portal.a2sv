@@ -10,6 +10,15 @@ export class CreateUserProfileAddressInput {
 }
 
 @InputType()
+export class UpdateUserProfileAddressInput {
+  @Field()
+  country?: string
+
+  @Field()
+  city?: string
+}
+
+@InputType()
 export class FilterUserProfileAddressInput {
   @Field({ nullable: true })
   country?: string

@@ -83,12 +83,6 @@ export class UserProfile {
   @Field()
   bio: string
 
-  @Field({ nullable: true })
-  country?: string
-
-  @Field({ nullable: true })
-  city?: string
-
   @Field(() => User)
   user: User
 

@@ -3,36 +3,51 @@ import { PrismaService } from '../../prisma/prisma.service'
 import { UserProfile } from './entities/user-profile.entity'
 import { UserProfileRepository } from './user-profile.repository'
 import { CreateUserProfileInput } from './dto/create-user-profile.input'
+import { FilterUserProfileInput } from './dto/filter-user-profile.input'
+import { PaginationUserProfile } from 'src/common/page/pagination-info'
+import { PaginationInput } from 'src/common/page/pagination.input'
+import { UpdateUserProfileInput } from './dto/update-user-profile.input'
 
 @Injectable()
 export class UserProfileService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly userProfileRepository: UserProfileRepository,
-  ) {
+  ) {}
+
+  async createProfile({ userId, ...createUserProfileInput }: CreateUserProfileInput) {
+    return this.userProfileRepository.create({
+      // user: { connect: { id: Id } },
+      ...createUserProfileInput,
+      user: {
+        connect: { id:"" },
+      },
+      userProfileAddress: {
+        create: {
+          city: "",
+          country: ""
+        }
+      }
+    })
   }
 
-  async createProfile(createUserProfileInput: CreateUserProfileInput){
-    return
+  async userProfiles(
+    filterUserProfileInput: FilterUserProfileInput,
+    { take, skip }: PaginationInput = { take: 50, skip: 0 },
+  ): Promise<PaginationUserProfile> {
+    const count = await this.userProfileRepository.count(filterUserProfileInput)
+    const userProfiles: UserProfile[] = await this.userProfileRepository.findAll({
+      where: filterUserProfileInput,
+    })
+    return {
+      items: userProfiles,
+      pageInfo: {
+        skip,
+        take,
+        count,
+      },
+    }
   }
-
-  // async userProfiles(
-  //   filterUserProfileInput: FilterUserProfileInput,
-  //   { take, skip }: PaginationInput = { take: 50, skip: 0 },
-  // ): Promise<PaginationUserProfile> {
-  //   const count = await this.userProfileRepository.count(filterUserProfileInput)
-  //   const userProfiles: UserProfile[] = await this.userProfileRepository.findAll({
-  //     where: filterUserProfileInput,
-  //   })
-  //   return {
-  //     items: userProfiles,
-  //     pageInfo: {
-  //       skip,
-  //       take,
-  //       count,
-  //     },
-  //   }
-  // }
 
   async userProfile(id: string): Promise<UserProfile> {
     return this.userProfileRepository.findOne({
@@ -40,22 +55,17 @@ export class UserProfileService {
     })
   }
 
-  // async updateUserProfile(updateUserProfileInput: UpdateUserProfileInput || createUserProfileInput: CreateUserProfileInput) {
-  //   return this.prismaService.userProfile.upsert({
-  //     where: {
-  //       userId: updateUserProfileInput.userId,
-  //     },
-  //     update: {},
-  //     create: {
-  //       ...updateUserProfileInput,
-  //       user: {
-  //             connect: {
-  //               userId
-  //             }
-  //           }
-  //     },
-  //   })
-  // }
+  async updateUserProfile({ userId, ...updates }: UpdateUserProfileInput) {
+    return this.userProfileRepository.update({
+      where: {
+        userId: userId,
+      },
+      data: {
+        ...updates,
+        userProfileAddress: {},
+      },
+    })
+  }
 
   async remove(id: string) {
     try {
