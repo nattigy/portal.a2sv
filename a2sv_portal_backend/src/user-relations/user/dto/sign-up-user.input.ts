@@ -1,5 +1,4 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { StatusEnum } from '@prisma/client'
 
 @InputType()
 export class SignUpUserInput {
@@ -12,9 +11,6 @@ export class SignUpUserInput {
 
   @Field()
   lastName: string
-
-  @Field({ nullable: true })
-  status: StatusEnum
   
   @Field()
   email: string

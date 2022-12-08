@@ -1,5 +1,7 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql'
+import { CurrentEducationStatusEnum, CurrentWorkStatusEnum } from '@prisma/client'
 import { User } from '../../user/entities/user.entity'
+import { UserProfileAddress } from './user-profile-address.entity'
 
 @ObjectType()
 export class UserProfile {
@@ -10,22 +12,19 @@ export class UserProfile {
   userId: string
 
   @Field({ nullable: true })
-  firstName?: string
-
-  @Field({ nullable: true })
-  lastName?: string
-
-  @Field({ nullable: true })
   photoUrl?: string
 
-  @Field({ nullable: true })
-  phone?: string
+  @Field()
+  phone: string
+
+  @Field()
+  countryCode:string
 
   @Field({ nullable: true })
   birthDate?: Date
 
-  @Field({ nullable: true })
-  resumeLink?: string
+  @Field()
+  resumeLink: string
 
   @Field({ nullable: true })
   github?: string
@@ -42,20 +41,26 @@ export class UserProfile {
   @Field({ nullable: true })
   instagram?: string
 
-  @Field({ nullable: true })
-  leetcode?: string
+  @Field()
+  leetcode: string
 
-  @Field({ nullable: true })
-  codeforces?: string
+  @Field()
+  codeforces: string
 
-  @Field({ nullable: true })
-  hackerrank?: string
+  @Field()
+  hackerrank: string
 
   @Field({ nullable: true })
   geekforgeeks?: string
 
-  @Field({ nullable: true })
-  educationPlace?: string
+  @Field()
+  currentWorkStatus: CurrentWorkStatusEnum
+
+  @Field()
+  currentEducationStatus: CurrentEducationStatusEnum
+
+  @Field()
+  educationPlace: string
 
   @Field(() => Int, { nullable: true })
   educationYear?: number
@@ -75,8 +80,8 @@ export class UserProfile {
   @Field({ nullable: true })
   website?: string
 
-  @Field({ nullable: true })
-  bio?: string
+  @Field()
+  bio: string
 
   @Field({ nullable: true })
   country?: string
@@ -84,8 +89,11 @@ export class UserProfile {
   @Field({ nullable: true })
   city?: string
 
-  @Field(() => User, { nullable: true })
+  @Field(() => User)
   user: User
+
+  @Field(() => UserProfileAddress, { nullable: true })
+  userProfileAddress?: UserProfileAddress
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date
@@ -94,3 +102,12 @@ export class UserProfile {
   updatedAt?: Date
 
 }
+
+registerEnumType(CurrentWorkStatusEnum, {
+  name: 'CurrentWorkStatusEnum',
+})
+
+
+registerEnumType(CurrentEducationStatusEnum, {
+  name: 'CurrentEducationStatusEnum',
+})

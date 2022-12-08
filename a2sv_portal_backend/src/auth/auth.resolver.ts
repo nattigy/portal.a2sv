@@ -9,6 +9,7 @@ import { LoginInput } from './dto/login-input.dto'
 import { AuthResponse } from './dto/auth-response.dto'
 import { JwtAuthGuard } from './guards/jwt-auth-guard.service'
 import { LocalAuthGuard } from './guards/local-auth.guard'
+import { UniqueUserInput } from 'dist/src/user/dto/filter-user-input'
 
 @Resolver()
 export class AuthResolver {
@@ -25,6 +26,13 @@ export class AuthResolver {
     return { accessToken, userId }
   }
 
+  async forgotPassword(@Args('email') email: UniqueUserInput): Promise<User | null>{
+    return this.authService.forgotPassword(email)
+  }
+
+  async resetPassword(@Args('email') email: UniqueUserInput,pass:string){
+    return this.authService.resetPassword(email, pass)
+  }
   @Public()
   @Mutation(() => AuthResponse)
   async signUp(

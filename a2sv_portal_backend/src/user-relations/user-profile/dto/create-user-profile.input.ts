@@ -1,32 +1,37 @@
 import { Field, InputType, Int } from '@nestjs/graphql'
 import { PartialType } from '@nestjs/mapped-types'
+import { CurrentEducationStatusEnum, CurrentWorkStatusEnum } from '@prisma/client'
 import { UserProfile } from '../entities/user-profile.entity'
+import { UserProfileAddressInput } from './user-profile-addres.input'
 
 @InputType()
 export class CreateUserProfileInput extends PartialType(UserProfile) {
   @Field(() => String)
   userId: string
 
-  @Field({ nullable: true })
-  firstName?: string
+  @Field()
+  phone: string
 
-  @Field({ nullable: true })
-  lastName?: string
-
-  @Field({ nullable: true })
-  phone?: string
+  @Field()
+  countryCode: string
 
   @Field({ nullable: true })
   birthDate?: Date
 
-  @Field({ nullable: true })
-  resumeLink?: string
+  @Field()
+  resumeLink: string
 
   @Field({ nullable: true })
   photoUrl?: string
 
-  @Field({ nullable: true })
-  bio?: string
+  @Field()
+  bio: string
+
+  @Field(() => CurrentWorkStatusEnum)
+  currentWorkStatus: CurrentWorkStatusEnum
+
+  @Field(() => CurrentEducationStatusEnum)
+  currentEducationStatus: CurrentEducationStatusEnum
 
   @Field({ nullable: true })
   educationPlace?: string
@@ -46,8 +51,8 @@ export class CreateUserProfileInput extends PartialType(UserProfile) {
   @Field({ nullable: true })
   tshirtSize?: string
 
-  @Field({ nullable: true })
-  leetcode?: string
+  @Field()
+  leetcode: string
 
   @Field({ nullable: true })
   github?: string
@@ -58,11 +63,11 @@ export class CreateUserProfileInput extends PartialType(UserProfile) {
   @Field({ nullable: true })
   website?: string
 
-  @Field({ nullable: true })
-  hackerrank?: string
+  @Field()
+  hackerrank: string
 
-  @Field({ nullable: true })
-  codeforces?: string
+  @Field()
+  codeforces: string
 
   @Field({ nullable: true })
   geekforgeeks?: string
@@ -75,4 +80,7 @@ export class CreateUserProfileInput extends PartialType(UserProfile) {
 
   @Field({ nullable: true })
   facebook?: string
+
+  @Field({ nullable: true })
+  userProfileAddress?: UserProfileAddressInput
 }

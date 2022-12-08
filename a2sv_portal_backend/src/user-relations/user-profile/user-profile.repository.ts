@@ -10,6 +10,10 @@ export class UserProfileRepository {
     return this.prismaService.userProfile.create({ data })
   }
 
+  async count(where?: Prisma.UserProfileWhereInput): Promise<number> {
+    return this.prismaService.user.count({ where })
+  }
+
   async findAll(params: {
     skip?: number
     take?: number
