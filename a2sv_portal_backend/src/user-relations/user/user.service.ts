@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { RoleEnum, StatusEnum } from '@prisma/client'
 import * as bcrypt from 'bcrypt'
 import { PaginationUser } from '../../common/page/pagination-info'
@@ -28,8 +28,7 @@ export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async createUser(createUserInput: CreateUserInput): Promise<User> {
     const { email, firstName, middleName, lastName, password } = createUserInput
@@ -82,20 +81,25 @@ export class UserService {
   }
 
   async user({ id, email }: UniqueUserInput) {
-    return this.userRepository.findOne({ id, email })
+    const user = this.userRepository.findOne({ id, email })
+    if (!user) {
+      throw new NotFoundException(`User with id or email${{ id, email }} not found`)
+    }
+    return user
   }
 
   async updateUser(updateUserInput: UpdateUserInput | UpdateUserInput[]) {
     if (Array.isArray(updateUserInput)) {
       let groupId = null
-      if (updateUserInput.length > 0)
-        groupId = updateUserInput[0].groupId
-      return (await this.prismaService.user.updateMany({
-        where: {
-          id: { in: updateUserInput.map(u => u.userId) },
-        },
-        data: { groupId },
-      })).count
+      if (updateUserInput.length > 0) groupId = updateUserInput[0].groupId
+      return (
+        await this.prismaService.user.updateMany({
+          where: {
+            id: { in: updateUserInput.map(u => u.userId) },
+          },
+          data: { groupId },
+        })
+      ).count
     }
     const { userId, ...updates } = updateUserInput
     return this.userRepository.update({
