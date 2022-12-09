@@ -8,6 +8,7 @@ import { Season } from './entities/season.entity'
 import { FilterSeasonInput } from './dto/filter-season-input'
 import { PaginationSeason } from '../../common/page/pagination-info'
 import { SeasonRepository } from './season.repository'
+import { NotFoundException } from '@nestjs/common/exceptions'
 
 @UseGuards(PoliciesGuard)
 @Injectable()
@@ -15,8 +16,7 @@ export class SeasonService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly seasonRepository: SeasonRepository,
-  ) {
-  }
+  ) {}
 
   async createSeason(seasonInput: CreateSeasonInput): Promise<Season> {
     return this.seasonRepository.create(seasonInput)
@@ -35,7 +35,11 @@ export class SeasonService {
   }
 
   async season(seasonId: string): Promise<Season> {
-    return this.seasonRepository.findOne({ id: seasonId })
+    const season = this.seasonRepository.findOne({ id: seasonId })
+    if (!season) {
+      throw new NotFoundException(`Season with id ${seasonId} not found.`)
+    }
+    return season
   }
 
   async updateSeason({ seasonId, ...updates }: UpdateSeasonInput) {

@@ -14,8 +14,7 @@ export class GroupsService {
   constructor(
     private readonly groupRepository: GroupRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async createGroup({ headId, ...createGroupInput }: CreateGroupInput): Promise<Group> {
     // TODO: if headId is in the create input check if the user with the headId exists
@@ -23,12 +22,16 @@ export class GroupsService {
     // if the user is there check if the user has been assigned to another group
     return this.groupRepository.create({
       ...createGroupInput,
-      head: { connect: { id: headId } }
+      head: { connect: { id: headId } },
     })
   }
 
-  async group(id: string): Promise<Group> {
-    return this.groupRepository.findOne({ id })
+  async group(groupId: string): Promise<Group> {
+    const group = await this.groupRepository.findOne({ id: groupId })
+    if (!group) {
+      throw new NotFoundException(`Group with id ${groupId} not found`)
+    }
+    return group
   }
 
   async groups(
@@ -37,7 +40,8 @@ export class GroupsService {
   ): Promise<PaginationGroup> {
     const count = await this.groupRepository.count(filterGroupInput)
     const groups = await this.groupRepository.findAll({
-      skip, take,
+      skip,
+      take,
       where: filterGroupInput,
     })
     return {
@@ -49,7 +53,9 @@ export class GroupsService {
   async updateGroup({ groupId, ...updates }: UpdateGroupInput): Promise<Group> {
     const newUpdates: Prisma.GroupUncheckedUpdateInput = { ...updates }
     if (updates.headId) {
-      const getHead = await this.prismaService.user.findUnique({ where: { id: updates.headId } })
+      const getHead = await this.prismaService.user.findUnique({
+        where: { id: updates.headId },
+      })
       if (!getHead) {
         throw new NotFoundException(`User with id:${updates.headId} not found`)
       }
