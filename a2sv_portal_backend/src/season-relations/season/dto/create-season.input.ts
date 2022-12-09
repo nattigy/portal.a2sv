@@ -14,11 +14,12 @@ export class CreateSeasonInput {
   @Field()
   duration: string
 
+  @Field(() => Boolean, { nullable: true })
   isActive: boolean = false
 
   @Field(() => Date)
   startDate: Date
 
-  @Field(() => Date)
+  @Field(() => Date, { nullable: true })
   endDate?: Date
 }

@@ -21,8 +21,8 @@ export class Season {
   @Field(() => Date, { description: `The start date of the season` })
   startDate: Date
 
-  @Field(() => Date, { description: `The end date of the season` })
-  endDate: Date
+  @Field(() => Date, { nullable: true, description: `The end date of the season` })
+  endDate?: Date
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date
