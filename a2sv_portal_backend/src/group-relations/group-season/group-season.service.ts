@@ -6,7 +6,7 @@ import { GroupSeason } from './entities/group-season.entity'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { FilterGroupSeasonInput } from './dto/filter-group-season.input'
 import { JoinRequestEnum } from '@prisma/client'
-import { UpdateGroupSeasonInput } from './dto/update-group-season.input'
+import { UpdateGroupSeasonInput, UpdateGroupSeasonJoinRequestInput } from './dto/update-group-season.input'
 import { PaginationGroupSeason } from '../../common/page/pagination-info'
 
 @Injectable()
@@ -14,12 +14,12 @@ export class GroupSeasonService {
   constructor(
     private readonly groupSeasonRepository: GroupSeasonRepository,
     private readonly prismaService: PrismaService,
-  ) {}
+  ) {
+  }
 
-  async addSeasonToAGroup({
-    seasonId,
-    groupId,
-  }: CreateGroupSeasonInput): Promise<GroupSeason> {
+  async addSeasonToAGroup(
+    { seasonId, groupId }: CreateGroupSeasonInput,
+  ): Promise<GroupSeason> {
     const group = await this.prismaService.group.findUnique({ where: { id: groupId } })
     const season = await this.prismaService.season.findUnique({ where: { id: seasonId } })
     const groupSeasons = await this.prismaService.groupSeason.findMany({
@@ -41,7 +41,7 @@ export class GroupSeasonService {
     }
     if (groupSeasons.length > 0) {
       throw new Error(
-        'Group has other active seasons, please deactivate all seasons before creating a new one!',
+        'Group has other active seasons, please deactivate all seasons before requesting a new one!',
       )
     }
     return this.groupSeasonRepository.create({
@@ -49,7 +49,6 @@ export class GroupSeasonService {
       joinRequest: JoinRequestEnum.REQUESTED,
       startDate: season.startDate,
       endDate: season.endDate,
-      // headId: group.headId,
       head: { connect: { id: group.headId } },
       season: { connect: { id: seasonId } },
       group: { connect: { id: groupId } },
@@ -79,7 +78,6 @@ export class GroupSeasonService {
   }
 
   async updateGroupSeason({ seasonId, groupId, ...updates }: UpdateGroupSeasonInput) {
-    // generate multiple state here
     const groupSeason = await this.prismaService.groupSeason.findUnique({
       where: { groupId_seasonId: { groupId, seasonId } },
     })
@@ -90,6 +88,7 @@ export class GroupSeasonService {
       throw new Error('You must get approval from the HoA to make updates!')
     }
     if (updates.isActive) {
+      // when a groupSeason is active it will first make all other seasons on this group inactive
       await this.prismaService.groupSeason.updateMany({
         where: { groupId },
         data: { isActive: false },
@@ -101,16 +100,18 @@ export class GroupSeasonService {
     })
   }
 
-  async updateJoinRequestGroupSeason({
-    seasonId,
-    groupId,
-    joinRequest,
-  }: UpdateGroupSeasonInput) {
+  async updateGroupSeasonJoinRequest(
+    { seasonId, groupId, joinRequest }: UpdateGroupSeasonJoinRequestInput,
+  ) {
     const groupSeason = await this.prismaService.groupSeason.findUnique({
       where: { groupId_seasonId: { groupId, seasonId } },
+      include: { season: true },
     })
     if (!groupSeason) {
       throw new Error('No group season found!')
+    }
+    if (!groupSeason.season.isActive) {
+      throw new Error('Season not active!')
     }
     return this.groupSeasonRepository.update({
       where: { groupId_seasonId: { seasonId, groupId } },

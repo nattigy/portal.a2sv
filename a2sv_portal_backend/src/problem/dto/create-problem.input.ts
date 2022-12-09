@@ -13,7 +13,7 @@ export class CreateProblemInput {
   @Field()
   link: string
 
-  @Field()
+  @Field(() => ProblemDifficultyTypeEnum, { description: 'Difficulty of the question' })
   difficulty: ProblemDifficultyTypeEnum
 
   @Field(() => [CreateTagInput])

@@ -3,7 +3,7 @@ import { GroupSeasonService } from './group-season.service'
 import { GroupSeason } from './entities/group-season.entity'
 import { CreateGroupSeasonInput, GroupSeasonId } from './dto/create-group-season.input'
 import { PaginationInput } from '../../common/page/pagination.input'
-import { UpdateGroupSeasonInput } from './dto/update-group-season.input'
+import { UpdateGroupSeasonInput, UpdateGroupSeasonJoinRequestInput } from './dto/update-group-season.input'
 import { PaginationGroupSeason } from '../../common/page/pagination-info'
 
 @Resolver(() => GroupSeason)
@@ -40,18 +40,18 @@ export class GroupSeasonResolver {
     return this.groupSeasonService.groupsSeasons({ seasonId }, paginationInput)
   }
 
-  @Query(() => GroupSeason)
+  @Mutation(() => GroupSeason)
   async updateGroupSeason(
     @Args('updateGroupSeasonInput') updateGroupSeasonInput: UpdateGroupSeasonInput,
   ): Promise<GroupSeason> {
     return this.groupSeasonService.updateGroupSeason(updateGroupSeasonInput)
   }
 
-  @Query(() => GroupSeason)
-  async updateJoinRequestGroupSeason(
-    @Args('updateGroupSeasonInput') updateGroupSeasonInput: UpdateGroupSeasonInput,
+  @Mutation(() => GroupSeason)
+  async updateGroupSeasonJoinRequest(
+    @Args('updateGroupSeasonJoinRequestInput') updateGroupSeasonJoinRequestInput: UpdateGroupSeasonJoinRequestInput,
   ): Promise<GroupSeason> {
-    return this.groupSeasonService.updateJoinRequestGroupSeason(updateGroupSeasonInput)
+    return this.groupSeasonService.updateGroupSeasonJoinRequest(updateGroupSeasonJoinRequestInput)
   }
 
   @Mutation(() => GroupSeason)

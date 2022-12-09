@@ -5,12 +5,24 @@ import { GroupSeason } from './entities/group-season.entity'
 
 @Injectable()
 export class GroupSeasonRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
+
+  include = {
+    head: true, group: true, season: true,
+    groupSeasonTopics: {
+      include: {
+        groupSeasonTopicProblems: {
+          include: { problem: { include: { tags: true } } },
+        },
+      },
+    },
+  }
 
   async create(data: Prisma.GroupSeasonCreateInput): Promise<GroupSeason> {
     return this.prismaService.groupSeason.create({
       data,
-      include: { group: true, season: true, head: true },
+      include: this.include,
     })
   }
 
@@ -30,14 +42,14 @@ export class GroupSeasonRepository {
       take,
       where,
       orderBy,
-      include: { group: true, season: true, head: true },
+      include: this.include,
     })
   }
 
   async findOne(where: Prisma.GroupSeasonWhereUniqueInput): Promise<GroupSeason> {
     return this.prismaService.groupSeason.findUnique({
       where,
-      include: { group: true, season: true, head: true },
+      include: this.include,
     })
   }
 
@@ -49,7 +61,7 @@ export class GroupSeasonRepository {
     return this.prismaService.groupSeason.update({
       data,
       where,
-      include: { group: true, season: true, head: true },
+      include: this.include,
     })
   }
 

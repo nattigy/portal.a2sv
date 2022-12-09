@@ -14,10 +14,10 @@ export class GroupSeasonContest {
   contestId: string
 
   @Field(() => SeasonContest)
-  seasonContest: SeasonContest
+  seasonContest?: SeasonContest
 
   @Field(() => GroupSeason)
-  groupSeason: GroupSeason
+  groupSeason?: GroupSeason
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date

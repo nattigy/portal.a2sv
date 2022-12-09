@@ -10,8 +10,17 @@ export class UpdateGroupSeasonInput extends PartialType(CreateGroupSeasonInput) 
   @Field()
   seasonId: string
 
+  @Field({ nullable: true })
+  isActive?: boolean
+}
+
+@InputType()
+export class UpdateGroupSeasonJoinRequestInput extends PartialType(CreateGroupSeasonInput) {
   @Field()
-  isActive: boolean
+  groupId: string
+
+  @Field()
+  seasonId: string
 
   @Field(() => JoinRequestEnum, { nullable: true })
   joinRequest?: JoinRequestEnum

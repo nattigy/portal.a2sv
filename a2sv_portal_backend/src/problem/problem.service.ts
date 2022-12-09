@@ -14,12 +14,18 @@ export class ProblemService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly problemRepository: ProblemRepository,
-  ) {}
+  ) {
+  }
 
   async createProblem({ tags, ...createInput }: CreateProblemInput): Promise<Problem> {
     return this.problemRepository.create({
       ...createInput,
-      tags: { connect: tags },
+      tags: {
+        connectOrCreate: tags.map(t => ({
+          where: { name: t.name },
+          create: { name: t.name },
+        })),
+      },
     })
   }
 
@@ -48,10 +54,10 @@ export class ProblemService {
   }
 
   async updateProblem({
-    tags,
-    problemId,
-    ...updateInput
-  }: UpdateProblemInput): Promise<Problem> {
+                        tags,
+                        problemId,
+                        ...updateInput
+                      }: UpdateProblemInput): Promise<Problem> {
     return this.problemRepository.update({
       where: { id: problemId },
       data: {

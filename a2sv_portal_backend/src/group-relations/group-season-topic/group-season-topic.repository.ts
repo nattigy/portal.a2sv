@@ -5,27 +5,21 @@ import { GroupSeasonTopic } from './entities/group-season-topic.entity'
 
 @Injectable()
 export class GroupSeasonTopicRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
+
+  include = {
+    groupSeasonTopicProblems: {
+      include: { problem: { include: { tags: true } } },
+    }
+  }
 
   async create(
     data: Prisma.GroupSeasonTopicCreateInput | Prisma.GroupSeasonTopicUncheckedCreateInput,
   ): Promise<GroupSeasonTopic> {
     return this.prismaService.groupSeasonTopic.create({
       data,
-      include: {
-        groupSeason: {
-          include: { group: true, season: true, head: true },
-        },
-        seasonTopic: {
-          include: {
-            season: true,
-            topic: true,
-            seasonTopicProblems: {
-              include: { problem: { include: { tags: true } } },
-            },
-          },
-        },
-      },
+      include: this.include,
     })
   }
 
@@ -43,40 +37,14 @@ export class GroupSeasonTopicRepository {
       cursor,
       where,
       orderBy,
-      include: {
-        groupSeason: {
-          include: { group: true, season: true, head: true },
-        },
-        seasonTopic: {
-          include: {
-            season: true,
-            topic: true,
-            seasonTopicProblems: {
-              include: { problem: { include: { tags: true } } },
-            },
-          },
-        },
-      },
+      include: this.include,
     })
   }
 
   async findOne(where: Prisma.GroupSeasonTopicWhereUniqueInput): Promise<GroupSeasonTopic> {
     return this.prismaService.groupSeasonTopic.findUnique({
       where,
-      include: {
-        groupSeason: {
-          include: { group: true, season: true, head: true },
-        },
-        seasonTopic: {
-          include: {
-            season: true,
-            topic: true,
-            seasonTopicProblems: {
-              include: { problem: { include: { tags: true } } },
-            },
-          },
-        },
-      },
+      include: this.include,
     })
   }
 
@@ -88,20 +56,7 @@ export class GroupSeasonTopicRepository {
     return this.prismaService.groupSeasonTopic.update({
       data,
       where,
-      include: {
-        groupSeason: {
-          include: { group: true, season: true, head: true },
-        },
-        seasonTopic: {
-          include: {
-            season: true,
-            topic: true,
-            seasonTopicProblems: {
-              include: { problem: { include: { tags: true } } },
-            },
-          },
-        },
-      },
+      include: this.include,
     })
   }
 
