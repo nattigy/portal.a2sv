@@ -17,7 +17,7 @@ export class FilterProblemInput {
   @Field({ nullable: true })
   link?: string
 
-  @Field({ nullable: true })
+  @Field(() => ProblemDifficultyTypeEnum, { nullable: true, description: 'Difficulty of the question' })
   difficulty?: ProblemDifficultyTypeEnum
 
   @Field(() => [String], { nullable: true })
