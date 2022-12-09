@@ -30,13 +30,15 @@ export class ProblemService {
   }
 
   async problems(
-    filterProblemInput: FilterProblemInput,
+    filterProblemInput?: FilterProblemInput,
     { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationProblem> {
-    const filter: Prisma.ProblemWhereInput = {
-      ...filterProblemInput,
-      tags: { some: { name: { in: filterProblemInput.tags } } },
-    }
+    // const tags = filterProblemInput?.tags
+    // delete filterProblemInput?.tags
+    const filter: Prisma.ProblemWhereInput = filterProblemInput
+    // if(tags){
+    //   filter.tags = { some: { name: { in: tags } } }
+    // }
     const problems = await this.problemRepository.findAll({
       skip,
       take,

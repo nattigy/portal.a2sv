@@ -20,8 +20,8 @@ export class FilterProblemInput {
   @Field(() => ProblemDifficultyTypeEnum, { nullable: true, description: 'Difficulty of the question' })
   difficulty?: ProblemDifficultyTypeEnum
 
-  @Field(() => [String], { nullable: true })
-  tags?: string[]
+  // @Field(() => [String], { nullable: true })
+  // tags?: string[]
 
   @Field(() => DateTimeFilter, { nullable: true })
   createdAt?: DateTimeFilter
