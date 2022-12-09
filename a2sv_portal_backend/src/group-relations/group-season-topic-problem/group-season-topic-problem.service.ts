@@ -5,22 +5,21 @@ import {
 } from './dto/create-group-season-topic-problem.input'
 import { PrismaService } from '../../prisma/prisma.service'
 import { GroupSeasonTopicProblemRepository } from './group-season-topic-problem.repository'
-import { PaginationInput } from '../../common/page/pagination.input'
-import { FilterGroupSeasonTopicProblemInput } from './dto/filter-group-season-topic'
 
 @Injectable()
 export class GroupSeasonTopicProblemService {
   constructor(
     private readonly groupSeasonTopicProblemRepository: GroupSeasonTopicProblemRepository,
     private readonly prismaService: PrismaService,
-  ) {}
+  ) {
+  }
 
   async addProblemToGroupSeasonTopic({
-    groupId,
-    seasonId,
-    topicId,
-    problemId,
-  }: CreateGroupSeasonTopicProblemInput) {
+                                       groupId,
+                                       seasonId,
+                                       topicId,
+                                       problemId,
+                                     }: CreateGroupSeasonTopicProblemInput) {
     return this.groupSeasonTopicProblemRepository.create({
       // groupId,
       // seasonId,
@@ -61,11 +60,11 @@ export class GroupSeasonTopicProblemService {
   // }
 
   async removeGroupSeasonTopicProblem({
-    groupId,
-    seasonId,
-    topicId,
-    problemId,
-  }: GroupSeasonTopicProblemId) {
+                                        groupId,
+                                        seasonId,
+                                        topicId,
+                                        problemId,
+                                      }: GroupSeasonTopicProblemId) {
     return this.groupSeasonTopicProblemRepository.remove({
       groupId_seasonId_topicId_problemId: {
         problemId,

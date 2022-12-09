@@ -6,7 +6,8 @@ import { UpdateTagInput } from './dto/update-tag.input'
 
 @Injectable()
 export class TagService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(createTagInput: CreateTagInput): Promise<Tag> {
     return this.prismaService.tag.create({ data: createTagInput })

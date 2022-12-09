@@ -10,4 +10,5 @@ import { SeasonTopicProblemRepository } from './season-topic-problem.repository'
     SeasonTopicProblemService,
   ],
 })
-export class SeasonTopicProblemModule {}
+export class SeasonTopicProblemModule {
+}

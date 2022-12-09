@@ -1,25 +1,21 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import {
-  CreateSeasonTopicProblemInput,
-  SeasonTopicProblemId,
-} from './dto/create-season-topic-problem.input'
+import { Args, Int, Mutation, Resolver } from '@nestjs/graphql'
+import { CreateSeasonTopicProblemInput, SeasonTopicProblemId } from './dto/create-season-topic-problem.input'
 import { SeasonTopicProblem } from './entities/season-topic-problem.entity'
 import { SeasonTopicProblemService } from './season-topic-problem.service'
-import { PaginationInput } from '../../common/page/pagination.input'
-import { PaginationSeasonTopicProblem } from '../../common/page/pagination-info'
 import descriptions from './season-topic-problem.doc'
 import { SeasonTopicId } from '../season-topic/dto/create-season-topic.input'
 
 @Resolver(() => SeasonTopicProblem)
 export class SeasonTopicProblemResolver {
-  constructor(private readonly seasonTopicProblemService: SeasonTopicProblemService) {}
+  constructor(private readonly seasonTopicProblemService: SeasonTopicProblemService) {
+  }
 
   @Mutation(() => SeasonTopicProblem, {
     description: descriptions.createSeasonTopicProblem,
   })
   async addProblemToSeasonTopic(
     @Args('createSeasonTopicProblemInput')
-    createSeasonTopicProblemInput: CreateSeasonTopicProblemInput,
+      createSeasonTopicProblemInput: CreateSeasonTopicProblemInput,
   ): Promise<SeasonTopicProblem> {
     return this.seasonTopicProblemService.addProblemToSeasonTopic(
       createSeasonTopicProblemInput,

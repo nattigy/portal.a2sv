@@ -14,7 +14,8 @@ export class GroupsService {
   constructor(
     private readonly groupRepository: GroupRepository,
     private readonly prismaService: PrismaService,
-  ) {}
+  ) {
+  }
 
   async createGroup({ headId, ...createGroupInput }: CreateGroupInput): Promise<Group> {
     // TODO: if headId is in the create input check if the user with the headId exists

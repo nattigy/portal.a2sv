@@ -5,7 +5,8 @@ import { ROLES_KEY } from '../auth.decorator'
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(private reflector: Reflector) {
+  }
 
   canActivate(context: ExecutionContext): boolean {
     const ctx = GqlExecutionContext.create(context)

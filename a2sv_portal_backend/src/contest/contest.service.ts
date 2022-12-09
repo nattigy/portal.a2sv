@@ -13,7 +13,8 @@ export class ContestService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly contestRepository: ContestRepository,
-  ) {}
+  ) {
+  }
 
   async createContest({ problems, ...contestInput }: CreateContestInput): Promise<Contest> {
     return this.contestRepository.create({

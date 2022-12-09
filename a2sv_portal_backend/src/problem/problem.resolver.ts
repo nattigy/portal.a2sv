@@ -10,7 +10,8 @@ import descriptions from './problem.doc'
 
 @Resolver(() => Problem)
 export class ProblemResolver {
-  constructor(private readonly problemService: ProblemService) {}
+  constructor(private readonly problemService: ProblemService) {
+  }
 
   // @UseGuards(JwtAuthGuard, PoliciesGuard)
   // @CheckPolicies(ProblemAbilities.create)
@@ -26,9 +27,9 @@ export class ProblemResolver {
   @Query(() => PaginationProblem, { description: 'Find all problems with populated tags' })
   async problems(
     @Args('filterProblemInput', { type: () => FilterProblemInput, nullable: true })
-    filterProblemInput: FilterProblemInput,
+      filterProblemInput: FilterProblemInput,
     @Args('pageInfoInput', { type: () => PaginationInput, nullable: true })
-    pageInfoInput?: PaginationInput,
+      pageInfoInput?: PaginationInput,
   ): Promise<PaginationProblem> {
     return await this.problemService.problems(filterProblemInput, pageInfoInput)
   }

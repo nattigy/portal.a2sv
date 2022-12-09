@@ -1,21 +1,17 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Args, Mutation, Resolver } from '@nestjs/graphql'
 import { GroupSeasonTopicService } from './group-season-topic.service'
 import { GroupSeasonTopic } from './entities/group-season-topic.entity'
-import {
-  CreateGroupSeasonTopicInput,
-  GroupSeasonTopicId,
-} from './dto/create-group-season-topic.input'
-import { PaginationInput } from '../../common/page/pagination.input'
-import { GroupSeasonId } from '../group-season/dto/create-group-season.input'
+import { CreateGroupSeasonTopicInput, GroupSeasonTopicId } from './dto/create-group-season-topic.input'
 
 @Resolver(() => GroupSeasonTopic)
 export class GroupSeasonTopicResolver {
-  constructor(private readonly groupSeasonTopicService: GroupSeasonTopicService) {}
+  constructor(private readonly groupSeasonTopicService: GroupSeasonTopicService) {
+  }
 
   @Mutation(() => GroupSeasonTopic)
   async addTopicToGroupSeason(
     @Args('createGroupSeasonTopicInput')
-    createGroupSeasonTopicInput: CreateGroupSeasonTopicInput,
+      createGroupSeasonTopicInput: CreateGroupSeasonTopicInput,
   ): Promise<GroupSeasonTopic> {
     return this.groupSeasonTopicService.addTopicToGroupSeason(createGroupSeasonTopicInput)
   }

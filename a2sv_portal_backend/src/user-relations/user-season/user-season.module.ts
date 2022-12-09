@@ -6,4 +6,5 @@ import { UserSeasonRepository } from './user-season.repository'
 @Module({
   providers: [UserSeasonRepository, UserSeasonResolver, UserSeasonService],
 })
-export class UserSeasonModule {}
+export class UserSeasonModule {
+}

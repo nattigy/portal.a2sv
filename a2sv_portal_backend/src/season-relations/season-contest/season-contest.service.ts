@@ -13,29 +13,29 @@ export class SeasonContestService {
   ) {
   }
 
-  async createSeasonContest({ seasonId, contestId }: CreateSeasonContestInput) {
+  async addContestToASeason({ seasonId, contestId }: CreateSeasonContestInput) {
     return this.seasonContestRepository.create({
-      // seasonId, contestId,
       season: { connect: { id: seasonId } },
       contest: { connect: { id: contestId } },
     })
   }
 
-  async seasonContests(
-    { seasonId, contestId }: FilterSeasonContestInput,
-    { skip, take }: PaginationInput = { take: 50, skip: 0 },
-  ) {
-    return this.seasonContestRepository.findAll({
-      skip, take,
-      where: { seasonId, contestId },
-    })
-  }
-
   async seasonContest({ seasonId, contestId }: SeasonContestId) {
+    /// TODO: generate stat here
     return this.seasonContestRepository.findOne({
       seasonId_contestId: { seasonId, contestId },
     })
   }
+
+  // async seasonContests(
+  //   { seasonId, contestId }: FilterSeasonContestInput,
+  //   { skip, take }: PaginationInput = { take: 50, skip: 0 },
+  // ) {
+  //   return this.seasonContestRepository.findAll({
+  //     skip, take,
+  //     where: { seasonId, contestId },
+  //   })
+  // }
 
   async removeSeasonContest({ seasonId, contestId }: SeasonContestId) {
     return this.seasonContestRepository.remove({

@@ -7,7 +7,8 @@ export class UserSeasonContestProblemService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly userContestService: UserSeasonContestService,
-  ) {}
+  ) {
+  }
 
   // create(createUserContestProblemInput: CreateUserContestProblemInput) {
   //   return this.prismaService.userContestProblem.create({

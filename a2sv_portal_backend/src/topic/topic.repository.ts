@@ -5,7 +5,8 @@ import { Topic } from './entities/topic.entity'
 
 @Injectable()
 export class TopicRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(data: Prisma.TopicCreateInput): Promise<Topic> {
     return this.prismaService.topic.create({ data })

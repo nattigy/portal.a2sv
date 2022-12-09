@@ -6,7 +6,8 @@ import { RolesService } from './roles.service'
 
 @Resolver(of => Role)
 export class RolesResolver {
-  constructor(private readonly rolesService: RolesService) {}
+  constructor(private readonly rolesService: RolesService) {
+  }
 
   @Query(returns => [Role])
   async roles() {

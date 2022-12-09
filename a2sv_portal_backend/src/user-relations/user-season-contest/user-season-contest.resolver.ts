@@ -1,11 +1,6 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Resolver } from '@nestjs/graphql'
 import { UserSeasonContest } from './entities/user-season-contest.entity'
 import { UserSeasonContestService } from './user-season-contest.service'
-import { UserSeasonContestId } from './dto/create-user-season-contest.input'
-import { PaginationInput } from '../../common/page/pagination.input'
-import { FilterUserSeasonContestInput } from './dto/filter-user-season-contest.input'
-import { PaginationUserSeasonContest } from '../../common/page/pagination-info'
-import { UpdateUserSeasonContestInput } from './dto/update-user-season-contest.input'
 
 @Resolver(() => UserSeasonContest)
 export class UserSeasonContestResolver {

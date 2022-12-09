@@ -9,7 +9,8 @@ import { CHECK_POLICIES_KEY } from './policy.decorator'
 
 @Injectable()
 export class PoliciesGuard implements CanActivate {
-  constructor(private reflector: Reflector, private caslAbilityFactory: CaslAbilityFactory) {}
+  constructor(private reflector: Reflector, private caslAbilityFactory: CaslAbilityFactory) {
+  }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const policyHandlers =

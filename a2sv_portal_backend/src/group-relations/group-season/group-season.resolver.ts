@@ -8,7 +8,8 @@ import { PaginationGroupSeason } from '../../common/page/pagination-info'
 
 @Resolver(() => GroupSeason)
 export class GroupSeasonResolver {
-  constructor(private readonly groupSeasonService: GroupSeasonService) {}
+  constructor(private readonly groupSeasonService: GroupSeasonService) {
+  }
 
   @Mutation(() => GroupSeason)
   async addSeasonToAGroup(

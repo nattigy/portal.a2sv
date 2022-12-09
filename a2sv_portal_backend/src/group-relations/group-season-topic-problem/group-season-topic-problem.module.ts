@@ -11,4 +11,5 @@ import { GroupSeasonTopicProblemRepository } from './group-season-topic-problem.
   ],
   exports: [GroupSeasonTopicProblemRepository],
 })
-export class GroupSeasonTopicProblemModule {}
+export class GroupSeasonTopicProblemModule {
+}

@@ -2,9 +2,6 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
 import { CreateSeasonTopicProblemInput, SeasonTopicProblemId } from './dto/create-season-topic-problem.input'
 import { SeasonTopicProblem } from './entities/season-topic-problem.entity'
-import { PaginationSeasonTopicProblem } from '../../common/page/pagination-info'
-import { PaginationInput } from '../../common/page/pagination.input'
-import { SeasonTopicProblemFilter } from './dto/filter-season-topic-problem'
 import { SeasonTopicProblemRepository } from './season-topic-problem.repository'
 
 @Injectable()

@@ -6,4 +6,5 @@ import { CaslAbilityFactory } from './casl-ability.factory'
   providers: [CaslAbilityFactory],
   exports: [CaslAbilityFactory],
 })
-export class CaslModule {}
+export class CaslModule {
+}

@@ -19,7 +19,7 @@ export class UserSeason {
   season: Season
 
   @Field(() => UserSeasonTopic)
-  userSeasonTopics:   UserSeasonTopic[]
+  userSeasonTopics: UserSeasonTopic[]
   // userSeasonContests UserSeasonContest[]
 
   @Field(() => Date, { nullable: true })

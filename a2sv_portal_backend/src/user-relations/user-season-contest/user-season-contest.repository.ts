@@ -5,7 +5,8 @@ import { UserSeasonContest } from './entities/user-season-contest.entity'
 
 @Injectable()
 export class UserSeasonContestRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(data: Prisma.UserSeasonContestCreateInput): Promise<UserSeasonContest> {
     return this.prismaService.userSeasonContest.create({

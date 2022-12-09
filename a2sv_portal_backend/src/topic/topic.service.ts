@@ -13,7 +13,8 @@ export class TopicService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly topicRepository: TopicRepository,
-  ) {}
+  ) {
+  }
 
   async create(createTopicInput: CreateTopicInput): Promise<Topic> {
     return this.topicRepository.create(createTopicInput)

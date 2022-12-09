@@ -7,18 +7,19 @@ import { PaginationInput } from '../../common/page/pagination.input'
 
 @Resolver(() => UserSeason)
 export class UserSeasonResolver {
-  constructor(private readonly userSeasonService: UserSeasonService) {}
-
-  @Query(() => UserSeason)
-  async userSeasonStat(@Args('userSeasonId') userSeasonId: UserSeasonId): Promise<UserSeason> {
-    return this.userSeasonService.userSeasonStat(userSeasonId)
+  constructor(private readonly userSeasonService: UserSeasonService) {
   }
 
   @Query(() => UserSeason)
-  async userSeasonsStats(
+  async userSeason(@Args('userSeasonId') userSeasonId: UserSeasonId): Promise<UserSeason> {
+    return this.userSeasonService.userSeason(userSeasonId)
+  }
+
+  @Query(() => UserSeason)
+  async userSeasons(
     @Args('userId') userId: string,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<UserSeason[]> {
-    return this.userSeasonService.usersSeasonsStats({ userId }, paginationInput)
+    return this.userSeasonService.userSeasons({ userId }, paginationInput)
   }
 }

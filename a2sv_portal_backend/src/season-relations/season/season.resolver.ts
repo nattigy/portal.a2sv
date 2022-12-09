@@ -10,7 +10,8 @@ import descriptions from './season.doc'
 
 @Resolver(() => Season)
 export class SeasonResolver {
-  constructor(private readonly seasonService: SeasonService) {}
+  constructor(private readonly seasonService: SeasonService) {
+  }
 
   @Mutation(() => Season, { description: descriptions.createSeason })
   async createSeason(

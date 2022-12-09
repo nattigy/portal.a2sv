@@ -6,4 +6,5 @@ import { GroupSeasonRepository } from './group-season.repository'
 @Module({
   providers: [GroupSeasonRepository, GroupSeasonResolver, GroupSeasonService],
 })
-export class GroupSeasonModule {}
+export class GroupSeasonModule {
+}

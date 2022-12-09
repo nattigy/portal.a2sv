@@ -10,7 +10,8 @@ import descriptions from './group.doc'
 
 @Resolver(() => Group)
 export class GroupsResolver {
-  constructor(private readonly groupsService: GroupsService) {}
+  constructor(private readonly groupsService: GroupsService) {
+  }
 
   // @UseGuards(PoliciesGuard)
   // @CheckPolicies(GroupAbilities.create)

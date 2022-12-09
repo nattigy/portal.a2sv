@@ -7,4 +7,5 @@ import { ProblemService } from './problem.service'
 @Module({
   providers: [ProblemRepository, ProblemResolver, ProblemService, TagService],
 })
-export class ProblemModule {}
+export class ProblemModule {
+}

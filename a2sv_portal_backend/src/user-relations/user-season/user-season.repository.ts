@@ -5,8 +5,6 @@ import { PrismaService } from '../../prisma/prisma.service'
 
 @Injectable()
 export class UserSeasonRepository {
-  constructor(private readonly prismaService: PrismaService) {}
-
   include = {
     user: true, season: true,
     userSeasonTopics: {
@@ -16,6 +14,9 @@ export class UserSeasonRepository {
         },
       },
     },
+  }
+
+  constructor(private readonly prismaService: PrismaService) {
   }
 
   async create(data: Prisma.UserSeasonCreateInput): Promise<UserSeason> {
@@ -49,7 +50,7 @@ export class UserSeasonRepository {
   async findOne(where: Prisma.UserSeasonWhereUniqueInput): Promise<UserSeason> {
     return this.prismaService.userSeason.findUnique({
       where,
-      include:this.include,
+      include: this.include,
     })
   }
 

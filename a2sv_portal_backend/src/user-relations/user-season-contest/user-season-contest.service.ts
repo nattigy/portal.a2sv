@@ -1,14 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { PrismaService } from '../../prisma/prisma.service'
-import { UserSeasonContest } from './entities/user-season-contest.entity'
 import { PaginationUserSeasonContest } from '../../common/page/pagination-info'
-import { UserSeasonContestProblem } from '../user-season-contest-problem/entities/user-season-contest-problem.entity'
 import { UserSeasonContestId } from './dto/create-user-season-contest.input'
 import { UserSeasonContestRepository } from './user-season-contest.repository'
-import { UserContestProblemStatusEnum } from '@prisma/client'
 import { FilterUserSeasonContestInput } from './dto/filter-user-season-contest.input'
-import { UpdateUserSeasonContestInput } from './dto/update-user-season-contest.input'
 
 @Injectable()
 export class UserSeasonContestService {

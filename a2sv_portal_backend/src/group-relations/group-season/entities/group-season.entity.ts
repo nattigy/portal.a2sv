@@ -4,7 +4,6 @@ import { Season } from '../../../season-relations/season/entities/season.entity'
 import { JoinRequestEnum } from '@prisma/client'
 import { User } from '../../../user-relations/user/entities/user.entity'
 import { GroupSeasonTopic } from '../../group-season-topic/entities/group-season-topic.entity'
-import { GroupSeasonContest } from '../../group-season-contest/entities/group-season-contest.entity'
 
 @ObjectType()
 export class GroupSeason {
@@ -39,7 +38,7 @@ export class GroupSeason {
   head: User
 
   @Field(() => [GroupSeasonTopic])
-  groupSeasonTopics:   GroupSeasonTopic[]
+  groupSeasonTopics: GroupSeasonTopic[]
 
   // @Field(() => [GroupSeasonContest])
   // groupSeasonContests: GroupSeasonContest[]

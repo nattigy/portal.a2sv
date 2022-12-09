@@ -1,7 +1,5 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { ComfortLevelEnum } from '@prisma/client'
-import { UserSeason } from '../../user-season/entities/user-season.entity'
-import { SeasonTopic } from '../../../season-relations/season-topic/entities/season-topic.entity'
 import { UserSeasonTopicProblem } from '../../user-season-topic-problem/entities/user-season-topic-problem.entity'
 
 @ObjectType()
