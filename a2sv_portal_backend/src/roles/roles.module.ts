@@ -6,5 +6,4 @@ import { RolesService } from './roles.service'
   imports: [],
   providers: [RolesService, RolesResolver],
 })
-export class RolesModule {
-}
+export class RolesModule {}

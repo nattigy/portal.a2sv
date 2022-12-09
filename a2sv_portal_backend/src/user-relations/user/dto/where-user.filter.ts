@@ -15,4 +15,3 @@ export class WhereUserFilter {
   @Field({ nullable: true })
   role?: RoleEnum
 }
-

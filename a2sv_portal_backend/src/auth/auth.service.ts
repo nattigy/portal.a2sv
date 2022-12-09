@@ -13,8 +13,7 @@ export class AuthService {
   constructor(
     private readonly usersService: UserService,
     private readonly jwtService: JwtService,
-  ) {
-  }
+  ) {}
 
   async validateUser(email: string, pass: string): Promise<User | null> {
     const user = await this.usersService.user({ email })
@@ -38,7 +37,6 @@ export class AuthService {
       user.password = pass
     }
   }
-
 
   async getUser(id: string): Promise<User | null> {
     const user = await this.usersService.user({ id })

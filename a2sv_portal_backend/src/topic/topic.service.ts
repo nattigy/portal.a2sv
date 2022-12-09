@@ -13,8 +13,7 @@ export class TopicService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly topicRepository: TopicRepository,
-  ) {
-  }
+  ) {}
 
   async create(createTopicInput: CreateTopicInput): Promise<Topic> {
     return this.topicRepository.create(createTopicInput)
@@ -26,11 +25,13 @@ export class TopicService {
   ): Promise<PaginationTopic> {
     const count = await this.topicRepository.count(filterTopicInput)
     const topics = await this.topicRepository.findAll({
-      skip, take, where: filterTopicInput,
+      skip,
+      take,
+      where: filterTopicInput,
     })
     return {
       items: topics,
-      pageInfo: { skip, take, count},
+      pageInfo: { skip, take, count },
     }
   }
 

@@ -9,8 +9,7 @@ import { UpdateUserSeasonContestInput } from './dto/update-user-season-contest.i
 
 @Resolver(() => UserSeasonContest)
 export class UserSeasonContestResolver {
-  constructor(private readonly userSeasonContestService: UserSeasonContestService) {
-  }
+  constructor(private readonly userSeasonContestService: UserSeasonContestService) {}
 
   @Query(() => UserSeasonContest)
   async userContest(
@@ -21,16 +20,20 @@ export class UserSeasonContestResolver {
 
   @Query(() => PaginationUserSeasonContest)
   async userContests(
-    @Args('filterUserSeasonContestInput') filterUserSeasonContestInput: FilterUserSeasonContestInput,
+    @Args('filterUserSeasonContestInput')
+    filterUserSeasonContestInput: FilterUserSeasonContestInput,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<PaginationUserSeasonContest> {
-    return this.userSeasonContestService.userContests(filterUserSeasonContestInput, paginationInput)
+    return this.userSeasonContestService.userContests(
+      filterUserSeasonContestInput,
+      paginationInput,
+    )
   }
 
   @Mutation(() => UserSeasonContest)
   async updateUserContest(
     @Args('updateUserContestInput')
-      updateUserContestInput: UpdateUserSeasonContestInput,
+    updateUserContestInput: UpdateUserSeasonContestInput,
   ): Promise<UserSeasonContest> {
     return this.userSeasonContestService.updateUserContest(updateUserContestInput)
   }

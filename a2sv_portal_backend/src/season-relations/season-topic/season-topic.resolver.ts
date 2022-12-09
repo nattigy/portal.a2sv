@@ -9,13 +9,12 @@ import descriptions from './season-topic.doc'
 
 @Resolver(() => SeasonTopic)
 export class SeasonTopicResolver {
-  constructor(private readonly seasonTopicService: SeasonTopicService) {
-  }
+  constructor(private readonly seasonTopicService: SeasonTopicService) {}
 
   @Mutation(() => SeasonTopic, { description: descriptions.createSeasonTopic })
   async addTopicToASeason(
     @Args('createSeasonTopicInput')
-      createSeasonTopicInput: CreateSeasonTopicInput,
+    createSeasonTopicInput: CreateSeasonTopicInput,
   ): Promise<SeasonTopic> {
     return this.seasonTopicService.addTopicToASeason(createSeasonTopicInput)
   }

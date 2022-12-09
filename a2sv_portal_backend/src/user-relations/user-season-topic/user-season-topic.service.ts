@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common'
-import { CreateUserSeasonTopicInput, UserSeasonTopicId } from './dto/create-user-season-topic.input'
+import {
+  CreateUserSeasonTopicInput,
+  UserSeasonTopicId,
+} from './dto/create-user-season-topic.input'
 import { UpdateUserSeasonTopicInput } from './dto/update-user-season-topic.input'
 import { PrismaService } from '../../prisma/prisma.service'
 import { UserSeasonTopic } from './entities/user-season-topic.entity'
@@ -13,10 +16,13 @@ export class UserSeasonTopicService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly userSeasonTopicRepository: UserSeasonTopicRepository,
-  ) {
-  }
+  ) {}
 
-  async createUserSeasonTopic({ userId, seasonId, topicId }: CreateUserSeasonTopicInput): Promise<UserSeasonTopic> {
+  async createUserSeasonTopic({
+    userId,
+    seasonId,
+    topicId,
+  }: CreateUserSeasonTopicInput): Promise<UserSeasonTopic> {
     return this.userSeasonTopicRepository.create({
       seasonTopic: {
         connect: {
@@ -35,7 +41,8 @@ export class UserSeasonTopicService {
   ): Promise<PaginationUserSeasonTopic> {
     const count = await this.userSeasonTopicRepository.count(filterUserSeasonTopicInput)
     const userSeasonTopics: UserSeasonTopic[] = await this.userSeasonTopicRepository.findAll({
-      skip, take,
+      skip,
+      take,
       where: filterUserSeasonTopicInput,
     })
     return {
@@ -44,15 +51,24 @@ export class UserSeasonTopicService {
     }
   }
 
-  async userSeasonTopic({ userId, seasonId, topicId }: UserSeasonTopicId): Promise<UserSeasonTopic> {
+  async userSeasonTopic({
+    userId,
+    seasonId,
+    topicId,
+  }: UserSeasonTopicId): Promise<UserSeasonTopic> {
     return this.userSeasonTopicRepository.findOne({
       userId_seasonId_topicId: {
-        userId, seasonId, topicId,
+        userId,
+        seasonId,
+        topicId,
       },
     })
   }
 
-  async updateUserSeasonTopic({ id, ...updates }: UpdateUserSeasonTopicInput): Promise<UserSeasonTopic> {
+  async updateUserSeasonTopic({
+    id,
+    ...updates
+  }: UpdateUserSeasonTopicInput): Promise<UserSeasonTopic> {
     const { userId, seasonId, topicId } = id
     return this.userSeasonTopicRepository.update({
       where: {

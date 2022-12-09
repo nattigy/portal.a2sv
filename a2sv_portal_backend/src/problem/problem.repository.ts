@@ -5,8 +5,7 @@ import { Problem } from './entities/problem.entity'
 
 @Injectable()
 export class ProblemRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.ProblemCreateInput): Promise<Problem> {
     return this.prismaService.problem.create({
@@ -15,13 +14,13 @@ export class ProblemRepository {
     })
   }
 
-  async count(where?: Prisma.GroupWhereInput): Promise<number> {
+  async count(where?: Prisma.ProblemWhereInput): Promise<number> {
     return this.prismaService.problem.count({ where })
   }
 
   async findAll(params: {
     skip?: number
-    take?: number,
+    take?: number
     where?: Prisma.ProblemWhereInput
     orderBy?: Prisma.ProblemOrderByWithRelationInput
   }): Promise<Problem[]> {
@@ -30,8 +29,8 @@ export class ProblemRepository {
       skip,
       take,
       where,
-      include: { tags: true },
       orderBy,
+      include: { tags: true },
     })
   }
 
@@ -45,9 +44,9 @@ export class ProblemRepository {
   }): Promise<Problem> {
     const { where, data } = params
     return this.prismaService.problem.update({
-      data, where, include: {
-        tags: true,
-      },
+      data,
+      where,
+      include: { tags: true },
     })
   }
 

@@ -10,8 +10,7 @@ import descriptions from './topic.doc'
 
 @Resolver(() => Topic)
 export class TopicResolver {
-  constructor(private readonly topicService: TopicService) {
-  }
+  constructor(private readonly topicService: TopicService) {}
 
   // @UseGuards(JwtAuthGuard, PoliciesGuard)
   // @CheckPolicies(TopicAbilities.create)
@@ -27,9 +26,9 @@ export class TopicResolver {
   @Query(() => PaginationTopic, { description: descriptions.topics })
   async topics(
     @Args('filterTopicInput', { type: () => FilterTopicInput, nullable: true })
-      filterTopicInput?: FilterTopicInput,
+    filterTopicInput?: FilterTopicInput,
     @Args('pageInfoInput', { type: () => PaginationInput, nullable: true })
-      pageInfoInput?: PaginationInput,
+    pageInfoInput?: PaginationInput,
   ): Promise<PaginationTopic> {
     return this.topicService.topics(filterTopicInput, pageInfoInput)
   }

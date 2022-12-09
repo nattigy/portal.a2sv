@@ -5,8 +5,7 @@ import { UserSeasonContest } from './entities/user-season-contest.entity'
 
 @Injectable()
 export class UserSeasonContestRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.UserSeasonContestCreateInput): Promise<UserSeasonContest> {
     return this.prismaService.userSeasonContest.create({
@@ -95,7 +94,8 @@ export class UserSeasonContestRepository {
   }) {
     const { where, data } = params
     return this.prismaService.userSeasonContest.update({
-      data, where,
+      data,
+      where,
       include: {
         seasonContest: {
           include: {

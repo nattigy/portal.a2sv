@@ -6,5 +6,4 @@ import { UserProfileRepository } from './user-profile.repository'
 @Module({
   providers: [UserProfileRepository, UserProfileResolver, UserProfileService],
 })
-export class UserProfileModule {
-}
+export class UserProfileModule {}

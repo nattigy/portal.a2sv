@@ -13,8 +13,7 @@ export class ContestService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly contestRepository: ContestRepository,
-  ) {
-  }
+  ) {}
 
   async createContest({ problems, ...contestInput }: CreateContestInput): Promise<Contest> {
     return this.contestRepository.create({
@@ -36,7 +35,9 @@ export class ContestService {
     return {
       items: listContest,
       pageInfo: {
-        skip, count, take,
+        skip,
+        count,
+        take,
       },
     }
   }
@@ -45,7 +46,10 @@ export class ContestService {
     return this.contestRepository.findOne({ id: contestId })
   }
 
-  async update(condition: string, { problems, ...updateContest }: UpdateContestInput): Promise<Contest> {
+  async update(
+    condition: string,
+    { problems, ...updateContest }: UpdateContestInput,
+  ): Promise<Contest> {
     return this.contestRepository.update({
       where: { id: condition },
       data: {

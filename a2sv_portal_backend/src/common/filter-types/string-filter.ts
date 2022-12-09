@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql'
+import { Prisma } from '@prisma/client'
 
 @InputType()
 export class StringFilter {
@@ -13,4 +14,6 @@ export class StringFilter {
 
   @Field({ nullable: true })
   endsWith?: string
+
+  mode: Prisma.QueryMode = Prisma.QueryMode.insensitive
 }

@@ -7,14 +7,14 @@ import { UpdateProblemInput } from './dto/update-problem.input'
 import { FilterProblemInput } from './dto/filter-problem-input'
 import { ProblemRepository } from './problem.repository'
 import { Problem } from './entities/problem.entity'
+import { Prisma } from '@prisma/client'
 
 @Injectable()
 export class ProblemService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly problemRepository: ProblemRepository,
-  ) {
-  }
+  ) {}
 
   async createProblem({ tags, ...createInput }: CreateProblemInput): Promise<Problem> {
     return this.problemRepository.create({
@@ -27,15 +27,16 @@ export class ProblemService {
     filterProblemInput: FilterProblemInput,
     { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationProblem> {
+    const filter: Prisma.ProblemWhereInput = {
+      ...filterProblemInput,
+      tags: { some: { name: { in: filterProblemInput.tags } } },
+    }
     const problems = await this.problemRepository.findAll({
-      skip, take,
-      where: {
-        ...filterProblemInput,
-        tags: { some: { name: { in: filterProblemInput.tags } } },
-      },
+      skip,
+      take,
+      where: filter,
     })
-
-    const count = await this.problemRepository.count(filterProblemInput)
+    const count = await this.problemRepository.count(filter)
     return {
       items: problems,
       pageInfo: { skip, take, count },
@@ -46,7 +47,11 @@ export class ProblemService {
     return this.problemRepository.findOne({ id: problemId })
   }
 
-  async updateProblem({ tags, problemId, ...updateInput }: UpdateProblemInput): Promise<Problem> {
+  async updateProblem({
+    tags,
+    problemId,
+    ...updateInput
+  }: UpdateProblemInput): Promise<Problem> {
     return this.problemRepository.update({
       where: { id: problemId },
       data: {

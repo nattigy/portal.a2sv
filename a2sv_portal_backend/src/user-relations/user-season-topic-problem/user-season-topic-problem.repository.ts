@@ -5,10 +5,11 @@ import { UserSeasonTopicProblem } from './entities/user-season-topic-problem.ent
 
 @Injectable()
 export class UserSeasonTopicProblemRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
-  async create(data: Prisma.UserSeasonTopicProblemCreateInput): Promise<UserSeasonTopicProblem> {
+  async create(
+    data: Prisma.UserSeasonTopicProblemCreateInput,
+  ): Promise<UserSeasonTopicProblem> {
     return this.prismaService.userSeasonTopicProblem.create({
       data,
       include: {
@@ -39,7 +40,9 @@ export class UserSeasonTopicProblemRepository {
     })
   }
 
-  async findOne(where: Prisma.UserSeasonTopicProblemWhereUniqueInput): Promise<UserSeasonTopicProblem> {
+  async findOne(
+    where: Prisma.UserSeasonTopicProblemWhereUniqueInput,
+  ): Promise<UserSeasonTopicProblem> {
     return this.prismaService.userSeasonTopicProblem.findUnique({
       where,
       include: {
@@ -54,7 +57,8 @@ export class UserSeasonTopicProblemRepository {
   }): Promise<UserSeasonTopicProblem> {
     const { where, data } = params
     return this.prismaService.userSeasonTopicProblem.update({
-      data, where,
+      data,
+      where,
       include: {
         problem: { include: { tags: true } },
       },

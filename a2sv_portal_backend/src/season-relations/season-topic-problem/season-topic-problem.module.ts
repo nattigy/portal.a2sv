@@ -4,7 +4,10 @@ import { SeasonTopicProblemService } from './season-topic-problem.service'
 import { SeasonTopicProblemRepository } from './season-topic-problem.repository'
 
 @Module({
-  providers: [SeasonTopicProblemRepository, SeasonTopicProblemResolver, SeasonTopicProblemService],
+  providers: [
+    SeasonTopicProblemRepository,
+    SeasonTopicProblemResolver,
+    SeasonTopicProblemService,
+  ],
 })
-export class SeasonTopicProblemModule {
-}
+export class SeasonTopicProblemModule {}

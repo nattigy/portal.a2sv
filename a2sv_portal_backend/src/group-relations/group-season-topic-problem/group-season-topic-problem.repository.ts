@@ -5,11 +5,12 @@ import { GroupSeasonTopicProblem } from './entities/group-season-topic-problem.e
 
 @Injectable()
 export class GroupSeasonTopicProblemRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(
-    data: Prisma.GroupSeasonTopicProblemCreateInput | Prisma.GroupSeasonTopicProblemUncheckedCreateInput,
+    data:
+      | Prisma.GroupSeasonTopicProblemCreateInput
+      | Prisma.GroupSeasonTopicProblemUncheckedCreateInput,
   ): Promise<GroupSeasonTopicProblem> {
     return this.prismaService.groupSeasonTopicProblem.create({
       data,
@@ -37,7 +38,9 @@ export class GroupSeasonTopicProblemRepository {
     })
   }
 
-  async findOne(where: Prisma.GroupSeasonTopicProblemWhereUniqueInput): Promise<GroupSeasonTopicProblem> {
+  async findOne(
+    where: Prisma.GroupSeasonTopicProblemWhereUniqueInput,
+  ): Promise<GroupSeasonTopicProblem> {
     return this.prismaService.groupSeasonTopicProblem.findUnique({
       where,
       include: { problem: { include: { tags: true } } },
@@ -46,11 +49,14 @@ export class GroupSeasonTopicProblemRepository {
 
   async update(params: {
     where: Prisma.GroupSeasonTopicProblemWhereUniqueInput
-    data: Prisma.GroupSeasonTopicProblemUpdateInput | Prisma.GroupSeasonTopicProblemUncheckedUpdateInput
+    data:
+      | Prisma.GroupSeasonTopicProblemUpdateInput
+      | Prisma.GroupSeasonTopicProblemUncheckedUpdateInput
   }): Promise<GroupSeasonTopicProblem> {
     const { where, data } = params
     return this.prismaService.groupSeasonTopicProblem.update({
-      data, where,
+      data,
+      where,
       include: { problem: { include: { tags: true } } },
     })
   }

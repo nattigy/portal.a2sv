@@ -12,10 +12,15 @@ export class Season {
   @Field({ description: `Season Duration` })
   duration: string
 
-  @Field(() => SeasonTypeEnum, { description: `Type of the season is it Camp or Education or Project` })
+  @Field(() => SeasonTypeEnum, {
+    description: `Type of the season is it Camp or Education or Project`,
+  })
   seasonType: SeasonTypeEnum
 
-  @Field({ nullable: true, description: `Implies if the season active currently or ended/inactive` })
+  @Field({
+    nullable: true,
+    description: `Implies if the season active currently or ended/inactive`,
+  })
   isActive?: boolean
 
   @Field(() => Date, { description: `The start date of the season` })

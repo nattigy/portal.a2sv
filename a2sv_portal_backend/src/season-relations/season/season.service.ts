@@ -43,6 +43,12 @@ export class SeasonService {
   }
 
   async updateSeason({ seasonId, ...updates }: UpdateSeasonInput) {
+    if (!updates.isActive) {
+      await this.prismaService.groupSeason.updateMany({
+        where: { seasonId },
+        data: { isActive: false },
+      })
+    }
     return this.seasonRepository.update({
       where: { id: seasonId },
       data: updates,

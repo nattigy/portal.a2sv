@@ -4,8 +4,11 @@ import { GroupSeasonTopicProblemResolver } from './group-season-topic-problem.re
 import { GroupSeasonTopicProblemRepository } from './group-season-topic-problem.repository'
 
 @Module({
-  providers: [GroupSeasonTopicProblemRepository, GroupSeasonTopicProblemResolver, GroupSeasonTopicProblemService],
+  providers: [
+    GroupSeasonTopicProblemRepository,
+    GroupSeasonTopicProblemResolver,
+    GroupSeasonTopicProblemService,
+  ],
   exports: [GroupSeasonTopicProblemRepository],
 })
-export class GroupSeasonTopicProblemModule {
-}
+export class GroupSeasonTopicProblemModule {}
