@@ -8,7 +8,7 @@ type CustomInputProps = {
   label: string;
 };
 
-const ProfileForm = (props: CustomInputProps) => {
+const FileForm = (props: CustomInputProps) => {
   const [profile, setProfile] = useState<File>();
   const [cv, setCv] = useState<File>();
   const [preview, setPreview] = useState<string>();
@@ -28,24 +28,6 @@ const ProfileForm = (props: CustomInputProps) => {
   return (
     <div className="w-full flex justify-between items-center p-2">
       <h1 className="text-sm font-semibold">{props.label}</h1>
-      {props.type === "name" && (
-        <div className="flex w-2/3 justify-between gap-x-3">
-          <CustomFormField
-            id={`first${props.inputProps.id}`}
-            name={`first${props.inputProps.name}`}
-            placeholder={`Enter First ${props.inputProps.placeholder}`}
-            type="text"
-            formik={props.inputProps.formik}
-          />
-          <CustomFormField
-            id={`last${props.inputProps.id}`}
-            name={`last${props.inputProps.name}`}
-            placeholder={`Enter Last ${props.inputProps.placeholder}`}
-            type="text"
-            formik={props.inputProps.formik}
-          />
-        </div>
-      )}
       {props.type === "photo" && (
         <div
           className={clsx(
@@ -126,34 +108,8 @@ const ProfileForm = (props: CustomInputProps) => {
           </label>
         </div>
       )}
-      {props.type === "select" && (
-        <div className="w-2/3">
-          <CustomFormField
-            id={props.inputProps.id}
-            name={props.inputProps.name}
-            placeholder=""
-            type="select"
-            formik={props.inputProps.formik}
-            // options={props.inputProps.options}
-          />
-        </div>
-      )}
-      {props.type !== "name" &&
-        props.type !== "photo" &&
-        props.type !== "file" &&
-        props.type !== "select" && (
-          <div className="w-2/3">
-            <CustomFormField
-              id={props.inputProps.id}
-              name={props.inputProps.name}
-              placeholder={props.inputProps.placeholder}
-              type="text"
-              formik={props.inputProps.formik}
-            />
-          </div>
-        )}
     </div>
   );
 };
 
-export default ProfileForm;
+export default FileForm;
