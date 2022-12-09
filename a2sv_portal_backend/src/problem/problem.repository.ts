@@ -15,7 +15,7 @@ export class ProblemRepository {
     })
   }
 
-  async count(where?: Prisma.GroupWhereInput): Promise<number> {
+  async count(where?: Prisma.ProblemWhereInput): Promise<number> {
     return this.prismaService.problem.count({ where })
   }
 
@@ -27,11 +27,9 @@ export class ProblemRepository {
   }): Promise<Problem[]> {
     const { skip, take, where, orderBy } = params
     return this.prismaService.problem.findMany({
-      skip,
-      take,
-      where,
-      include: { tags: true },
+      skip, take, where,
       orderBy,
+      include: { tags: true },
     })
   }
 
@@ -45,9 +43,8 @@ export class ProblemRepository {
   }): Promise<Problem> {
     const { where, data } = params
     return this.prismaService.problem.update({
-      data, where, include: {
-        tags: true,
-      },
+      data, where,
+      include: { tags: true },
     })
   }
 

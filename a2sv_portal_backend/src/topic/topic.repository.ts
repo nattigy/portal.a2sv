@@ -19,15 +19,13 @@ export class TopicRepository {
   async findAll(params: {
     skip?: number
     take?: number
-    cursor?: Prisma.TopicWhereUniqueInput
     where?: Prisma.TopicWhereInput
     orderBy?: Prisma.TopicOrderByWithRelationInput
   }): Promise<Topic[]> {
-    const { skip, take, cursor, where, orderBy } = params
+    const { skip, take, where, orderBy } = params
     return this.prismaService.topic.findMany({
       skip,
       take,
-      cursor,
       where,
       orderBy,
     })

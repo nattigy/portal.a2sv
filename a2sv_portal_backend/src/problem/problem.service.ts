@@ -7,6 +7,7 @@ import { UpdateProblemInput } from './dto/update-problem.input'
 import { FilterProblemInput } from './dto/filter-problem-input'
 import { ProblemRepository } from './problem.repository'
 import { Problem } from './entities/problem.entity'
+import { Prisma } from '@prisma/client'
 
 @Injectable()
 export class ProblemService {
@@ -27,15 +28,15 @@ export class ProblemService {
     filterProblemInput: FilterProblemInput,
     { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationProblem> {
+    const filter: Prisma.ProblemWhereInput = {
+      ...filterProblemInput,
+      tags: { some: { name: { in: filterProblemInput.tags } } },
+    }
     const problems = await this.problemRepository.findAll({
       skip, take,
-      where: {
-        ...filterProblemInput,
-        tags: { some: { name: { in: filterProblemInput.tags } } },
-      },
+      where: filter,
     })
-
-    const count = await this.problemRepository.count(filterProblemInput)
+    const count = await this.problemRepository.count(filter)
     return {
       items: problems,
       pageInfo: { skip, take, count },
