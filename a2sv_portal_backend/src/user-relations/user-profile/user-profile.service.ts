@@ -15,7 +15,7 @@ export class UserProfileService {
     private readonly userProfileRepository: UserProfileRepository,
   ) {}
 
-  async createProfile({ userId, ...createUserProfileInput }: CreateUserProfileInput) {
+  async createUserProfile({ userId, ...createUserProfileInput }: CreateUserProfileInput) {
     return this.userProfileRepository.create({
       ...createUserProfileInput,
       user: {

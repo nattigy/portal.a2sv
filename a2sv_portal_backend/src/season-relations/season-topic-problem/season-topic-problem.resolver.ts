@@ -26,20 +26,20 @@ export class SeasonTopicProblemResolver {
     )
   }
 
-  @Query(() => SeasonTopicProblem, { description: descriptions.seasonTopicProblem })
-  async seasonTopicProblem(
-    @Args('seasonTopicProblemId') seasonTopicProblemId: SeasonTopicProblemId,
-  ): Promise<SeasonTopicProblem> {
-    return this.seasonTopicProblemService.seasonTopicProblem(seasonTopicProblemId)
-  }
-
-  @Query(() => PaginationSeasonTopicProblem, { description: descriptions.seasonTopicProblems })
-  async seasonTopicProblems(
-    @Args('seasonTopicId') seasonTopicId: SeasonTopicId,
-    @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInput,
-  ): Promise<PaginationSeasonTopicProblem> {
-    return this.seasonTopicProblemService.seasonTopicProblems(seasonTopicId, pageInfoInput)
-  }
+  // @Query(() => SeasonTopicProblem, { description: descriptions.seasonTopicProblem })
+  // async seasonTopicProblem(
+  //   @Args('seasonTopicProblemId') seasonTopicProblemId: SeasonTopicProblemId,
+  // ): Promise<SeasonTopicProblem> {
+  //   return this.seasonTopicProblemService.seasonTopicProblem(seasonTopicProblemId)
+  // }
+  //
+  // @Query(() => PaginationSeasonTopicProblem, { description: descriptions.seasonTopicProblems })
+  // async seasonTopicProblems(
+  //   @Args('seasonTopicId') seasonTopicId: SeasonTopicId,
+  //   @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInput,
+  // ): Promise<PaginationSeasonTopicProblem> {
+  //   return this.seasonTopicProblemService.seasonTopicProblems(seasonTopicId, pageInfoInput)
+  // }
 
   @Mutation(() => SeasonTopicProblem, { description: descriptions.removeSeasonTopicProblem })
   async removeSeasonTopicProblem(

@@ -10,12 +10,12 @@ export class SeasonContestService {
   constructor(
     private readonly seasonContestRepository: SeasonContestRepository,
     private readonly prismaService: PrismaService,
-  ) {}
+  ) {
+  }
 
   async createSeasonContest({ seasonId, contestId }: CreateSeasonContestInput) {
     return this.seasonContestRepository.create({
-      seasonId,
-      contestId,
+      // seasonId, contestId,
       season: { connect: { id: seasonId } },
       contest: { connect: { id: contestId } },
     })
@@ -26,8 +26,7 @@ export class SeasonContestService {
     { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ) {
     return this.seasonContestRepository.findAll({
-      skip,
-      take,
+      skip, take,
       where: { seasonId, contestId },
     })
   }

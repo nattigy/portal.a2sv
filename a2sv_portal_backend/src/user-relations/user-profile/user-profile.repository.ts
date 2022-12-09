@@ -5,11 +5,10 @@ import { UserProfile } from './entities/user-profile.entity'
 
 @Injectable()
 export class UserProfileRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
-  async create(
-    data: Prisma.UserProfileCreateInput | Prisma.UserProfileUncheckedCreateInput,
-  ): Promise<UserProfile> {
+  async create(data: Prisma.UserProfileCreateInput): Promise<UserProfile> {
     return this.prismaService.userProfile.create({
       data,
       include: { user: true, userProfileAddress: true },
@@ -49,8 +48,7 @@ export class UserProfileRepository {
   }): Promise<UserProfile> {
     const { where, data } = params
     return this.prismaService.userProfile.update({
-      data,
-      where,
+      data, where,
       include: { user: true, userProfileAddress: true },
     })
   }

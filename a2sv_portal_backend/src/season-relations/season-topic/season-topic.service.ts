@@ -13,16 +13,12 @@ export class SeasonTopicService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly seasonTopicRepository: SeasonTopicRepository,
-  ) {}
+  ) {
+  }
 
-  async addTopicToASeason({
-    seasonId,
-    topicId,
-    problems,
-  }: CreateSeasonTopicInput): Promise<SeasonTopic> {
+  async addTopicToASeason({ seasonId, topicId, problems }: CreateSeasonTopicInput): Promise<SeasonTopic> {
     return this.seasonTopicRepository.create({
-      seasonId,
-      topicId,
+      // seasonId, topicId,
       season: { connect: { id: seasonId } },
       topic: { connect: { id: topicId } },
       seasonTopicProblems: {
@@ -50,8 +46,7 @@ export class SeasonTopicService {
     const count = await this.seasonTopicRepository.count(filterSeasonTopicInput)
     /// TODO: generate stat here
     const seasonTopics: SeasonTopic[] = await this.seasonTopicRepository.findAll({
-      skip,
-      take,
+      skip, take,
       where: filterSeasonTopicInput,
     })
     return {

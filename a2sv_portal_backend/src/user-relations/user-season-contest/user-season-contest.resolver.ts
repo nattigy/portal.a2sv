@@ -9,39 +9,36 @@ import { UpdateUserSeasonContestInput } from './dto/update-user-season-contest.i
 
 @Resolver(() => UserSeasonContest)
 export class UserSeasonContestResolver {
-  constructor(private readonly userSeasonContestService: UserSeasonContestService) {}
-
-  @Query(() => UserSeasonContest)
-  async userContest(
-    @Args('userSeasonContestId') userSeasonContestId: UserSeasonContestId,
-  ): Promise<UserSeasonContest> {
-    return this.userSeasonContestService.userContest(userSeasonContestId)
+  constructor(private readonly userSeasonContestService: UserSeasonContestService) {
   }
 
-  @Query(() => PaginationUserSeasonContest)
-  async userContests(
-    @Args('filterUserSeasonContestInput')
-    filterUserSeasonContestInput: FilterUserSeasonContestInput,
-    @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
-  ): Promise<PaginationUserSeasonContest> {
-    return this.userSeasonContestService.userContests(
-      filterUserSeasonContestInput,
-      paginationInput,
-    )
-  }
-
-  @Mutation(() => UserSeasonContest)
-  async updateUserContest(
-    @Args('updateUserContestInput')
-    updateUserContestInput: UpdateUserSeasonContestInput,
-  ): Promise<UserSeasonContest> {
-    return this.userSeasonContestService.updateUserContest(updateUserContestInput)
-  }
-
-  @Mutation(() => Int)
-  async removeUserSeasonContest(
-    @Args('userSeasonContestId') userSeasonContestId: UserSeasonContestId,
-  ): Promise<number> {
-    return this.userSeasonContestService.removeUserSeasonContest(userSeasonContestId)
-  }
+  // @Query(() => UserSeasonContest)
+  // async userContest(
+  //   @Args('userSeasonContestId') userSeasonContestId: UserSeasonContestId,
+  // ): Promise<UserSeasonContest> {
+  //   return this.userSeasonContestService.userContest(userSeasonContestId)
+  // }
+  //
+  // @Query(() => PaginationUserSeasonContest)
+  // async userContests(
+  //   @Args('filterUserSeasonContestInput') filterUserSeasonContestInput: FilterUserSeasonContestInput,
+  //   @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
+  // ): Promise<PaginationUserSeasonContest> {
+  //   return this.userSeasonContestService.userContests(filterUserSeasonContestInput, paginationInput)
+  // }
+  //
+  // @Mutation(() => UserSeasonContest)
+  // async updateUserContest(
+  //   @Args('updateUserContestInput')
+  //     updateUserContestInput: UpdateUserSeasonContestInput,
+  // ): Promise<UserSeasonContest> {
+  //   return this.userSeasonContestService.updateUserContest(updateUserContestInput)
+  // }
+  //
+  // @Mutation(() => Int)
+  // async removeUserSeasonContest(
+  //   @Args('userSeasonContestId') userSeasonContestId: UserSeasonContestId,
+  // ): Promise<number> {
+  //   return this.userSeasonContestService.removeUserSeasonContest(userSeasonContestId)
+  // }
 }

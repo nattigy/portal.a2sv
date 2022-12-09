@@ -6,39 +6,40 @@ import { UpdateGroupSeasonContestInput } from './dto/update-group-season-contest
 
 @Resolver(() => GroupSeasonContest)
 export class GroupSeasonContestResolver {
-  constructor(private readonly groupSeasonContestService: GroupSeasonContestService) {}
-
-  @Mutation(() => GroupSeasonContest)
-  createGroupSeasonContest(
-    @Args('createGroupSeasonContestInput')
-    createGroupSeasonContestInput: CreateGroupSeasonContestInput,
-  ) {
-    return this.groupSeasonContestService.create(createGroupSeasonContestInput)
+  constructor(private readonly groupSeasonContestService: GroupSeasonContestService) {
   }
 
-  @Query(() => [GroupSeasonContest], { name: 'groupSeasonContest' })
-  findAll() {
-    return this.groupSeasonContestService.findAll()
-  }
-
-  @Query(() => GroupSeasonContest, { name: 'groupSeasonContest' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.groupSeasonContestService.findOne(id)
-  }
-
-  @Mutation(() => GroupSeasonContest)
-  updateGroupSeasonContest(
-    @Args('updateGroupSeasonContestInput')
-    updateGroupSeasonContestInput: UpdateGroupSeasonContestInput,
-  ) {
-    return this.groupSeasonContestService.update(
-      updateGroupSeasonContestInput.id,
-      updateGroupSeasonContestInput,
-    )
-  }
-
-  @Mutation(() => GroupSeasonContest)
-  removeGroupSeasonContest(@Args('id', { type: () => Int }) id: number) {
-    return this.groupSeasonContestService.remove(id)
-  }
+  // @Mutation(() => GroupSeasonContest)
+  // createGroupSeasonContest(
+  //   @Args('createGroupSeasonContestInput')
+  //     createGroupSeasonContestInput: CreateGroupSeasonContestInput,
+  // ) {
+  //   return this.groupSeasonContestService.create(createGroupSeasonContestInput)
+  // }
+  //
+  // @Query(() => [GroupSeasonContest], { name: 'groupSeasonContest' })
+  // findAll() {
+  //   return this.groupSeasonContestService.findAll()
+  // }
+  //
+  // @Query(() => GroupSeasonContest, { name: 'groupSeasonContest' })
+  // findOne(@Args('id', { type: () => Int }) id: number) {
+  //   return this.groupSeasonContestService.findOne(id)
+  // }
+  //
+  // @Mutation(() => GroupSeasonContest)
+  // updateGroupSeasonContest(
+  //   @Args('updateGroupSeasonContestInput')
+  //     updateGroupSeasonContestInput: UpdateGroupSeasonContestInput,
+  // ) {
+  //   return this.groupSeasonContestService.update(
+  //     updateGroupSeasonContestInput.id,
+  //     updateGroupSeasonContestInput,
+  //   )
+  // }
+  //
+  // @Mutation(() => GroupSeasonContest)
+  // removeGroupSeasonContest(@Args('id', { type: () => Int }) id: number) {
+  //   return this.groupSeasonContestService.remove(id)
+  // }
 }
