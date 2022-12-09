@@ -4,11 +4,11 @@ import { UserSeasonId } from './dto/create-user-season.input'
 import { UserSeason } from './entities/user-season.entity'
 import { UserSeasonService } from './user-season.service'
 import { PaginationInput } from '../../common/page/pagination.input'
+import { FilterUserSeasonInput } from './dto/filter-user-season-input'
 
 @Resolver(() => UserSeason)
 export class UserSeasonResolver {
-  constructor(private readonly userSeasonService: UserSeasonService) {
-  }
+  constructor(private readonly userSeasonService: UserSeasonService) {}
 
   @Query(() => UserSeason)
   async userSeason(@Args('userSeasonId') userSeasonId: UserSeasonId): Promise<UserSeason> {
@@ -17,9 +17,9 @@ export class UserSeasonResolver {
 
   @Query(() => UserSeason)
   async userSeasons(
-    @Args('userId') userId: string,
+    @Args('filterUserSeasonInput') filterUserSeasonInput: FilterUserSeasonInput,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<UserSeason[]> {
-    return this.userSeasonService.userSeasons({ userId }, paginationInput)
+    return this.userSeasonService.userSeasons(filterUserSeasonInput, paginationInput)
   }
 }

@@ -13,8 +13,7 @@ export class UserProfileService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly userProfileRepository: UserProfileRepository,
-  ) {
-  }
+  ) {}
 
   async createUserProfile({ userId, ...createUserProfileInput }: CreateUserProfileInput) {
     return this.userProfileRepository.create({

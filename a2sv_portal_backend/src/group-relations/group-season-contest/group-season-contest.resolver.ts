@@ -4,8 +4,7 @@ import { GroupSeasonContest } from './entities/group-season-contest.entity'
 
 @Resolver(() => GroupSeasonContest)
 export class GroupSeasonContestResolver {
-  constructor(private readonly groupSeasonContestService: GroupSeasonContestService) {
-  }
+  constructor(private readonly groupSeasonContestService: GroupSeasonContestService) {}
 
   // @Mutation(() => GroupSeasonContest)
   // createGroupSeasonContest(

@@ -6,12 +6,8 @@ import { FilterUserSeasonTopicProblemInput } from './dto/filter-user-season-topi
 import { PaginationInput } from '../../common/page/pagination.input'
 import { PaginationUserSeasonTopicProblem } from '../../common/page/pagination-info'
 import { UserSeasonTopicProblemRepository } from './user-season-topic-problem.repository'
-import {
-  GroupSeasonTopicProblem,
-} from 'src/group-relations/group-season-topic-problem/entities/group-season-topic-problem.entity'
-import {
-  GroupSeasonTopicProblemRepository,
-} from 'src/group-relations/group-season-topic-problem/group-season-topic-problem.repository'
+import { GroupSeasonTopicProblem } from 'src/group-relations/group-season-topic-problem/entities/group-season-topic-problem.entity'
+import { GroupSeasonTopicProblemRepository } from 'src/group-relations/group-season-topic-problem/group-season-topic-problem.repository'
 import { UserSeasonTopicProblemId } from './dto/create-user-season-topic-problem.input'
 
 @Injectable()
@@ -20,15 +16,14 @@ export class UserSeasonTopicProblemService {
     private readonly userSeasonTopicProblemRepository: UserSeasonTopicProblemRepository,
     private readonly groupSeasonTopicProblemRepository: GroupSeasonTopicProblemRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async userSeasonTopicProblem({
-                                 seasonId,
-                                 topicId,
-                                 problemId,
-                                 userId,
-                               }: UserSeasonTopicProblemId): Promise<UserSeasonTopicProblem> {
+    seasonId,
+    topicId,
+    problemId,
+    userId,
+  }: UserSeasonTopicProblemId): Promise<UserSeasonTopicProblem> {
     let userSeasonTopicProblem: UserSeasonTopicProblem =
       await this.userSeasonTopicProblemRepository.findOne({
         userId_seasonId_topicId_problemId: {
@@ -66,64 +61,37 @@ export class UserSeasonTopicProblemService {
   }
 
   async userSeasonTopicProblems(
-    filterSeasonTopicProblemUserInput: FilterUserSeasonTopicProblemInput,
+    { groupId, ...filterSeasonTopicProblemUserInput }: FilterUserSeasonTopicProblemInput,
     { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationUserSeasonTopicProblem> {
+    // TODO: do mapping with groupSeasonTopicProblem
     const count = await this.userSeasonTopicProblemRepository.count(
       filterSeasonTopicProblemUserInput,
     )
     const userSeasonTopicProblems = await this.userSeasonTopicProblemRepository.findAll({
       skip,
       take,
-      where: filterSeasonTopicProblemUserInput,
+      where: {
+        ...filterSeasonTopicProblemUserInput,
+        userSeasonTopic: { userSeason: { user: { groupId } } },
+      },
     })
     return {
       items: userSeasonTopicProblems,
-      pageInfo: {
-        skip,
-        take,
-        count,
-      },
+      pageInfo: { skip, take, count },
     }
   }
 
   async updateUserSeasonTopicProblem({
-                                       id,
-                                       ...updates
-                                     }: UpdateUserSeasonTopicProblemInput): Promise<UserSeasonTopicProblem> {
+    id,
+    ...updates
+  }: UpdateUserSeasonTopicProblemInput): Promise<UserSeasonTopicProblem> {
+    // TODO: get group from the user,
+    // TODO: search for GroupSeasonTopicProblem from the groupId if not found,
+    // TODO: throw NotFoundException "problem under this topic hasn't been added to your group"
+    // TODO: check if the groupSeason the user in is active if not throw "season is not active error"
+    // TODO: upsert userSeason and then userSeasonTopic
     const { seasonId, problemId, userId, topicId } = id
-    // let number_wrong_sub: number
-    // if (updates.solved) {
-    //   await this.prismaService.userAnalytics.update({
-    //     where: {
-    //       userId_createdAt: {
-    //         userId,
-    //         createdAt: new Date(),
-    //       },
-    //     },
-    //     data: {
-    //       solvedCount: {
-    //         increment: 1,
-    //       },
-    //     },
-    //   })
-    // } else if (updates.solved == false) {
-    //   number_wrong_sub = updates.attempts > 0 ? updates.attempts : 1
-    //   await this.prismaService.userAnalytics.update({
-    //     where: {
-    //       userId_createdAt: {
-    //         userId,
-    //         createdAt: new Date(),
-    //       },
-    //     },
-    //     data: {
-    //       wrongCount: {
-    //         increment: number_wrong_sub,
-    //       },
-    //     },
-    //   })
-    // }
-    // console.log('===status ==updated')
 
     return this.prismaService.userSeasonTopicProblem.upsert({
       where: {
@@ -149,11 +117,11 @@ export class UserSeasonTopicProblemService {
   }
 
   async removeUserSeasonTopicProblem({
-                                       seasonId,
-                                       topicId,
-                                       problemId,
-                                       userId,
-                                     }: UserSeasonTopicProblemId) {
+    seasonId,
+    topicId,
+    problemId,
+    userId,
+  }: UserSeasonTopicProblemId) {
     try {
       await this.userSeasonTopicProblemRepository.remove({
         userId_seasonId_topicId_problemId: {
@@ -170,3 +138,37 @@ export class UserSeasonTopicProblemService {
     return 1
   }
 }
+
+// TODO: Add user analytics here
+// let number_wrong_sub: number
+// if (updates.solved) {
+//   await this.prismaService.userAnalytics.update({
+//     where: {
+//       userId_createdAt: {
+//         userId,
+//         createdAt: new Date(),
+//       },
+//     },
+//     data: {
+//       solvedCount: {
+//         increment: 1,
+//       },
+//     },
+//   })
+// } else if (updates.solved == false) {
+//   number_wrong_sub = updates.attempts > 0 ? updates.attempts : 1
+//   await this.prismaService.userAnalytics.update({
+//     where: {
+//       userId_createdAt: {
+//         userId,
+//         createdAt: new Date(),
+//       },
+//     },
+//     data: {
+//       wrongCount: {
+//         increment: number_wrong_sub,
+//       },
+//     },
+//   })
+// }
+// console.log('===status ==updated')

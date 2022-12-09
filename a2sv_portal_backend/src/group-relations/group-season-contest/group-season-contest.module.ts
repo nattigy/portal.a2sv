@@ -10,5 +10,4 @@ import { GroupSeasonContestRepository } from './group-season-contest.repository'
     GroupSeasonContestService,
   ],
 })
-export class GroupSeasonContestModule {
-}
+export class GroupSeasonContestModule {}

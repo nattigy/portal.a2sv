@@ -2,16 +2,13 @@ import { Injectable } from '@nestjs/common'
 import { CreateSeasonContestInput, SeasonContestId } from './dto/create-season-contest.input'
 import { PrismaService } from '../../prisma/prisma.service'
 import { SeasonContestRepository } from './season-contest.repository'
-import { PaginationInput } from '../../common/page/pagination.input'
-import { FilterSeasonContestInput } from './dto/filter-season-contest.input'
 
 @Injectable()
 export class SeasonContestService {
   constructor(
     private readonly seasonContestRepository: SeasonContestRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async addContestToASeason({ seasonId, contestId }: CreateSeasonContestInput) {
     return this.seasonContestRepository.create({

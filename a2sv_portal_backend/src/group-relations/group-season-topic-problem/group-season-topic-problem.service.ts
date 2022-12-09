@@ -11,20 +11,18 @@ export class GroupSeasonTopicProblemService {
   constructor(
     private readonly groupSeasonTopicProblemRepository: GroupSeasonTopicProblemRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async addProblemToGroupSeasonTopic({
-                                       groupId,
-                                       seasonId,
-                                       topicId,
-                                       problemId,
-                                     }: CreateGroupSeasonTopicProblemInput) {
+    groupId,
+    seasonId,
+    topicId,
+    problemId,
+  }: CreateGroupSeasonTopicProblemInput) {
+    // TODO: search for groupSeasonTopic first and if not found throw not found exception
+    // TODO: if the groupSeasonTopic is found and the groupSeason is not active throw groupSeason not active
+    // TODO: search for the seasonTopicProblem and if the seasonTopicProblem is not found throw seasonTopicProblem not found exception
     return this.groupSeasonTopicProblemRepository.create({
-      // groupId,
-      // seasonId,
-      // topicId,
-      // problemId,
       groupSeasonTopic: {
         connect: { groupId_seasonId_topicId: { topicId, seasonId, groupId } },
       },
@@ -60,18 +58,13 @@ export class GroupSeasonTopicProblemService {
   // }
 
   async removeGroupSeasonTopicProblem({
-                                        groupId,
-                                        seasonId,
-                                        topicId,
-                                        problemId,
-                                      }: GroupSeasonTopicProblemId) {
+    groupId,
+    seasonId,
+    topicId,
+    problemId,
+  }: GroupSeasonTopicProblemId) {
     return this.groupSeasonTopicProblemRepository.remove({
-      groupId_seasonId_topicId_problemId: {
-        problemId,
-        topicId,
-        seasonId,
-        groupId,
-      },
+      groupId_seasonId_topicId_problemId: { problemId, topicId, seasonId, groupId },
     })
   }
 }

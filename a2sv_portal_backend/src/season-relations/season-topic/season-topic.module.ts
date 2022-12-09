@@ -6,5 +6,4 @@ import { SeasonTopicRepository } from './season-topic.repository'
 @Module({
   providers: [SeasonTopicRepository, SeasonTopicResolver, SeasonTopicService],
 })
-export class SeasonTopicModule {
-}
+export class SeasonTopicModule {}

@@ -9,13 +9,12 @@ import { CreateUserProfileInput } from './dto/create-user-profile.input'
 
 @Resolver(() => UserProfile)
 export class UserProfileResolver {
-  constructor(private readonly userProfileService: UserProfileService) {
-  }
+  constructor(private readonly userProfileService: UserProfileService) {}
 
   @Mutation(() => UserProfile)
   async createUserProfile(
     @Args('createUserProfileInput')
-      createUserProfileInput: CreateUserProfileInput,
+    createUserProfileInput: CreateUserProfileInput,
   ) {
     return this.userProfileService.createUserProfile(createUserProfileInput)
   }
@@ -23,9 +22,9 @@ export class UserProfileResolver {
   @Query(() => PaginationUserProfile)
   async userProfiles(
     @Args('filterUserProfileInput', { nullable: true })
-      filterUserProfileInput?: FilterUserProfileInput,
+    filterUserProfileInput?: FilterUserProfileInput,
     @Args('pageInfoInput', { nullable: true })
-      pageInfoInput?: PaginationInput,
+    pageInfoInput?: PaginationInput,
   ): Promise<PaginationUserProfile> {
     return this.userProfileService.userProfiles(filterUserProfileInput, pageInfoInput)
   }
@@ -38,7 +37,7 @@ export class UserProfileResolver {
   @Mutation(() => UserProfile)
   async updateUserProfile(
     @Args('updateUserProfileInput')
-      updateUserProfileInput: UpdateUserProfileInput,
+    updateUserProfileInput: UpdateUserProfileInput,
   ) {
     return this.userProfileService.updateUserProfile(updateUserProfileInput)
   }

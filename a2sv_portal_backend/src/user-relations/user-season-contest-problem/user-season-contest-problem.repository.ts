@@ -5,8 +5,7 @@ import { UserSeasonContestProblem } from './entities/user-season-contest-problem
 
 @Injectable()
 export class UserSeasonContestProblemRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(
     data: Prisma.UserSeasonContestProblemCreateInput,

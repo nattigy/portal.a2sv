@@ -5,14 +5,14 @@ import { SeasonTopic } from './entities/season-topic.entity'
 
 @Injectable()
 export class SeasonTopicRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.SeasonTopicCreateInput): Promise<SeasonTopic> {
     return this.prismaService.seasonTopic.create({
       data,
       include: {
-        season: true, topic: true,
+        season: true,
+        topic: true,
         seasonTopicProblems: {
           include: { problem: { include: { tags: true } } },
         },
@@ -37,7 +37,8 @@ export class SeasonTopicRepository {
       where,
       orderBy,
       include: {
-        season: true, topic: true,
+        season: true,
+        topic: true,
         seasonTopicProblems: {
           include: { problem: { include: { tags: true } } },
         },
@@ -49,7 +50,8 @@ export class SeasonTopicRepository {
     return this.prismaService.seasonTopic.findUnique({
       where,
       include: {
-        season: true, topic: true,
+        season: true,
+        topic: true,
         seasonTopicProblems: {
           include: { problem: { include: { tags: true } } },
         },
@@ -63,9 +65,11 @@ export class SeasonTopicRepository {
   }): Promise<SeasonTopic> {
     const { where, data } = params
     return this.prismaService.seasonTopic.update({
-      data, where,
+      data,
+      where,
       include: {
-        season: true, topic: true,
+        season: true,
+        topic: true,
         seasonTopicProblems: {
           include: { problem: { include: { tags: true } } },
         },

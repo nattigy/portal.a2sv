@@ -11,17 +11,13 @@ import { ContestModule } from './contest/contest.module'
 import { GroupsModule } from './group-relations/group/groups.module'
 import { ProblemModule } from './problem/problem.module'
 import { RolesModule } from './roles/roles.module'
-import {
-  UserSeasonTopicProblemModule,
-} from './user-relations/user-season-topic-problem/user-season-topic-problem.module'
+import { UserSeasonTopicProblemModule } from './user-relations/user-season-topic-problem/user-season-topic-problem.module'
 import { SeasonTopicProblemModule } from './season-relations/season-topic-problem/season-topic-problem.module'
 import { SeasonTopicModule } from './season-relations/season-topic/season-topic.module'
 import { SeasonModule } from './season-relations/season/season.module'
 import { TagModule } from './tag/tag.module'
 import { TopicModule } from './topic/topic.module'
-import {
-  UserSeasonContestProblemModule,
-} from './user-relations/user-season-contest-problem/user-season-contest-problem.module'
+import { UserSeasonContestProblemModule } from './user-relations/user-season-contest-problem/user-season-contest-problem.module'
 import { UserSeasonContestModule } from './user-relations/user-season-contest/user-season-contest.module'
 import { UserProfileModule } from './user-relations/user-profile/user-profile.module'
 import { UserSeasonTopicModule } from './user-relations/user-season-topic/user-season-topic.module'
@@ -34,9 +30,7 @@ import { GroupSeasonTopicModule } from './group-relations/group-season-topic/gro
 import { GroupSeasonContestModule } from './group-relations/group-season-contest/group-season-contest.module'
 import { GroupSeasonModule } from './group-relations/group-season/group-season.module'
 import { UserSeasonModule } from './user-relations/user-season/user-season.module'
-import {
-  GroupSeasonTopicProblemModule,
-} from './group-relations/group-season-topic-problem/group-season-topic-problem.module'
+import { GroupSeasonTopicProblemModule } from './group-relations/group-season-topic-problem/group-season-topic-problem.module'
 
 @Module({
   imports: [
@@ -97,5 +91,4 @@ import {
   ],
   providers: [AppService, AppResolver],
 })
-export class AppModule {
-}
+export class AppModule {}

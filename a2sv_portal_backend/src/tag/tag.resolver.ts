@@ -7,8 +7,7 @@ import { TagService } from './tag.service'
 
 @Resolver(() => Tag)
 export class TagResolver {
-  constructor(private readonly tagService: TagService) {
-  }
+  constructor(private readonly tagService: TagService) {}
 
   @Mutation(() => Tag)
   async createTag(@Args('createTagInput') createTagInput: CreateTagInput): Promise<Tag> {

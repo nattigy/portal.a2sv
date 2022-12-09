@@ -12,8 +12,8 @@ export class FilterUserSeasonTopicInput {
   @Field({ nullable: true })
   topicId?: string
 
-  @Field({ nullable: true })
-  groupId?: string
+  @Field()
+  groupId: string
 
   @Field(() => ComfortLevelEnum, {
     defaultValue: ComfortLevelEnum.UNCOMFORTABLE,

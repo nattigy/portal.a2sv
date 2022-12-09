@@ -16,8 +16,7 @@ export class SeasonService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly seasonRepository: SeasonRepository,
-  ) {
-  }
+  ) {}
 
   async createSeason(seasonInput: CreateSeasonInput): Promise<Season> {
     return this.seasonRepository.create(seasonInput)

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { CreateUserSeasonTopicInput, UserSeasonTopicId } from './dto/create-user-season-topic.input'
+import { UserSeasonTopicId } from './dto/create-user-season-topic.input'
 import { UpdateUserSeasonTopicInput } from './dto/update-user-season-topic.input'
 import { PrismaService } from '../../prisma/prisma.service'
 import { UserSeasonTopic } from './entities/user-season-topic.entity'
@@ -13,35 +13,21 @@ export class UserSeasonTopicService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly userSeasonTopicRepository: UserSeasonTopicRepository,
-  ) {
-  }
-
-  async createUserSeasonTopic({
-                                userId,
-                                seasonId,
-                                topicId,
-                              }: CreateUserSeasonTopicInput): Promise<UserSeasonTopic> {
-    return this.userSeasonTopicRepository.create({
-      seasonTopic: {
-        connect: {
-          seasonId_topicId: { seasonId, topicId },
-        },
-      },
-      userSeason: {
-        connect: { userId_seasonId: { userId, seasonId } },
-      },
-    })
-  }
+  ) {}
 
   async userSeasonTopics(
-    filterUserSeasonTopicInput: FilterUserSeasonTopicInput,
+    { groupId, ...filterUserSeasonTopicInput }: FilterUserSeasonTopicInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationUserSeasonTopic> {
+    // TODO: do mapping with groupSeasonTopics
     const count = await this.userSeasonTopicRepository.count(filterUserSeasonTopicInput)
     const userSeasonTopics: UserSeasonTopic[] = await this.userSeasonTopicRepository.findAll({
       skip,
       take,
-      where: filterUserSeasonTopicInput,
+      where: {
+        ...filterUserSeasonTopicInput,
+        userSeason: { user: { groupId } },
+      },
     })
     return {
       items: userSeasonTopics,
@@ -50,29 +36,56 @@ export class UserSeasonTopicService {
   }
 
   async userSeasonTopic({
-                          userId,
-                          seasonId,
-                          topicId,
-                        }: UserSeasonTopicId): Promise<UserSeasonTopic> {
+    userId,
+    seasonId,
+    topicId,
+  }: UserSeasonTopicId): Promise<UserSeasonTopic> {
+    // TODO: do mapping with groupSeasonTopic
     return this.userSeasonTopicRepository.findOne({
-      userId_seasonId_topicId: {
-        userId,
-        seasonId,
-        topicId,
-      },
+      userId_seasonId_topicId: { userId, seasonId, topicId },
     })
   }
 
   async updateUserSeasonTopic({
-                                id,
-                                ...updates
-                              }: UpdateUserSeasonTopicInput): Promise<UserSeasonTopic> {
+    id,
+    ...updates
+  }: UpdateUserSeasonTopicInput): Promise<UserSeasonTopic> {
     const { userId, seasonId, topicId } = id
-    return this.userSeasonTopicRepository.update({
+    // TODO: get group from user, and search for GroupSeasonTopic if it doesn't exist,
+    // TODO: throw NotFoundException "topic hasn't been added to your group"
+    // TODO: check if the groupSeason the user in is active if not throw "season is not active error"
+    // TODO: upsert userSeason
+    return this.prismaService.userSeasonTopic.upsert({
       where: {
         userId_seasonId_topicId: { userId, seasonId, topicId },
       },
-      data: updates,
+      create: {
+        seasonTopic: {
+          connect: {
+            seasonId_topicId: { seasonId, topicId },
+          },
+        },
+        userSeason: {
+          connect: { userId_seasonId: { userId, seasonId } },
+        },
+      },
+      update: updates,
+      include: {
+        seasonTopic: {
+          include: {
+            season: true,
+            topic: true,
+            seasonTopicProblems: {
+              include: { problem: { include: { tags: true } } },
+            },
+          },
+        },
+        userSeasonTopicProblems: {
+          include: {
+            problem: { include: { tags: true } },
+          },
+        },
+      },
     })
   }
 

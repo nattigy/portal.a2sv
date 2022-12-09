@@ -28,8 +28,7 @@ export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async createUser(createUserInput: CreateUserInput): Promise<User> {
     const { email, firstName, middleName, lastName, password } = createUserInput
@@ -65,9 +64,9 @@ export class UserService {
       where: {
         ...filterUserInput,
         OR: [
-        { firstName: name },
-        // { middleName: name },
-        // { lastName: name },
+          { firstName: name },
+          // { middleName: name },
+          // { lastName: name },
         ],
       },
     })

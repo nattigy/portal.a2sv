@@ -7,8 +7,7 @@ import { GroupSeasonTopicProblem } from './entities/group-season-topic-problem.e
 export class GroupSeasonTopicProblemRepository {
   include = { problem: { include: { tags: true } } }
 
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(
     data: Prisma.GroupSeasonTopicProblemCreateInput,

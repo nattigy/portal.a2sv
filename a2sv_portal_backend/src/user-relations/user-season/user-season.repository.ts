@@ -6,9 +6,19 @@ import { PrismaService } from '../../prisma/prisma.service'
 @Injectable()
 export class UserSeasonRepository {
   include = {
-    user: true, season: true,
+    user: true,
+    season: true,
     userSeasonTopics: {
       include: {
+        seasonTopic: {
+          include: {
+            season: true,
+            topic: true,
+            seasonTopicProblems: {
+              include: { problem: { include: { tags: true } } },
+            },
+          },
+        },
         userSeasonTopicProblems: {
           include: { problem: { include: { tags: true } } },
         },
@@ -16,8 +26,7 @@ export class UserSeasonRepository {
     },
   }
 
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.UserSeasonCreateInput): Promise<UserSeason> {
     return this.prismaService.userSeason.create({

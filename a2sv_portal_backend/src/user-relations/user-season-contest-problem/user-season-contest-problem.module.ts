@@ -7,5 +7,4 @@ import { UserSeasonContestModule } from '../user-season-contest/user-season-cont
   providers: [UserSeasonContestProblemResolver, UserSeasonContestProblemService],
   imports: [UserSeasonContestModule],
 })
-export class UserSeasonContestProblemModule {
-}
+export class UserSeasonContestProblemModule {}

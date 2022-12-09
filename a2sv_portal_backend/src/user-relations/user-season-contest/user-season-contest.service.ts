@@ -11,8 +11,7 @@ export class UserSeasonContestService {
   constructor(
     private readonly userSeasonContestRepository: UserSeasonContestRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   // async userContest({ userId, seasonId, contestId }: UserSeasonContestId): Promise<UserSeasonContest> {
   //   const userSeasonContest: UserSeasonContest = await this.userSeasonContestRepository.findOne({
@@ -97,7 +96,8 @@ export class UserSeasonContestService {
       items: [],
       pageInfo: {
         skip,
-        take, count: 0,
+        take,
+        count: 0,
       },
     }
   }
@@ -145,11 +145,17 @@ export class UserSeasonContestService {
   //   })
   // }
 
-  async removeUserSeasonContest({ userId, seasonId, contestId }: UserSeasonContestId): Promise<number> {
+  async removeUserSeasonContest({
+    userId,
+    seasonId,
+    contestId,
+  }: UserSeasonContestId): Promise<number> {
     try {
       await this.userSeasonContestRepository.remove({
         userId_seasonId_contestId: {
-          userId, seasonId, contestId,
+          userId,
+          seasonId,
+          contestId,
         },
       })
     } catch (e) {

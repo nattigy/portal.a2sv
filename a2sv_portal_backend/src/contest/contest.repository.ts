@@ -5,8 +5,7 @@ import { Contest } from './entities/contest.entity'
 
 @Injectable()
 export class ContestRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(
     data: Prisma.ContestCreateInput | Prisma.ContestUncheckedCreateInput,

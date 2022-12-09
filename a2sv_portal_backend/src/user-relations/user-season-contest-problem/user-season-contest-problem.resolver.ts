@@ -4,8 +4,7 @@ import { UserSeasonContestProblemService } from './user-season-contest-problem.s
 
 @Resolver(() => UserSeasonContestProblem)
 export class UserSeasonContestProblemResolver {
-  constructor(private readonly userContestProblemService: UserSeasonContestProblemService) {
-  }
+  constructor(private readonly userContestProblemService: UserSeasonContestProblemService) {}
 
   // @Query(() => PaginationUserSeasonContestProblem)
   // async userContestProblems(

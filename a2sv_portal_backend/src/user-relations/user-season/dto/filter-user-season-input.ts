@@ -7,4 +7,7 @@ export class FilterUserSeasonInput {
 
   @Field({ nullable: true })
   seasonId?: string
+
+  @Field()
+  groupId?: string
 }

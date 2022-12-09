@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
-import { CreateSeasonTopicProblemInput, SeasonTopicProblemId } from './dto/create-season-topic-problem.input'
+import {
+  CreateSeasonTopicProblemInput,
+  SeasonTopicProblemId,
+} from './dto/create-season-topic-problem.input'
 import { SeasonTopicProblem } from './entities/season-topic-problem.entity'
 import { SeasonTopicProblemRepository } from './season-topic-problem.repository'
 
@@ -9,18 +12,20 @@ export class SeasonTopicProblemService {
   constructor(
     private readonly seasonTopicProblemRepository: SeasonTopicProblemRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
-  async addProblemToSeasonTopic(
-    { seasonId, topicId, problemId }: CreateSeasonTopicProblemInput,
-  ): Promise<SeasonTopicProblem> {
+  async addProblemToSeasonTopic({
+    seasonId,
+    topicId,
+    problemId,
+  }: CreateSeasonTopicProblemInput): Promise<SeasonTopicProblem> {
+    // TODO: check if the season is active
     return this.seasonTopicProblemRepository.create({
-      // seasonId, topicId, problemId,
       seasonTopic: {
         connect: {
           seasonId_topicId: {
-            topicId, seasonId,
+            topicId,
+            seasonId,
           },
         },
       },
