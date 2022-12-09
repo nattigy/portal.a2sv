@@ -14,8 +14,7 @@ export class ProblemService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly problemRepository: ProblemRepository,
-  ) {
-  }
+  ) {}
 
   async createProblem({ tags, ...createInput }: CreateProblemInput): Promise<Problem> {
     return this.problemRepository.create({
@@ -33,7 +32,8 @@ export class ProblemService {
       tags: { some: { name: { in: filterProblemInput.tags } } },
     }
     const problems = await this.problemRepository.findAll({
-      skip, take,
+      skip,
+      take,
       where: filter,
     })
     const count = await this.problemRepository.count(filter)
@@ -47,7 +47,11 @@ export class ProblemService {
     return this.problemRepository.findOne({ id: problemId })
   }
 
-  async updateProblem({ tags, problemId, ...updateInput }: UpdateProblemInput): Promise<Problem> {
+  async updateProblem({
+    tags,
+    problemId,
+    ...updateInput
+  }: UpdateProblemInput): Promise<Problem> {
     return this.problemRepository.update({
       where: { id: problemId },
       data: {

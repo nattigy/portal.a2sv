@@ -5,10 +5,11 @@ import { GroupSeasonTopic } from './entities/group-season-topic.entity'
 
 @Injectable()
 export class GroupSeasonTopicRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
-  async create(data: Prisma.GroupSeasonTopicCreateInput | Prisma.GroupSeasonTopicUncheckedCreateInput): Promise<GroupSeasonTopic> {
+  async create(
+    data: Prisma.GroupSeasonTopicCreateInput | Prisma.GroupSeasonTopicUncheckedCreateInput,
+  ): Promise<GroupSeasonTopic> {
     return this.prismaService.groupSeasonTopic.create({
       data,
       include: {
@@ -17,7 +18,8 @@ export class GroupSeasonTopicRepository {
         },
         seasonTopic: {
           include: {
-            season: true, topic: true,
+            season: true,
+            topic: true,
             seasonTopicProblems: {
               include: { problem: { include: { tags: true } } },
             },
@@ -47,7 +49,8 @@ export class GroupSeasonTopicRepository {
         },
         seasonTopic: {
           include: {
-            season: true, topic: true,
+            season: true,
+            topic: true,
             seasonTopicProblems: {
               include: { problem: { include: { tags: true } } },
             },
@@ -66,7 +69,8 @@ export class GroupSeasonTopicRepository {
         },
         seasonTopic: {
           include: {
-            season: true, topic: true,
+            season: true,
+            topic: true,
             seasonTopicProblems: {
               include: { problem: { include: { tags: true } } },
             },
@@ -82,14 +86,16 @@ export class GroupSeasonTopicRepository {
   }): Promise<GroupSeasonTopic> {
     const { where, data } = params
     return this.prismaService.groupSeasonTopic.update({
-      data, where,
+      data,
+      where,
       include: {
         groupSeason: {
           include: { group: true, season: true, head: true },
         },
         seasonTopic: {
           include: {
-            season: true, topic: true,
+            season: true,
+            topic: true,
             seasonTopicProblems: {
               include: { problem: { include: { tags: true } } },
             },

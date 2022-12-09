@@ -27,4 +27,3 @@ export class UserSeasonTopicId {
   @Field()
   topicId: string
 }
-

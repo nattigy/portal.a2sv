@@ -5,10 +5,9 @@ import { GroupSeason } from './entities/group-season.entity'
 
 @Injectable()
 export class GroupSeasonRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
-  async create(data: Prisma.GroupSeasonCreateInput | Prisma.GroupSeasonUncheckedCreateInput): Promise<GroupSeason> {
+  async create(data: Prisma.GroupSeasonCreateInput): Promise<GroupSeason> {
     return this.prismaService.groupSeason.create({
       data,
       include: { group: true, season: true, head: true },
@@ -27,7 +26,10 @@ export class GroupSeasonRepository {
   }): Promise<GroupSeason[]> {
     const { skip, take, where, orderBy } = params
     return this.prismaService.groupSeason.findMany({
-      skip, take, where, orderBy,
+      skip,
+      take,
+      where,
+      orderBy,
       include: { group: true, season: true, head: true },
     })
   }

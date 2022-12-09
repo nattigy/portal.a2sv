@@ -5,8 +5,7 @@ import { PrismaService } from '../../prisma/prisma.service'
 
 @Injectable()
 export class UserSeasonRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.UserSeasonCreateInput): Promise<UserSeason> {
     return this.prismaService.userSeason.create({

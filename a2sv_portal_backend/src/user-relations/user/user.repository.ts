@@ -5,8 +5,7 @@ import { User } from './entities/user.entity'
 
 @Injectable()
 export class UserRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.UserCreateInput): Promise<User> {
     return this.prismaService.user.create({
@@ -60,7 +59,8 @@ export class UserRepository {
   }): Promise<User> {
     const { where, data } = params
     return this.prismaService.user.update({
-      data, where,
+      data,
+      where,
       include: {
         group: true,
         userProfile: { include: { user: true } },

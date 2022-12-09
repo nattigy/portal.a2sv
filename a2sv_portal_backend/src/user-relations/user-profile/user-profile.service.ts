@@ -13,8 +13,7 @@ export class UserProfileService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly userProfileRepository: UserProfileRepository,
-  ) {
-  }
+  ) {}
 
   async createProfile({ userId, ...createUserProfileInput }: CreateUserProfileInput) {
     return this.userProfileRepository.create({
@@ -55,7 +54,7 @@ export class UserProfileService {
   async updateUserProfile({ userId, ...updates }: UpdateUserProfileInput) {
     return this.userProfileRepository.update({
       where: {
-        userId: userId,
+        userId,
       },
       data: {
         ...updates,

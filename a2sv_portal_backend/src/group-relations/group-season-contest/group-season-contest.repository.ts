@@ -5,8 +5,7 @@ import { GroupSeasonContest } from './entities/group-season-contest.entity'
 
 @Injectable()
 export class GroupSeasonContestRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.GroupSeasonContestCreateInput): Promise<GroupSeasonContest> {
     return this.prismaService.groupSeasonContest.create({
@@ -57,7 +56,9 @@ export class GroupSeasonContestRepository {
     })
   }
 
-  async findOne(where: Prisma.GroupSeasonContestWhereUniqueInput): Promise<GroupSeasonContest> {
+  async findOne(
+    where: Prisma.GroupSeasonContestWhereUniqueInput,
+  ): Promise<GroupSeasonContest> {
     return this.prismaService.groupSeasonContest.findUnique({
       where,
       include: {
@@ -82,7 +83,8 @@ export class GroupSeasonContestRepository {
   }): Promise<GroupSeasonContest> {
     const { where, data } = params
     return this.prismaService.groupSeasonContest.update({
-      data, where,
+      data,
+      where,
       include: {
         groupSeason: {
           include: { group: true, season: true, head: true },

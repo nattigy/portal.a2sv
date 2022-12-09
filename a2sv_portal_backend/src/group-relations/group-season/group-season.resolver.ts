@@ -8,8 +8,7 @@ import { PaginationGroupSeason } from '../../common/page/pagination-info'
 
 @Resolver(() => GroupSeason)
 export class GroupSeasonResolver {
-  constructor(private readonly groupSeasonService: GroupSeasonService) {
-  }
+  constructor(private readonly groupSeasonService: GroupSeasonService) {}
 
   @Mutation(() => GroupSeason)
   async addSeasonToAGroup(
@@ -19,28 +18,32 @@ export class GroupSeasonResolver {
   }
 
   @Query(() => GroupSeason)
-  async groupSeasonStat(@Args('groupSeasonId') groupSeasonId: GroupSeasonId): Promise<GroupSeason> {
-    return this.groupSeasonService.groupSeasonStat(groupSeasonId)
+  async groupSeason(
+    @Args('groupSeasonId') groupSeasonId: GroupSeasonId,
+  ): Promise<GroupSeason> {
+    return this.groupSeasonService.groupSeason(groupSeasonId)
   }
 
   @Query(() => PaginationGroupSeason)
-  async groupSeasonsStats(
+  async groupSeasons(
     @Args('groupId') groupId: string,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<PaginationGroupSeason> {
-    return this.groupSeasonService.groupsSeasonsStats({ groupId }, paginationInput)
+    return this.groupSeasonService.groupsSeasons({ groupId }, paginationInput)
   }
 
   @Query(() => PaginationGroupSeason)
-  async seasonGroupsStats(
+  async seasonGroups(
     @Args('seasonId') seasonId: string,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<PaginationGroupSeason> {
-    return this.groupSeasonService.groupsSeasonsStats({ seasonId }, paginationInput)
+    return this.groupSeasonService.groupsSeasons({ seasonId }, paginationInput)
   }
 
   @Query(() => GroupSeason)
-  async updateGroupSeason(@Args('updateGroupSeasonInput') updateGroupSeasonInput: UpdateGroupSeasonInput): Promise<GroupSeason> {
+  async updateGroupSeason(
+    @Args('updateGroupSeasonInput') updateGroupSeasonInput: UpdateGroupSeasonInput,
+  ): Promise<GroupSeason> {
     return this.groupSeasonService.updateGroupSeason(updateGroupSeasonInput)
   }
 

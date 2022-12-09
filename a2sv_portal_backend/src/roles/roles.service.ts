@@ -6,8 +6,7 @@ import { UpdateRoleInput } from './dto/update-role.dto'
 
 @Injectable()
 export class RolesService {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async createRole(data: CreateRoleInput): Promise<Role> {
     const date = new Date()

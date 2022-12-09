@@ -6,13 +6,12 @@ import { UpdateGroupSeasonContestInput } from './dto/update-group-season-contest
 
 @Resolver(() => GroupSeasonContest)
 export class GroupSeasonContestResolver {
-  constructor(private readonly groupSeasonContestService: GroupSeasonContestService) {
-  }
+  constructor(private readonly groupSeasonContestService: GroupSeasonContestService) {}
 
   @Mutation(() => GroupSeasonContest)
   createGroupSeasonContest(
     @Args('createGroupSeasonContestInput')
-      createGroupSeasonContestInput: CreateGroupSeasonContestInput,
+    createGroupSeasonContestInput: CreateGroupSeasonContestInput,
   ) {
     return this.groupSeasonContestService.create(createGroupSeasonContestInput)
   }
@@ -30,7 +29,7 @@ export class GroupSeasonContestResolver {
   @Mutation(() => GroupSeasonContest)
   updateGroupSeasonContest(
     @Args('updateGroupSeasonContestInput')
-      updateGroupSeasonContestInput: UpdateGroupSeasonContestInput,
+    updateGroupSeasonContestInput: UpdateGroupSeasonContestInput,
   ) {
     return this.groupSeasonContestService.update(
       updateGroupSeasonContestInput.id,

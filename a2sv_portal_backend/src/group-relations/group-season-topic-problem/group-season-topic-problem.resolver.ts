@@ -10,22 +10,27 @@ import { PaginationInput } from '../../common/page/pagination.input'
 
 @Resolver(() => GroupSeasonTopicProblem)
 export class GroupSeasonTopicProblemResolver {
-  constructor(private readonly groupSeasonTopicProblemService: GroupSeasonTopicProblemService) {
-  }
+  constructor(
+    private readonly groupSeasonTopicProblemService: GroupSeasonTopicProblemService,
+  ) {}
 
   @Mutation(() => GroupSeasonTopicProblem)
   async addProblemToGroupSeasonTopic(
     @Args('createGroupSeasonTopicProblemInput')
-      createGroupSeasonTopicProblemInput: CreateGroupSeasonTopicProblemInput,
+    createGroupSeasonTopicProblemInput: CreateGroupSeasonTopicProblemInput,
   ): Promise<GroupSeasonTopicProblem> {
-    return this.groupSeasonTopicProblemService.addProblemToGroupSeasonTopic(createGroupSeasonTopicProblemInput)
+    return this.groupSeasonTopicProblemService.addProblemToGroupSeasonTopic(
+      createGroupSeasonTopicProblemInput,
+    )
   }
 
   @Query(() => GroupSeasonTopicProblem)
   async groupSeasonTopicProblem(
     @Args('groupSeasonTopicProblemId') groupSeasonTopicProblemId: GroupSeasonTopicProblemId,
   ): Promise<GroupSeasonTopicProblem> {
-    return this.groupSeasonTopicProblemService.groupSeasonTopicProblem(groupSeasonTopicProblemId)
+    return this.groupSeasonTopicProblemService.groupSeasonTopicProblem(
+      groupSeasonTopicProblemId,
+    )
   }
 
   @Query(() => [GroupSeasonTopicProblem])
@@ -33,7 +38,10 @@ export class GroupSeasonTopicProblemResolver {
     @Args('groupSeasonTopicId') groupSeasonTopicId: GroupSeasonTopicId,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<GroupSeasonTopicProblem[]> {
-    return this.groupSeasonTopicProblemService.groupSeasonTopicProblems(groupSeasonTopicId, paginationInput)
+    return this.groupSeasonTopicProblemService.groupSeasonTopicProblems(
+      groupSeasonTopicId,
+      paginationInput,
+    )
   }
 
   @Mutation(() => Int)
@@ -43,7 +51,10 @@ export class GroupSeasonTopicProblemResolver {
   ): Promise<number> {
     for (const problemId of problemIds) {
       await this.groupSeasonTopicProblemService.addProblemToGroupSeasonTopic({
-        problemId, groupId, topicId, seasonId,
+        problemId,
+        groupId,
+        topicId,
+        seasonId,
       })
     }
     return problemIds.length
@@ -53,7 +64,9 @@ export class GroupSeasonTopicProblemResolver {
   async removeGroupSeasonTopicProblem(
     @Args('groupSeasonTopicProblemId') groupSeasonTopicProblemId: GroupSeasonTopicProblemId,
   ) {
-    return this.groupSeasonTopicProblemService.removeGroupSeasonTopicProblem(groupSeasonTopicProblemId)
+    return this.groupSeasonTopicProblemService.removeGroupSeasonTopicProblem(
+      groupSeasonTopicProblemId,
+    )
   }
 
   @Mutation(() => GroupSeasonTopicProblem)
@@ -63,7 +76,10 @@ export class GroupSeasonTopicProblemResolver {
   ): Promise<number> {
     for (const problemId of problemIds) {
       await this.groupSeasonTopicProblemService.removeGroupSeasonTopicProblem({
-        problemId, groupId, topicId, seasonId,
+        problemId,
+        groupId,
+        topicId,
+        seasonId,
       })
     }
     return problemIds.length

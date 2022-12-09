@@ -7,8 +7,7 @@ import { PaginationInput } from '../../common/page/pagination.input'
 
 @Resolver(() => UserSeason)
 export class UserSeasonResolver {
-  constructor(private readonly userSeasonService: UserSeasonService) {
-  }
+  constructor(private readonly userSeasonService: UserSeasonService) {}
 
   @Query(() => UserSeason)
   async userSeasonStat(@Args('userSeasonId') userSeasonId: UserSeasonId): Promise<UserSeason> {

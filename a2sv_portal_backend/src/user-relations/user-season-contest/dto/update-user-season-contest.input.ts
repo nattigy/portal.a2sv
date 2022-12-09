@@ -7,4 +7,3 @@ export class UpdateUserSeasonContestInput extends PartialType(CreateUserSeasonIn
   @Field(() => UserSeasonContestId)
   id: UserSeasonContestId
 }
-

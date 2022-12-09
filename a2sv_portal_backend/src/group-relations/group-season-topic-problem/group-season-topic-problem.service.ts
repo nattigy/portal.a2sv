@@ -13,12 +13,19 @@ export class GroupSeasonTopicProblemService {
   constructor(
     private readonly groupSeasonTopicProblemRepository: GroupSeasonTopicProblemRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
-  async addProblemToGroupSeasonTopic({ groupId, seasonId, topicId, problemId }: CreateGroupSeasonTopicProblemInput) {
+  async addProblemToGroupSeasonTopic({
+    groupId,
+    seasonId,
+    topicId,
+    problemId,
+  }: CreateGroupSeasonTopicProblemInput) {
     return this.groupSeasonTopicProblemRepository.create({
-      groupId, seasonId, topicId, problemId,
+      groupId,
+      seasonId,
+      topicId,
+      problemId,
       groupSeasonTopic: {
         connect: { groupId_seasonId_topicId: { topicId, seasonId, groupId } },
       },
@@ -26,10 +33,18 @@ export class GroupSeasonTopicProblemService {
     })
   }
 
-  async groupSeasonTopicProblem({ groupId, seasonId, topicId, problemId }: GroupSeasonTopicProblemId) {
+  async groupSeasonTopicProblem({
+    groupId,
+    seasonId,
+    topicId,
+    problemId,
+  }: GroupSeasonTopicProblemId) {
     return this.groupSeasonTopicProblemRepository.findOne({
       groupId_seasonId_topicId_problemId: {
-        problemId, topicId, seasonId, groupId,
+        problemId,
+        topicId,
+        seasonId,
+        groupId,
       },
     })
   }
@@ -39,15 +54,24 @@ export class GroupSeasonTopicProblemService {
     { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ) {
     return this.groupSeasonTopicProblemRepository.findAll({
-      skip, take,
+      skip,
+      take,
       where: { groupId, seasonId, topicId, problemId },
     })
   }
 
-  async removeGroupSeasonTopicProblem({ groupId, seasonId, topicId, problemId }: GroupSeasonTopicProblemId) {
+  async removeGroupSeasonTopicProblem({
+    groupId,
+    seasonId,
+    topicId,
+    problemId,
+  }: GroupSeasonTopicProblemId) {
     return this.groupSeasonTopicProblemRepository.remove({
       groupId_seasonId_topicId_problemId: {
-        problemId, topicId, seasonId, groupId,
+        problemId,
+        topicId,
+        seasonId,
+        groupId,
       },
     })
   }

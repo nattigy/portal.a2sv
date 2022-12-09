@@ -94,13 +94,11 @@ export class UserProfile {
 
   @Field(() => Date, { nullable: true })
   updatedAt?: Date
-
 }
 
 registerEnumType(CurrentWorkStatusEnum, {
   name: 'CurrentWorkStatusEnum',
 })
-
 
 registerEnumType(CurrentEducationStatusEnum, {
   name: 'CurrentEducationStatusEnum',

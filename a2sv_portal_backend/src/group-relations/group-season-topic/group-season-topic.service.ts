@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common'
-import { CreateGroupSeasonTopicInput, GroupSeasonTopicId } from './dto/create-group-season-topic.input'
+import {
+  CreateGroupSeasonTopicInput,
+  GroupSeasonTopicId,
+} from './dto/create-group-season-topic.input'
 import { PrismaService } from '../../prisma/prisma.service'
 import { GroupSeasonTopicRepository } from './group-season-topic.repository'
 import { FilterGroupSeasonTopicInput } from './dto/filter-group-season-topic.input'
@@ -10,12 +13,13 @@ export class GroupSeasonTopicService {
   constructor(
     private readonly groupSeasonTopicRepository: GroupSeasonTopicRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async addTopicToGroupSeason({ groupId, seasonId, topicId }: CreateGroupSeasonTopicInput) {
     return this.groupSeasonTopicRepository.create({
-      groupId, seasonId, topicId,
+      groupId,
+      seasonId,
+      topicId,
       seasonTopic: { connect: { seasonId_topicId: { topicId, seasonId } } },
     })
   }
@@ -31,7 +35,8 @@ export class GroupSeasonTopicService {
     { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ) {
     return this.groupSeasonTopicRepository.findAll({
-      skip, take,
+      skip,
+      take,
       where: filterGroupSeasonTopicInput,
     })
   }

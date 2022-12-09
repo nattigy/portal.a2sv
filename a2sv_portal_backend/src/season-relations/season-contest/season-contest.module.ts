@@ -6,5 +6,4 @@ import { SeasonContestRepository } from './season-contest.repository'
 @Module({
   providers: [SeasonContestRepository, SeasonContestResolver, SeasonContestService],
 })
-export class SeasonContestModule {
-}
+export class SeasonContestModule {}

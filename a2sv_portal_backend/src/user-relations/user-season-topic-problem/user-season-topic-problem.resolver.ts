@@ -9,8 +9,7 @@ import { UserSeasonTopicProblemId } from './dto/create-user-season-topic-problem
 
 @Resolver(() => UserSeasonTopicProblem)
 export class UserSeasonTopicProblemResolver {
-  constructor(private readonly seasonTopicUserProblemService: UserSeasonTopicProblemService) {
-  }
+  constructor(private readonly seasonTopicUserProblemService: UserSeasonTopicProblemService) {}
 
   @Query(() => UserSeasonTopicProblem)
   async userSeasonTopicProblem(
@@ -21,7 +20,8 @@ export class UserSeasonTopicProblemResolver {
 
   @Query(() => PaginationUserSeasonTopicProblem)
   async userSeasonTopicProblems(
-    @Args('filterUserSeasonTopicProblemInput') filterUserSeasonTopicProblemInput: FilterUserSeasonTopicProblemInput,
+    @Args('filterUserSeasonTopicProblemInput')
+    filterUserSeasonTopicProblemInput: FilterUserSeasonTopicProblemInput,
     @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInput,
   ): Promise<PaginationUserSeasonTopicProblem> {
     return this.seasonTopicUserProblemService.userSeasonTopicProblems(
@@ -33,15 +33,19 @@ export class UserSeasonTopicProblemResolver {
   @Mutation(() => UserSeasonTopicProblem)
   async updateUserSeasonTopicProblem(
     @Args('updateUserSeasonTopicProblemInput')
-      updateUserSeasonTopicProblemInput: UpdateUserSeasonTopicProblemInput,
+    updateUserSeasonTopicProblemInput: UpdateUserSeasonTopicProblemInput,
   ): Promise<UserSeasonTopicProblem> {
-    return this.seasonTopicUserProblemService.updateUserSeasonTopicProblem(updateUserSeasonTopicProblemInput)
+    return this.seasonTopicUserProblemService.updateUserSeasonTopicProblem(
+      updateUserSeasonTopicProblemInput,
+    )
   }
 
   @Mutation(() => Int)
   async removeSeasonTopicProblemUser(
     @Args('seasonTopicProblemUserId') seasonTopicProblemUserId: UserSeasonTopicProblemId,
   ) {
-    return this.seasonTopicUserProblemService.removeSeasonTopicProblemUser(seasonTopicProblemUserId)
+    return this.seasonTopicUserProblemService.removeSeasonTopicProblemUser(
+      seasonTopicProblemUserId,
+    )
   }
 }

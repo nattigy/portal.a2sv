@@ -7,8 +7,7 @@ import { FilterSeasonContestInput } from './dto/filter-season-contest.input'
 
 @Resolver(() => SeasonContest)
 export class SeasonContestResolver {
-  constructor(private readonly seasonContestService: SeasonContestService) {
-  }
+  constructor(private readonly seasonContestService: SeasonContestService) {}
 
   @Mutation(() => SeasonContest)
   async createSeasonContest(
@@ -19,14 +18,17 @@ export class SeasonContestResolver {
 
   @Query(() => [SeasonContest])
   async seasonContests(
-    @Args('filterSeasonContestInput', { nullable: true }) filterSeasonContestInput?: FilterSeasonContestInput,
+    @Args('filterSeasonContestInput', { nullable: true })
+    filterSeasonContestInput?: FilterSeasonContestInput,
     @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInput,
   ): Promise<SeasonContest[]> {
     return this.seasonContestService.seasonContests(filterSeasonContestInput)
   }
 
   @Query(() => SeasonContest)
-  async seasonContest(@Args('seasonContestId') seasonContestId: SeasonContestId): Promise<SeasonContest> {
+  async seasonContest(
+    @Args('seasonContestId') seasonContestId: SeasonContestId,
+  ): Promise<SeasonContest> {
     return this.seasonContestService.seasonContest(seasonContestId)
   }
 
