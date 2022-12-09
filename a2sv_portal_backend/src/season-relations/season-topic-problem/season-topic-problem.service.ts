@@ -19,7 +19,7 @@ export class SeasonTopicProblemService {
     { seasonId, topicId, problemId }: CreateSeasonTopicProblemInput,
   ): Promise<SeasonTopicProblem> {
     return this.seasonTopicProblemRepository.create({
-      seasonId, topicId, problemId,
+      // seasonId, topicId, problemId,
       seasonTopic: {
         connect: {
           seasonId_topicId: {
@@ -27,30 +27,33 @@ export class SeasonTopicProblemService {
           },
         },
       },
+      problem: {
+        connect: { id: problemId },
+      },
     })
   }
 
-  async seasonTopicProblem({ seasonId, topicId, problemId }: SeasonTopicProblemId): Promise<SeasonTopicProblem> {
-    return this.seasonTopicProblemRepository.findOne({
-      seasonId_topicId_problemId: { seasonId, topicId, problemId },
-    })
-  }
-
-  async seasonTopicProblems(
-    seasonTopicProblemFilter: SeasonTopicProblemFilter,
-    { skip, take }: PaginationInput = { take: 50, skip: 0 },
-  ): Promise<PaginationSeasonTopicProblem> {
-    const count = await this.seasonTopicProblemRepository.count(seasonTopicProblemFilter)
-    const seasonTopicProblems: SeasonTopicProblem[] =
-      await this.seasonTopicProblemRepository.findAll({
-        where: seasonTopicProblemFilter,
-        skip, take,
-      })
-    return {
-      items: seasonTopicProblems,
-      pageInfo: { skip, take, count },
-    }
-  }
+  // async seasonTopicProblem({ seasonId, topicId, problemId }: SeasonTopicProblemId): Promise<SeasonTopicProblem> {
+  //   return this.seasonTopicProblemRepository.findOne({
+  //     seasonId_topicId_problemId: { seasonId, topicId, problemId },
+  //   })
+  // }
+  //
+  // async seasonTopicProblems(
+  //   seasonTopicProblemFilter: SeasonTopicProblemFilter,
+  //   { skip, take }: PaginationInput = { take: 50, skip: 0 },
+  // ): Promise<PaginationSeasonTopicProblem> {
+  //   const count = await this.seasonTopicProblemRepository.count(seasonTopicProblemFilter)
+  //   const seasonTopicProblems: SeasonTopicProblem[] =
+  //     await this.seasonTopicProblemRepository.findAll({
+  //       where: seasonTopicProblemFilter,
+  //       skip, take,
+  //     })
+  //   return {
+  //     items: seasonTopicProblems,
+  //     pageInfo: { skip, take, count },
+  //   }
+  // }
 
   async remove({ seasonId, problemId, topicId }: SeasonTopicProblemId) {
     return this.seasonTopicProblemRepository.remove({

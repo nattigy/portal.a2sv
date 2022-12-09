@@ -15,7 +15,7 @@ export class SeasonContestService {
 
   async createSeasonContest({ seasonId, contestId }: CreateSeasonContestInput) {
     return this.seasonContestRepository.create({
-      seasonId, contestId,
+      // seasonId, contestId,
       season: { connect: { id: seasonId } },
       contest: { connect: { id: contestId } },
     })

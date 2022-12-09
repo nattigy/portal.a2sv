@@ -8,10 +8,21 @@ export class UserSeasonRepository {
   constructor(private readonly prismaService: PrismaService) {
   }
 
+  include = {
+    user: true, season: true,
+    userSeasonTopics: {
+      include: {
+        userSeasonTopicProblems: {
+          include: { problem: { include: { tags: true } } },
+        },
+      },
+    },
+  }
+
   async create(data: Prisma.UserSeasonCreateInput): Promise<UserSeason> {
     return this.prismaService.userSeason.create({
       data,
-      include: { user: true, season: true },
+      include: this.include,
     })
   }
 
@@ -32,14 +43,14 @@ export class UserSeasonRepository {
       take,
       where,
       orderBy,
-      include: { user: true, season: true },
+      include: this.include,
     })
   }
 
   async findOne(where: Prisma.UserSeasonWhereUniqueInput): Promise<UserSeason> {
     return this.prismaService.userSeason.findUnique({
       where,
-      include: { user: true, season: true },
+      include:this.include,
     })
   }
 
@@ -51,7 +62,7 @@ export class UserSeasonRepository {
     return this.prismaService.userSeason.update({
       data,
       where,
-      include: { user: true, season: true },
+      include: this.include,
     })
   }
 

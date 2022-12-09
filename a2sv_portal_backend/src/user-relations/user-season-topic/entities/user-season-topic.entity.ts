@@ -18,11 +18,11 @@ export class UserSeasonTopic {
   @Field(() => ComfortLevelEnum, { defaultValue: ComfortLevelEnum.UNCOMFORTABLE })
   comfortLevel: ComfortLevelEnum = ComfortLevelEnum.UNCOMFORTABLE
 
-  @Field(() => SeasonTopic)
-  seasonTopic: SeasonTopic
-
-  @Field(() => UserSeason)
-  userSeason: UserSeason
+  // @Field(() => SeasonTopic)
+  // seasonTopic: SeasonTopic
+  //
+  // @Field(() => UserSeason)
+  // userSeason: UserSeason
 
   @Field(() => [UserSeasonTopicProblem])
   userSeasonTopicProblems: UserSeasonTopicProblem[]

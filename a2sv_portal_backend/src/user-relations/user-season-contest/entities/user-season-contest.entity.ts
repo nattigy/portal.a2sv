@@ -29,14 +29,14 @@ export class UserSeasonContest {
   @Field(() => Int)
   timeSpent: number
 
-  @Field(() => SeasonContest)
-  seasonContest: SeasonContest
+  // @Field(() => SeasonContest)
+  // seasonContest: SeasonContest
+  //
+  // @Field(() => UserSeason)
+  // userSeason: UserSeason
 
-  @Field(() => UserSeason)
-  userSeason: UserSeason
-
-  @Field(() => [UserSeasonContestProblem])
-  userSeasonContestProblems: UserSeasonContestProblem[]
+  // @Field(() => [UserSeasonContestProblem])
+  // userSeasonContestProblems: UserSeasonContestProblem[]
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date

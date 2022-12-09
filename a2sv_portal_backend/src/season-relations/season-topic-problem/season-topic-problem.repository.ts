@@ -8,7 +8,7 @@ export class SeasonTopicProblemRepository {
   constructor(private readonly prismaService: PrismaService) {
   }
 
-  async create(data: Prisma.SeasonTopicProblemCreateInput | Prisma.SeasonTopicProblemUncheckedCreateInput): Promise<SeasonTopicProblem> {
+  async create(data: Prisma.SeasonTopicProblemCreateInput): Promise<SeasonTopicProblem> {
     return this.prismaService.seasonTopicProblem.create({
       data,
       include: {

@@ -18,7 +18,7 @@ export class SeasonTopicService {
 
   async addTopicToASeason({ seasonId, topicId, problems }: CreateSeasonTopicInput): Promise<SeasonTopic> {
     return this.seasonTopicRepository.create({
-      seasonId, topicId,
+      // seasonId, topicId,
       season: { connect: { id: seasonId } },
       topic: { connect: { id: topicId } },
       seasonTopicProblems: {
