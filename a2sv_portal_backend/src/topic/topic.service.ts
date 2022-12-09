@@ -24,17 +24,13 @@ export class TopicService {
     filterTopicInput: FilterTopicInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationTopic> {
-    const topicsCount = await this.topicRepository.count(filterTopicInput)
+    const count = await this.topicRepository.count(filterTopicInput)
     const topics = await this.topicRepository.findAll({
       skip, take, where: filterTopicInput,
     })
     return {
       items: topics,
-      pageInfo: {
-        skip,
-        take,
-        count: topicsCount,
-      },
+      pageInfo: { skip, take, count},
     }
   }
 
