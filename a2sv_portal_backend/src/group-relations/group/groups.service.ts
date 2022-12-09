@@ -17,11 +17,14 @@ export class GroupsService {
   ) {
   }
 
-  async createGroup(createGroupInput: CreateGroupInput): Promise<Group> {
+  async createGroup({ headId, ...createGroupInput }: CreateGroupInput): Promise<Group> {
     // TODO: if headId is in the create input check if the user with the headId exists
     // if not return user not found
     // if the user is there check if the user has been assigned to another group
-    return this.groupRepository.create(createGroupInput)
+    return this.groupRepository.create({
+      ...createGroupInput,
+      head: { connect: { id: headId } }
+    })
   }
 
   async group(id: string): Promise<Group> {
