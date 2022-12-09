@@ -7,14 +7,14 @@ import { GroupSeasonTopicProblem } from './entities/group-season-topic-problem.e
 export class GroupSeasonTopicProblemRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
+  include = { problem: { include: { tags: true } } }
+
   async create(
-    data:
-      | Prisma.GroupSeasonTopicProblemCreateInput
-      | Prisma.GroupSeasonTopicProblemUncheckedCreateInput,
+    data: Prisma.GroupSeasonTopicProblemCreateInput
   ): Promise<GroupSeasonTopicProblem> {
     return this.prismaService.groupSeasonTopicProblem.create({
       data,
-      include: { problem: { include: { tags: true } } },
+      include: this.include,
     })
   }
 
@@ -34,7 +34,7 @@ export class GroupSeasonTopicProblemRepository {
       take,
       where,
       orderBy,
-      include: { problem: { include: { tags: true } } },
+      include: this.include,
     })
   }
 
@@ -43,7 +43,7 @@ export class GroupSeasonTopicProblemRepository {
   ): Promise<GroupSeasonTopicProblem> {
     return this.prismaService.groupSeasonTopicProblem.findUnique({
       where,
-      include: { problem: { include: { tags: true } } },
+      include: this.include,
     })
   }
 
@@ -57,7 +57,7 @@ export class GroupSeasonTopicProblemRepository {
     return this.prismaService.groupSeasonTopicProblem.update({
       data,
       where,
-      include: { problem: { include: { tags: true } } },
+      include: this.include,
     })
   }
 

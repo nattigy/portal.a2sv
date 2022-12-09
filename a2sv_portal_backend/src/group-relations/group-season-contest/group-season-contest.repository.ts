@@ -11,17 +11,17 @@ export class GroupSeasonContestRepository {
     return this.prismaService.groupSeasonContest.create({
       data,
       include: {
-        groupSeason: {
-          include: { group: true, season: true, head: true },
-        },
-        seasonContest: {
-          include: {
-            season: true,
-            contest: {
-              include: { problems: { include: { tags: true } } },
-            },
-          },
-        },
+        // groupSeason: {
+        //   include: { group: true, season: true, head: true },
+        // },
+        // seasonContest: {
+        //   include: {
+        //     season: true,
+        //     contest: {
+        //       include: { problems: { include: { tags: true } } },
+        //     },
+        //   },
+        // },
       },
     })
   }
@@ -41,17 +41,17 @@ export class GroupSeasonContestRepository {
       where,
       orderBy,
       include: {
-        groupSeason: {
-          include: { group: true, season: true, head: true },
-        },
-        seasonContest: {
-          include: {
-            season: true,
-            contest: {
-              include: { problems: { include: { tags: true } } },
-            },
-          },
-        },
+        // groupSeason: {
+        //   include: { group: true, season: true, head: true },
+        // },
+        // seasonContest: {
+        //   include: {
+        //     season: true,
+        //     contest: {
+        //       include: { problems: { include: { tags: true } } },
+        //     },
+        //   },
+        // },
       },
     })
   }
@@ -62,17 +62,17 @@ export class GroupSeasonContestRepository {
     return this.prismaService.groupSeasonContest.findUnique({
       where,
       include: {
-        groupSeason: {
-          include: { group: true, season: true, head: true },
-        },
-        seasonContest: {
-          include: {
-            season: true,
-            contest: {
-              include: { problems: { include: { tags: true } } },
-            },
-          },
-        },
+        // groupSeason: {
+        //   include: { group: true, season: true, head: true },
+        // },
+        // seasonContest: {
+        //   include: {
+        //     season: true,
+        //     contest: {
+        //       include: { problems: { include: { tags: true } } },
+        //     },
+        //   },
+        // },
       },
     })
   }
@@ -86,17 +86,17 @@ export class GroupSeasonContestRepository {
       data,
       where,
       include: {
-        groupSeason: {
-          include: { group: true, season: true, head: true },
-        },
-        seasonContest: {
-          include: {
-            season: true,
-            contest: {
-              include: { problems: { include: { tags: true } } },
-            },
-          },
-        },
+        // groupSeason: {
+        //   include: { group: true, season: true, head: true },
+        // },
+        // seasonContest: {
+        //   include: {
+        //     season: true,
+        //     contest: {
+        //       include: { problems: { include: { tags: true } } },
+        //     },
+        //   },
+        // },
       },
     })
   }

@@ -20,26 +20,26 @@ export class GroupSeasonTopicResolver {
     return this.groupSeasonTopicService.addTopicToGroupSeason(createGroupSeasonTopicInput)
   }
 
-  @Query(() => GroupSeasonTopic)
-  async groupSeasonTopic(@Args('groupSeasonTopicId') groupSeasonTopicId: GroupSeasonTopicId) {
-    return this.groupSeasonTopicService.groupSeasonTopic(groupSeasonTopicId)
-  }
+  // @Query(() => GroupSeasonTopic)
+  // async groupSeasonTopic(@Args('groupSeasonTopicId') groupSeasonTopicId: GroupSeasonTopicId) {
+  //   return this.groupSeasonTopicService.groupSeasonTopic(groupSeasonTopicId)
+  // }
 
-  @Query(() => [GroupSeasonTopic])
-  async groupSeasonTopics(
-    @Args('groupSeasonId') groupSeasonId: GroupSeasonId,
-    @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
-  ) {
-    return this.groupSeasonTopicService.groupSeasonTopics(groupSeasonId, paginationInput)
-  }
+  // @Query(() => [GroupSeasonTopic])
+  // async groupSeasonTopics(
+  //   @Args('groupSeasonId') groupSeasonId: GroupSeasonId,
+  //   @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
+  // ) {
+  //   return this.groupSeasonTopicService.groupSeasonTopics(groupSeasonId, paginationInput)
+  // }
 
-  @Query(() => [GroupSeasonTopic])
-  async seasonGroupTopics(
-    @Args('seasonId') seasonId: string,
-    @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
-  ) {
-    return this.groupSeasonTopicService.groupSeasonTopics({ seasonId }, paginationInput)
-  }
+  // @Query(() => [GroupSeasonTopic])
+  // async seasonGroupTopics(
+  //   @Args('seasonId') seasonId: string,
+  //   @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
+  // ) {
+  //   return this.groupSeasonTopicService.groupSeasonTopics({ seasonId }, paginationInput)
+  // }
 
   @Mutation(() => GroupSeasonTopic)
   async removeGroupSeasonTopic(

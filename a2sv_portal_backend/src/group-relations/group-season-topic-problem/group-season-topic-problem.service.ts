@@ -22,10 +22,10 @@ export class GroupSeasonTopicProblemService {
     problemId,
   }: CreateGroupSeasonTopicProblemInput) {
     return this.groupSeasonTopicProblemRepository.create({
-      groupId,
-      seasonId,
-      topicId,
-      problemId,
+      // groupId,
+      // seasonId,
+      // topicId,
+      // problemId,
       groupSeasonTopic: {
         connect: { groupId_seasonId_topicId: { topicId, seasonId, groupId } },
       },
@@ -33,32 +33,32 @@ export class GroupSeasonTopicProblemService {
     })
   }
 
-  async groupSeasonTopicProblem({
-    groupId,
-    seasonId,
-    topicId,
-    problemId,
-  }: GroupSeasonTopicProblemId) {
-    return this.groupSeasonTopicProblemRepository.findOne({
-      groupId_seasonId_topicId_problemId: {
-        problemId,
-        topicId,
-        seasonId,
-        groupId,
-      },
-    })
-  }
-
-  async groupSeasonTopicProblems(
-    { groupId, seasonId, topicId, problemId }: FilterGroupSeasonTopicProblemInput,
-    { skip, take }: PaginationInput = { take: 50, skip: 0 },
-  ) {
-    return this.groupSeasonTopicProblemRepository.findAll({
-      skip,
-      take,
-      where: { groupId, seasonId, topicId, problemId },
-    })
-  }
+  // async groupSeasonTopicProblem({
+  //   groupId,
+  //   seasonId,
+  //   topicId,
+  //   problemId,
+  // }: GroupSeasonTopicProblemId) {
+  //   return this.groupSeasonTopicProblemRepository.findOne({
+  //     groupId_seasonId_topicId_problemId: {
+  //       problemId,
+  //       topicId,
+  //       seasonId,
+  //       groupId,
+  //     },
+  //   })
+  // }
+  //
+  // async groupSeasonTopicProblems(
+  //   { groupId, seasonId, topicId, problemId }: FilterGroupSeasonTopicProblemInput,
+  //   { skip, take }: PaginationInput = { take: 50, skip: 0 },
+  // ) {
+  //   return this.groupSeasonTopicProblemRepository.findAll({
+  //     skip,
+  //     take,
+  //     where: { groupId, seasonId, topicId, problemId },
+  //   })
+  // }
 
   async removeGroupSeasonTopicProblem({
     groupId,

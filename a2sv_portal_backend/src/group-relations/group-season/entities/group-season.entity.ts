@@ -3,6 +3,8 @@ import { Group } from '../../group/entities/group.entity'
 import { Season } from '../../../season-relations/season/entities/season.entity'
 import { JoinRequestEnum } from '@prisma/client'
 import { User } from '../../../user-relations/user/entities/user.entity'
+import { GroupSeasonTopic } from '../../group-season-topic/entities/group-season-topic.entity'
+import { GroupSeasonContest } from '../../group-season-contest/entities/group-season-contest.entity'
 
 @ObjectType()
 export class GroupSeason {
@@ -36,8 +38,11 @@ export class GroupSeason {
   @Field(() => User)
   head: User
 
-  // groupSeasonTopics   GroupSeasonTopic[]
-  // groupSeasonContests GroupSeasonContest[]
+  @Field(() => [GroupSeasonTopic])
+  groupSeasonTopics:   GroupSeasonTopic[]
+
+  // @Field(() => [GroupSeasonContest])
+  // groupSeasonContests: GroupSeasonContest[]
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date
