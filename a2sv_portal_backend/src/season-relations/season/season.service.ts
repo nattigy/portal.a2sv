@@ -43,6 +43,8 @@ export class SeasonService {
   }
 
   async updateSeason({ seasonId, ...updates }: UpdateSeasonInput) {
+    // TODO: check if season with this Id exists and if it doesn't return
+    // TODO: "season with this Id doesn't" exists error
     if (!updates.isActive) {
       await this.prismaService.groupSeason.updateMany({
         where: { seasonId },

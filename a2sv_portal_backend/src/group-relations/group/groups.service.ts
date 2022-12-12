@@ -51,6 +51,8 @@ export class GroupsService {
   }
 
   async updateGroup({ groupId, ...updates }: UpdateGroupInput): Promise<Group> {
+    // TODO: check if group with this Id exists and if it doesn't return
+    // TODO: "group with this Id doesn't" exists error
     const newUpdates: Prisma.GroupUncheckedUpdateInput = { ...updates }
     if (updates.headId) {
       const getHead = await this.prismaService.user.findUnique({

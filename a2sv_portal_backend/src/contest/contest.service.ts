@@ -16,6 +16,7 @@ export class ContestService {
   ) {}
 
   async createContest({ problems, ...contestInput }: CreateContestInput): Promise<Contest> {
+    
     return this.contestRepository.create({
       ...contestInput,
       problems: { connect: problems.map(p => ({ id: p.problemId })) },
@@ -43,6 +44,8 @@ export class ContestService {
   }
 
   async contest(contestId: string): Promise<Contest> {
+    // TODO: check if contest with this Id exists and if it doesn't return
+    // TODO: "constest with this Id doesn't" exists error
     return this.contestRepository.findOne({ id: contestId })
   }
 
@@ -50,6 +53,8 @@ export class ContestService {
     condition: string,
     { problems, ...updateContest }: UpdateContestInput,
   ): Promise<Contest> {
+    // TODO: check if contest with this Id exists and if it doesn't return
+    // TODO: "constest with this Id doesn't" exists error
     return this.contestRepository.update({
       where: { id: condition },
       data: {
@@ -62,6 +67,10 @@ export class ContestService {
   }
 
   async removeProblemsFromContest(contestId: string, problemId: string[]): Promise<Contest> {
+    // TODO: check if contest with this Id exists and if it doesn't return
+    // TODO: "constest with this Id doesn't" exists error
+    // TODO: check if problem with this Id exists and if it doesn't return
+    // TODO: "problem with this Id doesn't" exists error
     return this.contestRepository.update({
       where: { id: contestId },
       data: {
