@@ -20,7 +20,7 @@ export class SeasonTopicRepository {
     })
   }
 
-  async count(where?: Prisma.SeasonTopicWhereInput ): Promise<number> {
+  async count(where?: Prisma.SeasonTopicWhereInput): Promise<number> {
     return this.prismaService.seasonTopic.count({ where })
   }
 

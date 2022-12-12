@@ -16,6 +16,8 @@ export class TopicService {
   ) {}
 
   async create(createTopicInput: CreateTopicInput): Promise<Topic> {
+    // TODO: check if topic with this name already exists and if it does return
+    // TODO: "topic with this name already" exists error
     return this.topicRepository.create(createTopicInput)
   }
 
@@ -38,7 +40,7 @@ export class TopicService {
   async topic(topicId: string): Promise<Topic> {
     const topic = await this.topicRepository.findOne({ id: topicId })
     if (!topic) {
-      throw new NotFoundException(`Topic with id ${topicId} not found`)
+      throw new NotFoundException(`Topic with id ${topicId} not found!`)
     }
     return topic
   }
