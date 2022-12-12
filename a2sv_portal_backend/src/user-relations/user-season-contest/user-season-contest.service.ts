@@ -1,14 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { PrismaService } from '../../prisma/prisma.service'
-import { UserSeasonContest } from './entities/user-season-contest.entity'
 import { PaginationUserSeasonContest } from '../../common/page/pagination-info'
-import { UserSeasonContestProblem } from '../user-season-contest-problem/entities/user-season-contest-problem.entity'
 import { UserSeasonContestId } from './dto/create-user-season-contest.input'
 import { UserSeasonContestRepository } from './user-season-contest.repository'
-import { UserContestProblemStatusEnum } from '@prisma/client'
 import { FilterUserSeasonContestInput } from './dto/filter-user-season-contest.input'
-import { UpdateUserSeasonContestInput } from './dto/update-user-season-contest.input'
 
 @Injectable()
 export class UserSeasonContestService {
@@ -17,59 +13,53 @@ export class UserSeasonContestService {
     private readonly prismaService: PrismaService,
   ) {}
 
-  async userContest({
-    userId,
-    seasonId,
-    contestId,
-  }: UserSeasonContestId): Promise<UserSeasonContest> {
-    const userSeasonContest: UserSeasonContest =
-      await this.userSeasonContestRepository.findOne({
-        userId_seasonId_contestId: { userId, seasonId, contestId },
-      })
-    if (userSeasonContest !== null && userSeasonContest !== undefined) {
-      userSeasonContest.contestAttended =
-        userSeasonContest?.userSeasonContestProblems?.length > 0
-      for (const problem of userSeasonContest.userSeasonContestProblems) {
-        if (problem.status == UserContestProblemStatusEnum.SOLVED_IN_CONTEST)
-          userSeasonContest.problemsSolved += 1
-        userSeasonContest.wrongSubmissions += problem.numberOfAttempts
-        userSeasonContest.timeSpent += problem.numberOfMinutes
-      }
-    } else {
-      const user = await this.prismaService.user.findUnique({ where: { id: userId } })
-      const contest = await this.prismaService.contest.findUnique({
-        where: {
-          id: contestId,
-        },
-      })
-      const userSeasonContestProblems: UserSeasonContestProblem[] = []
-      // for (const problem of contest.problems) {
-      //   const userSeasonContestProblem: UserSeasonContestProblem = {
-      //     contestId,
-      //     userId,
-      //     problemId: problem.id,
-      //     numberOfMinutes: 0,
-      //     numberOfAttempts: 0,
-      //     status: UserSeasonContestProblemStatus.NOT_SOLVED,
-      //     problem,
-      //     user,
-      //     contest,
-      //   }
-      //   userSeasonContestProblems.push(userSeasonContestProblem)
-      // }
-      // return {
-      //   contestId,
-      //   userId,
-      //   contestAttended: false,
-      //   problemsSolved: 0,
-      //   timeSpent: 0,
-      //   wrongSubmissions: 0,
-      //   rank: 0,
-      //   userSeasonContestProblems,
-      // }
-    }
-    return userSeasonContest
-  }
+  // async userContest({ userId, seasonId, contestId }: UserSeasonContestId): Promise<UserSeasonContest> {
+  //   const userSeasonContest: UserSeasonContest = await this.userSeasonContestRepository.findOne({
+  //     userId_seasonId_contestId: { userId, seasonId, contestId },
+  //   })
+  //   if (userSeasonContest !== null && userSeasonContest !== undefined) {
+  //     userSeasonContest.contestAttended = userSeasonContest?.userSeasonContestProblems?.length > 0
+  //     for (const problem of userSeasonContest.userSeasonContestProblems) {
+  //       if (problem.status == UserContestProblemStatusEnum.SOLVED_IN_CONTEST)
+  //         userSeasonContest.problemsSolved += 1
+  //       userSeasonContest.wrongSubmissions += problem.numberOfAttempts
+  //       userSeasonContest.timeSpent += problem.numberOfMinutes
+  //     }
+  //   } else {
+  //     const user = await this.prismaService.user.findUnique({ where: { id: userId } })
+  //     const contest = await this.prismaService.contest.findUnique({
+  //       where: {
+  //         id: contestId,
+  //       },
+  //     })
+  //     const userSeasonContestProblems: UserSeasonContestProblem[] = []
+  //     // for (const problem of contest.problems) {
+  //     //   const userSeasonContestProblem: UserSeasonContestProblem = {
+  //     //     contestId,
+  //     //     userId,
+  //     //     problemId: problem.id,
+  //     //     numberOfMinutes: 0,
+  //     //     numberOfAttempts: 0,
+  //     //     status: UserSeasonContestProblemStatus.NOT_SOLVED,
+  //     //     problem,
+  //     //     user,
+  //     //     contest,
+  //     //   }
+  //     //   userSeasonContestProblems.push(userSeasonContestProblem)
+  //     // }
+  //     // return {
+  //     //   contestId,
+  //     //   userId,
+  //     //   contestAttended: false,
+  //     //   problemsSolved: 0,
+  //     //   timeSpent: 0,
+  //     //   wrongSubmissions: 0,
+  //     //   rank: 0,
+  //     //   userSeasonContestProblems,
+  //     // }
+  //   }
+  //   return userSeasonContest
+  // }
 
   async userContests(
     { userId, seasonId, contestId }: FilterUserSeasonContestInput,
@@ -112,51 +102,48 @@ export class UserSeasonContestService {
     }
   }
 
-  async updateUserContest({
-    id,
-    ...updates
-  }: UpdateUserSeasonContestInput): Promise<UserSeasonContest> {
-    const { userId, seasonId, contestId } = id
-    return this.prismaService.userSeasonContest.upsert({
-      where: { userId_seasonId_contestId: id },
-      create: {
-        // seasonId, userId, contestId,
-        seasonContest: {
-          connect: {
-            seasonId_contestId: { seasonId, contestId },
-          },
-        },
-        userSeason: {
-          connect: {
-            userId_seasonId: { userId, seasonId },
-          },
-        },
-        userSeasonContestProblems: {
-          createMany: {
-            skipDuplicates: true,
-            data: [],
-          },
-        },
-      },
-      update: updates,
-      include: {
-        seasonContest: {
-          include: {
-            season: true,
-            contest: {
-              include: { problems: { include: { tags: true } } },
-            },
-          },
-        },
-        userSeason: {
-          include: { user: true, season: true },
-        },
-        userSeasonContestProblems: {
-          include: { problem: { include: { tags: true } } },
-        },
-      },
-    })
-  }
+  // async updateUserContest({ id, ...updates }: UpdateUserSeasonContestInput): Promise<UserSeasonContest> {
+  //   const { userId, seasonId, contestId } = id
+  //   return this.prismaService.userSeasonContest.upsert({
+  //     where: { userId_seasonId_contestId: id },
+  //     create: {
+  //       // seasonId, userId, contestId,
+  //       seasonContest: {
+  //         connect: {
+  //           seasonId_contestId: { seasonId, contestId },
+  //         },
+  //       },
+  //       userSeason: {
+  //         connect: {
+  //           userId_seasonId: { userId, seasonId },
+  //         },
+  //       },
+  //       userSeasonContestProblems: {
+  //         createMany: {
+  //           skipDuplicates: true,
+  //           data: [],
+  //         },
+  //       },
+  //     },
+  //     update: updates,
+  //     include: {
+  //       seasonContest: {
+  //         include: {
+  //           season: true,
+  //           contest: {
+  //             include: { problems: { include: { tags: true } } },
+  //           },
+  //         },
+  //       },
+  //       userSeason: {
+  //         include: { user: true, season: true },
+  //       },
+  //       userSeasonContestProblems: {
+  //         include: { problem: { include: { tags: true } } },
+  //       },
+  //     },
+  //   })
+  // }
 
   async removeUserSeasonContest({
     userId,

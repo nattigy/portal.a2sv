@@ -1,5 +1,4 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { UpdateSeasonTopicProblemInput } from '../../season-topic-problem/dto/update-season-topic-problem.input'
 
 @InputType()
 export class CreateSeasonTopicInput {
@@ -11,8 +10,8 @@ export class CreateSeasonTopicInput {
   })
   topicId: string
 
-  @Field(() => [UpdateSeasonTopicProblemInput], { nullable: true })
-  problems?: UpdateSeasonTopicProblemInput[]
+  // @Field(() => [UpdateSeasonTopicProblemInput], { nullable: true })
+  // problems?: UpdateSeasonTopicProblemInput[]
 }
 
 @InputType()

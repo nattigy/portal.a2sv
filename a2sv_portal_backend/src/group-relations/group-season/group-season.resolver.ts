@@ -3,7 +3,10 @@ import { GroupSeasonService } from './group-season.service'
 import { GroupSeason } from './entities/group-season.entity'
 import { CreateGroupSeasonInput, GroupSeasonId } from './dto/create-group-season.input'
 import { PaginationInput } from '../../common/page/pagination.input'
-import { UpdateGroupSeasonInput, UpdateGroupSeasonJoinRequestInput } from './dto/update-group-season.input'
+import {
+  UpdateGroupSeasonInput,
+  UpdateGroupSeasonJoinRequestInput,
+} from './dto/update-group-season.input'
 import { PaginationGroupSeason } from '../../common/page/pagination-info'
 
 @Resolver(() => GroupSeason)
@@ -49,9 +52,12 @@ export class GroupSeasonResolver {
 
   @Mutation(() => GroupSeason)
   async updateGroupSeasonJoinRequest(
-    @Args('updateGroupSeasonJoinRequestInput') updateGroupSeasonJoinRequestInput: UpdateGroupSeasonJoinRequestInput,
+    @Args('updateGroupSeasonJoinRequestInput')
+    updateGroupSeasonJoinRequestInput: UpdateGroupSeasonJoinRequestInput,
   ): Promise<GroupSeason> {
-    return this.groupSeasonService.updateGroupSeasonJoinRequest(updateGroupSeasonJoinRequestInput)
+    return this.groupSeasonService.updateGroupSeasonJoinRequest(
+      updateGroupSeasonJoinRequestInput,
+    )
   }
 
   @Mutation(() => GroupSeason)

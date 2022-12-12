@@ -7,9 +7,7 @@ import { SeasonTopic } from './entities/season-topic.entity'
 export class SeasonTopicRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(
-    data: Prisma.SeasonTopicCreateInput | Prisma.SeasonTopicUncheckedCreateInput,
-  ): Promise<SeasonTopic> {
+  async create(data: Prisma.SeasonTopicCreateInput): Promise<SeasonTopic> {
     return this.prismaService.seasonTopic.create({
       data,
       include: {

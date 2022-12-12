@@ -63,11 +63,11 @@ export class UserService {
       take,
       where: {
         ...filterUserInput,
-        // OR: [
-        // { firstName: name },
-        // { middleName: name },
-        // { lastName: name },
-        // ],
+        OR: [
+          { firstName: name },
+          // { middleName: name },
+          // { lastName: name },
+        ],
       },
     })
     return {

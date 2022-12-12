@@ -1,24 +1,19 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
-import {
-  CreateUserSeasonTopicInput,
-  UserSeasonTopicId,
-} from './dto/create-user-season-topic.input'
+import { UserSeasonTopicId } from './dto/create-user-season-topic.input'
 import { UpdateUserSeasonTopicInput } from './dto/update-user-season-topic.input'
 import { UserSeasonTopic } from './entities/user-season-topic.entity'
 import { UserSeasonTopicService } from './user-season-topic.service'
 import { PaginationUserSeasonTopic } from '../../common/page/pagination-info'
-import { PaginationInput } from '../../common/page/pagination.input'
 import { FilterUserSeasonTopicInput } from './dto/filter-user-season-topic-input'
+import { PaginationInput } from '../../common/page/pagination.input'
 
 @Resolver(() => UserSeasonTopic)
 export class UserSeasonTopicResolver {
   constructor(private readonly userSeasonTopicService: UserSeasonTopicService) {}
 
-  @Mutation(() => UserSeasonTopic)
-  async createUserSeasonTopic(
-    @Args('createUserSeasonTopicInput') createUserSeasonTopicInput: CreateUserSeasonTopicInput,
-  ) {
-    return this.userSeasonTopicService.createUserSeasonTopic(createUserSeasonTopicInput)
+  @Query(() => UserSeasonTopic)
+  async userSeasonTopic(@Args('userSeasonTopicId') userSeasonTopicId: UserSeasonTopicId) {
+    return this.userSeasonTopicService.userSeasonTopic(userSeasonTopicId)
   }
 
   @Query(() => PaginationUserSeasonTopic)
@@ -32,11 +27,6 @@ export class UserSeasonTopicResolver {
       filterUserSeasonTopicInput,
       pageInfoInput,
     )
-  }
-
-  @Query(() => UserSeasonTopic)
-  async userSeasonTopic(@Args('userSeasonTopicId') userSeasonTopicId: UserSeasonTopicId) {
-    return this.userSeasonTopicService.userSeasonTopic(userSeasonTopicId)
   }
 
   @Mutation(() => UserSeasonTopic)

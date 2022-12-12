@@ -5,10 +5,19 @@ import { UserProfileService } from './user-profile.service'
 import { PaginationUserProfile } from '../../common/page/pagination-info'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { FilterUserProfileInput } from './dto/filter-user-profile.input'
+import { CreateUserProfileInput } from './dto/create-user-profile.input'
 
 @Resolver(() => UserProfile)
 export class UserProfileResolver {
   constructor(private readonly userProfileService: UserProfileService) {}
+
+  @Mutation(() => UserProfile)
+  async createUserProfile(
+    @Args('createUserProfileInput')
+    createUserProfileInput: CreateUserProfileInput,
+  ) {
+    return this.userProfileService.createUserProfile(createUserProfileInput)
+  }
 
   @Query(() => PaginationUserProfile)
   async userProfiles(

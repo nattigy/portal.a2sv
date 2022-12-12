@@ -6,7 +6,10 @@ import { GroupSeason } from './entities/group-season.entity'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { FilterGroupSeasonInput } from './dto/filter-group-season.input'
 import { JoinRequestEnum } from '@prisma/client'
-import { UpdateGroupSeasonInput, UpdateGroupSeasonJoinRequestInput } from './dto/update-group-season.input'
+import {
+  UpdateGroupSeasonInput,
+  UpdateGroupSeasonJoinRequestInput,
+} from './dto/update-group-season.input'
 import { PaginationGroupSeason } from '../../common/page/pagination-info'
 
 @Injectable()
@@ -14,12 +17,12 @@ export class GroupSeasonService {
   constructor(
     private readonly groupSeasonRepository: GroupSeasonRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
-  async addSeasonToAGroup(
-    { seasonId, groupId }: CreateGroupSeasonInput,
-  ): Promise<GroupSeason> {
+  async addSeasonToAGroup({
+    seasonId,
+    groupId,
+  }: CreateGroupSeasonInput): Promise<GroupSeason> {
     const group = await this.prismaService.group.findUnique({ where: { id: groupId } })
     const season = await this.prismaService.season.findUnique({ where: { id: seasonId } })
     const groupSeasons = await this.prismaService.groupSeason.findMany({
@@ -100,9 +103,11 @@ export class GroupSeasonService {
     })
   }
 
-  async updateGroupSeasonJoinRequest(
-    { seasonId, groupId, joinRequest }: UpdateGroupSeasonJoinRequestInput,
-  ) {
+  async updateGroupSeasonJoinRequest({
+    seasonId,
+    groupId,
+    joinRequest,
+  }: UpdateGroupSeasonJoinRequestInput) {
     const groupSeason = await this.prismaService.groupSeason.findUnique({
       where: { groupId_seasonId: { groupId, seasonId } },
       include: { season: true },
@@ -113,6 +118,7 @@ export class GroupSeasonService {
     if (!groupSeason.season.isActive) {
       throw new Error('Season not active!')
     }
+    // TODO: If the join request status is Rejected the groupSeason isActive should be false
     return this.groupSeasonRepository.update({
       where: { groupId_seasonId: { seasonId, groupId } },
       data: { joinRequest },

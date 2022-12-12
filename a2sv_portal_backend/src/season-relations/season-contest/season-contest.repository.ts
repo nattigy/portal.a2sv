@@ -7,9 +7,7 @@ import { SeasonContest } from './entities/season-contest.entity'
 export class SeasonContestRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(
-    data: Prisma.SeasonContestCreateInput | Prisma.SeasonContestUncheckedCreateInput,
-  ): Promise<SeasonContest> {
+  async create(data: Prisma.SeasonContestCreateInput): Promise<SeasonContest> {
     return this.prismaService.seasonContest.create({
       data,
       include: {

@@ -8,17 +8,19 @@ import { UserSeasonRepository } from './user-season.repository'
 export class UserSeasonService {
   constructor(private readonly userSeasonRepository: UserSeasonRepository) {}
 
-  async usersSeasonsStats(
+  async userSeasons(
     { seasonId, userId }: FilterUserSeasonInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ) {
     /// TODO generate multiple stat here
     return this.userSeasonRepository.findAll({
+      take,
+      skip,
       where: { seasonId, userId },
     })
   }
 
-  async userSeasonStat({ seasonId, userId }: UserSeasonId) {
+  async userSeason({ seasonId, userId }: UserSeasonId) {
     /// TODO generate stat here
     return this.userSeasonRepository.findOne({
       userId_seasonId: { seasonId, userId },

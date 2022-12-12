@@ -1,7 +1,4 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
-import { UserSeasonContestProblem } from '../../user-season-contest-problem/entities/user-season-contest-problem.entity'
-import { UserSeason } from '../../user-season/entities/user-season.entity'
-import { SeasonContest } from '../../../season-relations/season-contest/entities/season-contest.entity'
 
 @ObjectType()
 export class UserSeasonContest {
@@ -29,14 +26,14 @@ export class UserSeasonContest {
   @Field(() => Int)
   timeSpent: number
 
-  @Field(() => SeasonContest)
-  seasonContest: SeasonContest
+  // @Field(() => SeasonContest)
+  // seasonContest: SeasonContest
+  //
+  // @Field(() => UserSeason)
+  // userSeason: UserSeason
 
-  @Field(() => UserSeason)
-  userSeason: UserSeason
-
-  @Field(() => [UserSeasonContestProblem])
-  userSeasonContestProblems: UserSeasonContestProblem[]
+  // @Field(() => [UserSeasonContestProblem])
+  // userSeasonContestProblems: UserSeasonContestProblem[]
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date

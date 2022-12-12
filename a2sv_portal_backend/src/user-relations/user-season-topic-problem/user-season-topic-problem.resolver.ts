@@ -2,10 +2,10 @@ import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { UpdateUserSeasonTopicProblemInput } from './dto/update-user-season-topic-problem.input'
 import { UserSeasonTopicProblem } from './entities/user-season-topic-problem.entity'
 import { UserSeasonTopicProblemService } from './user-season-topic-problem.service'
-import { PaginationInput } from '../../common/page/pagination.input'
+import { UserSeasonTopicProblemId } from './dto/create-user-season-topic-problem.input'
 import { PaginationUserSeasonTopicProblem } from '../../common/page/pagination-info'
 import { FilterUserSeasonTopicProblemInput } from './dto/filter-user-season-topic-problem.input'
-import { UserSeasonTopicProblemId } from './dto/create-user-season-topic-problem.input'
+import { PaginationInput } from '../../common/page/pagination.input'
 
 @Resolver(() => UserSeasonTopicProblem)
 export class UserSeasonTopicProblemResolver {
@@ -41,10 +41,10 @@ export class UserSeasonTopicProblemResolver {
   }
 
   @Mutation(() => Int)
-  async removeSeasonTopicProblemUser(
+  async removeUserSeasonTopicProblem(
     @Args('seasonTopicProblemUserId') seasonTopicProblemUserId: UserSeasonTopicProblemId,
   ) {
-    return this.seasonTopicUserProblemService.removeSeasonTopicProblemUser(
+    return this.seasonTopicUserProblemService.removeUserSeasonTopicProblem(
       seasonTopicProblemUserId,
     )
   }

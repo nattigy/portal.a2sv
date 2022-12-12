@@ -61,24 +61,24 @@ export class UserSeasonTopicProblemService {
   }
 
   async userSeasonTopicProblems(
-    filterSeasonTopicProblemUserInput: FilterUserSeasonTopicProblemInput,
+    { groupId, ...filterSeasonTopicProblemUserInput }: FilterUserSeasonTopicProblemInput,
     { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationUserSeasonTopicProblem> {
+    // TODO: do mapping with groupSeasonTopicProblem
     const count = await this.userSeasonTopicProblemRepository.count(
       filterSeasonTopicProblemUserInput,
     )
     const userSeasonTopicProblems = await this.userSeasonTopicProblemRepository.findAll({
       skip,
       take,
-      where: filterSeasonTopicProblemUserInput,
+      where: {
+        ...filterSeasonTopicProblemUserInput,
+        userSeasonTopic: { userSeason: { user: { groupId } } },
+      },
     })
     return {
       items: userSeasonTopicProblems,
-      pageInfo: {
-        skip,
-        take,
-        count,
-      },
+      pageInfo: { skip, take, count },
     }
   }
 
@@ -86,39 +86,12 @@ export class UserSeasonTopicProblemService {
     id,
     ...updates
   }: UpdateUserSeasonTopicProblemInput): Promise<UserSeasonTopicProblem> {
+    // TODO: get group from the user,
+    // TODO: search for GroupSeasonTopicProblem from the groupId if not found,
+    // TODO: throw NotFoundException "problem under this topic hasn't been added to your group"
+    // TODO: check if the groupSeason the user in is active if not throw "season is not active error"
+    // TODO: upsert userSeason and then userSeasonTopic
     const { seasonId, problemId, userId, topicId } = id
-    // let number_wrong_sub: number
-    // if (updates.solved) {
-    //   await this.prismaService.userAnalytics.update({
-    //     where: {
-    //       userId_createdAt: {
-    //         userId,
-    //         createdAt: new Date(),
-    //       },
-    //     },
-    //     data: {
-    //       solvedCount: {
-    //         increment: 1,
-    //       },
-    //     },
-    //   })
-    // } else if (updates.solved == false) {
-    //   number_wrong_sub = updates.attempts > 0 ? updates.attempts : 1
-    //   await this.prismaService.userAnalytics.update({
-    //     where: {
-    //       userId_createdAt: {
-    //         userId,
-    //         createdAt: new Date(),
-    //       },
-    //     },
-    //     data: {
-    //       wrongCount: {
-    //         increment: number_wrong_sub,
-    //       },
-    //     },
-    //   })
-    // }
-    // console.log('===status ==updated')
 
     return this.prismaService.userSeasonTopicProblem.upsert({
       where: {
@@ -143,7 +116,7 @@ export class UserSeasonTopicProblemService {
     })
   }
 
-  async removeSeasonTopicProblemUser({
+  async removeUserSeasonTopicProblem({
     seasonId,
     topicId,
     problemId,
@@ -165,3 +138,37 @@ export class UserSeasonTopicProblemService {
     return 1
   }
 }
+
+// TODO: Add user analytics here
+// let number_wrong_sub: number
+// if (updates.solved) {
+//   await this.prismaService.userAnalytics.update({
+//     where: {
+//       userId_createdAt: {
+//         userId,
+//         createdAt: new Date(),
+//       },
+//     },
+//     data: {
+//       solvedCount: {
+//         increment: 1,
+//       },
+//     },
+//   })
+// } else if (updates.solved == false) {
+//   number_wrong_sub = updates.attempts > 0 ? updates.attempts : 1
+//   await this.prismaService.userAnalytics.update({
+//     where: {
+//       userId_createdAt: {
+//         userId,
+//         createdAt: new Date(),
+//       },
+//     },
+//     data: {
+//       wrongCount: {
+//         increment: number_wrong_sub,
+//       },
+//     },
+//   })
+// }
+// console.log('===status ==updated')

@@ -5,8 +5,6 @@ import {
 } from './dto/create-group-season-topic-problem.input'
 import { PrismaService } from '../../prisma/prisma.service'
 import { GroupSeasonTopicProblemRepository } from './group-season-topic-problem.repository'
-import { PaginationInput } from '../../common/page/pagination.input'
-import { FilterGroupSeasonTopicProblemInput } from './dto/filter-group-season-topic'
 
 @Injectable()
 export class GroupSeasonTopicProblemService {
@@ -21,11 +19,11 @@ export class GroupSeasonTopicProblemService {
     topicId,
     problemId,
   }: CreateGroupSeasonTopicProblemInput) {
+    // TODO: search for groupSeasonTopic first and if not found throw not found exception
+    // TODO: if the groupSeasonTopic is found and the groupSeason is not active throw groupSeason not active
+    // TODO: search for the seasonTopicProblem and if the seasonTopicProblem is not found
+    // TODO: upsert seasonTopicProblem
     return this.groupSeasonTopicProblemRepository.create({
-      // groupId,
-      // seasonId,
-      // topicId,
-      // problemId,
       groupSeasonTopic: {
         connect: { groupId_seasonId_topicId: { topicId, seasonId, groupId } },
       },
@@ -67,12 +65,7 @@ export class GroupSeasonTopicProblemService {
     problemId,
   }: GroupSeasonTopicProblemId) {
     return this.groupSeasonTopicProblemRepository.remove({
-      groupId_seasonId_topicId_problemId: {
-        problemId,
-        topicId,
-        seasonId,
-        groupId,
-      },
+      groupId_seasonId_topicId_problemId: { problemId, topicId, seasonId, groupId },
     })
   }
 }
