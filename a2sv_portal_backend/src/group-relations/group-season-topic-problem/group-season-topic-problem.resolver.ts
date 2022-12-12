@@ -13,15 +13,15 @@ export class GroupSeasonTopicProblemResolver {
     private readonly groupSeasonTopicProblemService: GroupSeasonTopicProblemService,
   ) {}
 
-  @Mutation(() => GroupSeasonTopicProblem)
-  async addProblemToGroupSeasonTopic(
-    @Args('createGroupSeasonTopicProblemInput')
-    createGroupSeasonTopicProblemInput: CreateGroupSeasonTopicProblemInput,
-  ): Promise<GroupSeasonTopicProblem> {
-    return this.groupSeasonTopicProblemService.addProblemToGroupSeasonTopic(
-      createGroupSeasonTopicProblemInput,
-    )
-  }
+  // @Mutation(() => GroupSeasonTopicProblem)
+  // async addProblemToGroupSeasonTopic(
+  //   @Args('createGroupSeasonTopicProblemInput')
+  //   createGroupSeasonTopicProblemInput: CreateGroupSeasonTopicProblemInput,
+  // ): Promise<GroupSeasonTopicProblem> {
+  //   return this.groupSeasonTopicProblemService.addProblemToGroupSeasonTopic(
+  //     createGroupSeasonTopicProblemInput,
+  //   )
+  // }
 
   // @Query(() => GroupSeasonTopicProblem)
   // async groupSeasonTopicProblem(
@@ -59,14 +59,14 @@ export class GroupSeasonTopicProblemResolver {
     return problemIds.length
   }
 
-  @Mutation(() => GroupSeasonTopicProblem)
-  async removeGroupSeasonTopicProblem(
-    @Args('groupSeasonTopicProblemId') groupSeasonTopicProblemId: GroupSeasonTopicProblemId,
-  ) {
-    return this.groupSeasonTopicProblemService.removeGroupSeasonTopicProblem(
-      groupSeasonTopicProblemId,
-    )
-  }
+  // @Mutation(() => GroupSeasonTopicProblem)
+  // async removeGroupSeasonTopicProblem(
+  //   @Args('groupSeasonTopicProblemId') groupSeasonTopicProblemId: GroupSeasonTopicProblemId,
+  // ) {
+  //   return this.groupSeasonTopicProblemService.removeGroupSeasonTopicProblem(
+  //     groupSeasonTopicProblemId,
+  //   )
+  // }
 
   @Mutation(() => GroupSeasonTopicProblem)
   async removeGroupSeasonTopicProblems(

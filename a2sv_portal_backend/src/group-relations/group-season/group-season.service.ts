@@ -118,6 +118,7 @@ export class GroupSeasonService {
     if (!groupSeason.season.isActive) {
       throw new Error('Season not active!')
     }
+    // TODO: If the join request status is Rejected the groupSeason isActive should be false
     return this.groupSeasonRepository.update({
       where: { groupId_seasonId: { seasonId, groupId } },
       data: { joinRequest },

@@ -19,7 +19,7 @@ export class GroupSeasonTopicService {
     // TODO: search for groupSeason if groupSeason not found throw groupSeason not found exception
     // TODO: if there is a groupSeason and if the groupSeason is in active throw "group season must be active"
     // TODO: search for the topic and if the topic is not found return topic not found exception
-    // if seasonTopic not found throw "topic hasn't been added to the season"
+    // TODO: if seasonTopic not found throw "topic hasn't been added to the season"
     const seasonTopic = await this.prismaService.seasonTopic.findUnique({
       where: { seasonId_topicId: { seasonId, topicId } },
     })

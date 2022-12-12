@@ -12,17 +12,17 @@ import { SeasonTopicId } from '../season-topic/dto/create-season-topic.input'
 export class SeasonTopicProblemResolver {
   constructor(private readonly seasonTopicProblemService: SeasonTopicProblemService) {}
 
-  @Mutation(() => SeasonTopicProblem, {
-    description: descriptions.createSeasonTopicProblem,
-  })
-  async addProblemToSeasonTopic(
-    @Args('createSeasonTopicProblemInput')
-    createSeasonTopicProblemInput: CreateSeasonTopicProblemInput,
-  ): Promise<SeasonTopicProblem> {
-    return this.seasonTopicProblemService.addProblemToSeasonTopic(
-      createSeasonTopicProblemInput,
-    )
-  }
+  // @Mutation(() => SeasonTopicProblem, {
+  //   description: descriptions.createSeasonTopicProblem,
+  // })
+  // async addProblemToSeasonTopic(
+  //   @Args('createSeasonTopicProblemInput')
+  //   createSeasonTopicProblemInput: CreateSeasonTopicProblemInput,
+  // ): Promise<SeasonTopicProblem> {
+  //   return this.seasonTopicProblemService.addProblemToSeasonTopic(
+  //     createSeasonTopicProblemInput,
+  //   )
+  // }
 
   @Mutation(() => Int, {
     description: descriptions.createSeasonTopicProblem,
@@ -56,12 +56,12 @@ export class SeasonTopicProblemResolver {
   //   return this.seasonTopicProblemService.seasonTopicProblems(seasonTopicId, paginationInput)
   // }
 
-  @Mutation(() => SeasonTopicProblem, { description: descriptions.removeSeasonTopicProblem })
-  async removeSeasonTopicProblem(
-    @Args('seasonTopicProblemId') seasonTopicProblemId: SeasonTopicProblemId,
-  ) {
-    return this.seasonTopicProblemService.remove(seasonTopicProblemId)
-  }
+  // @Mutation(() => SeasonTopicProblem, { description: descriptions.removeSeasonTopicProblem })
+  // async removeSeasonTopicProblem(
+  //   @Args('seasonTopicProblemId') seasonTopicProblemId: SeasonTopicProblemId,
+  // ) {
+  //   return this.seasonTopicProblemService.remove(seasonTopicProblemId)
+  // }
 
   @Mutation(() => Int, { description: descriptions.removeSeasonTopicProblem })
   async removeSeasonTopicProblems(

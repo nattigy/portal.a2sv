@@ -21,7 +21,8 @@ export class GroupSeasonTopicProblemService {
   }: CreateGroupSeasonTopicProblemInput) {
     // TODO: search for groupSeasonTopic first and if not found throw not found exception
     // TODO: if the groupSeasonTopic is found and the groupSeason is not active throw groupSeason not active
-    // TODO: search for the seasonTopicProblem and if the seasonTopicProblem is not found throw seasonTopicProblem not found exception
+    // TODO: search for the seasonTopicProblem and if the seasonTopicProblem is not found
+    // TODO: upsert seasonTopicProblem
     return this.groupSeasonTopicProblemRepository.create({
       groupSeasonTopic: {
         connect: { groupId_seasonId_topicId: { topicId, seasonId, groupId } },
