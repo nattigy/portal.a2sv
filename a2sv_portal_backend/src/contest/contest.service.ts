@@ -13,10 +13,11 @@ export class ContestService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly contestRepository: ContestRepository,
-  ) {}
+  ) {
+  }
 
   async createContest({ problems, ...contestInput }: CreateContestInput): Promise<Contest> {
-    
+
     return this.contestRepository.create({
       ...contestInput,
       problems: { connect: problems.map(p => ({ id: p.problemId })) },
@@ -35,17 +36,13 @@ export class ContestService {
     const count = await this.contestRepository.count(filterContestInput)
     return {
       items: listContest,
-      pageInfo: {
-        skip,
-        count,
-        take,
-      },
+      pageInfo: { skip, count, take },
     }
   }
 
   async contest(contestId: string): Promise<Contest> {
     // TODO: check if contest with this Id exists and if it doesn't return
-    // TODO: "constest with this Id doesn't" exists error
+    // TODO: "contest with this Id doesn't" exists error
     return this.contestRepository.findOne({ id: contestId })
   }
 
@@ -54,54 +51,25 @@ export class ContestService {
     { problems, ...updateContest }: UpdateContestInput,
   ): Promise<Contest> {
     // TODO: check if contest with this Id exists and if it doesn't return
-    // TODO: "constest with this Id doesn't" exists error
+    // TODO: "contest with this Id doesn't" exists error
     return this.contestRepository.update({
       where: { id: condition },
       data: {
         ...updateContest,
-        problems: {
-          connect: problems.map(p => ({ id: p.problemId })),
-        },
+        problems: { connect: problems.map(p => ({ id: p.problemId })) },
       },
     })
   }
 
-  async removeProblemsFromContest(contestId: string, problemId: string[]): Promise<Contest> {
+  async removeProblemsFromContest(contestId: string, problemIds: string[]): Promise<Contest> {
     // TODO: check if contest with this Id exists and if it doesn't return
-    // TODO: "constest with this Id doesn't" exists error
-    // TODO: check if problem with this Id exists and if it doesn't return
-    // TODO: "problem with this Id doesn't" exists error
+    // TODO: "contest with this Id doesn't" exists error
     return this.contestRepository.update({
       where: { id: contestId },
       data: {
-        problems: {
-          disconnect: {
-            // id:problemId,
-          },
-        },
+        problems: { disconnect: problemIds.map(problemId => ({ id: problemId })) },
       },
     })
-    // return this.prismaService.contest.update({
-    //   where: {
-    //     id: contestId,
-    //   },
-    //   data: {
-    //     problems: {
-    //       disconnect: {
-    //         id: problemId,
-    //       },
-    //     },
-    //   },
-    //   include: {
-    //     problems: true,
-    //     groupContests: {
-    //       include: {
-    //         group: true,
-    //       },
-    //     },
-    //     userContests: true,
-    //   },
-    // })
   }
 
   async removeContest(id: string): Promise<number> {
