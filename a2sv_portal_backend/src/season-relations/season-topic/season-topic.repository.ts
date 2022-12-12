@@ -8,7 +8,7 @@ export class SeasonTopicRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(
-    data: Prisma.SeasonTopicCreateInput,
+    data: Prisma.SeasonTopicCreateInput | Prisma.SeasonTopicUncheckedCreateInput,
   ): Promise<SeasonTopic> {
     return this.prismaService.seasonTopic.create({
       data,
@@ -22,7 +22,7 @@ export class SeasonTopicRepository {
     })
   }
 
-  async count(where?: Prisma.SeasonTopicWhereInput): Promise<number> {
+  async count(where?: Prisma.SeasonTopicWhereInput ): Promise<number> {
     return this.prismaService.seasonTopic.count({ where })
   }
 
