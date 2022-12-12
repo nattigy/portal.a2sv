@@ -9,6 +9,10 @@ datasource db {
   //  shadowDatabaseUrl = env("SHADOW_DB_URL")
 }
 
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
 model Group {
   id           String        @id @default(uuid())
   name         String        @unique

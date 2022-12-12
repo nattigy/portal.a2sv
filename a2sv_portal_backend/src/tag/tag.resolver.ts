@@ -34,8 +34,8 @@ export class TagResolver {
     return await this.tagService.remove(id)
   }
 
-  @ResolveField(() => [Problem])
-  async problems(@Parent() tag: Tag): Promise<Problem[]> {
-    return tag.problems
-  }
+  // @ResolveField(() => [Problem])
+  // async problems(@Parent() tag: Tag): Promise<Problem[]> {
+  //   return tag.problems
+  // }
 }
