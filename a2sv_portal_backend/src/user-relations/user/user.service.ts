@@ -102,6 +102,8 @@ export class UserService {
       ).count
     }
     const { userId, ...updates } = updateUserInput
+    // TODO: check if user with this Id exists and if it doesn't return
+    // TODO: "user with this Id doesn't" exists error
     return this.userRepository.update({
       where: { id: userId },
       data: updates,

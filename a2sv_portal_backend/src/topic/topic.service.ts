@@ -46,6 +46,8 @@ export class TopicService {
   }
 
   async updateTopic({ topicId, ...update }: UpdateTopicInput): Promise<Topic> {
+    // TODO: check if topic with this Id exists and if it doesn't return
+    // TODO: "topic with this Id doesn't" exists error
     return this.topicRepository.update({
       where: { id: topicId },
       data: update,

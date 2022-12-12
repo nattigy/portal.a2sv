@@ -17,6 +17,8 @@ export class ProblemService {
   ) {}
 
   async createProblem({ tags, ...createInput }: CreateProblemInput): Promise<Problem> {
+     // TODO: check if problem with this link exists and if it does return
+    // TODO: "problem with this link already" exists error
     return this.problemRepository.create({
       ...createInput,
       tags: {
@@ -51,6 +53,8 @@ export class ProblemService {
   }
 
   async problem(problemId: string): Promise<Problem> {
+    // TODO: check if problem with this Id exists and if it doesn't return
+    // TODO: "problem with this Id doesn't" exists error
     return this.problemRepository.findOne({ id: problemId })
   }
 
@@ -59,6 +63,8 @@ export class ProblemService {
     problemId,
     ...updateInput
   }: UpdateProblemInput): Promise<Problem> {
+    // TODO: check if problem with this Id exists and if it doesn't return
+    // TODO: "problem with this Id doesn't" exists error
     return this.problemRepository.update({
       where: { id: problemId },
       data: {
