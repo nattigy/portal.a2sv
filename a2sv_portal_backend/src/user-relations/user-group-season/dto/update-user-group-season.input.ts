@@ -1,8 +1,8 @@
-import { CreateGroupUserSeasonInput } from './create-group-user-season.input'
+import { CreateGroupUserGroupSeasonInput } from './create-group-user-season.input'
 import { Field, InputType, PartialType } from '@nestjs/graphql'
 
 @InputType()
-export class UpdateUserGroupSeasonInput extends PartialType(CreateGroupUserSeasonInput) {
+export class UpdateUserGroupSeasonInput extends PartialType(CreateGroupUserGroupSeasonInput) {
   @Field()
   userId: string
 

@@ -4,16 +4,16 @@ import { Contest } from '../contest/entities/contest.entity'
 import { Group } from '../group-relations/group/entities/group.entity'
 import { Problem } from '../problem/entities/problem.entity'
 import { RoleEnum } from '../roles/interfaces/role.enum'
-import { UserSeasonTopicProblem } from '../user-relations/user-group-season-topic-problem/entities/user-season-topic-problem.entity'
+import { UserGroupSeasonTopicProblem } from '../user-relations/user-group-season-topic-problem/entities/user-season-topic-problem.entity'
 import { SeasonTopicProblem } from '../season-relations/season-topic-problem/entities/season-topic-problem.entity'
 import { SeasonTopic } from '../season-relations/season-topic/entities/season-topic.entity'
 import { Season } from '../season-relations/season/entities/season.entity'
 import { Tag } from '../tag/entities/tag.entity'
 import { Topic } from '../topic/entities/topic.entity'
-import { UserSeasonContestProblem } from '../user-relations/user-group-season-contest-problem/entities/user-season-contest-problem.entity'
-import { UserSeasonContest } from '../user-relations/user-group-season-contest/entities/user-season-contest.entity'
+import { UserGroupSeasonContestProblem } from '../user-relations/user-group-season-contest-problem/entities/user-season-contest-problem.entity'
+import { UserGroupSeasonContest } from '../user-relations/user-group-season-contest/entities/user-season-contest.entity'
 import { UserProfile } from '../user-relations/user-profile/entities/user-profile.entity'
-import { UserSeasonTopic } from '../user-relations/user-group-season-topic/entities/user-season-topic.entity'
+import { UserGroupSeasonTopic } from '../user-relations/user-group-season-topic/entities/user-season-topic.entity'
 import { User } from '../user-relations/user/entities/user.entity'
 
 export type Subjects =
@@ -26,12 +26,12 @@ export type Subjects =
       | typeof Season
       | typeof Topic
       | typeof UserProfile
-      | typeof UserSeasonContest
-      | typeof UserSeasonContestProblem
-      | typeof UserSeasonTopic
+      | typeof UserGroupSeasonContest
+      | typeof UserGroupSeasonContestProblem
+      | typeof UserGroupSeasonTopic
       | typeof SeasonTopic
       | typeof SeasonTopicProblem
-      | typeof UserSeasonTopicProblem
+      | typeof UserGroupSeasonTopicProblem
     >
   | 'all'
 
@@ -48,11 +48,11 @@ export class CaslAbilityFactory {
         can(Action.Manage, Season)
         can(Action.Manage, Problem)
         can(Action.Manage, Contest)
-        can(Action.Manage, UserSeasonContest)
-        can(Action.Manage, UserSeasonContestProblem)
+        can(Action.Manage, UserGroupSeasonContest)
+        can(Action.Manage, UserGroupSeasonContestProblem)
         can(Action.Manage, SeasonTopic)
         can(Action.Manage, SeasonTopicProblem)
-        can(Action.Manage, UserSeasonTopicProblem)
+        can(Action.Manage, UserGroupSeasonTopicProblem)
         break
       case RoleEnum.HEAD_OF_ACADEMY:
         can(Action.Manage, Topic)
@@ -61,11 +61,11 @@ export class CaslAbilityFactory {
         can(Action.Manage, Season)
         can(Action.Manage, Problem)
         can(Action.Manage, Contest)
-        can(Action.Manage, UserSeasonContest)
-        can(Action.Manage, UserSeasonContestProblem)
+        can(Action.Manage, UserGroupSeasonContest)
+        can(Action.Manage, UserGroupSeasonContestProblem)
         can(Action.Manage, SeasonTopic)
         can(Action.Manage, SeasonTopicProblem)
-        can(Action.Manage, UserSeasonTopicProblem)
+        can(Action.Manage, UserGroupSeasonTopicProblem)
         break
       case RoleEnum.ADMIN:
         can(Action.Manage, Topic)
@@ -74,11 +74,11 @@ export class CaslAbilityFactory {
         can(Action.Manage, Season)
         can(Action.Manage, Problem)
         can(Action.Manage, Contest)
-        can(Action.Manage, UserSeasonContest)
-        can(Action.Manage, UserSeasonContestProblem)
+        can(Action.Manage, UserGroupSeasonContest)
+        can(Action.Manage, UserGroupSeasonContestProblem)
         can(Action.Manage, SeasonTopic)
         can(Action.Manage, SeasonTopicProblem)
-        can(Action.Manage, UserSeasonTopicProblem)
+        can(Action.Manage, UserGroupSeasonTopicProblem)
         break
       case RoleEnum.HEAD_OF_EDUCATION:
         can(Action.Manage, Topic)
@@ -87,11 +87,11 @@ export class CaslAbilityFactory {
         can(Action.Manage, Season)
         can(Action.Manage, Problem)
         can(Action.Manage, Contest)
-        can(Action.Manage, UserSeasonContest)
-        can(Action.Manage, UserSeasonContestProblem)
+        can(Action.Manage, UserGroupSeasonContest)
+        can(Action.Manage, UserGroupSeasonContestProblem)
         can(Action.Manage, SeasonTopic)
         can(Action.Manage, SeasonTopicProblem)
-        can(Action.Manage, UserSeasonTopicProblem)
+        can(Action.Manage, UserGroupSeasonTopicProblem)
         break
       case RoleEnum.ASSISTANT:
         can(Action.Manage, Topic)
@@ -100,11 +100,11 @@ export class CaslAbilityFactory {
         can(Action.Manage, Season)
         can(Action.Manage, Problem)
         can(Action.Manage, Contest)
-        can(Action.Manage, UserSeasonContest)
-        can(Action.Manage, UserSeasonContestProblem)
+        can(Action.Manage, UserGroupSeasonContest)
+        can(Action.Manage, UserGroupSeasonContestProblem)
         can(Action.Manage, SeasonTopic)
         can(Action.Manage, SeasonTopicProblem)
-        can(Action.Manage, UserSeasonTopicProblem)
+        can(Action.Manage, UserGroupSeasonTopicProblem)
         break
     }
     return build()

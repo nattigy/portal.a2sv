@@ -1,16 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { UserSeasonTopicResolver } from './user-season-topic.resolver'
-import { UserSeasonTopicService } from './user-season-topic.service'
+import { UserGroupSeasonTopicResolver } from './user-season-topic.resolver'
+import { UserGroupSeasonTopicService } from './user-season-topic.service'
 
 describe('UserTopicResolver', () => {
-  let resolver: UserSeasonTopicResolver
+  let resolver: UserGroupSeasonTopicResolver
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UserSeasonTopicResolver, UserSeasonTopicService],
+      providers: [UserGroupSeasonTopicResolver, UserGroupSeasonTopicService],
     }).compile()
 
-    resolver = module.get<UserSeasonTopicResolver>(UserSeasonTopicResolver)
+    resolver = module.get<UserGroupSeasonTopicResolver>(UserGroupSeasonTopicResolver)
   })
 
   it('should be defined', () => {

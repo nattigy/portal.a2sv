@@ -2,7 +2,7 @@ import { Field, InputType } from '@nestjs/graphql'
 import { ComfortLevelEnum } from '@prisma/client'
 
 @InputType()
-export class CreateUserSeasonTopicInput {
+export class CreateUserGroupSeasonTopicInput {
   @Field()
   userId: string
 
@@ -17,7 +17,7 @@ export class CreateUserSeasonTopicInput {
 }
 
 @InputType()
-export class UserSeasonTopicId {
+export class UserGroupSeasonTopicId {
   @Field()
   userId: string
 

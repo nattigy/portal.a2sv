@@ -2,7 +2,7 @@ import { Field, Int, ObjectType } from '@nestjs/graphql'
 import { Problem } from '../../../problem/entities/problem.entity'
 
 @ObjectType()
-export class UserSeasonTopicProblem {
+export class UserGroupSeasonTopicProblem {
   @Field()
   seasonId: string
 

@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common'
 import { GroupSeasonTopicProblemModule } from 'src/group-relations/group-season-topic-problem/group-season-topic-problem.module'
-import { UserSeasonTopicProblemRepository } from './user-season-topic-problem.repository'
-import { UserSeasonTopicProblemResolver } from './user-season-topic-problem.resolver'
-import { UserSeasonTopicProblemService } from './user-season-topic-problem.service'
+import { UserGroupSeasonTopicProblemRepository } from './user-season-topic-problem.repository'
+import { UserGroupSeasonTopicProblemResolver } from './user-season-topic-problem.resolver'
+import { UserGroupSeasonTopicProblemService } from './user-season-topic-problem.service'
 
 @Module({
   imports: [GroupSeasonTopicProblemModule],
   providers: [
-    UserSeasonTopicProblemRepository,
-    UserSeasonTopicProblemResolver,
-    UserSeasonTopicProblemService,
+    UserGroupSeasonTopicProblemRepository,
+    UserGroupSeasonTopicProblemResolver,
+    UserGroupSeasonTopicProblemService,
   ],
 })
-export class UserSeasonTopicProblemModule {}
+export class UserGroupSeasonTopicProblemModule {}

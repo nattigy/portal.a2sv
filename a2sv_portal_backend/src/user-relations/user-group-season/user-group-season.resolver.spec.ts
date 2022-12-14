@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { UserGroupSeasonResolver } from './user-group-season.resolver'
 import { UserGroupSeasonService } from './user-group-season.service'
 
-describe('UserSeasonResolver', () => {
+describe('UserGroupSeasonResolver', () => {
   let resolver: UserGroupSeasonResolver
 
   beforeEach(async () => {

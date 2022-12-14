@@ -8,7 +8,7 @@ export class UserGroupSeasonRepository {
   include = {
     user: true,
     season: true,
-    userSeasonTopics: {
+    UserGroupSeasonTopics: {
       include: {
         seasonTopic: {
           include: {
@@ -19,7 +19,7 @@ export class UserGroupSeasonRepository {
             },
           },
         },
-        userSeasonTopicProblems: {
+        UserGroupSeasonTopicProblems: {
           include: { problem: { include: { tags: true } } },
         },
       },
@@ -28,26 +28,44 @@ export class UserGroupSeasonRepository {
 
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(data: Prisma.UserSeasonCreateInput): Promise<UserGroupSeason> {
-    return this.prismaService.userSeason.create({
+  async create(data: Prisma.UserGroupSeasonCreateInput): Promise<UserGroupSeason> {
+    return this.prismaService.userGroupSeason.create({
       data,
-      include: this.include,
+      include: {
+        user: true,
+        UserGroupSeasonTopics: {
+          include: {
+            seasonTopic: {
+              include: {
+                season: true,
+                topic: true,
+                seasonTopicProblems: {
+                  include: { problem: { include: { tags: true } } },
+                },
+              },
+            },
+            UserGroupSeasonTopicProblems: {
+              include: { problem: { include: { tags: true } } },
+            },
+          },
+        },
+      },
     })
   }
 
-  async count(where?: Prisma.UserSeasonWhereInput): Promise<number> {
-    return this.prismaService.userSeason.count({ where })
+  async count(where?: Prisma.UserGroupSeasonWhereInput): Promise<number> {
+    return this.prismaService.userGroupSeason.count({ where })
   }
 
   async findAll(params: {
     skip?: number
     take?: number
     groupId?: string
-    where?: Prisma.UserSeasonWhereInput
-    orderBy?: Prisma.UserSeasonOrderByWithRelationInput
+    where?: Prisma.UserGroupSeasonWhereInput
+    orderBy?: Prisma.UserGroupSeasonOrderByWithRelationInput
   }): Promise<UserGroupSeason[]> {
     const { skip, take, where, groupId, orderBy } = params
-    return this.prismaService.userSeason.findMany({
+    return this.prismaService.userGroupSeason.findMany({
       skip,
       take,
       where,
@@ -56,26 +74,26 @@ export class UserGroupSeasonRepository {
     })
   }
 
-  async findOne(where: Prisma.UserSeasonWhereUniqueInput): Promise<UserGroupSeason> {
-    return this.prismaService.userSeason.findUnique({
+  async findOne(where: Prisma.UserGroupSeasonWhereUniqueInput): Promise<UserGroupSeason> {
+    return this.prismaService.userGroupSeason.findUnique({
       where,
       include: this.include,
     })
   }
 
   async update(params: {
-    where: Prisma.UserSeasonWhereUniqueInput
-    data: Prisma.UserSeasonUpdateInput
+    where: Prisma.UserGroupSeasonWhereUniqueInput
+    data: Prisma.UserGroupSeasonUpdateInput
   }): Promise<UserGroupSeason> {
     const { where, data } = params
-    return this.prismaService.userSeason.update({
+    return this.prismaService.userGroupSeason.update({
       data,
       where,
       include: this.include,
     })
   }
 
-  async remove(where: Prisma.UserSeasonWhereUniqueInput) {
-    return this.prismaService.userSeason.delete({ where })
+  async remove(where: Prisma.UserGroupSeasonWhereUniqueInput) {
+    return this.prismaService.userGroupSeason.delete({ where })
   }
 }

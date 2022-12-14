@@ -1,50 +1,50 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { UpdateUserSeasonTopicProblemInput } from './dto/update-user-season-topic-problem.input'
-import { UserSeasonTopicProblem } from './entities/user-season-topic-problem.entity'
-import { UserSeasonTopicProblemService } from './user-season-topic-problem.service'
-import { UserSeasonTopicProblemId } from './dto/create-user-season-topic-problem.input'
-import { PaginationUserSeasonTopicProblem } from '../../common/page/pagination-info'
-import { FilterUserSeasonTopicProblemInput } from './dto/filter-user-season-topic-problem.input'
+import { UpdateUserGroupSeasonTopicProblemInput } from './dto/update-user-season-topic-problem.input'
+import { UserGroupSeasonTopicProblem } from './entities/user-season-topic-problem.entity'
+import { UserGroupSeasonTopicProblemService } from './user-season-topic-problem.service'
+import { UserGroupSeasonTopicProblemId } from './dto/create-user-season-topic-problem.input'
+import { PaginationUserGroupSeasonTopicProblem } from '../../common/page/pagination-info'
+import { FilterUserGroupSeasonTopicProblemInput } from './dto/filter-user-season-topic-problem.input'
 import { PaginationInput } from '../../common/page/pagination.input'
 
-@Resolver(() => UserSeasonTopicProblem)
-export class UserSeasonTopicProblemResolver {
-  constructor(private readonly seasonTopicUserProblemService: UserSeasonTopicProblemService) {}
+@Resolver(() => UserGroupSeasonTopicProblem)
+export class UserGroupSeasonTopicProblemResolver {
+  constructor(private readonly seasonTopicUserProblemService: UserGroupSeasonTopicProblemService) {}
 
-  @Query(() => UserSeasonTopicProblem)
-  async userSeasonTopicProblem(
-    @Args('userSeasonTopicProblemId') userSeasonTopicProblemId: UserSeasonTopicProblemId,
-  ): Promise<UserSeasonTopicProblem> {
-    return this.seasonTopicUserProblemService.userSeasonTopicProblem(userSeasonTopicProblemId)
+  @Query(() => UserGroupSeasonTopicProblem)
+  async UserGroupSeasonTopicProblem(
+    @Args('UserGroupSeasonTopicProblemId') UserGroupSeasonTopicProblemId: UserGroupSeasonTopicProblemId,
+  ): Promise<UserGroupSeasonTopicProblem> {
+    return this.seasonTopicUserProblemService.UserGroupSeasonTopicProblem(UserGroupSeasonTopicProblemId)
   }
 
-  @Query(() => PaginationUserSeasonTopicProblem)
-  async userSeasonTopicProblems(
-    @Args('filterUserSeasonTopicProblemInput')
-    filterUserSeasonTopicProblemInput: FilterUserSeasonTopicProblemInput,
+  @Query(() => PaginationUserGroupSeasonTopicProblem)
+  async UserGroupSeasonTopicProblems(
+    @Args('filterUserGroupSeasonTopicProblemInput')
+    filterUserGroupSeasonTopicProblemInput: FilterUserGroupSeasonTopicProblemInput,
     @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInput,
-  ): Promise<PaginationUserSeasonTopicProblem> {
-    return this.seasonTopicUserProblemService.userSeasonTopicProblems(
-      filterUserSeasonTopicProblemInput,
+  ): Promise<PaginationUserGroupSeasonTopicProblem> {
+    return this.seasonTopicUserProblemService.UserGroupSeasonTopicProblems(
+      filterUserGroupSeasonTopicProblemInput,
       pageInfoInput,
     )
   }
 
-  @Mutation(() => UserSeasonTopicProblem)
-  async updateUserSeasonTopicProblem(
-    @Args('updateUserSeasonTopicProblemInput')
-    updateUserSeasonTopicProblemInput: UpdateUserSeasonTopicProblemInput,
-  ): Promise<UserSeasonTopicProblem> {
-    return this.seasonTopicUserProblemService.updateUserSeasonTopicProblem(
-      updateUserSeasonTopicProblemInput,
+  @Mutation(() => UserGroupSeasonTopicProblem)
+  async updateUserGroupSeasonTopicProblem(
+    @Args('updateUserGroupSeasonTopicProblemInput')
+    updateUserGroupSeasonTopicProblemInput: UpdateUserGroupSeasonTopicProblemInput,
+  ): Promise<UserGroupSeasonTopicProblem> {
+    return this.seasonTopicUserProblemService.updateUserGroupSeasonTopicProblem(
+      updateUserGroupSeasonTopicProblemInput,
     )
   }
 
   @Mutation(() => Int)
-  async removeUserSeasonTopicProblem(
-    @Args('seasonTopicProblemUserId') seasonTopicProblemUserId: UserSeasonTopicProblemId,
+  async removeUserGroupSeasonTopicProblem(
+    @Args('seasonTopicProblemUserId') seasonTopicProblemUserId: UserGroupSeasonTopicProblemId,
   ) {
-    return this.seasonTopicUserProblemService.removeUserSeasonTopicProblem(
+    return this.seasonTopicUserProblemService.removeUserGroupSeasonTopicProblem(
       seasonTopicProblemUserId,
     )
   }

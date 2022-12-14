@@ -8,18 +8,18 @@ import { FilterUserGroupSeasonInput } from './dto/filter-user-group-season-input
 
 @Resolver(() => UserGroupSeason)
 export class UserGroupSeasonResolver {
-  constructor(private readonly userSeasonService: UserGroupSeasonService) {}
+  constructor(private readonly UserGroupSeasonService: UserGroupSeasonService) {}
 
   @Query(() => UserGroupSeason)
-  async userSeason(@Args('userSeasonId') userSeasonId: UserGroupSeasonId): Promise<UserGroupSeason> {
-    return this.userSeasonService.userSeason(userSeasonId)
+  async UserGroupSeason(@Args('UserGroupSeasonId') UserGroupSeasonId: UserGroupSeasonId): Promise<UserGroupSeason> {
+    return this.UserGroupSeasonService.UserGroupSeason(UserGroupSeasonId)
   }
 
   @Query(() => UserGroupSeason)
-  async userSeasons(
-    @Args('filterUserSeasonInput') filterUserSeasonInput: FilterUserGroupSeasonInput,
+  async UserGroupSeasons(
+    @Args('filterUserGroupSeasonInput') filterUserGroupSeasonInput: FilterUserGroupSeasonInput,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<UserGroupSeason[]> {
-    return this.userSeasonService.userSeasons(filterUserSeasonInput, paginationInput)
+    return this.UserGroupSeasonService.UserGroupSeasons(filterUserGroupSeasonInput, paginationInput)
   }
 }

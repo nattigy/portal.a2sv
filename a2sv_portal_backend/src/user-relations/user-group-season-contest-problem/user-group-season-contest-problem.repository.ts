@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
-import { UserSeasonContestProblem } from './entities/user-season-contest-problem.entity'
+import { UserGroupSeasonContestProblem } from './entities/user-season-contest-problem.entity'
 
 @Injectable()
 export class UserGroupSeasonContestProblemRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(
-    data: Prisma.UserSeasonContestProblemCreateInput,
-  ): Promise<UserSeasonContestProblem> {
-    return this.prismaService.userSeasonContestProblem.create({
+    data: Prisma.UserGroupSeasonContestProblemCreateInput,
+  ): Promise<UserGroupSeasonContestProblem> {
+    return this.prismaService.UserGroupSeasonContestProblem.create({
       data,
       include: {
         problem: { include: { tags: true } },
@@ -21,12 +21,12 @@ export class UserGroupSeasonContestProblemRepository {
   async findAll(params: {
     skip?: number
     take?: number
-    cursor?: Prisma.UserSeasonContestProblemWhereUniqueInput
-    where?: Prisma.UserSeasonContestProblemWhereInput
-    orderBy?: Prisma.UserSeasonContestProblemOrderByWithRelationInput
-  }): Promise<UserSeasonContestProblem[]> {
+    cursor?: Prisma.UserGroupSeasonContestProblemWhereUniqueInput
+    where?: Prisma.UserGroupSeasonContestProblemWhereInput
+    orderBy?: Prisma.UserGroupSeasonContestProblemOrderByWithRelationInput
+  }): Promise<UserGroupSeasonContestProblem[]> {
     const { skip, take, cursor, where, orderBy } = params
-    return this.prismaService.userSeasonContestProblem.findMany({
+    return this.prismaService.UserGroupSeasonContestProblem.findMany({
       skip,
       take,
       cursor,
@@ -39,9 +39,9 @@ export class UserGroupSeasonContestProblemRepository {
   }
 
   async findOne(
-    where: Prisma.UserSeasonContestProblemWhereUniqueInput,
-  ): Promise<UserSeasonContestProblem> {
-    return this.prismaService.userSeasonContestProblem.findUnique({
+    where: Prisma.UserGroupSeasonContestProblemWhereUniqueInput,
+  ): Promise<UserGroupSeasonContestProblem> {
+    return this.prismaService.UserGroupSeasonContestProblem.findUnique({
       where,
       include: {
         problem: { include: { tags: true } },
@@ -50,11 +50,11 @@ export class UserGroupSeasonContestProblemRepository {
   }
 
   async update(params: {
-    where: Prisma.UserSeasonContestProblemWhereUniqueInput
-    data: Prisma.UserSeasonContestProblemUpdateInput
-  }): Promise<UserSeasonContestProblem> {
+    where: Prisma.UserGroupSeasonContestProblemWhereUniqueInput
+    data: Prisma.UserGroupSeasonContestProblemUpdateInput
+  }): Promise<UserGroupSeasonContestProblem> {
     const { where, data } = params
-    return this.prismaService.userSeasonContestProblem.update({
+    return this.prismaService.UserGroupSeasonContestProblem.update({
       data,
       where,
       include: {
@@ -63,7 +63,7 @@ export class UserGroupSeasonContestProblemRepository {
     })
   }
 
-  async remove(where: Prisma.UserSeasonContestProblemWhereUniqueInput) {
-    return this.prismaService.userSeasonContestProblem.delete({ where })
+  async remove(where: Prisma.UserGroupSeasonContestProblemWhereUniqueInput) {
+    return this.prismaService.UserGroupSeasonContestProblem.delete({ where })
   }
 }

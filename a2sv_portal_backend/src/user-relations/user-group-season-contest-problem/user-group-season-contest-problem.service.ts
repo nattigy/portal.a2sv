@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
-import { UserSeasonContestService } from '../user-group-season-contest/user-season-contest.service'
+import { UserGroupSeasonContestService } from '../user-group-season-contest/user-season-contest.service'
 
 @Injectable()
 export class UserGroupSeasonContestProblemService {
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly userContestService: UserSeasonContestService,
+    private readonly userContestService: UserGroupSeasonContestService,
   ) {}
 
   // create(createUserContestProblemInput: CreateUserGroupContestProblemInput) {
@@ -18,7 +18,7 @@ export class UserGroupSeasonContestProblemService {
   // async userContestProblems(
   //   filterUserContestInput: FilterUserContestProblemInput,
   //   { skip, take }: PaginationInput = { take: 50, skip: 0 },
-  // ): Promise<PaginationUserSeasonContestProblem> {
+  // ): Promise<PaginationUserGroupSeasonContestProblem> {
   //   const count = (
   //     await this.prismaService.userContestProblem.findMany({
   //       where: filterUserContestInput,
@@ -44,7 +44,7 @@ export class UserGroupSeasonContestProblemService {
   //   userId,
   //   contestId,
   //   problemId,
-  // }: UserContestProblemId): Promise<UserSeasonContestProblem> {
+  // }: UserContestProblemId): Promise<UserGroupSeasonContestProblem> {
   //   return this.prismaService.userContestProblem.findUnique({
   //     where: {
   //       userId_contestId_problemId: {

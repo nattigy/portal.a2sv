@@ -1,29 +1,29 @@
 import { Injectable } from '@nestjs/common'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { PrismaService } from '../../prisma/prisma.service'
-import { PaginationUserSeasonContest } from '../../common/page/pagination-info'
-import { UserSeasonContestId } from './dto/create-user-season-contest.input'
-import { UserSeasonContestRepository } from './user-season-contest.repository'
-import { FilterUserSeasonContestInput } from './dto/filter-user-season-contest.input'
+import { PaginationUserGroupSeasonContest } from '../../common/page/pagination-info'
+import { UserGroupSeasonContestId } from './dto/create-user-season-contest.input'
+import { UserGroupSeasonContestRepository } from './user-season-contest.repository'
+import { FilterUserGroupSeasonContestInput } from './dto/filter-user-season-contest.input'
 
 @Injectable()
-export class UserSeasonContestService {
+export class UserGroupSeasonContestService {
   constructor(
-    private readonly userSeasonContestRepository: UserSeasonContestRepository,
+    private readonly UserGroupSeasonContestRepository: UserGroupSeasonContestRepository,
     private readonly prismaService: PrismaService,
   ) {}
 
-  // async userContest({ userId, seasonId, contestId }: UserSeasonContestId): Promise<UserSeasonContest> {
-  //   const userSeasonContest: UserSeasonContest = await this.userSeasonContestRepository.findOne({
+  // async userContest({ userId, seasonId, contestId }: UserGroupSeasonContestId): Promise<UserGroupSeasonContest> {
+  //   const UserGroupSeasonContest: UserGroupSeasonContest = await this.UserGroupSeasonContestRepository.findOne({
   //     userId_seasonId_contestId: { userId, seasonId, contestId },
   //   })
-  //   if (userSeasonContest !== null && userSeasonContest !== undefined) {
-  //     userSeasonContest.contestAttended = userSeasonContest?.userSeasonContestProblems?.length > 0
-  //     for (const problem of userSeasonContest.userSeasonContestProblems) {
+  //   if (UserGroupSeasonContest !== null && UserGroupSeasonContest !== undefined) {
+  //     UserGroupSeasonContest.contestAttended = UserGroupSeasonContest?.UserGroupSeasonContestProblems?.length > 0
+  //     for (const problem of UserGroupSeasonContest.UserGroupSeasonContestProblems) {
   //       if (problem.status == UserContestProblemStatusEnum.SOLVED_IN_CONTEST)
-  //         userSeasonContest.problemsSolved += 1
-  //       userSeasonContest.wrongSubmissions += problem.numberOfAttempts
-  //       userSeasonContest.timeSpent += problem.numberOfMinutes
+  //         UserGroupSeasonContest.problemsSolved += 1
+  //       UserGroupSeasonContest.wrongSubmissions += problem.numberOfAttempts
+  //       UserGroupSeasonContest.timeSpent += problem.numberOfMinutes
   //     }
   //   } else {
   //     const user = await this.prismaService.user.findUnique({ where: { id: userId } })
@@ -32,20 +32,20 @@ export class UserSeasonContestService {
   //         id: contestId,
   //       },
   //     })
-  //     const userSeasonContestProblems: UserSeasonContestProblem[] = []
+  //     const UserGroupSeasonContestProblems: UserGroupSeasonContestProblem[] = []
   //     // for (const problem of contest.problems) {
-  //     //   const userSeasonContestProblem: UserSeasonContestProblem = {
+  //     //   const UserGroupSeasonContestProblem: UserGroupSeasonContestProblem = {
   //     //     contestId,
   //     //     userId,
   //     //     problemId: problem.id,
   //     //     numberOfMinutes: 0,
   //     //     numberOfAttempts: 0,
-  //     //     status: UserSeasonContestProblemStatus.NOT_SOLVED,
+  //     //     status: UserGroupSeasonContestProblemStatus.NOT_SOLVED,
   //     //     problem,
   //     //     user,
   //     //     contest,
   //     //   }
-  //     //   userSeasonContestProblems.push(userSeasonContestProblem)
+  //     //   UserGroupSeasonContestProblems.push(UserGroupSeasonContestProblem)
   //     // }
   //     // return {
   //     //   contestId,
@@ -55,19 +55,19 @@ export class UserSeasonContestService {
   //     //   timeSpent: 0,
   //     //   wrongSubmissions: 0,
   //     //   rank: 0,
-  //     //   userSeasonContestProblems,
+  //     //   UserGroupSeasonContestProblems,
   //     // }
   //   }
-  //   return userSeasonContest
+  //   return UserGroupSeasonContest
   // }
 
   async userContests(
-    { userId, seasonId, contestId }: FilterUserSeasonContestInput,
+    { userId, seasonId, contestId }: FilterUserGroupSeasonContestInput,
     { skip, take }: PaginationInput = {
       take: 50,
       skip: 0,
     },
-  ): Promise<PaginationUserSeasonContest> {
+  ): Promise<PaginationUserGroupSeasonContest> {
     const user = await this.prismaService.user.findUnique({
       where: {
         id: userId,
@@ -87,10 +87,10 @@ export class UserSeasonContestService {
     //     groupId: user.groupId,
     //   },
     // })
-    // const userSeasonContests: UserSeasonContest[] = []
+    // const UserGroupSeasonContests: UserGroupSeasonContest[] = []
     // for (const groupContest of groupContests) {
-    //   const userSeasonContest = await this.findOne({ userId, contestId: groupContest.contestId })
-    //   userSeasonContests.push(userSeasonContest)
+    //   const UserGroupSeasonContest = await this.findOne({ userId, contestId: groupContest.contestId })
+    //   UserGroupSeasonContests.push(UserGroupSeasonContest)
     // }
     return {
       items: [],
@@ -102,9 +102,9 @@ export class UserSeasonContestService {
     }
   }
 
-  // async updateUserContest({ id, ...updates }: UpdateUserSeasonContestInput): Promise<UserSeasonContest> {
+  // async updateUserContest({ id, ...updates }: UpdateUserGroupSeasonContestInput): Promise<UserGroupSeasonContest> {
   //   const { userId, seasonId, contestId } = id
-  //   return this.prismaService.userSeasonContest.upsert({
+  //   return this.prismaService.UserGroupSeasonContest.upsert({
   //     where: { userId_seasonId_contestId: id },
   //     create: {
   //       // seasonId, userId, contestId,
@@ -113,12 +113,12 @@ export class UserSeasonContestService {
   //           seasonId_contestId: { seasonId, contestId },
   //         },
   //       },
-  //       userSeason: {
+  //       UserGroupSeason: {
   //         connect: {
   //           userId_seasonId: { userId, seasonId },
   //         },
   //       },
-  //       userSeasonContestProblems: {
+  //       UserGroupSeasonContestProblems: {
   //         createMany: {
   //           skipDuplicates: true,
   //           data: [],
@@ -135,23 +135,23 @@ export class UserSeasonContestService {
   //           },
   //         },
   //       },
-  //       userSeason: {
+  //       UserGroupSeason: {
   //         include: { user: true, season: true },
   //       },
-  //       userSeasonContestProblems: {
+  //       UserGroupSeasonContestProblems: {
   //         include: { problem: { include: { tags: true } } },
   //       },
   //     },
   //   })
   // }
 
-  async removeUserSeasonContest({
+  async removeUserGroupSeasonContest({
     userId,
     seasonId,
     contestId,
-  }: UserSeasonContestId): Promise<number> {
+  }: UserGroupSeasonContestId): Promise<number> {
     try {
-      await this.userSeasonContestRepository.remove({
+      await this.UserGroupSeasonContestRepository.remove({
         userId_seasonId_contestId: {
           userId,
           seasonId,

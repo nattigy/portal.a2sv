@@ -1,12 +1,12 @@
 import { Resolver } from '@nestjs/graphql'
-import { UserSeasonContestProblem } from './entities/user-season-contest-problem.entity'
+import { UserGroupSeasonContestProblem } from './entities/user-season-contest-problem.entity'
 import { UserGroupSeasonContestProblemService } from './user-group-season-contest-problem.service'
 
-@Resolver(() => UserSeasonContestProblem)
+@Resolver(() => UserGroupSeasonContestProblem)
 export class UserGroupSeasonContestProblemResolver {
   constructor(private readonly userContestProblemService: UserGroupSeasonContestProblemService) {}
 
-  // @Query(() => PaginationUserSeasonContestProblem)
+  // @Query(() => PaginationUserGroupSeasonContestProblem)
   // async userContestProblems(
   //   @Args('filterUserContestProblemInput', { nullable: true})
   //   filterUserContestProblemInput?: FilterUserContestProblemInput,
@@ -15,14 +15,14 @@ export class UserGroupSeasonContestProblemResolver {
   //   return this.userContestProblemService.userContestProblems(filterUserContestProblemInput, pageInfoInput)
   // }
   //
-  // @Query(() => UserSeasonContestProblem)
+  // @Query(() => UserGroupSeasonContestProblem)
   // async userContestProblem(
   //   @Args('userContestProblemId') userContestProblemId: UserContestProblemId,
   // ) {
   //   return this.userContestProblemService.userContestProblem(userContestProblemId)
   // }
   //
-  // @Mutation(() => UserSeasonContestProblem)
+  // @Mutation(() => UserGroupSeasonContestProblem)
   // async updateUserContestProblem(
   //   @Args('updateUserContestProblemInput')
   //   updateUserContestProblemInput: UpdateUserGroupContestProblemInput,

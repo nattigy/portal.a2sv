@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { UserGroupSeasonService } from './user-group-season.service'
 
-describe('UserSeasonService', () => {
+describe('UserGroupSeasonService', () => {
   let service: UserGroupSeasonService
 
   beforeEach(async () => {

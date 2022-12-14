@@ -3,7 +3,7 @@ import { UserContestProblemStatusEnum } from '@prisma/client'
 import { Problem } from '../../../problem/entities/problem.entity'
 
 @ObjectType()
-export class UserSeasonContestProblem {
+export class UserGroupSeasonContestProblem {
   @Field()
   userId: string
 

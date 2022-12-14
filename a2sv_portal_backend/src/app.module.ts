@@ -11,16 +11,16 @@ import { ContestModule } from './contest/contest.module'
 import { GroupsModule } from './group-relations/group/groups.module'
 import { ProblemModule } from './problem/problem.module'
 import { RolesModule } from './roles/roles.module'
-import { UserSeasonTopicProblemModule } from './user-relations/user-group-season-topic-problem/user-season-topic-problem.module'
+import { UserGroupSeasonTopicProblemModule } from './user-relations/user-group-season-topic-problem/user-season-topic-problem.module'
 import { SeasonTopicProblemModule } from './season-relations/season-topic-problem/season-topic-problem.module'
 import { SeasonTopicModule } from './season-relations/season-topic/season-topic.module'
 import { SeasonModule } from './season-relations/season/season.module'
 import { TagModule } from './tag/tag.module'
 import { TopicModule } from './topic/topic.module'
 import { UserGroupSeasonContestProblemModule } from './user-relations/user-group-season-contest-problem/user-group-season-contest-problem.module'
-import { UserSeasonContestModule } from './user-relations/user-group-season-contest/user-season-contest.module'
+import { UserGroupSeasonContestModule } from './user-relations/user-group-season-contest/user-season-contest.module'
 import { UserProfileModule } from './user-relations/user-profile/user-profile.module'
-import { UserSeasonTopicModule } from './user-relations/user-group-season-topic/user-season-topic.module'
+import { UserGroupSeasonTopicModule } from './user-relations/user-group-season-topic/user-season-topic.module'
 import { UserModule } from './user-relations/user/user.module'
 import { PrismaModule } from './prisma/prisma.module'
 // import { DataAnalyticsModule } from './data-analytics/data-analytics.module'
@@ -72,12 +72,12 @@ import { GroupSeasonTopicProblemModule } from './group-relations/group-season-to
     ProblemModule,
     TopicModule,
     UserProfileModule,
-    UserSeasonTopicModule,
+    UserGroupSeasonTopicModule,
     SeasonTopicModule,
     SeasonTopicProblemModule,
-    UserSeasonTopicProblemModule,
+    UserGroupSeasonTopicProblemModule,
     ContestModule,
-    UserSeasonContestModule,
+    UserGroupSeasonContestModule,
     UserGroupSeasonContestProblemModule,
     PrismaModule,
     CaslModule,

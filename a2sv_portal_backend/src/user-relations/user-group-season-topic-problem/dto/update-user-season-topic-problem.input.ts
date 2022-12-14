@@ -1,10 +1,10 @@
 import { Field, InputType, Int } from '@nestjs/graphql'
-import { UserSeasonTopicProblemId } from './create-user-season-topic-problem.input'
+import { UserGroupSeasonTopicProblemId } from './create-user-season-topic-problem.input'
 
 @InputType()
-export class UpdateUserSeasonTopicProblemInput {
+export class UpdateUserGroupSeasonTopicProblemInput {
   @Field()
-  id: UserSeasonTopicProblemId
+  id: UserGroupSeasonTopicProblemId
 
   @Field({ nullable: true })
   solved?: boolean

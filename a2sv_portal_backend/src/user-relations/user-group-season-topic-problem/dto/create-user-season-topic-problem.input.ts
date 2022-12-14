@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
-export class CreateUserSeasonTopicProblemInput {
+export class CreateUserGroupSeasonTopicProblemInput {
   @Field()
   seasonId: string
 
@@ -16,7 +16,7 @@ export class CreateUserSeasonTopicProblemInput {
 }
 
 @InputType()
-export class UserSeasonTopicProblemId {
+export class UserGroupSeasonTopicProblemId {
   @Field()
   seasonId: string
 

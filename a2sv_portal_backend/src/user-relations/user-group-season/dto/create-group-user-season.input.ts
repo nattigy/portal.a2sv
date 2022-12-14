@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
-export class CreateGroupUserSeasonInput {
+export class CreateGroupUserGroupSeasonInput {
   @Field()
   userId: string
 

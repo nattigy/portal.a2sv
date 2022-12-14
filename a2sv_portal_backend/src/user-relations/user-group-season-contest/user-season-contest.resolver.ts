@@ -1,38 +1,38 @@
 import { Resolver } from '@nestjs/graphql'
-import { UserSeasonContest } from './entities/user-season-contest.entity'
-import { UserSeasonContestService } from './user-season-contest.service'
+import { UserGroupSeasonContest } from './entities/user-season-contest.entity'
+import { UserGroupSeasonContestService } from './user-season-contest.service'
 
-@Resolver(() => UserSeasonContest)
-export class UserSeasonContestResolver {
-  constructor(private readonly userSeasonContestService: UserSeasonContestService) {}
+@Resolver(() => UserGroupSeasonContest)
+export class UserGroupSeasonContestResolver {
+  constructor(private readonly UserGroupSeasonContestService: UserGroupSeasonContestService) {}
 
-  // @Query(() => UserSeasonContest)
+  // @Query(() => UserGroupSeasonContest)
   // async userContest(
-  //   @Args('userSeasonContestId') userSeasonContestId: UserSeasonContestId,
-  // ): Promise<UserSeasonContest> {
-  //   return this.userSeasonContestService.userContest(userSeasonContestId)
+  //   @Args('UserGroupSeasonContestId') UserGroupSeasonContestId: UserGroupSeasonContestId,
+  // ): Promise<UserGroupSeasonContest> {
+  //   return this.UserGroupSeasonContestService.userContest(UserGroupSeasonContestId)
   // }
   //
-  // @Query(() => PaginationUserSeasonContest)
+  // @Query(() => PaginationUserGroupSeasonContest)
   // async userContests(
-  //   @Args('filterUserSeasonContestInput') filterUserSeasonContestInput: FilterUserSeasonContestInput,
+  //   @Args('filterUserGroupSeasonContestInput') filterUserGroupSeasonContestInput: FilterUserGroupSeasonContestInput,
   //   @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
-  // ): Promise<PaginationUserSeasonContest> {
-  //   return this.userSeasonContestService.userContests(filterUserSeasonContestInput, paginationInput)
+  // ): Promise<PaginationUserGroupSeasonContest> {
+  //   return this.UserGroupSeasonContestService.userContests(filterUserGroupSeasonContestInput, paginationInput)
   // }
   //
-  // @Mutation(() => UserSeasonContest)
+  // @Mutation(() => UserGroupSeasonContest)
   // async updateUserContest(
   //   @Args('updateUserContestInput')
-  //     updateUserContestInput: UpdateUserSeasonContestInput,
-  // ): Promise<UserSeasonContest> {
-  //   return this.userSeasonContestService.updateUserContest(updateUserContestInput)
+  //     updateUserContestInput: UpdateUserGroupSeasonContestInput,
+  // ): Promise<UserGroupSeasonContest> {
+  //   return this.UserGroupSeasonContestService.updateUserContest(updateUserContestInput)
   // }
   //
   // @Mutation(() => Int)
-  // async removeUserSeasonContest(
-  //   @Args('userSeasonContestId') userSeasonContestId: UserSeasonContestId,
+  // async removeUserGroupSeasonContest(
+  //   @Args('UserGroupSeasonContestId') UserGroupSeasonContestId: UserGroupSeasonContestId,
   // ): Promise<number> {
-  //   return this.userSeasonContestService.removeUserSeasonContest(userSeasonContestId)
+  //   return this.UserGroupSeasonContestService.removeUserGroupSeasonContest(UserGroupSeasonContestId)
   // }
 }
