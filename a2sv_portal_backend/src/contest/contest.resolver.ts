@@ -34,9 +34,8 @@ export class ContestResolver {
   @Mutation(() => Contest)
   async updateContest(
     @Args('updateContestInput') updateContestInput: UpdateContestInput,
-    @Args('contestId') contestId: string,
   ): Promise<Contest> {
-    return this.contestService.update(contestId, updateContestInput)
+    return this.contestService.update(updateContestInput)
   }
 
   @Mutation(() => Contest)
