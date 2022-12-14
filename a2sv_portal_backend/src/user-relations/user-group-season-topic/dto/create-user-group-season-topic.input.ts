@@ -7,6 +7,9 @@ export class CreateUserGroupSeasonTopicInput {
   userId: string
 
   @Field()
+  groupId: string
+
+  @Field()
   seasonId: string
 
   @Field()
@@ -20,6 +23,9 @@ export class CreateUserGroupSeasonTopicInput {
 export class UserGroupSeasonTopicId {
   @Field()
   userId: string
+
+  @Field()
+  groupId: string
 
   @Field()
   seasonId: string

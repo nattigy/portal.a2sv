@@ -1,60 +1,42 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
-import { UserGroupSeasonTopic } from './entities/user-season-topic.entity'
+import { UserGroupSeasonTopic } from './entities/user-group-season-topic.entity'
 
 @Injectable()
 export class UserGroupSeasonTopicRepository {
-  include = {
-    seasonTopic: {
-      include: {
-        season: true,
-        topic: true,
-        seasonTopicProblems: {
-          include: { problem: { include: { tags: true } } },
-        },
-      },
-    },
-    UserGroupSeasonTopicProblems: {
-      include: {
-        problem: { include: { tags: true } },
-      },
-    },
-  }
-
   constructor(private readonly prismaService: PrismaService) {}
 
+  include = {
+    userGroupSeasonTopicProblems: true,
+  }
+
   async create(data: Prisma.UserGroupSeasonTopicCreateInput): Promise<UserGroupSeasonTopic> {
-    return this.prismaService.UserGroupSeasonTopic.create({
+    return this.prismaService.userGroupSeasonTopic.create({
       data,
       include: this.include,
     })
   }
 
   async count(where?: Prisma.UserGroupSeasonTopicWhereInput): Promise<number> {
-    return this.prismaService.UserGroupSeasonTopic.count({ where })
+    return this.prismaService.userGroupSeasonTopic.count({ where })
   }
 
   async findAll(params: {
     skip?: number
     take?: number
-    cursor?: Prisma.UserGroupSeasonTopicWhereUniqueInput
     where?: Prisma.UserGroupSeasonTopicWhereInput
     orderBy?: Prisma.UserGroupSeasonTopicOrderByWithRelationInput
   }) {
-    const { skip, take, cursor, where, orderBy } = params
-    return this.prismaService.UserGroupSeasonTopic.findMany({
-      skip,
-      take,
-      cursor,
-      where,
-      orderBy,
+    const { skip, take, where, orderBy } = params
+    return this.prismaService.userGroupSeasonTopic.findMany({
+      skip, take, where, orderBy,
       include: this.include,
     })
   }
 
   async findOne(where: Prisma.UserGroupSeasonTopicWhereUniqueInput) {
-    return this.prismaService.UserGroupSeasonTopic.findUnique({
+    return this.prismaService.userGroupSeasonTopic.findUnique({
       where,
       include: this.include,
     })
@@ -65,7 +47,7 @@ export class UserGroupSeasonTopicRepository {
     data: Prisma.UserGroupSeasonTopicUpdateInput
   }) {
     const { where, data } = params
-    return this.prismaService.UserGroupSeasonTopic.update({
+    return this.prismaService.userGroupSeasonTopic.update({
       data,
       where,
       include: this.include,
@@ -73,6 +55,6 @@ export class UserGroupSeasonTopicRepository {
   }
 
   async remove(where: Prisma.UserGroupSeasonTopicWhereUniqueInput) {
-    return this.prismaService.UserGroupSeasonTopic.delete({ where })
+    return this.prismaService.userGroupSeasonTopic.delete({ where })
   }
 }

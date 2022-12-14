@@ -6,30 +6,29 @@ import { UserGroupSeasonRepository } from './user-group-season.repository'
 
 @Injectable()
 export class UserGroupSeasonService {
-  constructor(private readonly UserGroupSeasonRepository: UserGroupSeasonRepository) {}
+  constructor(private readonly userGroupSeasonRepository: UserGroupSeasonRepository) {}
 
-  async UserGroupSeasons(
+  async userGroupSeasons(
     { seasonId, userId }: FilterUserGroupSeasonInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ) {
     /// TODO generate multiple stat here
-    return this.UserGroupSeasonRepository.findAll({
-      take,
-      skip,
+    return this.userGroupSeasonRepository.findAll({
+      take, skip,
       where: { seasonId, userId },
     })
   }
 
-  async UserGroupSeason({ seasonId, userId }: UserGroupSeasonId) {
+  async userGroupSeason({ seasonId, groupId,userId }: UserGroupSeasonId) {
     /// TODO generate stat here
-    return this.UserGroupSeasonRepository.findOne({
-      userId_seasonId: { seasonId, userId },
+    return this.userGroupSeasonRepository.findOne({
+      userId_groupId_seasonId: { seasonId, groupId, userId },
     })
   }
 
-  async removeUserGroupSeason({ seasonId, userId }: UserGroupSeasonId) {
-    return this.UserGroupSeasonRepository.remove({
-      userId_seasonId: { seasonId, userId },
-    })
-  }
+  // async removeUserGroupSeason({ seasonId,groupId, userId }: UserGroupSeasonId) {
+  //   return this.userGroupSeasonRepository.remove({
+  //     userId_groupId_seasonId: { seasonId,groupId, userId },
+  //   })
+  // }
 }

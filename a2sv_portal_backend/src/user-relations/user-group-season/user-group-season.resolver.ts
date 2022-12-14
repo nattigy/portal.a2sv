@@ -11,15 +11,15 @@ export class UserGroupSeasonResolver {
   constructor(private readonly UserGroupSeasonService: UserGroupSeasonService) {}
 
   @Query(() => UserGroupSeason)
-  async UserGroupSeason(@Args('UserGroupSeasonId') UserGroupSeasonId: UserGroupSeasonId): Promise<UserGroupSeason> {
-    return this.UserGroupSeasonService.UserGroupSeason(UserGroupSeasonId)
+  async userGroupSeason(@Args('userGroupSeasonId') userGroupSeasonId: UserGroupSeasonId): Promise<UserGroupSeason> {
+    return this.UserGroupSeasonService.userGroupSeason(userGroupSeasonId)
   }
 
   @Query(() => UserGroupSeason)
-  async UserGroupSeasons(
+  async userGroupSeasons(
     @Args('filterUserGroupSeasonInput') filterUserGroupSeasonInput: FilterUserGroupSeasonInput,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<UserGroupSeason[]> {
-    return this.UserGroupSeasonService.UserGroupSeasons(filterUserGroupSeasonInput, paginationInput)
+    return this.UserGroupSeasonService.userGroupSeasons(filterUserGroupSeasonInput, paginationInput)
   }
 }

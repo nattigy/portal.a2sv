@@ -1,7 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql'
 
 import { User } from '../../user/entities/user.entity'
-import { UserGroupSeasonTopic } from '../../user-group-season-topic/entities/user-season-topic.entity'
+import { UserGroupSeasonTopic } from '../../user-group-season-topic/entities/user-group-season-topic.entity'
 import { UserGroupSeasonContest } from '../../user-group-season-contest/entities/user-season-contest.entity'
 
 @ObjectType()
@@ -19,10 +19,10 @@ export class UserGroupSeason {
   user: User
 
   @Field(() => UserGroupSeasonTopic)
-  UserGroupSeasonTopics: UserGroupSeasonTopic[]
+  userGroupSeasonTopics: UserGroupSeasonTopic[]
 
   // @Field(() => UserGroupSeasonContest)
-  // UserGroupSeasonContests: UserGroupSeasonContest[]
+  // userGroupSeasonContests: UserGroupSeasonContest[]
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date

@@ -11,8 +11,8 @@ export class FilterUserGroupSeasonTopicProblemInput {
   @Field({ nullable: true })
   problemId?: string
 
-  @Field()
-  groupId: string
+  @Field({nullable: true})
+  groupId?: string
 
   @Field({ nullable: true })
   userId?: string

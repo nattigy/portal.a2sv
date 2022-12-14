@@ -22,9 +22,7 @@ export class UserGroupSeasonContestRepository {
         UserGroupSeason: {
           include: { user: true, season: true },
         },
-        UserGroupSeasonContestProblems: {
-          include: { problem: { include: { tags: true } } },
-        },
+        userGroupSeasonTopicProblems: true,
       },
     })
   }

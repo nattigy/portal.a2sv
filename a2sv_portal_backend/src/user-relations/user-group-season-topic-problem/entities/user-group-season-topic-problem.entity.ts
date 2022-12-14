@@ -4,6 +4,12 @@ import { Problem } from '../../../problem/entities/problem.entity'
 @ObjectType()
 export class UserGroupSeasonTopicProblem {
   @Field()
+  userId: string
+
+  @Field()
+  groupId: string
+
+  @Field()
   seasonId: string
 
   @Field()
@@ -11,9 +17,6 @@ export class UserGroupSeasonTopicProblem {
 
   @Field()
   problemId: string
-
-  @Field()
-  userId: string
 
   @Field({ defaultValue: false })
   solved: boolean
@@ -30,8 +33,8 @@ export class UserGroupSeasonTopicProblem {
   @Field(() => Int)
   timeDedicated: number
 
-  @Field(() => Problem)
-  problem: Problem
+  @Field(() => Problem, { nullable: true })
+  problem?: Problem
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date

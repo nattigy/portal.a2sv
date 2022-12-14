@@ -8,10 +8,10 @@ import { Problem } from '../../problem/entities/problem.entity'
 import { Group } from '../../group-relations/group/entities/group.entity'
 import { SeasonTopic } from '../../season-relations/season-topic/entities/season-topic.entity'
 import { SeasonTopicProblem } from '../../season-relations/season-topic-problem/entities/season-topic-problem.entity'
-import { UserGroupSeasonTopicProblem } from '../../user-relations/user-group-season-topic-problem/entities/user-season-topic-problem.entity'
+import { UserGroupSeasonTopicProblem } from '../../user-relations/user-group-season-topic-problem/entities/user-group-season-topic-problem.entity'
 import { UserGroupSeasonContestProblem } from '../../user-relations/user-group-season-contest-problem/entities/user-season-contest-problem.entity'
 import { UserProfile } from '../../user-relations/user-profile/entities/user-profile.entity'
-import { UserGroupSeasonTopic } from '../../user-relations/user-group-season-topic/entities/user-season-topic.entity'
+import { UserGroupSeasonTopic } from '../../user-relations/user-group-season-topic/entities/user-group-season-topic.entity'
 import { GroupSeason } from '../../group-relations/group-season/entities/group-season.entity'
 
 @ObjectType()

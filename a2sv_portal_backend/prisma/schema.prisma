@@ -64,18 +64,18 @@ model Topic {
 }
 
 model Problem {
-  id                    String                    @id @default(uuid())
-  title                 String
-  platform              String
-  link                  String                    @unique
-  difficulty            ProblemDifficultyTypeEnum
-  tags                  Tag[]
-  createdAt             DateTime?                 @default(now())
-  updatedAt             DateTime?                 @updatedAt
-  contest               Contest?                  @relation(fields: [contestId], references: [id])
-  contestId             String?
-  seasonTopicProblems   SeasonTopicProblem[]
-  seasonContestProblems SeasonContestProblem[]
+  id                            String                          @id @default(uuid())
+  title                         String
+  platform                      String
+  link                          String                          @unique
+  difficulty                    ProblemDifficultyTypeEnum
+  tags                          Tag[]
+  createdAt                     DateTime?                       @default(now())
+  updatedAt                     DateTime?                       @updatedAt
+  contest                       Contest?                        @relation(fields: [contestId], references: [id])
+  contestId                     String?
+  seasonTopicProblems           SeasonTopicProblem[]
+  seasonContestProblems         SeasonContestProblem[]
 }
 
 model User {

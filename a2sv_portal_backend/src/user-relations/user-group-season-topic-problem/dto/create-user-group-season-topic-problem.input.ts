@@ -3,6 +3,12 @@ import { Field, InputType } from '@nestjs/graphql'
 @InputType()
 export class CreateUserGroupSeasonTopicProblemInput {
   @Field()
+  userId: string
+
+  @Field()
+  groupId: string
+
+  @Field()
   seasonId: string
 
   @Field()
@@ -10,14 +16,17 @@ export class CreateUserGroupSeasonTopicProblemInput {
 
   @Field()
   problemId: string
-
-  @Field()
-  userId: string
 }
 
 @InputType()
 export class UserGroupSeasonTopicProblemId {
   @Field()
+  userId: string
+
+  @Field()
+  groupId: string
+
+  @Field()
   seasonId: string
 
   @Field()
@@ -25,7 +34,4 @@ export class UserGroupSeasonTopicProblemId {
 
   @Field()
   problemId: string
-
-  @Field()
-  userId: string
 }

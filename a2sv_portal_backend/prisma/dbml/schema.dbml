@@ -65,6 +65,8 @@ Table Problem {
   contestId String
   seasonTopicProblems SeasonTopicProblem [not null]
   seasonContestProblems SeasonContestProblem [not null]
+  UserGroupSeasonTopicProblem UserGroupSeasonTopicProblem [not null]
+  UserGroupSeasonContestProblem UserGroupSeasonContestProblem [not null]
 }
 
 Table User {
@@ -280,6 +282,7 @@ Table UserGroupSeasonTopicProblem {
   updatedAt DateTime
   userGroupSeasonTopic UserGroupSeasonTopic [not null]
   groupSeasonTopicProblem GroupSeasonTopicProblem [not null]
+  problem Problem [not null]
 
   indexes {
     (userId, groupId, seasonId, topicId, problemId) [pk]
@@ -320,6 +323,7 @@ Table UserGroupSeasonContestProblem {
   updatedAt DateTime
   userGroupSeasonContest UserGroupSeasonContest [not null]
   groupSeasonContestProblem GroupSeasonContestProblem [not null]
+  problem Problem [not null]
 
   indexes {
     (userId, groupId, seasonId, contestId, problemId) [pk]
@@ -508,6 +512,8 @@ Ref: UserGroupSeasonTopicProblem.(userId, groupId, seasonId, topicId) > UserGrou
 
 Ref: UserGroupSeasonTopicProblem.(groupId, seasonId, topicId, problemId) > GroupSeasonTopicProblem.(groupId, seasonId, topicId, problemId) [delete: Cascade]
 
+Ref: UserGroupSeasonTopicProblem.problemId > Problem.id [delete: Cascade]
+
 Ref: UserGroupSeasonContest.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
 
 Ref: UserGroupSeasonContest.(groupId, seasonId, contestId) > GroupSeasonContest.(groupId, seasonId, contestId) [delete: Cascade]
@@ -515,6 +521,8 @@ Ref: UserGroupSeasonContest.(groupId, seasonId, contestId) > GroupSeasonContest.
 Ref: UserGroupSeasonContestProblem.(userId, groupId, seasonId, contestId) > UserGroupSeasonContest.(userId, groupId, seasonId, contestId) [delete: Cascade]
 
 Ref: UserGroupSeasonContestProblem.(groupId, seasonId, contestId, problemId) > GroupSeasonContestProblem.(groupId, seasonId, contestId, problemId) [delete: Cascade]
+
+Ref: UserGroupSeasonContestProblem.problemId > Problem.id [delete: Cascade]
 
 Ref: UserProfile.userId - User.id [delete: Cascade]
 
