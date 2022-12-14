@@ -1,4 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql'
+import { GroupSeasonContestProblem } from 'src/group-relations/group-season-contest-problem/entities/group-season-contest-problem.entity'
 import { SeasonContest } from '../../../season-relations/season-contest/entities/season-contest.entity'
 import { GroupSeason } from '../../group-season/entities/group-season.entity'
 
@@ -16,8 +17,10 @@ export class GroupSeasonContest {
   @Field(() => SeasonContest)
   seasonContest?: SeasonContest
 
-  @Field(() => GroupSeason)
-  groupSeason?: GroupSeason
+  // @Field(() => GroupSeason)
+  // groupSeason?: GroupSeason
+  @Field(()=> GroupSeasonContestProblem)
+  groupSeasonContestProblem: GroupSeasonContestProblem
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date
