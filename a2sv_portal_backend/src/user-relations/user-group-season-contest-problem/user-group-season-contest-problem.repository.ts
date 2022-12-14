@@ -4,7 +4,7 @@ import { Prisma } from '@prisma/client'
 import { UserSeasonContestProblem } from './entities/user-season-contest-problem.entity'
 
 @Injectable()
-export class UserSeasonContestProblemRepository {
+export class UserGroupSeasonContestProblemRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(

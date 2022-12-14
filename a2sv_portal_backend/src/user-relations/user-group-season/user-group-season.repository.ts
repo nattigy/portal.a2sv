@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { Prisma } from '@prisma/client'
-import { UserSeason } from './entities/user-season.entity'
+import { UserGroupSeason } from './entities/user-group-season.entity'
 import { PrismaService } from '../../prisma/prisma.service'
 
 @Injectable()
-export class UserSeasonRepository {
+export class UserGroupSeasonRepository {
   include = {
     user: true,
     season: true,
@@ -28,7 +28,7 @@ export class UserSeasonRepository {
 
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(data: Prisma.UserSeasonCreateInput): Promise<UserSeason> {
+  async create(data: Prisma.UserSeasonCreateInput): Promise<UserGroupSeason> {
     return this.prismaService.userSeason.create({
       data,
       include: this.include,
@@ -45,7 +45,7 @@ export class UserSeasonRepository {
     groupId?: string
     where?: Prisma.UserSeasonWhereInput
     orderBy?: Prisma.UserSeasonOrderByWithRelationInput
-  }): Promise<UserSeason[]> {
+  }): Promise<UserGroupSeason[]> {
     const { skip, take, where, groupId, orderBy } = params
     return this.prismaService.userSeason.findMany({
       skip,
@@ -56,7 +56,7 @@ export class UserSeasonRepository {
     })
   }
 
-  async findOne(where: Prisma.UserSeasonWhereUniqueInput): Promise<UserSeason> {
+  async findOne(where: Prisma.UserSeasonWhereUniqueInput): Promise<UserGroupSeason> {
     return this.prismaService.userSeason.findUnique({
       where,
       include: this.include,
@@ -66,7 +66,7 @@ export class UserSeasonRepository {
   async update(params: {
     where: Prisma.UserSeasonWhereUniqueInput
     data: Prisma.UserSeasonUpdateInput
-  }): Promise<UserSeason> {
+  }): Promise<UserGroupSeason> {
     const { where, data } = params
     return this.prismaService.userSeason.update({
       data,

@@ -1,5 +1,5 @@
 import { Action } from '../../auth/action.enum'
-import { UserSeasonTopic } from '../../user-relations/user-season-topic/entities/user-season-topic.entity'
+import { UserSeasonTopic } from '../../user-relations/user-group-season-topic/entities/user-season-topic.entity'
 import { AppAbility } from '../casl-ability.factory'
 
 export class UserTopicAbilities {

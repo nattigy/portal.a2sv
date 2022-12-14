@@ -2,7 +2,7 @@ import { Field, InputType, Int } from '@nestjs/graphql'
 import { UserContestProblemStatusEnum } from '@prisma/client'
 
 @InputType()
-export class UpdateUserContestProblemInput {
+export class UpdateUserGroupContestProblemInput {
   @Field(() => String)
   userId: string
 

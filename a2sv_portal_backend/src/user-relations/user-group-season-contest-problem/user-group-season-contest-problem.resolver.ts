@@ -1,10 +1,10 @@
 import { Resolver } from '@nestjs/graphql'
 import { UserSeasonContestProblem } from './entities/user-season-contest-problem.entity'
-import { UserSeasonContestProblemService } from './user-season-contest-problem.service'
+import { UserGroupSeasonContestProblemService } from './user-group-season-contest-problem.service'
 
 @Resolver(() => UserSeasonContestProblem)
-export class UserSeasonContestProblemResolver {
-  constructor(private readonly userContestProblemService: UserSeasonContestProblemService) {}
+export class UserGroupSeasonContestProblemResolver {
+  constructor(private readonly userContestProblemService: UserGroupSeasonContestProblemService) {}
 
   // @Query(() => PaginationUserSeasonContestProblem)
   // async userContestProblems(
@@ -25,7 +25,7 @@ export class UserSeasonContestProblemResolver {
   // @Mutation(() => UserSeasonContestProblem)
   // async updateUserContestProblem(
   //   @Args('updateUserContestProblemInput')
-  //   updateUserContestProblemInput: UpdateUserContestProblemInput,
+  //   updateUserContestProblemInput: UpdateUserGroupContestProblemInput,
   // ) {
   //   return this.userContestProblemService.updateUserContestProblem(updateUserContestProblemInput)
   // }

@@ -11,16 +11,16 @@ import { ContestModule } from './contest/contest.module'
 import { GroupsModule } from './group-relations/group/groups.module'
 import { ProblemModule } from './problem/problem.module'
 import { RolesModule } from './roles/roles.module'
-import { UserSeasonTopicProblemModule } from './user-relations/user-season-topic-problem/user-season-topic-problem.module'
+import { UserSeasonTopicProblemModule } from './user-relations/user-group-season-topic-problem/user-season-topic-problem.module'
 import { SeasonTopicProblemModule } from './season-relations/season-topic-problem/season-topic-problem.module'
 import { SeasonTopicModule } from './season-relations/season-topic/season-topic.module'
 import { SeasonModule } from './season-relations/season/season.module'
 import { TagModule } from './tag/tag.module'
 import { TopicModule } from './topic/topic.module'
-import { UserSeasonContestProblemModule } from './user-relations/user-season-contest-problem/user-season-contest-problem.module'
-import { UserSeasonContestModule } from './user-relations/user-season-contest/user-season-contest.module'
+import { UserGroupSeasonContestProblemModule } from './user-relations/user-group-season-contest-problem/user-group-season-contest-problem.module'
+import { UserSeasonContestModule } from './user-relations/user-group-season-contest/user-season-contest.module'
 import { UserProfileModule } from './user-relations/user-profile/user-profile.module'
-import { UserSeasonTopicModule } from './user-relations/user-season-topic/user-season-topic.module'
+import { UserSeasonTopicModule } from './user-relations/user-group-season-topic/user-season-topic.module'
 import { UserModule } from './user-relations/user/user.module'
 import { PrismaModule } from './prisma/prisma.module'
 // import { DataAnalyticsModule } from './data-analytics/data-analytics.module'
@@ -29,7 +29,7 @@ import { SeasonContestModule } from './season-relations/season-contest/season-co
 import { GroupSeasonTopicModule } from './group-relations/group-season-topic/group-season-topic.module'
 import { GroupSeasonContestModule } from './group-relations/group-season-contest/group-season-contest.module'
 import { GroupSeasonModule } from './group-relations/group-season/group-season.module'
-import { UserSeasonModule } from './user-relations/user-season/user-season.module'
+import { UserGroupSeasonModule } from './user-relations/user-group-season/user-group-season.module'
 import { GroupSeasonTopicProblemModule } from './group-relations/group-season-topic-problem/group-season-topic-problem.module'
 
 @Module({
@@ -78,7 +78,7 @@ import { GroupSeasonTopicProblemModule } from './group-relations/group-season-to
     UserSeasonTopicProblemModule,
     ContestModule,
     UserSeasonContestModule,
-    UserSeasonContestProblemModule,
+    UserGroupSeasonContestProblemModule,
     PrismaModule,
     CaslModule,
     // DataAnalyticsModule,
@@ -86,7 +86,7 @@ import { GroupSeasonTopicProblemModule } from './group-relations/group-season-to
     GroupSeasonTopicModule,
     GroupSeasonContestModule,
     GroupSeasonModule,
-    UserSeasonModule,
+    UserGroupSeasonModule,
     GroupSeasonTopicProblemModule,
   ],
   providers: [AppService, AppResolver],

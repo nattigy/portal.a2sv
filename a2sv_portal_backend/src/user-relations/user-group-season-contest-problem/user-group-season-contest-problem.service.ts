@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
-import { UserSeasonContestService } from '../user-season-contest/user-season-contest.service'
+import { UserSeasonContestService } from '../user-group-season-contest/user-season-contest.service'
 
 @Injectable()
-export class UserSeasonContestProblemService {
+export class UserGroupSeasonContestProblemService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly userContestService: UserSeasonContestService,
   ) {}
 
-  // create(createUserContestProblemInput: CreateUserContestProblemInput) {
+  // create(createUserContestProblemInput: CreateUserGroupContestProblemInput) {
   //   return this.prismaService.userContestProblem.create({
   //     data: createUserContestProblemInput
   //   })
@@ -59,7 +59,7 @@ export class UserSeasonContestProblemService {
   //   })
   // }
   //
-  // async updateUserContestProblem({ userId, contestId, problemId, ...update }: UpdateUserContestProblemInput) {
+  // async updateUserContestProblem({ userId, contestId, problemId, ...update }: UpdateUserGroupContestProblemInput) {
   //   await this.userContestService.update({ userId, contestId })
   //   return this.prismaService.userContestProblem.upsert({
   //     include: {

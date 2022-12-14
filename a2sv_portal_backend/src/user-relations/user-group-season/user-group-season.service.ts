@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common'
 import { PaginationInput } from 'src/common/page/pagination.input'
-import { UserSeasonId } from './dto/create-user-season.input'
-import { FilterUserSeasonInput } from './dto/filter-user-season-input'
-import { UserSeasonRepository } from './user-season.repository'
+import { UserGroupSeasonId } from './dto/create-group-user-season.input'
+import { FilterUserGroupSeasonInput } from './dto/filter-user-group-season-input'
+import { UserGroupSeasonRepository } from './user-group-season.repository'
 
 @Injectable()
-export class UserSeasonService {
-  constructor(private readonly userSeasonRepository: UserSeasonRepository) {}
+export class UserGroupSeasonService {
+  constructor(private readonly userSeasonRepository: UserGroupSeasonRepository) {}
 
   async userSeasons(
-    { seasonId, userId }: FilterUserSeasonInput,
+    { seasonId, userId }: FilterUserGroupSeasonInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ) {
     /// TODO generate multiple stat here
@@ -20,14 +20,14 @@ export class UserSeasonService {
     })
   }
 
-  async userSeason({ seasonId, userId }: UserSeasonId) {
+  async userSeason({ seasonId, userId }: UserGroupSeasonId) {
     /// TODO generate stat here
     return this.userSeasonRepository.findOne({
       userId_seasonId: { seasonId, userId },
     })
   }
 
-  async removeUserSeason({ seasonId, userId }: UserSeasonId) {
+  async removeUserSeason({ seasonId, userId }: UserGroupSeasonId) {
     return this.userSeasonRepository.remove({
       userId_seasonId: { seasonId, userId },
     })
