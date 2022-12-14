@@ -15,10 +15,18 @@ export class TopicService {
     private readonly topicRepository: TopicRepository,
   ) {}
 
-  async create(createTopicInput: CreateTopicInput): Promise<Topic> {
+  async create({ name,  description }: CreateTopicInput): Promise<Topic> {
     // TODO: check if topic with this name already exists and if it does return
     // TODO: "topic with this name already" exists error
-    return this.topicRepository.create(createTopicInput)
+
+    const foundTopic = await this.topicRepository.findOne({ name })
+
+    if (foundTopic) throw new Error('Topic with this name already exists!')
+
+    return this.topicRepository.create({
+      name,
+      description
+    })
   }
 
   async topics(
@@ -48,6 +56,17 @@ export class TopicService {
   async updateTopic({ topicId, ...update }: UpdateTopicInput): Promise<Topic> {
     // TODO: check if topic with this Id exists and if it doesn't return
     // TODO: "topic with this Id doesn't" exists error
+    const foundTopic = await this.topicRepository.findOne({ id:topicId })
+
+    if (!foundTopic) {
+      throw new NotFoundException(`Topic with id ${topicId} does not exist!`)
+    }
+
+    if(update.name){
+      const topic = await this.topicRepository.findOne({ name: update.name })
+      if (topic && (topic.id !== foundTopic.id)) throw new Error('Topic with this name already exists!')
+    }
+
     return this.topicRepository.update({
       where: { id: topicId },
       data: update,

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { PaginationInput } from '../common/page/pagination.input'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateContestInput } from './dto/create-contest.input'
@@ -43,17 +43,21 @@ export class ContestService {
   async contest(contestId: string): Promise<Contest> {
     // TODO: check if contest with this Id exists and if it doesn't return
     // TODO: "contest with this Id doesn't" exists error
-    return this.contestRepository.findOne({ id: contestId })
+    const foundContest = this.contestRepository.findOne({ id: contestId })
+
+    if (!foundContest) throw new NotFoundException(`Contest with id ${contestId} does not exist!`);
+    
+    return foundContest
   }
 
   async update(
-    condition: string,
-    { problems, ...updateContest }: UpdateContestInput,
+    { contestId, problems, ...updateContest }: UpdateContestInput,
   ): Promise<Contest> {
     // TODO: check if contest with this Id exists and if it doesn't return
     // TODO: "contest with this Id doesn't" exists error
+    
     return this.contestRepository.update({
-      where: { id: condition },
+      where: { id: contestId },
       data: {
         ...updateContest,
         problems: { connect: problems.map(p => ({ id: p.problemId })) },
@@ -63,7 +67,11 @@ export class ContestService {
 
   async removeProblemsFromContest(contestId: string, problemIds: string[]): Promise<Contest> {
     // TODO: check if contest with this Id exists and if it doesn't return
-    // TODO: "contest with this Id doesn't" exists error
+    // TODO: "contest with this Id doesn't" exists error'
+    const foundContest = this.prismaService.contest.findUnique({where: { id: contestId }});
+
+    if (!foundContest) throw new NotFoundException(`Contest with id ${contestId} does not exist!`);
+
     return this.contestRepository.update({
       where: { id: contestId },
       data: {

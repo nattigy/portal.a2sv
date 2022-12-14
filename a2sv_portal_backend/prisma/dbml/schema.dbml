@@ -1,0 +1,475 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Group {
+  id String [pk]
+  name String [unique, not null]
+  country String
+  school String
+  headId String [unique]
+  head User
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  users User [not null]
+  groupSeasons GroupSeason [not null]
+}
+
+Table Season {
+  id String [pk]
+  name String [not null]
+  seasonType SeasonTypeEnum [not null, default: 'IN_ACTIVE']
+  duration String [not null]
+  startDate DateTime [not null]
+  endDate DateTime
+  isActive Boolean [not null, default: false]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  groupSeasons GroupSeason [not null]
+  userSeasons UserSeason [not null]
+  seasonTopics SeasonTopic [not null]
+  seasonContests SeasonContest [not null]
+}
+
+Table Contest {
+  id String [pk]
+  name String [not null]
+  link String [not null]
+  div String
+  startTime DateTime [not null]
+  endTime DateTime [not null]
+  problems Problem [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  seasonContests SeasonContest [not null]
+}
+
+Table Topic {
+  id String [pk]
+  name String [unique, not null]
+  description String [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  seasonTopics SeasonTopic [not null]
+}
+
+Table Problem {
+  id String [pk]
+  title String [not null]
+  platform String [not null]
+  link String [unique, not null]
+  difficulty ProblemDifficultyTypeEnum [not null]
+  tags Tag [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  contest Contest
+  contestId String
+  groupSeasonTopicProblems GroupSeasonTopicProblem [not null]
+  seasonTopicProblems SeasonTopicProblem [not null]
+  userSeasonContestProblems UserSeasonContestProblem [not null]
+  userSeasonTopicProblems UserSeasonTopicProblem [not null]
+}
+
+Table User {
+  id String [pk]
+  firstName String [not null]
+  middleName String [not null]
+  lastName String [not null]
+  role RoleEnum [not null]
+  email String [unique, not null]
+  password String [not null]
+  status StatusEnum [not null]
+  groupId String
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  headToGroup Group
+  group Group
+  groupSeasons GroupSeason [not null]
+  userSeasons UserSeason [not null]
+  userProfile UserProfile
+}
+
+Table SeasonTopic {
+  seasonId String [not null]
+  topicId String [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  season Season [not null]
+  topic Topic [not null]
+  seasonTopicProblems SeasonTopicProblem [not null]
+  userSeasonTopics UserSeasonTopic [not null]
+  groupSeasonTopics GroupSeasonTopic [not null]
+
+  indexes {
+    (seasonId, topicId) [pk]
+  }
+}
+
+Table SeasonContest {
+  seasonId String [not null]
+  contestId String [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  season Season [not null]
+  contest Contest [not null]
+  groupSeasonContests GroupSeasonContest [not null]
+  userSeasonContests UserSeasonContest [not null]
+
+  indexes {
+    (seasonId, contestId) [pk]
+  }
+}
+
+Table SeasonTopicProblem {
+  seasonId String [not null]
+  topicId String [not null]
+  problemId String [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  seasonTopic SeasonTopic [not null]
+  problem Problem [not null]
+
+  indexes {
+    (seasonId, topicId, problemId) [pk]
+  }
+}
+
+Table GroupSeason {
+  groupId String [not null]
+  seasonId String [not null]
+  isActive Boolean [not null, default: false]
+  headId String [not null]
+  joinRequest JoinRequestEnum [not null, default: 'REQUESTED']
+  startDate DateTime [not null]
+  endDate DateTime
+  group Group [not null]
+  season Season [not null]
+  head User
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  groupSeasonTopics GroupSeasonTopic [not null]
+  groupSeasonContests GroupSeasonContest [not null]
+
+  indexes {
+    (groupId, seasonId) [pk]
+  }
+}
+
+Table GroupSeasonTopic {
+  groupId String [not null]
+  seasonId String [not null]
+  topicId String [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  seasonTopic SeasonTopic [not null]
+  groupSeason GroupSeason [not null]
+  groupSeasonTopicProblems GroupSeasonTopicProblem [not null]
+
+  indexes {
+    (groupId, seasonId, topicId) [pk]
+  }
+}
+
+Table GroupSeasonTopicProblem {
+  groupId String [not null]
+  seasonId String [not null]
+  topicId String [not null]
+  problemId String [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  groupSeasonTopic GroupSeasonTopic [not null]
+  problem Problem [not null]
+
+  indexes {
+    (groupId, seasonId, topicId, problemId) [pk]
+  }
+}
+
+Table GroupSeasonContest {
+  groupId String [not null]
+  seasonId String [not null]
+  contestId String [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  seasonContest SeasonContest [not null]
+  groupSeason GroupSeason [not null]
+
+  indexes {
+    (groupId, seasonId, contestId) [pk]
+  }
+}
+
+Table UserSeason {
+  userId String [not null]
+  seasonId String [not null]
+  user User [not null]
+  season Season [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  userSeasonTopics UserSeasonTopic [not null]
+  userSeasonContests UserSeasonContest [not null]
+
+  indexes {
+    (userId, seasonId) [pk]
+  }
+}
+
+Table UserSeasonTopic {
+  userId String [not null]
+  seasonId String [not null]
+  topicId String [not null]
+  comfortLevel ComfortLevelEnum [not null, default: 'UNCOMFORTABLE']
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  userSeason UserSeason [not null]
+  seasonTopic SeasonTopic [not null]
+  userSeasonTopicProblems UserSeasonTopicProblem [not null]
+
+  indexes {
+    (userId, seasonId, topicId) [pk]
+  }
+}
+
+Table UserSeasonTopicProblem {
+  seasonId String [not null]
+  topicId String [not null]
+  problemId String [not null]
+  userId String [not null]
+  solved Boolean [not null, default: false]
+  solutionLink String
+  attempts Int [not null, default: 0]
+  timeDedicated Int [not null, default: 0]
+  needHelp Boolean [not null, default: false]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  userSeasonTopic UserSeasonTopic [not null]
+  problem Problem [not null]
+
+  indexes {
+    (userId, seasonId, topicId, problemId) [pk]
+  }
+}
+
+Table UserSeasonContest {
+  userId String [not null]
+  seasonId String [not null]
+  contestId String [not null]
+  problemsSolved Int [not null, default: 0]
+  wrongSubmissions Int [not null, default: 0]
+  rank Int [not null, default: 0]
+  timeSpent Int [not null, default: 0]
+  contestAttended Boolean [not null, default: false]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  seasonContest SeasonContest [not null]
+  userSeason UserSeason [not null]
+  userSeasonContestProblems UserSeasonContestProblem [not null]
+
+  indexes {
+    (userId, seasonId, contestId) [pk]
+  }
+}
+
+Table UserSeasonContestProblem {
+  userId String [not null]
+  seasonId String [not null]
+  contestId String [not null]
+  problemId String [not null]
+  status UserContestProblemStatusEnum [not null, default: 'NOT_SOLVED']
+  numberOfAttempts Int [not null]
+  numberOfMinutes Int [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  userSeasonContest UserSeasonContest [not null]
+  problem Problem [not null]
+
+  indexes {
+    (userId, seasonId, contestId, problemId) [pk]
+  }
+}
+
+Table UserProfile {
+  id String [pk]
+  userId String [unique, not null]
+  photoUrl String
+  phone String [not null]
+  countryCode String [not null]
+  birthDate DateTime
+  resumeLink String [not null]
+  github String
+  linkedin String
+  twitter String
+  facebook String
+  instagram String
+  leetcode String [not null]
+  codeforces String [not null]
+  hackerrank String [not null]
+  geekforgeeks String
+  currentWorkStatus CurrentWorkStatusEnum [not null]
+  currentEducationStatus CurrentEducationStatusEnum [not null]
+  educationPlace String [not null]
+  educationYear Int
+  educationDegree String
+  educationField String
+  graduationYear Int
+  tshirtSize String
+  website String
+  bio String [not null]
+  userProfileAddress UserProfileAddress
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  user User [not null]
+}
+
+Table UserProfileAddress {
+  profileId String [pk, unique]
+  country String [not null]
+  city String [not null]
+  userProfile UserProfile [not null]
+
+  indexes {
+    (profileId) [pk]
+  }
+}
+
+Table Permission {
+  id String [pk]
+  action String [not null]
+  description String
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+}
+
+Table Role {
+  id String [pk]
+  name String [unique, not null]
+  description String
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+}
+
+Table Tag {
+  id String [pk]
+  name String [unique, not null]
+  problems Problem [not null]
+}
+
+Table ProblemToTag {
+  tagsId String [ref: > Tag.id]
+  problemsId String [ref: > Problem.id]
+}
+
+Enum StatusEnum {
+  ACTIVE
+  INACTIVE
+}
+
+Enum JoinRequestEnum {
+  REQUESTED
+  APPROVED
+  REJECTED
+}
+
+Enum CurrentWorkStatusEnum {
+  EMPLOYED
+  UNEMPLOYED
+}
+
+Enum CurrentEducationStatusEnum {
+  CONTINUING
+  GRADUATED
+}
+
+Enum RoleEnum {
+  STUDENT
+  HEAD_OF_EDUCATION
+  HEAD_OF_ACADEMY
+  ASSISTANT
+  ADMIN
+}
+
+Enum ComfortLevelEnum {
+  COMFORTABLE
+  UNCOMFORTABLE
+  MEDIOCRE
+}
+
+Enum SeasonTypeEnum {
+  CAMP
+  EDUCATION
+  PROJECT
+  IN_ACTIVE
+}
+
+Enum ProblemDifficultyTypeEnum {
+  EASY
+  MEDIUM
+  HARD
+}
+
+Enum UserContestProblemStatusEnum {
+  SOLVED_IN_CONTEST
+  SOLVED_AFTER_CONTEST
+  NOT_SOLVED
+  UNABLE_TO_SOLVE
+}
+
+Ref: Group.headId - User.id
+
+Ref: Problem.contestId > Contest.id
+
+Ref: User.groupId - Group.id
+
+Ref: SeasonTopic.seasonId > Season.id [delete: Cascade]
+
+Ref: SeasonTopic.topicId > Topic.id [delete: Cascade]
+
+Ref: SeasonContest.seasonId > Season.id [delete: Cascade]
+
+Ref: SeasonContest.contestId > Contest.id [delete: Cascade]
+
+Ref: SeasonTopicProblem.(seasonId, topicId) > SeasonTopic.(seasonId, topicId) [delete: Cascade]
+
+Ref: SeasonTopicProblem.problemId > Problem.id [delete: Cascade]
+
+Ref: GroupSeason.groupId > Group.id [delete: Cascade]
+
+Ref: GroupSeason.seasonId > Season.id [delete: Cascade]
+
+Ref: GroupSeason.headId > User.id
+
+Ref: GroupSeasonTopic.(seasonId, topicId) > SeasonTopic.(seasonId, topicId) [delete: Cascade]
+
+Ref: GroupSeasonTopic.(groupId, seasonId) > GroupSeason.(groupId, seasonId) [delete: Cascade]
+
+Ref: GroupSeasonTopicProblem.(groupId, seasonId, topicId) > GroupSeasonTopic.(groupId, seasonId, topicId) [delete: Cascade]
+
+Ref: GroupSeasonTopicProblem.problemId > Problem.id [delete: Cascade]
+
+Ref: GroupSeasonContest.(seasonId, contestId) > SeasonContest.(seasonId, contestId) [delete: Cascade]
+
+Ref: GroupSeasonContest.(groupId, seasonId) > GroupSeason.(groupId, seasonId) [delete: Cascade]
+
+Ref: UserSeason.userId > User.id [delete: Cascade]
+
+Ref: UserSeason.seasonId > Season.id [delete: Cascade]
+
+Ref: UserSeasonTopic.(userId, seasonId) > UserSeason.(userId, seasonId) [delete: Cascade]
+
+Ref: UserSeasonTopic.(seasonId, topicId) > SeasonTopic.(seasonId, topicId) [delete: Cascade]
+
+Ref: UserSeasonTopicProblem.(userId, seasonId, topicId) > UserSeasonTopic.(userId, seasonId, topicId) [delete: Cascade]
+
+Ref: UserSeasonTopicProblem.problemId > Problem.id [delete: Cascade]
+
+Ref: UserSeasonContest.(seasonId, contestId) > SeasonContest.(seasonId, contestId) [delete: Cascade]
+
+Ref: UserSeasonContest.(userId, seasonId) > UserSeason.(userId, seasonId) [delete: Cascade]
+
+Ref: UserSeasonContestProblem.(userId, seasonId, contestId) > UserSeasonContest.(userId, seasonId, contestId) [delete: Cascade]
+
+Ref: UserSeasonContestProblem.problemId > Problem.id [delete: Cascade]
+
+Ref: UserProfile.userId - User.id [delete: Cascade]
+
+Ref: UserProfileAddress.profileId - UserProfile.id [delete: Cascade]
