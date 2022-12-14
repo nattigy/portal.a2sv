@@ -43,7 +43,7 @@ export class ContestService {
   async contest(contestId: string): Promise<Contest> {
     // TODO: check if contest with this Id exists and if it doesn't return
     // TODO: "contest with this Id doesn't" exists error
-    const foundContest = this.contestRepository.findOne({ id: contestId })
+    const foundContest = await this.contestRepository.findOne({ id: contestId })
 
     if (!foundContest) throw new NotFoundException(`Contest with id ${contestId} does not exist!`);
     
@@ -55,7 +55,10 @@ export class ContestService {
   ): Promise<Contest> {
     // TODO: check if contest with this Id exists and if it doesn't return
     // TODO: "contest with this Id doesn't" exists error
-    
+    const foundContest = await this.prismaService.contest.findUnique({ where: {id: contestId}})
+
+    if (!foundContest) throw new NotFoundException(`Contest with id ${contestId} does not exist!`);
+
     return this.contestRepository.update({
       where: { id: contestId },
       data: {
@@ -68,7 +71,7 @@ export class ContestService {
   async removeProblemsFromContest(contestId: string, problemIds: string[]): Promise<Contest> {
     // TODO: check if contest with this Id exists and if it doesn't return
     // TODO: "contest with this Id doesn't" exists error'
-    const foundContest = this.prismaService.contest.findUnique({where: { id: contestId }});
+    const foundContest = await this.prismaService.contest.findUnique({where: { id: contestId }});
 
     if (!foundContest) throw new NotFoundException(`Contest with id ${contestId} does not exist!`);
 
