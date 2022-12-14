@@ -66,7 +66,7 @@ export class GroupsService {
   async updateGroup({ groupId, ...updates }: UpdateGroupInput): Promise<Group> {
     // TODO: check if group with this Id exists and if it doesn't return
     // TODO: "group with this Id doesn't" exists error
-    const foundGroup = this.prismaService.group.findUnique({where:{ id: groupId }})
+    const foundGroup = await this.prismaService.group.findUnique({where:{ id: groupId }})
     if (!foundGroup) {
       throw new NotFoundException(`Group with id ${groupId} not found`)
     }

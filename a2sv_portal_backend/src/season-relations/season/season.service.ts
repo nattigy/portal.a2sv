@@ -45,7 +45,7 @@ export class SeasonService {
   async updateSeason({ seasonId, ...updates }: UpdateSeasonInput) {
     // TODO: check if season with this Id exists and if it doesn't return
     // TODO: "season with this Id doesn't" exists error
-    const season = this.seasonRepository.findOne({ id: seasonId })
+    const season = await this.seasonRepository.findOne({ id: seasonId })
     if (!season) {
       throw new NotFoundException(`Season with id ${seasonId} not found.`)
     }
