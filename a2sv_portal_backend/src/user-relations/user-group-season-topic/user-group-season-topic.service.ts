@@ -18,6 +18,27 @@ export class UserGroupSeasonTopicService {
     private readonly userGroupSeasonTopicProblemService: UserGroupSeasonTopicProblemService,
   ) {}
 
+  async userGroupSeasonTopic({
+    userId,
+    groupId,
+    seasonId,
+    topicId,
+  }: UserGroupSeasonTopicId): Promise<UserGroupSeasonTopic> {
+    // TODO: do mapping with groupSeasonTopic
+    const userGroupSeasonTopic = await this.userGroupSeasonTopicRepository.findOne({
+      userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },
+    })
+    const userGroupSeasonTopicProblems =
+      await this.userGroupSeasonTopicProblemService.userGroupSeasonTopicProblems({
+        userId,
+        groupId,
+        seasonId,
+        topicId,
+      })
+    userGroupSeasonTopic.userGroupSeasonTopicProblems = userGroupSeasonTopicProblems.items
+    return userGroupSeasonTopic
+  }
+
   async userGroupSeasonTopics(
     { ...filterUserGroupSeasonTopicInput }: FilterUserGroupSeasonTopicInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
@@ -40,27 +61,6 @@ export class UserGroupSeasonTopicService {
       items: UserGroupSeasonTopics,
       pageInfo: { skip, take, count },
     }
-  }
-
-  async userGroupSeasonTopic({
-    userId,
-    groupId,
-    seasonId,
-    topicId,
-  }: UserGroupSeasonTopicId): Promise<UserGroupSeasonTopic> {
-    // TODO: do mapping with groupSeasonTopic
-    const userGroupSeasonTopic = await this.userGroupSeasonTopicRepository.findOne({
-      userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },
-    })
-    const userGroupSeasonTopicProblems =
-      await this.userGroupSeasonTopicProblemService.userGroupSeasonTopicProblems({
-        userId,
-        groupId,
-        seasonId,
-        topicId,
-      })
-    userGroupSeasonTopic.userGroupSeasonTopicProblems = userGroupSeasonTopicProblems.items
-    return userGroupSeasonTopic
   }
 
   async updateUserGroupSeasonTopic({

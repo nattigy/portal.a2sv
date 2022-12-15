@@ -7,52 +7,42 @@ import { GroupSeasonContest } from './entities/group-season-contest.entity'
 export class GroupSeasonContestRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
+  include = {
+    seasonContest: {
+      include: {
+        season: true,
+        contest: {
+          include: { problems: { include: { tags: true } } },
+        },
+      },
+    },
+    groupSeasonContestProblems: {
+      include: {
+        problem: { include: { tags: true } },
+      },
+    },
+  }
+
   async create(data: Prisma.GroupSeasonContestCreateInput): Promise<GroupSeasonContest> {
     return this.prismaService.groupSeasonContest.create({
       data,
-      include: {
-        // groupSeason: {
-        //   include: { group: true, season: true, head: true },
-        // },
-        // seasonContest: {
-        //   include: {
-        //     season: true,
-        //     contest: {
-        //       include: { problems: { include: { tags: true } } },
-        //     },
-        //   },
-        // },
-      },
+      include: this.include,
     })
   }
 
   async findAll(params: {
     skip?: number
     take?: number
-    cursor?: Prisma.GroupSeasonContestWhereUniqueInput
     where?: Prisma.GroupSeasonContestWhereInput
     orderBy?: Prisma.GroupSeasonContestOrderByWithRelationInput
   }): Promise<GroupSeasonContest[]> {
-    const { skip, take, cursor, where, orderBy } = params
+    const { skip, take, where, orderBy } = params
     return this.prismaService.groupSeasonContest.findMany({
       skip,
       take,
-      cursor,
       where,
       orderBy,
-      include: {
-        // groupSeason: {
-        //   include: { group: true, season: true, head: true },
-        // },
-        // seasonContest: {
-        //   include: {
-        //     season: true,
-        //     contest: {
-        //       include: { problems: { include: { tags: true } } },
-        //     },
-        //   },
-        // },
-      },
+      include: this.include,
     })
   }
 
@@ -61,19 +51,7 @@ export class GroupSeasonContestRepository {
   ): Promise<GroupSeasonContest> {
     return this.prismaService.groupSeasonContest.findUnique({
       where,
-      include: {
-        // groupSeason: {
-        //   include: { group: true, season: true, head: true },
-        // },
-        // seasonContest: {
-        //   include: {
-        //     season: true,
-        //     contest: {
-        //       include: { problems: { include: { tags: true } } },
-        //     },
-        //   },
-        // },
-      },
+      include: this.include,
     })
   }
 
@@ -85,19 +63,7 @@ export class GroupSeasonContestRepository {
     return this.prismaService.groupSeasonContest.update({
       data,
       where,
-      include: {
-        // groupSeason: {
-        //   include: { group: true, season: true, head: true },
-        // },
-        // seasonContest: {
-        //   include: {
-        //     season: true,
-        //     contest: {
-        //       include: { problems: { include: { tags: true } } },
-        //     },
-        //   },
-        // },
-      },
+      include: this.include,
     })
   }
 

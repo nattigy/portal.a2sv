@@ -33,13 +33,13 @@ export class UserGroupSeasonContestProblemResolver {
   //   return this.userGroupContestProblemService.updateUserContestProblem(updateUserContestProblemInput)
   // }
   //
-  @Mutation(() => Int)
-  async removeUserGroupContestProblem(
-    @Args('userGroupSeasonContestProblemId')
-    userGroupSeasonContestProblemId: UserGroupSeasonContestProblemId,
-  ) {
-    return this.userGroupContestProblemService.removeUserGroupContestProblem(
-      userGroupSeasonContestProblemId,
-    )
-  }
+  // @Mutation(() => Int)
+  // async removeUserGroupContestProblem(
+  //   @Args('userGroupSeasonContestProblemId')
+  //   userGroupSeasonContestProblemId: UserGroupSeasonContestProblemId,
+  // ) {
+  //   return this.userGroupContestProblemService.removeUserGroupContestProblem(
+  //     userGroupSeasonContestProblemId,
+  //   )
+  // }
 }

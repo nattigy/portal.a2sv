@@ -7,12 +7,12 @@ import { CreateSeasonContestInput, SeasonContestId } from './dto/create-season-c
 export class SeasonContestResolver {
   constructor(private readonly seasonContestService: SeasonContestService) {}
 
-  @Mutation(() => SeasonContest)
-  async addContestToASeason(
-    @Args('createSeasonContestInput') createSeasonContestInput: CreateSeasonContestInput,
-  ): Promise<SeasonContest> {
-    return this.seasonContestService.addContestToASeason(createSeasonContestInput)
-  }
+  // @Mutation(() => SeasonContest)
+  // async addContestToASeason(
+  //   @Args('createSeasonContestInput') createSeasonContestInput: CreateSeasonContestInput,
+  // ): Promise<SeasonContest> {
+  //   return this.seasonContestService.addContestToASeason(createSeasonContestInput)
+  // }
 
   // @Query(() => [SeasonContest])
   // async seasonContests(
@@ -22,15 +22,15 @@ export class SeasonContestResolver {
   //   return this.seasonContestService.seasonContests(filterSeasonContestInput)
   // }
 
-  @Query(() => SeasonContest)
-  async seasonContest(
-    @Args('seasonContestId') seasonContestId: SeasonContestId,
-  ): Promise<SeasonContest> {
-    return this.seasonContestService.seasonContest(seasonContestId)
-  }
-
-  @Mutation(() => SeasonContest)
-  async removeSeasonContest(@Args('seasonContestId') seasonContestId: SeasonContestId) {
-    return this.seasonContestService.removeSeasonContest(seasonContestId)
-  }
+  // @Query(() => SeasonContest)
+  // async seasonContest(
+  //   @Args('seasonContestId') seasonContestId: SeasonContestId,
+  // ): Promise<SeasonContest> {
+  //   return this.seasonContestService.seasonContest(seasonContestId)
+  // }
+  //
+  // @Mutation(() => SeasonContest)
+  // async removeSeasonContest(@Args('seasonContestId') seasonContestId: SeasonContestId) {
+  //   return this.seasonContestService.removeSeasonContest(seasonContestId)
+  // }
 }

@@ -7,11 +7,14 @@ import { UserGroupSeasonContestRepository } from './user-group-season-contest.re
 import { FilterUserGroupSeasonContestInput } from './dto/filter-user-group-season-contest.input'
 import { UserGroupSeasonContest } from './entities/user-group-season-contest.entity'
 import { UpdateUserGroupSeasonContestInput } from './dto/update-user-group-season-contest.input'
+import { UpdateUserGroupSeasonContestProblemInput } from '../user-group-season-contest-problem/dto/update-user-group-season-contest-problem.input'
+import { UserGroupSeasonContestProblemService } from '../user-group-season-contest-problem/user-group-season-contest-problem.service'
 
 @Injectable()
 export class UserGroupSeasonContestService {
   constructor(
     private readonly userGroupSeasonContestRepository: UserGroupSeasonContestRepository,
+    private readonly userGroupSeasonContestProblemService: UserGroupSeasonContestProblemService,
     private readonly prismaService: PrismaService,
   ) {}
 
@@ -21,54 +24,13 @@ export class UserGroupSeasonContestService {
     contestId,
     groupId,
   }: UserGroupSeasonContestId): Promise<UserGroupSeasonContest> {
-    return this.userGroupSeasonContestRepository.findOne({
+    const userGroupSeasonContest = await this.userGroupSeasonContestRepository.findOne({
       userId_groupId_seasonId_contestId: { userId, groupId, seasonId, contestId },
     })
-    //   const UserGroupSeasonContest: UserGroupSeasonContest = await this.UserGroupSeasonContestRepository.findOne({
-    //     userId_seasonId_contestId: { userId, seasonId, contestId },
-    //   })
-    //   if (UserGroupSeasonContest !== null && UserGroupSeasonContest !== undefined) {
-    //     UserGroupSeasonContest.contestAttended = UserGroupSeasonContest?.UserGroupSeasonContestProblems?.length > 0
-    //     for (const problem of UserGroupSeasonContest.UserGroupSeasonContestProblems) {
-    //       if (problem.status == UserContestProblemStatusEnum.SOLVED_IN_CONTEST)
-    //         UserGroupSeasonContest.problemsSolved += 1
-    //       UserGroupSeasonContest.wrongSubmissions += problem.numberOfAttempts
-    //       UserGroupSeasonContest.timeSpent += problem.numberOfMinutes
-    //     }
-    //   } else {
-    //     const user = await this.prismaService.user.findUnique({ where: { id: userId } })
-    //     const contest = await this.prismaService.contest.findUnique({
-    //       where: {
-    //         id: contestId,
-    //       },
-    //     })
-    //     const UserGroupSeasonContestProblems: UserGroupSeasonContestProblem[] = []
-    //     // for (const problem of contest.problems) {
-    //     //   const UserGroupSeasonContestProblem: UserGroupSeasonContestProblem = {
-    //     //     contestId,
-    //     //     userId,
-    //     //     problemId: problem.id,
-    //     //     numberOfMinutes: 0,
-    //     //     numberOfAttempts: 0,
-    //     //     status: UserGroupSeasonContestProblemStatus.NOT_SOLVED,
-    //     //     problem,
-    //     //     user,
-    //     //     contest,
-    //     //   }
-    //     //   UserGroupSeasonContestProblems.push(UserGroupSeasonContestProblem)
-    //     // }
-    //     // return {
-    //     //   contestId,
-    //     //   userId,
-    //     //   contestAttended: false,
-    //     //   problemsSolved: 0,
-    //     //   timeSpent: 0,
-    //     //   wrongSubmissions: 0,
-    //     //   rank: 0,
-    //     //   UserGroupSeasonContestProblems,
-    //     // }
-    //   }
-    //   return UserGroupSeasonContest
+    if (userGroupSeasonContest === null || userGroupSeasonContest === undefined) {
+      // userGroupSeasonContest = {}
+    }
+    return userGroupSeasonContest
   }
 
   async userGroupSeasonContests(
@@ -117,42 +79,15 @@ export class UserGroupSeasonContestService {
           },
         },
       },
-      //       // seasonId, userId, contestId,
-      //       seasonContest: {
-      //         connect: {
-      //           seasonId_contestId: { seasonId, contestId },
-      //         },
-      //       },
-      //       UserGroupSeason: {
-      //         connect: {
-      //           userId_seasonId: { userId, seasonId },
-      //         },
-      //       },
-      //       UserGroupSeasonContestProblems: {
-      //         createMany: {
-      //           skipDuplicates: true,
-      //           data: [],
-      //         },
-      //       },
-      //     },
-      //     update: updates,
-      //     include: {
-      //       seasonContest: {
-      //         include: {
-      //           season: true,
-      //           contest: {
-      //             include: { problems: { include: { tags: true } } },
-      //           },
-      //         },
-      //       },
-      //       UserGroupSeason: {
-      //         include: { user: true, season: true },
-      //       },
-      //       UserGroupSeasonContestProblems: {
-      //         include: { problem: { include: { tags: true } } },
-      //       },
-      //     },
     })
+  }
+
+  async updateUserContestProblem(
+    updateUserContestProblemInput: UpdateUserGroupSeasonContestProblemInput,
+  ) {
+    return this.userGroupSeasonContestProblemService.updateUserGroupSeasonContestProblem(
+      updateUserContestProblemInput,
+    )
   }
 
   async removeUserGroupSeasonContest({
