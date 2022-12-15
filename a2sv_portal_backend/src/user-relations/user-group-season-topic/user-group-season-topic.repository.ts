@@ -31,7 +31,7 @@ export class UserGroupSeasonTopicRepository {
     take?: number
     where?: Prisma.UserGroupSeasonTopicWhereInput
     orderBy?: Prisma.UserGroupSeasonTopicOrderByWithRelationInput
-  }) {
+  }): Promise<UserGroupSeasonTopic[]> {
     const { skip, take, where, orderBy } = params
     return this.prismaService.userGroupSeasonTopic.findMany({
       skip, take, where, orderBy,
@@ -39,7 +39,7 @@ export class UserGroupSeasonTopicRepository {
     })
   }
 
-  async findOne(where: Prisma.UserGroupSeasonTopicWhereUniqueInput) {
+  async findOne(where: Prisma.UserGroupSeasonTopicWhereUniqueInput): Promise<UserGroupSeasonTopic> {
     return this.prismaService.userGroupSeasonTopic.findUnique({
       where,
       include: this.include,
@@ -49,7 +49,7 @@ export class UserGroupSeasonTopicRepository {
   async update(params: {
     where: Prisma.UserGroupSeasonTopicWhereUniqueInput
     data: Prisma.UserGroupSeasonTopicUpdateInput
-  }) {
+  }): Promise<UserGroupSeasonTopic> {
     const { where, data } = params
     return this.prismaService.userGroupSeasonTopic.update({
       data,

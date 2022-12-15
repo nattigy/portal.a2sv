@@ -7,17 +7,24 @@ import { PaginationInput } from '../../common/page/pagination.input'
 import { FilterUserGroupSeasonTopicInput } from './dto/filter-user-group-season-topic-input'
 import { PaginationUserGroupSeasonTopic } from '../../common/page/pagination-info'
 import { UserGroupSeasonTopicRepository } from './user-group-season-topic.repository'
+import {
+  UserGroupSeasonTopicProblemService,
+} from '../user-group-season-topic-problem/user-group-season-topic-problem.service'
+import {
+  UpdateUserGroupSeasonTopicProblemInput,
+} from '../user-group-season-topic-problem/dto/update-user-group-season-topic-problem.input'
 
 @Injectable()
 export class UserGroupSeasonTopicService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly userGroupSeasonTopicRepository: UserGroupSeasonTopicRepository,
+    private readonly userGroupSeasonTopicProblemService: UserGroupSeasonTopicProblemService,
   ) {
   }
 
   async userGroupSeasonTopics(
-    { groupId, ...filterUserGroupSeasonTopicInput }: FilterUserGroupSeasonTopicInput,
+    { ...filterUserGroupSeasonTopicInput }: FilterUserGroupSeasonTopicInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationUserGroupSeasonTopic> {
     // TODO: do mapping with groupSeasonTopics
@@ -26,6 +33,9 @@ export class UserGroupSeasonTopicService {
       skip,
       take,
       where: filterUserGroupSeasonTopicInput,
+    })
+    const userGroupSeasonTopicProblems = await this.userGroupSeasonTopicProblemService.userGroupSeasonTopicProblems({
+      ...filterUserGroupSeasonTopicInput,
     })
     return {
       items: UserGroupSeasonTopics,
@@ -37,9 +47,15 @@ export class UserGroupSeasonTopicService {
     { userId, groupId, seasonId, topicId }: UserGroupSeasonTopicId,
   ): Promise<UserGroupSeasonTopic> {
     // TODO: do mapping with groupSeasonTopic
-    return this.userGroupSeasonTopicRepository.findOne({
+    const userGroupSeasonTopic = await this.userGroupSeasonTopicRepository.findOne({
       userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },
     })
+    const userGroupSeasonTopicProblems =
+      await this.userGroupSeasonTopicProblemService.userGroupSeasonTopicProblems({
+        userId, groupId, seasonId, topicId,
+      })
+    userGroupSeasonTopic.userGroupSeasonTopicProblems = userGroupSeasonTopicProblems.items
+    return userGroupSeasonTopic
   }
 
   async updateUserGroupSeasonTopic(
@@ -73,6 +89,15 @@ export class UserGroupSeasonTopicService {
         },
       },
     })
+  }
+
+  async updateUserGroupSeasonTopicProblem(updateUserGroupSeasonTopicProblemInput: UpdateUserGroupSeasonTopicProblemInput) {
+    // TODO: get group from the user,
+    // TODO: search for GroupSeasonTopicProblem from the groupId if not found,
+    // TODO: throw NotFoundException "problem under this topic hasn't been added to your group"
+    // TODO: check if the groupSeason the user in is active if not throw "season is not active error"
+    // TODO: upsert UserGroupSeason and then UserGroupSeasonTopic
+    return this.userGroupSeasonTopicProblemService.updateUserGroupSeasonTopicProblem(updateUserGroupSeasonTopicProblemInput)
   }
 
   async removeUserGroupSeasonTopic(

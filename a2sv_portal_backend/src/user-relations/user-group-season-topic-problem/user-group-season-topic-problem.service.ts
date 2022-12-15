@@ -68,12 +68,12 @@ export class UserGroupSeasonTopicProblemService {
     const count = await this.userGroupSeasonTopicProblemRepository.count(
       filterSeasonTopicProblemUserInput,
     )
-    const UserGroupSeasonTopicProblems = await this.userGroupSeasonTopicProblemRepository.findAll({
+    const userGroupSeasonTopicProblems = await this.userGroupSeasonTopicProblemRepository.findAll({
       skip, take,
       where: filterSeasonTopicProblemUserInput,
     })
     return {
-      items: UserGroupSeasonTopicProblems,
+      items: userGroupSeasonTopicProblems,
       pageInfo: { skip, take, count },
     }
   }
@@ -81,11 +81,6 @@ export class UserGroupSeasonTopicProblemService {
   async updateUserGroupSeasonTopicProblem(
     { id, ...updates }: UpdateUserGroupSeasonTopicProblemInput,
   ): Promise<UserGroupSeasonTopicProblem> {
-    // TODO: get group from the user,
-    // TODO: search for GroupSeasonTopicProblem from the groupId if not found,
-    // TODO: throw NotFoundException "problem under this topic hasn't been added to your group"
-    // TODO: check if the groupSeason the user in is active if not throw "season is not active error"
-    // TODO: upsert UserGroupSeason and then UserGroupSeasonTopic
     const { seasonId, problemId, userId, groupId, topicId } = id
 
     return this.prismaService.userGroupSeasonTopicProblem.upsert({

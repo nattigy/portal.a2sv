@@ -6,6 +6,12 @@ import { UserGroupSeasonTopicService } from './user-group-season-topic.service'
 import { PaginationUserGroupSeasonTopic } from '../../common/page/pagination-info'
 import { FilterUserGroupSeasonTopicInput } from './dto/filter-user-group-season-topic-input'
 import { PaginationInput } from '../../common/page/pagination.input'
+import {
+  UserGroupSeasonTopicProblem
+} from '../user-group-season-topic-problem/entities/user-group-season-topic-problem.entity'
+import {
+  UpdateUserGroupSeasonTopicProblemInput
+} from '../user-group-season-topic-problem/dto/update-user-group-season-topic-problem.input'
 
 @Resolver(() => UserGroupSeasonTopic)
 export class UserGroupSeasonTopicResolver {
@@ -34,6 +40,16 @@ export class UserGroupSeasonTopicResolver {
     @Args('updateUserGroupSeasonTopicInput') updateUserGroupSeasonTopicInput: UpdateUserGroupSeasonTopicInput,
   ) {
     return this.userGroupSeasonTopicService.updateUserGroupSeasonTopic(updateUserGroupSeasonTopicInput)
+  }
+
+  @Mutation(() => UserGroupSeasonTopicProblem)
+  async updateUserGroupSeasonTopicProblem(
+    @Args('updateUserGroupSeasonTopicProblemInput')
+    updateUserGroupSeasonTopicProblemInput: UpdateUserGroupSeasonTopicProblemInput,
+  ): Promise<UserGroupSeasonTopicProblem> {
+    return this.userGroupSeasonTopicService.updateUserGroupSeasonTopicProblem(
+      updateUserGroupSeasonTopicProblemInput,
+    )
   }
 
   @Mutation(() => UserGroupSeasonTopic)
