@@ -33,8 +33,8 @@ export class UserGroupSeasonTopicProblem {
   @Field(() => Int)
   timeDedicated: number
 
-  @Field(() => Problem, { nullable: true })
-  problem?: Problem
+  @Field(() => Problem)
+  problem: Problem
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date

@@ -4,17 +4,17 @@ import { UserGroupSeasonContestProblem } from './../../user-group-season-contest
 @ObjectType()
 export class UserGroupSeasonContest {
   @Field()
-  contestId: string
+  userId: string
+
+  @Field()
+  groupId: string
 
   @Field()
   seasonId: string
 
   @Field()
-  userId: string
-
-  @Field(() => Boolean)
-  contestAttended: boolean
-
+  contestId: string
+  
   @Field(() => Int)
   problemsSolved: number
 
@@ -23,9 +23,12 @@ export class UserGroupSeasonContest {
 
   @Field(() => Int)
   rank: number
-
+ 
   @Field(() => Int)
   timeSpent: number
+
+  @Field(() => Boolean)
+  contestAttended: boolean
 
   // @Field(() => SeasonContest)
   // seasonContest: SeasonContest
@@ -38,7 +41,7 @@ export class UserGroupSeasonContest {
   // @Field(() => [UserSeasonContestProblem])
   // userSeasonContestProblems: UserSeasonContestProblem[]
   @Field(()=>[UserGroupSeasonContestProblem])
-  userSeasonContestProblems:UserGroupSeasonContestProblem[]
+  userGroupSeasonContestProblems:UserGroupSeasonContestProblem[]
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date

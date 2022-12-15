@@ -12,9 +12,9 @@ export class UserGroupSeasonTopicProblemRepository {
   ): Promise<UserGroupSeasonTopicProblem> {
     return this.prismaService.userGroupSeasonTopicProblem.create({
       data,
-      // include: {
-      //   problem: { include: { tags: true } },
-      // },
+      include: {
+        problem: { include: { tags: true } },
+      },
     })
   }
 
@@ -31,9 +31,9 @@ export class UserGroupSeasonTopicProblemRepository {
     const { skip, take, where, orderBy } = params
     return this.prismaService.userGroupSeasonTopicProblem.findMany({
       skip, take, where, orderBy,
-      // include: {
-      //   problem: { include: { tags: true } },
-      // },
+      include: {
+        problem: { include: { tags: true } },
+      },
     })
   }
 
@@ -42,9 +42,9 @@ export class UserGroupSeasonTopicProblemRepository {
   ): Promise<UserGroupSeasonTopicProblem> {
     return this.prismaService.userGroupSeasonTopicProblem.findUnique({
       where,
-      // include: {
-      //   problem: { include: { tags: true } },
-      // },
+      include: {
+        problem: { include: { tags: true } },
+      },
     })
   }
 
@@ -55,9 +55,9 @@ export class UserGroupSeasonTopicProblemRepository {
     const { where, data } = params
     return this.prismaService.userGroupSeasonTopicProblem.update({
       data, where,
-      // include: {
-      //   problem: { include: { tags: true } },
-      // },
+      include: {
+        problem: { include: { tags: true } },
+      },
     })
   }
 

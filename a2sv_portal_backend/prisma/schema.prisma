@@ -64,18 +64,21 @@ model Topic {
 }
 
 model Problem {
-  id                            String                          @id @default(uuid())
-  title                         String
-  platform                      String
-  link                          String                          @unique
-  difficulty                    ProblemDifficultyTypeEnum
-  tags                          Tag[]
-  createdAt                     DateTime?                       @default(now())
-  updatedAt                     DateTime?                       @updatedAt
-  contest                       Contest?                        @relation(fields: [contestId], references: [id])
-  contestId                     String?
-  seasonTopicProblems           SeasonTopicProblem[]
-  seasonContestProblems         SeasonContestProblem[]
+  id                          String                        @id @default(uuid())
+  title                       String
+  platform                    String
+  link                        String                        @unique
+  difficulty                  ProblemDifficultyTypeEnum
+  tags                        Tag[]
+  createdAt                   DateTime?                     @default(now())
+  updatedAt                   DateTime?                     @updatedAt
+  contest                     Contest?                      @relation(fields: [contestId], references: [id])
+  contestId                   String?
+  seasonTopicProblems         SeasonTopicProblem[]
+  seasonContestProblems       SeasonContestProblem[]
+  GroupSeasonTopicProblem     GroupSeasonTopicProblem[]
+  GroupSeasonContestProblem   GroupSeasonContestProblem[]
+  UserGroupSeasonTopicProblem UserGroupSeasonTopicProblem[]
 }
 
 model User {
@@ -198,6 +201,7 @@ model GroupSeasonTopicProblem {
   updatedAt                    DateTime?                     @updatedAt
   groupSeasonTopic             GroupSeasonTopic              @relation(fields: [groupId, seasonId, topicId], references: [groupId, seasonId, topicId], onDelete: Cascade)
   seasonTopicProblem           SeasonTopicProblem            @relation(fields: [seasonId, topicId, problemId], references: [seasonId, topicId, problemId], onDelete: Cascade)
+  problem                      Problem                       @relation(fields: [problemId], references: [id], onDelete: Cascade)
   userGroupSeasonTopicProblems UserGroupSeasonTopicProblem[]
 
   @@id([groupId, seasonId, topicId, problemId])
@@ -227,6 +231,7 @@ model GroupSeasonContestProblem {
   updatedAt                      DateTime?                       @updatedAt
   groupSeasonContest             GroupSeasonContest              @relation(fields: [groupId, seasonId, contestId], references: [groupId, seasonId, contestId], onDelete: Cascade)
   seasonContestProblem           SeasonContestProblem            @relation(fields: [seasonId, contestId, problemId], references: [seasonId, contestId, problemId], onDelete: Cascade)
+  problem                        Problem                         @relation(fields: [problemId], references: [id], onDelete: Cascade)
   userGroupSeasonContestProblems UserGroupSeasonContestProblem[]
 
   @@id([groupId, seasonId, contestId, problemId])
@@ -277,6 +282,7 @@ model UserGroupSeasonTopicProblem {
   updatedAt               DateTime?               @updatedAt
   userGroupSeasonTopic    UserGroupSeasonTopic    @relation(fields: [userId, groupId, seasonId, topicId], references: [userId, groupId, seasonId, topicId], onDelete: Cascade)
   groupSeasonTopicProblem GroupSeasonTopicProblem @relation(fields: [groupId, seasonId, topicId, problemId], references: [groupId, seasonId, topicId, problemId], onDelete: Cascade)
+  problem                 Problem                 @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
   @@id([userId, groupId, seasonId, topicId, problemId])
 }
