@@ -28,5 +28,4 @@ export class UserGroupSeasonContestId {
 
   @Field()
   groupId: string
-
 }

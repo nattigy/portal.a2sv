@@ -11,7 +11,9 @@ export class UserGroupSeasonResolver {
   constructor(private readonly userGroupSeasonService: UserGroupSeasonService) {}
 
   @Query(() => UserGroupSeason)
-  async userGroupSeason(@Args('userGroupSeasonId') userGroupSeasonId: UserGroupSeasonId): Promise<UserGroupSeason> {
+  async userGroupSeason(
+    @Args('userGroupSeasonId') userGroupSeasonId: UserGroupSeasonId,
+  ): Promise<UserGroupSeason> {
     return this.userGroupSeasonService.userGroupSeason(userGroupSeasonId)
   }
 
@@ -20,11 +22,16 @@ export class UserGroupSeasonResolver {
     @Args('filterUserGroupSeasonInput') filterUserGroupSeasonInput: FilterUserGroupSeasonInput,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<UserGroupSeason[]> {
-    return this.userGroupSeasonService.userGroupSeasons(filterUserGroupSeasonInput, paginationInput)
+    return this.userGroupSeasonService.userGroupSeasons(
+      filterUserGroupSeasonInput,
+      paginationInput,
+    )
   }
 
   @Mutation(() => UserGroupSeason)
-  async removeUserGroupSeason(@Args('userGroupSeasonId') userGroupSeasonId: UserGroupSeasonId) {
+  async removeUserGroupSeason(
+    @Args('userGroupSeasonId') userGroupSeasonId: UserGroupSeasonId,
+  ) {
     return this.userGroupSeasonService.removeUserGroupSeason(userGroupSeasonId)
   }
 }

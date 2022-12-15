@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
-import { UserGroupSeasonContestProblem } from './entities/user-season-contest-problem.entity'
+import { UserGroupSeasonContestProblem } from './entities/user-group-season-contest-problem.entity'
 
 @Injectable()
 export class UserGroupSeasonContestProblemRepository {
@@ -21,7 +21,7 @@ export class UserGroupSeasonContestProblemRepository {
   async count(where?: Prisma.UserGroupSeasonContestProblemWhereInput): Promise<number> {
     return this.prismaService.userGroupSeasonContestProblem.count({ where })
   }
-  
+
   async findAll(params: {
     skip?: number
     take?: number

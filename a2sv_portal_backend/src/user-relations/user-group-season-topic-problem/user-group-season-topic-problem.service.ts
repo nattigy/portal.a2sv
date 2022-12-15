@@ -6,12 +6,8 @@ import { FilterUserGroupSeasonTopicProblemInput } from './dto/filter-user-group-
 import { PaginationInput } from '../../common/page/pagination.input'
 import { PaginationUserGroupSeasonTopicProblem } from '../../common/page/pagination-info'
 import { UserGroupSeasonTopicProblemRepository } from './user-group-season-topic-problem.repository'
-import {
-  GroupSeasonTopicProblem,
-} from 'src/group-relations/group-season-topic-problem/entities/group-season-topic-problem.entity'
-import {
-  GroupSeasonTopicProblemRepository,
-} from 'src/group-relations/group-season-topic-problem/group-season-topic-problem.repository'
+import { GroupSeasonTopicProblem } from 'src/group-relations/group-season-topic-problem/entities/group-season-topic-problem.entity'
+import { GroupSeasonTopicProblemRepository } from 'src/group-relations/group-season-topic-problem/group-season-topic-problem.repository'
 import { UserGroupSeasonTopicProblemId } from './dto/create-user-group-season-topic-problem.input'
 
 @Injectable()
@@ -20,16 +16,23 @@ export class UserGroupSeasonTopicProblemService {
     private readonly userGroupSeasonTopicProblemRepository: UserGroupSeasonTopicProblemRepository,
     private readonly groupSeasonTopicProblemRepository: GroupSeasonTopicProblemRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
-  async userGroupSeasonTopicProblem(
-    { seasonId, groupId, topicId, problemId, userId }: UserGroupSeasonTopicProblemId,
-  ): Promise<UserGroupSeasonTopicProblem> {
+  async userGroupSeasonTopicProblem({
+    seasonId,
+    groupId,
+    topicId,
+    problemId,
+    userId,
+  }: UserGroupSeasonTopicProblemId): Promise<UserGroupSeasonTopicProblem> {
     let userGroupSeasonTopicProblem: UserGroupSeasonTopicProblem =
       await this.userGroupSeasonTopicProblemRepository.findOne({
         userId_groupId_seasonId_topicId_problemId: {
-          seasonId, groupId, topicId, problemId, userId,
+          seasonId,
+          groupId,
+          topicId,
+          problemId,
+          userId,
         },
       })
     if (userGroupSeasonTopicProblem === null || userGroupSeasonTopicProblem === undefined) {
@@ -68,25 +71,32 @@ export class UserGroupSeasonTopicProblemService {
     const count = await this.userGroupSeasonTopicProblemRepository.count(
       filterSeasonTopicProblemUserInput,
     )
-    const userGroupSeasonTopicProblems = await this.userGroupSeasonTopicProblemRepository.findAll({
-      skip, take,
-      where: filterSeasonTopicProblemUserInput,
-    })
+    const userGroupSeasonTopicProblems =
+      await this.userGroupSeasonTopicProblemRepository.findAll({
+        skip,
+        take,
+        where: filterSeasonTopicProblemUserInput,
+      })
     return {
       items: userGroupSeasonTopicProblems,
       pageInfo: { skip, take, count },
     }
   }
 
-  async updateUserGroupSeasonTopicProblem(
-    { id, ...updates }: UpdateUserGroupSeasonTopicProblemInput,
-  ): Promise<UserGroupSeasonTopicProblem> {
+  async updateUserGroupSeasonTopicProblem({
+    id,
+    ...updates
+  }: UpdateUserGroupSeasonTopicProblemInput): Promise<UserGroupSeasonTopicProblem> {
     const { seasonId, problemId, userId, groupId, topicId } = id
 
     return this.prismaService.userGroupSeasonTopicProblem.upsert({
       where: {
         userId_groupId_seasonId_topicId_problemId: {
-          seasonId, topicId, groupId, problemId, userId,
+          seasonId,
+          topicId,
+          groupId,
+          problemId,
+          userId,
         },
       },
       create: {
@@ -110,13 +120,21 @@ export class UserGroupSeasonTopicProblemService {
     })
   }
 
-  async removeUserGroupSeasonTopicProblem(
-    { seasonId, topicId, problemId, userId, groupId }: UserGroupSeasonTopicProblemId,
-  ) {
+  async removeUserGroupSeasonTopicProblem({
+    seasonId,
+    topicId,
+    problemId,
+    userId,
+    groupId,
+  }: UserGroupSeasonTopicProblemId) {
     try {
       await this.userGroupSeasonTopicProblemRepository.remove({
         userId_groupId_seasonId_topicId_problemId: {
-          seasonId, groupId, topicId, problemId, userId,
+          seasonId,
+          groupId,
+          topicId,
+          problemId,
+          userId,
         },
       })
     } catch (e) {

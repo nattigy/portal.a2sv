@@ -10,7 +10,7 @@ import { SeasonTopic } from '../season-relations/season-topic/entities/season-to
 import { Season } from '../season-relations/season/entities/season.entity'
 import { Tag } from '../tag/entities/tag.entity'
 import { Topic } from '../topic/entities/topic.entity'
-import { UserGroupSeasonContestProblem } from '../user-relations/user-group-season-contest-problem/entities/user-season-contest-problem.entity'
+import { UserGroupSeasonContestProblem } from '../user-relations/user-group-season-contest-problem/entities/user-group-season-contest-problem.entity'
 import { UserGroupSeasonContest } from '../user-relations/user-group-season-contest/entities/user-group-season-contest.entity'
 import { UserProfile } from '../user-relations/user-profile/entities/user-profile.entity'
 import { UserGroupSeasonTopic } from '../user-relations/user-group-season-topic/entities/user-group-season-topic.entity'

@@ -6,8 +6,7 @@ import { UserGroupSeasonRepository } from './user-group-season.repository'
 
 @Injectable()
 export class UserGroupSeasonService {
-  constructor(private readonly userGroupSeasonRepository: UserGroupSeasonRepository) {
-  }
+  constructor(private readonly userGroupSeasonRepository: UserGroupSeasonRepository) {}
 
   async userGroupSeasons(
     { seasonId, userId }: FilterUserGroupSeasonInput,
@@ -15,7 +14,8 @@ export class UserGroupSeasonService {
   ) {
     /// TODO generate multiple stat here
     return this.userGroupSeasonRepository.findAll({
-      take, skip,
+      take,
+      skip,
       where: { seasonId, userId },
     })
   }

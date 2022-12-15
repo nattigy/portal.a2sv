@@ -31,7 +31,10 @@ export class SeasonContestRepository {
   }): Promise<SeasonContest[]> {
     const { skip, take, where, orderBy } = params
     return this.prismaService.seasonContest.findMany({
-      skip, take, where, orderBy,
+      skip,
+      take,
+      where,
+      orderBy,
       include: {
         season: true,
         contest: {
@@ -59,7 +62,8 @@ export class SeasonContestRepository {
   }): Promise<SeasonContest> {
     const { where, data } = params
     return this.prismaService.seasonContest.update({
-      data, where,
+      data,
+      where,
       include: {
         season: true,
         contest: {

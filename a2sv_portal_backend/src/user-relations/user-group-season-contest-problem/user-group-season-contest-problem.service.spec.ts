@@ -9,7 +9,9 @@ describe('UserContestProblemService', () => {
       providers: [UserGroupSeasonContestProblemService],
     }).compile()
 
-    service = module.get<UserGroupSeasonContestProblemService>(UserGroupSeasonContestProblemService)
+    service = module.get<UserGroupSeasonContestProblemService>(
+      UserGroupSeasonContestProblemService,
+    )
   })
 
   it('should be defined', () => {

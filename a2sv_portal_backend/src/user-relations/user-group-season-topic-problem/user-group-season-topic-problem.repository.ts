@@ -30,7 +30,10 @@ export class UserGroupSeasonTopicProblemRepository {
   }): Promise<UserGroupSeasonTopicProblem[]> {
     const { skip, take, where, orderBy } = params
     return this.prismaService.userGroupSeasonTopicProblem.findMany({
-      skip, take, where, orderBy,
+      skip,
+      take,
+      where,
+      orderBy,
       include: {
         problem: { include: { tags: true } },
       },
@@ -54,7 +57,8 @@ export class UserGroupSeasonTopicProblemRepository {
   }): Promise<UserGroupSeasonTopicProblem> {
     const { where, data } = params
     return this.prismaService.userGroupSeasonTopicProblem.update({
-      data, where,
+      data,
+      where,
       include: {
         problem: { include: { tags: true } },
       },

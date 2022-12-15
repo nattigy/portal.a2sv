@@ -1,19 +1,19 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { GroupSeasonContestProblemResolver } from './group-season-contest-problem.resolver';
-import { GroupSeasonContestProblemService } from './group-season-contest-problem.service';
+import { Test, TestingModule } from '@nestjs/testing'
+import { GroupSeasonContestProblemResolver } from './group-season-contest-problem.resolver'
+import { GroupSeasonContestProblemService } from './group-season-contest-problem.service'
 
 describe('GroupSeasonContestProblemResolver', () => {
-  let resolver: GroupSeasonContestProblemResolver;
+  let resolver: GroupSeasonContestProblemResolver
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [GroupSeasonContestProblemResolver, GroupSeasonContestProblemService],
-    }).compile();
+    }).compile()
 
-    resolver = module.get<GroupSeasonContestProblemResolver>(GroupSeasonContestProblemResolver);
-  });
+    resolver = module.get<GroupSeasonContestProblemResolver>(GroupSeasonContestProblemResolver)
+  })
 
   it('should be defined', () => {
-    expect(resolver).toBeDefined();
-  });
-});
+    expect(resolver).toBeDefined()
+  })
+})

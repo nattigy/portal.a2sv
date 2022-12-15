@@ -1,8 +1,5 @@
 import { Args, Int, Mutation, Resolver } from '@nestjs/graphql'
-import {
-  CreateSeasonTopicProblemInput,
-  SeasonTopicProblemId,
-} from './dto/create-season-topic-problem.input'
+import { SeasonTopicProblemId } from './dto/create-season-topic-problem.input'
 import { SeasonTopicProblem } from './entities/season-topic-problem.entity'
 import { SeasonTopicProblemService } from './season-topic-problem.service'
 import descriptions from './season-topic-problem.doc'

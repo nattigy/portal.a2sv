@@ -20,9 +20,9 @@ export class GroupSeasonTopicRepository {
         userGroupSeasonTopicProblems: {
           include: {
             problem: { include: { tags: true } },
-          }
+          },
         },
-        problem: { include: { tags: true } }
+        problem: { include: { tags: true } },
       },
     },
   }
@@ -47,9 +47,9 @@ export class GroupSeasonTopicRepository {
             userGroupSeasonTopicProblems: {
               include: {
                 problem: { include: { tags: true } },
-              }
+              },
             },
-            problem: { include: { tags: true } }
+            problem: { include: { tags: true } },
           },
         },
       },

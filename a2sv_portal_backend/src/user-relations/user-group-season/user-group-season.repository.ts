@@ -5,10 +5,6 @@ import { PrismaService } from '../../prisma/prisma.service'
 
 @Injectable()
 export class UserGroupSeasonRepository {
-
-  constructor(private readonly prismaService: PrismaService) {
-  }
-
   include = {
     user: true,
     userGroupSeasonTopics: {
@@ -16,11 +12,13 @@ export class UserGroupSeasonRepository {
         userGroupSeasonTopicProblems: {
           include: {
             problem: { include: { tags: true } },
-          }
+          },
         },
       },
     },
   }
+
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.UserGroupSeasonCreateInput): Promise<UserGroupSeason> {
     return this.prismaService.userGroupSeason.create({
@@ -41,7 +39,10 @@ export class UserGroupSeasonRepository {
   }): Promise<UserGroupSeason[]> {
     const { skip, take, where, orderBy } = params
     return this.prismaService.userGroupSeason.findMany({
-      skip, take, where, orderBy,
+      skip,
+      take,
+      where,
+      orderBy,
       include: this.include,
     })
   }
@@ -59,7 +60,8 @@ export class UserGroupSeasonRepository {
   }): Promise<UserGroupSeason> {
     const { where, data } = params
     return this.prismaService.userGroupSeason.update({
-      data, where,
+      data,
+      where,
       include: this.include,
     })
   }

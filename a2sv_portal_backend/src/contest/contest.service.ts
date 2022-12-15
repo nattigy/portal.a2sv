@@ -13,11 +13,9 @@ export class ContestService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly contestRepository: ContestRepository,
-  ) {
-  }
+  ) {}
 
   async createContest({ problems, ...contestInput }: CreateContestInput): Promise<Contest> {
-
     return this.contestRepository.create({
       ...contestInput,
       problems: { connect: problems.map(p => ({ id: p.problemId })) },
@@ -45,19 +43,25 @@ export class ContestService {
     // TODO: "contest with this Id doesn't" exists error
     const foundContest = await this.contestRepository.findOne({ id: contestId })
 
-    if (!foundContest) throw new NotFoundException(`Contest with id ${contestId} does not exist!`);
-    
+    if (!foundContest)
+      throw new NotFoundException(`Contest with id ${contestId} does not exist!`)
+
     return foundContest
   }
 
-  async update(
-    { contestId, problems, ...updateContest }: UpdateContestInput,
-  ): Promise<Contest> {
+  async update({
+    contestId,
+    problems,
+    ...updateContest
+  }: UpdateContestInput): Promise<Contest> {
     // TODO: check if contest with this Id exists and if it doesn't return
     // TODO: "contest with this Id doesn't" exists error
-    const foundContest = await this.prismaService.contest.findUnique({ where: {id: contestId}})
+    const foundContest = await this.prismaService.contest.findUnique({
+      where: { id: contestId },
+    })
 
-    if (!foundContest) throw new NotFoundException(`Contest with id ${contestId} does not exist!`);
+    if (!foundContest)
+      throw new NotFoundException(`Contest with id ${contestId} does not exist!`)
 
     return this.contestRepository.update({
       where: { id: contestId },
@@ -71,9 +75,12 @@ export class ContestService {
   async removeProblemsFromContest(contestId: string, problemIds: string[]): Promise<Contest> {
     // TODO: check if contest with this Id exists and if it doesn't return
     // TODO: "contest with this Id doesn't" exists error'
-    const foundContest = await this.prismaService.contest.findUnique({where: { id: contestId }});
+    const foundContest = await this.prismaService.contest.findUnique({
+      where: { id: contestId },
+    })
 
-    if (!foundContest) throw new NotFoundException(`Contest with id ${contestId} does not exist!`);
+    if (!foundContest)
+      throw new NotFoundException(`Contest with id ${contestId} does not exist!`)
 
     return this.contestRepository.update({
       where: { id: contestId },

@@ -7,8 +7,7 @@ import { GroupSeasonTopicId } from '../group-season-topic/dto/create-group-seaso
 export class GroupSeasonTopicProblemResolver {
   constructor(
     private readonly groupSeasonTopicProblemService: GroupSeasonTopicProblemService,
-  ) {
-  }
+  ) {}
 
   // @Mutation(() => GroupSeasonTopicProblem)
   // async addProblemToGroupSeasonTopic(

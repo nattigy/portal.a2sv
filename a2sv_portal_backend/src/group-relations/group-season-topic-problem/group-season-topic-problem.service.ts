@@ -11,12 +11,14 @@ export class GroupSeasonTopicProblemService {
   constructor(
     private readonly groupSeasonTopicProblemRepository: GroupSeasonTopicProblemRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
-  async addProblemToGroupSeasonTopic(
-    { groupId, seasonId, topicId, problemId }: CreateGroupSeasonTopicProblemInput,
-  ) {
+  async addProblemToGroupSeasonTopic({
+    groupId,
+    seasonId,
+    topicId,
+    problemId,
+  }: CreateGroupSeasonTopicProblemInput) {
     // TODO: search for groupSeasonTopic first and if not found throw not found exception
     // TODO: if the groupSeasonTopic is found and the groupSeason is not active throw groupSeason not active
     // TODO: search for the seasonTopicProblem and if the seasonTopicProblem is not found
@@ -59,9 +61,12 @@ export class GroupSeasonTopicProblemService {
   //   })
   // }
 
-  async removeGroupSeasonTopicProblem(
-    { groupId, seasonId, topicId, problemId }: GroupSeasonTopicProblemId,
-  ) {
+  async removeGroupSeasonTopicProblem({
+    groupId,
+    seasonId,
+    topicId,
+    problemId,
+  }: GroupSeasonTopicProblemId) {
     return this.groupSeasonTopicProblemRepository.remove({
       groupId_seasonId_topicId_problemId: { problemId, topicId, seasonId, groupId },
     })

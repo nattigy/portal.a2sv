@@ -10,7 +10,9 @@ describe('UserContestProblemResolver', () => {
       providers: [UserGroupSeasonContestProblemResolver, UserGroupSeasonContestProblemService],
     }).compile()
 
-    resolver = module.get<UserGroupSeasonContestProblemResolver>(UserGroupSeasonContestProblemResolver)
+    resolver = module.get<UserGroupSeasonContestProblemResolver>(
+      UserGroupSeasonContestProblemResolver,
+    )
   })
 
   it('should be defined', () => {

@@ -31,7 +31,7 @@ import { GroupSeasonContestModule } from './group-relations/group-season-contest
 import { GroupSeasonModule } from './group-relations/group-season/group-season.module'
 import { UserGroupSeasonModule } from './user-relations/user-group-season/user-group-season.module'
 import { GroupSeasonTopicProblemModule } from './group-relations/group-season-topic-problem/group-season-topic-problem.module'
-import { GroupSeasonContestProblemModule } from './group-relations/group-season-contest-problem/group-season-contest-problem.module';
+import { GroupSeasonContestProblemModule } from './group-relations/group-season-contest-problem/group-season-contest-problem.module'
 
 @Module({
   imports: [

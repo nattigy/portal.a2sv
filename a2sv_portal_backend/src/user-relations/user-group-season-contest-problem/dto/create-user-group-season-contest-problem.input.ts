@@ -3,21 +3,21 @@ import { UserContestProblemStatusEnum } from '@prisma/client'
 import { Problem } from 'src/problem/entities/problem.entity'
 
 @InputType()
-export class UpdateUserGroupContestProblemInput {
-  @Field(() => String)
+export class CreateUserGroupSeasonContestProblemInput {
+  @Field()
   userId: string
 
-  @Field(() => String)
+  @Field()
   contestId: string
 
-  @Field(() => String)
+  @Field()
   problemId: string
-
-  @Field(() => Problem)
-  problem: Problem
 
   @Field()
   groupId: string
+
+  @Field(() => Problem)
+  problem: Problem
 
   @Field(() => UserContestProblemStatusEnum)
   status: UserContestProblemStatusEnum
@@ -27,4 +27,22 @@ export class UpdateUserGroupContestProblemInput {
 
   @Field(() => Int)
   numberOfMinutes: number
+}
+
+@InputType()
+export class UserGroupSeasonContestProblemId {
+  @Field()
+  userId: string
+
+  @Field()
+  groupId: string
+
+  @Field()
+  seasonId: string
+
+  @Field()
+  contestId: string
+
+  @Field()
+  problemId: string
 }

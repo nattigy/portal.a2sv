@@ -21,14 +21,17 @@ export class GroupsService {
     // if not return user not found
     // if the user is there check if the user has been assigned to another group
 
-    if(headId){
-      const foundUser = await this.prismaService.user.findUnique({ where : {id:headId}, include: {headToGroup:true} })
+    if (headId) {
+      const foundUser = await this.prismaService.user.findUnique({
+        where: { id: headId },
+        include: { headToGroup: true },
+      })
 
       if (!foundUser) {
         throw new NotFoundException(`User with id ${headId} does not exist!`)
       }
 
-      if(foundUser.headToGroup){
+      if (foundUser.headToGroup) {
         throw new Error(`User with id ${headId} is already assigned to another group!`)
       }
     }
@@ -66,7 +69,7 @@ export class GroupsService {
   async updateGroup({ groupId, ...updates }: UpdateGroupInput): Promise<Group> {
     // TODO: check if group with this Id exists and if it doesn't return
     // TODO: "group with this Id doesn't" exists error
-    const foundGroup = await this.prismaService.group.findUnique({where:{ id: groupId }})
+    const foundGroup = await this.prismaService.group.findUnique({ where: { id: groupId } })
     if (!foundGroup) {
       throw new NotFoundException(`Group with id ${groupId} not found`)
     }
@@ -75,12 +78,12 @@ export class GroupsService {
     if (updates.headId) {
       const getHead = await this.prismaService.user.findUnique({
         where: { id: updates.headId },
-        include: {headToGroup:true}
+        include: { headToGroup: true },
       })
       if (!getHead) {
         throw new NotFoundException(`User with id:${updates.headId} not found`)
       }
-      if(getHead.headToGroup && getHead.headToGroup.id !== groupId){
+      if (getHead.headToGroup && getHead.headToGroup.id !== groupId) {
         throw new Error(`User with id:${updates.headId} is already assigned to another group!`)
       }
       newUpdates.headId = updates.headId

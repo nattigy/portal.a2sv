@@ -24,7 +24,10 @@ export class SeasonRepository {
     const { skip, take, where, orderBy } = params
 
     return this.prismaService.season.findMany({
-      skip, take, where, orderBy,
+      skip,
+      take,
+      where,
+      orderBy,
     })
   }
 

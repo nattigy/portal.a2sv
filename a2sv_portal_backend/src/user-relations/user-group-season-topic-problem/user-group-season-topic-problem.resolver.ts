@@ -1,15 +1,13 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { UpdateUserGroupSeasonTopicProblemInput } from './dto/update-user-group-season-topic-problem.input'
+import { Args, Int, Mutation, Resolver } from '@nestjs/graphql'
 import { UserGroupSeasonTopicProblem } from './entities/user-group-season-topic-problem.entity'
 import { UserGroupSeasonTopicProblemService } from './user-group-season-topic-problem.service'
 import { UserGroupSeasonTopicProblemId } from './dto/create-user-group-season-topic-problem.input'
-import { PaginationUserGroupSeasonTopicProblem } from '../../common/page/pagination-info'
-import { FilterUserGroupSeasonTopicProblemInput } from './dto/filter-user-group-season-topic-problem.input'
-import { PaginationInput } from '../../common/page/pagination.input'
 
 @Resolver(() => UserGroupSeasonTopicProblem)
 export class UserGroupSeasonTopicProblemResolver {
-  constructor(private readonly seasonTopicUserProblemService: UserGroupSeasonTopicProblemService) {}
+  constructor(
+    private readonly seasonTopicUserProblemService: UserGroupSeasonTopicProblemService,
+  ) {}
 
   // @Query(() => UserGroupSeasonTopicProblem)
   // async userGroupSeasonTopicProblem(

@@ -104,20 +104,21 @@ export class UserService {
     const { userId, ...updates } = updateUserInput
     // TODO: check if user with this Id exists and if it doesn't return
     // TODO: "user with this Id doesn't" exists error
-    
-    // TODO: If Email is about to be updated check if the email exists and 
-    //       return "That email is already registered" Error. 
 
-    const foundUser = await this.prismaService.user.findUnique({where: {id: userId}})
+    // TODO: If Email is about to be updated check if the email exists and
+    //       return "That email is already registered" Error.
 
-    if(!foundUser) throw new NotFoundException(`Contest with id ${userId} does not exist!`);
+    const foundUser = await this.prismaService.user.findUnique({ where: { id: userId } })
 
-    if(updates.email){
+    if (!foundUser) throw new NotFoundException(`Contest with id ${userId} does not exist!`)
 
-      const foundUserByEmail = await this.prismaService.user.findUnique({where: {email: updates.email}})
+    if (updates.email) {
+      const foundUserByEmail = await this.prismaService.user.findUnique({
+        where: { email: updates.email },
+      })
 
-      if(foundUserByEmail && foundUserByEmail.email !== foundUser.email) throw new Error("That email is already registered!")
-
+      if (foundUserByEmail && foundUserByEmail.email !== foundUser.email)
+        throw new Error('That email is already registered!')
     }
 
     return this.userRepository.update({

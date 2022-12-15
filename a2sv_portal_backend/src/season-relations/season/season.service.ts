@@ -49,7 +49,7 @@ export class SeasonService {
     if (!season) {
       throw new NotFoundException(`Season with id ${seasonId} not found.`)
     }
-    
+
     if (updates.isActive === false) {
       await this.prismaService.groupSeason.updateMany({
         where: { seasonId },

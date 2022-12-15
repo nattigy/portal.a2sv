@@ -6,7 +6,9 @@ import {
 import { ComfortLevelEnum } from '@prisma/client'
 
 @InputType()
-export class UpdateUserGroupSeasonTopicInput extends PartialType(CreateUserGroupSeasonTopicInput) {
+export class UpdateUserGroupSeasonTopicInput extends PartialType(
+  CreateUserGroupSeasonTopicInput,
+) {
   @Field(() => UserGroupSeasonTopicId)
   id: UserGroupSeasonTopicId
 

@@ -1,8 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql'
 import { Problem } from '../../../problem/entities/problem.entity'
-import {
-  UserGroupSeasonTopicProblem,
-} from '../../../user-relations/user-group-season-topic-problem/entities/user-group-season-topic-problem.entity'
+import { UserGroupSeasonTopicProblem } from '../../../user-relations/user-group-season-topic-problem/entities/user-group-season-topic-problem.entity'
 
 @ObjectType()
 export class GroupSeasonTopicProblem {

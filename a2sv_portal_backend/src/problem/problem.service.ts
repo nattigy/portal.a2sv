@@ -17,11 +17,13 @@ export class ProblemService {
   ) {}
 
   async createProblem({ tags, ...createInput }: CreateProblemInput): Promise<Problem> {
-     // TODO: check if problem with this link exists and if it does return
+    // TODO: check if problem with this link exists and if it does return
     // TODO: "problem with this link already" exists error
-    const foundLink = await this.prismaService.problem.findUnique({ where: {link: createInput.link}})
+    const foundLink = await this.prismaService.problem.findUnique({
+      where: { link: createInput.link },
+    })
 
-    if(foundLink) throw new Error("Problem with this link already exists!");
+    if (foundLink) throw new Error('Problem with this link already exists!')
 
     return await this.problemRepository.create({
       ...createInput,
@@ -61,7 +63,8 @@ export class ProblemService {
     // TODO: "problem with this Id doesn't" exists error
     const foundProblem = await this.problemRepository.findOne({ id: problemId })
 
-    if (!foundProblem) throw new NotFoundException(`Problem with id ${problemId} does not exist!`);
+    if (!foundProblem)
+      throw new NotFoundException(`Problem with id ${problemId} does not exist!`)
 
     return foundProblem
   }
@@ -78,14 +81,20 @@ export class ProblemService {
     //       and if the link is new link, check if there exists a problem with that
     //       link and throw "problem with this link already exists" error
 
-    const foundProblem = await this.prismaService.problem.findUnique({ where: {id: problemId}})
+    const foundProblem = await this.prismaService.problem.findUnique({
+      where: { id: problemId },
+    })
 
-    if (!foundProblem) throw new NotFoundException(`Problem with id ${problemId} does not exist!`);
+    if (!foundProblem)
+      throw new NotFoundException(`Problem with id ${problemId} does not exist!`)
 
-    if(updateInput.link){
-      const foundProblemByLink = await this.prismaService.problem.findUnique({ where: {link: updateInput.link}})
+    if (updateInput.link) {
+      const foundProblemByLink = await this.prismaService.problem.findUnique({
+        where: { link: updateInput.link },
+      })
 
-      if(foundProblemByLink && foundProblemByLink.link !== foundProblem.link) throw new Error("Problem with this link already exists!");
+      if (foundProblemByLink && foundProblemByLink.link !== foundProblem.link)
+        throw new Error('Problem with this link already exists!')
     }
 
     return this.problemRepository.update({
