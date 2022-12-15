@@ -1,5 +1,5 @@
 import { Field, InputType, PartialType } from '@nestjs/graphql'
-import { UserGroupSeasonContestId } from './create-user-season-contest.input'
+import { UserGroupSeasonContestId } from './create-user-group-season-contest.input'
 import { CreateGroupUserGroupSeasonInput } from '../../user-group-season/dto/create-group-user-season.input'
 
 @InputType()

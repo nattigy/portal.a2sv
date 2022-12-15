@@ -18,6 +18,10 @@ export class UserGroupSeasonContestProblemRepository {
     })
   }
 
+  async count(where?: Prisma.UserGroupSeasonContestProblemWhereInput): Promise<number> {
+    return this.prismaService.userGroupSeasonContestProblem.count({ where })
+  }
+  
   async findAll(params: {
     skip?: number
     take?: number
