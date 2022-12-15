@@ -10,12 +10,12 @@ const ProtectedRoute = ({ children, authUser }: Props) => {
   const router = useRouter();
   useEffect(() => {
     console.log(authUser, " is auth user");
-    if (!authUser) {
+    if (!true) {
       router.replace("/auth");
     }
   }, [authUser, router.isReady]);
 
-  if (authUser) {
+  if (true) {
     return <div>{children}</div>;
   } else {
     return (

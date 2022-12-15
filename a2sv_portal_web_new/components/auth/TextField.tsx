@@ -9,7 +9,7 @@ export type InputProps = {
   name: string;
   placeholder: string;
   type: string;
-  formik: FormikProps<FormValues>;
+  formik: FormikProps<any>;
 };
 
 const CustomTextField: React.FC<InputProps> = (props: InputProps) => {
