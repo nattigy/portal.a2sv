@@ -8,7 +8,11 @@ export class UserGroupSeasonTopicRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
   include = {
-    userGroupSeasonTopicProblems: true,
+    userGroupSeasonTopicProblems: {
+      include: {
+        problem: { include: { tags: true } },
+      }
+    },
   }
 
   async create(data: Prisma.UserGroupSeasonTopicCreateInput): Promise<UserGroupSeasonTopic> {

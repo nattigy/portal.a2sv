@@ -1,17 +1,14 @@
 import { Args, Int, Mutation, Resolver } from '@nestjs/graphql'
 import { GroupSeasonTopicProblemService } from './group-season-topic-problem.service'
 import { GroupSeasonTopicProblem } from './entities/group-season-topic-problem.entity'
-import {
-  CreateGroupSeasonTopicProblemInput,
-  GroupSeasonTopicProblemId,
-} from './dto/create-group-season-topic-problem.input'
 import { GroupSeasonTopicId } from '../group-season-topic/dto/create-group-season-topic.input'
 
 @Resolver(() => GroupSeasonTopicProblem)
 export class GroupSeasonTopicProblemResolver {
   constructor(
     private readonly groupSeasonTopicProblemService: GroupSeasonTopicProblemService,
-  ) {}
+  ) {
+  }
 
   // @Mutation(() => GroupSeasonTopicProblem)
   // async addProblemToGroupSeasonTopic(

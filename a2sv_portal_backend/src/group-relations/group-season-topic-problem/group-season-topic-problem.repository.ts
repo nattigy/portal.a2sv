@@ -5,7 +5,10 @@ import { GroupSeasonTopicProblem } from './entities/group-season-topic-problem.e
 
 @Injectable()
 export class GroupSeasonTopicProblemRepository {
-  include = { problem: { include: { tags: true } } }
+  include = {
+    userGroupSeasonTopicProblems: true,
+    problem: { include: { tags: true } }
+  }
 
   constructor(private readonly prismaService: PrismaService) {}
 
@@ -30,10 +33,7 @@ export class GroupSeasonTopicProblemRepository {
   }): Promise<GroupSeasonTopicProblem[]> {
     const { skip, take, where, orderBy } = params
     return this.prismaService.groupSeasonTopicProblem.findMany({
-      skip,
-      take,
-      where,
-      orderBy,
+      skip, take, where, orderBy,
       include: this.include,
     })
   }

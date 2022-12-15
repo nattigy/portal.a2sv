@@ -65,8 +65,9 @@ Table Problem {
   contestId String
   seasonTopicProblems SeasonTopicProblem [not null]
   seasonContestProblems SeasonContestProblem [not null]
+  GroupSeasonTopicProblem GroupSeasonTopicProblem [not null]
+  GroupSeasonContestProblem GroupSeasonContestProblem [not null]
   UserGroupSeasonTopicProblem UserGroupSeasonTopicProblem [not null]
-  UserGroupSeasonContestProblem UserGroupSeasonContestProblem [not null]
 }
 
 Table User {
@@ -195,6 +196,7 @@ Table GroupSeasonTopicProblem {
   updatedAt DateTime
   groupSeasonTopic GroupSeasonTopic [not null]
   seasonTopicProblem SeasonTopicProblem [not null]
+  problem Problem [not null]
   userGroupSeasonTopicProblems UserGroupSeasonTopicProblem [not null]
 
   indexes {
@@ -227,6 +229,7 @@ Table GroupSeasonContestProblem {
   updatedAt DateTime
   groupSeasonContest GroupSeasonContest [not null]
   seasonContestProblem SeasonContestProblem [not null]
+  problem Problem [not null]
   userGroupSeasonContestProblems UserGroupSeasonContestProblem [not null]
 
   indexes {
@@ -323,7 +326,6 @@ Table UserGroupSeasonContestProblem {
   updatedAt DateTime
   userGroupSeasonContest UserGroupSeasonContest [not null]
   groupSeasonContestProblem GroupSeasonContestProblem [not null]
-  problem Problem [not null]
 
   indexes {
     (userId, groupId, seasonId, contestId, problemId) [pk]
@@ -492,6 +494,8 @@ Ref: GroupSeasonTopicProblem.(groupId, seasonId, topicId) > GroupSeasonTopic.(gr
 
 Ref: GroupSeasonTopicProblem.(seasonId, topicId, problemId) > SeasonTopicProblem.(seasonId, topicId, problemId) [delete: Cascade]
 
+Ref: GroupSeasonTopicProblem.problemId > Problem.id [delete: Cascade]
+
 Ref: GroupSeasonContest.(groupId, seasonId) > GroupSeason.(groupId, seasonId) [delete: Cascade]
 
 Ref: GroupSeasonContest.(seasonId, contestId) > SeasonContest.(seasonId, contestId) [delete: Cascade]
@@ -499,6 +503,8 @@ Ref: GroupSeasonContest.(seasonId, contestId) > SeasonContest.(seasonId, contest
 Ref: GroupSeasonContestProblem.(groupId, seasonId, contestId) > GroupSeasonContest.(groupId, seasonId, contestId) [delete: Cascade]
 
 Ref: GroupSeasonContestProblem.(seasonId, contestId, problemId) > SeasonContestProblem.(seasonId, contestId, problemId) [delete: Cascade]
+
+Ref: GroupSeasonContestProblem.problemId > Problem.id [delete: Cascade]
 
 Ref: UserGroupSeason.userId > User.id [delete: Cascade]
 
@@ -521,8 +527,6 @@ Ref: UserGroupSeasonContest.(groupId, seasonId, contestId) > GroupSeasonContest.
 Ref: UserGroupSeasonContestProblem.(userId, groupId, seasonId, contestId) > UserGroupSeasonContest.(userId, groupId, seasonId, contestId) [delete: Cascade]
 
 Ref: UserGroupSeasonContestProblem.(groupId, seasonId, contestId, problemId) > GroupSeasonContestProblem.(groupId, seasonId, contestId, problemId) [delete: Cascade]
-
-Ref: UserGroupSeasonContestProblem.problemId > Problem.id [delete: Cascade]
 
 Ref: UserProfile.userId - User.id [delete: Cascade]
 

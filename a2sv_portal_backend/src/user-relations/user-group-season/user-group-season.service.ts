@@ -6,7 +6,8 @@ import { UserGroupSeasonRepository } from './user-group-season.repository'
 
 @Injectable()
 export class UserGroupSeasonService {
-  constructor(private readonly userGroupSeasonRepository: UserGroupSeasonRepository) {}
+  constructor(private readonly userGroupSeasonRepository: UserGroupSeasonRepository) {
+  }
 
   async userGroupSeasons(
     { seasonId, userId }: FilterUserGroupSeasonInput,
@@ -19,16 +20,16 @@ export class UserGroupSeasonService {
     })
   }
 
-  async userGroupSeason({ seasonId, groupId,userId }: UserGroupSeasonId) {
+  async userGroupSeason({ seasonId, groupId, userId }: UserGroupSeasonId) {
     /// TODO generate stat here
     return this.userGroupSeasonRepository.findOne({
       userId_groupId_seasonId: { seasonId, groupId, userId },
     })
   }
 
-  // async removeUserGroupSeason({ seasonId,groupId, userId }: UserGroupSeasonId) {
-  //   return this.userGroupSeasonRepository.remove({
-  //     userId_groupId_seasonId: { seasonId,groupId, userId },
-  //   })
-  // }
+  async removeUserGroupSeason({ seasonId, groupId, userId }: UserGroupSeasonId) {
+    return this.userGroupSeasonRepository.remove({
+      userId_groupId_seasonId: { seasonId, groupId, userId },
+    })
+  }
 }

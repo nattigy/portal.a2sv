@@ -13,7 +13,11 @@ export class UserGroupSeasonRepository {
     user: true,
     userGroupSeasonTopics: {
       include: {
-        userGroupSeasonTopicProblems: true,
+        userGroupSeasonTopicProblems: {
+          include: {
+            problem: { include: { tags: true } },
+          }
+        },
       },
     },
   }
