@@ -10,7 +10,7 @@ export class UserGroupSeasonContestProblemRepository {
   async create(
     data: Prisma.UserGroupSeasonContestProblemCreateInput,
   ): Promise<UserGroupSeasonContestProblem> {
-    return this.prismaService.UserGroupSeasonContestProblem.create({
+    return this.prismaService.userGroupSeasonContestProblem.create({
       data,
       include: {
         problem: { include: { tags: true } },
@@ -21,15 +21,13 @@ export class UserGroupSeasonContestProblemRepository {
   async findAll(params: {
     skip?: number
     take?: number
-    cursor?: Prisma.UserGroupSeasonContestProblemWhereUniqueInput
     where?: Prisma.UserGroupSeasonContestProblemWhereInput
     orderBy?: Prisma.UserGroupSeasonContestProblemOrderByWithRelationInput
   }): Promise<UserGroupSeasonContestProblem[]> {
-    const { skip, take, cursor, where, orderBy } = params
-    return this.prismaService.UserGroupSeasonContestProblem.findMany({
+    const { skip, take, where, orderBy } = params
+    return this.prismaService.userGroupSeasonContestProblem.findMany({
       skip,
       take,
-      cursor,
       where,
       orderBy,
       include: {
@@ -41,7 +39,7 @@ export class UserGroupSeasonContestProblemRepository {
   async findOne(
     where: Prisma.UserGroupSeasonContestProblemWhereUniqueInput,
   ): Promise<UserGroupSeasonContestProblem> {
-    return this.prismaService.UserGroupSeasonContestProblem.findUnique({
+    return this.prismaService.userGroupSeasonContestProblem.findUnique({
       where,
       include: {
         problem: { include: { tags: true } },
@@ -54,7 +52,7 @@ export class UserGroupSeasonContestProblemRepository {
     data: Prisma.UserGroupSeasonContestProblemUpdateInput
   }): Promise<UserGroupSeasonContestProblem> {
     const { where, data } = params
-    return this.prismaService.UserGroupSeasonContestProblem.update({
+    return this.prismaService.userGroupSeasonContestProblem.update({
       data,
       where,
       include: {
@@ -64,6 +62,6 @@ export class UserGroupSeasonContestProblemRepository {
   }
 
   async remove(where: Prisma.UserGroupSeasonContestProblemWhereUniqueInput) {
-    return this.prismaService.UserGroupSeasonContestProblem.delete({ where })
+    return this.prismaService.userGroupSeasonContestProblem.delete({ where })
   }
 }
