@@ -12,12 +12,16 @@ export class UserGroupSeasonContestProblemRepository {
   ): Promise<UserGroupSeasonContestProblem> {
     return this.prismaService.userGroupSeasonContestProblem.create({
       data,
-      include: {
-        problem: { include: { tags: true } },
-      },
+      // include: {
+      //   problem: { include: { tags: true } },
+      // },
     })
   }
 
+  async count(where?: Prisma.UserGroupSeasonContestProblemWhereInput): Promise<number> {
+    return this.prismaService.userGroupSeasonContestProblem.count({ where })
+  }
+  
   async findAll(params: {
     skip?: number
     take?: number
@@ -30,9 +34,9 @@ export class UserGroupSeasonContestProblemRepository {
       take,
       where,
       orderBy,
-      include: {
-        problem: { include: { tags: true } },
-      },
+      // include: {
+      //   problem: { include: { tags: true } },
+      // },
     })
   }
 
@@ -41,9 +45,9 @@ export class UserGroupSeasonContestProblemRepository {
   ): Promise<UserGroupSeasonContestProblem> {
     return this.prismaService.userGroupSeasonContestProblem.findUnique({
       where,
-      include: {
-        problem: { include: { tags: true } },
-      },
+      // include: {
+      //   problem: { include: { tags: true } },
+      // },
     })
   }
 
@@ -55,9 +59,9 @@ export class UserGroupSeasonContestProblemRepository {
     return this.prismaService.userGroupSeasonContestProblem.update({
       data,
       where,
-      include: {
-        problem: { include: { tags: true } },
-      },
+      // include: {
+      //   problem: { include: { tags: true } },
+      // },
     })
   }
 
