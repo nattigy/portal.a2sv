@@ -10,6 +10,9 @@ export class CreateUserGroupSeasonContestInput {
 
   @Field()
   userId: string
+
+  @Field()
+  groupId: string
 }
 
 @InputType()
@@ -22,4 +25,8 @@ export class UserGroupSeasonContestId {
 
   @Field()
   userId: string
+
+  @Field()
+  groupId: string
+
 }

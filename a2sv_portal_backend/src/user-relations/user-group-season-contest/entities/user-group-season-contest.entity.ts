@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
-import { UserGroupSeasonContestProblem } from './../../user-group-season-contest-problem/entities/user-season-contest-problem.entity';
+import { UserGroupSeasonContestProblem } from '../../user-group-season-contest-problem/entities/user-season-contest-problem.entity';
 
 @ObjectType()
 export class UserGroupSeasonContest {

@@ -8,7 +8,7 @@ import { SeasonTopic } from '../../season-relations/season-topic/entities/season
 import { Season } from '../../season-relations/season/entities/season.entity'
 import { Topic } from '../../topic/entities/topic.entity'
 import { UserGroupSeasonContestProblem } from '../../user-relations/user-group-season-contest-problem/entities/user-season-contest-problem.entity'
-import { UserGroupSeasonContest } from '../../user-relations/user-group-season-contest/entities/user-season-contest.entity'
+import { UserGroupSeasonContest } from '../../user-relations/user-group-season-contest/entities/user-group-season-contest.entity'
 import { UserGroupSeasonTopic } from '../../user-relations/user-group-season-topic/entities/user-group-season-topic.entity'
 import { User } from '../../user-relations/user/entities/user.entity'
 

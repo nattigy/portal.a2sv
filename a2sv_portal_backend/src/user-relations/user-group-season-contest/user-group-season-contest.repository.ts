@@ -1,29 +1,24 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
-import { UserGroupSeasonContest } from './entities/user-season-contest.entity'
+import { UserGroupSeasonContest } from './entities/user-group-season-contest.entity'
 
 @Injectable()
 export class UserGroupSeasonContestRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
+  include = {
+    userGroupSeasonContestProblems: {
+      include: {
+        problem: { include: { tags: true } },
+      }
+    },
+  }
+
   async create(data: Prisma.UserGroupSeasonContestCreateInput): Promise<UserGroupSeasonContest> {
     return this.prismaService.userGroupSeasonContest.create({
       data,
-      include: {
-        seasonContest: {
-          include: {
-            season: true,
-            contest: {
-              include: { problems: { include: { tags: true } } },
-            },
-          },
-        },
-        UserGroupSeason: {
-          include: { user: true, season: true },
-        },
-        userGroupSeasonTopicProblems: true,
-      },
+      include:this.include,
     })
   }
 
@@ -34,47 +29,23 @@ export class UserGroupSeasonContestRepository {
   async findAll(params: {
     skip?: number
     take?: number
-    cursor?: Prisma.UserGroupSeasonContestWhereUniqueInput
     where?: Prisma.UserGroupSeasonContestWhereInput
     orderBy?: Prisma.UserGroupSeasonContestOrderByWithRelationInput
   }) {
-    const { skip, take, cursor, where, orderBy } = params
+    const { skip, take, where, orderBy } = params
     return this.prismaService.userGroupSeasonContest.findMany({
       skip,
       take,
-      cursor,
       where,
       orderBy,
-      include: {
-        seasonContest: {
-          include: {
-            season: true,
-            contest: {
-              include: { problems: { include: { tags: true } } },
-            },
-          },
-        },
-        UserGroupSeason: {
-          include: { user: true, season: true },
-        },
-        UserGroupSeasonContestProblems: {
-          include: { problem: { include: { tags: true } } },
-        },
-      },
+      include: this.include
     })
   }
 
   async findOne(where: Prisma.UserGroupSeasonContestWhereUniqueInput) {
     return this.prismaService.userGroupSeasonContest.findUnique({
       where,
-      include: {
-        UserGroupSeason: {
-          include: { user: true, season: true },
-        },
-        UserGroupSeasonContestProblems: {
-          include: { problem: { include: { tags: true } } },
-        },
-      },
+      include:this.include,
     })
   }
 
@@ -86,14 +57,7 @@ export class UserGroupSeasonContestRepository {
     return this.prismaService.userGroupSeasonContest.update({
       data,
       where,
-      include: {
-        UserGroupSeason: {
-          include: { user: true, season: true },
-        },
-        UserGroupSeasonContestProblems: {
-          include: { problem: { include: { tags: true } } },
-        },
-      },
+      include:this.include
     })
   }
 

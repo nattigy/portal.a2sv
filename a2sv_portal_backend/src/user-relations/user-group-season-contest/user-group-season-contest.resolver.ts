@@ -1,6 +1,6 @@
 import { Resolver } from '@nestjs/graphql'
-import { UserGroupSeasonContest } from './entities/user-season-contest.entity'
-import { UserGroupSeasonContestService } from './user-season-contest.service'
+import { UserGroupSeasonContest } from './entities/user-group-season-contest.entity'
+import { UserGroupSeasonContestService } from './user-group-season-contest.service'
 
 @Resolver(() => UserGroupSeasonContest)
 export class UserGroupSeasonContestResolver {

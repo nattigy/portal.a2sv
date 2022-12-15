@@ -12,6 +12,9 @@ export class FilterUserContestProblemInput {
   @Field(() => String, { nullable: true })
   problemId?: string
 
+  @Field()
+  groupId?: string
+
   @Field(() => UserContestProblemStatusEnum, { nullable: true })
   status?: UserContestProblemStatusEnum
 
