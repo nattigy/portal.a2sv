@@ -22,69 +22,72 @@ interface GuardProps {
   client: ApolloClient<NormalizedCacheObject>;
 }
 
-// const mockUsers = [
-//   {
-//     createdAt: "2022-10-04T14:08:45.978Z",
-//     email: "hoa@a2sv.org",
-//     group: null,
-//     groupId: null,
-//     groupTopicProblems: [],
-//     groupTopicSeasonProblems: [],
-//     headToGroup: null,
-//     id: "4",
-//     role: "HEAD_OF_ACADEMY",
-//     status: "ACTIVE",
-//     topics: [],
-//     updatedAt: "2022-10-04T14:08:45.976Z",
-//     userProfile: null,
-//     userProfilesId: null,
-//   },
-//   {
-//     createdAt: "2022-10-04T14:08:23.584Z",
-//     email: "hoe@a2sv.org",
-//     group: null,
-//     groupId: null,
-//     groupTopicProblems: [],
-//     groupTopicSeasonProblems: [],
-//     headToGroup: { id: "f882ded1-fa77-4ce1-bd96-febc6d8a2fe4" },
-//     id: "3",
-//     role: "HEAD_OF_EDUCATION",
-//     status: "ACTIVE",
-//     topics: [],
-//     updatedAt: "2022-10-04T14:08:23.583Z",
-//     userProfile: null,
-//     userProfilesId: null,
-//   },
+const mockUsers = [
+  {
+    createdAt: "2022-10-04T14:08:45.978Z",
+    email: "hoa@a2sv.org",
+    group: null,
+    groupId: null,
+    groupTopicProblems: [],
+    groupTopicSeasonProblems: [],
+    headToGroup: null,
+    id: "4",
+    role: "HEAD_OF_ACADEMY",
+    status: "ACTIVE",
+    topics: [],
+    updatedAt: "2022-10-04T14:08:45.976Z",
+    userProfile: null,
+    userProfilesId: null,
+  },
+  {
+    createdAt: "2022-10-04T14:08:23.584Z",
+    email: "hoe@a2sv.org",
+    group: null,
+    groupId: null,
+    groupTopicProblems: [],
+    groupTopicSeasonProblems: [],
+    headToGroup: { id: "f882ded1-fa77-4ce1-bd96-febc6d8a2fe4" },
+    id: "3",
+    role: "HEAD_OF_EDUCATION",
+    status: "ACTIVE",
+    topics: [],
+    updatedAt: "2022-10-04T14:08:23.583Z",
+    userProfile: null,
+    userProfilesId: null,
+  },
 
-//   {
-//     createdAt: "2022-10-04T14:07:55.152Z",
-//     email: "student@a2sv.org",
-//     group: null,
-//     groupId: "f882ded1-fa77-4ce1-bd96-febc6d8a2fe4",
-//     groupTopicProblems: [],
-//     groupTopicSeasonProblems: [],
-//     headToGroup: null,
-//     id: null,
-//     role: "STUDENT",
-//     status: "ACTIVE",
-//     topics: [
-//       {
-//         topicId: 1,
-//       },
-//       {
-//         topicId: 2,
-//       },
-//     ],
-//     updatedAt: "2022-10-04T14:07:55.150Z",
-//     userProfile: null,
-//     userProfilesId: null,
-//   },
-// ];
+  {
+    createdAt: "2022-10-04T14:07:55.152Z",
+    email: "student@a2sv.org",
+    group: null,
+    groupId: "f882ded1-fa77-4ce1-bd96-febc6d8a2fe4",
+    groupTopicProblems: [],
+    groupTopicSeasonProblems: [],
+    headToGroup: null,
+    id: null,
+    role: "STUDENT",
+    status: "ACTIVE",
+    topics: [
+      {
+        topicId: 1,
+      },
+      {
+        topicId: 2,
+      },
+    ],
+    updatedAt: "2022-10-04T14:07:55.150Z",
+    userProfile: null,
+    userProfilesId: null,
+  },
+];
 
 const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
-  const { data: user, loading, refetch, error } = useGetMe();
+  // const { data, loading, refetch, error } = useGetMe();
   const router = useRouter();
 
+  const user = {
+    getMe: mockUsers[0]
+  }
   useEffect(() => {
     if (user) {
       authenticatedVar(true);
@@ -92,9 +95,9 @@ const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
     } else {
       authenticatedVar(false);
     }
-  }, [refetch, user]);
+  }, [user]);
 
-  if (loading) {
+  if (false) {
     return (
       <div className="min-h-screen min-w-full flex justify-center items-center">
         <LoaderLarge />

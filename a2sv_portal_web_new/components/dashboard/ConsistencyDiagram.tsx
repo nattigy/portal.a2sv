@@ -185,7 +185,8 @@ const ConsistencyDiagramItem = () => {
 
   useEffect(() => {
     if (data) {
-      setConsistencyData(generateData(data?.dataAnalytic))
+      console.log(data, " is data")
+      setConsistencyData(data?.dataAnalytic)
     }
   }, [data, refetch])
 
@@ -221,16 +222,16 @@ const ConsistencyDiagramItem = () => {
         </div>
       </div>
       <div className="flex flex-row gap-x-3 items-end h-full">
-      {loading && (
-        <div className="flex items-center justify-center w-full">
-          <LoaderSmall/>
+        {loading && (
+          <div className="flex items-center justify-center w-full">
+            <LoaderSmall />
 
-        </div>
-      )}
-      {data && (
-        <CustomConsistencyChart series={consistencyData.studentConsistencyData} />
+          </div>
+        )}
+        {data && (
+          <CustomConsistencyChart series={consistencyData.studentConsistencyData} />
 
-      )}
+        )}
         {/* <ConsistencyDiagramItem /> */}
       </div>
     </div>
