@@ -11,6 +11,7 @@ export class GroupSeasonRepository {
     season: true,
     groupSeasonTopics: {
       include: {
+        topic: true,
         seasonTopic: {
           include: {
             season: true,

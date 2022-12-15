@@ -104,9 +104,8 @@ export class UserService {
     const { userId, ...updates } = updateUserInput
     // TODO: check if user with this Id exists and if it doesn't return
     // TODO: "user with this Id doesn't" exists error
-
     // TODO: If Email is about to be updated check if the email exists and
-    //       return "That email is already registered" Error.
+    //      return "That email is already registered" Error.
 
     const foundUser = await this.prismaService.user.findUnique({ where: { id: userId } })
 
@@ -126,40 +125,6 @@ export class UserService {
       data: updates,
     })
   }
-
-  // async updateComfortLevel(topicId: string, userId: string, comfortLevel: ComfortLevelEnum) {
-  //   return await this.prismaService.user.update({
-  //     where: {
-  //       id: userId,
-  //     },
-  //     data: {
-  //       topics: {
-  //         upsert: {
-  //           where: {
-  //             userId_topicId: {
-  //               userId: userId,
-  //               topicId: topicId,
-  //             },
-  //           },
-  //           update: {
-  //             comfortLevel: comfortLevel,
-  //           },
-  //           create: {
-  //             topicId: topicId,
-  //             comfortLevel: comfortLevel,
-  //           },
-  //         },
-  //       },
-  //     },
-  //     include: {
-  //       topics: {
-  //         include: {
-  //           topic: true,
-  //         },
-  //       },
-  //     },
-  //   })
-  // }
 
   // async studentStats(id: string): Promise<StudentStat> {
   //   const user = await this.findById(id)

@@ -70,6 +70,9 @@ export class UserGroupSeasonContestService {
         groupSeasonContest: {
           connect: { groupId_seasonId_contestId: { groupId, seasonId, contestId } },
         },
+        contest: {
+          connect: {id: contestId}
+        }
       },
       update: updates,
       include: {

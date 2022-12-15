@@ -1,13 +1,13 @@
-import { Args, Int, Mutation, Resolver } from '@nestjs/graphql'
+import { Resolver } from '@nestjs/graphql'
 import { UserGroupSeasonTopicProblem } from './entities/user-group-season-topic-problem.entity'
 import { UserGroupSeasonTopicProblemService } from './user-group-season-topic-problem.service'
-import { UserGroupSeasonTopicProblemId } from './dto/create-user-group-season-topic-problem.input'
 
 @Resolver(() => UserGroupSeasonTopicProblem)
 export class UserGroupSeasonTopicProblemResolver {
   constructor(
     private readonly seasonTopicUserProblemService: UserGroupSeasonTopicProblemService,
-  ) {}
+  ) {
+  }
 
   // @Query(() => UserGroupSeasonTopicProblem)
   // async userGroupSeasonTopicProblem(
@@ -38,12 +38,12 @@ export class UserGroupSeasonTopicProblemResolver {
   //   )
   // }
 
-  @Mutation(() => Int)
-  async removeUserGroupSeasonTopicProblem(
-    @Args('seasonTopicProblemUserId') seasonTopicProblemUserId: UserGroupSeasonTopicProblemId,
-  ) {
-    return this.seasonTopicUserProblemService.removeUserGroupSeasonTopicProblem(
-      seasonTopicProblemUserId,
-    )
-  }
+  // @Mutation(() => Int)
+  // async removeUserGroupSeasonTopicProblem(
+  //   @Args('seasonTopicProblemUserId') seasonTopicProblemUserId: UserGroupSeasonTopicProblemId,
+  // ) {
+  //   return this.seasonTopicUserProblemService.removeUserGroupSeasonTopicProblem(
+  //     seasonTopicProblemUserId,
+  //   )
+  // }
 }

@@ -59,7 +59,7 @@ export class GroupSeasonService {
   }
 
   async groupSeason({ seasonId, groupId }: GroupSeasonId) {
-    // generate state here
+    // TODO: generate state here
     return this.groupSeasonRepository.findOne({
       groupId_seasonId: { seasonId, groupId },
     })
@@ -69,7 +69,7 @@ export class GroupSeasonService {
     filterGroupSeasonInput: FilterGroupSeasonInput,
     { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationGroupSeason> {
-    // generate multiple state here
+    // TODO: generate multiple state here
     const count = await this.groupSeasonRepository.count(filterGroupSeasonInput)
     const groupSeasons = await this.groupSeasonRepository.findAll({
       where: filterGroupSeasonInput,

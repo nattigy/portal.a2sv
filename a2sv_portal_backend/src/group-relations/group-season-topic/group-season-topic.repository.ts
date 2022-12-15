@@ -6,6 +6,7 @@ import { GroupSeasonTopic } from './entities/group-season-topic.entity'
 @Injectable()
 export class GroupSeasonTopicRepository {
   include = {
+    topic: true,
     seasonTopic: {
       include: {
         season: true,
@@ -32,27 +33,7 @@ export class GroupSeasonTopicRepository {
   async create(data: Prisma.GroupSeasonTopicCreateInput): Promise<GroupSeasonTopic> {
     return this.prismaService.groupSeasonTopic.create({
       data,
-      include: {
-        seasonTopic: {
-          include: {
-            season: true,
-            topic: true,
-            seasonTopicProblems: {
-              include: { problem: { include: { tags: true } } },
-            },
-          },
-        },
-        groupSeasonTopicProblems: {
-          include: {
-            userGroupSeasonTopicProblems: {
-              include: {
-                problem: { include: { tags: true } },
-              },
-            },
-            problem: { include: { tags: true } },
-          },
-        },
-      },
+      include: this.include,
     })
   }
 
