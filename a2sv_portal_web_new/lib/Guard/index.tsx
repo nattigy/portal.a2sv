@@ -82,28 +82,26 @@ const mockUsers = [
 ];
 
 const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
-  // const { data, loading, refetch, error } = useGetMe();
+  // const { data: user, loading, refetch, error } = useGetMe();
   const router = useRouter();
+  const user = {getMe:mockUsers[0]};
 
-  const user = {
-    getMe: mockUsers[0]
-  }
-  useEffect(() => {
-    if (user) {
-      authenticatedVar(true);
-      authenticatedUser(user?.getMe);
-    } else {
-      authenticatedVar(false);
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     authenticatedVar(true);
+  //     authenticatedUser(user?.getMe);
+  //   } else {
+  //     authenticatedVar(false);
+  //   }
+  // }, [refetch, user]);
 
-  if (false) {
-    return (
-      <div className="min-h-screen min-w-full flex justify-center items-center">
-        <LoaderLarge />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="min-h-screen min-w-full flex justify-center items-center">
+  //       <LoaderLarge />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="w-full h-full relative">
