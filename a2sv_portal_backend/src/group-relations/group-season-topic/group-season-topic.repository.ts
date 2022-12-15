@@ -16,7 +16,14 @@ export class GroupSeasonTopicRepository {
       },
     },
     groupSeasonTopicProblems: {
-      include: { problem: { include: { tags: true } } },
+      include: {
+        userGroupSeasonTopicProblems: {
+          include: {
+            problem: { include: { tags: true } },
+          }
+        },
+        problem: { include: { tags: true } }
+      },
     },
   }
 
@@ -25,7 +32,27 @@ export class GroupSeasonTopicRepository {
   async create(data: Prisma.GroupSeasonTopicCreateInput): Promise<GroupSeasonTopic> {
     return this.prismaService.groupSeasonTopic.create({
       data,
-      include: this.include,
+      include: {
+        seasonTopic: {
+          include: {
+            season: true,
+            topic: true,
+            seasonTopicProblems: {
+              include: { problem: { include: { tags: true } } },
+            },
+          },
+        },
+        groupSeasonTopicProblems: {
+          include: {
+            userGroupSeasonTopicProblems: {
+              include: {
+                problem: { include: { tags: true } },
+              }
+            },
+            problem: { include: { tags: true } }
+          },
+        },
+      },
     })
   }
 

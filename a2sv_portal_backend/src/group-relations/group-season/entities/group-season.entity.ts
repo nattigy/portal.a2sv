@@ -41,8 +41,8 @@ export class GroupSeason {
   @Field(() => [GroupSeasonTopic])
   groupSeasonTopics: GroupSeasonTopic[]
 
-  @Field(() => [GroupSeasonContest])
-  groupSeasonContests: GroupSeasonContest[]
+  // @Field(() => [GroupSeasonContest])
+  // groupSeasonContests: GroupSeasonContest[]
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date

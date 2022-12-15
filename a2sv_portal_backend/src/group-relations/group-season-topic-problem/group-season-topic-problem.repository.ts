@@ -6,7 +6,11 @@ import { GroupSeasonTopicProblem } from './entities/group-season-topic-problem.e
 @Injectable()
 export class GroupSeasonTopicProblemRepository {
   include = {
-    userGroupSeasonTopicProblems: true,
+    userGroupSeasonTopicProblems: {
+      include: {
+        problem: { include: { tags: true } },
+      }
+    },
     problem: { include: { tags: true } }
   }
 

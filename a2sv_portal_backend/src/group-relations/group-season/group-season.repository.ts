@@ -21,7 +21,14 @@ export class GroupSeasonRepository {
           },
         },
         groupSeasonTopicProblems: {
-          include: { problem: { include: { tags: true } } },
+          include: {
+            userGroupSeasonTopicProblems: {
+              include: {
+                problem: { include: { tags: true } },
+              }
+            },
+            problem: { include: { tags: true } }
+          },
         },
       },
     },
@@ -48,10 +55,7 @@ export class GroupSeasonRepository {
   }): Promise<GroupSeason[]> {
     const { skip, take, where, orderBy } = params
     return this.prismaService.groupSeason.findMany({
-      skip,
-      take,
-      where,
-      orderBy,
+      skip, take, where, orderBy,
       include: this.include,
     })
   }
@@ -69,8 +73,7 @@ export class GroupSeasonRepository {
   }): Promise<GroupSeason> {
     const { where, data } = params
     return this.prismaService.groupSeason.update({
-      data,
-      where,
+      data, where,
       include: this.include,
     })
   }
