@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { GroupSeasonTopicService } from './group-season-topic.service'
 import { GroupSeasonTopic } from './entities/group-season-topic.entity'
 import {
@@ -18,6 +18,20 @@ export class GroupSeasonTopicResolver {
     createGroupSeasonTopicInput: CreateGroupSeasonTopicInput,
   ): Promise<GroupSeasonTopic> {
     return this.groupSeasonTopicService.addTopicToGroupSeason(createGroupSeasonTopicInput)
+  }
+  @Mutation(() => Int)
+  async addTopicsToGroupSeason(
+    @Args('groupSeasonTopicId') { groupId, seasonId }: GroupSeasonTopicId,
+    @Args('topicIds', { type: () => [String] }) topicIds: string[],
+  ): Promise<number> {
+    for (const topicId of topicIds) {
+      await this.groupSeasonTopicService.addTopicToGroupSeason({
+        groupId,
+        topicId,
+        seasonId,
+      })
+    }
+    return topicIds.length
   }
 
   @Query(() => GroupSeasonTopic)
