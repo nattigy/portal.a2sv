@@ -41,6 +41,8 @@ Table Contest {
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   seasonContests SeasonContest [not null]
+  GroupSeasonContest GroupSeasonContest [not null]
+  UserGroupSeasonContest UserGroupSeasonContest [not null]
 }
 
 Table Topic {
@@ -50,6 +52,8 @@ Table Topic {
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   seasonTopics SeasonTopic [not null]
+  GroupSeasonTopic GroupSeasonTopic [not null]
+  UserGroupSeasonTopic UserGroupSeasonTopic [not null]
 }
 
 Table Problem {
@@ -180,6 +184,7 @@ Table GroupSeasonTopic {
   updatedAt DateTime
   groupSeason GroupSeason [not null]
   seasonTopic SeasonTopic [not null]
+  topic Topic [not null]
   groupSeasonTopicProblems GroupSeasonTopicProblem [not null]
   userGroupSeasonTopics UserGroupSeasonTopic [not null]
 
@@ -213,6 +218,7 @@ Table GroupSeasonContest {
   updatedAt DateTime
   groupSeason GroupSeason [not null]
   seasonContest SeasonContest [not null]
+  contest Contest [not null]
   groupSeasonContestProblems GroupSeasonContestProblem [not null]
   userGroupSeasonContests UserGroupSeasonContest [not null]
 
@@ -264,6 +270,7 @@ Table UserGroupSeasonTopic {
   updatedAt DateTime
   userGroupSeason UserGroupSeason [not null]
   groupSeasonTopic GroupSeasonTopic [not null]
+  topic Topic [not null]
   userGroupSeasonTopicProblems UserGroupSeasonTopicProblem [not null]
 
   indexes {
@@ -307,6 +314,7 @@ Table UserGroupSeasonContest {
   updatedAt DateTime
   userGroupSeason UserGroupSeason [not null]
   groupSeasonContest GroupSeasonContest [not null]
+  contest Contest [not null]
   userGroupSeasonContestProblems UserGroupSeasonContestProblem [not null]
 
   indexes {
@@ -492,6 +500,8 @@ Ref: GroupSeasonTopic.(groupId, seasonId) > GroupSeason.(groupId, seasonId) [del
 
 Ref: GroupSeasonTopic.(seasonId, topicId) > SeasonTopic.(seasonId, topicId) [delete: Cascade]
 
+Ref: GroupSeasonTopic.topicId > Topic.id [delete: Cascade]
+
 Ref: GroupSeasonTopicProblem.(groupId, seasonId, topicId) > GroupSeasonTopic.(groupId, seasonId, topicId) [delete: Cascade]
 
 Ref: GroupSeasonTopicProblem.(seasonId, topicId, problemId) > SeasonTopicProblem.(seasonId, topicId, problemId) [delete: Cascade]
@@ -501,6 +511,8 @@ Ref: GroupSeasonTopicProblem.problemId > Problem.id [delete: Cascade]
 Ref: GroupSeasonContest.(groupId, seasonId) > GroupSeason.(groupId, seasonId) [delete: Cascade]
 
 Ref: GroupSeasonContest.(seasonId, contestId) > SeasonContest.(seasonId, contestId) [delete: Cascade]
+
+Ref: GroupSeasonContest.contestId > Contest.id [delete: Cascade]
 
 Ref: GroupSeasonContestProblem.(groupId, seasonId, contestId) > GroupSeasonContest.(groupId, seasonId, contestId) [delete: Cascade]
 
@@ -516,6 +528,8 @@ Ref: UserGroupSeasonTopic.(userId, groupId, seasonId) > UserGroupSeason.(userId,
 
 Ref: UserGroupSeasonTopic.(groupId, seasonId, topicId) > GroupSeasonTopic.(groupId, seasonId, topicId) [delete: Cascade]
 
+Ref: UserGroupSeasonTopic.topicId > Topic.id [delete: Cascade]
+
 Ref: UserGroupSeasonTopicProblem.(userId, groupId, seasonId, topicId) > UserGroupSeasonTopic.(userId, groupId, seasonId, topicId) [delete: Cascade]
 
 Ref: UserGroupSeasonTopicProblem.(groupId, seasonId, topicId, problemId) > GroupSeasonTopicProblem.(groupId, seasonId, topicId, problemId) [delete: Cascade]
@@ -525,6 +539,8 @@ Ref: UserGroupSeasonTopicProblem.problemId > Problem.id [delete: Cascade]
 Ref: UserGroupSeasonContest.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
 
 Ref: UserGroupSeasonContest.(groupId, seasonId, contestId) > GroupSeasonContest.(groupId, seasonId, contestId) [delete: Cascade]
+
+Ref: UserGroupSeasonContest.contestId > Contest.id [delete: Cascade]
 
 Ref: UserGroupSeasonContestProblem.(userId, groupId, seasonId, contestId) > UserGroupSeasonContest.(userId, groupId, seasonId, contestId) [delete: Cascade]
 

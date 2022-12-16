@@ -5,6 +5,8 @@ import { UserGroupSeasonContest } from './entities/user-group-season-contest.ent
 
 @Injectable()
 export class UserGroupSeasonContestRepository {
+  constructor(private readonly prismaService: PrismaService) {}
+
   include = {
     userGroupSeasonContestProblems: {
       include: {
@@ -12,8 +14,6 @@ export class UserGroupSeasonContestRepository {
       },
     },
   }
-
-  constructor(private readonly prismaService: PrismaService) {}
 
   async create(
     data: Prisma.UserGroupSeasonContestCreateInput,
@@ -33,7 +33,7 @@ export class UserGroupSeasonContestRepository {
     take?: number
     where?: Prisma.UserGroupSeasonContestWhereInput
     orderBy?: Prisma.UserGroupSeasonContestOrderByWithRelationInput
-  }) {
+  }): Promise<UserGroupSeasonContest[]> {
     const { skip, take, where, orderBy } = params
     return this.prismaService.userGroupSeasonContest.findMany({
       skip,
@@ -44,7 +44,9 @@ export class UserGroupSeasonContestRepository {
     })
   }
 
-  async findOne(where: Prisma.UserGroupSeasonContestWhereUniqueInput) {
+  async findOne(
+    where: Prisma.UserGroupSeasonContestWhereUniqueInput,
+  ): Promise<UserGroupSeasonContest> {
     return this.prismaService.userGroupSeasonContest.findUnique({
       where,
       include: this.include,
@@ -54,7 +56,7 @@ export class UserGroupSeasonContestRepository {
   async update(params: {
     where: Prisma.UserGroupSeasonContestWhereUniqueInput
     data: Prisma.UserGroupSeasonContestUpdateInput
-  }) {
+  }): Promise<UserGroupSeasonContest> {
     const { where, data } = params
     return this.prismaService.userGroupSeasonContest.update({
       data,

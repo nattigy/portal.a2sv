@@ -6,6 +6,7 @@ import { UserGroupSeasonTopic } from './entities/user-group-season-topic.entity'
 @Injectable()
 export class UserGroupSeasonTopicRepository {
   include = {
+    topic: true,
     userGroupSeasonTopicProblems: {
       include: {
         problem: { include: { tags: true } },

@@ -9,6 +9,7 @@ export class UserGroupSeasonRepository {
     user: true,
     userGroupSeasonTopics: {
       include: {
+        topic: true,
         userGroupSeasonTopicProblems: {
           include: {
             problem: { include: { tags: true } },
