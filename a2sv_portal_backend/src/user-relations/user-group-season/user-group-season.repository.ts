@@ -17,6 +17,18 @@ export class UserGroupSeasonRepository {
         },
       },
     },
+    userGroupSeasonContests: {
+      include: {
+        contest: {
+          include: { problems: { include: { tags: true } } },
+        },
+        userGroupSeasonContestProblems: {
+          include: {
+            problem: { include: { tags: true } },
+          },
+        },
+      },
+    },
   }
 
   constructor(private readonly prismaService: PrismaService) {}

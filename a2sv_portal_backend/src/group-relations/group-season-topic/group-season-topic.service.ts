@@ -1,5 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { CreateGroupSeasonTopicInput, GroupSeasonTopicId } from './dto/create-group-season-topic.input'
+import {
+  CreateGroupSeasonTopicInput,
+  GroupSeasonTopicId,
+} from './dto/create-group-season-topic.input'
 import { PrismaService } from '../../prisma/prisma.service'
 import { GroupSeasonTopicRepository } from './group-season-topic.repository'
 import { FilterGroupSeasonTopicInput } from './dto/filter-group-season-topic.input'
@@ -10,8 +13,7 @@ export class GroupSeasonTopicService {
   constructor(
     private readonly groupSeasonTopicRepository: GroupSeasonTopicRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async addTopicToGroupSeason({ groupId, seasonId, topicId }: CreateGroupSeasonTopicInput) {
     // TODO: search for groupSeason if groupSeason not found throw groupSeason not found exception
@@ -22,7 +24,7 @@ export class GroupSeasonTopicService {
       where: { seasonId_topicId: { seasonId, topicId } },
     })
     if (!seasonTopic) {
-      throw new NotFoundException('Topic hasn\'t been added to the season yet!')
+      throw new NotFoundException("Topic hasn't been added to the season yet!")
     }
     return this.groupSeasonTopicRepository.create({
       groupSeason: { connect: { groupId_seasonId: { groupId, seasonId } } },

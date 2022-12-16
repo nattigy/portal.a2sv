@@ -1,8 +1,6 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Resolver } from '@nestjs/graphql'
 import { GroupSeasonContestProblemService } from './group-season-contest-problem.service'
 import { GroupSeasonContestProblem } from './entities/group-season-contest-problem.entity'
-import { CreateGroupSeasonContestProblemInput } from './dto/create-group-season-contest-problem.input'
-import { UpdateGroupSeasonContestProblemInput } from './dto/update-group-season-contest-problem.input'
 
 @Resolver(() => GroupSeasonContestProblem)
 export class GroupSeasonContestProblemResolver {

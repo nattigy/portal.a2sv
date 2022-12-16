@@ -7,15 +7,6 @@ import { GroupSeasonTopic } from './entities/group-season-topic.entity'
 export class GroupSeasonTopicRepository {
   include = {
     topic: true,
-    seasonTopic: {
-      include: {
-        season: true,
-        topic: true,
-        seasonTopicProblems: {
-          include: { problem: { include: { tags: true } } },
-        },
-      },
-    },
     groupSeasonTopicProblems: {
       include: {
         userGroupSeasonTopicProblems: {
