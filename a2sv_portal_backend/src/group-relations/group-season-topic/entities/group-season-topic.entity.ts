@@ -13,7 +13,7 @@ export class GroupSeasonTopic {
   @Field({ description: 'Example field (placeholder)' })
   topicId: string
 
-  @Field(() => SeasonTopic, { nullable: true, description: 'Example field (placeholder)' })
+  @Field(() => SeasonTopic, { description: 'Example field (placeholder)' })
   seasonTopic: SeasonTopic
   //
   // @Field(() => GroupSeason, { nullable: true, description: 'Example field (placeholder)' })
