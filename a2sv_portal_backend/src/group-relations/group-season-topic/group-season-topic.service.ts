@@ -25,15 +25,16 @@ export class GroupSeasonTopicService {
       where: { groupId_seasonId: { groupId, seasonId } },
     })
 
-    if (!foundGroupSeason) throw new NotFoundException(`Group has not been added to this Season!`)
+    if (!foundGroupSeason)
+      throw new NotFoundException(`Group has not been added to this Season!`)
 
-    if(!foundGroupSeason.isActive) throw new Error(`Group Season is not Active!`)
+    if (!foundGroupSeason.isActive) throw new Error(`Group Season is not Active!`)
 
     const foundTopic = await this.prismaService.topic.findUnique({
       where: { id: topicId },
     })
 
-    if(!foundTopic) throw new NotFoundException(`Topic with id ${topicId} does not exist!`)
+    if (!foundTopic) throw new NotFoundException(`Topic with id ${topicId} does not exist!`)
 
     await this.prismaService.seasonTopic.upsert({
       where: { seasonId_topicId: { seasonId, topicId } },
@@ -41,7 +42,7 @@ export class GroupSeasonTopicService {
         season: { connect: { id: seasonId } },
         topic: { connect: { id: topicId } },
       },
-      update: {}
+      update: {},
     })
 
     return this.groupSeasonTopicRepository.create({

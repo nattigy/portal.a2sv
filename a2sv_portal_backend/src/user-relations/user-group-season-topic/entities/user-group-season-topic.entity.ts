@@ -12,6 +12,9 @@ export class UserGroupSeasonTopic {
   topicId: string
 
   @Field()
+  groupId: string
+
+  @Field()
   seasonId: string
 
   @Field(() => Topic)
