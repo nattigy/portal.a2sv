@@ -27,16 +27,6 @@ export class UserGroupSeasonTopicProblemResolver {
   //     pageInfoInput,
   //   )
   // }
-  //
-  // @Mutation(() => UserGroupSeasonTopicProblem)
-  // async updateUserGroupSeasonTopicProblem(
-  //   @Args('updateUserGroupSeasonTopicProblemInput')
-  //   updateUserGroupSeasonTopicProblemInput: UpdateUserGroupSeasonTopicProblemInput,
-  // ): Promise<UserGroupSeasonTopicProblem> {
-  //   return this.seasonTopicUserProblemService.updateUserGroupSeasonTopicProblem(
-  //     updateUserGroupSeasonTopicProblemInput,
-  //   )
-  // }
 
   // @Mutation(() => Int)
   // async removeUserGroupSeasonTopicProblem(
