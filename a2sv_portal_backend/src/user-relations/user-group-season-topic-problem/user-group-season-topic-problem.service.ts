@@ -6,12 +6,8 @@ import { FilterUserGroupSeasonTopicProblemInput } from './dto/filter-user-group-
 import { PaginationInput } from '../../common/page/pagination.input'
 import { PaginationUserGroupSeasonTopicProblem } from '../../common/page/pagination-info'
 import { UserGroupSeasonTopicProblemRepository } from './user-group-season-topic-problem.repository'
-import {
-  GroupSeasonTopicProblem,
-} from 'src/group-relations/group-season-topic-problem/entities/group-season-topic-problem.entity'
-import {
-  GroupSeasonTopicProblemRepository,
-} from 'src/group-relations/group-season-topic-problem/group-season-topic-problem.repository'
+import { GroupSeasonTopicProblem } from 'src/group-relations/group-season-topic-problem/entities/group-season-topic-problem.entity'
+import { GroupSeasonTopicProblemRepository } from 'src/group-relations/group-season-topic-problem/group-season-topic-problem.repository'
 import { UserGroupSeasonTopicProblemId } from './dto/create-user-group-season-topic-problem.input'
 
 @Injectable()
@@ -20,16 +16,15 @@ export class UserGroupSeasonTopicProblemService {
     private readonly userGroupSeasonTopicProblemRepository: UserGroupSeasonTopicProblemRepository,
     private readonly groupSeasonTopicProblemRepository: GroupSeasonTopicProblemRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async userGroupSeasonTopicProblem({
-                                      seasonId,
-                                      groupId,
-                                      topicId,
-                                      problemId,
-                                      userId,
-                                    }: UserGroupSeasonTopicProblemId): Promise<UserGroupSeasonTopicProblem> {
+    seasonId,
+    groupId,
+    topicId,
+    problemId,
+    userId,
+  }: UserGroupSeasonTopicProblemId): Promise<UserGroupSeasonTopicProblem> {
     let userGroupSeasonTopicProblem: UserGroupSeasonTopicProblem =
       await this.userGroupSeasonTopicProblemRepository.findOne({
         userId_groupId_seasonId_topicId_problemId: {
@@ -82,13 +77,16 @@ export class UserGroupSeasonTopicProblemService {
       })
     const groupSeasonTopicProblems: GroupSeasonTopicProblem[] =
       await this.groupSeasonTopicProblemRepository.findAll({
-        skip, take,
+        skip,
+        take,
         where: { groupId, seasonId, topicId },
       })
     const mappedUGSTPs = []
     for (const groupSeasonTopicProblem of groupSeasonTopicProblems) {
-      const filtered = userGroupSeasonTopicProblems.filter(u => u.problemId === groupSeasonTopicProblem.problemId)
-      if(filtered.length > 0){
+      const filtered = userGroupSeasonTopicProblems.filter(
+        u => u.problemId === groupSeasonTopicProblem.problemId,
+      )
+      if (filtered.length > 0) {
         mappedUGSTPs.push(filtered[0])
       } else {
         mappedUGSTPs.push({
@@ -113,9 +111,9 @@ export class UserGroupSeasonTopicProblemService {
   }
 
   async updateUserGroupSeasonTopicProblem({
-                                            id,
-                                            ...updates
-                                          }: UpdateUserGroupSeasonTopicProblemInput): Promise<UserGroupSeasonTopicProblem> {
+    id,
+    ...updates
+  }: UpdateUserGroupSeasonTopicProblemInput): Promise<UserGroupSeasonTopicProblem> {
     const { seasonId, problemId, userId, groupId, topicId } = id
     return this.prismaService.userGroupSeasonTopicProblem.upsert({
       where: {

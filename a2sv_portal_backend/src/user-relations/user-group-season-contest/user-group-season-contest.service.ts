@@ -71,11 +71,14 @@ export class UserGroupSeasonContestService {
           connect: { groupId_seasonId_contestId: { groupId, seasonId, contestId } },
         },
         contest: {
-          connect: {id: contestId}
-        }
+          connect: { id: contestId },
+        },
       },
       update: updates,
       include: {
+        contest: {
+          include: { problems: { include: { tags: true } } },
+        },
         userGroupSeasonContestProblems: {
           include: {
             problem: { include: { tags: true } },

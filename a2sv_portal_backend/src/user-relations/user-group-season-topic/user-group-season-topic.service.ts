@@ -7,12 +7,8 @@ import { PaginationInput } from '../../common/page/pagination.input'
 import { FilterUserGroupSeasonTopicInput } from './dto/filter-user-group-season-topic-input'
 import { PaginationUserGroupSeasonTopic } from '../../common/page/pagination-info'
 import { UserGroupSeasonTopicRepository } from './user-group-season-topic.repository'
-import {
-  UserGroupSeasonTopicProblemService,
-} from '../user-group-season-topic-problem/user-group-season-topic-problem.service'
-import {
-  UpdateUserGroupSeasonTopicProblemInput,
-} from '../user-group-season-topic-problem/dto/update-user-group-season-topic-problem.input'
+import { UserGroupSeasonTopicProblemService } from '../user-group-season-topic-problem/user-group-season-topic-problem.service'
+import { UpdateUserGroupSeasonTopicProblemInput } from '../user-group-season-topic-problem/dto/update-user-group-season-topic-problem.input'
 import { GroupSeasonTopicRepository } from '../../group-relations/group-season-topic/group-season-topic.repository'
 import { ComfortLevelEnum } from '@prisma/client'
 
@@ -23,15 +19,14 @@ export class UserGroupSeasonTopicService {
     private readonly userGroupSeasonTopicRepository: UserGroupSeasonTopicRepository,
     private readonly groupSeasonTopicRepository: GroupSeasonTopicRepository,
     private readonly userGroupSeasonTopicProblemService: UserGroupSeasonTopicProblemService,
-  ) {
-  }
+  ) {}
 
   async userGroupSeasonTopic({
-                               userId,
-                               groupId,
-                               seasonId,
-                               topicId,
-                             }: UserGroupSeasonTopicId): Promise<UserGroupSeasonTopic> {
+    userId,
+    groupId,
+    seasonId,
+    topicId,
+  }: UserGroupSeasonTopicId): Promise<UserGroupSeasonTopic> {
     let userGroupSeasonTopic = await this.userGroupSeasonTopicRepository.findOne({
       userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },
     })
@@ -45,11 +40,15 @@ export class UserGroupSeasonTopicService {
     if (userGroupSeasonTopic === undefined || userGroupSeasonTopic === null) {
       const groupSeasonTopic = await this.groupSeasonTopicRepository.findOne({
         groupId_seasonId_topicId: {
-          groupId, seasonId, topicId,
+          groupId,
+          seasonId,
+          topicId,
         },
       })
       userGroupSeasonTopic = {
-        seasonId, topicId, userId,
+        seasonId,
+        topicId,
+        userId,
         userGroupSeasonTopicProblems: [],
         comfortLevel: ComfortLevelEnum.UNCOMFORTABLE,
         topic: groupSeasonTopic.topic,
@@ -84,9 +83,9 @@ export class UserGroupSeasonTopicService {
   }
 
   async updateUserGroupSeasonTopic({
-                                     id,
-                                     ...updates
-                                   }: UpdateUserGroupSeasonTopicInput): Promise<UserGroupSeasonTopic> {
+    id,
+    ...updates
+  }: UpdateUserGroupSeasonTopicInput): Promise<UserGroupSeasonTopic> {
     const { userId, groupId, seasonId, topicId } = id
     // TODO: get group from user, and search for GroupSeasonTopic if it doesn't exist,
     // TODO: throw NotFoundException "topic hasn't been added to your group"
@@ -135,11 +134,11 @@ export class UserGroupSeasonTopicService {
   }
 
   async removeUserGroupSeasonTopic({
-                                     userId,
-                                     groupId,
-                                     seasonId,
-                                     topicId,
-                                   }: UserGroupSeasonTopicId) {
+    userId,
+    groupId,
+    seasonId,
+    topicId,
+  }: UserGroupSeasonTopicId) {
     try {
       await this.userGroupSeasonTopicRepository.remove({
         userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },

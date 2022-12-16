@@ -12,18 +12,26 @@ export class GroupSeasonRepository {
     groupSeasonTopics: {
       include: {
         topic: true,
-        seasonTopic: {
-          include: {
-            season: true,
-            topic: true,
-            seasonTopicProblems: {
-              include: { problem: { include: { tags: true } } },
-            },
-          },
-        },
         groupSeasonTopicProblems: {
           include: {
             userGroupSeasonTopicProblems: {
+              include: {
+                problem: { include: { tags: true } },
+              },
+            },
+            problem: { include: { tags: true } },
+          },
+        },
+      },
+    },
+    groupSeasonContests: {
+      include: {
+        contest: {
+          include: { problems: { include: { tags: true } } },
+        },
+        groupSeasonContestProblems: {
+          include: {
+            userGroupSeasonContestProblems: {
               include: {
                 problem: { include: { tags: true } },
               },
