@@ -19,13 +19,31 @@ export class GroupSeasonTopicService {
     // TODO: search for groupSeason if groupSeason not found throw groupSeason not found exception
     // TODO: if there is a groupSeason and if the groupSeason is in active throw "group season must be active"
     // TODO: search for the topic and if the topic is not found return topic not found exception
-    // TODO: if seasonTopic not found throw "topic hasn't been added to the season"
-    const seasonTopic = await this.prismaService.seasonTopic.findUnique({
-      where: { seasonId_topicId: { seasonId, topicId } },
+    // TODO: if seasonTopic not found add it else leave it as it is (use upsert for this)
+
+    const foundGroupSeason = await this.prismaService.groupSeason.findUnique({
+      where: { groupId_seasonId: { groupId, seasonId } },
     })
-    if (!seasonTopic) {
-      throw new NotFoundException("Topic hasn't been added to the season yet!")
-    }
+
+    if (!foundGroupSeason) throw new NotFoundException(`Group has not been added to this Season!`)
+
+    if(!foundGroupSeason.isActive) throw new Error(`Group Season is not Active!`)
+
+    const foundTopic = await this.prismaService.topic.findUnique({
+      where: { id: topicId },
+    })
+
+    if(!foundTopic) throw new NotFoundException(`Topic with id ${topicId} does not exist!`)
+
+    await this.prismaService.seasonTopic.upsert({
+      where: { seasonId_topicId: { seasonId, topicId } },
+      create: {
+        season: { connect: { id: seasonId } },
+        topic: { connect: { id: topicId } },
+      },
+      update: {}
+    })
+
     return this.groupSeasonTopicRepository.create({
       groupSeason: { connect: { groupId_seasonId: { groupId, seasonId } } },
       seasonTopic: { connect: { seasonId_topicId: { topicId, seasonId } } },
