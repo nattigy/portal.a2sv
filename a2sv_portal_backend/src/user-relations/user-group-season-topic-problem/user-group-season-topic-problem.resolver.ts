@@ -6,8 +6,7 @@ import { UserGroupSeasonTopicProblemService } from './user-group-season-topic-pr
 export class UserGroupSeasonTopicProblemResolver {
   constructor(
     private readonly seasonTopicUserProblemService: UserGroupSeasonTopicProblemService,
-  ) {
-  }
+  ) {}
 
   // @Query(() => UserGroupSeasonTopicProblem)
   // async userGroupSeasonTopicProblem(

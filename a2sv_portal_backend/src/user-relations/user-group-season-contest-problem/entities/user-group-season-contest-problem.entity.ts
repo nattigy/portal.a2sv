@@ -8,6 +8,12 @@ export class UserGroupSeasonContestProblem {
   userId: string
 
   @Field()
+  groupId: string
+
+  @Field()
+  seasonId: string
+
+  @Field()
   contestId: string
 
   @Field()

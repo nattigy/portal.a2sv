@@ -1,11 +1,6 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { PaginationInput } from '../common/page/pagination.input'
+import { Resolver } from '@nestjs/graphql'
 import { ContestService } from './contest.service'
-import { CreateContestInput } from './dto/create-contest.input'
-import { UpdateContestInput } from './dto/update-contest.input'
 import { Contest } from './entities/contest.entity'
-import { FilterContestInput } from './dto/filter-contest.input'
-import { PaginationContest } from '../common/page/pagination-info'
 
 @Resolver(() => Contest)
 export class ContestResolver {
