@@ -1,43 +1,44 @@
-import { Resolver } from '@nestjs/graphql'
+import { Args, Query, Resolver } from '@nestjs/graphql'
 import { UserGroupSeasonContestProblem } from './entities/user-group-season-contest-problem.entity'
 import { UserGroupSeasonContestProblemService } from './user-group-season-contest-problem.service'
+import { UserGroupSeasonContestProblemId } from './dto/create-user-group-season-contest-problem.input'
 
 @Resolver(() => UserGroupSeasonContestProblem)
 export class UserGroupSeasonContestProblemResolver {
   constructor(
-    private readonly userGroupContestProblemService: UserGroupSeasonContestProblemService,
+    private readonly userGroupSeasonContestProblemService: UserGroupSeasonContestProblemService,
   ) {}
 
+  @Query(() => UserGroupSeasonContestProblem)
+  async userGroupSeasonContestProblem(
+    @Args('userGroupSeasonContestProblemId') userGroupSeasonContestProblemId: UserGroupSeasonContestProblemId,
+  ) {
+    return this.userGroupSeasonContestProblemService.userGroupSeasonContestProblem(userGroupSeasonContestProblemId)
+  }
+
   // @Query(() => PaginationUserGroupSeasonContestProblem)
-  // async userContestProblems(
-  //   @Args('filterUserContestProblemInput', { nullable: true})
-  //   filterUserContestProblemInput?: FilterUserContestProblemInput,
+  // async userGroupSeasonContestProblems(
+  //   @Args('filterUserGroupSeasonContestProblemInput', { nullable: true})
+  //   filterUserGroupSeasonContestProblemInput?: FilterUserGroupSeasonContestProblemInput,
   //   @Args('pageInfoInput', {  nullable: true }) pageInfoInput?: PaginationInput,
   // ) {
-  //   return this.userGroupContestProblemService.userContestProblems(filterUserContestProblemInput, pageInfoInput)
-  // }
-  //
-  // @Query(() => UserGroupSeasonContestProblem)
-  // async userContestProblem(
-  //   @Args('userContestProblemId') userContestProblemId: UserContestProblemId,
-  // ) {
-  //   return this.userGroupContestProblemService.userContestProblem(userContestProblemId)
+  //   return this.userGroupSeasonContestProblemService.userGroupSeasonContestProblems(filterUserGroupSeasonContestProblemInput, pageInfoInput)
   // }
   //
   // @Mutation(() => UserGroupSeasonContestProblem)
-  // async updateUserContestProblem(
-  //   @Args('updateUserContestProblemInput')
-  //   updateUserContestProblemInput: UpdateUserGroupSeasonContestProblemInput,
+  // async updateUserGroupSeasonContestProblem(
+  //   @Args('updateUserGroupSeasonContestProblemInput')
+  //   updateUserGroupSeasonContestProblemInput: UpdateUserGroupSeasonContestProblemInput,
   // ) {
-  //   return this.userGroupContestProblemService.updateUserContestProblem(updateUserContestProblemInput)
+  //   return this.userGroupSeasonContestProblemService.updateUserGroupSeasonContestProblem(updateUserGroupSeasonContestProblemInput)
   // }
   //
   // @Mutation(() => Int)
-  // async removeUserGroupContestProblem(
+  // async removeUserGroupSeasonContestProblem(
   //   @Args('userGroupSeasonContestProblemId')
   //   userGroupSeasonContestProblemId: UserGroupSeasonContestProblemId,
   // ) {
-  //   return this.userGroupContestProblemService.removeUserGroupContestProblem(
+  //   return this.userGroupSeasonContestProblemService.removeUserGroupSeasonContestProblem(
   //     userGroupSeasonContestProblemId,
   //   )
   // }

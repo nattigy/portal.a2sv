@@ -14,11 +14,11 @@ export class GroupSeasonContest {
   contestId: string
 
   // TODO: add all necessary fields from contest
-  @Field()
+  @Field(() => Date)
   startTime: Date
 
-  @Field()
-  endTime:Date
+  @Field(() => Date)
+  endTime: Date
 
   @Field(() => Contest)
   contest: Contest

@@ -48,7 +48,43 @@ export class GroupSeasonRepository {
   async create(data: Prisma.GroupSeasonCreateInput): Promise<GroupSeason> {
     return this.prismaService.groupSeason.create({
       data,
-      include: this.include,
+      include: {
+        head: true,
+        group: true,
+        season: true,
+        groupSeasonTopics: {
+          include: {
+            topic: true,
+            groupSeasonTopicProblems: {
+              include: {
+                userGroupSeasonTopicProblems: {
+                  include: {
+                    problem: { include: { tags: true } },
+                  },
+                },
+                problem: { include: { tags: true } },
+              },
+            },
+          },
+        },
+        groupSeasonContests: {
+          include: {
+            contest: {
+              include: { problems: { include: { tags: true } } },
+            },
+            groupSeasonContestProblems: {
+              include: {
+                userGroupSeasonContestProblems: {
+                  include: {
+                    problem: { include: { tags: true } },
+                  },
+                },
+                problem: { include: { tags: true } },
+              },
+            },
+          },
+        },
+      },
     })
   }
 

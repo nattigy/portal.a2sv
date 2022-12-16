@@ -1,6 +1,7 @@
-import { Resolver } from '@nestjs/graphql'
+import { Args, Query, Resolver } from '@nestjs/graphql'
 import { UserGroupSeasonTopicProblem } from './entities/user-group-season-topic-problem.entity'
 import { UserGroupSeasonTopicProblemService } from './user-group-season-topic-problem.service'
+import { UserGroupSeasonTopicProblemId } from './dto/create-user-group-season-topic-problem.input'
 
 @Resolver(() => UserGroupSeasonTopicProblem)
 export class UserGroupSeasonTopicProblemResolver {
@@ -8,13 +9,13 @@ export class UserGroupSeasonTopicProblemResolver {
     private readonly seasonTopicUserProblemService: UserGroupSeasonTopicProblemService,
   ) {}
 
-  // @Query(() => UserGroupSeasonTopicProblem)
-  // async userGroupSeasonTopicProblem(
-  //   @Args('UserGroupSeasonTopicProblemId') UserGroupSeasonTopicProblemId: UserGroupSeasonTopicProblemId,
-  // ): Promise<UserGroupSeasonTopicProblem> {
-  //   return this.seasonTopicUserProblemService.userGroupSeasonTopicProblem(UserGroupSeasonTopicProblemId)
-  // }
-  //
+  @Query(() => UserGroupSeasonTopicProblem)
+  async userGroupSeasonTopicProblem(
+    @Args('UserGroupSeasonTopicProblemId') UserGroupSeasonTopicProblemId: UserGroupSeasonTopicProblemId,
+  ): Promise<UserGroupSeasonTopicProblem> {
+    return this.seasonTopicUserProblemService.userGroupSeasonTopicProblem(UserGroupSeasonTopicProblemId)
+  }
+
   // @Query(() => PaginationUserGroupSeasonTopicProblem)
   // async userGroupSeasonTopicProblems(
   //   @Args('filterUserGroupSeasonTopicProblemInput')
