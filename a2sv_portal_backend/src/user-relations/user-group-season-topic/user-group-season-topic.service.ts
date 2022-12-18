@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common'
+/* eslint-disable no-throw-literal */
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { UserGroupSeasonTopicId } from './dto/create-user-group-season-topic.input'
 import { UpdateUserGroupSeasonTopicInput } from './dto/update-user-group-season-topic.input'
 import { PrismaService } from '../../prisma/prisma.service'
@@ -87,10 +88,48 @@ export class UserGroupSeasonTopicService {
                                      id,
                                      ...updates
                                    }: UpdateUserGroupSeasonTopicInput): Promise<UserGroupSeasonTopic> {
-    const { userId, groupId, seasonId, topicId } = id
+    const { userId, seasonId, topicId } = id
     // TODO: get group from user, and search for GroupSeasonTopic if it doesn't exist,
-    // TODO: throw NotFoundException "topic hasn't been added to your group"
+    
+    const user = await this.prismaService.user.findUnique({
+        where:{
+          id:userId
+        }
+      })
+      
+    if(!user){
+        throw 'user not assigned group';
+    }
+    const groupId = user.groupId;
+    
+     // TODO: throw NotFoundException "topic hasn't been added to your group"
+    const groupSesaonTopic = this.prismaService.groupSeasonTopic.findUnique({
+      where:{
+        groupId_seasonId_topicId:{
+          groupId,seasonId,topicId
+        }
+      }
+    })
+
+    if(!groupSesaonTopic){
+      throw new NotFoundException()
+    }
     // TODO: check if the groupSeason the user in is active if not throw "season is not active error"
+    const groupSeasonActive= this.prismaService.groupSeason.findUnique({
+      where:{
+        groupId_seasonId:{
+          groupId,seasonId
+        }
+      },
+      select:{
+        isActive:true
+      }
+    })
+
+    if(!groupSeasonActive){
+      throw new NotFoundException("Season For that group is not active");
+    }
+    
     // TODO: upsert UserGroupSeason
     return this.prismaService.userGroupSeasonTopic.upsert({
       where: {
@@ -124,12 +163,7 @@ export class UserGroupSeasonTopicService {
   async updateUserGroupSeasonTopicProblem(
     updateUserGroupSeasonTopicProblemInput: UpdateUserGroupSeasonTopicProblemInput,
   ) {
-    // TODO: get group from the user,
-    // TODO: search for GroupSeasonTopicProblem from the groupId if not found,
-    // TODO: throw NotFoundException "problem under this topic hasn't been added to your group"
-    // TODO: check if the groupSeason the user in is active if not throw "season is not active error"
-    // TODO: upsert UserGroupSeason and then UserGroupSeasonTopic
-    return this.userGroupSeasonTopicProblemService.updateUserGroupSeasonTopicProblem(
+  return this.userGroupSeasonTopicProblemService.updateUserGroupSeasonTopicProblem(
       updateUserGroupSeasonTopicProblemInput,
     )
   }

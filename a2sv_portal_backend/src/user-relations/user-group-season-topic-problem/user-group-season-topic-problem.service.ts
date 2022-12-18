@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
 import { UpdateUserGroupSeasonTopicProblemInput } from './dto/update-user-group-season-topic-problem.input'
 import { UserGroupSeasonTopicProblem } from './entities/user-group-season-topic-problem.entity'
@@ -13,6 +13,7 @@ import {
   GroupSeasonTopicProblemRepository,
 } from 'src/group-relations/group-season-topic-problem/group-season-topic-problem.repository'
 import { UserGroupSeasonTopicProblemId } from './dto/create-user-group-season-topic-problem.input'
+import { BadRequestException } from '@nestjs/common/exceptions'
 
 @Injectable()
 export class UserGroupSeasonTopicProblemService {
@@ -116,7 +117,49 @@ export class UserGroupSeasonTopicProblemService {
                                             id,
                                             ...updates
                                           }: UpdateUserGroupSeasonTopicProblemInput): Promise<UserGroupSeasonTopicProblem> {
-    const { seasonId, problemId, userId, groupId, topicId } = id
+    const { seasonId, problemId, userId, topicId } = id
+    // TODO: get group from the user,
+    const user = await this.prismaService.user.findUnique({
+      where:{
+        id:userId
+      }
+    })
+
+    if(!user){
+      throw new NotFoundException();
+    }
+    const groupId = user.groupId;
+    
+    // TODO: check if the groupSeason the user in is active if not throw "season is not active error"
+    // TODO: upsert UserGroupSeason and then UserGroupSeasonTopic
+   const groupSeason = await this.prismaService.groupSeason.findUnique({
+      where:{
+        groupId_seasonId:{
+          groupId,seasonId
+        }
+      }
+    })
+    if(!groupSeason){
+      throw new NotFoundException();
+    }else if(!groupSeason.isActive){
+      throw new BadRequestException("Season is not active for this Group");
+    }
+
+    // TODO: search for GroupSeasonTopicProblem from the groupId if not found,
+    // TODO: throw NotFoundException "problem under this topic hasn't been added to your group"
+    
+    const groupSeasonTopicProblem = await this.prismaService.groupSeasonTopicProblem.findUnique({
+      where:{
+       groupId_seasonId_topicId_problemId:{
+        groupId,seasonId,topicId,problemId
+       }
+      }
+    })
+
+    if(!groupSeasonTopicProblem){
+      throw new NotFoundException('problem not found on the given season and group');
+    }
+    
     return this.prismaService.userGroupSeasonTopicProblem.upsert({
       where: {
         userId_groupId_seasonId_topicId_problemId: {
