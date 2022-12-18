@@ -12,13 +12,14 @@ import { PaginationInput } from '../../common/page/pagination.input'
 export class GroupSeasonTopicResolver {
   constructor(private readonly groupSeasonTopicService: GroupSeasonTopicService) {}
 
-  @Mutation(() => GroupSeasonTopic)
-  async addTopicToGroupSeason(
-    @Args('createGroupSeasonTopicInput')
-    createGroupSeasonTopicInput: CreateGroupSeasonTopicInput,
-  ): Promise<GroupSeasonTopic> {
-    return this.groupSeasonTopicService.addTopicToGroupSeason(createGroupSeasonTopicInput)
-  }
+  // @Mutation(() => GroupSeasonTopic)
+  // async addTopicToGroupSeason(
+  //   @Args('createGroupSeasonTopicInput')
+  //   createGroupSeasonTopicInput: CreateGroupSeasonTopicInput,
+  // ): Promise<GroupSeasonTopic> {
+  //   return this.groupSeasonTopicService.addTopicToGroupSeason(createGroupSeasonTopicInput)
+  // }
+
   @Mutation(() => Int)
   async addTopicsToGroupSeason(
     @Args('groupSeasonTopicId') { groupId, seasonId }: GroupSeasonTopicId,

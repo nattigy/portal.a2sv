@@ -34,22 +34,22 @@ export class UserGroupSeasonTopicResolver {
   }
 
   @Mutation(() => UserGroupSeasonTopic)
-  async updateUserGroupSeasonTopic(
-    @Args('updateUserGroupSeasonTopicInput')
-    updateUserGroupSeasonTopicInput: UpdateUserGroupSeasonTopicInput,
+  async updateUserTopicComfortability(
+    @Args('updateUserTopicComfortabilityInput')
+    updateUserTopicComfortabilityInput: UpdateUserGroupSeasonTopicInput,
   ) {
-    return this.userGroupSeasonTopicService.updateUserGroupSeasonTopic(
-      updateUserGroupSeasonTopicInput,
+    return this.userGroupSeasonTopicService.updateUserTopicComfortability(
+      updateUserTopicComfortabilityInput,
     )
   }
 
   @Mutation(() => UserGroupSeasonTopicProblem)
-  async updateUserGroupSeasonTopicProblem(
-    @Args('updateUserGroupSeasonTopicProblemInput')
-    updateUserGroupSeasonTopicProblemInput: UpdateUserGroupSeasonTopicProblemInput,
+  async updateUserProblemStatus(
+    @Args('updateProblemStatusInput')
+    updateProblemStatusInput: UpdateUserGroupSeasonTopicProblemInput,
   ): Promise<UserGroupSeasonTopicProblem> {
-    return this.userGroupSeasonTopicService.updateUserGroupSeasonTopicProblem(
-      updateUserGroupSeasonTopicProblemInput,
+    return this.userGroupSeasonTopicService.updateUserProblemStatus(
+      updateProblemStatusInput,
     )
   }
 

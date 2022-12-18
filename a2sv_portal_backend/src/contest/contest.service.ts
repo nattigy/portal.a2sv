@@ -39,8 +39,8 @@ export class ContestService {
   }
 
   async contest(contestId: string): Promise<Contest> {
-    // TODO: check if contest with this Id exists and if it doesn't return
-    // TODO: "contest with this Id doesn't" exists error
+    // check if contest with this Id exists and if it doesn't return
+    // "contest with this Id doesn't" exists error
     const foundContest = await this.contestRepository.findOne({ id: contestId })
 
     if (!foundContest)
@@ -54,8 +54,8 @@ export class ContestService {
     problems,
     ...updateContest
   }: UpdateContestInput): Promise<Contest> {
-    // TODO: check if contest with this Id exists and if it doesn't return
-    // TODO: "contest with this Id doesn't" exists error
+    // check if contest with this Id exists and if it doesn't return
+    // "contest with this Id doesn't" exists error
     const foundContest = await this.prismaService.contest.findUnique({
       where: { id: contestId },
     })
@@ -73,8 +73,8 @@ export class ContestService {
   }
 
   async removeProblemsFromContest(contestId: string, problemIds: string[]): Promise<Contest> {
-    // TODO: check if contest with this Id exists and if it doesn't return
-    // TODO: "contest with this Id doesn't" exists error'
+    // check if contest with this Id exists and if it doesn't return
+    // "contest with this Id doesn't" exists error'
     const foundContest = await this.prismaService.contest.findUnique({
       where: { id: contestId },
     })

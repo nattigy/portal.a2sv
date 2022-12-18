@@ -128,7 +128,7 @@ export class UserGroupSeasonTopicService {
     }
   }
 
-  async updateUserGroupSeasonTopic({
+  async updateUserTopicComfortability({
     id,
     ...updates
   }: UpdateUserGroupSeasonTopicInput): Promise<UserGroupSeasonTopic> {
@@ -166,7 +166,7 @@ export class UserGroupSeasonTopicService {
     })
   }
 
-  async updateUserGroupSeasonTopicProblem(
+  async updateUserProblemStatus(
     updateUserGroupSeasonTopicProblemInput: UpdateUserGroupSeasonTopicProblemInput,
   ) {
     // TODO: get group from the user,
