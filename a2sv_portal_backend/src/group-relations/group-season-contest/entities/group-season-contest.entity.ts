@@ -1,7 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql'
 import { GroupSeasonContestProblem } from 'src/group-relations/group-season-contest-problem/entities/group-season-contest-problem.entity'
-import { SeasonContest } from '../../../season-relations/season-contest/entities/season-contest.entity'
-import { UserGroupSeasonContest } from '../../../user-relations/user-group-season-contest/entities/user-group-season-contest.entity'
+import { Contest } from '../../../contest/entities/contest.entity'
 
 @ObjectType()
 export class GroupSeasonContest {
@@ -14,8 +13,15 @@ export class GroupSeasonContest {
   @Field({ description: 'Example field (placeholder)' })
   contestId: string
 
-  @Field(() => SeasonContest)
-  seasonContest: SeasonContest
+  // TODO: add all necessary fields from contest
+  @Field(() => Date)
+  startTime: Date
+
+  @Field(() => Date)
+  endTime: Date
+
+  @Field(() => Contest)
+  contest: Contest
 
   @Field(() => [GroupSeasonContestProblem])
   groupSeasonContestProblems: GroupSeasonContestProblem[]

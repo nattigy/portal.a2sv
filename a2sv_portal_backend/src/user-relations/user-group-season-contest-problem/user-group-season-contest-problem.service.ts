@@ -64,6 +64,8 @@ export class UserGroupSeasonContestProblemService {
         contestId,
         problemId,
         userId,
+        groupId,
+        seasonId,
         numberOfAttempts: 0,
         numberOfMinutes: 0,
         status: UserContestProblemStatusEnum.NOT_SOLVED,

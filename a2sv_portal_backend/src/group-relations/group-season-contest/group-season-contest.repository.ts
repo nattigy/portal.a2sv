@@ -8,16 +8,16 @@ export class GroupSeasonContestRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
   include = {
-    seasonContest: {
-      include: {
-        season: true,
-        contest: {
-          include: { problems: { include: { tags: true } } },
-        },
-      },
+    contest: {
+      include: { problems: { include: { tags: true } } },
     },
     groupSeasonContestProblems: {
       include: {
+        userGroupSeasonContestProblems: {
+          include: {
+            problem: { include: { tags: true } },
+          },
+        },
         problem: { include: { tags: true } },
       },
     },

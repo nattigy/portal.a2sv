@@ -6,12 +6,8 @@ import { FilterUserGroupSeasonTopicProblemInput } from './dto/filter-user-group-
 import { PaginationInput } from '../../common/page/pagination.input'
 import { PaginationUserGroupSeasonTopicProblem } from '../../common/page/pagination-info'
 import { UserGroupSeasonTopicProblemRepository } from './user-group-season-topic-problem.repository'
-import {
-  GroupSeasonTopicProblem,
-} from 'src/group-relations/group-season-topic-problem/entities/group-season-topic-problem.entity'
-import {
-  GroupSeasonTopicProblemRepository,
-} from 'src/group-relations/group-season-topic-problem/group-season-topic-problem.repository'
+import { GroupSeasonTopicProblem } from 'src/group-relations/group-season-topic-problem/entities/group-season-topic-problem.entity'
+import { GroupSeasonTopicProblemRepository } from 'src/group-relations/group-season-topic-problem/group-season-topic-problem.repository'
 import { UserGroupSeasonTopicProblemId } from './dto/create-user-group-season-topic-problem.input'
 import { BadRequestException } from '@nestjs/common/exceptions'
 
@@ -21,16 +17,15 @@ export class UserGroupSeasonTopicProblemService {
     private readonly userGroupSeasonTopicProblemRepository: UserGroupSeasonTopicProblemRepository,
     private readonly groupSeasonTopicProblemRepository: GroupSeasonTopicProblemRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async userGroupSeasonTopicProblem({
-                                      seasonId,
-                                      groupId,
-                                      topicId,
-                                      problemId,
-                                      userId,
-                                    }: UserGroupSeasonTopicProblemId): Promise<UserGroupSeasonTopicProblem> {
+    seasonId,
+    groupId,
+    topicId,
+    problemId,
+    userId,
+  }: UserGroupSeasonTopicProblemId): Promise<UserGroupSeasonTopicProblem> {
     let userGroupSeasonTopicProblem: UserGroupSeasonTopicProblem =
       await this.userGroupSeasonTopicProblemRepository.findOne({
         userId_groupId_seasonId_topicId_problemId: {
@@ -77,38 +72,53 @@ export class UserGroupSeasonTopicProblemService {
     const count = await this.userGroupSeasonTopicProblemRepository.count(
       filterSeasonTopicProblemUserInput,
     )
+    const users = await this.prismaService.user.findMany({
+      where: { groupId, id: userId },
+    })
     const userGroupSeasonTopicProblems =
       await this.userGroupSeasonTopicProblemRepository.findAll({
         where: filterSeasonTopicProblemUserInput,
       })
     const groupSeasonTopicProblems: GroupSeasonTopicProblem[] =
       await this.groupSeasonTopicProblemRepository.findAll({
-        skip, take,
+        skip,
+        take,
         where: { groupId, seasonId, topicId },
       })
-    const mappedUGSTPs = []
+    const result: UserGroupSeasonTopicProblem[] = []
+    const mappedUGSTPs: { ['key']?: UserGroupSeasonTopicProblem } = {}
+    for (const userGroupSeasonTopicProblem1 of userGroupSeasonTopicProblems) {
+      mappedUGSTPs[
+        `${userGroupSeasonTopicProblem1.userId}${userGroupSeasonTopicProblem1.groupId}${userGroupSeasonTopicProblem1.seasonId}${userGroupSeasonTopicProblem1.topicId}${userGroupSeasonTopicProblem1.problemId}`
+      ] = userGroupSeasonTopicProblem1
+    }
     for (const groupSeasonTopicProblem of groupSeasonTopicProblems) {
-      const filtered = userGroupSeasonTopicProblems.filter(u => u.problemId === groupSeasonTopicProblem.problemId)
-      if(filtered.length > 0){
-        mappedUGSTPs.push(filtered[0])
-      } else {
-        mappedUGSTPs.push({
-          seasonId,
-          topicId,
-          problemId: groupSeasonTopicProblem.problemId,
-          userId,
-          groupId,
-          solved: false,
-          attempts: 0,
-          needHelp: false,
-          solutionLink: '',
-          timeDedicated: 0,
-          problem: groupSeasonTopicProblem.problem,
-        })
+      for (const user of users) {
+        const check =
+          mappedUGSTPs[
+            `${user.id}${groupSeasonTopicProblem.groupId}${groupSeasonTopicProblem.seasonId}${groupSeasonTopicProblem.topicId}${groupSeasonTopicProblem.problemId}`
+          ]
+        if (check) {
+          result.push(check)
+        } else {
+          result.push({
+            seasonId: groupSeasonTopicProblem.seasonId,
+            userId: user.id,
+            groupId: user.groupId,
+            topicId: groupSeasonTopicProblem.topicId,
+            problemId: groupSeasonTopicProblem.problemId,
+            solved: false,
+            attempts: 0,
+            needHelp: false,
+            solutionLink: '',
+            timeDedicated: 0,
+            problem: groupSeasonTopicProblem.problem,
+          })
+        }
       }
     }
     return {
-      items: mappedUGSTPs,
+      items: result,
       pageInfo: { skip, take, count },
     }
   }

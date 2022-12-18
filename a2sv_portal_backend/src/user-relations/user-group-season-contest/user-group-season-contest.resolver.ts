@@ -1,13 +1,6 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Resolver } from '@nestjs/graphql'
 import { UserGroupSeasonContest } from './entities/user-group-season-contest.entity'
 import { UserGroupSeasonContestService } from './user-group-season-contest.service'
-import { UserGroupSeasonContestId } from './dto/create-user-group-season-contest.input'
-import { PaginationUserGroupSeasonContest } from '../../common/page/pagination-info'
-import { FilterUserGroupSeasonContestInput } from './dto/filter-user-group-season-contest.input'
-import { PaginationInput } from '../../common/page/pagination.input'
-import { UpdateUserGroupSeasonContestInput } from './dto/update-user-group-season-contest.input'
-import { UpdateUserGroupSeasonContestProblemInput } from '../user-group-season-contest-problem/dto/update-user-group-season-contest-problem.input'
-import { UserGroupSeasonContestProblem } from '../user-group-season-contest-problem/entities/user-group-season-contest-problem.entity'
 
 @Resolver(() => UserGroupSeasonContest)
 export class UserGroupSeasonContestResolver {

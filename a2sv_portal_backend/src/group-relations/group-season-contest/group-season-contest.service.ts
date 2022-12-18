@@ -5,8 +5,14 @@ import { UpdateGroupSeasonContestInput } from './dto/update-group-season-contest
 @Injectable()
 export class GroupSeasonContestService {
   create(createGroupSeasonContestInput: CreateGroupSeasonContestInput) {
+    // TODO: check if the groupSeason is active
+    // TODO: upsert contest to seasonContest
+    // TODO: create groupSeason contest
+    // TODO: create groupSeasonContestProblem with all problems found in the contest
     return 'This action adds a new groupSeasonContest'
   }
+
+  // TODO: addNewProblems and remove to groupSeasonContest (additional endpoints)
 
   findAll() {
     return `This action returns all groupSeasonContest`
@@ -16,8 +22,8 @@ export class GroupSeasonContestService {
     return `This action returns a #${id} groupSeasonContest`
   }
 
-  update(id: number, updateGroupSeasonContestInput: UpdateGroupSeasonContestInput) {
-    return `This action updates a #${id} groupSeasonContest`
+  update(updateGroupSeasonContestInput: UpdateGroupSeasonContestInput) {
+    return `This action updates a #} groupSeasonContest`
   }
 
   remove(id: number) {

@@ -53,10 +53,10 @@ export class UserGroupSeasonTopicResolver {
     )
   }
 
-  @Mutation(() => UserGroupSeasonTopic)
-  async removeUserGroupSeasonTopic(
-    @Args('userGroupSeasonTopicId') userGroupSeasonTopicId: UserGroupSeasonTopicId,
-  ) {
-    return this.userGroupSeasonTopicService.removeUserGroupSeasonTopic(userGroupSeasonTopicId)
-  }
+  // @Mutation(() => UserGroupSeasonTopic)
+  // async removeUserGroupSeasonTopic(
+  //   @Args('userGroupSeasonTopicId') userGroupSeasonTopicId: UserGroupSeasonTopicId,
+  // ) {
+  //   return this.userGroupSeasonTopicService.removeUserGroupSeasonTopic(userGroupSeasonTopicId)
+  // }
 }

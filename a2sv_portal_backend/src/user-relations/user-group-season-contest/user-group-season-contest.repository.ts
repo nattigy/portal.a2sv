@@ -5,15 +5,18 @@ import { UserGroupSeasonContest } from './entities/user-group-season-contest.ent
 
 @Injectable()
 export class UserGroupSeasonContestRepository {
-  constructor(private readonly prismaService: PrismaService) {}
-
   include = {
+    contest: {
+      include: { problems: { include: { tags: true } } },
+    },
     userGroupSeasonContestProblems: {
       include: {
         problem: { include: { tags: true } },
       },
     },
   }
+
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(
     data: Prisma.UserGroupSeasonContestCreateInput,
