@@ -122,42 +122,6 @@ export class UserGroupSeasonTopicProblemService {
     }
   }
 
-  async updateUserGroupSeasonTopicProblem({
-    id,
-    ...updates
-  }: UpdateUserGroupSeasonTopicProblemInput): Promise<UserGroupSeasonTopicProblem> {
-    const { seasonId, problemId, userId, groupId, topicId } = id
-    return this.prismaService.userGroupSeasonTopicProblem.upsert({
-      where: {
-        userId_groupId_seasonId_topicId_problemId: {
-          seasonId,
-          topicId,
-          groupId,
-          problemId,
-          userId,
-        },
-      },
-      create: {
-        userGroupSeasonTopic: {
-          connect: {
-            userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },
-          },
-        },
-        groupSeasonTopicProblem: {
-          connect: {
-            groupId_seasonId_topicId_problemId: { groupId, seasonId, topicId, problemId },
-          },
-        },
-        problem: { connect: { id: problemId } },
-        ...updates,
-      },
-      update: updates,
-      include: {
-        problem: { include: { tags: true } },
-      },
-    })
-  }
-
   // async removeUserGroupSeasonTopicProblem({
   //   seasonId,
   //   topicId,

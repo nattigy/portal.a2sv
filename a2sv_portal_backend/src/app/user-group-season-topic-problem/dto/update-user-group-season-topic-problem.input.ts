@@ -6,18 +6,18 @@ export class UpdateUserGroupSeasonTopicProblemInput {
   @Field()
   id: UserGroupSeasonTopicProblemId
 
-  @Field({ nullable: true })
-  solved?: boolean
+  @Field({ defaultValue: false })
+  solved: boolean
 
-  @Field(() => Int, { nullable: true })
-  attempts?: number
+  @Field(() => Int, { defaultValue: 0 })
+  attempts: number
 
-  @Field({ nullable: true })
-  needHelp?: boolean
+  @Field({ defaultValue: false })
+  needHelp: boolean
 
   @Field({ nullable: true })
   solutionLink?: string
 
-  @Field(() => Int, { nullable: true })
-  timeDedicated?: number
+  @Field(() => Int)
+  timeDedicated: number
 }
