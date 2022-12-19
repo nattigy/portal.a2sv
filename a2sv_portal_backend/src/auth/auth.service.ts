@@ -3,9 +3,9 @@ import { Context } from '@nestjs/graphql'
 import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
 import { Response } from 'express'
-import { User } from 'src/user-relations/user/entities/user.entity'
-import { CreateUserInput } from '../user-relations/user/dto/create-user.input'
-import { UserService } from '../user-relations/user/user.service'
+import { User } from 'src/app/user/entities/user.entity'
+import { CreateUserInput } from '../app/user/dto/create-user.input'
+import { UserService } from '../app/user/user.service'
 import { AuthResponse } from './dto/auth-response.dto'
 
 @Injectable()

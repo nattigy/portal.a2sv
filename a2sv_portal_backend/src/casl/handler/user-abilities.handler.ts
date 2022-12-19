@@ -1,5 +1,5 @@
 import { Action } from '../../auth/action.enum'
-import { User } from '../../user-relations/user/entities/user.entity'
+import { User } from '../../app/user/entities/user.entity'
 import { AppAbility } from '../casl-ability.factory'
 
 export class UserAbilities {

@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common'
 import { Args, Context, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { Response } from 'express'
-import { User } from '../user-relations/user/entities/user.entity'
+import { User } from '../app/user/entities/user.entity'
 import { CurrentUser, Public } from './auth.decorator'
 import { AuthService } from './auth.service'
 import { LoginInput } from './dto/login-input.dto'
