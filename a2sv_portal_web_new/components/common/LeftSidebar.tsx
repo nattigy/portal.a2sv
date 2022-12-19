@@ -9,12 +9,7 @@ type Props = {
 };
 
 const LeftSidebar = (props: Props) => {
-  const [activePath, setActivePath] = useState("");
   const router = useRouter();
-
-  useEffect(() => {
-    setActivePath(router.pathname);
-  }, [router.pathname]);
 
   return (
     <nav className="flex-1 space-y-2">
@@ -25,7 +20,7 @@ const LeftSidebar = (props: Props) => {
               <a
                 href="#"
                 className={clsx(
-                  activePath.includes(route) &&
+                  router.pathname.includes(route) &&
                     "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700  fill-current  ",
                   " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group"
                 )}
@@ -33,7 +28,7 @@ const LeftSidebar = (props: Props) => {
                 <svg
                   className={clsx(
                     "w-6 h-6 hover:text-white",
-                    activePath.includes(route) &&
+                    router.pathname.includes(route) &&
                       "fill-current text-indigo-700 "
                   )}
                   width="24px"

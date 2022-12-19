@@ -17,6 +17,7 @@ import { ProblemSolvedProps } from "./ProblemSolvedItem";
 import RadialBar from "./RadialBar";
 import TotalRadialBar from "./TotalRadialBar";
 import { StudentStats } from "../../types";
+import OtpInput from "../auth/OTPField";
 
 type Props = {};
 
@@ -55,7 +56,6 @@ const StudentDashboard = (props: Props) => {
     }
   }, [data]);
 
-  console.log(authUser.id, " data ");
   const DashboardTopic: DashboardTopicItemProps[] = [
     {
       questions: 10,
@@ -121,6 +121,7 @@ const StudentDashboard = (props: Props) => {
     },
   ];
   const Sidebar: React.FC = () => {
+    
     return (
       <div className="flex flex-col gap-y-3">
         <p className="text-[#565656] font-semibold text-lg">Topics Covered</p>

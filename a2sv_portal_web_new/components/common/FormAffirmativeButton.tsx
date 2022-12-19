@@ -1,15 +1,21 @@
+import clsx from "clsx";
 import React from "react";
 
 type Props = {
   text: string;
   isLoading?: boolean;
+  disabled?: boolean;
 };
 
 const FormAffirmativeButton = (props: Props) => {
   return (
     <button
+      disabled={props.disabled}
       type="submit"
-      className="flex justify-center items-center min-w-min px-6 py-3 mt-4 text-sm font-semibold text-white bg-primary rounded-lg"
+      className={clsx(
+        "flex justify-center items-center min-w-min px-6 py-3 mt-4 text-sm font-semibold text-white bg-primary rounded-lg",
+        props.disabled && "cursor-not-allowed bg-primary/50"
+      )}
     >
       {props.isLoading && (
         <svg

@@ -1,21 +1,23 @@
 import { Formik, Form } from "formik";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
+import { boolean } from "yup";
+import OTPField from "../../components/auth/OTPField";
 import CustomTextField from "../../components/auth/TextField";
 import FormAffirmativeButton from "../../components/common/FormAffirmativeButton";
 
-interface ResetFormValues {
-  confirmPassword: string;
-  password: string;
+interface ForgotFormValues {
+  email: string;
 }
 
 const INITIAL_VALUES = {
-  password: "",
-  confirmPassword: "",
-} as ResetFormValues;
+  email: "",
+} as ForgotFormValues;
 
-const Reset = () => {
+const Forgot = () => {
   const router = useRouter();
+  const [error, setError] = useState("");
+
   return (
     <div className="min-h-screen flex flex-col items-center pt-6">
       <div
@@ -24,33 +26,29 @@ const Reset = () => {
       >
         <img className="w-[7vw]" src="/images/A2SV-logo.svg" alt="" />
       </div>
-
       <div className="flex justify-center items-center gap-y-2 h-[85vh] w-full">
         <div className="h-fit w-7/12 md:w-2/5 lg:w-1/3 xl:w-[30%] p-8 lg:p-12 border rounded-xl shadow-lg">
-          <h1 className="font-semibold text-3xl py-2">Reset Password</h1>
-          <p className="font-light py-2">Please enter a new password</p>
-          <p className="font-light text-gray-400 text-xs py-2">
-            Password must be at least 8 characters long
-          </p>
-          <Formik initialValues={INITIAL_VALUES} onSubmit={() => {}}>
+          <h1 className="font-semibold text-3xl">Forgot Password</h1>
+          <p className="font-light text-sm my-3">Please enter your email address</p>
+          <Formik
+            initialValues={INITIAL_VALUES}
+            onSubmit={async (values, actions) => () => {}}
+          >
             {(formik) => (
-              <div className="py-4">
+              <div>
                 <Form>
                   <div className="flex flex-col gap-2">
                     <CustomTextField
-                      id="password"
-                      name="password"
-                      placeholder="Password"
-                      type="password"
+                      id="email"
+                      name="email"
+                      placeholder="Enter your Email"
+                      type="text"
                       formik={formik}
                     />
-                    <CustomTextField
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      placeholder="Confirm Password"
-                      type="password"
-                      formik={formik}
-                    />
+                    <h1 className="text-red-600 font-light text-sm pt-1">
+                      {error}
+                    </h1>
+
                     <FormAffirmativeButton text="Verify" isLoading={false} />
                   </div>
                 </Form>
@@ -63,4 +61,4 @@ const Reset = () => {
   );
 };
 
-export default Reset;
+export default Forgot;
