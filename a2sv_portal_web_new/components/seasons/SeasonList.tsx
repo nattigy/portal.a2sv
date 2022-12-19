@@ -6,39 +6,22 @@ import { LoaderSmall } from "../common/Loaders";
 import SeasonItem from "./SeasonItem";
 
 type SeasonListProps = {
-  groupId: string;
+  seasons: Season[];
 };
 
-const SeasonList = ({ groupId }: SeasonListProps) => {
-  const { data, loading, error } = useGetGroupSeasons(groupId);
-  const [seasons, setseasons] = useState<any>();
-  console.log("group id is", groupId);
-  console.log("data is", data);
-  useEffect(() => {
-    if (data) {
-      setseasons(data?.seasons);
-    }
-  }, [groupId, data]);
+const SeasonList = ({ seasons }: SeasonListProps) => {
+  // useEffect(() => {
+  //   if (data) {
+  //     setseasons(data?.seasons);
+  //   }
+  // }, [groupId, data]);
 
-  return !groupId ? (
-    <div className="h-full flex items-center">
-      <EmptyState />
-    </div>
-  ) : loading ? (
-    <div className="w-full flex h-full items-center justify-center min-w-full min-h-full">
-      <LoaderSmall />
-    </div>
-  ) : error ? (
-    <p>Something went wrong</p>
-  ) : data?.seasons?.items.length == 0 ? (
-    <EmptyState />
-  ) : (
+  return(
     <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-6">
-      {seasons?.items?.map((item: any, index: number) => (
+      {seasons.map((item: any, index: number) => (
         <SeasonItem key={index} seasonProps={item} />
       ))}
-    </div>
-  );
+    </div>)
 };
 
 export default SeasonList;
