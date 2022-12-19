@@ -9,12 +9,12 @@ export class UserGroupSeasonContestProblemResolver {
     private readonly userGroupSeasonContestProblemService: UserGroupSeasonContestProblemService,
   ) {}
 
-  @Query(() => UserGroupSeasonContestProblem)
-  async userGroupSeasonContestProblem(
-    @Args('userGroupSeasonContestProblemId') userGroupSeasonContestProblemId: UserGroupSeasonContestProblemId,
-  ) {
-    return this.userGroupSeasonContestProblemService.userGroupSeasonContestProblem(userGroupSeasonContestProblemId)
-  }
+  // @Query(() => UserGroupSeasonContestProblem)
+  // async userGroupSeasonContestProblem(
+  //   @Args('userGroupSeasonContestProblemId') userGroupSeasonContestProblemId: UserGroupSeasonContestProblemId,
+  // ) {
+  //   return this.userGroupSeasonContestProblemService.userGroupSeasonContestProblem(userGroupSeasonContestProblemId)
+  // }
 
   // @Query(() => PaginationUserGroupSeasonContestProblem)
   // async userGroupSeasonContestProblems(

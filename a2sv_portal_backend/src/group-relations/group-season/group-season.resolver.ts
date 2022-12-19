@@ -14,10 +14,10 @@ export class GroupSeasonResolver {
   constructor(private readonly groupSeasonService: GroupSeasonService) {}
 
   @Mutation(() => GroupSeason)
-  async addSeasonToAGroup(
-    @Args('addSeasonToAGroupInput') createGroupSeasonInput: CreateGroupSeasonInput,
+  async addGroupToASeason(
+    @Args('addGroupToASeasonInput') createGroupSeasonInput: CreateGroupSeasonInput,
   ): Promise<GroupSeason> {
-    return this.groupSeasonService.addSeasonToAGroup(createGroupSeasonInput)
+    return this.groupSeasonService.addGroupToASeason(createGroupSeasonInput)
   }
 
   @Query(() => GroupSeason)
@@ -35,13 +35,13 @@ export class GroupSeasonResolver {
     return this.groupSeasonService.groupsSeasons({ groupId }, paginationInput)
   }
 
-  @Query(() => PaginationGroupSeason)
-  async seasonGroups(
-    @Args('seasonId') seasonId: string,
-    @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
-  ): Promise<PaginationGroupSeason> {
-    return this.groupSeasonService.groupsSeasons({ seasonId }, paginationInput)
-  }
+  // @Query(() => PaginationGroupSeason)
+  // async seasonGroups(
+  //   @Args('seasonId') seasonId: string,
+  //   @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
+  // ): Promise<PaginationGroupSeason> {
+  //   return this.groupSeasonService.groupsSeasons({ seasonId }, paginationInput)
+  // }
 
   @Mutation(() => GroupSeason)
   async updateGroupSeason(

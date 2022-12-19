@@ -20,10 +20,10 @@ export class GroupSeasonTopicProblemService {
     topicId,
     problemId,
   }: CreateGroupSeasonTopicProblemInput) {
-    // TODO: search for groupSeasonTopic first and if not found throw not found exception
-    // TODO: if the groupSeasonTopic is found and the groupSeason is not active throw groupSeason not active
-    // TODO: check if the problem exists and if it doesn't exist throw problem not found Error
-    // TODO: upsert seasonTopicProblem
+    // search for groupSeasonTopic first and if not found throw not found exception
+    // if the groupSeasonTopic is found and the groupSeason is not active throw groupSeason not active
+    // check if the problem exists and if it doesn't exist throw problem not found Error
+    // upsert seasonTopicProblem
 
     const foundGroupSeasonTopic = await this.prismaService.groupSeasonTopic.findUnique({
       where: { groupId_seasonId_topicId: { groupId, seasonId, topicId } },
