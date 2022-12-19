@@ -97,10 +97,10 @@ export class UserService {
       ).count
     }
     const { userId, ...updates } = updateUserInput
-    // TODO: check if user with this Id exists and if it doesn't return
-    // TODO: "user with this Id doesn't" exists error
-    // TODO: If Email is about to be updated check if the email exists and
-    //      return "That email is already registered" Error.
+    // check if user with this Id exists and if it doesn't return
+    // "user with this Id doesn't" exists error
+    // If Email is about to be updated check if the email exists and
+    //  return "That email is already registered" Error.
 
     const foundUser = await this.prismaService.user.findUnique({ where: { id: userId } })
 

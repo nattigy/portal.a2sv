@@ -19,7 +19,7 @@ export class GroupSeasonService {
     private readonly prismaService: PrismaService,
   ) {}
 
-  async addSeasonToAGroup({
+  async addGroupToASeason({
     seasonId,
     groupId,
   }: CreateGroupSeasonInput): Promise<GroupSeason> {

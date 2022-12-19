@@ -43,11 +43,11 @@ export class AuthResolver {
   //   return this.authService.signUp(context, createUserInput)
   // }
 
-  @Mutation(() => Int)
-  async logout(@Context('res') response: Response) {
-    await this.authService.logout(response)
-    return 1
-  }
+  // @Mutation(() => Int)
+  // async logout(@Context('res') response: Response) {
+  //   await this.authService.logout(response)
+  //   return 1
+  // }
 
   @UseGuards(JwtAuthGuard)
   @Query(() => User)
