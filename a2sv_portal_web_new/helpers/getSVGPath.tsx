@@ -6,17 +6,22 @@ export const getSVGIcon: any = (name: string) => {
   switch (name) {
     case "/dashboard":
       return (
-        <path d="M19 5v2h-4V5h4M9 5v6H5V5h4m10 8v6h-4v-6h4M9 17v2H5v-2h4M21 3h-8v6h8V3zM11 3H3v10h8V3zm10 8h-8v10h8V11zm-10 4H3v6h8v-6z" />
+        <>
+          <path
+            d="M19 5v2h-4V5h4M9 5v6H5V5h4m10 8v6h-4v-6h4M9 17v2H5v-2h4M21 3h-8v6h8V3zM11 3H3v10h8V3zm10 8h-8v10h8V11zm-10 4H3v6h8v-6z" />
+        </>
       );
     case "/seasons":
       return (
-        <path
-          fill="none"
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeWidth="2"
-          d="M9,6 L21,6 M9,12 L21,12 M9,18 L17,18 M4,7 C4.55228475,7 5,6.55228475 5,6 C5,5.44771525 4.55228475,5 4,5 C3.44771525,5 3,5.44771525 3,6 C3,6.55228475 3.44771525,7 4,7 Z M4,13 C4.55228475,13 5,12.5522847 5,12 C5,11.4477153 4.55228475,11 4,11 C3.44771525,11 3,11.4477153 3,12 C3,12.5522847 3.44771525,13 4,13 Z M4,19 C4.55228475,19 5,18.5522847 5,18 C5,17.4477153 4.55228475,17 4,17 C3.44771525,17 3,17.4477153 3,18 C3,18.5522847 3.44771525,19 4,19 Z"
-        />
+        <>
+          <path
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="2"
+            d="M9,6 L21,6 M9,12 L21,12 M9,18 L17,18 M4,7 C4.55228475,7 5,6.55228475 5,6 C5,5.44771525 4.55228475,5 4,5 C3.44771525,5 3,5.44771525 3,6 C3,6.55228475 3.44771525,7 4,7 Z M4,13 C4.55228475,13 5,12.5522847 5,12 C5,11.4477153 4.55228475,11 4,11 C3.44771525,11 3,11.4477153 3,12 C3,12.5522847 3.44771525,13 4,13 Z M4,19 C4.55228475,19 5,18.5522847 5,18 C5,17.4477153 4.55228475,17 4,17 C3.44771525,17 3,17.4477153 3,18 C3,18.5522847 3.44771525,19 4,19 Z"
+          />
+        </>
       );
 
     case "/repository":
@@ -90,6 +95,7 @@ export const getSVGIcon: any = (name: string) => {
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
+            
             strokeWidth={2}
           />
           <path
@@ -97,12 +103,15 @@ export const getSVGIcon: any = (name: string) => {
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
+
             strokeWidth={2}
           />
           <path
             d="M12.3883 8.02994C13.172 8.11455 15.0728 8.79917 12.7051 6.59147C11.8381 5.7607 10.104 4.72223 10.821 6.7684"
             stroke="currentColor"
             strokeLinecap="round"
+
+
             strokeLinejoin="round"
             strokeWidth={2}
           />
@@ -111,6 +120,7 @@ export const getSVGIcon: any = (name: string) => {
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
+            
             strokeWidth={2}
           />
         </>
