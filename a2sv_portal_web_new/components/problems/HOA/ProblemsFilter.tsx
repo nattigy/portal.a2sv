@@ -5,7 +5,7 @@ export type FilterItem = {
 };
 const filterItems: Array<FilterItem> = [
   {
-    title: "All",
+    title: "Problems",
   },
   {
     title: "Topics",

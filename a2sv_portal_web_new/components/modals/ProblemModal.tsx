@@ -36,8 +36,9 @@ type Props = {
   isEditing: boolean;
   values?: FormValues;
   topicId?: string;
-  seasonId: string;
+  seasonId?: string;
   problem?: ProblemType;
+  newProblem?:boolean;
 };
 
 const ProblemModal = (props: Props) => {
@@ -120,7 +121,7 @@ const ProblemModal = (props: Props) => {
               await updateProblem({
                 variables: {
                   updateProblemInput: {
-                    id: props.problem?.id,
+                    problemId: props.problem?.id,
                     difficulty: values.difficulty,
                     link: values.link,
                     platform: values.platform,
@@ -160,7 +161,7 @@ const ProblemModal = (props: Props) => {
                     await addExistingProblem({
                       variables: {
                         updateSeasonTopicInput: {
-                          seasonId: props.seasonId.toString(),
+                          seasonId: props.seasonId?.toString(),
                           topicId: props.topicId?.toString(),
                           problems: [
                             {
@@ -189,7 +190,7 @@ const ProblemModal = (props: Props) => {
                 await addExistingProblem({
                   variables: {
                     updateSeasonTopicInput: {
-                      seasonId: props.seasonId.toString(),
+                      seasonId: props.seasonId?.toString(),
                       topicId: props.topicId?.toString(),
                       problems: [
                         {
@@ -263,15 +264,15 @@ const ProblemModal = (props: Props) => {
                       </svg>
                     </div>
                   </div>
-                  {props.isEditing ? (
+                  {/* {props.isEditing ? (
                     <p>You can replace the problem from the exisiting ones.</p>
                   ) : (
                     <p className="tracking-wider text-sm text-start">
                       Add new problem under a topic. You can create new problem
                       or choose existing one
                     </p>
-                  )}
-                  {!props.isEditing && (
+                  )} */}
+                  {!props.isEditing &&!props.newProblem && (
                     <div className="w-full flex flex-col justify-start gap-y-2">
                       <ProblemsAutocomplete
                         handleSearchProblem={handleSearchProblem}
@@ -282,7 +283,7 @@ const ProblemModal = (props: Props) => {
                     </div>
                   )}
                 </div>
-                <div className="flex flex-col gap-y-4 my-2">
+                <div className="flex flex-col gap-y-4">
                   <div className="flex flex-col justify-start gap-y-4">
                     <div>
                       {existingProblem === null && (
