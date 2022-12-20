@@ -31,7 +31,8 @@ export class UserGroupSeasonRepository {
     },
   }
 
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(data: Prisma.UserGroupSeasonCreateInput): Promise<UserGroupSeason> {
     return this.prismaService.userGroupSeason.create({
@@ -75,6 +76,31 @@ export class UserGroupSeasonRepository {
     return this.prismaService.userGroupSeason.update({
       data,
       where,
+      include: this.include,
+    })
+  }
+
+  async upsert(params: {
+    where: Prisma.UserGroupSeasonWhereUniqueInput
+    data: Prisma.UserGroupSeasonUpdateInput
+  }): Promise<UserGroupSeason> {
+    const { where, data } = params
+    return this.prismaService.userGroupSeason.upsert({
+      where,
+      create: {
+        user: {
+          connect: { id: where.userId_groupId_seasonId.userId },
+        },
+        groupSeason: {
+          connect: {
+            groupId_seasonId: {
+              groupId: where.userId_groupId_seasonId.groupId,
+              seasonId: where.userId_groupId_seasonId.seasonId,
+            },
+          },
+        },
+      },
+      update: data,
       include: this.include,
     })
   }
