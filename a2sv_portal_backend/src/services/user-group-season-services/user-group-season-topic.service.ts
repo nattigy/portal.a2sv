@@ -162,6 +162,8 @@ export class UserGroupSeasonTopicService {
     // throw NotFoundException "topic hasn't been added to your group"
     // check if the groupSeason the user in is active if not throw "season is not active error"
     // upsert UserGroupSeason
+    // TODO: search for group and throw notFoundException if not found,
+    // TODO: search for season and throw notFoundException if not found,
 
     const foundUser = await this.prismaService.user.findUnique({ where: { id: userId } })
     if (!foundUser) throw new NotFoundException(`User with id ${userId} does not exist!`)
@@ -192,6 +194,7 @@ export class UserGroupSeasonTopicService {
   }
 
   async updateUserProblemStatus({ id, ...updates }: UpdateUserGroupSeasonTopicProblemInput) {
+    // TODO: search for problem and throw notFoundException if not found,
     // TODO: search for GroupSeasonTopicProblem from the groupId if not found,
     // TODO: throw NotFoundException "problem under this topic hasn't been added to your group yet!"
     const { userId, groupId, seasonId, topicId, problemId } = id
