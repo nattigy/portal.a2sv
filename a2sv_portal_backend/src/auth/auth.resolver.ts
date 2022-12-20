@@ -23,15 +23,15 @@ export class AuthResolver {
     return { accessToken, userId }
   }
 
-  @Mutation(() => User)
-  async forgotPassword(@Args('email') email: string): Promise<User | null> {
-    return this.authService.forgotPassword(email)
-  }
+  // @Mutation(() => User)
+  // async forgotPassword(@Args('email') email: string): Promise<User | null> {
+  //   return this.authService.forgotPassword(email)
+  // }
 
-  @Mutation(() => User)
-  async resetPassword(@Args('email') email: string, pass: string) {
-    return this.authService.resetPassword(email, pass)
-  }
+  // @Mutation(() => User)
+  // async resetPassword(@Args('email') email: string, pass: string) {
+  //   return this.authService.resetPassword(email, pass)
+  // }
 
   // @Public()
   // @Mutation(() => AuthResponse)

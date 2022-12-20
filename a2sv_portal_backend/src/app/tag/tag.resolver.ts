@@ -18,10 +18,10 @@ export class TagResolver {
     return await this.tagService.findAll(filter)
   }
 
-  @Query(() => Tag, { name: 'tag' })
-  async tag(@Args('id', { type: () => Int }) id: number): Promise<Tag> {
-    return await this.tagService.findOne(id)
-  }
+  // @Query(() => Tag, { name: 'tag' })
+  // async tag(@Args('id', { type: () => Int }) id: number): Promise<Tag> {
+  //   return await this.tagService.findOne(id)
+  // }
 
   @Mutation(() => Tag)
   async updateTag(@Args('updateTagInput') updateTagInput: UpdateTagInput): Promise<Tag> {
@@ -32,9 +32,4 @@ export class TagResolver {
   async removeTag(@Args('id', { type: () => Int }) id: string): Promise<Tag> {
     return await this.tagService.remove(id)
   }
-
-  // @ResolveField(() => [Problem])
-  // async problems(@Parent() tag: Tag): Promise<Problem[]> {
-  //   return tag.problems
-  // }
 }

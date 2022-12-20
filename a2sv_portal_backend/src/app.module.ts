@@ -50,7 +50,7 @@ import { ServicesModule } from './services/services.module'
     PrismaModule,
     CaslModule,
     // GroupModule,
-    RolesModule,
+    // RolesModule,
     // UserModule,
     // SeasonModule,
     TagModule,

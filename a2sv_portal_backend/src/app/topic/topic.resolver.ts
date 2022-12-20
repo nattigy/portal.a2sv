@@ -35,10 +35,10 @@ export class TopicResolver {
 
   // @UseGuards(JwtAuthGuard, PoliciesGuard)
   // @CheckPolicies(TopicAbilities.read)
-  @Query(() => Topic, { description: descriptions.topic })
-  async topic(@Args('topicId') topicId: string): Promise<Topic> {
-    return this.topicService.topic(topicId)
-  }
+  // @Query(() => Topic, { description: descriptions.topic })
+  // async topic(@Args('topicId') topicId: string): Promise<Topic> {
+  //   return this.topicService.topic(topicId)
+  // }
 
   // @UseGuards(JwtAuthGuard, PoliciesGuard)
   // @CheckPolicies(TopicAbilities.update)
