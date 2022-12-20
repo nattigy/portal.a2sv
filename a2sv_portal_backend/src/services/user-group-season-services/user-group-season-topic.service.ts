@@ -106,6 +106,7 @@ export class UserGroupSeasonTopicService {
         if (check) {
           result.push(check)
         } else {
+          if(user.groupId)
           result.push({
             seasonId: groupSeasonTopic.seasonId,
             userId: user.id,
@@ -113,6 +114,7 @@ export class UserGroupSeasonTopicService {
             topicId: groupSeasonTopic.topicId,
             comfortLevel: ComfortLevelEnum.UNCOMFORTABLE,
             topic: groupSeasonTopic.topic,
+            // userGroupSeasonTopicProblems: []
             userGroupSeasonTopicProblems: userGroupSeasonTopicProblems.items.filter(
               u =>
                 u.userId === user.id &&
