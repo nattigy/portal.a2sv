@@ -6,10 +6,10 @@ import { GroupSeasonTopicProblemModule } from 'src/app/group-season-topic-proble
 import { SeasonModule } from 'src/app/season/season.module'
 import { SeasonTopicModule } from 'src/app/season-topic/season-topic.module'
 import { SeasonTopicProblemModule } from 'src/app/season-topic-problem/season-topic-problem.module'
-import { GroupSeasonResolver } from './group-services/group-season.resolver'
-import { GroupSeasonService } from './group-services/group-season.service'
-import { GroupSeasonTopicService } from './group-services/group-season-topic.service'
-import { GroupSeasonTopicProblemService } from './group-services/group-season-topic-problem.service'
+import { GroupSeasonResolver } from './group-season-services/group-season.resolver'
+import { GroupSeasonService } from './group-season-services/group-season.service'
+import { GroupSeasonTopicService } from './group-season-services/group-season-topic.service'
+import { GroupSeasonTopicProblemService } from './group-season-services/group-season-topic-problem.service'
 import { UserProfileModule } from '../app/user-profile/user-profile.module'
 import { UserModule } from '../app/user/user.module'
 import { UserGroupSeasonModule } from '../app/user-group-season/user-group-season.module'
@@ -37,7 +37,7 @@ import { UserGroupSeasonTopicService } from './user-group-season-services/user-g
     UserGroupSeasonModule,
     UserGroupSeasonTopicModule,
     UserGroupSeasonTopicProblemModule,
-    UserProfileModule,
+    // UserProfileModule,
   ],
   providers: [
     GroupSeasonResolver,
