@@ -64,7 +64,7 @@ export class GroupsService {
     }
   }
 
-  async updateGroup({ groupId, ...updates }: UpdateGroupInput): Promise<Group> {
+  async updateGroup({ groupId, headId, ...updates }: UpdateGroupInput): Promise<Group> {
     // check if group with this Id exists and if it doesn't return
     // "group with this Id doesn't" exists error
     const foundGroup = await this.prismaService.group.findUnique({ where: { id: groupId } })
@@ -73,19 +73,19 @@ export class GroupsService {
     }
 
     const newUpdates: Prisma.GroupUpdateInput = { ...updates }
-    if (updates.headId) {
+    if (headId) {
       const getHead = await this.prismaService.user.findUnique({
-        where: { id: updates.headId },
+        where: { id: headId },
         include: { headToGroup: true },
       })
       if (!getHead) {
-        throw new NotFoundException(`User with id:${updates.headId} not found`)
+        throw new NotFoundException(`User with id:${headId} not found`)
       }
       if (getHead.headToGroup && getHead.headToGroup.id !== groupId) {
-        throw new Error(`User with id:${updates.headId} is already assigned to another group!`)
+        throw new Error(`User with id:${headId} is already assigned to another group!`)
       }
       newUpdates.head = {
-        connect: { id: updates.headId },
+        connect: { id: headId },
       }
       // if there are active season on the group the head on that active season should also change
       const groupSeason = await this.prismaService.groupSeason.findFirst({
@@ -96,7 +96,7 @@ export class GroupsService {
         await this.prismaService.groupSeason.update({
           where: { groupId_seasonId: { groupId, seasonId } },
           data: {
-            head: { connect: { id: updates.headId } },
+            head: { connect: { id: headId } },
           },
         })
       }

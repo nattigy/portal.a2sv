@@ -42,11 +42,11 @@ export class ProblemService {
   ): Promise<PaginationProblem> {
     const tags = filterProblemInput?.tags
     const filter: Prisma.ProblemWhereInput = {
-      id: filterProblemInput.id,
-      // title: StringFilter,
-      // platform?: string,
-      // link?: string,
-      // difficulty?: ProblemDifficultyTypeEnum,
+      id: filterProblemInput?.id,
+      title: filterProblemInput?.title,
+      platform: filterProblemInput?.platform,
+      link: filterProblemInput?.link,
+      difficulty: filterProblemInput?.difficulty,
       // createdAt?: DateTimeFilter,
     }
     if (tags) {

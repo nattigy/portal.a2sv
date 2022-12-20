@@ -79,7 +79,7 @@ export class GroupSeasonResolver {
 
   @Mutation(() => Int)
   async addTopicsToGroupSeason(
-    @Args('groupSeasonTopicId') { groupId, seasonId }: GroupSeasonTopicId,
+    @Args('groupSeasonId') { groupId, seasonId }: GroupSeasonId,
     @Args('topicIds', { type: () => [String] }) topicIds: string[],
   ): Promise<number> {
     for (const topicId of topicIds) {
