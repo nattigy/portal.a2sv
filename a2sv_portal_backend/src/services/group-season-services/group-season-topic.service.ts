@@ -27,6 +27,18 @@ export class GroupSeasonTopicService {
       where: { groupId_seasonId: { groupId, seasonId } },
     })
 
+    const group = await this.prismaService.group.findUnique({
+      where: { id: groupId },
+    })
+
+    const season = await this.prismaService.season.findUnique({
+      where: { id: seasonId },
+    })
+
+    if (!group) throw new NotFoundException(`Group with id ${groupId} does not exist!`)
+
+    if (!season) throw new NotFoundException(`Season with id ${seasonId} does not exist!`)
+
     if (!foundGroupSeason)
       throw new NotFoundException(`Group has not been added to this Season!`)
 
