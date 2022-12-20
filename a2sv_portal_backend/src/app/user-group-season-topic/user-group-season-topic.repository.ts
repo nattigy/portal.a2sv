@@ -14,8 +14,7 @@ export class UserGroupSeasonTopicRepository {
     },
   }
 
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.UserGroupSeasonTopicCreateInput): Promise<UserGroupSeasonTopic> {
     return this.prismaService.userGroupSeasonTopic.create({
@@ -77,17 +76,17 @@ export class UserGroupSeasonTopicRepository {
           connect: {
             userId_groupId_seasonId: {
               userId: where.userId_groupId_seasonId_topicId.userId,
-              groupId:where.userId_groupId_seasonId_topicId.groupId,
-              seasonId:where.userId_groupId_seasonId_topicId.seasonId,
+              groupId: where.userId_groupId_seasonId_topicId.groupId,
+              seasonId: where.userId_groupId_seasonId_topicId.seasonId,
             },
           },
         },
         groupSeasonTopic: {
           connect: {
             groupId_seasonId_topicId: {
-              groupId:where.userId_groupId_seasonId_topicId.groupId,
-              seasonId:where.userId_groupId_seasonId_topicId.seasonId,
-              topicId:where.userId_groupId_seasonId_topicId.topicId,
+              groupId: where.userId_groupId_seasonId_topicId.groupId,
+              seasonId: where.userId_groupId_seasonId_topicId.seasonId,
+              topicId: where.userId_groupId_seasonId_topicId.topicId,
             },
           },
         },

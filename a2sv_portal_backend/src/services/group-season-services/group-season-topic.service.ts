@@ -15,8 +15,7 @@ export class GroupSeasonTopicService {
     private readonly groupSeasonTopicRepository: GroupSeasonTopicRepository,
     private readonly seasonTopicRepository: SeasonTopicRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async addTopicToGroupSeason({ groupId, seasonId, topicId }: CreateGroupSeasonTopicInput) {
     // search for groupSeason if groupSeason not found throw groupSeason not found exception

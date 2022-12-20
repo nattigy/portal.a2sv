@@ -5,8 +5,7 @@ import { SeasonTopicProblem } from './entities/season-topic-problem.entity'
 
 @Injectable()
 export class SeasonTopicProblemRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.SeasonTopicProblemCreateInput): Promise<SeasonTopicProblem> {
     return this.prismaService.seasonTopicProblem.create({

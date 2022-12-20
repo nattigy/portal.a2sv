@@ -7,5 +7,4 @@ import { SeasonTopicRepository } from './season-topic.repository'
   providers: [SeasonTopicRepository, SeasonTopicResolver, SeasonTopicService],
   exports: [SeasonTopicService, SeasonTopicRepository],
 })
-export class SeasonTopicModule {
-}
+export class SeasonTopicModule {}

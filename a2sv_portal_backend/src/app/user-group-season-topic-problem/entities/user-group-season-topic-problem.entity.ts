@@ -22,7 +22,9 @@ export class UserGroupSeasonTopicProblem {
   // @Field({ defaultValue: false })
   // solved: boolean
 
-  @Field(() => UserTopicProblemStatusEnum, {defaultValue: UserTopicProblemStatusEnum.NOT_SOLVED})
+  @Field(() => UserTopicProblemStatusEnum, {
+    defaultValue: UserTopicProblemStatusEnum.NOT_SOLVED,
+  })
   status: UserTopicProblemStatusEnum
 
   @Field(() => Int, { defaultValue: 0 })
@@ -47,4 +49,4 @@ export class UserGroupSeasonTopicProblem {
   updatedAt?: Date
 }
 
-registerEnumType(UserTopicProblemStatusEnum, {name: "UserTopicProblemStatusEnum"})
+registerEnumType(UserTopicProblemStatusEnum, { name: 'UserTopicProblemStatusEnum' })

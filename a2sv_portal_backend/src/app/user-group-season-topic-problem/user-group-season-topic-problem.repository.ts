@@ -93,7 +93,9 @@ export class UserGroupSeasonTopicProblemRepository {
             },
           },
         },
-        problem: { connect: { id: where.userId_groupId_seasonId_topicId_problemId.problemId } },
+        problem: {
+          connect: { id: where.userId_groupId_seasonId_topicId_problemId.problemId },
+        },
         // attempts: data.attempts as number,
         // needHelp: data.needHelp as boolean,
         solutionLink: data.solutionLink as string,
@@ -101,7 +103,7 @@ export class UserGroupSeasonTopicProblemRepository {
         // solved: data.solved as boolean,
         numberOfAttempts: 0,
         numberOfMinutes: 0,
-        status: UserTopicProblemStatusEnum.NOT_SOLVED
+        status: UserTopicProblemStatusEnum.NOT_SOLVED,
       },
       update: data,
       include: {

@@ -9,7 +9,10 @@ import { SeasonTopicProblemRepository } from './season-topic-problem.repository'
     SeasonTopicProblemResolver,
     SeasonTopicProblemService,
   ],
-  exports: [SeasonTopicProblemResolver, SeasonTopicProblemService, SeasonTopicProblemRepository],
+  exports: [
+    SeasonTopicProblemResolver,
+    SeasonTopicProblemService,
+    SeasonTopicProblemRepository,
+  ],
 })
-export class SeasonTopicProblemModule {
-}
+export class SeasonTopicProblemModule {}

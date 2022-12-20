@@ -3,6 +3,6 @@ import { GroupSeasonRepository } from './group-season.repository'
 
 @Module({
   providers: [GroupSeasonRepository],
-  exports: [GroupSeasonRepository]
+  exports: [GroupSeasonRepository],
 })
 export class GroupSeasonModule {}

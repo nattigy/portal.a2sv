@@ -14,7 +14,7 @@ export class GroupsService {
   constructor(
     private readonly groupRepository: GroupRepository,
     private readonly prismaService: PrismaService,
-  ) { }
+  ) {}
 
   async createGroup({ headId, ...createGroupInput }: CreateGroupInput): Promise<Group> {
     // if headId is in the create input check if the user with the headId exists
@@ -89,14 +89,14 @@ export class GroupsService {
       }
       // if there are active season on the group the head on that active season should also change
       const groupSeason = await this.prismaService.groupSeason.findFirst({
-        where: { groupId: groupId, isActive: true },
+        where: { groupId, isActive: true },
       })
       if (groupSeason) {
         const { groupId, seasonId } = groupSeason
         await this.prismaService.groupSeason.update({
           where: { groupId_seasonId: { groupId, seasonId } },
           data: {
-            head: { connect: { id: updates.headId } }
+            head: { connect: { id: updates.headId } },
           },
         })
       }

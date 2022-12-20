@@ -10,18 +10,13 @@ import { GroupSeasonResolver } from './group-season-services/group-season.resolv
 import { GroupSeasonService } from './group-season-services/group-season.service'
 import { GroupSeasonTopicService } from './group-season-services/group-season-topic.service'
 import { GroupSeasonTopicProblemService } from './group-season-services/group-season-topic-problem.service'
-import { UserProfileModule } from '../app/user-profile/user-profile.module'
 import { UserModule } from '../app/user/user.module'
 import { UserGroupSeasonModule } from '../app/user-group-season/user-group-season.module'
 import { UserGroupSeasonTopicModule } from '../app/user-group-season-topic/user-group-season-topic.module'
-import {
-  UserGroupSeasonTopicProblemModule,
-} from '../app/user-group-season-topic-problem/user-group-season-topic-problem.module'
+import { UserGroupSeasonTopicProblemModule } from '../app/user-group-season-topic-problem/user-group-season-topic-problem.module'
 import { UserGroupSeasonResolver } from './user-group-season-services/user-group-season.resolver'
 import { UserGroupSeasonService } from './user-group-season-services/user-group-season.service'
-import {
-  UserGroupSeasonTopicProblemService,
-} from './user-group-season-services/user-group-season-topic-problem.service'
+import { UserGroupSeasonTopicProblemService } from './user-group-season-services/user-group-season-topic-problem.service'
 import { UserGroupSeasonTopicService } from './user-group-season-services/user-group-season-topic.service'
 
 @Module({
@@ -37,19 +32,16 @@ import { UserGroupSeasonTopicService } from './user-group-season-services/user-g
     UserGroupSeasonModule,
     UserGroupSeasonTopicModule,
     UserGroupSeasonTopicProblemModule,
-    // UserProfileModule,
   ],
   providers: [
     GroupSeasonResolver,
     GroupSeasonService,
     GroupSeasonTopicService,
     GroupSeasonTopicProblemService,
-    // UserGroupSeasonResolver,
-    // UserGroupSeasonService,
-    // UserGroupSeasonTopicService,
-    // UserGroupSeasonTopicProblemService,
+    UserGroupSeasonResolver,
+    UserGroupSeasonService,
+    UserGroupSeasonTopicService,
+    UserGroupSeasonTopicProblemService,
   ],
 })
-
-export class ServicesModule {
-}
+export class ServicesModule {}

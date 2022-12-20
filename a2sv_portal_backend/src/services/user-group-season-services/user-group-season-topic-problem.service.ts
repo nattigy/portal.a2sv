@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
-import { UpdateUserGroupSeasonTopicProblemInput } from '../../app/user-group-season-topic-problem/dto/update-user-group-season-topic-problem.input'
 import { UserGroupSeasonTopicProblem } from '../../app/user-group-season-topic-problem/entities/user-group-season-topic-problem.entity'
 import { FilterUserGroupSeasonTopicProblemInput } from '../../app/user-group-season-topic-problem/dto/filter-user-group-season-topic-problem.input'
 import { PaginationInput } from '../../common/page/pagination.input'

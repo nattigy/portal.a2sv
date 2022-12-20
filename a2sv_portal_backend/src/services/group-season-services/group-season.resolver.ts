@@ -1,7 +1,10 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { GroupSeasonService } from './group-season.service'
 import { GroupSeason } from '../../app/group-season/entities/group-season.entity'
-import { CreateGroupSeasonInput, GroupSeasonId } from '../../app/group-season/dto/create-group-season.input'
+import {
+  CreateGroupSeasonInput,
+  GroupSeasonId,
+} from '../../app/group-season/dto/create-group-season.input'
 import { PaginationInput } from '../../common/page/pagination.input'
 import {
   UpdateGroupSeasonInput,
@@ -10,9 +13,7 @@ import {
 import { PaginationGroupSeason } from '../../common/page/pagination-info'
 import { GroupSeasonTopicId } from '../../app/group-season-topic/dto/create-group-season-topic.input'
 import { GroupSeasonTopic } from '../../app/group-season-topic/entities/group-season-topic.entity'
-import {
-  GroupSeasonTopicProblem
-} from '../../app/group-season-topic-problem/entities/group-season-topic-problem.entity'
+import { GroupSeasonTopicProblem } from '../../app/group-season-topic-problem/entities/group-season-topic-problem.entity'
 import { GroupSeasonTopicProblemService } from './group-season-topic-problem.service'
 import { GroupSeasonTopicService } from './group-season-topic.service'
 

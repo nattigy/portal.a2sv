@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
 import { GroupSeasonTopicProblem } from './entities/group-season-topic-problem.entity'
-import { GroupSeasonTopic } from '../group-season-topic/entities/group-season-topic.entity'
 
 @Injectable()
 export class GroupSeasonTopicProblemRepository {

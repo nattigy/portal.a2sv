@@ -5,7 +5,6 @@ import {
 } from '../../app/group-season-topic-problem/dto/create-group-season-topic-problem.input'
 import { PrismaService } from '../../prisma/prisma.service'
 import { GroupSeasonTopicProblemRepository } from '../../app/group-season-topic-problem/group-season-topic-problem.repository'
-import { NotFoundError } from 'rxjs/internal/util/NotFoundError'
 import { SeasonTopicProblemRepository } from '../../app/season-topic-problem/season-topic-problem.repository'
 import { SeasonTopicRepository } from '../../app/season-topic/season-topic.repository'
 
@@ -66,10 +65,13 @@ export class GroupSeasonTopicProblemService {
     return this.groupSeasonTopicProblemRepository.upsert({
       where: {
         groupId_seasonId_topicId_problemId: {
-          seasonId, topicId, problemId, groupId
-        }
+          seasonId,
+          topicId,
+          problemId,
+          groupId,
+        },
       },
-      data: {}
+      data: {},
     })
   }
 

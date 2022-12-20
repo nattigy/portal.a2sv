@@ -7,7 +7,9 @@ export class UpdateUserGroupSeasonTopicProblemInput {
   @Field()
   id: UserGroupSeasonTopicProblemId
 
-  @Field(() => UserTopicProblemStatusEnum, {defaultValue: UserTopicProblemStatusEnum.NOT_SOLVED})
+  @Field(() => UserTopicProblemStatusEnum, {
+    defaultValue: UserTopicProblemStatusEnum.NOT_SOLVED,
+  })
   status?: UserTopicProblemStatusEnum
 
   @Field(() => Int, { defaultValue: 0 })

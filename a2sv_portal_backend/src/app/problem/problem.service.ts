@@ -49,7 +49,7 @@ export class ProblemService {
       // difficulty?: ProblemDifficultyTypeEnum,
       // createdAt?: DateTimeFilter,
     }
-    if(tags){
+    if (tags) {
       filter.tags = { some: { name: { in: tags } } }
     }
     const problems = await this.problemRepository.findAll({
