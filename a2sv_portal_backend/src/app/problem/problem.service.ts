@@ -17,8 +17,8 @@ export class ProblemService {
   ) {}
 
   async createProblem({ tags, ...createInput }: CreateProblemInput): Promise<Problem> {
-    // TODO: check if problem with this link exists and if it does return
-    // TODO: "problem with this link already" exists error
+    // check if problem with this link exists and if it does return
+    // "problem with this link already" exists error
     const foundLink = await this.prismaService.problem.findUnique({
       where: { link: createInput.link },
     })
@@ -42,12 +42,11 @@ export class ProblemService {
   ): Promise<PaginationProblem> {
     const tags = filterProblemInput?.tags
     const filter: Prisma.ProblemWhereInput = {
-      // id?: String,
-      // title?: StringFilter,
+      id: filterProblemInput.id,
+      // title: StringFilter,
       // platform?: string,
       // link?: string,
       // difficulty?: ProblemDifficultyTypeEnum,
-      // tags?: string[],
       // createdAt?: DateTimeFilter,
     }
     if(tags){
@@ -106,7 +105,12 @@ export class ProblemService {
       where: { id: problemId },
       data: {
         ...updateInput,
-        tags: { connect: tags },
+        tags: {
+          connectOrCreate: tags?.map(t => ({
+            where: { name: t.name },
+            create: { name: t.name },
+          })),
+        },
       },
     })
   }
