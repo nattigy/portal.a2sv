@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { UserGroupSeasonTopicId } from '../../app/user-group-season-topic/dto/create-user-group-season-topic.input'
 import { UpdateUserGroupSeasonTopicInput } from '../../app/user-group-season-topic/dto/update-user-group-season-topic.input'
 import { PrismaService } from '../../prisma/prisma.service'
@@ -133,10 +133,28 @@ export class UserGroupSeasonTopicService {
     ...updates
   }: UpdateUserGroupSeasonTopicInput): Promise<UserGroupSeasonTopic> {
     const { userId, groupId, seasonId, topicId } = id
+    // TODO: Find user with userId and throw NotFoundException if doesn't exist
+    // TODO: check if user is in the same group as groupId provided if not throw "user not in the group" Error
     // TODO: get group from user, and search for GroupSeasonTopic if it doesn't exist,
     // TODO: throw NotFoundException "topic hasn't been added to your group"
     // TODO: check if the groupSeason the user in is active if not throw "season is not active error"
     // TODO: upsert UserGroupSeason
+
+    const foundUser = await this.prismaService.user.findUnique({ where: {id: userId} })
+    if(!foundUser) throw new NotFoundException(`User with id ${userId} does not exist!`)
+
+    if(foundUser.groupId !== groupId) throw new Error("User is not in this group yet!");
+
+    const foundGroupSeasonTopic = await this.prismaService.groupSeasonTopic.findUnique({ 
+      where: { 
+        groupId_seasonId_topicId: { groupId, seasonId, topicId }
+      },
+      include: {groupSeason: true}
+    })
+    if(!foundGroupSeasonTopic) throw new Error("Topic is not added to your group yet!");
+
+    if(!foundGroupSeasonTopic.groupSeason.isActive) throw new Error("This group's season is not active!");
+
     return this.userGroupSeasonTopicRepository.upsert({
       where: {
         userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },
