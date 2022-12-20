@@ -283,11 +283,14 @@ model UserGroupSeasonTopicProblem {
   seasonId                String
   topicId                 String
   problemId               String
-  solved                  Boolean                 @default(false)
+  status                    UserTopicProblemStatusEnum @default(NOT_SOLVED)
+  numberOfAttempts          Int
+  numberOfMinutes           Int
+  // solved                  Boolean                 @default(false)
   solutionLink            String?
-  attempts                Int                     @default(0)
-  timeDedicated           Int                     @default(0)
-  needHelp                Boolean                 @default(false)
+  // attempts                Int                     @default(0)
+  // timeDedicated           Int                     @default(0)
+  // needHelp                Boolean                 @default(false)
   createdAt               DateTime?               @default(now())
   updatedAt               DateTime?               @updatedAt
   userGroupSeasonTopic    UserGroupSeasonTopic    @relation(fields: [userId, groupId, seasonId, topicId], references: [userId, groupId, seasonId, topicId], onDelete: Cascade)
@@ -450,6 +453,12 @@ enum ProblemDifficultyTypeEnum {
 enum UserContestProblemStatusEnum {
   SOLVED_IN_CONTEST
   SOLVED_AFTER_CONTEST
+  NOT_SOLVED
+  UNABLE_TO_SOLVE
+}
+
+enum UserTopicProblemStatusEnum {
+  SOLVED
   NOT_SOLVED
   UNABLE_TO_SOLVE
 }

@@ -8,7 +8,8 @@ import { PaginationUserGroupSeasonTopicProblem } from '../../common/page/paginat
 import { UserGroupSeasonTopicProblemRepository } from '../../app/user-group-season-topic-problem/user-group-season-topic-problem.repository'
 import { GroupSeasonTopicProblem } from 'src/app/group-season-topic-problem/entities/group-season-topic-problem.entity'
 import { GroupSeasonTopicProblemRepository } from 'src/app/group-season-topic-problem/group-season-topic-problem.repository'
-import { UserGroupSeasonTopicProblemId } from '../../app/user-group-season-topic-problem/dto/create-user-group-season-topic-problem.input'
+import { UserGroupSeasonTopicProblemId } from '../../app/user-group-season-topic-problem/dto/user-group-season-topic-problem-id.input'
+import { UserTopicProblemStatusEnum } from '@prisma/client'
 
 @Injectable()
 export class UserGroupSeasonTopicProblemService {
@@ -51,11 +52,10 @@ export class UserGroupSeasonTopicProblemService {
         problemId,
         userId,
         groupId,
-        solved: false,
-        attempts: 0,
-        needHelp: false,
+        status: UserTopicProblemStatusEnum.NOT_SOLVED,
+        numberOfAttempts: 0,
+        numberOfMinutes: 0,
         solutionLink: '',
-        timeDedicated: 0,
         problem: groupSeasonTopicProblem.problem,
       }
     }
@@ -106,11 +106,10 @@ export class UserGroupSeasonTopicProblemService {
             groupId: user.groupId,
             topicId: groupSeasonTopicProblem.topicId,
             problemId: groupSeasonTopicProblem.problemId,
-            solved: false,
-            attempts: 0,
-            needHelp: false,
+            status: UserTopicProblemStatusEnum.NOT_SOLVED,
+            numberOfAttempts: 0,
+            numberOfMinutes: 0,
             solutionLink: '',
-            timeDedicated: 0,
             problem: groupSeasonTopicProblem.problem,
           })
         }

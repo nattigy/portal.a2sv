@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
-import { Prisma } from '@prisma/client'
+import { Prisma, UserTopicProblemStatusEnum } from '@prisma/client'
 import { UserGroupSeasonTopicProblem } from './entities/user-group-season-topic-problem.entity'
 
 @Injectable()
@@ -94,11 +94,14 @@ export class UserGroupSeasonTopicProblemRepository {
           },
         },
         problem: { connect: { id: where.userId_groupId_seasonId_topicId_problemId.problemId } },
-        attempts: data.attempts as number,
-        needHelp: data.needHelp as boolean,
+        // attempts: data.attempts as number,
+        // needHelp: data.needHelp as boolean,
         solutionLink: data.solutionLink as string,
-        timeDedicated: data.timeDedicated as number,
-        solved: data.solved as boolean,
+        // timeDedicated: data.timeDedicated as number,
+        // solved: data.solved as boolean,
+        numberOfAttempts: 0,
+        numberOfMinutes: 0,
+        status: UserTopicProblemStatusEnum.NOT_SOLVED
       },
       update: data,
       include: {

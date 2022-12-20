@@ -1,5 +1,6 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { Problem } from '../../problem/entities/problem.entity'
+import { UserTopicProblemStatusEnum } from '@prisma/client'
 
 @ObjectType()
 export class UserGroupSeasonTopicProblem {
@@ -18,20 +19,23 @@ export class UserGroupSeasonTopicProblem {
   @Field()
   problemId: string
 
-  @Field({ defaultValue: false })
-  solved: boolean
+  // @Field({ defaultValue: false })
+  // solved: boolean
+
+  @Field(() => UserTopicProblemStatusEnum, {defaultValue: UserTopicProblemStatusEnum.NOT_SOLVED})
+  status: UserTopicProblemStatusEnum
 
   @Field(() => Int, { defaultValue: 0 })
-  attempts: number
+  numberOfAttempts: number
 
-  @Field({ defaultValue: false })
-  needHelp: boolean
+  // @Field({ defaultValue: false })
+  // needHelp: boolean
 
   @Field({ nullable: true })
   solutionLink?: string
 
   @Field(() => Int)
-  timeDedicated: number
+  numberOfMinutes: number
 
   @Field(() => Problem)
   problem: Problem
@@ -42,3 +46,5 @@ export class UserGroupSeasonTopicProblem {
   @Field(() => Date, { nullable: true })
   updatedAt?: Date
 }
+
+registerEnumType(UserTopicProblemStatusEnum, {name: "UserTopicProblemStatusEnum"})

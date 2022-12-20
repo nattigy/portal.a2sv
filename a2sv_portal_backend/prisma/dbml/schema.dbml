@@ -286,11 +286,10 @@ Table UserGroupSeasonTopicProblem {
   seasonId String [not null]
   topicId String [not null]
   problemId String [not null]
-  solved Boolean [not null, default: false]
+  status UserTopicProblemStatusEnum [not null, default: 'NOT_SOLVED']
+  numberOfAttempts Int [not null]
+  numberOfMinutes Int [not null]
   solutionLink String
-  attempts Int [not null, default: 0]
-  timeDedicated Int [not null, default: 0]
-  needHelp Boolean [not null, default: false]
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   userGroupSeasonTopic UserGroupSeasonTopic [not null]
@@ -466,6 +465,12 @@ Enum ProblemDifficultyTypeEnum {
 Enum UserContestProblemStatusEnum {
   SOLVED_IN_CONTEST
   SOLVED_AFTER_CONTEST
+  NOT_SOLVED
+  UNABLE_TO_SOLVE
+}
+
+Enum UserTopicProblemStatusEnum {
+  SOLVED
   NOT_SOLVED
   UNABLE_TO_SOLVE
 }

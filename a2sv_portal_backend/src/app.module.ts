@@ -33,6 +33,7 @@ import { UserGroupSeasonModule } from './app/user-group-season/user-group-season
 import { GroupSeasonTopicProblemModule } from './app/group-season-topic-problem/group-season-topic-problem.module'
 import { GroupSeasonContestProblemModule } from './app/group-season-contest-problem/group-season-contest-problem.module'
 import { ServicesModule } from './services/services.module';
+import { builders } from 'prettier/doc'
 
 @Module({
   imports: [

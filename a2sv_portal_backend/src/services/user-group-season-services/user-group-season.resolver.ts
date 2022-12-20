@@ -24,7 +24,7 @@ import { UserGroupSeasonTopicService } from './user-group-season-topic.service'
 import { UserGroupSeasonTopicProblemService } from './user-group-season-topic-problem.service'
 import {
   UserGroupSeasonTopicProblemId
-} from '../../app/user-group-season-topic-problem/dto/create-user-group-season-topic-problem.input'
+} from '../../app/user-group-season-topic-problem/dto/user-group-season-topic-problem-id.input'
 
 @Resolver(() => UserGroupSeason)
 export class UserGroupSeasonResolver {
