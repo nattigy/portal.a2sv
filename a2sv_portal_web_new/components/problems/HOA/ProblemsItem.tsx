@@ -45,7 +45,7 @@ const ProblemsItem = ({ problem }: Props) => {
           title="Delete Problem"
           errorMessage={errorMessage}
           isLoading={isLoading}
-          description="This will delete the problem from problem set"
+          description="This will delete the problem from problem repository"
           onClose={() => setIsDeleteModalOpen(false)}
           onDelete={async () => {
             setIsLoading(true);

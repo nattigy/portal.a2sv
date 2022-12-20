@@ -110,7 +110,7 @@ const GroupInfo = ({ groupId }: Props) => {
           )}
           {tabIndex == 2 && (
             <div>
-              <SeasonList groupId={groupId} />
+              <SeasonList seasons={[]} />
             </div>
           )}
         </div>

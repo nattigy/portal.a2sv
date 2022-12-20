@@ -98,7 +98,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
             routes={[
               "/dashboard",
               "/seasons",
-              "/problems",
+              "/repository",
               "/users",
               "/contests",
               "/settings",
