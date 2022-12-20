@@ -1,5 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql'
 import { JoinRequestEnum } from '@prisma/client'
+import { DateTimeFilter } from 'src/common/filter-types/date-filter'
 
 @InputType()
 export class FilterGroupSeasonInput {
@@ -18,9 +19,10 @@ export class FilterGroupSeasonInput {
   @Field(() => JoinRequestEnum, { nullable: true })
   joinRequest?: JoinRequestEnum
 
-  @Field(() => Date, { nullable: true })
-  startDate?: Date
+  @Field(() => DateTimeFilter, { nullable: true })
+  startDate?: DateTimeFilter
 
-  @Field(() => Date, { nullable: true })
-  endDate?: Date
+  @Field(() => DateTimeFilter, { nullable: true })
+  endDate?: DateTimeFilter
+
 }

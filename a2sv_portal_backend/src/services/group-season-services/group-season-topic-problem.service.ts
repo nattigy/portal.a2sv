@@ -41,6 +41,24 @@ export class GroupSeasonTopicProblemService {
 
     if (!foundGroupSeason.isActive) throw new Error(`Group Season is not Active!`)
 
+    const group = await this.prismaService.group.findUnique({
+      where: { id: groupId },
+    })
+
+    const season = await this.prismaService.season.findUnique({
+      where: { id: seasonId },
+    })
+
+    const topic = await this.prismaService.topic.findUnique({
+      where: { id: topicId },
+    })
+
+    if (!group) throw new NotFoundException(`Group with id ${groupId} does not exist!`)
+
+    if (!season) throw new NotFoundException(`Season with id ${seasonId} does not exist!`)
+
+    if (!topic) throw new NotFoundException(`Season with id ${topicId} does not exist!`)
+
     const foundProblem = await this.prismaService.problem.findUnique({
       where: { id: problemId },
     })

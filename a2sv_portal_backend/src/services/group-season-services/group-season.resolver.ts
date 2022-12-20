@@ -16,6 +16,7 @@ import { GroupSeasonTopic } from '../../app/group-season-topic/entities/group-se
 import { GroupSeasonTopicProblem } from '../../app/group-season-topic-problem/entities/group-season-topic-problem.entity'
 import { GroupSeasonTopicProblemService } from './group-season-topic-problem.service'
 import { GroupSeasonTopicService } from './group-season-topic.service'
+import { FilterGroupSeasonInput } from '../../app/group-season/dto/filter-group-season.input'
 
 @Resolver(() => GroupSeason)
 export class GroupSeasonResolver {
@@ -41,10 +42,11 @@ export class GroupSeasonResolver {
 
   @Query(() => PaginationGroupSeason)
   async groupSeasons(
-    @Args('groupId') groupId: string,
+    @Args('filterGroupSeasonInput') filterGroupSeasonInput:FilterGroupSeasonInput,
+    // @Args('groupId') groupId: string,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<PaginationGroupSeason> {
-    return this.groupSeasonService.groupsSeasons({ groupId }, paginationInput)
+    return this.groupSeasonService.groupsSeasons(filterGroupSeasonInput, paginationInput)
   }
 
   @Mutation(() => GroupSeason)
