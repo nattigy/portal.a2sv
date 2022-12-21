@@ -1,6 +1,6 @@
 import { Resolver } from '@nestjs/graphql'
 import { GroupSeasonContestProblemService } from './group-season-contest-problem.service'
-import { GroupSeasonContestProblem } from './entities/group-season-contest-problem.entity'
+import { GroupSeasonContestProblem } from '../../app/group-season-contest-problem/entities/group-season-contest-problem.entity'
 
 @Resolver(() => GroupSeasonContestProblem)
 export class GroupSeasonContestProblemResolver {

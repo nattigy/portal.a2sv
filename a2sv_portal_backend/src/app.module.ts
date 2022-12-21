@@ -8,7 +8,6 @@ import { AppService } from './app.service'
 import { AuthModule } from './auth/auth.module'
 import { CaslModule } from './casl/casl.module'
 import { ProblemModule } from './app/problem/problem.module'
-import { RolesModule } from './roles/roles.module'
 import { TagModule } from './app/tag/tag.module'
 import { TopicModule } from './app/topic/topic.module'
 import { UserProfileModule } from './app/user-profile/user-profile.module'
@@ -16,6 +15,7 @@ import { PrismaModule } from './prisma/prisma.module'
 // import { DataAnalyticsModule } from './data-analytics/data-analytics.module'
 import { ScheduleModule } from '@nestjs/schedule'
 import { ServicesModule } from './services/services.module'
+import { ContestModule } from './app/contest/contest.module'
 
 @Module({
   imports: [
@@ -61,7 +61,7 @@ import { ServicesModule } from './services/services.module'
     // SeasonTopicModule,
     // SeasonTopicProblemModule,
     // UserGroupSeasonTopicProblemModule,
-    // ContestModule,
+    ContestModule,
     // UserGroupSeasonContestModule,
     // UserGroupSeasonContestProblemModule,
     PrismaModule,
@@ -78,4 +78,5 @@ import { ServicesModule } from './services/services.module'
   ],
   providers: [AppService, AppResolver],
 })
-export class AppModule {}
+export class AppModule {
+}

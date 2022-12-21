@@ -11,6 +11,8 @@ export class SeasonContestService {
   ) {}
 
   async addContestToASeason({ seasonId, contestId }: CreateSeasonContestInput) {
+    // TODO: add(upsert) seasonContestProblems from contest problems and user prismaService
+    // TODO: change create to upsert
     return this.seasonContestRepository.create({
       season: { connect: { id: seasonId } },
       contest: { connect: { id: contestId } },
