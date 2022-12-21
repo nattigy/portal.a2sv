@@ -22,6 +22,7 @@ import {
   UserGroupSeasonTopicProblemRepository,
 } from '../../app/user-group-season-topic-problem/user-group-season-topic-problem.repository'
 import { UserGroupSeasonRepository } from '../../app/user-group-season/user-group-season.repository'
+import { Field, Int } from '@nestjs/graphql'
 
 @Injectable()
 export class UserGroupSeasonTopicService {
@@ -59,7 +60,9 @@ export class UserGroupSeasonTopicService {
           topicId,
         },
       })
-      const numberOfSolvedProblems = userGroupSeasonTopicProblems.items
+      const totalSubmissions = userGroupSeasonTopicProblems.items
+        .filter(p => p.status !== UserTopicProblemStatusEnum.NOT_SOLVED).length
+      const totalAcceptedSubmissions = userGroupSeasonTopicProblems.items
         .filter(p => p.status === UserTopicProblemStatusEnum.SOLVED).length
       userGroupSeasonTopic = {
         seasonId,
@@ -67,8 +70,9 @@ export class UserGroupSeasonTopicService {
         topicId,
         userId,
         comfortLevel: ComfortLevelEnum.UNCOMFORTABLE,
-        numberOfSolvedProblems,
-        comfortabilityPercentage: (numberOfSolvedProblems / userGroupSeasonTopicProblems.items.length) * 100,
+        totalSubmissions,
+        totalAcceptedSubmissions,
+        comfortabilityPercentage: (totalAcceptedSubmissions / userGroupSeasonTopicProblems.items.length) * 100,
         topic: groupSeasonTopic.topic,
         userGroupSeasonTopicProblems: [],
       }
@@ -139,13 +143,15 @@ export class UserGroupSeasonTopicService {
                 u.topicId === groupSeasonTopic.topicId,
             )
             const solved = userProblems.filter(p => p.status === UserTopicProblemStatusEnum.SOLVED).length
+            const totalSubmissions = userProblems.filter(p => p.status !== UserTopicProblemStatusEnum.NOT_SOLVED).length
             result.push({
               seasonId: groupSeasonTopic.seasonId,
               userId: user.id,
               groupId: user.groupId,
               topicId: groupSeasonTopic.topicId,
               comfortLevel: ComfortLevelEnum.UNCOMFORTABLE,
-              numberOfSolvedProblems: solved,
+              totalAcceptedSubmissions: solved,
+               totalSubmissions,
               comfortabilityPercentage: (solved / userProblems.length) * 100,
               topic: groupSeasonTopic.topic,
               userGroupSeasonTopicProblems: userProblems,

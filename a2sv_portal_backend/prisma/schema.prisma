@@ -169,6 +169,7 @@ model GroupSeason {
   //number of students, total submissions, total accepted, acceptance rate
   //group contest rating, number of contest attended,
   //join request approved / pendding
+  //numberOfStudents
   group               Group                @relation(fields: [groupId], references: [id], onDelete: Cascade)
   season              Season               @relation(fields: [seasonId], references: [id], onDelete: Cascade)
   head                User?                @relation(fields: [headId], references: [id])
@@ -186,7 +187,8 @@ model GroupSeasonTopic {
   seasonId                 String
   topicId                  String
   //group season topic stat should be added here
-  // comfortablity percentage
+  numberOfProblems         Int?                      @default(0)
+  comfortability           Int?                      @default(0)
   createdAt                DateTime?                 @default(now())
   updatedAt                DateTime?                 @updatedAt
   groupSeason              GroupSeason               @relation(fields: [groupId, seasonId], references: [groupId, seasonId], onDelete: Cascade)
@@ -247,16 +249,21 @@ model GroupSeasonContestProblem {
 }
 
 model UserGroupSeason {
-  userId                  String
-  groupId                 String
-  seasonId                String
-  //user stat info should be added here
-  user                    User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  groupSeason             GroupSeason              @relation(fields: [groupId, seasonId], references: [groupId, seasonId], onDelete: Cascade)
-  createdAt               DateTime?                @default(now())
-  updatedAt               DateTime?                @updatedAt
-  userGroupSeasonTopics   UserGroupSeasonTopic[]
-  userGroupSeasonContests UserGroupSeasonContest[]
+  userId                   String
+  groupId                  String
+  seasonId                 String
+  rank                     Int?                     @default(0)
+  totalSubmissions         Int?                     @default(0)
+  totalAcceptedSubmissions Int?                     @default(0)
+  acceptanceRate           Int?                     @default(0)
+  averageContestRating     Int?                     @default(0)
+  totalContestsAttended    Int?                     @default(0)
+  user                     User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  groupSeason              GroupSeason              @relation(fields: [groupId, seasonId], references: [groupId, seasonId], onDelete: Cascade)
+  createdAt                DateTime?                @default(now())
+  updatedAt                DateTime?                @updatedAt
+  userGroupSeasonTopics    UserGroupSeasonTopic[]
+  userGroupSeasonContests  UserGroupSeasonContest[]
 
   @@id([userId, groupId, seasonId])
 }
@@ -267,8 +274,9 @@ model UserGroupSeasonTopic {
   seasonId                     String
   topicId                      String
   comfortLevel                 ComfortLevelEnum              @default(UNCOMFORTABLE)
-  numberOfSolvedProblems Int? @default(0)
-  comfortabilityPercentage Int? @default(0)
+  totalSubmissions             Int?                          @default(0)
+  totalAcceptedSubmissions     Int?                          @default(0)
+  comfortabilityPercentage     Int?                          @default(0)
   createdAt                    DateTime?                     @default(now())
   updatedAt                    DateTime?                     @updatedAt
   userGroupSeason              UserGroupSeason               @relation(fields: [userId, groupId, seasonId], references: [userId, groupId, seasonId], onDelete: Cascade)
