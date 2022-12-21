@@ -4,9 +4,9 @@ import { GroupSeasonContestProblem } from '../../app/group-season-contest-proble
 
 @Resolver(() => GroupSeasonContestProblem)
 export class GroupSeasonContestProblemResolver {
-  constructor(
-    private readonly groupSeasonContestProblemService: GroupSeasonContestProblemService,
-  ) {}
+  // constructor(
+  //   private readonly groupSeasonContestProblemService: GroupSeasonContestProblemService,
+  // ) {}
 
   // @Mutation(() => GroupSeasonContestProblem)
   // createGroupSeasonContestProblem(

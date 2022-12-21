@@ -21,6 +21,7 @@ import { GroupSeasonContestService } from './group-season-contest.service'
 import { GroupSeasonContest } from '../../app/group-season-contest/entities/group-season-contest.entity'
 import { CreateGroupSeasonContestInput } from '../../app/group-season-contest/dto/create-group-season-contest.input'
 import { UpdateGroupSeasonContestInput } from '../../app/group-season-contest/dto/update-group-season-contest.input'
+import { GroupSeasonContestProblemService } from './group-season-contest-problem.service'
 
 @Resolver(() => GroupSeason)
 export class GroupSeasonResolver {
@@ -28,7 +29,8 @@ export class GroupSeasonResolver {
     private readonly groupSeasonService: GroupSeasonService,
     private readonly groupSeasonTopicService: GroupSeasonTopicService,
     private readonly groupSeasonTopicProblemService: GroupSeasonTopicProblemService,
-    private readonly groupSeasonContestService: GroupSeasonContestService
+    private readonly groupSeasonContestService: GroupSeasonContestService,
+    // private readonly groupSeasonContestProblemService: GroupSeasonContestProblemService,
   ) {}
 
   @Mutation(() => GroupSeason)

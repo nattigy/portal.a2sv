@@ -61,7 +61,7 @@ import { ContestModule } from './app/contest/contest.module'
     // SeasonTopicModule,
     // SeasonTopicProblemModule,
     // UserGroupSeasonTopicProblemModule,
-    ContestModule,
+    // ContestModule,
     // UserGroupSeasonContestModule,
     // UserGroupSeasonContestProblemModule,
     PrismaModule,

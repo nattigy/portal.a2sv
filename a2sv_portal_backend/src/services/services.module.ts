@@ -27,21 +27,16 @@ import {
   GroupSeasonContestProblemModule,
 } from '../app/group-season-contest-problem/group-season-contest-problem.module'
 import { SeasonContestModule } from '../app/season-contest/season-contest.module'
-import { UserGroupSeasonContestModule } from '../app/user-group-season-contest/user-group-season-contest.module'
-import {
-  UserGroupSeasonContestProblemModule,
-} from '../app/user-group-season-contest-problem/user-group-season-contest-problem.module'
 import { GroupSeasonContestService } from './group-season-services/group-season-contest.service'
-import { UserGroupSeasonContestService } from './user-group-season-services/user-group-season-contest.service'
-import {
-  UserGroupSeasonContestProblemService,
-} from './user-group-season-services/user-group-season-contest-problem.service'
+import { GroupSeasonContestProblemService } from './group-season-services/group-season-contest-problem.service'
+import { ContestModule } from '../app/contest/contest.module'
 
 @Module({
   imports: [
     UserModule,
     GroupModule,
     SeasonModule,
+    ContestModule,
     SeasonTopicModule,
     SeasonTopicProblemModule,
     SeasonContestModule,
@@ -53,8 +48,8 @@ import {
     UserGroupSeasonModule,
     UserGroupSeasonTopicModule,
     UserGroupSeasonTopicProblemModule,
-    UserGroupSeasonContestModule,
-    UserGroupSeasonContestProblemModule,
+    // UserGroupSeasonContestModule,
+    // UserGroupSeasonContestProblemModule,
   ],
   providers: [
     GroupSeasonResolver,
@@ -62,12 +57,13 @@ import {
     GroupSeasonTopicService,
     GroupSeasonTopicProblemService,
     GroupSeasonContestService,
+    GroupSeasonContestProblemService,
     UserGroupSeasonResolver,
     UserGroupSeasonService,
     UserGroupSeasonTopicService,
     UserGroupSeasonTopicProblemService,
-    UserGroupSeasonContestService,
-    UserGroupSeasonContestProblemService,
+    // UserGroupSeasonContestService,
+    // UserGroupSeasonContestProblemService,
   ],
 })
 export class ServicesModule {
