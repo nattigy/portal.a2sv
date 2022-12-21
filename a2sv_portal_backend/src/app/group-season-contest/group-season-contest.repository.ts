@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
 import { GroupSeasonContest } from './entities/group-season-contest.entity'
+import { DateTimeFilter } from 'src/common/filter-types/date-filter'
 
 @Injectable()
 export class GroupSeasonContestRepository {
@@ -65,6 +66,40 @@ export class GroupSeasonContestRepository {
       where,
       include: this.include,
     })
+  }
+
+  async upsert(params: {
+    where:Prisma.GroupSeasonContestWhereUniqueInput
+  data: Prisma.GroupSeasonContestUpdateInput
+}): Promise<GroupSeasonContest>{
+    const {where, data} = params
+    return this.prismaService.groupSeasonContest.upsert({
+      where,
+      create:{
+        groupSeason:{
+          connect:{
+            groupId_seasonId:{
+              groupId: where.groupId_seasonId_contestId.groupId,
+              seasonId: where.groupId_seasonId_contestId.seasonId,
+            }
+          }
+        },
+        seasonContest:{
+          connect:{
+            seasonId_contestId:{
+              seasonId: where.groupId_seasonId_contestId.seasonId,
+              contestId: where.groupId_seasonId_contestId.contestId
+            }
+          }
+        },
+        contest: {connect:{id:where.groupId_seasonId_contestId.contestId}},
+        startTime: data.startTime as Date,
+        endTime: data.endTime as Date,
+      },
+      update:data,
+      include:this.include,
+    })
+
   }
 
   async remove(where: Prisma.GroupSeasonContestWhereUniqueInput) {

@@ -6,12 +6,7 @@ import seasonData from './seeds/seasonData'
 import tagData from './seeds/tagData'
 import topicData from './seeds/topicData'
 import userData from './seeds/userData'
-// import { groupsData } from './seeds/groupsData'
-// import { tagData } from './seeds/tagData'
-// import { topicData } from './seeds/topicData'
-// import { userData } from './seeds/userData'
-// import contestData from './seeds/contestData'
-// import problemData from './seeds/problemData'
+import contestData from './seeds/contestData'
 
 const prisma = new PrismaClient()
 
@@ -84,19 +79,20 @@ async function main() {
       data: userData,
     })
     //   console.log('user')
-    //   const problems = await prisma.problem.findMany({})
+      const problems = await prisma.problem.findMany({})
     //   for (let i = 0; i < contestData.length; i++) {
-    //     await prisma.contest.create({
-    //       data: {
-    //         name: contestData[i].name,
-    //         link: 'link1',
-    //         startTime: '2022-11-18T05:48:54.744Z',
-    //         endTime: '2022-11-18T05:48:54.744Z',
-    //         problems: {
-    //           connect: problems.map(p => ({ id: p.id })),
-    //         },
-    //       },
-    //     })
+        await prisma.contest.create({
+          data: {
+            name: contestData[0].name,
+            link: 'link1',
+            startTime: '2022-11-18T05:48:54.744Z',
+            endTime: '2022-11-18T05:48:54.744Z',
+            div:"Div-2",
+            problems: {
+              connect: problems.map(p => ({ id: p.id })),
+            },
+          },
+        })
     //   }
     //   console.log('contest')
     //
