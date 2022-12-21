@@ -77,17 +77,23 @@ export const GET_ALL_USER_QUERY = gql`
 `;
 
 export const GET_FILTERED_USERS = gql`
-  query Users($filterUserInput: FilterUserInput) {
-    users(filterUserInput: $filterUserInput) {
+  query Users(
+    $paginationInput: PaginationInput
+    $filterUserInput: FilterUserInput
+  ) {
+    users(
+      paginationInput: $paginationInput
+      filterUserInput: $filterUserInput
+    ) {
       items {
         id
         email
         role
         status
-        userProfile {
-          firstName
-          lastName
-        }
+        # userProfile {
+        #   firstName
+        #   lastName
+        # }
       }
     }
   }
