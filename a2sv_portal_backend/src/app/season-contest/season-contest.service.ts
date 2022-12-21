@@ -4,7 +4,7 @@ import { PrismaService } from '../../prisma/prisma.service'
 import { SeasonContestRepository } from './season-contest.repository'
 import { FilterSeasonContestInput } from './dto/filter-season-contest.input'
 import { PaginationInput } from 'src/common/page/pagination.input'
-import { ContestRepository } from '../contest/contest.repository'
+import { ContestRepository } from '../../app/contest/contest.repository'
 
 @Injectable()
 export class SeasonContestService {

@@ -30,6 +30,13 @@ import { SeasonContestModule } from '../app/season-contest/season-contest.module
 import { GroupSeasonContestService } from './group-season-services/group-season-contest.service'
 import { GroupSeasonContestProblemService } from './group-season-services/group-season-contest-problem.service'
 import { ContestModule } from '../app/contest/contest.module'
+import { SeasonContestRepository } from 'src/app/season-contest/season-contest.repository'
+import { SeasonContestResolver } from 'src/app/season-contest/season-contest.resolver'
+import { SeasonContestService } from 'src/app/season-contest/season-contest.service'
+import { ContestRepository } from 'src/app/contest/contest.repository'
+import { ContestResolver } from 'src/app/contest/contest.resolver'
+import { ContestService } from 'src/app/contest/contest.service'
+import { GroupSeasonContestRepository } from 'src/app/group-season-contest/group-season-contest.repository'
 
 @Module({
   imports: [
@@ -52,10 +59,18 @@ import { ContestModule } from '../app/contest/contest.module'
     // UserGroupSeasonContestProblemModule,
   ],
   providers: [
+    ContestRepository,
+    ContestResolver,
+    ContestService,
+    SeasonContestRepository,
+    SeasonContestResolver,
+    SeasonContestService,
+  
     GroupSeasonResolver,
     GroupSeasonService,
     GroupSeasonTopicService,
     GroupSeasonTopicProblemService,
+    GroupSeasonContestRepository,
     GroupSeasonContestService,
     GroupSeasonContestProblemService,
     UserGroupSeasonResolver,
