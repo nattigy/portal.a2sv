@@ -12,3 +12,10 @@ export const useGetGroupSeasons = (groupId: string) => {
     },
   });
 };
+
+export const useGetAllSeasons = () => {
+  return useQuery(GET_ALL_SEASONS_QUERY, {
+    notifyOnNetworkStatusChange: true,
+    errorPolicy: "all",
+  });
+};

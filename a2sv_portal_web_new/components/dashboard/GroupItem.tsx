@@ -7,7 +7,6 @@ import { DELETE_GROUP } from "../../lib/apollo/Mutations/groupsMutations";
 import DeletePopupModal from "../modals/DeletePopupModal";
 import GroupModal from "../modals/GroupModal";
 import { useMutation, ApolloError } from "@apollo/client";
-import { DELETE_SEASON } from "../../lib/apollo/Mutations/seasonsMutations";
 import WithPermission from "../../lib/Guard/WithPermission";
 import { GraphqlUserRole } from "../../types/user";
 import { Group } from "../../types/group";
