@@ -10,7 +10,7 @@ import DeletePopupModal from "../modals/DeletePopupModal";
 import SeasonModal from "../modals/SeasonModal";
 import { Season } from "../../types/season";
 import { ApolloError, useMutation } from "@apollo/client";
-import { REMOVE_SEASON } from "../../lib/apollo/Mutations/seasonsMutations";
+import { DELETE_SEASON } from "../../lib/apollo/Mutations/seasonsMutations";
 import WithPermission from "../../lib/Guard/WithPermission";
 import { GraphqlUserRole } from "../../types/user";
 import { slugify } from "../topics/TopicItem";
@@ -25,7 +25,7 @@ const SeasonItem = ({ seasonProps }: Props) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [deleteSeason, { loading }] = useMutation(REMOVE_SEASON);
+  const [deleteSeason, { loading }] = useMutation(DELETE_SEASON);
 
   const handleEditModalOpen = () => {
     setIsEditModalOpen(true);
@@ -76,7 +76,7 @@ const SeasonItem = ({ seasonProps }: Props) => {
           onDelete={async () => {
             await deleteSeason({
               variables: {
-                seasonId: seasonProps.id,
+                deleteSeasonId: seasonProps.id,
               },
               notifyOnNetworkStatusChange: true,
               refetchQueries: "active",
@@ -101,34 +101,22 @@ const SeasonItem = ({ seasonProps }: Props) => {
                 ]}
               >
                 <MenuItem
-                  menuItems={
-                    GraphqlUserRole.HEAD_OF_ACADEMY
-                      ? [
-                          {
-                            title: "Edit Season",
-                            onClick: (e: any) => {
-                              e.stopPropagation();
-                              handleEditModalOpen();
-                            },
-                          },
-                          {
-                            title: "Delete Season",
-                            onClick: (e: any) => {
-                              e.stopPropagation();
-                              handleDeleteModalOpen();
-                            },
-                          },
-                        ]
-                      : [
-                          {
-                            title: "Remove Season",
-                            onClick: (e: any) => {
-                              e.stopPropagation();
-                              handleDeleteModalOpen();
-                            },
-                          },
-                        ]
-                  }
+                  menuItems={[
+                    {
+                      title: "Edit Season",
+                      onClick: (e: any) => {
+                        e.stopPropagation();
+                        handleEditModalOpen();
+                      },
+                    },
+                    {
+                      title: "Delete Season",
+                      onClick: (e: any) => {
+                        e.stopPropagation();
+                        handleDeleteModalOpen();
+                      },
+                    },
+                  ]}
                 />
               </WithPermission>
             </div>

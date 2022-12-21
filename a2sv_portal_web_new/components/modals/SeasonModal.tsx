@@ -58,11 +58,10 @@ const SeasonModal = ({ isEditing, season, onClose, groupId }: Props) => {
                 variables: {
                   createSeasonInput: {
                     name: values.name,
+                    groupId: groupId,
                     seasonType: values.type,
                     endDate: values.endDate,
-                    duration: "5 Weeks",
                     startDate: values.startDate,
-                    isActive: false,
                   },
                 },
                 refetchQueries: "active",
@@ -77,12 +76,11 @@ const SeasonModal = ({ isEditing, season, onClose, groupId }: Props) => {
             } else {
               await editSeason({
                 variables: {
+                  updateSeasonId: season?.id,
                   updateSeasonInput: {
-                    duration: season?.duration,
                     endDate: values.endDate,
-                    isActive: season?.isActive,
+                    id: season?.id,
                     name: values.name,
-                    seasonId: season?.id,
                     seasonType: values.type,
                     startDate: values.startDate,
                   },

@@ -26,7 +26,9 @@ export const ADD_EXISTING_PROBLEM = gql`
 
 export const REMOVE_PROBLEM = gql`
   mutation RemoveProblem($problemId: String!) {
-    removeProblem(problemId: $problemId)
+    removeProblem(problemId: $problemId) {
+      id
+    }
   }
 `;
 export const REMOVE_SEASON_TOPIC_PROBLEM = gql`

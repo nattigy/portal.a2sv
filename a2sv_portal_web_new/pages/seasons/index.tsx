@@ -10,13 +10,9 @@ import { useReactiveVar } from "@apollo/client";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../types/user";
 import WithPermission from "../../lib/Guard/WithPermission";
-import { useGetAllSeasons } from "../../lib/hooks/useSeasons";
-import EmptyState from "../../components/common/EmptyState";
-import { LoaderSmall } from "../../components/common/Loaders";
 
 const IndexPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { data, loading, error } = useGetAllSeasons();
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -38,9 +34,14 @@ const IndexPage = () => {
       )}
       <div className="flex flex-col gap-y-4">
         <div className="flex items-center justify-between rounded-md">
-          <h1 className="font-bold text-2xl">Seasons</h1>
+          <h1 className="font-bold text-2xl">Season</h1>
           <div className="flex gap-x-2">
-            <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_ACADEMY]}>
+            <WithPermission
+              allowedRoles={[
+                GraphqlUserRole.HEAD_OF_ACADEMY,
+                GraphqlUserRole.HEAD_OF_EDUCATION,
+              ]}
+            >
               <Button
                 onClick={handleModalOpen}
                 text="Create New"
@@ -52,21 +53,8 @@ const IndexPage = () => {
 
         <div className="flex flex-col gap-y-4">
           {/* <h1 className="font-semibold text-md">Current</h1> */}
-          {/* {JSON.stringify(authUser.headToGroup?.id || authUser.groupId)} */}
-
-          {error ? (
-            <div>Something went wrong</div>
-          ) : data?.seasons?.items.length === 0 ? (
-            <div className="h-full flex items-center">
-              <EmptyState />
-            </div>
-          ) : loading ? (
-            <div className="w-full flex h-full items-center justify-center min-w-full min-h-full">
-              <LoaderSmall />
-            </div>
-          ) : (
-            <SeasonList seasons={data?.seasons?.items} />
-          )}
+          {JSON.stringify(authUser.headToGroup?.id || authUser.groupId)}
+          <SeasonList groupId={authUser.headToGroup?.id || authUser.groupId} />
         </div>
 
         {/* <div className="flex flex-col gap-y-4">

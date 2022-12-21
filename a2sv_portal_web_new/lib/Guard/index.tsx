@@ -30,7 +30,7 @@ const mockUsers = [
     groupId: null,
     groupTopicProblems: [],
     groupTopicSeasonProblems: [],
-    headToGroup: 'tfht',
+    headToGroup: null,
     id: "4",
     role: "HEAD_OF_ACADEMY",
     status: "ACTIVE",
@@ -85,15 +85,6 @@ const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
   // const { data: user, loading, refetch, error } = useGetMe();
   const router = useRouter();
   const user = {getMe:mockUsers[0]};
-  
-  useEffect(() => {
-    if (user) {
-      authenticatedVar(true);
-      authenticatedUser(user?.getMe);
-    } else {
-      authenticatedVar(false);
-    }
-  }, [user]);
 
   // useEffect(() => {
   //   if (user) {
