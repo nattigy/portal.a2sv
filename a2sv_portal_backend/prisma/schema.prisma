@@ -4,8 +4,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // url      = env("LOCAL_DB_URL")
-  url      = env("DB_URL")
+  url      = env("LOCAL_DB_URL")
+  // url      = env("DB_URL")
   //  shadowDatabaseUrl = env("SHADOW_DB_URL")
 }
 
@@ -267,6 +267,8 @@ model UserGroupSeasonTopic {
   seasonId                     String
   topicId                      String
   comfortLevel                 ComfortLevelEnum              @default(UNCOMFORTABLE)
+  numberOfSolvedProblems Int? @default(0)
+  comfortabilityPercentage Int? @default(0)
   createdAt                    DateTime?                     @default(now())
   updatedAt                    DateTime?                     @updatedAt
   userGroupSeason              UserGroupSeason               @relation(fields: [userId, groupId, seasonId], references: [userId, groupId, seasonId], onDelete: Cascade)
@@ -286,11 +288,7 @@ model UserGroupSeasonTopicProblem {
   status                  UserTopicProblemStatusEnum @default(NOT_SOLVED)
   numberOfAttempts        Int
   numberOfMinutes         Int
-  // solved                  Boolean                 @default(false)
   solutionLink            String?
-  // attempts                Int                     @default(0)
-  // timeDedicated           Int                     @default(0)
-  // needHelp                Boolean                 @default(false)
   createdAt               DateTime?                  @default(now())
   updatedAt               DateTime?                  @updatedAt
   userGroupSeasonTopic    UserGroupSeasonTopic       @relation(fields: [userId, groupId, seasonId, topicId], references: [userId, groupId, seasonId, topicId], onDelete: Cascade)

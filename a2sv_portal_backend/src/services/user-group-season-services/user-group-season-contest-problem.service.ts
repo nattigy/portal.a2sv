@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common'
 import { PaginationUserGroupSeasonContestProblem } from 'src/common/page/pagination-info'
 import { PaginationInput } from 'src/common/page/pagination.input'
 import { PrismaService } from '../../prisma/prisma.service'
-import { UserGroupSeasonContestProblemId } from './dto/create-user-group-season-contest-problem.input'
-import { FilterUserContestProblemInput } from './dto/filter-user-group-season-contest-problem'
-import { UserGroupSeasonContestProblem } from './entities/user-group-season-contest-problem.entity'
-import { UserGroupSeasonContestProblemRepository } from './user-group-season-contest-problem.repository'
+import { UserGroupSeasonContestProblemId } from '../../app/user-group-season-contest-problem/dto/create-user-group-season-contest-problem.input'
+import { FilterUserContestProblemInput } from '../../app/user-group-season-contest-problem/dto/filter-user-group-season-contest-problem'
+import { UserGroupSeasonContestProblem } from '../../app/user-group-season-contest-problem/entities/user-group-season-contest-problem.entity'
+import { UserGroupSeasonContestProblemRepository } from '../../app/user-group-season-contest-problem/user-group-season-contest-problem.repository'
 import { UserContestProblemStatusEnum } from '@prisma/client'
-import { UpdateUserGroupSeasonContestProblemInput } from './dto/update-user-group-season-contest-problem.input'
+import { UpdateUserGroupSeasonContestProblemInput } from '../../app/user-group-season-contest-problem/dto/update-user-group-season-contest-problem.input'
 
 @Injectable()
 export class UserGroupSeasonContestProblemService {

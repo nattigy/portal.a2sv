@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { UserGroupSeasonContestService } from './user-group-season-contest.service'
+import { UserGroupSeasonContestService } from '../../services/user-group-season-services/user-group-season-contest.service'
 
 describe('UserContestService', () => {
   let service: UserGroupSeasonContestService
