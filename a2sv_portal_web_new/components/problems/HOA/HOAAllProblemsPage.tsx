@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useApollo } from "../../../lib/apollo/apolloClient";
 import useAllProblems from "../../../lib/hooks/useAllProblems";
-import Button from "../../common/Button";
 import EmptyState from "../../common/EmptyState";
 import { LoaderSmall } from "../../common/Loaders";
-import ProblemModal from "../../modals/ProblemModal";
 import ProblemsList from "./ProblemsList";
 
 type Props = {};
 
-const AllProblemsPage = (props: Props) => {
+const HOAAllProblemsPage = (props: Props) => {
   const [problemsData, setProblemsData] = useState([]);
   const apolloClient = useApollo(props);
   const { data, refetch, error, loading } = useAllProblems();
-  const [isProblemModalOpen, setIsProblemModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (data) {
@@ -23,25 +20,6 @@ const AllProblemsPage = (props: Props) => {
 
   return (
     <>
-      {isProblemModalOpen && (
-        <ProblemModal
-          isEditing={false}
-          onClose={() => {
-            setIsProblemModalOpen(false);
-          }}
-          newProblem={true}
-        />
-      )}
-      <div className="flex flex-col items-end pb-4">
-        <Button
-          onClick={() => {
-            setIsProblemModalOpen(true);
-          }}
-          text="Add New Problem"
-          classname="bg-primary text-white text-xs"
-        />
-      </div>
-
       {/* {isAddTopicToGroupModalOpen && (
         <AddTopicToGroupModal
           onClose={() => setIsAddTopicToGroupModalOpen(false)}
@@ -59,6 +37,7 @@ const AllProblemsPage = (props: Props) => {
         ) : (
           <>
             {problemsData?.length > 0 ? (
+              
               <ProblemsList problems={problemsData} />
             ) : (
               <EmptyState />
@@ -70,4 +49,4 @@ const AllProblemsPage = (props: Props) => {
   );
 };
 
-export default AllProblemsPage;
+export default HOAAllProblemsPage;

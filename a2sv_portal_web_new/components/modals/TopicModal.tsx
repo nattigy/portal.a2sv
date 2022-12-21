@@ -6,13 +6,11 @@ import { ApolloError, useMutation } from "@apollo/client";
 import {
   ADD_SEASON_TOPIC,
   CREATE_TOPIC_MUTATION,
-  EDIT_TOPIC,
 } from "../../lib/apollo/Mutations/topicsMutations";
 import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormRejectButton from "../common/FormRejectButton";
 import FormField from "../common/FormField";
 import TopicsAutocomplete, { TopicType } from "../topics/TopicsAutocomplete";
-import { Topic } from "../../types/topic";
 interface FormValues {
   topic_title: string;
   description: string;
@@ -20,10 +18,9 @@ interface FormValues {
 
 type Props = {
   isEditing: boolean;
-  topic?: Topic;
+  values?: FormValues;
   onClose: () => void;
-  seasonId?: string;
-  newTopic?: boolean;
+  seasonId: string;
 };
 
 const TopicModal = (props: Props) => {
@@ -32,46 +29,28 @@ const TopicModal = (props: Props) => {
   const [addNewTopic, { loading, error, data }] = useMutation(
     CREATE_TOPIC_MUTATION
   );
-  const [editTopic, { loading: editLoading, error: editError }] =
-    useMutation(EDIT_TOPIC);
   const [addTopicToGroupAndSeason] = useMutation(ADD_SEASON_TOPIC);
   const [existingTopic, setExistingTopic] = useState<TopicType | null>(null);
 
   const INITIAL_VALUES: FormValues = {
-    topic_title: props.topic?.name || "",
-    description: props.topic?.description || "",
+    topic_title: "",
+    description: "",
   };
 
   const FORM_VALIDATION = yup.object().shape({
-    topic_title: yup.string().required("Required"),
-    description: yup.string().required("Required"),
+    // topic_title: yup.string().required("Required"),
+    // description: yup.string().required("Required"),
   });
 
   return (
     <>
       <div className=" transition-all duration-200 py-8 text-[#565656] w-screen h-screen absolute top-0 bottom-0 left-0 right-0 bg-gray-900 bg-opacity-30 z-50">
         <Formik
-          initialValues={INITIAL_VALUES}
+          initialValues={props.values ? props.values : INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
             if (props.isEditing) {
-              await editTopic({
-                variables: {
-                  updateTopicInput: {
-                    description: values.description,
-                    name: values.topic_title,
-                    topicId: props.topic?.id,
-                  },
-                },
-                refetchQueries: "active",
-                notifyOnNetworkStatusChange: true,
-                onCompleted: () => {
-                  props.onClose();
-                },
-                onError: (error) => {
-                  setErrorMessage((error as ApolloError).message);
-                },
-              });
+              () => {};
             } else {
               if (existingTopic === null) {
                 await addNewTopic({
@@ -124,7 +103,9 @@ const TopicModal = (props: Props) => {
                 <div className="w-full flex flex-col">
                   <div className="my-3 w-full flex justify-between items-center">
                     {props.isEditing ? (
-                      <h2 className="font-semibold text-lg">Edit Topic</h2>
+                      <h2 className="font-semibold text-lg">
+                        Edit {props.values?.topic_title}
+                      </h2>
                     ) : (
                       <h2 className="font-semibold text-lg">
                         Create New Topic
@@ -165,17 +146,46 @@ const TopicModal = (props: Props) => {
                   </p>
                   <div className="w-full flex flex-col gap-y-2">
                     <div className="w-full">
-                      {!props.newTopic && (
-                        <div className="mt-4">
-                          <div className="flex flex-col justify-start gap-y-4">
-                            <div className={clsx("flex items-center")}>
-                              <TopicsAutocomplete
-                                handleSearchTopic={setExistingTopic}
+                      {/* <div className="flex justify-between items-center">
+                        <h2 className="font-semibold text-lg">Seasons</h2>
+                      </div>
+                      <p className="tracking-wider text-md text-start text-[#949494]">
+                        This season will be used to give students problems with
+                        respect to the seasons
+                      </p> */}
+                      {/* <div className="flex flex-col justify-start">
+                        <div className="flex items-center my-4">
+                          <FormDropdown
+                            name="season"
+                            placeholder="Select Seasons"
+                            icon={
+                              <AiOutlineUser
+                                size={20}
+                                className="absolute left-2"
                               />
-                            </div>
+                            }
+                            error={errors.season}
+                            touched={touched.season}
+                            options={[
+                              { name: "Education", value: "education" },
+                              { name: "Camp", value: "camp" },
+                              { name: "Project", value: "project" },
+                            ]}
+                          />
+                        </div>
+                        <p className="w-full text-xs text-red-500">
+                          {touched.season && errors.season}
+                        </p>
+                      </div> */}
+                      <div className="mt-4">
+                        <div className="flex flex-col justify-start gap-y-4">
+                          <div className={clsx("flex items-center")}>
+                            <TopicsAutocomplete
+                              handleSearchTopic={setExistingTopic}
+                            />
                           </div>
                         </div>
-                      )}
+                      </div>
                     </div>
                     {!existingTopic && (
                       <>

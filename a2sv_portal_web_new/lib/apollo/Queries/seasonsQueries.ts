@@ -1,34 +1,16 @@
 import { gql } from "@apollo/client";
 
-// export const GET_ALL_SEASONS_QUERY = gql`
-//   query Items($filterSeasonInput: FilterSeasonInput) {
-//     seasons(filterSeasonInput: $filterSeasonInput) {
-//       items {
-//         id
-//         name
-//         groupId
-//         startDate
-//         endDate
-//         isActive
-//         seasonType
-//       }
-//     }
-//   }
-// `;
-
 export const GET_ALL_SEASONS_QUERY = gql`
-  query Items {
-    seasons {
+  query Items($filterSeasonInput: FilterSeasonInput) {
+    seasons(filterSeasonInput: $filterSeasonInput) {
       items {
-        duration
-        endDate
         id
-        isActive
         name
-        seasonType
+        groupId
         startDate
-        updatedAt
-        createdAt
+        endDate
+        isActive
+        seasonType
       }
     }
   }

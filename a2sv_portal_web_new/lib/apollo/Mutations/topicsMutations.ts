@@ -15,23 +15,18 @@ export const ADD_SEASON_TOPIC = gql`
   }
 `;
 
-export const REMOVE_TOPIC = gql`
-  mutation RemoveTopic($topicId: String!) {
-    removeTopic(topicId: $topicId)
-  }
-`;
-export const EDIT_TOPIC = gql`
-  mutation UpdateTopic($updateTopicInput: UpdateTopicInput!) {
-    updateTopic(updateTopicInput: $updateTopicInput) {
+export const DELETE_TOPIC = gql`
+  mutation DeleteTopic($deleteTopicId: Int!) {
+    deleteTopic(id: $deleteTopicId) {
       id
+      name
     }
   }
 `;
 
 export const REMOVE_SEASON_TOPIC = gql`
-  mutation RemoveSeasonTopic($seasonId: String!, $topicId: String!) {
-    removeSeasonTopic(seasonId: $seasonId, topicId: $topicId) {
-      seasonId
-    }
+mutation RemoveSeasonTopic($seasonId: String!, $topicId: String!) {
+  removeSeasonTopic(seasonId: $seasonId, topicId: $topicId) {
+    seasonId
   }
-`;
+}`;

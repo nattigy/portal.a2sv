@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import BaseLayout from "../../../components/common/BaseLayout";
 import EmptyState from "../../../components/common/EmptyState";
 import { LoaderSmall } from "../../../components/common/Loaders";
-import HOAAllProblemsPage from "../../../components/problems/HOA/AllProblemsPage";
+import HOAAllProblemsPage from "../../../components/problems/HOA/HOAAllProblemsPage";
 import ProblemsList from "../../../components/problems/HOA/ProblemsList";
 import { useGetAllProblemsByTags } from "../../../lib/hooks/useAllProblems";
 
