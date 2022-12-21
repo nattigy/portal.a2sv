@@ -19,17 +19,17 @@ const LeftSidebar = (props: Props) => {
             <CustomLink key={index} href={route}>
               <a
                 href="#"
+
                 className={clsx(
-                  router.pathname.includes(route) &&
-                    "bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700  fill-current  ",
-                  " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200 fill-current text-gray-700 hover:text-white  hover:bg-indigo-600 group"
+                  " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200  group fill-indigo-700  hover:bg-indigo-600 hover:fill-white ",
+                  router.pathname.includes(route) ?
+                    "bg-indigo-100 fill-indigo-700 text-indigo-700 border-r-4 border-indigo-700  " : " fill-gray-700 ",
                 )}
               >
                 <svg
+
                   className={clsx(
-                    "w-6 h-6 hover:text-white",
-                    router.pathname.includes(route) &&
-                      "fill-current text-indigo-700 "
+                    "w-6 h-6 group-hover:text-white ",
                   )}
                   width="24px"
                   height="24px"
