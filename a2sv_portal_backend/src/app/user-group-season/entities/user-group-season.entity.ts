@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql'
+import { Field, Float, Int, ObjectType } from '@nestjs/graphql'
 
 import { User } from '../../user/entities/user.entity'
 import { UserGroupSeasonTopic } from '../../user-group-season-topic/entities/user-group-season-topic.entity'
@@ -17,6 +17,24 @@ export class UserGroupSeason {
 
   @Field(() => User, { nullable: true })
   user: User
+
+  @Field(() => Float)
+  rank: number
+
+  @Field(() => Int)
+  totalSubmissions: number
+
+  @Field(() => Int)
+  totalAcceptedSubmissions: number
+
+  @Field(() => Float)
+  acceptanceRate: number
+
+  @Field(() => Float)
+  averageContestRating: number
+
+  @Field(() => Int)
+  totalContestsAttended: number
 
   @Field(() => UserGroupSeasonTopic)
   userGroupSeasonTopics: UserGroupSeasonTopic[]

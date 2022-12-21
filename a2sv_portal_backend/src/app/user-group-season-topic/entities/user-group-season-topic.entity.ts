@@ -24,7 +24,10 @@ export class UserGroupSeasonTopic {
   comfortLevel: ComfortLevelEnum = ComfortLevelEnum.UNCOMFORTABLE
 
   @Field(() => Int)
-  numberOfSolvedProblems: number
+  totalSubmissions: number
+
+  @Field(() => Int)
+  totalAcceptedSubmissions: number
 
   @Field(() => Float)
   comfortabilityPercentage: number
