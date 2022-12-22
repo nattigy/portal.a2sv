@@ -73,6 +73,27 @@ export class SeasonContestRepository {
     })
   }
 
+  async upsert(params: {
+    where: Prisma.SeasonContestWhereUniqueInput
+    data: Prisma.SeasonContestUpdateInput
+  }): Promise<SeasonContest> {
+    const { where, data } = params
+    return this.prismaService.seasonContest.upsert({
+      where,
+      create: {
+        season: { connect: { id: where.seasonId_contestId.seasonId } },
+        contest: { connect: { id: where.seasonId_contestId.contestId } },
+      },
+      update: {},
+      include: {
+        season: true,
+        contest: {
+          include: { problems: { include: { tags: true } } },
+        },
+      },
+    })
+  }
+
   async remove(where: Prisma.SeasonContestWhereUniqueInput) {
     return this.prismaService.seasonContest.delete({ where })
   }
