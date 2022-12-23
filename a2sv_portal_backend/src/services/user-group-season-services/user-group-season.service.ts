@@ -118,7 +118,7 @@ export class UserGroupSeasonService {
       ))
       const totalSubmissions = uTopics.map(t => t.totalSubmissions).reduce((a, b) => a + b, 0)
       const totalAcceptedSubmissions = uTopics.map(t => t.totalAcceptedSubmissions).reduce((a, b) => a + b, 0)
-      const acceptanceRate = uTopics.map(t => t.totalSubmissions).reduce((a, b) => a + b, 0)
+      const acceptanceRate = (uTopics.map(t => t.comfortabilityPercentage).reduce((a, b) => a + b, 0) / uTopics.length) * 100
       statMap[statMapKey] = {
         ...statMap[statMapKey],
         totalSubmissions,

@@ -37,6 +37,7 @@ import { ContestRepository } from 'src/app/contest/contest.repository'
 import { ContestResolver } from 'src/app/contest/contest.resolver'
 import { ContestService } from 'src/app/contest/contest.service'
 import { GroupSeasonContestRepository } from 'src/app/group-season-contest/group-season-contest.repository'
+import { GroupSeasonContestResolver } from './group-season-services/group-season-contest.resolver'
 
 @Module({
   imports: [
@@ -65,13 +66,13 @@ import { GroupSeasonContestRepository } from 'src/app/group-season-contest/group
     SeasonContestRepository,
     SeasonContestResolver,
     SeasonContestService,
-  
     GroupSeasonResolver,
     GroupSeasonService,
     GroupSeasonTopicService,
     GroupSeasonTopicProblemService,
     GroupSeasonContestRepository,
     GroupSeasonContestService,
+    GroupSeasonContestResolver,
     GroupSeasonContestProblemService,
     UserGroupSeasonResolver,
     UserGroupSeasonService,
