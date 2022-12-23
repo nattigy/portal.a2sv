@@ -14,6 +14,7 @@ import {
 } from "../../lib/apollo/Mutations/seasonsMutations";
 import { Season, SeasonType } from "../../types/season";
 import FormDropdown from "../common/FormDropdown";
+import { FaChevronDown } from "react-icons/fa";
 
 interface FormValues {
   name: string;
@@ -198,6 +199,7 @@ const SeasonModal = ({ isEditing, season, onClose, groupId }: Props) => {
                               value: SeasonType.PROJECT,
                             },
                           ]}
+                          icon={<FaChevronDown size={16} />}
                         />
                       </div>
                     </div>

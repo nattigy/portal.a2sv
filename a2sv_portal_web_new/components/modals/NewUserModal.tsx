@@ -204,6 +204,7 @@ const NewUserModal = (props: Props) => {
                                     value: GraphqlUserRole.HEAD_OF_EDUCATION,
                                   },
                                 ]}
+                                icon={<FaChevronDown size={16} />}
                               />
                             </div>
                           </div>

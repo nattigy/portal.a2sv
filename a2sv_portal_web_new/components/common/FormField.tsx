@@ -8,6 +8,7 @@ type Props = {
   placeholder: string;
   error?: string;
   touched?: boolean;
+  props?: any;
 };
 
 const FormField = (props: Props) => {
@@ -18,9 +19,10 @@ const FormField = (props: Props) => {
       placeholder={props.placeholder}
       type="text"
       className={clsx(
-        "w-full text-sm placeholder-[#949494] border bg-white rounded-md focus:outline-none py-3 px-4 my-2",
+        "w-full text-sm placeholder-[#949494] border resize-none bg-white rounded-md focus:outline-none py-3 px-4 my-2",
         props.touched && props.error ? "border-red-500" : "border-[#DCDCDC]"
       )}
+      {...props.props}
     />
   );
 };

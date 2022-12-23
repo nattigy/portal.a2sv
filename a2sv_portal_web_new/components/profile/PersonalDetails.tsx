@@ -14,8 +14,6 @@ type Props = {
 };
 
 const PersonalDetails = ({ formik }: Props) => {
-  console.log(formik.values, "Formik");
-
   return (
     <div className="bg-white p-4">
       <div className="flex justify-between p-2">

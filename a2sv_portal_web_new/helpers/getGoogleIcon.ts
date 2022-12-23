@@ -11,7 +11,9 @@ export const getGoogleIcon: any = (name: string) => {
       return "/icons/google-sheets.svg";
     case "slides":
       return "/icons/google-slides.svg";
-    default:
-      return "/icons/google-docs.svg";
-  }
+    case "pdf":
+      return "/icons/pdf-file-icon.svg";
+    case "video":
+      return "/icons/video-file-icon.svg";
+   }
 };

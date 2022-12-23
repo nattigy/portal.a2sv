@@ -327,6 +327,7 @@ const ProblemModal = (props: Props) => {
                                       placeholder="Select Platform"
                                       error={errors.platform}
                                       touched={touched.platform}
+                                      icon={<FaChevronDown size={16} />}
                                       options={[
                                         { name: "Leetcode", value: "Leetcode" },
                                         {

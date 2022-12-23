@@ -1,42 +1,18 @@
 import { useRouter } from "next/router";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
+import { BiPlus } from "react-icons/bi";
+import { FaPlus } from "react-icons/fa";
 import BaseLayout from "../../../../../../components/common/BaseLayout";
+import ResourceModal from "../../../../../../components/modals/ResourceModal";
 import ProblemsPage from "../../../../../../components/problems/ProblemsPage";
-import TopicResourcesItem, {
-  TopicResourcesProps,
-} from "../../../../../../components/problems/TopicResourcesItem";
+import TopicResourcesItem from "../../../../../../components/problems/TopicResourcesItem";
+import { Resource } from "../../../../../../types/resource";
 
 const IndexPage = () => {
-  const topicResource: Array<TopicResourcesProps> = [
-    {
-      id: 1,
-      name: "DP Patterns.doc",
-      size: "12MB",
-      date: "Oct 28 9:27PM",
-      type: "Docs",
-      link: "/#",
-    },
-    {
-      id: 2,
-      name: "DP Patterns.ppt",
-      size: "2MB",
-      date: "Oct 28 9:27PM",
-      type: "Slides",
-      link: "/#",
-    },
-    {
-      id: 3,
-      name: "DP Patterndfkdkfjdkfjdkjfs.xlsx",
-      size: "1MB",
-      date: "Oct 28 9:27PM",
-      type: "Sheets",
-      link: "/#",
-    },
-  ];
-  const Sidebar: React.FC<{ sidebarProps: Array<TopicResourcesProps> }> = ({
+  const Sidebar: React.FC<{ sidebarProps: Array<Resource> }> = ({
     sidebarProps,
   }: {
-    sidebarProps: Array<TopicResourcesProps>;
+    sidebarProps: Array<Resource>;
   }) => {
     return (
       <div className="flex flex-col justify-between h-full">
@@ -46,18 +22,22 @@ const IndexPage = () => {
               Resources
             </h1>
           </div>
-          {sidebarProps ? (
-            sidebarProps.map((sidebarProp: TopicResourcesProps) => {
+          {sidebarProps &&
+            sidebarProps.map((sidebarProp: Resource) => {
               return (
                 <TopicResourcesItem
                   topicResource={sidebarProp}
                   key={sidebarProp.id}
                 />
               );
-            })
-          ) : (
-            <h1>No Resources for this topic yet</h1>
-          )}
+            })}
+          <div
+            onClick={handleModalOpen}
+            className="flex gap-x-1 items-center justify-center bg-[#F6F6FC] border-2 border-dashed border-[#CDCDCD] rounded-md p-3 mt-2"
+          >
+            <BiPlus size={22} />
+            <h1 className="font-medium text-md">Add More Resources</h1>
+          </div>
         </div>
         <div>
           <img src="/icons/resources.svg" alt="" />
@@ -71,11 +51,23 @@ const IndexPage = () => {
 
   const router = useRouter();
   const query = router.query;
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
 
   return (
-    <BaseLayout sidebar={<Sidebar sidebarProps={topicResource} />}>
+    <BaseLayout sidebar={<Sidebar sidebarProps={[]} />}>
+      {isModalOpen && (
+        <ResourceModal isEditing={false} onClose={() => setIsModalOpen(false)} />
+      )}
       <div>
-        <ProblemsPage topicName={query?.name as string}  seasonId={query?.seasonId as string} topicId={query?.topicId as string}/>
+        <ProblemsPage
+          topicName={query?.name as string}
+          seasonId={query?.seasonId as string}
+          topicId={query?.topicId as string}
+        />
       </div>
     </BaseLayout>
   );

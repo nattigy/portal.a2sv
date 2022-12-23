@@ -1,60 +1,50 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
+import { Form, Formik, FormikProps } from "formik";
+import React, { useRef, useState } from "react";
 import { getNationality } from "../../helpers/getNationalityFlag";
-import { ApolloError, useMutation } from "@apollo/client";
-import {
-  CREATE_GROUP_MUTATION,
-  EDIT_GROUP,
-} from "../../lib/apollo/Mutations/groupsMutations";
+import { Resource } from "../../types/resource";
 import FormAffirmativeButton from "../common/FormAffirmativeButton";
-import FormRejectButton from "../common/FormRejectButton";
-import FormField from "../common/FormField";
 import FormDropdown from "../common/FormDropdown";
+import FormField from "../common/FormField";
+import FormRejectButton from "../common/FormRejectButton";
 import HOEAutocomplete from "../users/HOEAutocomplete";
-import { Group } from "../../types/group";
+import { getGoogleIcon } from "../../helpers/getGoogleIcon";
+import { MdChevronRight } from "react-icons/md";
+import { FiChevronDown } from "react-icons/fi";
 import { FaChevronDown } from "react-icons/fa";
-
-export enum RoleTypes {
-  STUDENT = "Student",
-  HOE = "Head of Education",
-  HOA = "Head of Academy",
-}
 
 interface FormValues {
   name: string;
-  country: string;
-  school: string;
-  headId?: string;
+  type: string;
+  description: string;
+  link: string;
 }
 
 type Props = {
   isEditing: boolean;
-  group?: Group;
+  resource?: Resource;
   onClose: () => void;
 };
 
-const GroupModal = ({ isEditing, group, onClose }: Props) => {
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [addNewGroup] = useMutation(CREATE_GROUP_MUTATION);
-  const [editGroup] = useMutation(EDIT_GROUP);
+const TextAreaInput = ({ field, form, ...props }: any) => {
+  return <textarea rows={3} className="resize-none" {...field} {...props} />;
+};
 
-  console.log(group, "Group");
+const ResourceModal = ({ isEditing, resource, onClose }: Props) => {
+  const [errorMessage, setErrorMessage] = useState("");
+
   const INITIAL_VALUES: FormValues = {
-    name: group?.name || "",
-    country: group?.country || "",
-    school: group?.school || "",
-    headId: group?.head?.id,
+    name: resource?.name || "",
+    type: resource?.type || "",
+    description: resource?.description || "",
+    link: resource?.link || "",
   };
 
   const FORM_VALIDATION = yup.object().shape({
     name: yup.string().required("Required").min(3).max(40),
-    country: yup.string().required("Required"),
-    school: yup.string().required("Required"),
+    type: yup.string().required("Required"),
+    link: yup.string().required("Required"),
   });
-
-  const [selected, setSelected] = useState<null | any>();
 
   return (
     <>
@@ -63,45 +53,7 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
-            if (isEditing) {
-              await editGroup({
-                variables: {
-                  updateGroupInput: {
-                    id: group?.id,
-                    name: values.name,
-                    school: values.school,
-                    country: values.country,
-                    headId: selected?.id,
-                  },
-                },
-                refetchQueries: "active",
-                notifyOnNetworkStatusChange: true,
-                onCompleted: (data) => {
-                  onClose();
-                },
-                onError: (error) => {
-                  setErrorMessage((error as ApolloError).message);
-                },
-              });
-            } else {
-              setIsLoading(true);
-              await addNewGroup({
-                variables: {
-                  createGroupInput: values,
-                },
-                refetchQueries: "active",
-                notifyOnNetworkStatusChange: true,
-                onCompleted: (data) => {
-                  setIsLoading(false);
-                  onClose();
-                },
-                onError: (error) => {
-                  setErrorMessage((error as ApolloError).message);
-                  setIsLoading(false);
-                },
-              });
-            }
-            actions.resetForm();
+            () => {};
           }}
         >
           {({ isSubmitting, handleChange, errors, touched, values }) => (
@@ -110,17 +62,14 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
                 role="alert"
                 className="flex flex-col gap-y-3 min-h-fit bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-8 py-5"
               >
-                {JSON.stringify(errors)}
                 <div className="w-full flex flex-col items-center">
                   <div className="my-3 w-full flex justify-between items-center">
                     {isEditing ? (
                       <h2 className="font-semibold text-lg">
-                        Edit {group?.name}
+                        Edit {resource?.name}
                       </h2>
                     ) : (
-                      <h2 className="font-semibold text-lg">
-                        Create New Group
-                      </h2>
+                      <h2 className="font-semibold text-lg">Add Resource</h2>
                     )}
                     <div className="cursor-pointer" onClick={() => onClose()}>
                       <svg
@@ -148,23 +97,16 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
                       </svg>
                     </div>
                   </div>
-                  {isEditing ? (
-                    <p className="tracking-wider text-md text-start text-[#949494]">
-                      You can edit the information related to the group. Make
-                      sure to save inorder to see the changes.
-                    </p>
-                  ) : (
-                    <p className="tracking-wider text-md text-start text-[#949494]">
-                      Add new group to the system and easily track everything.{" "}
-                    </p>
-                  )}
                 </div>
                 <div className="w-full">
+                  <div className="flex justify-between items-center">
+                    <h2 className="font-semibold text-md">Name</h2>
+                  </div>
                   <div className="flex flex-col justify-start">
                     <div className="flex flex-col items-center">
                       <FormField
                         id="name"
-                        placeholder="Group Name"
+                        placeholder="Add name of the resource"
                         name="name"
                         touched={touched.name}
                         error={errors.name}
@@ -176,22 +118,28 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
                   </div>
                 </div>
                 <div className="w-full">
+                  <div className="flex justify-between items-center">
+                    <h2 className="font-semibold text-md">Resource Type</h2>
+                  </div>
+
                   <div className="flex flex-col justify-start">
                     <div className="flex items-center my-2 relative">
                       <div className="absolute left-2 z-10">
                         <img
-                          src={getNationality(values.country)}
-                          className="w-6 rounded-full"
+                          src={getGoogleIcon(values.type)}
+                          className="w-6"
                           alt=""
                         />
                       </div>
                       <FormDropdown
-                        name="country"
-                        placeholder="Select Country"
+                        name="type"
+                        placeholder="Select Resource Type"
                         options={[
-                          { name: "Ethiopia", value: "Ethiopia" },
-                          { name: "Ghana", value: "Ghana" },
-                          { name: "Turkey", value: "Turkey" },
+                          { name: "Doc", value: "docs" },
+                          { name: "Sheet", value: "sheets" },
+                          { name: "Slide", value: "slides" },
+                          { name: "PDF", value: "pdf" },
+                          { name: "Video", value: "video" },
                         ]}
                         icon={<FaChevronDown size={16} />}
                       />
@@ -199,33 +147,42 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
                   </div>
                 </div>
                 <div className="w-full">
+                  <div className="flex justify-between items-center">
+                    <h2 className="font-semibold text-md">Description</h2>
+                  </div>
+
                   <div className="flex flex-col justify-start">
                     <div className="flex flex-col items-center">
-                      <HOEAutocomplete
-                        user={group?.head}
-                        handleSearchStudent={setSelected}
+                      <FormField
+                        id="description"
+                        placeholder="Add a description"
+                        name="description"
+                        touched={touched.description}
+                        error={errors.description}
+                        props={{ component: TextAreaInput }}
                       />
                       <p className="w-full text-xs text-red-500">
-                        {errors.name}
+                        {errors.description}
                       </p>
                     </div>
                   </div>
                 </div>
-                <div className="w-full my-2">
+                <div className="w-full">
                   <div className="flex justify-between items-center">
-                    <h2 className="font-semibold text-lg">Institute</h2>
+                    <h2 className="font-semibold text-md">Resource Link</h2>
                   </div>
+
                   <div className="flex flex-col justify-start">
                     <div className="flex flex-col items-center">
                       <FormField
-                        id="school"
-                        name="school"
-                        placeholder="School"
-                        error={errors.school}
-                        touched={touched.school}
+                        id="link"
+                        placeholder="Resource Link"
+                        name="link"
+                        touched={touched.link}
+                        error={errors.link}
                       />
                       <p className="w-full text-xs text-red-500">
-                        {errors.school}
+                        {errors.link}
                       </p>
                     </div>
                   </div>
@@ -250,4 +207,4 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
   );
 };
 
-export default GroupModal;
+export default ResourceModal;
