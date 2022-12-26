@@ -32,10 +32,8 @@ export const ADD_TOPIC_TO_GROUP = gql`
   }
 `;
 export const DELETE_GROUP = gql`
-  mutation DeleteGroup($deleteGroupId: String!) {
-    deleteGroup(id: $deleteGroupId) {
-      id
-    }
+  mutation RemoveGroup($groupId: String!) {
+    removeGroup(groupId: $groupId)
   }
 `;
 export const ADD_STUDENTS_TO_GROUP = gql`
@@ -45,11 +43,11 @@ export const ADD_STUDENTS_TO_GROUP = gql`
 `;
 
 export const EDIT_GROUP = gql`
-  mutation UpdateGroup($updateGroupInput: UpdateGroupInput!) {
-    updateGroup(updateGroupInput: $updateGroupInput) {
-      id
-    }
+ mutation UpdateGroup($updateGroupInput: UpdateGroupInput!) {
+  updateGroup(updateGroupInput: $updateGroupInput) {
+    id
   }
+}
 `;
 
 /*

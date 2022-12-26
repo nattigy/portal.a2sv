@@ -14,6 +14,7 @@ import FormDropdown from "../common/FormDropdown";
 import HOEAutocomplete from "../users/HOEAutocomplete";
 import { Group } from "../../types/group";
 import { FaChevronDown } from "react-icons/fa";
+import { count } from "console";
 
 export enum RoleTypes {
   STUDENT = "Student",
@@ -67,7 +68,7 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
               await editGroup({
                 variables: {
                   updateGroupInput: {
-                    id: group?.id,
+                    groupId: group?.id,
                     name: values.name,
                     school: values.school,
                     country: values.country,
@@ -87,7 +88,12 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
               setIsLoading(true);
               await addNewGroup({
                 variables: {
-                  createGroupInput: values,
+                  createGroupInput: {
+                    headId: selected?.id,
+                    country: values.country,
+                    name: values.name,
+                    school: values.school,
+                  },
                 },
                 refetchQueries: "active",
                 notifyOnNetworkStatusChange: true,

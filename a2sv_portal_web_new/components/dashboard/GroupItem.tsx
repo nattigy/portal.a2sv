@@ -74,7 +74,7 @@ const GroupItem = ({ groupProps, color }: Props) => {
           onDelete={async () => {
             await deleteGroup({
               variables: {
-                deleteGroupId: groupProps.id,
+                groupId: groupProps.id,
               },
               notifyOnNetworkStatusChange: true,
               refetchQueries: "active",
