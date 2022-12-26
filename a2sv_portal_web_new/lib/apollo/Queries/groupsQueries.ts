@@ -46,7 +46,7 @@ export const GET_ALL_GROUPS_QUERY = gql`
 `;
 
 export const GET_ALL_PAGINATED_GROUPS_QUERY = gql`
-  query Groups(
+  query Items(
     $filterGroupInput: FilterGroupInput
     $paginationInput: PaginationInput
   ) {
