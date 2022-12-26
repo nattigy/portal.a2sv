@@ -82,39 +82,32 @@ const mockUsers = [
 ];
 
 const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
-  // const { data: user, loading, refetch, error } = useGetMe();
+  const { data: user, loading, refetch, error } = useGetMe();
   const router = useRouter();
-  const user = {getMe:mockUsers[0]};
-  
   useEffect(() => {
+    console.log(user, " is user")
     if (user) {
       authenticatedVar(true);
       authenticatedUser(user?.getMe);
+      if (router.pathname.includes("/auth")) {
+        router.replace("/")
+      }
     } else {
       authenticatedVar(false);
+      authenticatedUser({});
     }
-  }, [user]);
+  }, [refetch, user]);
 
-  // useEffect(() => {
-  //   if (user) {
-  //     authenticatedVar(true);
-  //     authenticatedUser(user?.getMe);
-  //   } else {
-  //     authenticatedVar(false);
-  //   }
-  // }, [refetch, user]);
-
-  // if (loading) {
-  //   return (
-  //     <div className="min-h-screen min-w-full flex justify-center items-center">
-  //       <LoaderLarge />
-  //     </div>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <div className="min-h-screen min-w-full flex justify-center items-center">
+        <LoaderLarge />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full h-full relative">
-      <NetworkErrorToaster />
       {excludedRoutes?.includes(router.pathname) ? (
         <PublicRoute authUser={user?.getMe}>{children}</PublicRoute>
       ) : (

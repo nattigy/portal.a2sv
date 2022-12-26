@@ -46,11 +46,14 @@ export const GET_ALL_GROUPS_QUERY = gql`
 `;
 
 export const GET_ALL_PAGINATED_GROUPS_QUERY = gql`
-  query GroupsPagination(
+  query Groups(
     $filterGroupInput: FilterGroupInput
-    $pageInfoInput: PaginationInfoInput
+    $paginationInput: PaginationInput
   ) {
-    groups(filterGroupInput: $filterGroupInput, pageInfoInput: $pageInfoInput) {
+    groups(
+      filterGroupInput: $filterGroupInput
+      paginationInput: $paginationInput
+    ) {
       items {
         id
         name

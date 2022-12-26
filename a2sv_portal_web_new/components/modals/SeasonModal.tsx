@@ -106,7 +106,6 @@ const SeasonModal = ({ isEditing, season, onClose, groupId }: Props) => {
                 role="alert"
                 className="flex flex-col gap-y-3 min-h-[400px] bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-8 py-5"
               >
-                {JSON.stringify(errors)}
                 <div className="w-full flex flex-col">
                   <div className="my-3 w-full flex justify-between items-center">
                     {isEditing ? (

@@ -181,7 +181,6 @@ const IndexPage = () => {
           {(formik) => {
             return (
               <div className="w-full">
-                {JSON.stringify(formik.errors)}
                 <div className="flex justify-between py-2">
                   <h1 className="font-bold text-2xl">Create New Contest</h1>
                   <div className="py-2">
@@ -193,7 +192,6 @@ const IndexPage = () => {
                     />
                   </div>
                 </div>
-                {/* {JSON.stringify(format(new Date(formik.values.time.toString()), "MMM dd, yyyy"))} */}
                 <Form id="profile-form" className=" gap-y-3">
                   <ContestInfoItem formik={formik} />
                   <QuestionsItem

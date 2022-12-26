@@ -6,10 +6,11 @@ import MenuItem from "../common/MenuItem";
 import { DELETE_GROUP } from "../../lib/apollo/Mutations/groupsMutations";
 import DeletePopupModal from "../modals/DeletePopupModal";
 import GroupModal from "../modals/GroupModal";
-import { useMutation, ApolloError } from "@apollo/client";
+import { useMutation, ApolloError, useReactiveVar } from "@apollo/client";
 import WithPermission from "../../lib/Guard/WithPermission";
 import { GraphqlUserRole } from "../../types/user";
 import { Group } from "../../types/group";
+import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 
 type Props = {
   color?: string;
@@ -52,6 +53,7 @@ const GroupItem = ({ groupProps, color }: Props) => {
   const handleDeleteModalOpen = () => {
     setIsDeleteModalOpen(true);
   };
+  const authUser = useReactiveVar(authenticatedUser) as AuthUser;
 
   return (
     <>
@@ -185,7 +187,7 @@ const GroupItem = ({ groupProps, color }: Props) => {
               +{groupProps.totalStudentsCount}
             </div>
           </div>
-          <CustomLink href={`/dashboard/${groupProps.id}`}>
+          <CustomLink href={authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY ? `/dashboard/${groupProps.id}` : `/groups/${groupProps.id}`}>
             <p className="text-[#5956E9] text-xs font-semibold cursor-pointer">
               View Details
             </p>

@@ -222,10 +222,6 @@ const ProblemModal = (props: Props) => {
                 role="alert"
                 className="flex flex-col gap-y-3 min-h-fit justify-between bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-10 py-5"
               >
-                {/* {JSON.stringify(props.problem)}
-                {JSON.stringify(errors)} */}
-                {JSON.stringify(tags)}
-
                 <div className="w-full flex flex-col gap-y-2 items-center">
                   <div className="my-2 w-full flex justify-between items-center">
                     {props.isEditing ? (

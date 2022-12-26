@@ -51,9 +51,6 @@ const IndexPage = () => {
         </div>
 
         <div className="flex flex-col gap-y-4">
-          {/* <h1 className="font-semibold text-md">Current</h1> */}
-          {/* {JSON.stringify(authUser.headToGroup?.id || authUser.groupId)} */}
-
           {error ? (
             <div>Something went wrong</div>
           ) : data?.seasons?.items.length === 0 ? (
