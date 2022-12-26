@@ -23,7 +23,7 @@ export const getSVGIcon: any = (name: string) => {
       return (
         <svg
           className={clsx(
-            "w-7 h-7 group-hover:text-white ",
+            "w-7 h-7 group-hover:fill-white ",
           )}
           width="24px"
           height="24px"
@@ -48,7 +48,7 @@ export const getSVGIcon: any = (name: string) => {
       return (
         <svg
           className={clsx(
-            "w-6 h-6 group-hover:text-white ",
+            "w-6 h-6 group-hover:fill-white ",
           )}
           width="24px"
           height="24px"
