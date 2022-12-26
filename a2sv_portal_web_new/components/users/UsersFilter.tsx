@@ -35,7 +35,7 @@ type Props = {
 const UsersFilter = (props: Props) => {
   const authUser = useReactiveVar(authenticatedUser);
   return (
-    <div className="p-2 flex flex-col lg:flex-row md:justify-center  bg-white rounded-sm w-full md:h-full gap-x-2 md:my-5 sticky inset-x-0 top-0 left-0 ">
+    <div className="p-2 flex flex-col lg:flex-row md:justify-center  bg-white rounded-sm w-full md:h-full gap-x-2 md:my-5 sticky inset-x-0 top-0 left-0 z-20">
       <div className="w-full flex flex-1 marker: flex-col justify-start items-start ">
         <div className="flex h-full w-full my-2 flex-1 sm:gap-x-5 justify-around md:justify-center lg:gap-x-8 px-1 ">
           {filterItems.map((item, index) => (
