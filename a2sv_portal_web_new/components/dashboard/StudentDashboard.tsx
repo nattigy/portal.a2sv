@@ -121,7 +121,7 @@ const StudentDashboard = (props: Props) => {
     },
   ];
   const Sidebar: React.FC = () => {
-    
+
     return (
       <div className="flex flex-col gap-y-3">
         <p className="text-[#565656] font-semibold text-lg">Topics Covered</p>

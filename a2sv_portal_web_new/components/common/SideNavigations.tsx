@@ -27,7 +27,7 @@ const SideNavigations = () => {
       await logout({
         errorPolicy: "all",
         variables: {},
-        onError: (error) => {},
+        onError: (error) => { },
         onCompleted: async () => {
           authenticatedUser({});
           authenticatedVar(false);
@@ -49,6 +49,7 @@ const SideNavigations = () => {
           <LeftSidebar
             routes={[
               "/dashboard",
+              "/groups",
               "/seasons",
               "/users",
               "/contests",
@@ -61,7 +62,8 @@ const SideNavigations = () => {
         return (
           <LeftSidebar
             routes={[
-              "/dashboard",
+              // "/dashboard",
+              // "/groups",
               "/seasons",
               "/users",
               "/contests",
@@ -75,6 +77,8 @@ const SideNavigations = () => {
           <LeftSidebar
             routes={[
               "/dashboard",
+              "/groups",
+
               "/problems",
               "/users",
               "/contests",
@@ -88,6 +92,7 @@ const SideNavigations = () => {
           <LeftSidebar
             routes={[
               "/dashboard",
+              "/groups",
               "/seasons",
               "/users",
               "/contests",

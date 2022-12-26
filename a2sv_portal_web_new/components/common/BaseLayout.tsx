@@ -35,17 +35,22 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
   const handleLogout = async () => {
     try {
       await localStorage.clear();
-      await logout({
-        errorPolicy: "all",
-        variables: {},
-        onError: (error) => {},
-        onCompleted: async () => {
-          authenticatedUser({});
-          authenticatedVar(false);
-          router.replace("/auth");
-          await apolloClient.resetStore();
-        },
-      });
+      authenticatedUser({});
+      authenticatedVar(false);
+      localStorage.clear()
+      router.replace("/auth");
+
+      // await logout({
+      //   errorPolicy: "all",
+      //   variables: {},
+      //   onError: (error) => {},
+      //   onCompleted: async () => {
+      //     authenticatedUser({});
+      //     authenticatedVar(false);
+      //     await apolloClient.resetStore();
+      //     router.replace("/auth");
+      //   },
+      // });
     } catch (error) {
       authenticatedUser({});
       authenticatedVar(false);
@@ -69,6 +74,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
           <LeftSidebar
             routes={[
               "/dashboard",
+              "/groups",
               "/seasons",
               "/users",
               "/contests",

@@ -7,6 +7,8 @@ import GroupItemList from "./GroupItemList";
 import GroupStatList from "./GroupStatList";
 import Button from "../common/Button";
 import GroupModal from "../modals/GroupModal";
+import WithPermission from "../../lib/Guard/WithPermission";
+import { GraphqlUserRole } from "../../types/user";
 
 type Props = {};
 
@@ -34,18 +36,20 @@ const HOADashboard = (props: Props) => {
               Here‘s the list of all groups{" "}
             </p>
           </div>
-          <Button
-            icon={<BsPlus color="#ffffff" size={18} />}
-            onClick={handleModalOpen}
-            classname="bg-primary text-white text-xs"
-            text="New Group"
-          />
+          <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_ACADEMY]} >
+            <Button
+              icon={<BsPlus color="#ffffff" size={18} />}
+              onClick={handleModalOpen}
+              classname="bg-primary text-white text-xs"
+              text="New Group"
+            />
+          </WithPermission>
         </div>
 
         <div className="grid grid-cols-12 gap-y-5 w-full">
           <div className="col-span-9 flex flex-row justify-between">
             <SearchField
-              onChange={() => {}}
+              onChange={() => { }}
               placeholder="Search a group"
               id="group-search"
             />
