@@ -31,7 +31,7 @@ export class UserService {
   ) {}
 
   async createUser(createUserInput: CreateUserInput): Promise<User> {
-    const { email, firstName, middleName, lastName, password } = createUserInput
+    const { email, password } = createUserInput
 
     const foundUser = await this.userRepository.findOne({ email })
 
@@ -42,9 +42,6 @@ export class UserService {
 
     return this.userRepository.create({
       email,
-      firstName,
-      middleName,
-      lastName,
       password: hash,
       status: StatusEnum.ACTIVE,
       role: RoleEnum.STUDENT,
@@ -55,8 +52,8 @@ export class UserService {
     filterUserInput?: FilterUserInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationUser> {
-    const name = filterUserInput?.name
-    delete filterUserInput?.name
+    // const name = filterUserInput?.name
+    // delete filterUserInput?.name
     const usersCount = await this.userRepository.count(filterUserInput)
     const users: User[] = await this.userRepository.findAll({
       skip,

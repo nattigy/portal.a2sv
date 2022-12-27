@@ -15,7 +15,6 @@ import { PrismaModule } from './prisma/prisma.module'
 // import { DataAnalyticsModule } from './data-analytics/data-analytics.module'
 import { ScheduleModule } from '@nestjs/schedule'
 import { ServicesModule } from './services/services.module'
-import { ContestModule } from './app/contest/contest.module'
 
 @Module({
   imports: [
@@ -49,31 +48,12 @@ import { ContestModule } from './app/contest/contest.module'
     AuthModule,
     PrismaModule,
     CaslModule,
-    // GroupModule,
-    // RolesModule,
-    // UserModule,
-    // SeasonModule,
     TagModule,
     ProblemModule,
     TopicModule,
     UserProfileModule,
-    // UserGroupSeasonTopicModule,
-    // SeasonTopicModule,
-    // SeasonTopicProblemModule,
-    // UserGroupSeasonTopicProblemModule,
-    // ContestModule,
-    // UserGroupSeasonContestModule,
-    // UserGroupSeasonContestProblemModule,
     PrismaModule,
     CaslModule,
-    // DataAnalyticsModule,
-    // SeasonContestModule,
-    // GroupSeasonTopicModule,
-    // GroupSeasonContestModule,
-    // GroupSeasonModule,
-    // UserGroupSeasonModule,
-    // GroupSeasonTopicProblemModule,
-    // GroupSeasonContestProblemModule,
     ServicesModule,
   ],
   providers: [AppService, AppResolver],

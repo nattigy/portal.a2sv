@@ -88,9 +88,6 @@ model Problem {
 
 model User {
   id                 String            @id @default(uuid())
-  firstName          String
-  middleName         String
-  lastName           String
   role               RoleEnum
   email              String            @unique
   password           String
@@ -347,6 +344,9 @@ model UserGroupSeasonContestProblem {
 model UserProfile {
   id                     String                     @id @default(uuid())
   userId                 String                     @unique
+  firstName          String
+  middleName         String
+  lastName           String
   photoUrl               String?
   phone                  String
   countryCode            String

@@ -6,14 +6,14 @@ export class UpdateUserInput {
   @Field()
   userId: string
 
-  @Field({ nullable: true })
-  firstName?: string
-
-  @Field({ nullable: true })
-  middleName?: string
-
-  @Field({ nullable: true })
-  lastName?: string
+  // @Field({ nullable: true })
+  // firstName?: string
+  //
+  // @Field({ nullable: true })
+  // middleName?: string
+  //
+  // @Field({ nullable: true })
+  // lastName?: string
 
   @Field({ nullable: true })
   groupId?: string

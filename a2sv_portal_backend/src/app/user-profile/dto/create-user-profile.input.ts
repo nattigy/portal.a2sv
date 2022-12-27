@@ -7,6 +7,15 @@ export class CreateUserProfileInput {
   @Field(() => String)
   userId: string
 
+  @Field()
+  firstName: string
+
+  @Field()
+  middleName: string
+
+  @Field()
+  lastName: string
+
   @Field({ nullable: true })
   photoUrl?: string
 

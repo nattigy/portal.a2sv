@@ -8,8 +8,8 @@ export class FilterUserInput {
   @Field({ nullable: true })
   id?: string
 
-  @Field(() => StringFilter, { nullable: true })
-  name?: StringFilter
+  // @Field(() => StringFilter, { nullable: true })
+  // name?: StringFilter
 
   @Field(() => RoleEnum, { nullable: true })
   role?: RoleEnum

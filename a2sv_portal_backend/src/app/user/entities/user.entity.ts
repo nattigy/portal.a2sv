@@ -8,15 +8,6 @@ export class User {
   @Field({ description: 'Id of the user' })
   id: string
 
-  @Field()
-  firstName: string
-
-  @Field()
-  middleName: string
-
-  @Field()
-  lastName: string
-
   @Field(() => RoleEnum, { defaultValue: RoleEnum.STUDENT, description: 'Role of the user' })
   role: RoleEnum
 

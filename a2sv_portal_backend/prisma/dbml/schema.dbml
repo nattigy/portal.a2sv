@@ -77,9 +77,6 @@ Table Problem {
 
 Table User {
   id String [pk]
-  firstName String [not null]
-  middleName String [not null]
-  lastName String [not null]
   role RoleEnum [not null]
   email String [unique, not null]
   password String [not null]
@@ -357,6 +354,9 @@ Table UserGroupSeasonContestProblem {
 Table UserProfile {
   id String [pk]
   userId String [unique, not null]
+  firstName String [not null]
+  middleName String [not null]
+  lastName String [not null]
   photoUrl String
   phone String [not null]
   countryCode String [not null]
