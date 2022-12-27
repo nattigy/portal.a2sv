@@ -3,30 +3,25 @@ import { gql } from "@apollo/client";
 export const GET_SINGLE_GROUP_QUERY = gql`
   query Group($groupId: String!) {
     group(groupId: $groupId) {
-      country
-      createdAt
-      head {
-        id
-        role
-        email
-        userProfile {
-          firstName
-          lastName
-        }
-      }
-      headId
       id
       name
-      headId
-      country
       school
-      users {
+      country
+      head {
+        id
+        firstName
+        lastName
         email
-        userProfile {
-          firstName
-          lastName
-        }
+        role
       }
+      users {
+        id
+        firstName
+        lastName
+        email
+        createdAt
+      }
+      createdAt
     }
   }
 `;

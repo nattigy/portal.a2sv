@@ -122,21 +122,17 @@ export const GET_USERS_BY_GROUP_ID_QUERY = gql`
 `;
 
 export const GET_STUDENTS_WITH_NO_GROUP_QUERY = gql`
-  query Items($filterUserInput: FilterUserInput) {
-    users(filterUserInput: $filterUserInput) {
-      items {
-        id
-        email
-        role
-        userProfile {
-          id
-          firstName
-          lastName
-        }
-      }
+query Users($filterUserInput: FilterUserInput) {
+  users(filterUserInput: $filterUserInput) {
+    items {
+      id
+      firstName
+      lastName
+      email
+      role
     }
   }
-`;
+}`;
 
 export const GET_SINGLE_GROUP_USERS_QUERY = gql`
   query Users($groupId: String!) {

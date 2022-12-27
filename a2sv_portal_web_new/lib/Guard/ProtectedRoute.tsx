@@ -15,7 +15,7 @@ const ProtectedRoute = ({ children, authUser }: Props) => {
     }
   }, [authUser, router.isReady]);
 
-  if (true) {
+  if (authUser) {
     return <div>{children}</div>;
   } else {
     return (

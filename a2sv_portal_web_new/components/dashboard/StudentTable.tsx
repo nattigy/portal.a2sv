@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
 import { getNationality } from "../../helpers/getNationalityFlag";
 import { format } from "date-fns";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 export type StudentsInfo = {
   id: number;
   name?: string;
   photo?: string;
   email: string;
+  firstName: string;
+  lastName: string;
   nationality?: string;
   country?: string;
   residence?: string;
@@ -81,6 +84,15 @@ const StudentTable = (props: Props) => {
               </th>
               <th scope="col" className="py-3 px-6">
                 <div className="flex flex-row gap-x-1">
+                  <div className="text-[#979797]">Email</div>
+                  <div className="flex flex-row">
+                    <FaLongArrowAltUp className="-mr-2 pr-1" />
+                    <FaLongArrowAltDown />
+                  </div>
+                </div>
+              </th>
+              <th scope="col" className="py-3 px-6">
+                <div className="flex flex-row gap-x-1">
                   <div className="text-[#979797]">Residence</div>
                   <div className="flex flex-row">
                     <FaLongArrowAltUp className="-mr-2 pr-1" />
@@ -122,10 +134,27 @@ const StudentTable = (props: Props) => {
                         </label>
                       </div>
                     </td>
-                    <td scope="row" className="py-4 px-6 whitespace-nowrap ">
+                    <td scope="row" className="py-4 px-6 whitespace-nowrap">
                       <div className="flex flex-row items-center gap-x-2">
-                        <img className="w-7" src={student.photo} alt="" />
-                        <h1>{student.email ?? "No Name"}</h1>
+                        <img
+                          className="w-7"
+                          src={
+                            student.photo
+                              ? student.photo
+                              : "/images/group-students-profile.svg"
+                          }
+                          alt=""
+                        />
+                        <h1>
+                          {student.firstName + " " + student.lastName ?? "No Name"}
+                        </h1>
+                      </div>
+                    </td>
+                    <td scope="row" className="py-4 px-6 whitespace-nowrap">
+                      <div className="flex flex-row items-start gap-x-2">
+                        <h1>
+                          {student.email ?? "No Email"}
+                        </h1>
                       </div>
                     </td>
                     <td className="py-4 px-6">
@@ -147,7 +176,7 @@ const StudentTable = (props: Props) => {
                     </td>
                     <td className="py-4 px-6">
                       <div className="flex flex-row gap-x-2">
-                        {/* {format(new Date(student.createdAt), "MMM, d, u")} */}
+                        {format(new Date(student.createdAt), "MMM, d, u")}
                       </div>
                     </td>
                     <td className="py-4 px-6">
@@ -156,7 +185,7 @@ const StudentTable = (props: Props) => {
                         className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                       >
                         <div className="pl-4">
-                          <p>Details</p>
+                          <BsThreeDotsVertical onClick={()=>{}}/>
                         </div>
                       </a>
                     </td>

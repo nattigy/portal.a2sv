@@ -24,17 +24,21 @@ const SideNavigations = () => {
   const handleLogout = async () => {
     try {
       await localStorage.clear();
-      await logout({
-        errorPolicy: "all",
-        variables: {},
-        onError: (error) => { },
-        onCompleted: async () => {
-          authenticatedUser({});
-          authenticatedVar(false);
-          router.replace("/auth");
-          await apolloClient.resetStore();
-        },
-      });
+      authenticatedUser({});
+      authenticatedVar(false);
+      router.replace("/auth");
+      await apolloClient.resetStore();
+      // await logout({
+      //   errorPolicy: "all",
+      //   variables: {},
+      //   onError: (error) => {},
+      //   onCompleted: async () => {
+      //     authenticatedUser({});
+      //     authenticatedVar(false);
+      //     router.replace("/auth");
+      //     await apolloClient.resetStore();
+      //   },
+      // });
     } catch (error) {
       authenticatedUser({});
       authenticatedVar(false);
