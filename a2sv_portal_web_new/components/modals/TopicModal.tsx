@@ -178,9 +178,9 @@ const TopicModal = (props: Props) => {
                     </div>
                     {!existingTopic && (
                       <>
-                        <h2 className="font-semibold text-lg">
+                        {/* <h2 className="font-semibold text-lg">
                           Create New Topic
-                        </h2>
+                        </h2> */}
 
                         <div className="w-full">
                           <div className="flex justify-between items-center">
