@@ -10,7 +10,7 @@ import {
   UpdateGroupSeasonInput,
   UpdateGroupSeasonJoinRequestInput,
 } from '../../app/group-season/dto/update-group-season.input'
-import { PaginationGroupSeason } from '../../common/page/pagination-info'
+import { PaginationGroupSeason, PaginationGroupSeasonContest } from '../../common/page/pagination-info'
 import { GroupSeasonTopicId } from '../../app/group-season-topic/dto/create-group-season-topic.input'
 import { GroupSeasonTopic } from '../../app/group-season-topic/entities/group-season-topic.entity'
 import { GroupSeasonTopicProblem } from '../../app/group-season-topic-problem/entities/group-season-topic-problem.entity'
@@ -19,9 +19,10 @@ import { GroupSeasonTopicService } from './group-season-topic.service'
 import { FilterGroupSeasonInput } from '../../app/group-season/dto/filter-group-season.input'
 import { GroupSeasonContestService } from './group-season-contest.service'
 import { GroupSeasonContest } from '../../app/group-season-contest/entities/group-season-contest.entity'
-import { CreateGroupSeasonContestInput } from '../../app/group-season-contest/dto/create-group-season-contest.input'
+import { CreateGroupSeasonContestInput, GroupSeasonContestId } from '../../app/group-season-contest/dto/create-group-season-contest.input'
 import { UpdateGroupSeasonContestInput } from '../../app/group-season-contest/dto/update-group-season-contest.input'
 import { GroupSeasonContestProblemService } from './group-season-contest-problem.service'
+import { FilterGroupSeasonContestInput } from 'src/app/group-season-contest/dto/filter-group-season-contest.input'
 
 @Resolver(() => GroupSeason)
 export class GroupSeasonResolver {
@@ -50,6 +51,7 @@ export class GroupSeasonResolver {
   @Query(() => PaginationGroupSeason)
   async groupSeasons(
     @Args('filterGroupSeasonInput') filterGroupSeasonInput:FilterGroupSeasonInput,
+   
     // @Args('groupId') groupId: string,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<PaginationGroupSeason> {
@@ -200,14 +202,17 @@ export class GroupSeasonResolver {
     return this.groupSeasonContestService.addContestToAGroupSeason(createGroupSeasonContestInput)
   }
 
-  @Query(() => [GroupSeasonContest])
-  async groupSeasonContests() {
-    return this.groupSeasonContestService.groupSeasonContests()
+  @Query(() => GroupSeasonContest)
+  async groupSeasonContests(
+    @Args('filter') {groupId, seasonId}: GroupSeasonId,
+    @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
+    ):Promise<GroupSeasonContest[]> {
+    return this.groupSeasonContestService.groupSeasonContests({groupId, seasonId}, paginationInput)
   }
 
   @Query(() => GroupSeasonContest)
-  async groupSeasonContest(@Args('id', { type: () => Int }) id: number) {
-    return this.groupSeasonContestService.groupSeasonContest(id)
+  async groupSeasonContest(@Args('groupSeasonContestId') groupSeasonContestId: GroupSeasonContestId) {
+    return this.groupSeasonContestService.groupSeasonContest(groupSeasonContestId)
   }
 
   @Mutation(() => GroupSeasonContest)
@@ -221,7 +226,7 @@ export class GroupSeasonResolver {
   }
 
   @Mutation(() => GroupSeasonContest)
-  async removeGroupSeasonContest(@Args('id', { type: () => Int }) id: number) {
-    return this.groupSeasonContestService.removeGroupSeasonContest(id)
+  async removeGroupSeasonContest( @Args('groupSeasonContestId') groupSeasonContestId: GroupSeasonContestId,) {
+    return this.groupSeasonContestService.removeGroupSeasonContest(groupSeasonContestId)
   }
 }

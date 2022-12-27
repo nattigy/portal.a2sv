@@ -5,8 +5,10 @@ import { GroupSeasonContestRepository } from '../../app/group-season-contest/gro
 import { GroupSeasonRepository } from '../../app/group-season/group-season.repository'
 import { SeasonContestService } from '../../app/season-contest/season-contest.service'
 import { PrismaService } from 'src/prisma/prisma.service'
-import { CreateGroupSeasonContestInput } from '../../app/group-season-contest/dto/create-group-season-contest.input'
+import { CreateGroupSeasonContestInput, GroupSeasonContestId } from '../../app/group-season-contest/dto/create-group-season-contest.input'
 import { UpdateGroupSeasonContestInput } from '../../app/group-season-contest/dto/update-group-season-contest.input'
+import { FilterGroupSeasonContestInput } from 'src/app/group-season-contest/dto/filter-group-season-contest.input'
+import { PaginationInput } from 'src/common/page/pagination.input'
 
 @Injectable()
 export class GroupSeasonContestService {
@@ -95,12 +97,20 @@ export class GroupSeasonContestService {
 
   // TODO: addNewProblems and remove to groupSeasonContest (additional endpoints)
 
-  async groupSeasonContests() {
-    return `This action returns all groupSeasonContest`
+  async groupSeasonContests(filterGroupSeasonContest: FilterGroupSeasonContestInput,{skip, take}:PaginationInput={take:50, skip:0},) {
+  
+    
+    return this.groupSeasonContestRepository.findAll({
+      skip,
+      take,
+      where:filterGroupSeasonContest,
+    })
   }
 
-  async groupSeasonContest(id: number) {
-    return `This action returns a #${id} groupSeasonContest`
+  async groupSeasonContest({ groupId, seasonId, contestId }: GroupSeasonContestId) {
+    return this.groupSeasonContestRepository.findOne({
+      groupId_seasonId_contestId:{groupId, seasonId, contestId}
+    })
   }
 
   async updateGroupSeasonContest(
@@ -109,7 +119,9 @@ export class GroupSeasonContestService {
     return `This action updates a #} groupSeasonContest`
   }
 
-  async removeGroupSeasonContest(id: number) {
-    return `This action removes a #${id} groupSeasonContest`
+  async removeGroupSeasonContest({ groupId, seasonId, contestId }: GroupSeasonContestId) {
+    return this.groupSeasonContestRepository.remove({
+      groupId_seasonId_contestId:{contestId,seasonId,groupId}
+    })
   }
 }

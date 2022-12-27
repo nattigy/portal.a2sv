@@ -13,6 +13,7 @@ import { UserGroupSeasonContestProblem } from '../../app/user-group-season-conte
 import { UserProfile } from '../../app/user-profile/entities/user-profile.entity'
 import { UserGroupSeasonTopic } from '../../app/user-group-season-topic/entities/user-group-season-topic.entity'
 import { GroupSeason } from '../../app/group-season/entities/group-season.entity'
+import { GroupSeasonContest } from '../../app/group-season-contest/entities/group-season-contest.entity'
 
 @ObjectType()
 export class PaginationInfo {
@@ -156,6 +157,15 @@ export class PaginationGroup {
 export class PaginationGroupSeason {
   @Field(() => [GroupSeason])
   items: GroupSeason[]
+
+  @Field(() => PaginationInfo)
+  pageInfo: PaginationInfo
+}
+
+@ObjectType()
+export class PaginationGroupSeasonContest{
+  @Field(() => [GroupSeasonContest])
+  items: GroupSeasonContest[]
 
   @Field(() => PaginationInfo)
   pageInfo: PaginationInfo
