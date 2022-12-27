@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common'
-import { error } from 'console'
 import { ContestRepository } from '../../app/contest/contest.repository'
 import { GroupSeasonContestRepository } from '../../app/group-season-contest/group-season-contest.repository'
 import { GroupSeasonRepository } from '../../app/group-season/group-season.repository'
 import { SeasonContestService } from '../../app/season-contest/season-contest.service'
 import { PrismaService } from 'src/prisma/prisma.service'
-import { CreateGroupSeasonContestInput, GroupSeasonContestId } from '../../app/group-season-contest/dto/create-group-season-contest.input'
+import {
+  CreateGroupSeasonContestInput,
+  GroupSeasonContestId,
+} from '../../app/group-season-contest/dto/create-group-season-contest.input'
 import { UpdateGroupSeasonContestInput } from '../../app/group-season-contest/dto/update-group-season-contest.input'
 import { FilterGroupSeasonContestInput } from 'src/app/group-season-contest/dto/filter-group-season-contest.input'
 import { PaginationInput } from 'src/common/page/pagination.input'
@@ -22,9 +24,11 @@ export class GroupSeasonContestService {
     private readonly contestRepository: ContestRepository,
   ) {}
 
-  async addContestToAGroupSeason(
-    { groupId, seasonId, contestId }: CreateGroupSeasonContestInput,
-  ) {
+  async addContestToAGroupSeason({
+    groupId,
+    seasonId,
+    contestId,
+  }: CreateGroupSeasonContestInput) {
     const groupSeason = await this.groupSeasonRepository.findOne({
       groupId_seasonId: {
         groupId,
@@ -60,7 +64,10 @@ export class GroupSeasonContestService {
       await this.prismaService.groupSeasonContestProblem.upsert({
         where: {
           groupId_seasonId_contestId_problemId: {
-            seasonId, contestId, problemId: problem.id, groupId,
+            seasonId,
+            contestId,
+            problemId: problem.id,
+            groupId,
           },
         },
         create: {
@@ -92,19 +99,20 @@ export class GroupSeasonContestService {
 
   // TODO: addNewProblems and remove to groupSeasonContest (additional endpoints)
 
-  async groupSeasonContests(filterGroupSeasonContest: FilterGroupSeasonContestInput,{skip, take}:PaginationInput={take:50, skip:0},) {
-
-
+  async groupSeasonContests(
+    filterGroupSeasonContest: FilterGroupSeasonContestInput,
+    { skip, take }: PaginationInput = { take: 50, skip: 0 },
+  ) {
     return this.groupSeasonContestRepository.findAll({
       skip,
       take,
-      where:filterGroupSeasonContest,
+      where: filterGroupSeasonContest,
     })
   }
 
   async groupSeasonContest({ groupId, seasonId, contestId }: GroupSeasonContestId) {
     return this.groupSeasonContestRepository.findOne({
-      groupId_seasonId_contestId:{groupId, seasonId, contestId}
+      groupId_seasonId_contestId: { groupId, seasonId, contestId },
     })
   }
 
@@ -116,7 +124,7 @@ export class GroupSeasonContestService {
 
   async removeGroupSeasonContest({ groupId, seasonId, contestId }: GroupSeasonContestId) {
     return this.groupSeasonContestRepository.remove({
-      groupId_seasonId_contestId:{contestId,seasonId,groupId}
+      groupId_seasonId_contestId: { contestId, seasonId, groupId },
     })
   }
 }

@@ -13,19 +13,13 @@ import { GroupSeasonTopicProblemService } from './group-season-services/group-se
 import { UserModule } from '../app/user/user.module'
 import { UserGroupSeasonModule } from '../app/user-group-season/user-group-season.module'
 import { UserGroupSeasonTopicModule } from '../app/user-group-season-topic/user-group-season-topic.module'
-import {
-  UserGroupSeasonTopicProblemModule,
-} from '../app/user-group-season-topic-problem/user-group-season-topic-problem.module'
+import { UserGroupSeasonTopicProblemModule } from '../app/user-group-season-topic-problem/user-group-season-topic-problem.module'
 import { UserGroupSeasonResolver } from './user-group-season-services/user-group-season.resolver'
 import { UserGroupSeasonService } from './user-group-season-services/user-group-season.service'
-import {
-  UserGroupSeasonTopicProblemService,
-} from './user-group-season-services/user-group-season-topic-problem.service'
+import { UserGroupSeasonTopicProblemService } from './user-group-season-services/user-group-season-topic-problem.service'
 import { UserGroupSeasonTopicService } from './user-group-season-services/user-group-season-topic.service'
 import { GroupSeasonContestModule } from '../app/group-season-contest/group-season-contest.module'
-import {
-  GroupSeasonContestProblemModule,
-} from '../app/group-season-contest-problem/group-season-contest-problem.module'
+import { GroupSeasonContestProblemModule } from '../app/group-season-contest-problem/group-season-contest-problem.module'
 import { SeasonContestModule } from '../app/season-contest/season-contest.module'
 import { GroupSeasonContestService } from './group-season-services/group-season-contest.service'
 import { GroupSeasonContestProblemService } from './group-season-services/group-season-contest-problem.service'
@@ -82,5 +76,4 @@ import { GroupSeasonContestResolver } from './group-season-services/group-season
     // UserGroupSeasonContestProblemService,
   ],
 })
-export class ServicesModule {
-}
+export class ServicesModule {}

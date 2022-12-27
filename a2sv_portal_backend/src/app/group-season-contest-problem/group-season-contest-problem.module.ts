@@ -4,5 +4,4 @@ import { GroupSeasonContestProblemRepository } from './group-season-contest-prob
 @Module({
   providers: [GroupSeasonContestProblemRepository],
 })
-export class GroupSeasonContestProblemModule {
-}
+export class GroupSeasonContestProblemModule {}

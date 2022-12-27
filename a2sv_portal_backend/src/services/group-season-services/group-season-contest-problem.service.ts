@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common'
-import { CreateGroupSeasonContestProblemInput } from '../../app/group-season-contest-problem/dto/create-group-season-contest-problem.input'
-import { UpdateGroupSeasonContestProblemInput } from '../../app/group-season-contest-problem/dto/update-group-season-contest-problem.input'
 
 @Injectable()
 export class GroupSeasonContestProblemService {

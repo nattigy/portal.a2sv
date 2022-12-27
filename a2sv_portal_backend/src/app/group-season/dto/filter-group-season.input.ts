@@ -24,5 +24,4 @@ export class FilterGroupSeasonInput {
 
   @Field(() => DateTimeFilter, { nullable: true })
   endDate?: DateTimeFilter
-
 }

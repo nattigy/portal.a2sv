@@ -1,10 +1,8 @@
-import { HttpException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { PrismaClient, User } from '@prisma/client'
 import { DeepMockProxy } from 'jest-mock-extended'
 import { PrismaService } from '../../prisma/prisma.service'
 import { prismaMock } from '../../prisma/singleton'
-import { CreateUserInput } from './dto/create-user.input'
 import { UserService } from './user.service'
 import { RoleEnum, StatusEnum } from '.prisma/client'
 import { UserRepository } from './user.repository'
@@ -17,24 +15,28 @@ describe('UserService', () => {
   let service: UserService
   let prismaService: DeepMockProxy<PrismaClient>
   const user: User = {
-    id: "string",
-    firstName: "string",
-    middleName: "string",
-    lastName: "string",
+    id: 'string',
+    firstName: 'string',
+    middleName: 'string',
+    lastName: 'string',
     role: RoleEnum.HEAD_OF_ACADEMY,
-    email: "string",
-    password: "string",
+    email: 'string',
+    password: 'string',
     status: StatusEnum.ACTIVE,
-    groupId: "string",
+    groupId: 'string',
     createdAt: new Date(),
-    updatedAt:new Date()
+    updatedAt: new Date(),
   }
   beforeEach(async () => {
     // mockCtx = createMockContext()
     // ctx = mockCtx as unknown as Context
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UserRepository, UserService, { provide: PrismaService, useValue: prismaMock }],
+      providers: [
+        UserRepository,
+        UserService,
+        { provide: PrismaService, useValue: prismaMock },
+      ],
     }).compile()
 
     service = module.get<UserService>(UserService)
@@ -55,7 +57,7 @@ describe('UserService', () => {
         // @ts-ignore
         // const users = await prismaService.user.findMany.mockResolvedValue(expectedUsers)
         const users = await service.users({})
-        console.log("here", users)
+        console.log('here', users)
         // expect(users).toEqual(expectedUsers)
       })
     })

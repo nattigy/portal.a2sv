@@ -126,7 +126,7 @@ export class GroupSeasonService {
       where: { groupId_seasonId: { seasonId, groupId } },
       data: {
         joinRequest,
-        isActive: joinRequest == JoinRequestEnum.REJECTED ? false :groupSeason.isActive
+        isActive: joinRequest == JoinRequestEnum.REJECTED ? false : groupSeason.isActive,
       },
     })
   }

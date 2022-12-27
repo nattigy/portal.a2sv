@@ -58,5 +58,4 @@ import { ServicesModule } from './services/services.module'
   ],
   providers: [AppService, AppResolver],
 })
-export class AppModule {
-}
+export class AppModule {}

@@ -16,15 +16,16 @@ export class GroupSeasonContestResolver {
     private readonly groupSeasonService: GroupSeasonService,
     private readonly groupSeasonContestService: GroupSeasonContestService,
     private readonly groupSeasonContestProblemService: GroupSeasonContestProblemService,
-  ) {
-  }
+  ) {}
 
   @Mutation(() => GroupSeasonContest)
   async addContestToAGroupSeason(
     @Args('createGroupSeasonContestInput')
-      createGroupSeasonContestInput: CreateGroupSeasonContestInput,
+    createGroupSeasonContestInput: CreateGroupSeasonContestInput,
   ) {
-    return this.groupSeasonContestService.addContestToAGroupSeason(createGroupSeasonContestInput)
+    return this.groupSeasonContestService.addContestToAGroupSeason(
+      createGroupSeasonContestInput,
+    )
   }
 
   @Query(() => [GroupSeasonContest])
@@ -33,14 +34,16 @@ export class GroupSeasonContestResolver {
   }
 
   @Query(() => GroupSeasonContest)
-  async groupSeasonContest(@Args('groupSeasonContestId') groupSeasonContestId: GroupSeasonContestId) {
+  async groupSeasonContest(
+    @Args('groupSeasonContestId') groupSeasonContestId: GroupSeasonContestId,
+  ) {
     return this.groupSeasonContestService.groupSeasonContest(groupSeasonContestId)
   }
 
   @Mutation(() => GroupSeasonContest)
   async updateGroupSeasonContest(
     @Args('updateGroupSeasonContestInput')
-      updateGroupSeasonContestInput: UpdateGroupSeasonContestInput,
+    updateGroupSeasonContestInput: UpdateGroupSeasonContestInput,
   ) {
     return this.groupSeasonContestService.updateGroupSeasonContest(
       updateGroupSeasonContestInput,

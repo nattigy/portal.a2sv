@@ -33,9 +33,11 @@ export class SeasonContestService {
     for (const problem of problems) {
       await this.prismaService.seasonContestProblem.upsert({
         where: {
-          seasonId_contestId_problemId:{
-            seasonId, contestId, problemId: problem.id
-          }
+          seasonId_contestId_problemId: {
+            seasonId,
+            contestId,
+            problemId: problem.id,
+          },
         },
         create: {
           seasonContest: {

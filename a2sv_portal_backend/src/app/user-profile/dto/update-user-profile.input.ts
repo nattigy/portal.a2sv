@@ -34,10 +34,10 @@ export class UpdateUserProfileInput {
   @Field({ nullable: true })
   bio?: string
 
-  @Field(() => CurrentWorkStatusEnum,{ nullable: true })
+  @Field(() => CurrentWorkStatusEnum, { nullable: true })
   currentWorkStatus?: CurrentWorkStatusEnum
 
-  @Field(() => CurrentEducationStatusEnum,{ nullable: true })
+  @Field(() => CurrentEducationStatusEnum, { nullable: true })
   currentEducationStatus?: CurrentEducationStatusEnum
 
   @Field({ nullable: true })

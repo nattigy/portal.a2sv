@@ -13,8 +13,7 @@ export class UserGroupSeasonService {
     private readonly userGroupSeasonRepository: UserGroupSeasonRepository,
     private readonly userGroupSeasonTopicService: UserGroupSeasonTopicService,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async userGroupSeason({ seasonId, groupId, userId }: UserGroupSeasonId) {
     /// generating user stat on a specific season
@@ -26,11 +25,15 @@ export class UserGroupSeasonService {
       userId_groupId_seasonId: { seasonId, groupId, userId },
     })
     const userTopics = await this.userGroupSeasonTopicService.userGroupSeasonTopics({
-      userId, groupId, seasonId,
+      userId,
+      groupId,
+      seasonId,
     })
     if (userStat === undefined || userStat === null) {
       userStat = {
-        groupId, seasonId, userId,
+        groupId,
+        seasonId,
+        userId,
         user,
         rank: 0,
         totalSubmissions: 0,
@@ -42,12 +45,16 @@ export class UserGroupSeasonService {
         userGroupSeasonContests: [],
       }
     } else {
-      const totalSubmissions = userTopics.items.map(t => t.totalSubmissions)
+      const totalSubmissions = userTopics.items
+        .map(t => t.totalSubmissions)
         .reduce((a, b) => a + b, 0)
-      const totalAcceptedSubmissions = userTopics.items.map(t => t.totalAcceptedSubmissions)
+      const totalAcceptedSubmissions = userTopics.items
+        .map(t => t.totalAcceptedSubmissions)
         .reduce((a, b) => a + b, 0)
       userStat = {
-        groupId, seasonId, userId,
+        groupId,
+        seasonId,
+        userId,
         user,
         rank: 0,
         totalSubmissions,
@@ -75,19 +82,13 @@ export class UserGroupSeasonService {
     })
     const statMap: { '[key]'?: UserGroupSeason } = {}
     for (const userSeason of userSeasons) {
-      statMap[
-        `${userSeason.userId}${userSeason.groupId}${userSeason.seasonId}`
-        ] = userSeason
+      statMap[`${userSeason.userId}${userSeason.groupId}${userSeason.seasonId}`] = userSeason
     }
     for (const user of users) {
       for (const userSeason of userSeasons) {
-        const check = statMap[
-          `${user.id}${user.groupId}${userSeason.seasonId}`
-          ]
+        const check = statMap[`${user.id}${user.groupId}${userSeason.seasonId}`]
         if (!check) {
-          statMap[
-            `${user.id}${user.groupId}${userSeason.seasonId}`
-            ] = {
+          statMap[`${user.id}${user.groupId}${userSeason.seasonId}`] = {
             userId: user.id,
             groupId: user.groupId,
             seasonId: userSeason.seasonId,
@@ -104,21 +105,31 @@ export class UserGroupSeasonService {
         }
       }
     }
-    const usersTopics = (await this.userGroupSeasonTopicService.userGroupSeasonTopics({
-      userId, groupId, seasonId,
-    })).items
+    const usersTopics = (
+      await this.userGroupSeasonTopicService.userGroupSeasonTopics({
+        userId,
+        groupId,
+        seasonId,
+      })
+    ).items
     const userStats = []
     for (const statMapKey in statMap) {
       const stat = statMap[statMapKey]
-      const uTopics = usersTopics.filter(t => (
-        t.userId === stat.userId &&
-        t.groupId === stat.groupId &&
-        t.seasonId === stat.seasonId &&
-        t.topicId === stat.topicId
-      ))
+      const uTopics = usersTopics.filter(
+        t =>
+          t.userId === stat.userId &&
+          t.groupId === stat.groupId &&
+          t.seasonId === stat.seasonId &&
+          t.topicId === stat.topicId,
+      )
       const totalSubmissions = uTopics.map(t => t.totalSubmissions).reduce((a, b) => a + b, 0)
-      const totalAcceptedSubmissions = uTopics.map(t => t.totalAcceptedSubmissions).reduce((a, b) => a + b, 0)
-      const acceptanceRate = (uTopics.map(t => t.comfortabilityPercentage).reduce((a, b) => a + b, 0) / uTopics.length) * 100
+      const totalAcceptedSubmissions = uTopics
+        .map(t => t.totalAcceptedSubmissions)
+        .reduce((a, b) => a + b, 0)
+      const acceptanceRate =
+        (uTopics.map(t => t.comfortabilityPercentage).reduce((a, b) => a + b, 0) /
+          uTopics.length) *
+        100
       statMap[statMapKey] = {
         ...statMap[statMapKey],
         totalSubmissions,

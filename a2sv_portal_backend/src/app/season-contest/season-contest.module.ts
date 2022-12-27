@@ -5,7 +5,7 @@ import { SeasonContestRepository } from './season-contest.repository'
 import { ContestModule } from '../contest/contest.module'
 
 @Module({
-  imports:[ContestModule],
+  imports: [ContestModule],
   providers: [SeasonContestRepository, SeasonContestResolver, SeasonContestService],
   exports: [SeasonContestService, SeasonContestRepository],
 })

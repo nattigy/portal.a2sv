@@ -163,7 +163,7 @@ export class PaginationGroupSeason {
 }
 
 @ObjectType()
-export class PaginationGroupSeasonContest{
+export class PaginationGroupSeasonContest {
   @Field(() => [GroupSeasonContest])
   items: GroupSeasonContest[]
 

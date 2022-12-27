@@ -18,7 +18,8 @@ export class SeasonContestResolver {
 
   @Query(() => [SeasonContest])
   async seasonContests(
-    @Args('filterSeasonContestInput', { nullable: true }) filterSeasonContestInput?: FilterSeasonContestInput,
+    @Args('filterSeasonContestInput', { nullable: true })
+    filterSeasonContestInput?: FilterSeasonContestInput,
     @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInput,
   ): Promise<SeasonContest[]> {
     return this.seasonContestService.seasonContests(filterSeasonContestInput)
@@ -30,7 +31,7 @@ export class SeasonContestResolver {
   ): Promise<SeasonContest> {
     return this.seasonContestService.seasonContest(seasonContestId)
   }
-  
+
   @Mutation(() => SeasonContest)
   async removeSeasonContest(@Args('seasonContestId') seasonContestId: SeasonContestId) {
     return this.seasonContestService.removeSeasonContest(seasonContestId)

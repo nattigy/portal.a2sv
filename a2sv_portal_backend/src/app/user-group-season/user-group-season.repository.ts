@@ -31,8 +31,7 @@ export class UserGroupSeasonRepository {
     },
   }
 
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.UserGroupSeasonCreateInput): Promise<UserGroupSeason> {
     return this.prismaService.userGroupSeason.create({

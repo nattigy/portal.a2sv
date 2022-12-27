@@ -5,6 +5,6 @@ import { ContestRepository } from './contest.repository'
 
 @Module({
   providers: [ContestRepository, ContestResolver, ContestService],
-  exports:[ContestRepository, ContestService]
+  exports: [ContestRepository, ContestService],
 })
 export class ContestModule {}
