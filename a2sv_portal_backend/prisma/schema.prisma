@@ -344,9 +344,9 @@ model UserGroupSeasonContestProblem {
 model UserProfile {
   id                     String                     @id @default(uuid())
   userId                 String                     @unique
-  firstName          String
-  middleName         String
-  lastName           String
+  firstName              String
+  middleName             String
+  lastName               String
   photoUrl               String?
   phone                  String
   countryCode            String
