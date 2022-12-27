@@ -4,7 +4,7 @@ import { UserResolver } from './user.resolver'
 import { UserService } from './user.service'
 
 @Module({
-  providers: [UserResolver, UserResolver, UserService],
+  providers: [UserResolver, UserRepository, UserService],
   exports: [UserService],
 })
 export class UserModule {}
