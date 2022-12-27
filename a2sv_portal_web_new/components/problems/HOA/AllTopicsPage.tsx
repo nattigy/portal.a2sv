@@ -25,6 +25,7 @@ const AllTopicsPage = (props: Props) => {
       {isTopicModalOpen && (
         <TopicModal
           isEditing={false}
+          newTopic={true}
           onClose={() => {
             setIsTopicModalOpen(false);
           }}

@@ -226,7 +226,7 @@ const ProblemModal = (props: Props) => {
                   <div className="my-2 w-full flex justify-between items-center">
                     {props.isEditing ? (
                       <h2 className="font-semibold text-lg">
-                        {props.values?.name}
+                       Edit Problem
                       </h2>
                     ) : (
                       <h2 className="font-semibold text-lg">Add New Problem</h2>
@@ -284,7 +284,7 @@ const ProblemModal = (props: Props) => {
                     <div>
                       {existingProblem === null && (
                         <div className="w-full flex flex-col items-center">
-                          {props.isEditing ? (
+                          {/* {props.isEditing ? (
                             <div className="my-3 w-full flex justify-between items-center">
                               <h2 className="font-bold">Update Problem</h2>
                             </div>
@@ -292,7 +292,7 @@ const ProblemModal = (props: Props) => {
                             <div className="my-3 w-full flex justify-between items-center">
                               <h2 className="font-bold">Create New</h2>
                             </div>
-                          )}
+                          )} */}
                           <div className="w-full">
                             <div className="flex flex-row gap-x-3 my-3">
                               <div className="flex flex-col w-3/5 justify-start gap-y-1">
