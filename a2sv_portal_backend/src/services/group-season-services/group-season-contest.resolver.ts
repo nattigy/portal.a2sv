@@ -9,14 +9,12 @@ import {
 } from '../../app/group-season-contest/dto/create-group-season-contest.input'
 import { UpdateGroupSeasonContestInput } from '../../app/group-season-contest/dto/update-group-season-contest.input'
 import { GroupSeasonContestProblemService } from './group-season-contest-problem.service'
+import { GroupSeasonId } from 'src/app/group-season/dto/create-group-season.input'
+import { PaginationInput } from 'src/common/page/pagination.input'
 
 @Resolver(() => GroupSeason)
 export class GroupSeasonContestResolver {
-  constructor(
-    private readonly groupSeasonService: GroupSeasonService,
-    private readonly groupSeasonContestService: GroupSeasonContestService,
-    private readonly groupSeasonContestProblemService: GroupSeasonContestProblemService,
-  ) {}
+  constructor(private readonly groupSeasonContestService: GroupSeasonContestService) {}
 
   @Mutation(() => GroupSeasonContest)
   async addContestToAGroupSeason(
@@ -28,9 +26,15 @@ export class GroupSeasonContestResolver {
     )
   }
 
-  @Query(() => [GroupSeasonContest])
-  async groupSeasonContests() {
-    return this.groupSeasonContestService.groupSeasonContests()
+  @Query(() => GroupSeasonContest)
+  async groupSeasonContests(
+    @Args('filter') { groupId, seasonId }: GroupSeasonId,
+    @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
+  ): Promise<GroupSeasonContest[]> {
+    return this.groupSeasonContestService.groupSeasonContests(
+      { groupId, seasonId },
+      paginationInput,
+    )
   }
 
   @Query(() => GroupSeasonContest)
@@ -51,8 +55,10 @@ export class GroupSeasonContestResolver {
   }
 
   @Mutation(() => GroupSeasonContest)
-  async removeGroupSeasonContest(@Args('id', { type: () => Int }) id: number) {
-    return this.groupSeasonContestService.removeGroupSeasonContest(id)
+  async removeGroupSeasonContest(
+    @Args('groupSeasonContestId') groupSeasonContestId: GroupSeasonContestId,
+  ) {
+    return this.groupSeasonContestService.removeGroupSeasonContest(groupSeasonContestId)
   }
 
   // @Mutation(() => GroupSeasonContestProblem)
