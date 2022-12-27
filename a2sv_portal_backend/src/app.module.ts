@@ -32,9 +32,23 @@ import { GroupSeasonModule } from './group-relations/group-season/group-season.m
 import { UserGroupSeasonModule } from './user-relations/user-group-season/user-group-season.module'
 import { GroupSeasonTopicProblemModule } from './group-relations/group-season-topic-problem/group-season-topic-problem.module'
 import { GroupSeasonContestProblemModule } from './group-relations/group-season-contest-problem/group-season-contest-problem.module'
+import { MailModule } from './mail/mail.module';
+import { MailerModule } from '@nestjs-modules/mailer'
 
 @Module({
   imports: [
+    MailerModule.forRoot({
+      // transport: 'smtps://user@example.com:topsecret@smtp.example.com',
+      // or
+      transport: {
+        host: 'smtp.socketlabs.com',
+        secure: false,
+        auth: {
+          user: 'server42224',
+          pass: 'Zm5i8TNp3k9R6DxY',
+        },
+      }})
+      ,
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -90,6 +104,7 @@ import { GroupSeasonContestProblemModule } from './group-relations/group-season-
     UserGroupSeasonModule,
     GroupSeasonTopicProblemModule,
     GroupSeasonContestProblemModule,
+    MailModule,
   ],
   providers: [AppService, AppResolver],
 })
