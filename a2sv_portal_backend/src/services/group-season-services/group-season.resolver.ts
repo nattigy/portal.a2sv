@@ -192,49 +192,5 @@ export class GroupSeasonResolver {
     }
     return problemIds.length
   }
-
-  @Mutation(() => GroupSeasonContest)
-  async addContestToAGroupSeason(
-    @Args('createGroupSeasonContestInput')
-    createGroupSeasonContestInput: CreateGroupSeasonContestInput,
-  ) {
-    return this.groupSeasonContestService.addContestToAGroupSeason(
-      createGroupSeasonContestInput,
-    )
-  }
-
-  @Query(() => GroupSeasonContest)
-  async groupSeasonContests(
-    @Args('filter') { groupId, seasonId }: GroupSeasonId,
-    @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
-  ): Promise<GroupSeasonContest[]> {
-    return this.groupSeasonContestService.groupSeasonContests(
-      { groupId, seasonId },
-      paginationInput,
-    )
-  }
-
-  @Query(() => GroupSeasonContest)
-  async groupSeasonContest(
-    @Args('groupSeasonContestId') groupSeasonContestId: GroupSeasonContestId,
-  ) {
-    return this.groupSeasonContestService.groupSeasonContest(groupSeasonContestId)
-  }
-
-  @Mutation(() => GroupSeasonContest)
-  async updateGroupSeasonContest(
-    @Args('updateGroupSeasonContestInput')
-    updateGroupSeasonContestInput: UpdateGroupSeasonContestInput,
-  ) {
-    return this.groupSeasonContestService.updateGroupSeasonContest(
-      updateGroupSeasonContestInput,
-    )
-  }
-
-  @Mutation(() => GroupSeasonContest)
-  async removeGroupSeasonContest(
-    @Args('groupSeasonContestId') groupSeasonContestId: GroupSeasonContestId,
-  ) {
-    return this.groupSeasonContestService.removeGroupSeasonContest(groupSeasonContestId)
-  }
+ 
 }
