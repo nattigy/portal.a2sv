@@ -31,12 +31,8 @@ const SideNavigations = () => {
       // await logout({
       //   errorPolicy: "all",
       //   variables: {},
-      //   onError: (error) => {},
+      //   onError: (error) => { },
       //   onCompleted: async () => {
-      //     authenticatedUser({});
-      //     authenticatedVar(false);
-      //     router.replace("/auth");
-      //     await apolloClient.resetStore();
       //   },
       // });
     } catch (error) {

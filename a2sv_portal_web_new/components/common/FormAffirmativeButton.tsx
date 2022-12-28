@@ -5,6 +5,7 @@ type Props = {
   text: string;
   isLoading?: boolean;
   disabled?: boolean;
+  className?: string;
 };
 
 const FormAffirmativeButton = (props: Props) => {
@@ -14,6 +15,7 @@ const FormAffirmativeButton = (props: Props) => {
       type="submit"
       className={clsx(
         "flex justify-center items-center min-w-min px-6 py-3 mt-4 text-sm font-semibold text-white bg-primary rounded-lg",
+        props.className,
         props.disabled && "cursor-not-allowed bg-primary/50"
       )}
     >
