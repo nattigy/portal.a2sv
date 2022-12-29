@@ -21,3 +21,15 @@ export const EDIT_SEASON = gql`
     }
   }
 `;
+
+export const ACCEPT_OR_REJECT_SEASON_REQUEST = gql`
+  mutation Mutation(
+    $updateGroupSeasonJoinRequestInput: UpdateGroupSeasonJoinRequestInput!
+  ) {
+    updateGroupSeasonJoinRequest(
+      updateGroupSeasonJoinRequestInput: $updateGroupSeasonJoinRequestInput
+    ) {
+      joinRequest
+    }
+  }
+`;
