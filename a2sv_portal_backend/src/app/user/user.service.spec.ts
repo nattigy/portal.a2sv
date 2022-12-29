@@ -16,9 +16,6 @@ describe('UserService', () => {
   let prismaService: DeepMockProxy<PrismaClient>
   const user: User = {
     id: 'string',
-    firstName: 'string',
-    middleName: 'string',
-    lastName: 'string',
     role: RoleEnum.HEAD_OF_ACADEMY,
     email: 'string',
     password: 'string',
@@ -27,22 +24,31 @@ describe('UserService', () => {
     createdAt: new Date(),
     updatedAt: new Date(),
   }
+
+  const mockUserRepository = {
+    count: jest.fn().mockImplementation(() => 2),
+    findAll: jest.fn().mockImplementation(() => [])
+  }
+
   beforeEach(async () => {
     // mockCtx = createMockContext()
     // ctx = mockCtx as unknown as Context
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
+        PrismaService,
         UserRepository,
         UserService,
-        { provide: PrismaService, useValue: prismaMock },
+        // { provide: PrismaService, useValue: prismaMock },
       ],
-    }).compile()
+    })
+      .overrideProvider(UserRepository).useValue(mockUserRepository)
+      .compile()
 
     service = module.get<UserService>(UserService)
-    prismaService = module.get<PrismaService>(
-      PrismaService,
-    ) as unknown as DeepMockProxy<PrismaClient>
+    // prismaService = module.get<PrismaService>(
+    //   PrismaService,
+    // ) as unknown as DeepMockProxy<PrismaClient>
   })
 
   it('should be defined', () => {

@@ -97,9 +97,9 @@ export class UserGroupSeasonTopicProblemRepository {
           connect: { id: where.userId_groupId_seasonId_topicId_problemId.problemId },
         },
         solutionLink: data.solutionLink as string,
-        numberOfAttempts: 0,
-        numberOfMinutes: 0,
-        status: UserTopicProblemStatusEnum.NOT_SOLVED,
+        numberOfAttempts: data.numberOfAttempts as number,
+        numberOfMinutes: data.numberOfMinutes as number,
+        status: data.status as UserTopicProblemStatusEnum,
       },
       update: data,
       include: {
