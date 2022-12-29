@@ -1,5 +1,9 @@
 import { useQuery } from "@apollo/client";
-import { GET_ALL_SEASONS_QUERY } from "../apollo/Queries/seasonsQueries";
+import { JoinRequest } from "../../types/season";
+import {
+  GET_ALL_SEASONS_QUERY,
+  GET_SEASON_REQUESTS,
+} from "../apollo/Queries/seasonsQueries";
 
 export const useGetGroupSeasons = (groupId: string) => {
   return useQuery(GET_ALL_SEASONS_QUERY, {
@@ -15,6 +19,18 @@ export const useGetGroupSeasons = (groupId: string) => {
 
 export const useGetAllSeasons = () => {
   return useQuery(GET_ALL_SEASONS_QUERY, {
+    notifyOnNetworkStatusChange: true,
+    errorPolicy: "all",
+  });
+};
+
+export const useGetSeasonRequests = () => {
+  return useQuery(GET_SEASON_REQUESTS, {
+    variables: {
+      filterGroupSeasonInput: {
+        joinRequest: "REQUESTED",
+      },
+    },
     notifyOnNetworkStatusChange: true,
     errorPolicy: "all",
   });
