@@ -72,7 +72,7 @@ export class AuthService {
     }
     const saltOrRounds = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(pass, saltOrRounds)
-    this.prismaService.user.update({
+    await this.prismaService.user.update({
       where: {
         email,
       },

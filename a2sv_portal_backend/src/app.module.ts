@@ -67,7 +67,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
       resolvers: { DateTime: GraphQLISODateTime },
     }),
     MailModule,
-    // AuthModule,
+    AuthModule,
     PrismaModule,
     CaslModule,
     TagModule,
