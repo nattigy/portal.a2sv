@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { PrismaClient, User } from '@prisma/client'
 import { DeepMockProxy } from 'jest-mock-extended'
 import { PrismaService } from '../../prisma/prisma.service'
-import { prismaMock } from '../../prisma/singleton'
 import { UserService } from './user.service'
 import { RoleEnum, StatusEnum } from '.prisma/client'
 import { UserRepository } from './user.repository'
@@ -27,7 +26,7 @@ describe('UserService', () => {
 
   const mockUserRepository = {
     count: jest.fn().mockImplementation(() => 2),
-    findAll: jest.fn().mockImplementation(() => [])
+    findAll: jest.fn().mockImplementation(() => []),
   }
 
   beforeEach(async () => {
@@ -42,7 +41,8 @@ describe('UserService', () => {
         // { provide: PrismaService, useValue: prismaMock },
       ],
     })
-      .overrideProvider(UserRepository).useValue(mockUserRepository)
+      .overrideProvider(UserRepository)
+      .useValue(mockUserRepository)
       .compile()
 
     service = module.get<UserService>(UserService)

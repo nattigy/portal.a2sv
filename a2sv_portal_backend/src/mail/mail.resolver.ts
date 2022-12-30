@@ -1,6 +1,6 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver } from '@nestjs/graphql'
 
-import { Mail } from './entities/mail.entity';
+import { Mail } from './entities/mail.entity'
 
 @Resolver(() => Mail)
 export class MailResolver {

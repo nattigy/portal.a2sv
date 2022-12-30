@@ -15,8 +15,7 @@ import { CheckPolicies } from '../../casl/policy/policy.decorator'
 
 @Resolver(() => User)
 export class UserResolver {
-  constructor(private readonly userService: UserService) {
-  }
+  constructor(private readonly userService: UserService) {}
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(UserAbilities.create)

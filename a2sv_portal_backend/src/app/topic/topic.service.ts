@@ -38,12 +38,12 @@ export class TopicService {
       ...filterTopicInput,
       name: {
         ...filterTopicInput?.name,
-        mode: Prisma.QueryMode.insensitive
+        mode: Prisma.QueryMode.insensitive,
       },
       description: {
         ...filterTopicInput?.description,
-        mode: Prisma.QueryMode.insensitive
-      }
+        mode: Prisma.QueryMode.insensitive,
+      },
     }
     const count = await this.topicRepository.count(filterTopicInput)
     const topics = await this.topicRepository.findAll({

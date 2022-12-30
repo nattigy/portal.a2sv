@@ -1,5 +1,4 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { GroupSeasonService } from './group-season.service'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { GroupSeason } from '../../app/group-season/entities/group-season.entity'
 import { GroupSeasonContestService } from './group-season-contest.service'
 import { GroupSeasonContest } from '../../app/group-season-contest/entities/group-season-contest.entity'
@@ -8,7 +7,6 @@ import {
   GroupSeasonContestId,
 } from '../../app/group-season-contest/dto/create-group-season-contest.input'
 import { UpdateGroupSeasonContestInput } from '../../app/group-season-contest/dto/update-group-season-contest.input'
-import { GroupSeasonContestProblemService } from './group-season-contest-problem.service'
 import { GroupSeasonId } from 'src/app/group-season/dto/create-group-season.input'
 import { PaginationInput } from 'src/common/page/pagination.input'
 

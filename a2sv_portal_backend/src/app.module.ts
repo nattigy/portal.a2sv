@@ -15,6 +15,7 @@ import { PrismaModule } from './prisma/prisma.module'
 // import { DataAnalyticsModule } from './data-analytics/data-analytics.module'
 import { ScheduleModule } from '@nestjs/schedule'
 import { ServicesModule } from './services/services.module'
+import { MailModule } from './mail/mail.module'
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { ServicesModule } from './services/services.module'
     PrismaModule,
     CaslModule,
     ServicesModule,
+    MailModule,
   ],
   providers: [AppService, AppResolver],
 })
