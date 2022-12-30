@@ -16,9 +16,21 @@ import { PrismaModule } from './prisma/prisma.module'
 import { ScheduleModule } from '@nestjs/schedule'
 import { ServicesModule } from './services/services.module'
 import { MailModule } from './mail/mail.module'
+import { MailerModule } from '@nestjs-modules/mailer'
 
 @Module({
   imports: [
+    MailerModule.forRoot({
+    // transport: 'smtps://user@example.com:topsecret@smtp.example.com',
+    // or
+    transport: {
+      host: 'smtp.socketlabs.com',
+      secure: false,
+      auth: {
+        user: 'server42224',
+        pass: 'Zm5i8TNp3k9R6DxY',
+      },
+    }}),
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -46,7 +58,8 @@ import { MailModule } from './mail/mail.module'
       },
       resolvers: { DateTime: GraphQLISODateTime },
     }),
-    AuthModule,
+    MailModule,
+    // AuthModule,
     PrismaModule,
     CaslModule,
     TagModule,
@@ -56,7 +69,6 @@ import { MailModule } from './mail/mail.module'
     PrismaModule,
     CaslModule,
     ServicesModule,
-    MailModule,
   ],
   providers: [AppService, AppResolver],
 })

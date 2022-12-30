@@ -10,7 +10,7 @@ import { AuthResponse } from './dto/auth-response.dto'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { StatusEnum } from '@prisma/client'
 import GenerateOTP from './../common/generat'
-import { MailService } from './../mail/mail.service'
+import { MailService } from '../mail/mail.service'
 
 @Injectable()
 export class AuthService {
@@ -52,7 +52,7 @@ export class AuthService {
       },
     })
 
-    this.mailService.resetEmail(user.email, otpCode)
+    await this.mailService.resetEmail(user.email, otpCode)
     return 'Rest Code Sent'
   }
 
@@ -77,7 +77,7 @@ export class AuthService {
       },
     })
     // redirect it to login page
-    return 'Password Reseted'
+    return 'Password Reset Complete!'
   }
 
   async getUser(id: string): Promise<User | null> {
@@ -119,7 +119,7 @@ export class AuthService {
         code: otpCode,
       },
     })
-    this.mailService.inviteMail(user.email, otpCode)
+    await this.mailService.inviteMail(user.email, otpCode)
     // redirect to verify page
     return 'Short code has been sent to your email'
   }

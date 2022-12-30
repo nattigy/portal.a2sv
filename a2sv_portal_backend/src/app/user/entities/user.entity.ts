@@ -34,8 +34,8 @@ export class User {
   })
   headToGroup?: Group
 
-  @Field({ nullable: true, description: 'Id of the userprofile for the user ' })
-  userProfilesId?: string
+  // @Field({ nullable: true, description: 'Id of the userprofile for the user ' })
+  // userProfilesId?: string
 
   @Field(() => UserProfile, { nullable: true, description: 'user profile of the user' })
   userProfile?: UserProfile

@@ -81,6 +81,7 @@ Table User {
   email String [unique, not null]
   password String [not null]
   status StatusEnum [not null]
+  verified Boolean [default: false]
   groupId String
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
@@ -396,6 +397,15 @@ Table UserProfileAddress {
   indexes {
     (profileId) [pk]
   }
+}
+
+Table Otp {
+  id String [pk]
+  email String [unique, not null]
+  code Int [not null]
+  expiryDate DateTime
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
 }
 
 Table Permission {

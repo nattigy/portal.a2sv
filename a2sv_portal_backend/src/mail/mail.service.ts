@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common'
 import { MailerService } from '@nestjs-modules/mailer'
-import { resetPasswordEmailTemplate, verifyEmailTemplate } from './../common/email_templates'
+import { resetPasswordEmailTemplate, verifyEmailTemplate } from '../common/email_templates'
 
 @Injectable()
 export class MailService {
   constructor(private readonly mailerService: MailerService) {}
 
   async inviteMail(email: string, code: number) {
-    const mail = this.mailerService.sendMail({
+    const mail = await this.mailerService.sendMail({
       to: email,
       from: 'riyad@a2sv.org',
       subject: 'Welcome to A2SV portal',
