@@ -1,15 +1,13 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { CreateMailInput } from './dto/create-mail.input';
-import { UpdateMailInput } from './dto/update-mail.input';
-import { MailerService } from '@nestjs-modules/mailer';
-import {resetPasswordEmailTemplate, verifyEmailTemplate } from './../common/email_templates';
+import { Injectable } from '@nestjs/common'
+import { MailerService } from '@nestjs-modules/mailer'
+import { resetPasswordEmailTemplate, verifyEmailTemplate } from '../common/email_templates'
 
 @Injectable()
 export class MailService {
   constructor(private readonly mailerService: MailerService) {}
 
-  async inviteMail(email:string,code:number){
-    const mail = this.mailerService.sendMail({
+  async inviteMail(email: string, code: number) {
+    const mail = await this.mailerService.sendMail({
       to: email,
       from:"riyad@a2sv.org",
       subject:"Welcome to A2SV portal",
@@ -25,10 +23,17 @@ export class MailService {
     }).catch((reason:any)=>{
       console.log(reason);
     })
-    return 0;
+    mail
+      .then((value: any) => {
+        console.log(value)
+      })
+      .catch((reason: any) => {
+        console.log(reason)
+      })
+    return 0
   }
 
-  async resetEmail(email:string,code: number){
+  async resetEmail(email: string, code: number) {
     const mail = this.mailerService.sendMail({
       to: email,
       from:"riyad@a2sv.org",
@@ -39,12 +44,13 @@ export class MailService {
         otpCode:code
       }
     })
-    mail.then((value:any)=>{
-      console.log(value)
-    }).catch((reason:any)=>{
-      console.log(reason);
-    })
-    return 0;
+    mail
+      .then((value: any) => {
+        console.log(value)
+      })
+      .catch((reason: any) => {
+        console.log(reason)
+      })
+    return 0
   }
-
 }

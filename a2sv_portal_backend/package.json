@@ -71,7 +71,7 @@
   },
   "devDependencies": {
     "@nestjs/schematics": "^9.0.0",
-    "@nestjs/testing": "^9.0.0",
+    "@nestjs/testing": "^9.2.1",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/cron": "^2.0.0",
@@ -95,6 +95,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "jest": "28.1.2",
+    "jest-mock-extended": "^2.0.4",
     "prettier": "^2.3.2",
     "prisma": "^4.7.1",
     "prisma-dbml-generator": "^0.10.0",
@@ -113,8 +114,8 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
-    "testRegex": ".*\\.spec\\.ts$",
+    "rootDir": "src/app/user",
+    "testRegex": ".*\\.repo.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },

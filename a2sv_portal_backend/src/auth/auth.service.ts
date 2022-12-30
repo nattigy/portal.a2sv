@@ -3,14 +3,16 @@ import { Context } from '@nestjs/graphql'
 import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
 import { Response } from 'express'
-import { User } from 'src/user-relations/user/entities/user.entity'
-import { CreateUserInput } from '../user-relations/user/dto/create-user.input'
-import { UserService } from '../user-relations/user/user.service'
+import { User } from 'src/app/user/entities/user.entity'
+import { CreateUserInput } from '../app/user/dto/create-user.input'
+import { UserService } from '../app/user/user.service'
 import { AuthResponse } from './dto/auth-response.dto'
+
 import { PrismaService } from 'src/prisma/prisma.service';
 import { StatusEnum } from '@prisma/client';
 import GenerateOTP from './../common/generat';
 import { MailService } from './../mail/mail.service';
+
 
 @Injectable()
 export class AuthService {
@@ -18,7 +20,7 @@ export class AuthService {
     private readonly usersService: UserService,
     private readonly jwtService: JwtService,
     private readonly prismaService: PrismaService,
-    private readonly mailService:MailService
+    private readonly mailService: MailService,
   ) {}
 
   async validateUser(email: string, pass: string): Promise<User | null> {
@@ -32,11 +34,11 @@ export class AuthService {
   }
 
   async forgotPassword(email: string): Promise<string | null> {
-    const otpCode =GenerateOTP();
+    const otpCode = GenerateOTP()
 
-    const user = await this.usersService.user({ email });
+    const user = await this.usersService.user({ email })
     if (!user) {
-      throw new NotFoundException("User not found");
+      throw new NotFoundException('User not found')
     }
     // if(user.status === StatusEnum.INACTIVE){
     //   throw new NotFoundException("User not active");
@@ -54,33 +56,32 @@ export class AuthService {
       },
     })
 
-    this.mailService.resetEmail(user.email,otpCode);
-    return "Rest Code Sent";
+    await this.mailService.resetEmail(user.email, otpCode)
+    return 'Rest Code Sent'
   }
 
   async resetPassword(resetToken: string, pass: string) {
     const decoded = await this.jwtService.verify(resetToken)
     const email = decoded.email || ''
-    if(email ===''){
-      throw new NotFoundException('Incorrect Hash');
+    if (email === '') {
+      throw new NotFoundException('Incorrect Hash')
     }
-    const user = await this.prismaService.user.findUnique({where:{email}})
-    console.log(user.id)
-    if(!user){
+    const user = this.prismaService.user.findUnique({ where: { email } })
+    if (!user) {
       throw new NotFoundException('User not Found')
     }
     const saltOrRounds = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(pass, saltOrRounds)
-    await this.prismaService.user.update({
-      where:{
-        email
+    this.prismaService.user.update({
+      where: {
+        email,
       },
-      data:{
-        password:hash
-      }
+      data: {
+        password: hash,
+      },
     })
     // redirect it to login page
-    return "Password Reseted";
+    return 'Password Reset Complete!'
   }
 
   async getUser(id: string): Promise<User | null> {
@@ -106,10 +107,10 @@ export class AuthService {
     return { accessToken, userId: user.id }
   }
 
-  async signUp(createUserInput: CreateUserInput) : Promise<string>{
+  async signUp(createUserInput: CreateUserInput): Promise<string> {
     const user = await this.usersService.createUser(createUserInput)
     const otpCode = GenerateOTP()
-    
+
     await this.prismaService.otp.upsert({
       where: {
         email: user.email,
@@ -122,61 +123,64 @@ export class AuthService {
         code: otpCode,
       },
     })
-    this.mailService.inviteMail(user.email,otpCode);
+    await this.mailService.inviteMail(user.email, otpCode)
     // redirect to verify page
-    return "Short code has been sent to your email";
+    return 'Short code has been sent to your email'
   }
 
   async logout(@Context('res') response: Response) {
     response.cookie('Authentication', '', { httpOnly: true, expires: new Date() })
   }
 
-  async verifyOtp(@Context() context, otpCode:number,email:string): Promise<AuthResponse>{
+  async verifyOtp(@Context() context, otpCode: number, email: string): Promise<AuthResponse> {
     const otp = await this.prismaService.otp.findUnique({
-      where:{
-        email
-      }
+      where: {
+        email,
+      },
     })
-    if(!otp){
-      throw new NotFoundException('Otp NOT found');
+    if (!otp) {
+      throw new NotFoundException('Otp NOT found')
     }
-    if(otpCode !== otp.code){
-      throw new NotFoundException('Incorrect Otp Code');
+    if (otpCode !== otp.code) {
+      throw new NotFoundException('Incorrect Otp Code')
     }
-    if(email !== otp.email){
-      throw new NotFoundException('Incorrect Otp Code for the email');
-    }
-    const now = new Date().getTime();
-    const otpdate =  new Date(otp.updatedAt).getTime();
-    console.log(Math.floor((now - otpdate)/1000 % 60)); 
-    if( Math.floor((now - otpdate)/1000 % 60) > 30){
-      throw new NotFoundException('OTP expired')
+    if (email !== otp.email) {
+      throw new NotFoundException('Incorrect Otp Code for the email')
     }
     const user = await this.prismaService.user.findUnique({
-      where:{
-        email
-      }
+      where: {
+        email,
+      },
     })
     if(!user){
       throw new NotFoundException('User NOT found');
     }
-    if(user.status === StatusEnum.INACTIVE){
-      throw new NotFoundException('User is not active');
+    const now = new Date().getTime()
+    const otpdate = new Date(otp.updatedAt).getTime()
+
+    if (Math.floor(((now - otpdate) / 1000) % 60) > 60) {
+      console.log(now - otpdate)
+      throw new NotFoundException('OTP expired')
+    }
+    if (user.status === StatusEnum.INACTIVE) {
+      throw new NotFoundException('User is not active')
     }
     const accessToken = await this.setToken(context, user)
     return { accessToken, userId: user.id }
   }
 
 
+
   async resendOtp(email:string):Promise<string>{
     const otp = await this.prismaService.otp.findUnique({
-      where:{
-        email
-      }
+      where: {
+        email,
+      },
     })
-    if(!otp){
-      throw new NotFoundException('Otp NOT found');
+    if (!otp) {
+      throw new NotFoundException('Otp NOT found')
     }
+
     const otpDate = otp.updatedAt.getTime();
     const now = (new Date().getTime())
 
@@ -200,6 +204,4 @@ export class AuthService {
     }
     return otp.updatedAt.toISOString();
   }
-
-
 }

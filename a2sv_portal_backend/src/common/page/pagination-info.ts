@@ -1,18 +1,19 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
-import { UserGroupSeasonContest } from '../../user-relations/user-group-season-contest/entities/user-group-season-contest.entity'
-import { User } from '../../user-relations/user/entities/user.entity'
-import { Season } from '../../season-relations/season/entities/season.entity'
-import { Topic } from '../../topic/entities/topic.entity'
-import { Contest } from '../../contest/entities/contest.entity'
-import { Problem } from '../../problem/entities/problem.entity'
-import { Group } from '../../group-relations/group/entities/group.entity'
-import { SeasonTopic } from '../../season-relations/season-topic/entities/season-topic.entity'
-import { SeasonTopicProblem } from '../../season-relations/season-topic-problem/entities/season-topic-problem.entity'
-import { UserGroupSeasonTopicProblem } from '../../user-relations/user-group-season-topic-problem/entities/user-group-season-topic-problem.entity'
-import { UserGroupSeasonContestProblem } from '../../user-relations/user-group-season-contest-problem/entities/user-group-season-contest-problem.entity'
-import { UserProfile } from '../../user-relations/user-profile/entities/user-profile.entity'
-import { UserGroupSeasonTopic } from '../../user-relations/user-group-season-topic/entities/user-group-season-topic.entity'
-import { GroupSeason } from '../../group-relations/group-season/entities/group-season.entity'
+import { UserGroupSeasonContest } from '../../app/user-group-season-contest/entities/user-group-season-contest.entity'
+import { User } from '../../app/user/entities/user.entity'
+import { Season } from '../../app/season/entities/season.entity'
+import { Topic } from '../../app/topic/entities/topic.entity'
+import { Contest } from '../../app/contest/entities/contest.entity'
+import { Problem } from '../../app/problem/entities/problem.entity'
+import { Group } from '../../app/group/entities/group.entity'
+import { SeasonTopic } from '../../app/season-topic/entities/season-topic.entity'
+import { SeasonTopicProblem } from '../../app/season-topic-problem/entities/season-topic-problem.entity'
+import { UserGroupSeasonTopicProblem } from '../../app/user-group-season-topic-problem/entities/user-group-season-topic-problem.entity'
+import { UserGroupSeasonContestProblem } from '../../app/user-group-season-contest-problem/entities/user-group-season-contest-problem.entity'
+import { UserProfile } from '../../app/user-profile/entities/user-profile.entity'
+import { UserGroupSeasonTopic } from '../../app/user-group-season-topic/entities/user-group-season-topic.entity'
+import { GroupSeason } from '../../app/group-season/entities/group-season.entity'
+import { GroupSeasonContest } from '../../app/group-season-contest/entities/group-season-contest.entity'
 
 @ObjectType()
 export class PaginationInfo {
@@ -156,6 +157,15 @@ export class PaginationGroup {
 export class PaginationGroupSeason {
   @Field(() => [GroupSeason])
   items: GroupSeason[]
+
+  @Field(() => PaginationInfo)
+  pageInfo: PaginationInfo
+}
+
+@ObjectType()
+export class PaginationGroupSeasonContest {
+  @Field(() => [GroupSeasonContest])
+  items: GroupSeasonContest[]
 
   @Field(() => PaginationInfo)
   pageInfo: PaginationInfo
