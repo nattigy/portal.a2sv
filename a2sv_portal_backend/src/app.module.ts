@@ -59,7 +59,7 @@ import { MailerModule } from '@nestjs-modules/mailer'
       resolvers: { DateTime: GraphQLISODateTime },
     }),
     MailModule,
-    // AuthModule,
+    AuthModule,
     PrismaModule,
     CaslModule,
     TagModule,

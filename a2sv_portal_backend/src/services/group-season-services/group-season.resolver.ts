@@ -25,7 +25,7 @@ export class GroupSeasonResolver {
     private readonly groupSeasonService: GroupSeasonService,
     private readonly groupSeasonTopicService: GroupSeasonTopicService,
     private readonly groupSeasonTopicProblemService: GroupSeasonTopicProblemService,
-    private readonly groupSeasonContestService: GroupSeasonContestService, // private readonly groupSeasonContestProblemService: GroupSeasonContestProblemService,
+    // private readonly groupSeasonContestService: GroupSeasonContestService, // private readonly groupSeasonContestProblemService: GroupSeasonContestProblemService,
   ) {}
 
   @Mutation(() => GroupSeason)

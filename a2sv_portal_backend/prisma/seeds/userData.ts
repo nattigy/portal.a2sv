@@ -12,12 +12,12 @@ export const userData =[
         "status": StatusEnum.ACTIVE
     },
     {
-        "email": "nati@a2sv.org",
+        "email": "nathnael.akale@a2sv.org",
         "password":  '$2b$10$meWlkGCFEHkP/serox2RGuOr3LQJBnPLweHt3ZmL0S0yBbSbg9Tnm',
         // "firstName": "Nati ",
         // "lastName": "Yewendosen",
         // "middleName": "Y",
-        "role": RoleEnum.STUDENT,
+        "role": RoleEnum.HEAD_OF_EDUCATION,
         "status": StatusEnum.ACTIVE
     },
     {
@@ -26,7 +26,7 @@ export const userData =[
         // "firstName": "Emre ",
         // "lastName": "Varol",
         // "middleName": "V",
-        "role": RoleEnum.STUDENT,
+        "role": RoleEnum.HEAD_OF_ACADEMY,
         "status": StatusEnum.ACTIVE
     },
     {
