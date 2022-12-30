@@ -8,11 +8,9 @@ import { CreateUserInput } from '../user-relations/user/dto/create-user.input'
 import { UserService } from '../user-relations/user/user.service'
 import { AuthResponse } from './dto/auth-response.dto'
 import { PrismaService } from 'src/prisma/prisma.service';
-import { notContains } from 'class-validator'
 import { StatusEnum } from '@prisma/client';
 import GenerateOTP from './../common/generat';
 import { MailService } from './../mail/mail.service';
-import { use } from 'passport'
 
 @Injectable()
 export class AuthService {
@@ -24,9 +22,11 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, pass: string): Promise<User | null> {
-    const user = await this.usersService.user({ email })
+    const user = await this.prismaService.user.findUnique({where: {email} })
+    // const saltOrRounds = await bcrypt.genSalt(10);
+    // const hash = await bcrypt.hash(pass, saltOrRounds)
     if (user && bcrypt.compareSync(pass, user.password)) {
-      return user
+      return user;
     }
     return null
   }
@@ -41,7 +41,7 @@ export class AuthService {
     // if(user.status === StatusEnum.INACTIVE){
     //   throw new NotFoundException("User not active");
     // }
-    const upsertOtp = await this.prismaService.otp.upsert({
+    await this.prismaService.otp.upsert({
       where: {
         email: user.email,
       },
@@ -64,13 +64,14 @@ export class AuthService {
     if(email ===''){
       throw new NotFoundException('Incorrect Hash');
     }
-    const user = this.prismaService.user.findUnique({where:{email}})
+    const user = await this.prismaService.user.findUnique({where:{email}})
+    console.log(user.id)
     if(!user){
       throw new NotFoundException('User not Found')
     }
-    const saltOrRounds = await bcrypt.genSalt(10)
+    const saltOrRounds = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(pass, saltOrRounds)
-    this.prismaService.user.update({
+    await this.prismaService.user.update({
       where:{
         email
       },
@@ -145,35 +146,29 @@ export class AuthService {
     if(email !== otp.email){
       throw new NotFoundException('Incorrect Otp Code for the email');
     }
+    const now = new Date().getTime();
+    const otpdate =  new Date(otp.updatedAt).getTime();
+    console.log(Math.floor((now - otpdate)/1000 % 60)); 
+    if( Math.floor((now - otpdate)/1000 % 60) > 30){
+      throw new NotFoundException('OTP expired')
+    }
     const user = await this.prismaService.user.findUnique({
       where:{
         email
       }
     })
-    const now = new Date().getTime();
-    const otpdate =  new Date(otp.updatedAt).getTime();
-
-    if( Math.floor((now - otpdate)/1000 % 60) > 60){
-      console.log(now-otpdate);
-      throw new NotFoundException('OTP expired')
-    }
     if(!user){
       throw new NotFoundException('User NOT found');
     }
     if(user.status === StatusEnum.INACTIVE){
       throw new NotFoundException('User is not active');
     }
-    if(otpCode!==otp.code){
-      throw new NotFoundException('OTP code not found');
-    }
-    user.verified = true;
-    console.log(user)
     const accessToken = await this.setToken(context, user)
     return { accessToken, userId: user.id }
   }
 
 
-  async checkOtpStatus(email:string):Promise<Date>{
+  async resendOtp(email:string):Promise<string>{
     const otp = await this.prismaService.otp.findUnique({
       where:{
         email
@@ -182,7 +177,28 @@ export class AuthService {
     if(!otp){
       throw new NotFoundException('Otp NOT found');
     }
-    return new Date(otp.createdAt);
+    const otpDate = otp.updatedAt.getTime();
+    const now = (new Date().getTime())
+
+    if( Math.floor((now -otpDate)/1000 % 60) > 2){
+      const otpCode = GenerateOTP()
+    
+      await this.prismaService.otp.upsert({
+        where: {
+          email: otp.email,
+        },
+        update: {
+          code: otpCode,
+        },
+        create: {
+          email: otp.email,
+          code: otpCode,
+        },
+      })
+      this.mailService.resetEmail(otp.email,otpCode);
+    return 'OTP resented';
+    }
+    return otp.updatedAt.toISOString();
   }
 
 

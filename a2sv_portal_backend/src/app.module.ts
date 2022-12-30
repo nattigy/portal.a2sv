@@ -34,6 +34,8 @@ import { GroupSeasonTopicProblemModule } from './group-relations/group-season-to
 import { GroupSeasonContestProblemModule } from './group-relations/group-season-contest-problem/group-season-contest-problem.module'
 import { MailModule } from './mail/mail.module';
 import { MailerModule } from '@nestjs-modules/mailer'
+import { join } from 'path'
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 @Module({
   imports: [
@@ -47,7 +49,12 @@ import { MailerModule } from '@nestjs-modules/mailer'
           user: 'server42224',
           pass: 'Zm5i8TNp3k9R6DxY',
         },
-      }})
+      },
+      template:{
+        dir: join(__dirname,'../mail/template'),
+        adapter: new HandlebarsAdapter(),
+      }
+    })
       ,
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),

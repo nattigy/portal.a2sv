@@ -96,7 +96,7 @@ model User {
   lastName           String
   middleName         String
   status             StatusEnum
-  verified           Boolean?          @default(false)
+  // verified           Boolean?          @default(true)
   headToGroup        Group?            @relation("GroupHead")
   headToGroupSeasons GroupSeason[]
   group              Group?            @relation(fields: [groupId], references: [id])

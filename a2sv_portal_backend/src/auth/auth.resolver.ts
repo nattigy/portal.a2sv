@@ -36,9 +36,14 @@ export class AuthResolver {
     return this.authService.resetPassword(resettoken, pass)
   }
 
+  @Mutation(() => String)
+  async resendOtp(@Args('reset_token') email:string) {
+    return this.authService.resendOtp(email);
+  }
+
   @Mutation(() => AuthResponse)
   @Mutation(() => User)
-  async validatePassword(@Args('otpcode') otpcode: number,@Args('email') email: string, @Context() context):Promise<AuthResponse> {
+  async validateOtp(@Args('otpcode') otpcode: number,@Args('email') email: string, @Context() context):Promise<AuthResponse> {
      return this.authService.verifyOtp(context,otpcode,email)
   }
 

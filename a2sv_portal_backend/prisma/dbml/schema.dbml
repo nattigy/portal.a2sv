@@ -83,7 +83,6 @@ Table User {
   groupId String
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
-  verified Boolean [default: false]
   firstName String [not null]
   lastName String [not null]
   middleName String [not null]

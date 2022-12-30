@@ -13,7 +13,12 @@ export class MailService {
       to: email,
       from:"riyad@a2sv.org",
       subject:"Welcome to A2SV portal",
-      text:verifyEmailTemplate(email,code),
+      // text:verifyEmailTemplate(email,code),
+      template:'emailEmail',
+      context:{
+        to:email,
+        otpCode:code
+      }
     })
     mail.then((value:any)=>{
       console.log(value)
@@ -28,7 +33,11 @@ export class MailService {
       to: email,
       from:"riyad@a2sv.org",
       subject:"Welcome to A2SV portal",
-      text: resetPasswordEmailTemplate(email,code),
+      template:'forgotEmail',
+      context:{
+        to:email,
+        otpCode:code
+      }
     })
     mail.then((value:any)=>{
       console.log(value)
