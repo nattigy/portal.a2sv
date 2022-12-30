@@ -33,3 +33,10 @@ export const ACCEPT_OR_REJECT_SEASON_REQUEST = gql`
     }
   }
 `;
+export const MAKE_SEASON_REQUEST = gql`
+  mutation AddGroupToASeason($addGroupToASeasonInput: CreateGroupSeasonInput!) {
+    addGroupToASeason(addGroupToASeasonInput: $addGroupToASeasonInput) {
+      seasonId
+    }
+  }
+`;

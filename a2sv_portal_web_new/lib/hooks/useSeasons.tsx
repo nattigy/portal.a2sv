@@ -17,8 +17,16 @@ export const useGetGroupSeasons = (groupId: string) => {
   });
 };
 
-export const useGetAllSeasons = () => {
+export const useGetAllSeasons = ({ isActive }: { isActive?: boolean }) => {
+  const filterSeasonInput: any = {};
+  if (typeof isActive !== undefined) {
+    filterSeasonInput.isActive = isActive;
+  }
+  console.log(filterSeasonInput, "season", isActive)
   return useQuery(GET_ALL_SEASONS_QUERY, {
+    variables: {
+      filterSeasonInput,
+    },
     notifyOnNetworkStatusChange: true,
     errorPolicy: "all",
   });

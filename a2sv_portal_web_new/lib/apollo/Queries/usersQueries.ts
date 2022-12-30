@@ -90,12 +90,12 @@ export const GET_FILTERED_USERS = gql`
         email
         role
         status
-        # userProfile {
-        #   firstName
-        #   lastName
-        # }
-        firstName
-        lastName
+        userProfile {
+          firstName
+          lastName
+        }
+        # firstName
+        # lastName
 
       }
     }

@@ -13,14 +13,21 @@ import WithPermission from "../../lib/Guard/WithPermission";
 import { useGetAllSeasons } from "../../lib/hooks/useSeasons";
 import EmptyState from "../../components/common/EmptyState";
 import { LoaderSmall } from "../../components/common/Loaders";
+import SeasonRequestModal from "../../components/modals/SeasonRequestModal";
 
 const IndexPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { data, loading, error } = useGetAllSeasons();
+  const [isNewModalOpen, setIsNewModalOpen] = useState<boolean>(false);
+  const [isRequestModalOpen, setIsRequestModalOpen] = useState<boolean>(false);
+  const { data, loading, error } = useGetAllSeasons({});
 
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
+  const handleNewSeasonModalOpen = () => {
+    setIsNewModalOpen(true);
   };
+
+  const handleRequestSeasonModalOpen = () => {
+    setIsRequestModalOpen(true);
+  };
+
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
 
   const Sidebar: React.FC = () => {
@@ -29,21 +36,32 @@ const IndexPage = () => {
 
   return (
     <BaseLayout sidebar={<Sidebar />}>
-      {isModalOpen && (
+      {isNewModalOpen && (
         <SeasonModal
           groupId={authUser?.headToGroup?.id}
           isEditing={false}
-          onClose={() => setIsModalOpen(false)}
+          onClose={() => setIsNewModalOpen(false)}
         />
       )}
+      {isRequestModalOpen && (
+        <SeasonRequestModal onClose={() => setIsRequestModalOpen(false)} />
+      )}
+
       <div className="flex flex-col gap-y-4">
         <div className="flex items-center justify-between rounded-md">
           <h1 className="font-bold text-2xl">Seasons</h1>
           <div className="flex gap-x-2">
             <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_ACADEMY]}>
               <Button
-                onClick={handleModalOpen}
+                onClick={handleNewSeasonModalOpen}
                 text="Create New"
+                classname="bg-primary text-white text-xs"
+              />
+            </WithPermission>
+            <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION]}>
+              <Button
+                onClick={handleRequestSeasonModalOpen}
+                text="Request New Season"
                 classname="bg-primary text-white text-xs"
               />
             </WithPermission>
