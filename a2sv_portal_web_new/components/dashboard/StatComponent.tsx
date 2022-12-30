@@ -129,8 +129,8 @@ const StatComponent = (props: Props) => {
     <div className="">
       <div className="flex flex-col gap-y-4 w-full">
         <p className="text-[rgb(103,103,103)] font-semibold text-lg">
-          {props.groupData?.group.name}
-          {JSON.stringify(props.groupData)}
+          {/* {props.groupData?.group.name} */}
+          {/* {JSON.stringify(props.groupData)} */}
         </p>
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">
           {generalStatList.map((item, index) => (

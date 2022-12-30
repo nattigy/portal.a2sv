@@ -5,10 +5,8 @@ import { useReactiveVar } from "@apollo/client";
 import useLogout from "../../lib/hooks/useLogout";
 import authenticatedVar, {
   authenticatedUser,
-  hasNetworkError,
 } from "../../lib/constants/authenticated";
 import { useApollo } from "../../lib/apollo/apolloClient";
-import { GraphqlUserRole } from "../../types/user";
 import NetworkErrorToaster from "../modals/NetworkErrorToaster";
 import SidebarLayout from "./SidebarLayout";
 import LeftSidebar from "./LeftSidebar";
@@ -34,11 +32,8 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
 
   const handleLogout = async () => {
     try {
-      await localStorage.clear();
-      authenticatedUser({});
-      authenticatedVar(false);
-      localStorage.clear()
-      router.replace("/auth");
+      localStorage.clear();
+      window.location.reload()
 
       // await logout({
       //   errorPolicy: "all",
@@ -57,74 +52,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
       await apolloClient.resetStore();
     }
   };
-  const SideNavigations = ({
-    user,
-  }: {
-    user: {
-      id: string;
-      role: string;
-      status: string;
-      email: string;
-    };
-  }) => {
-    const userRole: string = user.role;
-    switch (userRole) {
-      case GraphqlUserRole.STUDENT: {
-        return (
-          <LeftSidebar
-            routes={[
-              "/dashboard",
-              "/groups",
-              "/seasons",
-              "/users",
-              "/contests",
-              "/settings",
-            ]}
-          />
-        );
-      }
-      case GraphqlUserRole.HEAD_OF_EDUCATION: {
-        return (
-          <LeftSidebar
-            routes={[
-              "/dashboard",
-              "/seasons",
-              "/users",
-              "/contests",
-              "/settings",
-            ]}
-          />
-        );
-      }
-      case GraphqlUserRole.HEAD_OF_ACADEMY: {
-        return (
-          <LeftSidebar
-            routes={[
-              "/dashboard",
-              "/seasons",
-              "/repository",
-              "/users",
-              "/contests",
-              "/settings",
-            ]}
-          />
-        );
-      }
-      default: {
-        return (
-          <LeftSidebar
-            routes={[
-              "/dashboard",
-              "/seasons",
-              "/users",
-              "/contests",
-              "/settings",
-            ]}
-          />
-        );
-      }
-    }
-  };
+
 
   return (
     <div className="relative flex flex-1 bg-[#F6F6FC] min-h-screen max-h-screen overflow-hidden">
@@ -158,7 +86,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
 
           <div className="min-h-full flex flex-col flex-1 mt-6">
             <div className="flex-1 h-full space-y-4">
-              {<SideNavigations user={authUser as any} />}
+              {<LeftSidebar />}
             </div>
 
             <div className="pb-4 flex flex-col gap-y-5 items-center justify-center">

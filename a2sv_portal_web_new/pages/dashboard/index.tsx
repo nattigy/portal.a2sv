@@ -8,7 +8,6 @@ import { GraphqlUserRole } from "../../types/user";
 
 const IndexPage = () => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
-  console.log("authuser in dashboard", authUser);
   const ActiveComponent = ({
     user,
   }: {
