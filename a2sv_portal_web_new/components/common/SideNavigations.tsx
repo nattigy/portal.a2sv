@@ -41,69 +41,6 @@ const SideNavigations = () => {
       await apolloClient.resetStore();
     }
   };
-
-  const SidebarItems = () => {
-    switch (authUser.role) {
-      case GraphqlUserRole.STUDENT: {
-        return (
-          <LeftSidebar
-            routes={[
-              "/dashboard",
-              "/groups",
-              "/seasons",
-              "/users",
-              "/contests",
-              "/settings",
-            ]}
-          />
-        );
-      }
-      case GraphqlUserRole.HEAD_OF_EDUCATION: {
-        return (
-          <LeftSidebar
-            routes={[
-              // "/dashboard",
-              // "/groups",
-              "/seasons",
-              "/users",
-              "/contests",
-              "/settings",
-            ]}
-          />
-        );
-      }
-      case GraphqlUserRole.HEAD_OF_ACADEMY: {
-        return (
-          <LeftSidebar
-            routes={[
-              "/dashboard",
-              "/groups",
-
-              "/problems",
-              "/users",
-              "/contests",
-              "/settings",
-            ]}
-          />
-        );
-      }
-      default: {
-        return (
-          <LeftSidebar
-            routes={[
-              "/dashboard",
-              "/groups",
-              "/seasons",
-              "/users",
-              "/contests",
-              "/settings",
-            ]}
-          />
-        );
-      }
-    }
-  };
-
   return (
     <div className="w-16 sm:w-20 md:w-24 md:flex-col justify-between">
       <div className="min-h-full flex flex-col  flex-grow py-5 overflow-y-auto bg-white">
@@ -133,7 +70,7 @@ const SideNavigations = () => {
         </div>
 
         <div className="min-h-full flex flex-col flex-1 mt-6">
-          <div className="flex-1 h-full space-y-4">{<SidebarItems />}</div>
+          <div className="flex-1 h-full space-y-4">{<LeftSidebar />}</div>
 
           <div className="pb-4 flex flex-col gap-y-5 items-center justify-center">
             <button
@@ -147,13 +84,14 @@ const SideNavigations = () => {
                 alt=""
               />
             </button>
+
             <button
               type="button"
               onClick={handleLogout}
               className="flex w-8 h-8 rounded-full items-center justify-center text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100"
             >
               <svg
-                className="fill-current text-red-700"
+                className="fill-current text-blue-700"
                 width="25"
                 height="25"
                 viewBox="0 0 25 25"
