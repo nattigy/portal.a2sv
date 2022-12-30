@@ -1,8 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing'
-import { UserRepository } from './user.repository'
-import {User} from "@prisma/client";
+import {Test, TestingModule} from '@nestjs/testing'
+import {UserRepository} from './user.repository'
 import {PrismaService} from "../../prisma/prisma.service";
-import { prismaMock } from '../../prisma/singleton'
+import {prismaMock} from '../../prisma/singleton'
 import {RoleEnum} from ".prisma/client";
 
 describe('UserRepository', () => {
@@ -13,7 +12,7 @@ describe('UserRepository', () => {
       providers: [
         // PrismaService,
         UserRepository,
-        { provide: PrismaService, useValue: prismaMock },
+        {provide: PrismaService, useValue: prismaMock},
       ],
     }).compile()
 
@@ -50,9 +49,9 @@ describe('UserRepository', () => {
         // @ts-ignore
         // const users = await prismaService.user.findMany.mockResolvedValue(expectedUsers)
         const users = await userRepository.findAll({
-          skip: 0,take:50,
-          where:{},
-          orderBy:{},
+          skip: 0, take: 50,
+          where: {},
+          orderBy: {},
         })
         console.log('here', users)
         // expect(users).toEqual(expectedUsers)
