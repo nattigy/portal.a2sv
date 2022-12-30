@@ -37,7 +37,7 @@ export class UserService {
 
     if (foundUser) throw new Error('Email is already in use!')
 
-    const saltOrRounds = 10
+    const saltOrRounds = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, saltOrRounds)
 
     return this.userRepository.create({

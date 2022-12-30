@@ -1,12 +1,15 @@
 import { UseGuards } from '@nestjs/common'
-import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { User } from '../app/user/entities/user.entity'
+import { Args, Context, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { User } from '../user-relations/user/entities/user.entity'
 import { CurrentUser, Public } from './auth.decorator'
 import { AuthService } from './auth.service'
 import { LoginInput } from './dto/login-input.dto'
 import { AuthResponse } from './dto/auth-response.dto'
 import { JwtAuthGuard } from './guards/jwt-auth-guard.service'
 import { LocalAuthGuard } from './guards/local-auth.guard'
+import { SignUpUserInput } from 'dist/src/user/dto/sign-up-user.input'
+import { CreateUserInput } from './../user-relations/user/dto/create-user.input';
+
 
 @Resolver()
 export class AuthResolver {
@@ -23,15 +26,26 @@ export class AuthResolver {
     return { accessToken, userId }
   }
 
-  // @Mutation(() => User)
-  // async forgotPassword(@Args('email') email: string): Promise<User | null> {
-  //   return this.authService.forgotPassword(email)
-  // }
+  @Mutation(() => String)
+  async forgotPassword(@Args('email') email: string): Promise<string> {
+    return await this.authService.forgotPassword(email);
+  }
 
-  // @Mutation(() => User)
-  // async resetPassword(@Args('email') email: string, pass: string) {
-  //   return this.authService.resetPassword(email, pass)
-  // }
+  @Mutation(() => String)
+  async resetPassword(@Args('reset_token') resettoken:string, @Args('password')pass: string) {
+    return this.authService.resetPassword(resettoken, pass)
+  }
+
+  @Mutation(() => AuthResponse)
+  @Mutation(() => User)
+  async validatePassword(@Args('otpcode') otpcode: number,@Args('email') email: string, @Context() context):Promise<AuthResponse> {
+     return this.authService.verifyOtp(context,otpcode,email)
+  }
+
+  @Mutation(() => String)
+  async signUp( @Args('createUserInput') createUserInput: CreateUserInput): Promise<String|null>{
+    return await this.authService.signUp(createUserInput);
+  }
 
   // @Public()
   // @Mutation(() => AuthResponse)
@@ -41,6 +55,8 @@ export class AuthResolver {
   // ): Promise<AuthResponse> {
   //   return this.authService.signUp(context, createUserInput)
   // }
+
+
 
   // @Mutation(() => Int)
   // async logout(@Context('res') response: Response) {
@@ -53,4 +69,5 @@ export class AuthResolver {
   getMe(@CurrentUser() user: User): User {
     return user
   }
+
 }
