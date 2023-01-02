@@ -39,6 +39,9 @@ export class UserProfile {
   github?: string
 
   @Field({ nullable: true })
+  telegram?: string
+
+  @Field({ nullable: true })
   linkedin?: string
 
   @Field({ nullable: true })

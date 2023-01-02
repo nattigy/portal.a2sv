@@ -353,6 +353,7 @@ model UserProfile {
   countryCode            String
   birthDate              DateTime?
   resumeLink             String
+  telegram                 String?
   github                 String?
   linkedin               String?
   twitter                String?

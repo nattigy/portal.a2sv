@@ -168,14 +168,15 @@ export class UserGroupSeasonTopicService {
     ...updates
   }: UpdateUserGroupSeasonTopicInput): Promise<UserGroupSeasonTopic> {
     const { userId, groupId, seasonId, topicId } = id
-    // Find user with userId and throw NotFoundException if doesn't exist
-    // check if user is in the same group as groupId provided if not throw "user not in the group" Error
-    // get group from user, and search for GroupSeasonTopic if it doesn't exist,
-    // throw NotFoundException "topic hasn't been added to your group"
-    // check if the groupSeason the user in is active if not throw "season is not active error"
-    // upsert UserGroupSeason
-    // search for group and throw notFoundException if not found,
-    // search for season and throw notFoundException if not found,
+    /*
+    1. Find user with userId and throw NotFoundException if doesn't exist
+    check if user is in the same group as groupId provided if not throw "user not in the group" Error
+    2. Get group from user, and search for GroupSeasonTopic if it doesn't exist,
+    throw NotFoundException "topic hasn't been added to your group"
+    3. Check if the groupSeason the user in is active if not throw "season is not active error"
+    4. Upsert UserGroupSeason search for group and throw notFoundException if not found,
+    search for season and throw notFoundException if not found,
+    */
     const group = await this.prismaService.group.findUnique({ where: { id: groupId } })
     const season = await this.prismaService.season.findUnique({ where: { id: seasonId } })
     if (!season) {
