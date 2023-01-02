@@ -29,8 +29,8 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
         host: 'smtp.socketlabs.com',
         secure: false,
         auth: {
-          user: 'server42224',
-          pass: 'Zm5i8TNp3k9R6DxY',
+          user: process.env.SOCKET_LABS_USER_NAME,
+          pass: process.env.SOCKET_LABS_PASSWORD,
         },
       },
       template:{
