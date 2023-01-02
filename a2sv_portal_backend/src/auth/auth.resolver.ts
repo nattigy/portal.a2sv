@@ -35,14 +35,14 @@ export class AuthResolver {
   }
 
   @Mutation(() => String)
-  async resendOtp(@Args('reset_token') email:string) {
+  async resendOtp(@Args('email') email:string) {
     return this.authService.resendOtp(email);
   }
 
   @Mutation(() => AuthResponse)
   @Mutation(() => User)
 
-  async validatePassword(
+  async validateOtp(
     @Args('otpCode') otpCode: number,
     @Args('email') email: string,
     @Context() context,

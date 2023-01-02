@@ -27,6 +27,7 @@ export class AuthService {
     const user = await this.prismaService.user.findUnique({where: {email} })
     // const saltOrRounds = await bcrypt.genSalt(10);
     // const hash = await bcrypt.hash(pass, saltOrRounds)
+    console.log(bcrypt.compareSync(pass, user.password));
     if (user && bcrypt.compareSync(pass, user.password)) {
       return user;
     }
@@ -49,11 +50,14 @@ export class AuthService {
       },
       update: {
         code: otpCode,
+        updatedAt: new Date()
       },
       create: {
         email: user.email,
         code: otpCode,
+        updatedAt: new Date()
       },
+  
     })
 
     await this.mailService.resetEmail(user.email, otpCode)
@@ -117,10 +121,12 @@ export class AuthService {
       },
       update: {
         code: otpCode,
+        updatedAt: new Date()
       },
       create: {
         email: user.email,
         code: otpCode,
+        updatedAt: new Date()
       },
     })
     await this.mailService.inviteMail(user.email, otpCode)
@@ -156,10 +162,10 @@ export class AuthService {
       throw new NotFoundException('User NOT found');
     }
     const now = new Date().getTime()
-    const otpdate = new Date(otp.updatedAt).getTime()
+    const otpDate = new Date(otp.updatedAt).getTime()
 
-    if (Math.floor(((now - otpdate) / 1000) % 60) > 60) {
-      console.log(now - otpdate)
+    if ( (((now -otpDate)/1000)/ 60) > 30) {
+      console.log(now - otpDate)
       throw new NotFoundException('OTP expired')
     }
     if (user.status === StatusEnum.INACTIVE) {
@@ -181,12 +187,13 @@ export class AuthService {
       throw new NotFoundException('Otp NOT found')
     }
 
-    const otpDate = otp.updatedAt.getTime();
+    const otpDate = new Date(otp.updatedAt).getTime();
     const now = (new Date().getTime())
 
-    if( Math.floor((now -otpDate)/1000 % 60) > 2){
+    const dateDiff = ((now -otpDate)/1000)/ 60;
+
+    if(  (((now -otpDate)/1000)/ 60) > 3){
       const otpCode = GenerateOTP()
-    
       await this.prismaService.otp.upsert({
         where: {
           email: otp.email,
@@ -202,6 +209,6 @@ export class AuthService {
       this.mailService.resetEmail(otp.email,otpCode);
     return 'OTP resented';
     }
-    return otp.updatedAt.toISOString();
+    return dateDiff.toString();
   }
 }
