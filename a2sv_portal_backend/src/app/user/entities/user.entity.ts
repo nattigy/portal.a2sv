@@ -46,8 +46,8 @@ export class User {
   @Field(() => Date, { nullable: true })
   updatedAt?: Date
 
-  @Field(() => Boolean, { nullable: true })
-  verified: boolean
+  // @Field(() => Boolean, { nullable: true })
+  // verified: boolean
 }
 
 registerEnumType(StatusEnum, { name: 'StatusEnum' })

@@ -17,20 +17,28 @@ import { ScheduleModule } from '@nestjs/schedule'
 import { ServicesModule } from './services/services.module'
 import { MailModule } from './mail/mail.module'
 import { MailerModule } from '@nestjs-modules/mailer'
+import { join } from 'path'
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 @Module({
   imports: [
     MailerModule.forRoot({
-    // transport: 'smtps://user@example.com:topsecret@smtp.example.com',
-    // or
-    transport: {
-      host: 'smtp.socketlabs.com',
-      secure: false,
-      auth: {
-        user: 'server42224',
-        pass: 'Zm5i8TNp3k9R6DxY',
+      // transport: 'smtps://user@example.com:topsecret@smtp.example.com',
+      // or
+      transport: {
+        host: 'smtp.socketlabs.com',
+        secure: false,
+        auth: {
+          user: process.env.SOCKET_LABS_USER_NAME,
+          pass: process.env.SOCKET_LABS_PASSWORD,
+        },
       },
-    }}),
+      template:{
+        dir: join(__dirname,'../mail/template'),
+        adapter: new HandlebarsAdapter(),
+      }
+    })
+      ,
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRoot<ApolloDriverConfig>({

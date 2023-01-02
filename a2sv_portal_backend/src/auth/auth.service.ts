@@ -7,10 +7,12 @@ import { User } from 'src/app/user/entities/user.entity'
 import { CreateUserInput } from '../app/user/dto/create-user.input'
 import { UserService } from '../app/user/user.service'
 import { AuthResponse } from './dto/auth-response.dto'
-import { PrismaService } from 'src/prisma/prisma.service'
-import { StatusEnum } from '@prisma/client'
-import GenerateOTP from './../common/generat'
-import { MailService } from '../mail/mail.service'
+
+import { PrismaService } from 'src/prisma/prisma.service';
+import { StatusEnum } from '@prisma/client';
+import GenerateOTP from './../common/generat';
+import { MailService } from './../mail/mail.service';
+
 
 @Injectable()
 export class AuthService {
@@ -22,9 +24,12 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, pass: string): Promise<User | null> {
-    const user = await this.usersService.user({ email })
+    const user = await this.prismaService.user.findUnique({where: {email} })
+    // const saltOrRounds = await bcrypt.genSalt(10);
+    // const hash = await bcrypt.hash(pass, saltOrRounds)
+    console.log(bcrypt.compareSync(pass, user.password));
     if (user && bcrypt.compareSync(pass, user.password)) {
-      return user
+      return user;
     }
     return null
   }
@@ -39,17 +44,20 @@ export class AuthService {
     // if(user.status === StatusEnum.INACTIVE){
     //   throw new NotFoundException("User not active");
     // }
-    const upsertOtp = await this.prismaService.otp.upsert({
+    await this.prismaService.otp.upsert({
       where: {
         email: user.email,
       },
       update: {
         code: otpCode,
+        updatedAt: new Date()
       },
       create: {
         email: user.email,
         code: otpCode,
+        updatedAt: new Date()
       },
+  
     })
 
     await this.mailService.resetEmail(user.email, otpCode)
@@ -66,7 +74,7 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException('User not Found')
     }
-    const saltOrRounds = await bcrypt.genSalt(10)
+    const saltOrRounds = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(pass, saltOrRounds)
     await this.prismaService.user.update({
       where: {
@@ -113,10 +121,12 @@ export class AuthService {
       },
       update: {
         code: otpCode,
+        updatedAt: new Date()
       },
       create: {
         email: user.email,
         code: otpCode,
+        updatedAt: new Date()
       },
     })
     await this.mailService.inviteMail(user.email, otpCode)
@@ -148,29 +158,26 @@ export class AuthService {
         email,
       },
     })
-    const now = new Date().getTime()
-    const otpdate = new Date(otp.updatedAt).getTime()
-
-    if (Math.floor(((now - otpdate) / 1000) % 60) > 60) {
-      console.log(now - otpdate)
-      throw new NotFoundException('OTP expired')
+    if(!user){
+      throw new NotFoundException('User NOT found');
     }
-    if (!user) {
-      throw new NotFoundException('User NOT found')
+    const now = new Date().getTime()
+    const otpDate = new Date(otp.updatedAt).getTime()
+
+    if ( (((now -otpDate)/1000)/ 60) > 30) {
+      console.log(now - otpDate)
+      throw new NotFoundException('OTP expired')
     }
     if (user.status === StatusEnum.INACTIVE) {
       throw new NotFoundException('User is not active')
     }
-    if (otpCode !== otp.code) {
-      throw new NotFoundException('OTP code not found')
-    }
-    user.verified = true
-    console.log(user)
     const accessToken = await this.setToken(context, user)
     return { accessToken, userId: user.id }
   }
 
-  async checkOtpStatus(email: string): Promise<Date> {
+
+
+  async resendOtp(email:string):Promise<string>{
     const otp = await this.prismaService.otp.findUnique({
       where: {
         email,
@@ -179,6 +186,29 @@ export class AuthService {
     if (!otp) {
       throw new NotFoundException('Otp NOT found')
     }
-    return new Date(otp.createdAt)
+
+    const otpDate = new Date(otp.updatedAt).getTime();
+    const now = (new Date().getTime())
+
+    const dateDiff = ((now -otpDate)/1000)/ 60;
+
+    if(  (((now -otpDate)/1000)/ 60) > 3){
+      const otpCode = GenerateOTP()
+      await this.prismaService.otp.upsert({
+        where: {
+          email: otp.email,
+        },
+        update: {
+          code: otpCode,
+        },
+        create: {
+          email: otp.email,
+          code: otpCode,
+        },
+      })
+      this.mailService.resetEmail(otp.email,otpCode);
+    return 'OTP resented';
+    }
+    return dateDiff.toString();
   }
 }
