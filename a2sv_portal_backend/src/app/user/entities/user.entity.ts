@@ -1,7 +1,7 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { RoleEnum, StatusEnum } from '@prisma/client'
 import { Group } from '../../group/entities/group.entity'
-import { UserProfile } from 'src/app/user-profile/entities/user-profile.entity'
+import { UserProfile } from '../../user-profile/entities/user-profile.entity'
 
 @ObjectType()
 export class User {

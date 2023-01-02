@@ -1,5 +1,5 @@
 import { Ability, AbilityBuilder, createMongoAbility, InferSubjects } from '@casl/ability'
-import { Action } from '../auth/action.enum'
+import { Action } from '../app/auth/action.enum'
 import { Contest } from '../app/contest/entities/contest.entity'
 import { Group } from '../app/group/entities/group.entity'
 import { Problem } from '../app/problem/entities/problem.entity'

@@ -363,6 +363,7 @@ Table UserProfile {
   countryCode String [not null]
   birthDate DateTime
   resumeLink String [not null]
+  telegram String
   github String
   linkedin String
   twitter String

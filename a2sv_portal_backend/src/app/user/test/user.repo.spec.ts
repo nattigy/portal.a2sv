@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { UserRepository } from './user.repository'
-import { PrismaService } from '../../prisma/prisma.service'
-import { prismaMock } from '../../prisma/singleton'
+import { UserRepository } from '../user.repository'
+import { PrismaService } from '../../../prisma/prisma.service'
+import { prismaMock } from '../../../prisma/singleton'
 import { RoleEnum } from '.prisma/client'
 
 describe('UserRepository', () => {

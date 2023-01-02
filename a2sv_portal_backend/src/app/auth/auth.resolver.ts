@@ -6,8 +6,8 @@ import { LoginInput } from './dto/login-input.dto'
 import { AuthResponse } from './dto/auth-response.dto'
 import { JwtAuthGuard } from './guards/jwt-auth-guard.service'
 import { LocalAuthGuard } from './guards/local-auth.guard'
-import { User } from '../app/user/entities/user.entity'
-import { CreateUserInput } from '../app/user/dto/create-user.input'
+import { User } from '../user/entities/user.entity'
+import { CreateUserInput } from '../user/dto/create-user.input'
 
 @Resolver()
 export class AuthResolver {
@@ -51,7 +51,7 @@ export class AuthResolver {
   }
 
   @Mutation(() => String)
-  async signUp(
+  async createUser(
     @Args('createUserInput') createUserInput: CreateUserInput,
   ): Promise<String | null> {
     return await this.authService.signUp(createUserInput)

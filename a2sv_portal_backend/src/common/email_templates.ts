@@ -7,7 +7,7 @@ export const verifyEmailTemplate = (otpCode, to) => `
               </div>
               <p style='font-size:1.1em'>Hi, ${to}</p>
               <h4>Please verify your email</h4>
-              <p>Thank you for choosing A2sv Portal. Use the following Code to complete your Sign Up procedures. The code is valid only for 10 minutes</p>
+              <p>Thank you for choosing A2SV Portal. Use the following Code to complete your Sign Up procedures. The code is valid only for 10 minutes</p>
               <h4 style='background: #00466a;margin: 0 auto;width: max-content;padding: 10px 30px;color: #fff;border-radius: 4px;'>
                 ${otpCode}
               </h4>
@@ -29,7 +29,7 @@ export const resetPasswordEmailTemplate = (otpCode, to) => `
                 </div>
                 <p style='font-size:1.1em'>Hello, ${to}</p>
                 <h4>Please Reset your password</h4>
-                <p>Thank you for choosing A2sv Portal Platform. Click on this <b><a title='Verify OTP' href='http://A2sv Portalweb.netlify.app/verify-otp?${to}'>
+                <p>Thank you for choosing A2SV Portal Platform. Click on this <b><a title='Verify OTP' href='http://A2sv Portalweb.netlify.app/verify-otp?${to}'>
                 Link</a></b> below and Use the following code to reset your password. The code is only valid for 10 minutes</p>
                 <h4 style='background: #00466a;margin: 0 auto;width: max-content;padding: 10px 30px;color: #fff;border-radius: 4px;'>
                 ${otpCode}

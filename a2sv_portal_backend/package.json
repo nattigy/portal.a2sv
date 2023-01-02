@@ -115,7 +115,7 @@
       "ts"
     ],
     "rootDir": "src/app/user",
-    "testRegex": ".*\\.repo.spec\\.ts$",
+    "testRegex": ".*\\.resolver.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },

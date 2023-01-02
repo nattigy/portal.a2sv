@@ -8,7 +8,7 @@ import { FilterUserInput, UniqueUserInput } from './dto/filter-user-input'
 import descriptions from './user.doc'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { CreateUserInput } from './dto/create-user.input'
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard.service'
+import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
 import { PoliciesGuard } from '../../casl/policy/policy.guard'
 import { UserAbilities } from '../../casl/handler/user-abilities.handler'
 import { CheckPolicies } from '../../casl/policy/policy.decorator'
@@ -17,14 +17,14 @@ import { CheckPolicies } from '../../casl/policy/policy.decorator'
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
-  @UseGuards(JwtAuthGuard, PoliciesGuard)
-  @CheckPolicies(UserAbilities.create)
-  @Mutation(() => User, {
-    description: descriptions.createUser,
-  })
-  async createUser(@Args('createUserInput') createUserInput: CreateUserInput): Promise<User> {
-    return this.userService.createUser(createUserInput)
-  }
+  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  // @CheckPolicies(UserAbilities.create)
+  // @Mutation(() => User, {
+  //   description: descriptions.createUser,
+  // })
+  // async createUser(@Args('createUserInput') createUserInput: CreateUserInput): Promise<User> {
+  //   return this.userService.createUser(createUserInput)
+  // }
 
   // @UseGuards(JwtAuthGuard, PoliciesGuard)
   // @CheckPolicies(UserAbilities.read)

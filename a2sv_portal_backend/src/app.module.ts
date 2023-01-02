@@ -5,7 +5,7 @@ import { GraphQLISODateTime, GraphQLModule } from '@nestjs/graphql'
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core'
 import { AppResolver } from './app.resolver'
 import { AppService } from './app.service'
-import { AuthModule } from './auth/auth.module'
+import { AuthModule } from './app/auth/auth.module'
 import { CaslModule } from './casl/casl.module'
 import { ProblemModule } from './app/problem/problem.module'
 import { TagModule } from './app/tag/tag.module'
@@ -70,12 +70,11 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
     AuthModule,
     PrismaModule,
     CaslModule,
-    TagModule,
-    ProblemModule,
+    // TagModule,
+    // ProblemModule,
     TopicModule,
-    UserProfileModule,
+    // UserProfileModule,
     PrismaModule,
-    CaslModule,
     ServicesModule,
   ],
   providers: [AppService, AppResolver],

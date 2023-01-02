@@ -1,4 +1,4 @@
-import { Action } from '../../auth/action.enum'
+import { Action } from '../../app/auth/action.enum'
 import { UserGroupSeasonTopic } from '../../app/user-group-season-topic/entities/user-group-season-topic.entity'
 import { AppAbility } from '../casl-ability.factory'
 

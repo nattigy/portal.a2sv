@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { PrismaClient, User } from '@prisma/client'
 import { DeepMockProxy } from 'jest-mock-extended'
-import { PrismaService } from '../../prisma/prisma.service'
-import { UserService } from './user.service'
+import { PrismaService } from '../../../prisma/prisma.service'
+import { UserService } from '../user.service'
 import { RoleEnum, StatusEnum } from '.prisma/client'
-import { UserRepository } from './user.repository'
+import { UserRepository } from '../user.repository'
 // import { Context, createMockContext, MockContext } from './context'
 
 // let mockCtx: MockContext
@@ -22,6 +22,7 @@ describe('UserService', () => {
     groupId: 'string',
     createdAt: new Date(),
     updatedAt: new Date(),
+    verified: false,
   }
 
   const mockUserRepository = {

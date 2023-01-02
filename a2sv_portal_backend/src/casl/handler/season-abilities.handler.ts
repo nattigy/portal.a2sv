@@ -1,4 +1,4 @@
-import { Action } from '../../auth/action.enum'
+import { Action } from '../../app/auth/action.enum'
 import { Season } from '../../app/season/entities/season.entity'
 import { AppAbility } from '../casl-ability.factory'
 

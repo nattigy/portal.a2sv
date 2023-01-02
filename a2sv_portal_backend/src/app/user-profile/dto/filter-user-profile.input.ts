@@ -47,6 +47,9 @@ export class FilterUserProfileInput {
   @Field({ nullable: true })
   tshirtSize?: string
 
+  @Field({ nullable: true })
+  telegram?: string
+
   @Field(() => FilterUserProfileAddressInput, { nullable: true })
   userProfileAddress?: FilterUserProfileAddressInput
 }

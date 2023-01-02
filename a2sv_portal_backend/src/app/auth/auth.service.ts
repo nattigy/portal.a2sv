@@ -4,14 +4,14 @@ import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
 import { Response } from 'express'
 import { User } from 'src/app/user/entities/user.entity'
-import { CreateUserInput } from '../app/user/dto/create-user.input'
-import { UserService } from '../app/user/user.service'
+import { CreateUserInput } from '../user/dto/create-user.input'
+import { UserService } from '../user/user.service'
 import { AuthResponse } from './dto/auth-response.dto'
 
 import { PrismaService } from 'src/prisma/prisma.service';
 import { StatusEnum } from '@prisma/client';
-import GenerateOTP from './../common/generat';
-import { MailService } from './../mail/mail.service';
+import GenerateOTP from '../../common/generat';
+import { MailService } from '../../mail/mail.service';
 
 
 @Injectable()
@@ -121,12 +121,10 @@ export class AuthService {
       },
       update: {
         code: otpCode,
-        updatedAt: new Date()
       },
       create: {
         email: user.email,
         code: otpCode,
-        updatedAt: new Date()
       },
     })
     await this.mailService.inviteMail(user.email, otpCode)
