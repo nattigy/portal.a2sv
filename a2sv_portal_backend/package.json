@@ -114,8 +114,8 @@
       "json",
       "ts"
     ],
-    "rootDir": "src/app/user",
-    "testRegex": ".*\\.resolver.spec\\.ts$",
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
