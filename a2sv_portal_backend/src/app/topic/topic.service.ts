@@ -26,7 +26,7 @@ export class TopicService {
     return this.topicRepository.create({
       name,
       description,
-    })
+    }) 
   }
 
   async topics(
