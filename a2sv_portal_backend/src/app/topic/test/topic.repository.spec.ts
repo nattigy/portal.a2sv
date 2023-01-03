@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { TopicRepository } from './topic.repository'
+import { TopicRepository } from '../topic.repository'
 
 describe('TopicRepository', () => {
   let repository: TopicRepository
