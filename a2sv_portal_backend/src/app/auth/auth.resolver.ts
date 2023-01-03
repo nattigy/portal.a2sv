@@ -52,9 +52,9 @@ export class AuthResolver {
 
   @Mutation(() => String)
   async createUser(
-    @Args('createUserInput') createUserInput: CreateUserInput,
+    @Args('email') email: string,
   ): Promise<String | null> {
-    return await this.authService.signUp(createUserInput)
+    return await this.authService.signUp(email);
   }
 
   // @Public()
