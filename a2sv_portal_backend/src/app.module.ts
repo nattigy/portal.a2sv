@@ -37,8 +37,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
         dir: join(__dirname,'../mail/template'),
         adapter: new HandlebarsAdapter(),
       }
-    })
-      ,
+    }),
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRoot<ApolloDriverConfig>({

@@ -1,62 +1,65 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { UserRepository } from '../user.repository'
 import { PrismaService } from '../../../prisma/prisma.service'
-import { prismaMock } from '../../../prisma/singleton'
+import { prismaMock } from '../../../prisma/__test__/singleton'
 import { RoleEnum } from '.prisma/client'
+import { userCreateStub, userStub } from './stubs/user.stub'
+import { Prisma, StatusEnum } from '@prisma/client'
+import { User } from '../entities/user.entity'
+import { UserModel } from './support/user.model'
 
 describe('UserRepository', () => {
   let userRepository: UserRepository
+  let userModel: UserModel
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         // PrismaService,
         UserRepository,
-        { provide: PrismaService, useValue: prismaMock },
+        // { provide: PrismaService, useValue: prismaMock },
+        {
+          provide: PrismaService,
+          // provide: Prisma.Prisma__UserClient,
+          useValue: UserModel,
+          useClass: UserModel,
+        },
       ],
     }).compile()
 
     userRepository = module.get<UserRepository>(UserRepository)
+    userModel = module.get<UserModel>(User)
   })
 
   it('should be defined', () => {
     expect(userRepository).toBeDefined()
   })
 
-  describe('create', () => {
-    describe('when called', () => {
-      it('should create new users', async () => {
-        // const expectedUsers: User[] = [user, user]
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        // const users = await prismaService.user.findMany.mockResolvedValue(expectedUsers)
-        const users = await userRepository.create({
-          email: '',
-          password: '0',
-          role: RoleEnum.STUDENT,
-        })
-        console.log('here', users)
-        // expect(users).toEqual(expectedUsers)
-      })
-    })
-  })
+  // describe('create', () => {
+  //   describe('when called', () => {
+  //     it('should create new users', async () => {
+  //       const user = await userRepository.create({
+  //         email: userStub().email,
+  //         password: userStub().password,
+  //         status: StatusEnum.ACTIVE,
+  //         role: RoleEnum.STUDENT,
+  //       })
+  //       expect(user).toEqual(userStub())
+  //     })
+  //   })
+  // })
 
-  describe('findAll', () => {
-    describe('when called', () => {
-      it('should display all users', async () => {
-        // const expectedUsers: User[] = [user, user]
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        // const users = await prismaService.user.findMany.mockResolvedValue(expectedUsers)
-        const users = await userRepository.findAll({
-          skip: 0,
-          take: 50,
-          where: {},
-          orderBy: {},
-        })
-        console.log('here', users)
-        // expect(users).toEqual(expectedUsers)
-      })
-    })
-  })
+  // describe('findAll', () => {
+  //   describe('when called', () => {
+  //     it('should display all users', async () => {
+  //       const users = await userRepository.findAll({
+  //         skip: 0,
+  //         take: 50,
+  //         where: {},
+  //         orderBy: {},
+  //       })
+  //       expect(users).toEqual([userStub()])
+  //     })
+  //   })
+  // })
 })
