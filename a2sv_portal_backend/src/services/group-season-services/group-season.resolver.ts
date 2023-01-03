@@ -18,12 +18,6 @@ import { GroupSeasonTopicProblemService } from './group-season-topic-problem.ser
 import { GroupSeasonTopicService } from './group-season-topic.service'
 import { FilterGroupSeasonInput } from '../../app/group-season/dto/filter-group-season.input'
 import { GroupSeasonContestService } from './group-season-contest.service'
-import { GroupSeasonContest } from '../../app/group-season-contest/entities/group-season-contest.entity'
-import {
-  CreateGroupSeasonContestInput,
-  GroupSeasonContestId,
-} from '../../app/group-season-contest/dto/create-group-season-contest.input'
-import { UpdateGroupSeasonContestInput } from '../../app/group-season-contest/dto/update-group-season-contest.input'
 
 @Resolver(() => GroupSeason)
 export class GroupSeasonResolver {
@@ -31,9 +25,8 @@ export class GroupSeasonResolver {
     private readonly groupSeasonService: GroupSeasonService,
     private readonly groupSeasonTopicService: GroupSeasonTopicService,
     private readonly groupSeasonTopicProblemService: GroupSeasonTopicProblemService,
-    private readonly groupSeasonContestService: GroupSeasonContestService,
-  ) // private readonly groupSeasonContestProblemService: GroupSeasonContestProblemService,
-  {}
+    // private readonly groupSeasonContestService: GroupSeasonContestService, // private readonly groupSeasonContestProblemService: GroupSeasonContestProblemService,
+  ) {}
 
   @Mutation(() => GroupSeason)
   async addGroupToASeason(
@@ -192,5 +185,4 @@ export class GroupSeasonResolver {
     }
     return problemIds.length
   }
- 
 }

@@ -1,12 +1,13 @@
 import { UseGuards } from '@nestjs/common'
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { User } from '../app/user/entities/user.entity'
 import { CurrentUser, Public } from './auth.decorator'
 import { AuthService } from './auth.service'
 import { LoginInput } from './dto/login-input.dto'
 import { AuthResponse } from './dto/auth-response.dto'
 import { JwtAuthGuard } from './guards/jwt-auth-guard.service'
 import { LocalAuthGuard } from './guards/local-auth.guard'
+import { User } from '../user/entities/user.entity'
+import { CreateUserInput } from '../user/dto/create-user.input'
 
 @Resolver()
 export class AuthResolver {
@@ -23,15 +24,38 @@ export class AuthResolver {
     return { accessToken, userId }
   }
 
-  // @Mutation(() => User)
-  // async forgotPassword(@Args('email') email: string): Promise<User | null> {
-  //   return this.authService.forgotPassword(email)
-  // }
+  @Mutation(() => String)
+  async forgotPassword(@Args('email') email: string): Promise<string> {
+    return await this.authService.forgotPassword(email)
+  }
 
-  // @Mutation(() => User)
-  // async resetPassword(@Args('email') email: string, pass: string) {
-  //   return this.authService.resetPassword(email, pass)
-  // }
+  @Mutation(() => String)
+  async resetPassword(@Args('resetToken') resetToken: string, @Args('password') pass: string) {
+    return this.authService.resetPassword(resetToken, pass)
+  }
+
+  @Mutation(() => String)
+  async resendOtp(@Args('email') email:string) {
+    return this.authService.resendOtp(email);
+  }
+
+  @Mutation(() => AuthResponse)
+  @Mutation(() => User)
+
+  async validateOtp(
+    @Args('otpCode') otpCode: number,
+    @Args('email') email: string,
+    @Context() context,
+  ): Promise<AuthResponse> {
+    return this.authService.verifyOtp(context, otpCode, email)
+  }
+
+  @Mutation(() => String)
+  async createUser(
+    @Args('email') email: string,
+  ): Promise<String | null> {
+    return await this.authService.signUp(email);
+  }
 
   // @Public()
   // @Mutation(() => AuthResponse)

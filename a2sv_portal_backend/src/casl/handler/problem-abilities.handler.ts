@@ -1,4 +1,4 @@
-import { Action } from '../../auth/action.enum'
+import { Action } from '../../app/auth/action.enum'
 import { Problem } from '../../app/problem/entities/problem.entity'
 import { AppAbility } from '../casl-ability.factory'
 

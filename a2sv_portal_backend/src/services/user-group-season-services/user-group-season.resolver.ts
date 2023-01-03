@@ -21,9 +21,8 @@ export class UserGroupSeasonResolver {
   constructor(
     private readonly userGroupSeasonService: UserGroupSeasonService,
     private readonly userGroupSeasonTopicService: UserGroupSeasonTopicService,
-    private readonly seasonTopicUserProblemService: UserGroupSeasonTopicProblemService,
-  ) // private readonly userGroupSeasonContestService: UserGroupSeasonContestService,
-  // private readonly userGroupSeasonContestProblemService: UserGroupSeasonContestProblemService,
+    private readonly seasonTopicUserProblemService: UserGroupSeasonTopicProblemService, // private readonly userGroupSeasonContestService: UserGroupSeasonContestService,
+  ) // private readonly userGroupSeasonContestProblemService: UserGroupSeasonContestProblemService,
   {}
 
   @Query(() => UserGroupSeason)

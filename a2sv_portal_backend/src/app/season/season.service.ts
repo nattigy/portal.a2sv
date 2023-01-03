@@ -27,7 +27,10 @@ export class SeasonService {
     { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationSeason> {
     const count = await this.seasonRepository.count(filterSeasonInput)
-    const listSeason = await this.seasonRepository.findAll({})
+    const listSeason = await this.seasonRepository.findAll({
+      skip, take,
+      where: filterSeasonInput,
+    })
     return {
       items: listSeason,
       pageInfo: { skip, count, take },

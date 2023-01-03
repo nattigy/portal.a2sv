@@ -1,4 +1,5 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { UseGuards } from '@nestjs/common'
 import { PaginationUser } from '../../common/page/pagination-info'
 import { UpdateUserInput } from './dto/update-user.input'
 import { User } from './entities/user.entity'
@@ -7,6 +8,10 @@ import { FilterUserInput, UniqueUserInput } from './dto/filter-user-input'
 import descriptions from './user.doc'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { CreateUserInput } from './dto/create-user.input'
+import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
+import { PoliciesGuard } from '../../casl/policy/policy.guard'
+import { UserAbilities } from '../../casl/handler/user-abilities.handler'
+import { CheckPolicies } from '../../casl/policy/policy.decorator'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -14,12 +19,12 @@ export class UserResolver {
 
   // @UseGuards(JwtAuthGuard, PoliciesGuard)
   // @CheckPolicies(UserAbilities.create)
-  @Mutation(() => User, {
-    description: descriptions.createUser,
-  })
-  async createUser(@Args('createUserInput') createUserInput: CreateUserInput): Promise<User> {
-    return this.userService.createUser(createUserInput)
-  }
+  // @Mutation(() => User, {
+  //   description: descriptions.createUser,
+  // })
+  // async createUser(@Args('createUserInput') createUserInput: CreateUserInput): Promise<User> {
+  //   return this.userService.createUser(createUserInput)
+  // }
 
   // @UseGuards(JwtAuthGuard, PoliciesGuard)
   // @CheckPolicies(UserAbilities.read)

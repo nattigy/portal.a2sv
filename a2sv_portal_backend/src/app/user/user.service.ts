@@ -31,13 +31,13 @@ export class UserService {
   ) {}
 
   async createUser(createUserInput: CreateUserInput): Promise<User> {
-    const { email, password } = createUserInput
+    const { email, password} = createUserInput
 
     const foundUser = await this.userRepository.findOne({ email })
 
     if (foundUser) throw new Error('Email is already in use!')
 
-    const saltOrRounds = 10
+    const saltOrRounds = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, saltOrRounds)
 
     return this.userRepository.create({
@@ -101,7 +101,7 @@ export class UserService {
 
     const foundUser = await this.prismaService.user.findUnique({ where: { id: userId } })
 
-    if (!foundUser) throw new NotFoundException(`Contest with id ${userId} does not exist!`)
+    if (!foundUser) throw new NotFoundException(`User with id ${userId} does not exist!`)
 
     if (updates.email) {
       const foundUserByEmail = await this.prismaService.user.findUnique({

@@ -32,6 +32,9 @@ export class CreateUserProfileInput {
   resumeLink: string
 
   @Field({ nullable: true })
+  telegram?: string
+
+  @Field({ nullable: true })
   github?: string
 
   @Field({ nullable: true })

@@ -58,7 +58,10 @@ export class UpdateUserProfileInput {
   @Field({ nullable: true })
   tshirtSize?: string
 
-  @Field()
+  @Field({ nullable: true })
+  telegram?: string
+
+  @Field({ nullable: true })
   leetcode?: string
 
   @Field({ nullable: true })

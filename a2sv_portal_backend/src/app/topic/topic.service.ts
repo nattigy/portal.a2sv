@@ -7,6 +7,7 @@ import { UpdateTopicInput } from './dto/update-topic.input'
 import { FilterTopicInput } from './dto/filter-topic-input'
 import { TopicRepository } from './topic.repository'
 import { Topic } from './entities/topic.entity'
+import { Prisma } from '@prisma/client'
 
 @Injectable()
 export class TopicService {
@@ -33,6 +34,17 @@ export class TopicService {
     filterTopicInput: FilterTopicInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationTopic> {
+    filterTopicInput = {
+      ...filterTopicInput,
+      name: {
+        ...filterTopicInput?.name,
+        mode: Prisma.QueryMode.insensitive,
+      },
+      description: {
+        ...filterTopicInput?.description,
+        mode: Prisma.QueryMode.insensitive,
+      },
+    }
     const count = await this.topicRepository.count(filterTopicInput)
     const topics = await this.topicRepository.findAll({
       skip,

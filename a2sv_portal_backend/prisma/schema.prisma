@@ -92,6 +92,7 @@ model User {
   email              String            @unique
   password           String
   status             StatusEnum
+  verified           Boolean?          @default(false)
   groupId            String?
   createdAt          DateTime?         @default(now())
   updatedAt          DateTime?
@@ -344,14 +345,15 @@ model UserGroupSeasonContestProblem {
 model UserProfile {
   id                     String                     @id @default(uuid())
   userId                 String                     @unique
-  firstName          String
-  middleName         String
-  lastName           String
+  firstName              String
+  middleName             String
+  lastName               String
   photoUrl               String?
   phone                  String
   countryCode            String
   birthDate              DateTime?
   resumeLink             String
+  telegram                 String?
   github                 String?
   linkedin               String?
   twitter                String?
@@ -384,6 +386,15 @@ model UserProfileAddress {
   userProfile UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   @@id([profileId])
+}
+
+model Otp {
+  id         String    @id @default(uuid())
+  email      String    @unique
+  code       Int
+  expiryDate DateTime?
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
 }
 
 model Permission {
