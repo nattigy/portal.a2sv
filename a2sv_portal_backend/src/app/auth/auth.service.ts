@@ -25,9 +25,6 @@ export class AuthService {
 
   async validateUser(email: string, pass: string): Promise<User | null> {
     const user = await this.prismaService.user.findUnique({where: {email} })
-    // const saltOrRounds = await bcrypt.genSalt(10);
-    // const hash = await bcrypt.hash(pass, saltOrRounds)
-    console.log(bcrypt.compareSync(pass, user.password));
     if (user && bcrypt.compareSync(pass, user.password)) {
       return user;
     }
@@ -60,7 +57,7 @@ export class AuthService {
   
     })
 
-    await this.mailService.resetEmail(user.email, otpCode)
+    await this.mailService.resetEmail(user.email, otpCode.toString())
     return 'Rest Code Sent'
   }
 
@@ -111,22 +108,23 @@ export class AuthService {
     return { accessToken, userId: user.id }
   }
 
-  async signUp(createUserInput: CreateUserInput): Promise<string> {
-    const user = await this.usersService.createUser(createUserInput)
-    const otpCode = GenerateOTP()
+  async signUp(email: string): Promise<string> {
+    const otpCode = GenerateOTP().toString()
+    const user = await this.usersService.createUser({email, password:otpCode})
+    
 
-    await this.prismaService.otp.upsert({
-      where: {
-        email: user.email,
-      },
-      update: {
-        code: otpCode,
-      },
-      create: {
-        email: user.email,
-        code: otpCode,
-      },
-    })
+    // await this.prismaService.otp.upsert({
+    //   where: {
+    //     email: user.email,
+    //   },
+    //   update: {
+    //     code: otpCode,
+    //   },
+    //   create: {
+    //     email: user.email,
+    //     code: otpCode,
+    //   },
+    // })
     await this.mailService.inviteMail(user.email, otpCode)
     // redirect to verify page
     return 'Short code has been sent to your email'
@@ -204,7 +202,7 @@ export class AuthService {
           code: otpCode,
         },
       })
-      this.mailService.resetEmail(otp.email,otpCode);
+      this.mailService.resetEmail(otp.email,otpCode.toString());
     return 'OTP resented';
     }
     return dateDiff.toString();

@@ -7,8 +7,8 @@ import { ConfigService } from '@nestjs/config'
 export class MailService {
   constructor(private readonly mailerService: MailerService,private configService: ConfigService) {}
 
-  async inviteMail(email: string, code: number) {
-    const mail = await this.mailerService.sendMail({
+  async inviteMail(email: string, code: string) {
+    await this.mailerService.sendMail({
       to: email,
       from:this.configService.get('PORTAL_EMAIL') ,
       subject:"Welcome to A2SV portal",
@@ -19,23 +19,10 @@ export class MailService {
         otpCode:code
       }
     })
-    mail.then((value:any)=>{
-      console.log(value)
-    }).catch((reason:any)=>{
-      console.log(reason);
-    })
-    mail
-      .then((value: any) => {
-        console.log(value)
-      })
-      .catch((reason: any) => {
-        console.log(reason)
-      })
-    return 0
   }
 
-  async resetEmail(email: string, code: number) {
-    const mail = this.mailerService.sendMail({
+  async resetEmail(email: string, code: string) {
+     await this.mailerService.sendMail({
       to: email,
       from:this.configService.get('PORTAL_EMAIL'),
       subject:"Reset your password for A2SV portal",
@@ -45,13 +32,6 @@ export class MailService {
         otpCode:code
       }
     })
-    mail
-      .then((value: any) => {
-        console.log(value)
-      })
-      .catch((reason: any) => {
-        console.log(reason)
-      })
-    return 0
+    
   }
 }
