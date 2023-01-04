@@ -348,6 +348,7 @@ model UserProfile {
   firstName              String
   middleName             String
   lastName               String
+  email              String            @unique
   photoUrl               String?
   phone                  String
   countryCode            String

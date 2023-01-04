@@ -20,6 +20,9 @@ export class UpdateUserProfileInput {
   phone?: string
 
   @Field({ nullable: true })
+  email?: string
+
+  @Field({ nullable: true })
   countryCode?: string
 
   @Field({ nullable: true })

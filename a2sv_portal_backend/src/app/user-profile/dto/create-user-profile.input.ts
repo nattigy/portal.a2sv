@@ -11,13 +11,16 @@ export class CreateUserProfileInput {
   firstName: string
 
   @Field()
-  middleName: string
+  middleName: string = ""
 
   @Field()
   lastName: string
 
   @Field({ nullable: true })
   photoUrl?: string
+
+  @Field({ description: 'Email of the user' })
+  email: string
 
   @Field()
   phone: string

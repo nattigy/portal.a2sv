@@ -20,6 +20,6 @@ export const updateUserStub = () => ({
 })
 
 export const userCreateStub = () => ({
-  email: 'nati@a2sv.org',
+  email: 'natiy@a2sv.org',
   password: 'nati@1234',
 })

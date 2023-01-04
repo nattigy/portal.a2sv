@@ -358,6 +358,7 @@ Table UserProfile {
   firstName String [not null]
   middleName String [not null]
   lastName String [not null]
+  email String [unique, not null]
   photoUrl String
   phone String [not null]
   countryCode String [not null]
