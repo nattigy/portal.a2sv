@@ -8,6 +8,7 @@ import { JwtAuthGuard } from './guards/jwt-auth-guard.service'
 import { LocalAuthGuard } from './guards/local-auth.guard'
 import { User } from '../user/entities/user.entity'
 import { CreateUserInput } from '../user/dto/create-user.input'
+import { AuthGuard } from '@nestjs/passport'
 
 @Resolver()
 export class AuthResolver {
@@ -41,7 +42,6 @@ export class AuthResolver {
 
   @Mutation(() => AuthResponse)
   @Mutation(() => User)
-
   async validateOtp(
     @Args('otpCode') otpCode: number,
     @Args('email') email: string,
@@ -55,6 +55,17 @@ export class AuthResolver {
     @Args('email') email: string,
   ): Promise<String | null> {
     return await this.authService.signUp(email);
+  }
+
+  @Query(()=>Date)
+  async checkOtpStatus(@Args('email') email:string):Promise<Date>{
+    return await this.authService.checkOtpStatus(email);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => String)
+  async changePassword( @Context() context, @Args('oldPasswoed') oldPass:string, @Args('newPass') newPass:string):Promise<string>{
+    return this.authService.changePassword(context,oldPass,newPass);
   }
 
   // @Public()
@@ -77,4 +88,6 @@ export class AuthResolver {
   getMe(@CurrentUser() user: User): User {
     return user
   }
+
+
 }
