@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { userStub } from '../stubs/user.stub'
 
 export const UserServiceMock = {
