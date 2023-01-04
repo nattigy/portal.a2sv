@@ -7,12 +7,11 @@ import { AuthResponse } from './dto/auth-response.dto'
 import { JwtAuthGuard } from './guards/jwt-auth-guard.service'
 import { LocalAuthGuard } from './guards/local-auth.guard'
 import { User } from '../user/entities/user.entity'
-import { CreateUserInput } from '../user/dto/create-user.input'
-import { AuthGuard } from '@nestjs/passport'
 
 @Resolver()
 export class AuthResolver {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {
+  }
 
   @Public()
   @Mutation(() => AuthResponse)
@@ -36,8 +35,8 @@ export class AuthResolver {
   }
 
   @Mutation(() => String)
-  async resendOtp(@Args('email') email:string) {
-    return this.authService.resendOtp(email);
+  async resendOtp(@Args('email') email: string) {
+    return this.authService.resendOtp(email)
   }
 
   @Mutation(() => AuthResponse)
@@ -54,18 +53,18 @@ export class AuthResolver {
   async createUser(
     @Args('email') email: string,
   ): Promise<String | null> {
-    return await this.authService.signUp(email);
+    return await this.authService.signUp(email)
   }
 
-  @Query(()=>Date)
-  async checkOtpStatus(@Args('email') email:string):Promise<Date>{
-    return await this.authService.checkOtpStatus(email);
+  @Query(() => Date)
+  async checkOtpStatus(@Args('email') email: string): Promise<Date> {
+    return await this.authService.checkOtpStatus(email)
   }
 
   @UseGuards(JwtAuthGuard)
   @Mutation(() => String)
-  async changePassword( @Context() context, @Args('oldPasswoed') oldPass:string, @Args('newPass') newPass:string):Promise<string>{
-    return this.authService.changePassword(context,oldPass,newPass);
+  async changePassword(@CurrentUser() user: User, @Args('oldPasswoed') oldPass: string, @Args('newPass') newPass: string): Promise<string> {
+    return this.authService.changePassword(user, oldPass, newPass)
   }
 
   // @Public()
@@ -88,6 +87,4 @@ export class AuthResolver {
   getMe(@CurrentUser() user: User): User {
     return user
   }
-
-
 }
