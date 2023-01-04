@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { Context } from '@nestjs/graphql'
 import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
@@ -28,7 +28,7 @@ export class AuthService {
     if (user && bcrypt.compareSync(pass, user.password)) {
       return user;
     }
-    return null
+    throw new UnauthorizedException();
   }
 
   async forgotPassword(email: string): Promise<string | null> {
@@ -206,5 +206,43 @@ export class AuthService {
     return 'OTP resented';
     }
     return dateDiff.toString();
+  }
+
+  async checkOtpStatus(email:string):Promise<Date>{
+    const userOtp =  await this.prismaService.otp.findUnique({ where:{email}})
+    if(!userOtp) {
+      throw new NotFoundException('Otp for the user does not exit');
+     } 
+     return userOtp.updatedAt;
+  }
+
+  async changePassword(@Context() context, oldPass:string, newPass:string): Promise<string>{
+    const email  = context.user.email;
+    console.log(email);
+    // const user = await this.prismaService.user.findUnique({
+    // where:{
+    //   email
+    // }
+    // })
+    // if(!user){
+    //   throw new NotFoundException("User Not found with this email");
+    // }
+    // if(bcrypt.compareSync(oldPass, user.password)){
+
+    //   const saltOrRounds = await bcrypt.genSalt(10);
+    //   const hash = await bcrypt.hash(newPass, saltOrRounds)
+    //   const updatedUser = await this.prismaService.user.update({
+    //     where: {
+    //       email,
+    //     },
+    //     data: {
+    //       password: hash,
+    //     },
+    //   })
+    //   if(!updatedUser){
+    //     throw new NotFoundException('Cannot change password')
+    //   }
+       return "Password changed";
+    // }
   }
 }
