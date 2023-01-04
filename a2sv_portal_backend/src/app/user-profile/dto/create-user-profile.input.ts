@@ -4,8 +4,8 @@ import { CurrentEducationStatusEnum, CurrentWorkStatusEnum } from '@prisma/clien
 
 @InputType()
 export class CreateUserProfileInput {
-  @Field(() => String)
-  userId: string
+  // @Field(() => String)
+  // userId: string
 
   @Field()
   firstName: string
@@ -18,9 +18,6 @@ export class CreateUserProfileInput {
 
   @Field({ nullable: true })
   photoUrl?: string
-
-  @Field({ description: 'Email of the user' })
-  email: string
 
   @Field()
   phone: string

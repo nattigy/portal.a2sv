@@ -7,6 +7,7 @@ import { FilterUserProfileInput } from './dto/filter-user-profile.input'
 import { PaginationUserProfile } from 'src/common/page/pagination-info'
 import { PaginationInput } from 'src/common/page/pagination.input'
 import { UpdateUserProfileInput } from './dto/update-user-profile.input'
+import { User } from '../user/entities/user.entity'
 
 @Injectable()
 export class UserProfileService {
@@ -15,11 +16,12 @@ export class UserProfileService {
     private readonly userProfileRepository: UserProfileRepository,
   ) {}
 
-  async createUserProfile({ userId, ...createUserProfileInput }: CreateUserProfileInput) {
+  async createUserProfile(createUserProfileInput: CreateUserProfileInput, user: User) {
     return this.userProfileRepository.create({
       ...createUserProfileInput,
+      email: user.email,
       user: {
-        connect: { id: userId },
+        connect: { id: user.id },
       },
       userProfileAddress: {
         create: createUserProfileInput.userProfileAddress,

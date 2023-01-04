@@ -1,4 +1,4 @@
-import { UseGuards } from '@nestjs/common'
+import { BadRequestException, UseGuards } from '@nestjs/common'
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { CurrentUser, Public } from './auth.decorator'
 import { AuthService } from './auth.service'
@@ -20,23 +20,39 @@ export class AuthResolver {
     @Args('loginInput') loginInput: LoginInput,
     @Context() context,
   ): Promise<AuthResponse> {
-    const { accessToken, userId } = await this.authService.login(context)
-    return { accessToken, userId }
+    try {
+      const { accessToken, userId } = await this.authService.login(context)
+      return { accessToken, userId }
+    } catch (e) {
+      throw new BadRequestException("Error logging in!")
+    }
   }
 
   @Mutation(() => String)
   async forgotPassword(@Args('email') email: string): Promise<string> {
-    return await this.authService.forgotPassword(email)
+    try {
+      return await this.authService.forgotPassword(email)
+    } catch (e) {
+      throw new BadRequestException("Error sending request!")
+    }
   }
 
   @Mutation(() => String)
   async resetPassword(@Args('resetToken') resetToken: string, @Args('password') pass: string) {
-    return this.authService.resetPassword(resetToken, pass)
+    try {
+      return this.authService.resetPassword(resetToken, pass)
+    } catch (e) {
+      throw new BadRequestException("Error reset password!")
+    }
   }
 
   @Mutation(() => String)
   async resendOtp(@Args('email') email: string) {
-    return this.authService.resendOtp(email)
+    try {
+      return this.authService.resendOtp(email)
+    } catch (e) {
+      throw new BadRequestException("Error resending OTP!")
+    }
   }
 
   @Mutation(() => AuthResponse)
@@ -46,25 +62,41 @@ export class AuthResolver {
     @Args('email') email: string,
     @Context() context,
   ): Promise<AuthResponse> {
-    return this.authService.verifyOtp(context, otpCode, email)
+    try {
+      return this.authService.verifyOtp(context, otpCode, email)
+    } catch (e) {
+      throw new BadRequestException("Error validating OTP!")
+    }
   }
 
   @Mutation(() => String)
   async createUser(
     @Args('email') email: string,
   ): Promise<String | null> {
-    return await this.authService.signUp(email)
+    try {
+      return await this.authService.signUp(email)
+    } catch (e) {
+      throw new BadRequestException("Error creating user!")
+    }
   }
 
   @Query(() => Date)
   async checkOtpStatus(@Args('email') email: string): Promise<Date> {
-    return await this.authService.checkOtpStatus(email)
+    try {
+      return await this.authService.checkOtpStatus(email)
+    } catch (e) {
+      throw new BadRequestException("Error sending OTP!")
+    }
   }
 
   @UseGuards(JwtAuthGuard)
   @Mutation(() => String)
-  async changePassword(@CurrentUser() user: User, @Args('oldPasswoed') oldPass: string, @Args('newPass') newPass: string): Promise<string> {
-    return this.authService.changePassword(user, oldPass, newPass)
+  async changePassword(@CurrentUser() user: User, @Args('oldPassword') oldPass: string, @Args('newPassword') newPass: string): Promise<string> {
+    try {
+      return this.authService.changePassword(user, oldPass, newPass)
+    } catch (e) {
+      throw new BadRequestException("Error changing password!")
+    }
   }
 
   // @Public()
@@ -85,6 +117,10 @@ export class AuthResolver {
   @UseGuards(JwtAuthGuard)
   @Query(() => User)
   getMe(@CurrentUser() user: User): User {
-    return user
+    try {
+      return user
+    } catch (e) {
+      throw new BadRequestException("Error loading user!")
+    }
   }
 }

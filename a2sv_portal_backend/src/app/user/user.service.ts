@@ -109,7 +109,7 @@ export class UserService {
       })
 
       if (foundUserByEmail && foundUserByEmail.email !== foundUser.email)
-        throw new Error('That email is already registered!')
+        throw new NotAcceptableException('Email is already in use!')
     }
 
     return this.userRepository.update({
@@ -378,12 +378,7 @@ export class UserService {
   // }
 
   async removeUser(id: string) {
-    try {
-      await this.userRepository.remove({ id })
-    } catch (e) {
-      console.log(`Fail to delete user with id ${id}`, ' : ', e)
-      throw new Error(`Fail to delete user with id ${id}`)
-    }
+    await this.userRepository.remove({ id })
     return 1
   }
 }
