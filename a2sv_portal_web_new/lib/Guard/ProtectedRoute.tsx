@@ -9,7 +9,6 @@ type Props = {
 const ProtectedRoute = ({ children, authUser }: Props) => {
   const router = useRouter();
   useEffect(() => {
-    console.log(authUser, " is auth user");
     if (!authUser) {
       router.replace("/auth");
     }

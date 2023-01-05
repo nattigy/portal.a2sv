@@ -10,7 +10,6 @@ type Props = {
 const PublicRoute = ({ authUser, children }: Props) => {
   const router = useRouter();
   const authenticated = useReactiveVar(authenticatedVar);
-
   useEffect(() => {
     if (authUser) {
       router.replace("/dashboard");

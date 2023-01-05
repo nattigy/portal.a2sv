@@ -1,4 +1,5 @@
 import { useReactiveVar } from "@apollo/client";
+import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import BaseLayout from "../../components/common/BaseLayout";
 import ContestSidebarItem from "../../components/contests/ContestSidebarItem";
@@ -7,8 +8,11 @@ import UpcomingContestItem, {
   UpcomingContests,
 } from "../../components/contests/UpcomingContestItem";
 import { ContestInfo } from "../../components/dashboard/ContestRating";
+import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 
 const IndexPage = () => {
+ 
+
 
   const upcomingContests: Array<UpcomingContests> = [
     {
@@ -90,8 +94,8 @@ const IndexPage = () => {
       <div className="flex flex-col gap-y-4">
         <h1 className="font-bold text-2xl">Contest</h1>
         <div>
-            <UpcomingContestItem/>
-            <PreviousContestsItem/>
+          <UpcomingContestItem />
+          <PreviousContestsItem />
         </div>
       </div>
     </BaseLayout>

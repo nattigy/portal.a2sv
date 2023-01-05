@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useReactiveVar } from "@apollo/client";
 import useLogout from "../../lib/hooks/useLogout";
 import authenticatedVar, {
-  authenticatedUser,
+  authenticatedUser, AuthUser,
 } from "../../lib/constants/authenticated";
 import { useApollo } from "../../lib/apollo/apolloClient";
 import NetworkErrorToaster from "../modals/NetworkErrorToaster";
@@ -16,11 +16,15 @@ interface LayoutProps extends WithChildren {
 
 const StudentLayout = ({ sidebar, children }: LayoutProps) => {
   const [activePath, setActivePath] = useState("");
-  const authUser = useReactiveVar(authenticatedUser);
+  const authUser = useReactiveVar(authenticatedUser) as AuthUser;
+  const router = useRouter()
+  const isProfileComplete = authUser.userProfile !== null
+  if (router.pathname !== "/profile" && !isProfileComplete) {
+    router.replace("/profile")
+  }
 
   const apolloClient = useApollo({});
   const [logout] = useLogout();
-  const router = useRouter();
 
   useEffect(() => {
     setActivePath(router.pathname);

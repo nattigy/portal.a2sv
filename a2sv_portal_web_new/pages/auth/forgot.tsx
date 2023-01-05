@@ -1,3 +1,4 @@
+import { useMutation } from "@apollo/client";
 import { Formik, Form } from "formik";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -5,6 +6,7 @@ import { boolean } from "yup";
 import OTPField from "../../components/auth/OTPField";
 import CustomTextField from "../../components/auth/TextField";
 import FormAffirmativeButton from "../../components/common/FormAffirmativeButton";
+import { FORGOT_PASSWORD_MUTATION } from "../../lib/apollo/Mutations/authMutations";
 
 interface ForgotFormValues {
   email: string;
@@ -16,7 +18,7 @@ const INITIAL_VALUES = {
 
 const Forgot = () => {
   const router = useRouter();
-  const [error, setError] = useState("");
+  const [forgotPassword, { data, loading, error }] = useMutation(FORGOT_PASSWORD_MUTATION);
 
   return (
     <div className="min-h-screen flex flex-col items-center pt-6">
@@ -32,7 +34,22 @@ const Forgot = () => {
           <p className="font-light text-sm my-3">Please enter your email address</p>
           <Formik
             initialValues={INITIAL_VALUES}
-            onSubmit={async (values, actions) => () => {}}
+            onSubmit={async (values: any) => {
+              try {
+                localStorage.setItem("email", values.email)
+                await forgotPassword({
+                  variables: values,
+                  refetchQueries: "active",
+                  notifyOnNetworkStatusChange: true,
+                  onCompleted(data) {
+                    router.push("/auth/verify")
+                  },
+                })
+              } catch (error) {
+                console.log("error ")
+              }
+            }
+            }
           >
             {(formik) => (
               <div>
@@ -46,10 +63,9 @@ const Forgot = () => {
                       formik={formik}
                     />
                     <h1 className="text-red-600 font-light text-sm pt-1">
-                      {error}
+                      {error?.message}
                     </h1>
-
-                    <FormAffirmativeButton text="Verify" isLoading={false} />
+                    <FormAffirmativeButton text="Verify" isLoading={loading} />
                   </div>
                 </Form>
               </div>
@@ -57,7 +73,7 @@ const Forgot = () => {
           </Formik>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

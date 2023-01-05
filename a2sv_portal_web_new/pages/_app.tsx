@@ -11,7 +11,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
       <NetworkErrorToaster />
-      <Guard client={client} excludedRoutes={["/auth"]}>
+      <Guard client={client} excludedRoutes={["/auth", "/auth/forgot", "/auth/reset", "/auth/verify"]}>
         <Component {...pageProps} />
       </Guard>
     </ApolloProvider>

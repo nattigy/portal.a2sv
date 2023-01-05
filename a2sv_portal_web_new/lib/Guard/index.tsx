@@ -87,8 +87,8 @@ const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
   // const user = {getMe:mockUsers[1]};
   
   useEffect(() => {
-    console.log(user, " is user")
     if (user) {
+      console.log(user, " is user")
       authenticatedVar(true);
       authenticatedUser(user?.getMe);
       if (router.pathname.includes("/auth")) {
