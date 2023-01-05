@@ -17,13 +17,19 @@ export const GET_SINGLE_USER_QUERY = gql`
 `;
 
 export const GET_USER_PROFILE = gql`
-  query User($userId: String!) {
-    user(id: $userId) {
+  query User($uniqueUserInput: UniqueUserInput!) {
+    user(uniqueUserInput: $uniqueUserInput) {
       userProfile {
+        userProfileAddress {
+          city
+          country
+        }
         bio
         birthDate
         codeforces
         createdAt
+        currentEducationStatus
+        currentWorkStatus
         educationDegree
         educationField
         educationPlace
@@ -39,9 +45,11 @@ export const GET_USER_PROFILE = gql`
         lastName
         leetcode
         linkedin
+        middleName
         phone
         photoUrl
         resumeLink
+        telegram
         tshirtSize
         twitter
         updatedAt
@@ -96,7 +104,6 @@ export const GET_FILTERED_USERS = gql`
         }
         # firstName
         # lastName
-
       }
     }
   }
@@ -122,17 +129,18 @@ export const GET_USERS_BY_GROUP_ID_QUERY = gql`
 `;
 
 export const GET_STUDENTS_WITH_NO_GROUP_QUERY = gql`
-query Users($filterUserInput: FilterUserInput) {
-  users(filterUserInput: $filterUserInput) {
-    items {
-      id
-      firstName
-      lastName
-      email
-      role
+  query Users($filterUserInput: FilterUserInput) {
+    users(filterUserInput: $filterUserInput) {
+      items {
+        id
+        firstName
+        lastName
+        email
+        role
+      }
     }
   }
-}`;
+`;
 
 export const GET_SINGLE_GROUP_USERS_QUERY = gql`
   query Users($groupId: String!) {

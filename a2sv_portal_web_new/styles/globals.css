@@ -152,3 +152,7 @@ input[type="number"]::-webkit-outer-spin-button {
   background-color: #fff;
   width: 150px !important;
 }
+
+.bg-primary-lite {
+  background-color: #ebebff;
+}

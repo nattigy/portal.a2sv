@@ -4,7 +4,8 @@ import { useRouter } from "next/router";
 import { useReactiveVar } from "@apollo/client";
 import useLogout from "../../lib/hooks/useLogout";
 import authenticatedVar, {
-  authenticatedUser, AuthUser,
+  authenticatedUser,
+  AuthUser,
 } from "../../lib/constants/authenticated";
 import { useApollo } from "../../lib/apollo/apolloClient";
 import NetworkErrorToaster from "../modals/NetworkErrorToaster";
@@ -14,13 +15,13 @@ interface LayoutProps extends WithChildren {
   sidebar?: ReactNode;
 }
 
-const StudentLayout = ({ sidebar, children }: LayoutProps) => {
+const BaseLayout = ({ sidebar, children }: LayoutProps) => {
   const [activePath, setActivePath] = useState("");
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
-  const router = useRouter()
-  const isProfileComplete = authUser.userProfile !== null
-  if (router.pathname !== "/profile" && !isProfileComplete) {
-    router.replace("/profile")
+  const router = useRouter();
+  const isProfileComplete = authUser.userProfile !== null;
+  if (router.pathname !== "/profile/edit" && !isProfileComplete) {
+    router.replace("/profile/edit");
   }
 
   const apolloClient = useApollo({});
@@ -37,7 +38,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
   const handleLogout = async () => {
     try {
       localStorage.clear();
-      window.location.reload()
+      window.location.reload();
 
       // await logout({
       //   errorPolicy: "all",
@@ -56,7 +57,6 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
       await apolloClient.resetStore();
     }
   };
-
 
   return (
     <div className="relative flex flex-1 bg-[#F6F6FC] min-h-screen max-h-screen overflow-hidden">
@@ -89,9 +89,7 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
           </div>
 
           <div className="min-h-full flex flex-col flex-1 mt-6">
-            <div className="flex-1 h-full space-y-4">
-              {<LeftSidebar />}
-            </div>
+            <div className="flex-1 h-full space-y-4">{<LeftSidebar />}</div>
 
             <div className="pb-4 flex flex-col gap-y-5 items-center justify-center">
               <button
@@ -143,4 +141,4 @@ const StudentLayout = ({ sidebar, children }: LayoutProps) => {
   );
 };
 
-export default StudentLayout;
+export default BaseLayout;

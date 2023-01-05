@@ -10,7 +10,10 @@ import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import { useMutation, useReactiveVar } from "@apollo/client";
 import { UserProfile } from "../../types/user";
-import { UPDATE_USER_PROFILE } from "../../lib/apollo/Mutations/usersMutations";
+import {
+  CREATE_USER_PROFILE,
+  UPDATE_USER_PROFILE,
+} from "../../lib/apollo/Mutations/usersMutations";
 
 type Props = {
   userProfile: UserProfile;
@@ -32,11 +35,21 @@ export interface ProfileFormValues {
   hackerrank: string;
   codeforces: string;
   geeksforgeeks: string;
+  resumeLink: string;
+  educationPlace: string;
+  currentWorkStatus: string;
+  currentEducationStatus: string;
+  countryCode: string;
+  bio: string;
+  userProfileAddress: {
+    country: string;
+    city: string;
+  };
 }
 
 const FORM_VALIDATION = yup.object().shape({
-  firstname: yup.string().required(),
-  lastname: yup.string().required(),
+  firstName: yup.string().required(),
+  lastName: yup.string().required(),
   // email: yup
   //   .string()
   //   .required("Required")
@@ -48,6 +61,11 @@ const FORM_VALIDATION = yup.object().shape({
 
 const ProfileInfo = ({ userProfile }: Props) => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
+  const isProfileComplete = authUser.userProfile !== null;
+
+  const [createUserProfile, { loading, error }] =
+    useMutation(CREATE_USER_PROFILE);
+
   const [updateUserProfile, { loading: updateLoading, error: updateError }] =
     useMutation(UPDATE_USER_PROFILE);
 
@@ -66,7 +84,17 @@ const ProfileInfo = ({ userProfile }: Props) => {
     hackerrank: userProfile?.hackerrank || "",
     codeforces: userProfile?.codeforces || "",
     geeksforgeeks: userProfile?.geekforgeeks || "",
+    resumeLink: userProfile?.resumeLink || "",
     email: "",
+    educationPlace: userProfile?.educationPlace || "",
+    currentWorkStatus: userProfile?.currentWorkStatus || "",
+    currentEducationStatus: userProfile?.currentEducationStatus || "",
+    countryCode: userProfile?.countryCode || "",
+    bio: userProfile?.bio || "",
+    userProfileAddress: {
+      country: userProfile?.userProfileAddress.country || "",
+      city: userProfile?.userProfileAddress.city || "",
+    },
     photo: null,
   };
 
@@ -85,31 +113,60 @@ const ProfileInfo = ({ userProfile }: Props) => {
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values) => {
-            await updateUserProfile({
-              variables: {
-                updateUserProfileInput: {
-                  userId: authUser.id,
-                  hackerrank: values.hackerrank,
-                  geekforgeeks: values.geeksforgeeks,
-                  codeforces: values.codeforces,
-                  leetcode: values.leetcode,
-                  facebook: values.facebook,
-                  twitter: values.twitter,
-                  instagram: values.insta,
-                  firstName: values.firstName,
-                  lastName: values.lastName,
-                  phone: values.phone,
-                  birthDate: values.dob,
-                  linkedin: values.linkedin,
+            if (isProfileComplete) {
+              await updateUserProfile({
+                variables: {
+                  updateUserProfileInput: {
+                    userId: authUser.id,
+                    hackerrank: values.hackerrank,
+                    geekforgeeks: values.geeksforgeeks,
+                    codeforces: values.codeforces,
+                    leetcode: values.leetcode,
+                    facebook: values.facebook,
+                    twitter: values.twitter,
+                    instagram: values.insta,
+                    firstName: values.firstName,
+                    lastName: values.lastName,
+                    phone: values.phone,
+                    birthDate: values.dob,
+                    linkedin: values.linkedin,
+                  },
                 },
-              },
-              refetchQueries: "active",
-              notifyOnNetworkStatusChange: true,
-            });
+                refetchQueries: "active",
+                notifyOnNetworkStatusChange: true,
+              });
+            } else {
+              await createUserProfile({
+                variables: {
+                  createUserProfileInput: {
+                    resumeLink: values.resumeLink,
+                    phone: values.phone,
+                    leetcode: values.leetcode,
+                    lastName: values.lastName,
+                    hackerrank: values.hackerrank,
+                    firstName: values.firstName,
+                    educationPlace: values.educationPlace,
+                    currentWorkStatus: values.currentWorkStatus,
+                    currentEducationStatus: values.currentEducationStatus,
+                    countryCode: values.countryCode,
+                    codeforces: values.codeforces,
+                    bio: values.bio,
+                    userProfileAddress: {
+                      country: values.userProfileAddress.country,
+                      city: values.userProfileAddress.city,
+                    },
+                  },
+                },
+                refetchQueries: "active",
+                notifyOnNetworkStatusChange: true,
+              });
+            }
           }}
         >
           {(formik) => (
             <Form>
+              {JSON.stringify(formik.values)}
+              {JSON.stringify(formik.errors)}
               {tabIndex == 0 && <PersonalDetails formik={formik} />}
               {tabIndex == 1 && <SocialMediaDetails formik={formik} />}
               {tabIndex == 2 && <ProgrammingDetails formik={formik} />}
@@ -135,4 +192,3 @@ const ProfileInfo = ({ userProfile }: Props) => {
 };
 
 export default ProfileInfo;
-

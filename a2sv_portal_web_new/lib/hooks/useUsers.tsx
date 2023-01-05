@@ -81,7 +81,7 @@ export const useGetSingleUser = (userId: String) => {
 export const useGetUserProfile = (userId: String) => {
   return useQuery(GET_USER_PROFILE, {
     variables: {
-      userId,
+      uniqueUserInput: { id: userId },
     },
     errorPolicy: "none",
     notifyOnNetworkStatusChange: true,
