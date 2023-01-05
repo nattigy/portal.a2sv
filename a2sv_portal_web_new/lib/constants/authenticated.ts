@@ -18,6 +18,7 @@ export type AuthUser = {
     id: string;
     name: string;
   };
+  userProfile: any;
 };
 export const authenticatedUser: AuthUser | any = makeVar({});
 

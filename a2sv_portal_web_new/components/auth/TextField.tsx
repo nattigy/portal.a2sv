@@ -32,10 +32,10 @@ const CustomTextField: React.FC<InputProps> = (props: InputProps) => {
         type={!show ? props.type : "text"}
         onChange={props.formik.handleChange}
         className={clsx(
-          "w-full text-xs placeholder-[#767676] bg-[#EFF3F9] rounded-md focus:outline-none py-3 px-4 my-2"
-          // isError
-          //   ? "border border-red-500"
-          //   : ""
+          "w-full text-xs placeholder-[#767676] bg-[#EFF3F9] rounded-md focus:outline-none py-3 px-4 my-2",
+          isError
+            ? "border border-red-500"
+            : ""
         )}
       />
       <div className="relative flex items-center mt-1">

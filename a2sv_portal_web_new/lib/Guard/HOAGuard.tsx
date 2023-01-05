@@ -12,7 +12,7 @@ const HOAGuard = ({ children }: Props) => {
   const router = useRouter();
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
   useEffect(() => {
-    if (authUser.role != GraphqlUserRole.HEAD_OF_ACADEMY) {
+    if (authUser.role !== GraphqlUserRole.HEAD_OF_ACADEMY) {
       router.replace("/dashboard");
     }
   }, [router.pathname, authUser?.role]);
