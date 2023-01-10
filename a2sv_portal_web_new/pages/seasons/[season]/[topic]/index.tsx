@@ -39,14 +39,7 @@ const IndexPage = () => {
     <BaseLayout sidebar={<Sidebar />}>
       <>
         <div className="flex items-center mb-2 gap-x-4">
-          <h1 className="text-2xl font-bold text-gray-700">Topics</h1>
-          <div className="flex flex-col items-center">
-            <CustomDropdown
-              customProps={dropdown}
-              selected={select}
-              setSelected={setSelect}
-            />
-          </div>
+          <h1 className="text-lg font-semibold text-gray-700">Topics</h1>
         </div>
       </>
     </BaseLayout>

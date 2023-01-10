@@ -1,10 +1,11 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { ProblemType } from "../../types/problems";
 import { ApolloError, useMutation, useReactiveVar } from "@apollo/client";
-import { authenticatedUser } from "../../lib/constants/authenticated";
+import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../types/user";
 import useAllProblems, {
   useGetProblemsByGroupSeasonTopic,
+  useGetProblemsBySeasonTopicForHOA,
 } from "../../lib/hooks/useAllProblems";
 import { LoaderSmall } from "../common/Loaders";
 import Button from "../common/Button";
@@ -29,19 +30,31 @@ type ProblemsPageProps = {
 };
 
 const ProblemsPage = (props: ProblemsPageProps) => {
-  const authUser = useReactiveVar(authenticatedUser);
+  const authUser = useReactiveVar(authenticatedUser) as AuthUser;
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddNewProblemModalOpen, setIsAddNewProblemModalOpen] =
     useState<boolean>(false);
-  const { loading, data, error } = useGetProblemsByGroupSeasonTopic(
-    props.seasonId,
-    props.topicId
-  );
+  // const { loading, data, error } = useGetProblemsByGroupSeasonTopic(
+  //   // props.seasonId,
+  //   // props.topicId,
+  //   // "e71957cb-6c20-4ccc-afc3-b924cb6b978a",
+  //   // authUser.groupId,
+  //   "32c54ff0-429f-4407-b310-8ab898e227c4",
+  //   "e71957cb-6c20-4ccc-afc3-b924cb6b978a",
+  //   "e8f0dfdf-cb21-4484-880f-650c10f4ae6d",
+  //   );
+  const {
+    loading: hoaLoading,
+    data: hoaData,
+    error: hoaError,
+  } = useGetProblemsBySeasonTopicForHOA("e71957cb-6c20-4ccc-afc3-b924cb6b978a");
+
   const [
     removeSeasonTopic,
     { loading: removeTopicLoading, error: removeTopicError },
   ] = useMutation(REMOVE_SEASON_TOPIC);
   const [problems, setProblems] = useState<ProblemType[]>([]);
+  const [hoaProblems, setHoaProblems] = useState<ProblemType[]>([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
@@ -61,14 +74,20 @@ const ProblemsPage = (props: ProblemsPageProps) => {
   };
 
   useEffect(() => {
-    if (data) {
-      setProblems(
-        data?.seasonTopicProblems?.items.map((item: any) => item.problem)
+    // if (data) {
+    //   setProblems(
+    //     data?.groupSeasonTopic?.groupSeasonTopicProblems?.map((item: any) => item.problem)
+    //   );
+    // }
+    if (hoaData) {
+      setHoaProblems(
+        hoaData?.seasonsTopics?.items?.seasonTopicProblems?.map(
+          (item: any) => item.problem
+        )
       );
     }
-  }, [data]);
+  }, [hoaData]);
   const router = useRouter();
-  console.log(data);
 
   return (
     <>
@@ -100,19 +119,19 @@ const ProblemsPage = (props: ProblemsPageProps) => {
               notifyOnNetworkStatusChange: true,
               onCompleted: (data) => {
                 setIsDeleteModalOpen(false);
-                router.back()
+                router.back();
               },
             });
           }}
         />
       )}
       <div className="h-screen font-semibold text-[#565656]">
-        <div className="flex flex-row items-center justify-between my-6 font-semibold text-xl text-[#565656]">
-          <div className="w-full flex flex-row justify-between">
-            <h1 className="capitalize text-2xl font-semibold">
+        <div className="w-full font-semibold text-xl text-[#565656]">
+          <div className="w-full flex items-center justify-between relative">
+            <h1 className="capitalize text-xl font-semibold">
               {props.topicName}
             </h1>
-            <div className="flex flex-row gap-x-5">
+            <div className="flex flex-row items-center gap-x-5 mb-2">
               <SearchField
                 onChange={(e) => handleSearch}
                 placeholder="Search a problem"
@@ -125,32 +144,17 @@ const ProblemsPage = (props: ProblemsPageProps) => {
                   classname="bg-primary text-white text-xs"
                 />
               )}
-              <div className="relative">
+              {(authUser as any).role === GraphqlUserRole.HEAD_OF_ACADEMY && (
                 <MenuItem
                   color="#000000"
                   menuItems={[
-                    {
-                      title: "Delete Topic",
-                      onClick: (e: any) => {
-                        setIsDeleteModalOpen(true);
-                      },
-                    },
-                  ]}
-                />
-              </div>
-            </div>
-
-            {(authUser as any).role === GraphqlUserRole.HEAD_OF_ACADEMY && (
-              <div>
-                <MenuItem
-                  menuItems={[
-                    {
-                      title: "Edit Topic",
-                      onClick: (e: any) => {
-                        e.stopPropagation();
-                        handleEditModalOpen();
-                      },
-                    },
+                    // {
+                    //   title: "Edit Topic",
+                    //   onClick: (e: any) => {
+                    //     e.stopPropagation();
+                    //     handleEditModalOpen();
+                    //   },
+                    // },
                     {
                       title: "Delete Topic",
                       onClick: (e: any) => {
@@ -160,26 +164,46 @@ const ProblemsPage = (props: ProblemsPageProps) => {
                     },
                   ]}
                 />
-              </div>
-            )}
+              )}
+              {/* <MenuItem
+                color="#000000"
+                menuItems={[
+                  {
+                    title: "Delete Topic",
+                    onClick: (e: any) => {
+                      setIsDeleteModalOpen(true);
+                    },
+                  },
+                ]}
+              /> */}
+            </div>
           </div>
         </div>
-        {loading ? (
+        {hoaLoading ? (
           <div className="w-full flex items-center justify-center">
             <LoaderSmall />
           </div>
-        ) : error ? (
+        ) : hoaError ? (
           <p>Something went wrong</p>
-        ) : problems?.length === 0 ? (
+        ) : hoaProblems?.length === 0 ? (
           <EmptyState />
         ) : (
-          <div>
+        <div>
+          {authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY && (
             <ProblemsTable
-              problems={problems}
+              problems={hoaProblems}
               seasonId={props.seasonId}
               topicId={props.topicId}
             />
-          </div>
+          )}
+          {/* {authUser.role !== GraphqlUserRole.HEAD_OF_ACADEMY && (
+              <ProblemsTable
+                problems={problems}
+                seasonId={props.seasonId}
+                topicId={props.topicId}
+              />
+            )} */}
+        </div>
         )}
       </div>
     </>

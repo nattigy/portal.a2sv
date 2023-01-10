@@ -14,6 +14,7 @@ import {
   CREATE_USER_PROFILE,
   UPDATE_USER_PROFILE,
 } from "../../lib/apollo/Mutations/usersMutations";
+import Router, { useRouter } from "next/router";
 
 type Props = {
   userProfile: UserProfile;
@@ -61,6 +62,7 @@ const FORM_VALIDATION = yup.object().shape({
 
 const ProfileInfo = ({ userProfile }: Props) => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
+  const router = useRouter();
   const isProfileComplete = authUser.userProfile !== null;
 
   const [createUserProfile, { loading, error }] =
@@ -75,25 +77,25 @@ const ProfileInfo = ({ userProfile }: Props) => {
     phone: userProfile?.phone || "",
     dob: userProfile?.birthDate || null,
     status: "",
-    linkedin: userProfile?.linkedin || "",
-    insta: userProfile?.instagram || "",
-    twitter: userProfile?.twitter || "",
-    telegram: "",
-    facebook: userProfile?.facebook || "",
-    leetcode: userProfile?.leetcode || "",
-    hackerrank: userProfile?.hackerrank || "",
-    codeforces: userProfile?.codeforces || "",
+    linkedin: userProfile?.linkedin || "linkedin/hanna",
+    insta: userProfile?.instagram || "insta/hanna",
+    twitter: userProfile?.twitter || "twitter/hanna",
+    telegram: "TheConfusedOne",
+    facebook: userProfile?.facebook || "facebook/hanna",
+    leetcode: userProfile?.leetcode || "leetcode.com/hanna17st",
+    hackerrank: userProfile?.hackerrank || "hackerrank/hanna",
+    codeforces: userProfile?.codeforces || "codeforces/hanna",
     geeksforgeeks: userProfile?.geekforgeeks || "",
-    resumeLink: userProfile?.resumeLink || "",
+    resumeLink: userProfile?.resumeLink || "resume/hanna",
     email: "",
-    educationPlace: userProfile?.educationPlace || "",
-    currentWorkStatus: userProfile?.currentWorkStatus || "",
-    currentEducationStatus: userProfile?.currentEducationStatus || "",
-    countryCode: userProfile?.countryCode || "",
-    bio: userProfile?.bio || "",
+    educationPlace: userProfile?.educationPlace || "AAiT",
+    currentWorkStatus: userProfile?.currentWorkStatus || "EMPLOYED",
+    currentEducationStatus: userProfile?.currentEducationStatus || "GRADUATED",
+    countryCode: userProfile?.countryCode || "Ethiopia",
+    bio: userProfile?.bio || "Hello",
     userProfileAddress: {
-      country: userProfile?.userProfileAddress.country || "",
-      city: userProfile?.userProfileAddress.city || "",
+      country: userProfile?.userProfileAddress?.country || "Ethiopia",
+      city: userProfile?.userProfileAddress?.city || "Addis Ababa",
     },
     photo: null,
   };
@@ -102,6 +104,10 @@ const ProfileInfo = ({ userProfile }: Props) => {
 
   const handleTabChange = (index: number) => {
     setTabIndex(index);
+  };
+
+  const handleClick = () => {
+    console.log("Click click ");
   };
 
   return (
@@ -136,6 +142,7 @@ const ProfileInfo = ({ userProfile }: Props) => {
                 notifyOnNetworkStatusChange: true,
               });
             } else {
+              console.log(values);
               await createUserProfile({
                 variables: {
                   createUserProfileInput: {
@@ -158,6 +165,7 @@ const ProfileInfo = ({ userProfile }: Props) => {
                   },
                 },
                 refetchQueries: "active",
+                onCompleted: async () => router.push("/profile"),
                 notifyOnNetworkStatusChange: true,
               });
             }

@@ -100,7 +100,7 @@ const UsersPage = (props: Props) => {
     <BaseLayout sidebar={<Sidebar />}>
       {isModalOpen && <NewUserModal onClose={() => setIsModalOpen(false)} />}
       <div className="flex flex-col relative">
-        <h1 className="text-2xl font-bold mb-2">Users</h1>
+        <h1 className="text-lg font-semibold mb-2">Users</h1>
         <UsersFilter
           handleSearchUser={handleSearchUser}
           handleModalOpen={handleModalOpen}

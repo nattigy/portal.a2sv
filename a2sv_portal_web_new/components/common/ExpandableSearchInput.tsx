@@ -17,7 +17,7 @@ const ExpandableSearchInput = (props: Props) => {
         name={props.name}
         onChange={props.onChange}
         className={clsx(
-          "peer cursor-pointer relative z-10 h-10 w-10 rounded-lg border bg-transparent pl-10 outline-none focus:w-full focus:cursor-text focus:border-primary focus:pl-14 focus:pr-4 transition-all duration-500 ease-in-out text-sm"
+          "peer cursor-pointer relative z-10 h-10 w-full md:w-10 focus:w-full rounded-lg border bg-transparent pl-10 outline-none focus:cursor-text focus:border-primary focus:pl-14 focus:pr-4 transition-all duration-150 ease-in-out text-sm"
         )}
       />
       <svg

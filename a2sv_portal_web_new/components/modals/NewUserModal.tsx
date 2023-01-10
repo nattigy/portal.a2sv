@@ -83,7 +83,7 @@ const NewUserModal = (props: Props) => {
             <Form>
               <div
                 role="alert"
-                className="flex flex-col gap-y-3 min-h-[400px] bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-8 py-5"
+                className="flex flex-col gap-y-3 min-h-fit bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-8 py-5"
               >
                 <div className="w-full flex flex-col items-center">
                   <div className="my-3 w-full flex justify-between items-center">
@@ -125,20 +125,6 @@ const NewUserModal = (props: Props) => {
                   <div className="flex flex-col justify-start gap-y-4">
                     <div>
                       <FormField
-                        id="name"
-                        name="name"
-                        placeholder="Name"
-                        error={errors.name}
-                        touched={touched.name}
-                      />
-                      {touched.name && errors.name && (
-                        <p className="w-full text-xs text-red-500">
-                          {errors.name}
-                        </p>
-                      )}
-                    </div>
-                    <div>
-                      <FormField
                         id="email"
                         name="email"
                         placeholder="Email"
@@ -148,20 +134,6 @@ const NewUserModal = (props: Props) => {
                       {touched.email && errors.email && (
                         <p className="w-full text-xs text-red-500">
                           {errors.email}
-                        </p>
-                      )}
-                    </div>
-                    <div>
-                      <FormField
-                        id="password"
-                        name="password"
-                        placeholder="Password"
-                        error={errors.password}
-                        touched={touched.password}
-                      />
-                      {touched.password && errors.password && (
-                        <p className="w-full text-xs text-red-500">
-                          {errors.password}
                         </p>
                       )}
                     </div>

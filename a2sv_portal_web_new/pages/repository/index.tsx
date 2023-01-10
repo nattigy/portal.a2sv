@@ -26,7 +26,7 @@ const IndexPage = (props: Props) => {
   return (
     <BaseLayout>
       <div className="flex flex-col">
-        <h1 className="text-2xl font-bold mb-2">Repository</h1>
+        <h1 className="text-lg font-semibold mb-2">Repository</h1>
         <ProblemsFilter
           handleTabChange={handleTabChange}
           activeIndex={tabIndex}

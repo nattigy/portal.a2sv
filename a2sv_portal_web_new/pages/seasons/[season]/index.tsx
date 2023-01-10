@@ -104,7 +104,7 @@ const IndexPage = () => {
       <div className="h-full">
         <div className="w-full flex flex-col md:flex-row justify-between">
           <div className=" justify-between flex items-center mb-2 gap-x-5 ">
-            <h1 className="text-2xl font-bold text-gray-700">Topics</h1>
+            <h1 className="text-lg font-semibold text-gray-700">Topics</h1>
           </div>
           <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION]}>
             <Button
@@ -129,9 +129,9 @@ const IndexPage = () => {
         <p>Something went wrong</p>
       ) : ( */}
 
-        <div className="w-full flex flex-col  gap-y-4">
+        <div className="w-full flex flex-col gap-y-4">
           {loading ? (
-            <div className=" h-full w-full flex ">
+            <div className="h-full w-full flex justify-center items-center">
               <LoaderSmall />
             </div>
           ) : // ) : error ? (

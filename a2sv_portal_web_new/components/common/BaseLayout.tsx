@@ -131,7 +131,7 @@ const BaseLayout = ({ sidebar, children }: LayoutProps) => {
         </div>
       </div>
       <main className="flex flex-col flex-1 min-h-screen max-h-screen no-scrollbar overflow-auto">
-        <div className="bg-[#F6F6FC] p-2 max-w-full sm:px-5 md:px-8 my-3 h-full">
+        <div className="bg-[#F6F6FC] p-2 max-w-full sm:px-5 md:px-8 pt-7 my-3 h-full">
           {children}
           {/* <div className="flex lg:hidden">{sidebar}</div> */}
         </div>

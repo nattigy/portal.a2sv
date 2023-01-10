@@ -77,13 +77,12 @@ const ProfileDetails = ({ userProfile, user }: Props) => {
   };
 
   return (
-    <div className="grid grid-cols-4 gap-4 w-full">
-      <div className="">
+    <div className="grid grid-cols-5 gap-4 w-full">
+      <div className="col-span-2">
         <div className="rounded-md border-b border-gray-200 bg-white px-4 py-5 sm:px-6 mb-4">
           <div className="p-4">
             <img
-              className="rounded-lg"
-              style={{ width: 400, height: 250 }}
+              className="rounded-lg w-full"
               alt="Profile"
               src="https://picsum.photos/400/250"
             />

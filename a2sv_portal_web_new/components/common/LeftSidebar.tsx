@@ -18,10 +18,10 @@ const LeftSidebar = (props: Props) => {
     [GraphqlUserRole.HEAD_OF_ACADEMY]: [
       "/dashboard",
       "/seasons",
+      "/repository",
       "/groups",
       "/users",
       "/contests",
-      "/settings",
     ],
     [GraphqlUserRole.HEAD_OF_EDUCATION]: [
       "/dashboard",
@@ -29,7 +29,6 @@ const LeftSidebar = (props: Props) => {
       "/groups",
       "/users",
       "/contests",
-      "/settings",
     ],
     [GraphqlUserRole.STUDENT]: [
       "/dashboard",
@@ -37,7 +36,6 @@ const LeftSidebar = (props: Props) => {
       "/groups",
       "/users",
       "/contests",
-      "/settings",
     ]
   }
 
