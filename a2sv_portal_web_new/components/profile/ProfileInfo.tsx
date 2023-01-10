@@ -51,13 +51,23 @@ export interface ProfileFormValues {
 const FORM_VALIDATION = yup.object().shape({
   firstName: yup.string().required(),
   lastName: yup.string().required(),
-  // email: yup
-  //   .string()
-  //   .required("Required")
-  //   .email("email should have the format user@example.com"),
-  // phone: yup.string().length(12),
-  // linkedin: yup.string(),
-  // dob: yup.date().required("Required"),
+  email: yup
+    .string()
+    .required("Required")
+    .email("email should have the format user@example.com"),
+  phone: yup.string().required("Required"),
+  linkedin: yup.string().required("Required"),
+  dob: yup.date().required("Required"),
+  insta: yup.string().required("Required"),
+  twitter: yup.string().required("Required"),
+  telegram: yup.string().required("Required"),
+  facebook: yup.string().required("Required"),
+  leetcode: yup.string().required("Required"),
+  hackerrank: yup.string().required("Required"),
+  codeforces: yup.string().required("Required"),
+  resumeLink: yup.string().required("Required"),
+  educationPlace: yup.string().required("Required"),
+  // bio:yup.string().required("Required"),
 });
 
 const ProfileInfo = ({ userProfile }: Props) => {
@@ -77,22 +87,22 @@ const ProfileInfo = ({ userProfile }: Props) => {
     phone: userProfile?.phone || "",
     dob: userProfile?.birthDate || null,
     status: "",
-    linkedin: userProfile?.linkedin || "linkedin/hanna",
-    insta: userProfile?.instagram || "insta/hanna",
-    twitter: userProfile?.twitter || "twitter/hanna",
-    telegram: "TheConfusedOne",
-    facebook: userProfile?.facebook || "facebook/hanna",
-    leetcode: userProfile?.leetcode || "leetcode.com/hanna17st",
-    hackerrank: userProfile?.hackerrank || "hackerrank/hanna",
-    codeforces: userProfile?.codeforces || "codeforces/hanna",
+    linkedin: userProfile?.linkedin || "",
+    insta: userProfile?.instagram || "",
+    twitter: userProfile?.twitter || "",
+    telegram: userProfile?.telegram || "",
+    facebook: userProfile?.facebook || "",
+    leetcode: userProfile?.leetcode || "",
+    hackerrank: userProfile?.hackerrank || "",
+    codeforces: userProfile?.codeforces || "",
     geeksforgeeks: userProfile?.geekforgeeks || "",
-    resumeLink: userProfile?.resumeLink || "resume/hanna",
+    resumeLink: userProfile?.resumeLink || "",
     email: "",
     educationPlace: userProfile?.educationPlace || "AAiT",
-    currentWorkStatus: userProfile?.currentWorkStatus || "EMPLOYED",
-    currentEducationStatus: userProfile?.currentEducationStatus || "GRADUATED",
+    currentWorkStatus: userProfile?.currentWorkStatus || "",
+    currentEducationStatus: userProfile?.currentEducationStatus || "",
     countryCode: userProfile?.countryCode || "Ethiopia",
-    bio: userProfile?.bio || "Hello",
+    bio: userProfile?.bio || "bio",
     userProfileAddress: {
       country: userProfile?.userProfileAddress?.country || "Ethiopia",
       city: userProfile?.userProfileAddress?.city || "Addis Ababa",
@@ -104,10 +114,6 @@ const ProfileInfo = ({ userProfile }: Props) => {
 
   const handleTabChange = (index: number) => {
     setTabIndex(index);
-  };
-
-  const handleClick = () => {
-    console.log("Click click ");
   };
 
   return (
@@ -136,6 +142,7 @@ const ProfileInfo = ({ userProfile }: Props) => {
                     phone: values.phone,
                     birthDate: values.dob,
                     linkedin: values.linkedin,
+                    resumeLink: values.resumeLink,
                   },
                 },
                 refetchQueries: "active",
@@ -146,21 +153,23 @@ const ProfileInfo = ({ userProfile }: Props) => {
               await createUserProfile({
                 variables: {
                   createUserProfileInput: {
-                    resumeLink: values.resumeLink,
-                    phone: values.phone,
-                    leetcode: values.leetcode,
-                    lastName: values.lastName,
-                    hackerrank: values.hackerrank,
-                    firstName: values.firstName,
-                    educationPlace: values.educationPlace,
-                    currentWorkStatus: values.currentWorkStatus,
-                    currentEducationStatus: values.currentEducationStatus,
-                    countryCode: values.countryCode,
-                    codeforces: values.codeforces,
                     bio: values.bio,
+                    codeforces: values.codeforces,
+                    countryCode: "+251",
+                    educationPlace: "AAiT",
+                    firstName: values.firstName,
+                    hackerrank: values.hackerrank,
+                    instagram: values.insta,
+                    lastName: values.lastName,
+                    leetcode: values.leetcode,
+                    linkedin: values.linkedin,
+                    phone: values.phone,
+                    resumeLink: values.resumeLink,
+                    currentEducationStatus: "GRADUATED",
+                    currentWorkStatus: "EMPLOYED",
                     userProfileAddress: {
-                      country: values.userProfileAddress.country,
-                      city: values.userProfileAddress.city,
+                      city: "AA",
+                      country: "Ethiopia",
                     },
                   },
                 },
@@ -173,7 +182,6 @@ const ProfileInfo = ({ userProfile }: Props) => {
         >
           {(formik) => (
             <Form>
-              {JSON.stringify(formik.values)}
               {JSON.stringify(formik.errors)}
               {tabIndex == 0 && <PersonalDetails formik={formik} />}
               {tabIndex == 1 && <SocialMediaDetails formik={formik} />}

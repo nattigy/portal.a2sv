@@ -135,17 +135,19 @@ const PersonalDetails = ({ formik }: Props) => {
           </div>
         </div>
         <hr className="mx-2" />
-        <FileForm
-          inputProps={{
-            id: "cv",
-            name: "cv",
-            placeholder: "",
-            type: "file",
-            formik: formik,
-          }}
-          type="file"
-          label="CV"
-        />
+        <div className="w-full flex justify-between items-center p-2">
+          <h1 className="text-sm font-semibold">Resume Link</h1>
+        <div className="w-2/3">
+            <CustomFormField
+              id="resumeLink"
+              name="resumeLink"
+              placeholder="Enter Resume Link"
+              type="text"
+              formik={formik}
+            />
+          </div>
+          </div>
+
       </div>
     </div>
   );

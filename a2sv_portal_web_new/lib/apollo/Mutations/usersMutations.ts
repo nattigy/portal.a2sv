@@ -1,14 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const CREATE_USER_MUTATION = gql`
-  mutation Mutation($createUserInput: CreateUserInput!) {
-    createUser(createUserInput: $createUserInput) {
-      createdAt
-      email
-      id
-      role
-      status
-    }
+  mutation CreateUser($email: String!) {
+    createUser(email: $email)
   }
 `;
 export const ASSIGN_USER_TO_GROUP = gql`
@@ -41,14 +35,10 @@ export const UPDATE_USER_PROFILE = gql`
   }
 `;
 
-export const PROMOTE_USER_TO_HOE_MUTATION = gql`
+export const CHANGE_USER_ROLE = gql`
   mutation UpdateUser($updateUserInput: UpdateUserInput!) {
     updateUser(updateUserInput: $updateUserInput) {
-      email
       id
-      status
-      role
-      groupId
     }
   }
 `;
