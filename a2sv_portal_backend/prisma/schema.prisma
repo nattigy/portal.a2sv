@@ -4,9 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("LOCAL_DB_URL")
-  // url      = env("DB_URL")
-  //  shadowDatabaseUrl = env("SHADOW_DB_URL")
+  url      = env("DB_URL")
 }
 
 generator dbml {
@@ -348,6 +346,7 @@ model UserProfile {
   firstName              String
   middleName             String
   lastName               String
+  email              String            @unique
   photoUrl               String?
   phone                  String
   countryCode            String

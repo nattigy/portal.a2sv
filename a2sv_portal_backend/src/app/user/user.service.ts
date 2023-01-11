@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable, NotFoundException, NotAcceptableException } from '@nestjs/common'
 import { RoleEnum, StatusEnum } from '@prisma/client'
 import * as bcrypt from 'bcrypt'
 import { PaginationUser } from '../../common/page/pagination-info'
@@ -35,7 +35,7 @@ export class UserService {
 
     const foundUser = await this.userRepository.findOne({ email })
 
-    if (foundUser) throw new Error('Email is already in use!')
+    if (foundUser) throw new NotAcceptableException('Email is already in use!')
 
     const saltOrRounds = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, saltOrRounds)
@@ -109,7 +109,7 @@ export class UserService {
       })
 
       if (foundUserByEmail && foundUserByEmail.email !== foundUser.email)
-        throw new Error('That email is already registered!')
+        throw new NotAcceptableException('Email is already in use!')
     }
 
     return this.userRepository.update({
@@ -378,12 +378,7 @@ export class UserService {
   // }
 
   async removeUser(id: string) {
-    try {
-      await this.userRepository.remove({ id })
-    } catch (e) {
-      console.log(`Fail to delete user with id ${id}`, ' : ', e)
-      throw new Error(`Fail to delete user with id ${id}`)
-    }
+    await this.userRepository.remove({ id })
     return 1
   }
 }

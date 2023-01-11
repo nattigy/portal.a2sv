@@ -11,10 +11,10 @@ export class CreateUserProfileAddressInput {
 
 @InputType()
 export class UpdateUserProfileAddressInput {
-  @Field()
+  @Field({ nullable: true })
   country?: string
 
-  @Field()
+  @Field({ nullable: true })
   city?: string
 }
 

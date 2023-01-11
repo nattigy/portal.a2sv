@@ -7,17 +7,22 @@ import { PaginationUserProfile } from '../../common/page/pagination-info'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { FilterUserProfileInput } from './dto/filter-user-profile.input'
 import { UpdateUserProfileInput } from './dto/update-user-profile.input'
+import { CurrentUser } from '../auth/auth.decorator'
+import { UseGuards } from '@nestjs/common'
+import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
 
 @Resolver(() => User)
 export class UserProfileResolver {
   constructor(private readonly userProfileService: UserProfileService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Mutation(() => UserProfile)
   async createUserProfile(
     @Args('createUserProfileInput')
     createUserProfileInput: CreateUserProfileInput,
+    @CurrentUser() user: User
   ) {
-    return this.userProfileService.createUserProfile(createUserProfileInput)
+    return this.userProfileService.createUserProfile(createUserProfileInput, user)
   }
 
   @Query(() => PaginationUserProfile)

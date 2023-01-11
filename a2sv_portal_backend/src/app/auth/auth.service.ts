@@ -3,15 +3,14 @@ import { Context } from '@nestjs/graphql'
 import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
 import { Response } from 'express'
-import { User } from 'src/app/user/entities/user.entity'
-import { CreateUserInput } from '../user/dto/create-user.input'
 import { UserService } from '../user/user.service'
 import { AuthResponse } from './dto/auth-response.dto'
 
-import { PrismaService } from 'src/prisma/prisma.service';
-import { StatusEnum } from '@prisma/client';
-import GenerateOTP from '../../common/generat';
-import { MailService } from '../../mail/mail.service';
+import { PrismaService } from 'src/prisma/prisma.service'
+import { StatusEnum } from '@prisma/client'
+import GenerateOTP from '../../common/generat'
+import { MailService } from '../../mail/mail.service'
+import { User } from '../user/entities/user.entity'
 
 
 @Injectable()
@@ -21,12 +20,13 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly prismaService: PrismaService,
     private readonly mailService: MailService,
-  ) {}
+  ) {
+  }
 
   async validateUser(email: string, pass: string): Promise<User | null> {
-    const user = await this.prismaService.user.findUnique({where: {email} })
+    const user = await this.prismaService.user.findUnique({ where: { email } })
     if (user && bcrypt.compareSync(pass, user.password)) {
-      return user;
+      return user
     }
     return null
   }
@@ -36,7 +36,7 @@ export class AuthService {
 
     const user = await this.usersService.user({ email })
     if (!user) {
-      throw new NotFoundException('User not found')
+      throw new NotFoundException('User not found!')
     }
     // if(user.status === StatusEnum.INACTIVE){
     //   throw new NotFoundException("User not active");
@@ -47,14 +47,14 @@ export class AuthService {
       },
       update: {
         code: otpCode,
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       create: {
         email: user.email,
         code: otpCode,
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
-  
+
     })
 
     await this.mailService.resetEmail(user.email, otpCode.toString())
@@ -65,21 +65,17 @@ export class AuthService {
     const decoded = await this.jwtService.verify(resetToken)
     const email = decoded.email || ''
     if (email === '') {
-      throw new NotFoundException('Incorrect Hash')
+      throw new NotFoundException('Invalid input!')
     }
     const user = this.prismaService.user.findUnique({ where: { email } })
     if (!user) {
-      throw new NotFoundException('User not Found')
+      throw new NotFoundException('User not Found!')
     }
-    const saltOrRounds = await bcrypt.genSalt(10);
+    const saltOrRounds = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(pass, saltOrRounds)
     await this.prismaService.user.update({
-      where: {
-        email,
-      },
-      data: {
-        password: hash,
-      },
+      where: { email },
+      data: { password: hash },
     })
     // redirect it to login page
     return 'Password Reset Complete!'
@@ -110,8 +106,8 @@ export class AuthService {
 
   async signUp(email: string): Promise<string> {
     const otpCode = GenerateOTP().toString()
-    const user = await this.usersService.createUser({email, password:otpCode})
-    
+    const user = await this.usersService.createUser({ email, password: otpCode })
+
 
     // await this.prismaService.otp.upsert({
     //   where: {
@@ -130,15 +126,13 @@ export class AuthService {
     return 'Short code has been sent to your email'
   }
 
-  async logout(@Context('res') response: Response) {
-    response.cookie('Authentication', '', { httpOnly: true, expires: new Date() })
-  }
+  // async logout(@Context('res') response: Response) {
+  //   response.cookie('Authentication', '', { httpOnly: true, expires: new Date() })
+  // }
 
   async verifyOtp(@Context() context, otpCode: number, email: string): Promise<AuthResponse> {
     const otp = await this.prismaService.otp.findUnique({
-      where: {
-        email,
-      },
+      where: { email },
     })
     if (!otp) {
       throw new NotFoundException('Otp NOT found')
@@ -150,45 +144,39 @@ export class AuthService {
       throw new NotFoundException('Incorrect Otp Code for the email')
     }
     const user = await this.prismaService.user.findUnique({
-      where: {
-        email,
-      },
+      where: { email },
     })
-    if(!user){
-      throw new NotFoundException('User NOT found');
+    if (!user) {
+      throw new NotFoundException('User NOT found')
     }
     const now = new Date().getTime()
     const otpDate = new Date(otp.updatedAt).getTime()
 
-    if ( (((now -otpDate)/1000)/ 60) > 30) {
-      console.log(now - otpDate)
-      throw new NotFoundException('OTP expired')
+    if ((((now - otpDate) / 1000) / 60) > 30) {
+      throw new NotFoundException('OTP expired!')
     }
     if (user.status === StatusEnum.INACTIVE) {
-      throw new NotFoundException('User is not active')
+      throw new NotFoundException('User is not active!')
     }
     const accessToken = await this.setToken(context, user)
     return { accessToken, userId: user.id }
   }
 
 
-
-  async resendOtp(email:string):Promise<string>{
+  async resendOtp(email: string): Promise<string> {
     const otp = await this.prismaService.otp.findUnique({
-      where: {
-        email,
-      },
+      where: { email },
     })
     if (!otp) {
-      throw new NotFoundException('Otp NOT found')
+      throw new NotFoundException('Otp NOT found!')
     }
 
-    const otpDate = new Date(otp.updatedAt).getTime();
+    const otpDate = new Date(otp.updatedAt).getTime()
     const now = (new Date().getTime())
 
-    const dateDiff = ((now -otpDate)/1000)/ 60;
+    const dateDiff = ((now - otpDate) / 1000) / 60
 
-    if(  (((now -otpDate)/1000)/ 60) > 3){
+    if ((((now - otpDate) / 1000) / 60) > 3) {
       const otpCode = GenerateOTP()
       await this.prismaService.otp.upsert({
         where: {
@@ -202,9 +190,44 @@ export class AuthService {
           code: otpCode,
         },
       })
-      this.mailService.resetEmail(otp.email,otpCode.toString());
-    return 'OTP resented';
+      await this.mailService.resetEmail(otp.email, otpCode.toString())
+      return 'OTP resented'
     }
-    return dateDiff.toString();
+    return dateDiff.toString()
+  }
+
+  async checkOtpStatus(email: string): Promise<Date> {
+    const userOtp = await this.prismaService.otp.findUnique({ where: { email } })
+    if (!userOtp) {
+      throw new NotFoundException('Otp for the user does not exit!')
+    }
+    return userOtp.updatedAt
+  }
+
+  async changePassword(u: User, oldPass: string, newPass: string): Promise<string> {
+    const email = u.email
+    const user = await this.prismaService.user.findUnique({
+      where: { email },
+    })
+    if (!user) {
+      throw new NotFoundException('User Not found with this email!')
+    }
+    if (bcrypt.compareSync(oldPass, user.password)) {
+
+      const saltOrRounds = await bcrypt.genSalt(10)
+      const hash = await bcrypt.hash(newPass, saltOrRounds)
+      const updatedUser = await this.prismaService.user.update({
+        where: {
+          email,
+        },
+        data: {
+          password: hash,
+        },
+      })
+      if (!updatedUser) {
+        throw new NotFoundException('Cannot change password!')
+      }
+      return 'Password changed.'
+    }
   }
 }

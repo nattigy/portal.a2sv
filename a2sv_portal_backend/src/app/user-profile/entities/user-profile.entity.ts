@@ -20,6 +20,9 @@ export class UserProfile {
   @Field()
   lastName: string
 
+  @Field({ description: 'Email of the user' })
+  email: string
+
   @Field({ nullable: true })
   photoUrl?: string
 
