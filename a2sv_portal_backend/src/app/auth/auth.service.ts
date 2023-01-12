@@ -201,7 +201,7 @@ export class AuthService {
     if (!userOtp) {
       throw new NotFoundException('Otp for the user does not exit!')
     }
-    return userOtp.updatedAt
+    return userOtp.updatedAt;
   }
 
   async changePassword(u: User, oldPass: string, newPass: string): Promise<string> {

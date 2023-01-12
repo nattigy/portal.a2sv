@@ -41,7 +41,7 @@
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/schedule": "^2.1.0",
-    "@prisma/client": "^4.7.1",
+    "@prisma/client": "^4.8.1",
     "@types/nodemailer": "^6.4.7",
     "apollo-server-core": "^3.10.2",
     "apollo-server-express": "^3.10.1",

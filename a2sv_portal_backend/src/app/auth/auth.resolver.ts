@@ -33,7 +33,8 @@ export class AuthResolver {
     try {
       return await this.authService.forgotPassword(email)
     } catch (e) {
-      throw new BadRequestException("Error sending request!")
+      console.log(e);
+      throw new BadRequestException("User doesn't exit!")
     }
   }
 
@@ -42,7 +43,7 @@ export class AuthResolver {
     try {
       return this.authService.resetPassword(resetToken, pass)
     } catch (e) {
-      throw new BadRequestException("Error reset password!")
+      throw new BadRequestException("User doesn't exit!")
     }
   }
 
@@ -85,7 +86,8 @@ export class AuthResolver {
     try {
       return await this.authService.checkOtpStatus(email)
     } catch (e) {
-      throw new BadRequestException("Error sending OTP!")
+      console.log(e);
+      throw new BadRequestException("Otp does not exit  for the User")
     }
   }
 
@@ -97,7 +99,7 @@ export class AuthResolver {
     } catch (e) {
       throw new BadRequestException("Error changing password!")
     }
-  }
+  }  
 
   // @Public()
   // @Mutation(() => AuthResponse)
