@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DB_URL")
+  url      = env("DATABASE_URL")
 }
 
 generator dbml {
@@ -391,7 +391,6 @@ model Otp {
   id         String    @id @default(uuid())
   email      String    @unique
   code       Int
-  expiryDate DateTime?
   createdAt  DateTime? @default(now())
   updatedAt  DateTime? @updatedAt
 }
