@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import CustomLink from "../common/CustomLink";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { GraphqlUserRole, UserRoleType } from "../../types/user";
 import UserRoleChip from "./UserRoleChip";
 import PromoteStudent from "../common/PromoteStudent";
 import { useMutation, useReactiveVar } from "@apollo/client";
-import { PROMOTE_USER_TO_HOE_MUTATION } from "../../lib/apollo/Mutations/usersMutations";
+import { CHANGE_USER_ROLE } from "../../lib/apollo/Mutations/usersMutations";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
+import MenuItem from "../common/MenuItem";
+import ChangeRoleModal from "../modals/ChangeRoleModal";
 export type UserProps = {
   id: string;
   fullname: string;
@@ -20,28 +22,20 @@ export type UserProps = {
 };
 
 const UserItem = ({ id, email, role }: UserProps) => {
-  const [promoteStudent, { loading, data }] = useMutation(
-    PROMOTE_USER_TO_HOE_MUTATION
-  );
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
-
-  const handlePromote = async () => {
-    await promoteStudent({
-      variables: {
-        updateUserInput: {
-          id: id,
-          role: GraphqlUserRole.HEAD_OF_EDUCATION,
-        },
-      },
-      refetchQueries: "active",
-      notifyOnNetworkStatusChange: true,
-      onCompleted: (data) => {},
-      onError: (error) => {},
-    });
-  };
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   return (
     <div>
+      {isModalOpen && (
+        <ChangeRoleModal
+          userId={id}
+          role={role}
+          onClose={() => {
+            setIsModalOpen(false);
+          }}
+        />
+      )}
       <div className="min-h-[90px] cursor-pointer gap-x-2 bg-white border flex items-center justify-start px-2 rounded-md">
         <img
           className="object-cover w-12 h-12 rounded-full"
@@ -63,10 +57,44 @@ const UserItem = ({ id, email, role }: UserProps) => {
           </div>
         </div>
         <div className="flex justify-start items-start h-full py-2 ">
-          {authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY &&
-            role === GraphqlUserRole.STUDENT && (
-              <PromoteStudent onClick={handlePromote} />
-            )}
+          <div className="w-full  relative">
+            <div className="absolute bottom-1 right-2">
+              {authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY &&
+              (
+                  <MenuItem
+                    color="black"
+                    menuItems={[
+                      {
+                        title: "Change role",
+                        onClick: (e: any) => {
+                          e.stopPropagation();
+                          setIsModalOpen(true);
+                          // handlePromote();
+                        },
+                      },
+                      {
+                        title: "Assign New Group",
+                        onClick: (e: any) => {
+                          e.stopPropagation();
+                        },
+                      },
+                      {
+                        title: "Remove From Group",
+                        onClick: (e: any) => {
+                          e.stopPropagation();
+                        },
+                      },
+                      {
+                        title: "Delete Student",
+                        onClick: (e: any) => {
+                          e.stopPropagation();
+                        },
+                      },
+                    ]}
+                  />
+                )}
+            </div>
+          </div>
         </div>
       </div>
       {/* <div className="border-2 overflow-hidden min-h-[90px] flex justify-start bg-white items-center cursor-pointer gap-x-2 rounded-md drop-shadow-sm px-5">

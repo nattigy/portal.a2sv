@@ -44,7 +44,7 @@ const UsersList = ({ users, selected, setSelected }: Props) => {
               <div className="w-full grid  grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 ">
                 {res[letter].map((user, index) => (
                   <div
-                    className="cursor-pointer min-w-max w-full relative"
+                    className="cursor-pointer min-w-max w-full "
                     onClick={() => setSelected(user.id || "")}
                     key={index}
                   >
