@@ -7,8 +7,9 @@ import OTPField from "../../components/auth/OTPField";
 import CustomTextField from "../../components/auth/TextField";
 import FormAffirmativeButton from "../../components/common/FormAffirmativeButton";
 import { RESEND_OTP_MUTATION, RESET_PASSWORD_MUTATION, VERIFY_PASSWORD_MUTATION } from "../../lib/apollo/Mutations/authMutations";
-import { differenceInMinutes, format, formatDistance, intervalToDuration } from "date-fns";
+import { differenceInMinutes, Duration, format, formatDistance, intervalToDuration, isAfter } from "date-fns";
 import clsx from "clsx";
+import { useCheckOTPStatus } from "../../lib/hooks/useUsers";
 
 interface VerifyFormValues {
   otp: string;
@@ -25,39 +26,44 @@ const Verify = () => {
   });
   const [verifyOtp, { data, loading, }] = useMutation(VERIFY_PASSWORD_MUTATION);
   const [resendOtp, { loading: resendLoading, }] = useMutation(RESEND_OTP_MUTATION);
+
   const [countDown, setCountDown] = useState(new Date())
-  const resendTime = new Date(2023, 1, 3, 12, 46, 0, 0)
   const [remainingTime, setRemainingTime] = useState("")
   const [isResendActive, setIsResendActive] = useState(false)
-  let timerId = setInterval(() => {
-    setCountDown(new Date())
-  }, 1000);
+  const userEmail = typeof window !== undefined && localStorage.getItem("email") || ""
+  const { data: otpStatus, refetch } = useCheckOTPStatus(userEmail)
+  const [resendTime, setResendTime] = useState(new Date())
+  useEffect(() => {
+    let exp_time = new Date()
+    if (otpStatus) {
+      exp_time = new Date(new Date(otpStatus.checkOtpStatus).getTime() + 2 * 60000);
+    }
+    setResendTime(exp_time)
+  }, [otpStatus, refetch])
 
   useEffect(() => {
+    let timerId = setInterval(() => {
+      setCountDown(new Date())
+    }, 1000);
+
+
+    const durations: Duration = intervalToDuration({
+      start: resendTime,
+      end: new Date(),
+    })
+
+    // console.log(resendTime, durations, new Date(), isAfter(resendTime, new Date()))
+    // if (resendTime > new Date() && durations.minutes && durations.minutes > 0 || durations.seconds && durations.seconds > 0) {
+
+    if (isAfter(resendTime, new Date())) {
+      const timeLeft = `${(durations.minutes && durations.minutes / 100)?.toFixed(2).toString().slice(2)}:${(durations.seconds && durations.seconds / 100)?.toFixed(2).toString().slice(2)}`
+      setRemainingTime(timeLeft)
+      setIsResendActive(false)
+    } else {
+      setIsResendActive(true)
+    }
     return () => {
       clearInterval(timerId)
-    }
-  }, [])
-
-
-  useEffect(() => {
-    const mins = intervalToDuration({
-      start: countDown,
-      end: new Date(resendTime),
-    }).minutes || 0
-
-    const secs = intervalToDuration({
-      start: countDown,
-      end: new Date(resendTime),
-    }).seconds || 0
-
-    if (mins > 0 || secs > 0) {
-      const timeLeft = `${(mins / 100)?.toFixed(2).toString().slice(2)}:${(secs / 100)?.toFixed(2).toString().slice(2)}`
-      setRemainingTime(timeLeft)
-    } else {
-      clearInterval(timerId)
-      setIsResendActive(true)
-      console.log("nati")
     }
   }, [countDown])
 
@@ -85,8 +91,34 @@ const Verify = () => {
     }
   };
 
-  const handleResend = () => {
+  const handleResend = async () => {
     console.log("resend clicked")
+    try {
+      await resendOtp({
+        variables: {
+          email: userEmail
+        },
+        refetchQueries: "active",
+        notifyOnNetworkStatusChange: true,
+        onError(error) {
+          setError({
+            error: true,
+            type: "submit",
+            message: error.message,
+          });
+        },
+        onCompleted(data) {
+          let exp_time = new Date()
+          if (otpStatus) {
+            exp_time = new Date(new Date().getTime() + 2 * 60000);
+          }
+          setResendTime(exp_time)
+          setIsResendActive(false)
+        },
+      })
+    } catch (error) {
+      console.log("error ")
+    }
   }
 
   return (
@@ -112,7 +144,7 @@ const Verify = () => {
                 await verifyOtp({
                   variables: {
                     otpCode: parseInt(otp),
-                    email: typeof window !== undefined && localStorage.getItem("email") || ""
+                    email: userEmail
                   },
                   refetchQueries: "active",
                   notifyOnNetworkStatusChange: true,

@@ -96,7 +96,6 @@ export const GET_FILTERED_USERS = gql`
         }
         # firstName
         # lastName
-
       }
     }
   }
@@ -122,17 +121,18 @@ export const GET_USERS_BY_GROUP_ID_QUERY = gql`
 `;
 
 export const GET_STUDENTS_WITH_NO_GROUP_QUERY = gql`
-query Users($filterUserInput: FilterUserInput) {
-  users(filterUserInput: $filterUserInput) {
-    items {
-      id
-      firstName
-      lastName
-      email
-      role
+  query Users($filterUserInput: FilterUserInput) {
+    users(filterUserInput: $filterUserInput) {
+      items {
+        id
+        firstName
+        lastName
+        email
+        role
+      }
     }
   }
-}`;
+`;
 
 export const GET_SINGLE_GROUP_USERS_QUERY = gql`
   query Users($groupId: String!) {
@@ -147,5 +147,11 @@ export const GET_SINGLE_GROUP_USERS_QUERY = gql`
         }
       }
     }
+  }
+`;
+
+export const GET_OTP_STATUS_QUERY = gql`
+  query OTPQuery($email: String!) {
+    checkOtpStatus(email: $email)
   }
 `;
