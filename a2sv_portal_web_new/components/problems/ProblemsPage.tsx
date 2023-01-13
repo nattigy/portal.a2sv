@@ -18,6 +18,7 @@ import DeletePopupModal from "../modals/DeletePopupModal";
 import { REMOVE_SEASON_TOPIC } from "../../lib/apollo/Mutations/topicsMutations";
 import { useRouter } from "next/router";
 import ProblemsTable from "./ProblemsTable";
+import { getSVGIcon } from "../../helpers/getSVGPath";
 
 export type PlatformInfo = {
   id: string;
@@ -161,6 +162,7 @@ const ProblemsPage = (props: ProblemsPageProps) => {
                         e.stopPropagation();
                         handleDeleteModalOpen();
                       },
+                      icon: getSVGIcon("delete"),
                     },
                   ]}
                 />
@@ -188,22 +190,22 @@ const ProblemsPage = (props: ProblemsPageProps) => {
         ) : hoaProblems?.length === 0 ? (
           <EmptyState />
         ) : (
-        <div>
-          {authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY && (
-            <ProblemsTable
-              problems={hoaProblems}
-              seasonId={props.seasonId}
-              topicId={props.topicId}
-            />
-          )}
-          {/* {authUser.role !== GraphqlUserRole.HEAD_OF_ACADEMY && (
+          <div>
+            {authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY && (
+              <ProblemsTable
+                problems={hoaProblems}
+                seasonId={props.seasonId}
+                topicId={props.topicId}
+              />
+            )}
+            {/* {authUser.role !== GraphqlUserRole.HEAD_OF_ACADEMY && (
               <ProblemsTable
                 problems={problems}
                 seasonId={props.seasonId}
                 topicId={props.topicId}
               />
             )} */}
-        </div>
+          </div>
         )}
       </div>
     </>

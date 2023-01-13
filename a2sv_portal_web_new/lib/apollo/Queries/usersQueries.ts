@@ -102,8 +102,9 @@ export const GET_FILTERED_USERS = gql`
           firstName
           lastName
         }
-        # firstName
-        # lastName
+        group {
+          name
+        }
       }
     }
   }

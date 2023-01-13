@@ -2,6 +2,7 @@ import { ApolloError, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { FiChevronRight } from "react-icons/fi";
+import { getSVGIcon } from "../../../helpers/getSVGPath";
 import { REMOVE_TOPIC } from "../../../lib/apollo/Mutations/topicsMutations";
 import { Topic } from "../../../types/topic";
 import { GraphqlUserRole } from "../../../types/user";
@@ -104,6 +105,7 @@ const TopicsItem = ({ topic, idx }: Props) => {
                         e.stopPropagation();
                         handleEditModalOpen();
                       },
+                      icon: getSVGIcon("edit"),
                     },
                     {
                       title: "Delete Topic",
@@ -111,6 +113,7 @@ const TopicsItem = ({ topic, idx }: Props) => {
                         e.stopPropagation();
                         handleDeleteModalOpen();
                       },
+                      icon: getSVGIcon("delete"),
                     },
                   ]}
                 />

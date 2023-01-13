@@ -46,19 +46,6 @@ const UsersPage = (props: Props) => {
     }
   }, [refetch, data]);
 
-  const Sidebar: React.FC = () => {
-    return (
-      <div>
-        {loading ? (
-          <div className="h-full flex items-center justify-center">
-            <LoaderSmall />
-          </div>
-        ) : (
-          selected && <UserRank selected={selected} />
-        )}
-      </div>
-    );
-  };
   const handleTabChange = (index: number) => {
     setTabIndex(index);
   };
@@ -97,7 +84,7 @@ const UsersPage = (props: Props) => {
   };
 
   return (
-    <BaseLayout sidebar={<Sidebar />}>
+    <BaseLayout>
       {isModalOpen && <NewUserModal onClose={() => setIsModalOpen(false)} />}
       <div className="flex flex-col">
         <h1 className="text-lg font-semibold mb-2">Users</h1>

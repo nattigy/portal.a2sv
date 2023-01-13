@@ -9,9 +9,13 @@ import { CHANGE_USER_ROLE } from "../../lib/apollo/Mutations/usersMutations";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import MenuItem from "../common/MenuItem";
 import ChangeRoleModal from "../modals/ChangeRoleModal";
+import { getSVGIcon } from "../../helpers/getSVGPath";
 export type UserProps = {
   id: string;
-  fullname: string;
+  userProfile: {
+    firstName: string;
+    lastName: string;
+  };
   email: string;
   role: GraphqlUserRole;
   createdAt: string;
@@ -21,7 +25,7 @@ export type UserProps = {
   updatedAt: string;
 };
 
-const UserItem = ({ id, email, role }: UserProps) => {
+const UserItem = ({ id, email, userProfile, group, role }: UserProps) => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -38,61 +42,68 @@ const UserItem = ({ id, email, role }: UserProps) => {
       )}
       <div className="min-h-[90px] cursor-pointer gap-x-2 bg-white border flex items-center justify-start px-2 rounded-md">
         <img
-          className="object-cover w-12 h-12 rounded-full"
+          className="object-cover w-16 h-16 rounded-full"
           src="https://landingfoliocom.imgix.net/store/collection/clarity-dashboard/images/vertical-menu/2/avatar-male.png"
           alt=""
         />
 
-        <div className="flex flex-col flex-1 gap-y-2 w-4/6">
-          <p className="text-[#565656] font-semibold text-xs truncate text-ellipsis ">
-            {email}
+        <div className="flex flex-col flex-1 h-[60px] justify-evenly">
+          <p className="text-[#565656] w-fit sm:w-36 md:w-44 lg:w-48 font-semibold text-xs truncate text-ellipsis">
+            {userProfile
+              ? userProfile.firstName + " " + userProfile.lastName
+              : email}
           </p>
-          <div className="flex flex-row items-center justify-between">
+          <div className="flex flex-row items-center gap-x-2">
             <UserRoleChip role={role} />
-            {/* <CustomLink href={`users/${id}`}> */}
-            <div className="text-[#5956E9] text-[12px] font-semibold mx-2 justify-end">
-              Details
-            </div>
-            {/* </CustomLink> */}
+            {group && (
+              <div className="bg-primary/20 p-2 text-primary py-1 capitalize leading-wide font-semibold text-[10px] rounded-md">
+                <h1>G{group.name.substring(group.name?.length - 2)}</h1>
+              </div>
+            )}
           </div>
         </div>
         <div className="flex justify-start items-start h-full py-2 ">
           <div className="w-full  relative">
             <div className="absolute bottom-1 right-2">
-              {authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY &&
-              (
-                  <MenuItem
-                    color="black"
-                    menuItems={[
-                      {
-                        title: "Change role",
-                        onClick: (e: any) => {
-                          e.stopPropagation();
-                          setIsModalOpen(true);
-                          // handlePromote();
-                        },
+              {authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY && (
+                <MenuItem
+                  color="black"
+                  menuItems={[
+                    {
+                      title: "Change role",
+                      onClick: (e: any) => {
+                        e.stopPropagation();
+                        setIsModalOpen(true);
+                        // handlePromote();
                       },
-                      {
-                        title: "Assign New Group",
-                        onClick: (e: any) => {
-                          e.stopPropagation();
-                        },
+                      icon: getSVGIcon("change_role"),
+                    },
+                    {
+                      title: "Assign New Group",
+                      onClick: (e: any) => {
+                        e.stopPropagation();
                       },
-                      {
-                        title: "Remove From Group",
-                        onClick: (e: any) => {
-                          e.stopPropagation();
-                        },
+                      icon: getSVGIcon("assign_new"),
+                    },
+                    {
+                      title: "Remove From Group",
+                      onClick: (e: any) => {
+                        e.stopPropagation();
                       },
-                      {
-                        title: "Delete Student",
-                        onClick: (e: any) => {
-                          e.stopPropagation();
-                        },
+                      icon: getSVGIcon("remove_from_group"),
+                    },
+                    {
+                      title: "Delete Student",
+                      onClick: (e: any) => {
+                        e.stopPropagation();
                       },
-                    ]}
-                  />
-                )}
+                      className: "text-red-500 group-hover:text-white",
+                      color: "",
+                      icon: getSVGIcon("delete"),
+                    },
+                  ]}
+                />
+              )}
             </div>
           </div>
         </div>

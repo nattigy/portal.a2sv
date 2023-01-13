@@ -14,6 +14,7 @@ import { REMOVE_SEASON } from "../../lib/apollo/Mutations/seasonsMutations";
 import WithPermission from "../../lib/Guard/WithPermission";
 import { GraphqlUserRole } from "../../types/user";
 import { slugify } from "../topics/TopicItem";
+import { getSVGIcon } from "../../helpers/getSVGPath";
 
 type Props = {
   seasonProps: Season;
@@ -110,6 +111,7 @@ const SeasonItem = ({ seasonProps }: Props) => {
                               e.stopPropagation();
                               handleEditModalOpen();
                             },
+                            icon: getSVGIcon("edit"),
                           },
                           {
                             title: "Delete Season",
@@ -117,6 +119,7 @@ const SeasonItem = ({ seasonProps }: Props) => {
                               e.stopPropagation();
                               handleDeleteModalOpen();
                             },
+                            icon: getSVGIcon("delete"),
                           },
                         ]
                       : [
@@ -126,6 +129,7 @@ const SeasonItem = ({ seasonProps }: Props) => {
                               e.stopPropagation();
                               handleDeleteModalOpen();
                             },
+                            icon: getSVGIcon("delete"),
                           },
                         ]
                   }

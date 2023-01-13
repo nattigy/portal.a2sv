@@ -37,13 +37,13 @@ type Props = {
 const UsersFilter = (props: Props) => {
   const authUser = useReactiveVar(authenticatedUser);
   return (
-    <div className="p-2 flex flex-col lg:flex-row md:justify-center  bg-white rounded-sm w-full md:h-full gap-x-2 md:my-5 sticky inset-x-0 top-0 left-0 z-20">
+    <div className="p-2 flex flex-col lg:flex-row md:justify-center bg-white rounded-sm w-full md:h-full gap-x-2 md:my-5 sticky inset-x-0 top-0 left-0 z-20">
       <div className="w-full flex flex-1 marker: flex-col justify-start items-start ">
         <div className="flex flex-1 w-full justify-between items-center">
           <div className="flex h-full sm:gap-x-5 lg:gap-x-7 px-2 mr-2 items-center">
             <ExpandableSearchInput
               placeholder="Search user "
-              className="ml-3 md:ml-5"
+              className="mx-2"
               onChange={(e: any) => {
                 props.handleSearchUser(e.target.value);
               }}
@@ -68,11 +68,11 @@ const UsersFilter = (props: Props) => {
               </div>
             ))}
 
-            <div className="flex flex-col md:hidden h-full">
+            <div className="flex flex-col md:hidden h-full text-[#838383]">
               <Menu as="div" className="relative">
-                <Menu.Button className="flex items-center gap-x-2 text-sm">
+                <Menu.Button className="flex items-center gap-x-2 text-xs">
                   {filterItems[props.activeIndex].title}
-                  <FaChevronDown/>
+                  <FaChevronDown />
                 </Menu.Button>
                 <Menu.Items className="flex flex-col z-20 bg-white absolute left-0 w-52 rounded-md">
                   {filterItems.map((item, index) => (

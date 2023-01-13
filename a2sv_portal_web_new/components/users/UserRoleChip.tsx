@@ -23,7 +23,7 @@ const UserRoleChip = ({ role }: Props) => {
   return (
     <span
       className={clsx(
-        "py-1 capitalize leading-wide font-semibold text-[10px] rounded-md",
+        "py-1 w-16 capitalize leading-wide font-semibold text-[10px] text-center rounded-md",
         role === GraphqlUserRole.HEAD_OF_EDUCATION
           ? "bg-[#F28F8F2E] p-2 text-[#FFADAD]"
           : "",
