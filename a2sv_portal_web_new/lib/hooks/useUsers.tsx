@@ -4,6 +4,7 @@ import { GraphqlUserRole } from "../../types/user";
 import {
   GET_ALL_USER_QUERY,
   GET_FILTERED_USERS,
+  GET_OTP_STATUS_QUERY,
   GET_SINGLE_GROUP_USERS_QUERY,
   GET_SINGLE_USER_QUERY,
   GET_STUDENTS_WITH_NO_GROUP_QUERY,
@@ -69,7 +70,7 @@ export const useGetUsersWithNoGroup = () => {
   });
 };
 
-export const useGetSingleUser = (userId: String) => {
+export const useGetSingleUser = (userId: string) => {
   return useLazyQuery(GET_SINGLE_USER_QUERY, {
     variables: {
       userId: userId,
@@ -78,10 +79,20 @@ export const useGetSingleUser = (userId: String) => {
     notifyOnNetworkStatusChange: true,
   });
 };
-export const useGetUserProfile = (userId: String) => {
+export const useGetUserProfile = (userId: string) => {
   return useQuery(GET_USER_PROFILE, {
     variables: {
       uniqueUserInput: { id: userId },
+    },
+    errorPolicy: "none",
+    notifyOnNetworkStatusChange: true,
+  });
+};
+
+export const useCheckOTPStatus = (email: string) => {
+  return useQuery(GET_OTP_STATUS_QUERY, {
+    variables: {
+      email,
     },
     errorPolicy: "none",
     notifyOnNetworkStatusChange: true,

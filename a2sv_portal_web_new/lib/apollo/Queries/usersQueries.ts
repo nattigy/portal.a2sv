@@ -157,3 +157,9 @@ export const GET_SINGLE_GROUP_USERS_QUERY = gql`
     }
   }
 `;
+
+export const GET_OTP_STATUS_QUERY = gql`
+  query OTPQuery($email: String!) {
+    checkOtpStatus(email: $email)
+  }
+`;
