@@ -49,7 +49,7 @@ const IndexPage = () => {
 
       <div className="flex flex-col gap-y-4">
         <div className="flex items-center justify-between rounded-md">
-          <h1 className="font-bold text-2xl">Seasons</h1>
+          <h1 className="text-lg font-semibold">Seasons</h1>
           <div className="flex gap-x-2">
             <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_ACADEMY]}>
               <Button

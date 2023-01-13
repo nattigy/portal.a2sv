@@ -27,7 +27,7 @@ const HOADashboard = (props: Props) => {
       {isModalOpen && (
         <GroupModal isEditing={false} onClose={() => setIsModalOpen(false)} />
       )}
-      <div className="w-full h-screen pt-7 flex flex-col gap-y-6">
+      <div className="w-full h-screen flex flex-col gap-y-2">
         <GroupStatList />
         <div className="flex flex-row justify-between ">
           <div>
@@ -55,17 +55,17 @@ const HOADashboard = (props: Props) => {
             />
             <CustomDropdown customProps={dropdown} />
           </div>
-          <div className="col-span-10 lg:col-span-9">
+          <div className="col-span-12">
             <GroupItemList />
           </div>
-          <div className="hidden lg:block col-span-3 w-full h-full ">
+          {/* <div className="hidden lg:block col-span-3 w-full h-full ">
             <div className="flex flex-col items-center p-4 justify-center gap-y-2">
               <img src="/images/group-image.svg" className="" alt="" />
               <p className="text-[#ACACAC] justify-self-center text-xs">
                 Here&apos;s the list of all groups
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </BaseLayout>

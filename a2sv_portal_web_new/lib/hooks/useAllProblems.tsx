@@ -4,6 +4,7 @@ import {
   GET_ALL_PROBLEMS_FILTERED,
   GET_ALL_PROBLEMS_QUERY,
   GET_PROBLEMS_BY_GROUP_SEASON_TOPIC,
+  GET_PROBLEMS_BY_SEASON_TOPIC_FOR_HOA,
 } from "../apollo/Queries/problemsQueries";
 
 export const useAllProblems = () => {
@@ -32,18 +33,30 @@ export const useGetAllFilteredProblems = () => {
   });
 };
 
+export const useGetProblemsBySeasonTopicForHOA = (seasonId: string) => {
+  return useQuery(GET_PROBLEMS_BY_SEASON_TOPIC_FOR_HOA, {
+    notifyOnNetworkStatusChange: true,
+    errorPolicy: "all",
+    variables: {
+      seasonId: seasonId,
+    },
+  });
+};
+
 export const useGetProblemsByGroupSeasonTopic = (
   seasonId: string,
-  topicId: string
+  topicId: string,
+  groupId: string
 ) => {
   return useQuery(GET_PROBLEMS_BY_GROUP_SEASON_TOPIC, {
     notifyOnNetworkStatusChange: true,
     errorPolicy: "all",
 
     variables: {
-      seasonTopicProblemFilter: {
-        topicId: topicId,
-        seasonId: seasonId,
+      groupSeasonTopicId: {
+        topicId,
+        seasonId,
+        groupId,
       },
     },
   });

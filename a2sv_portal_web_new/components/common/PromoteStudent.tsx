@@ -48,6 +48,29 @@ export default function PromoteStudent({ onClick }: Props) {
                     </button>
                   )}
                 </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      onClick={onClick}
+                      className={`${
+                        active ? "bg-[#5956E9] text-white" : "text-gray-900"
+                      } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    >
+                      {active ? (
+                        <EditActiveIcon
+                          className="mr-2 h-5 w-5"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <EditInactiveIcon
+                          className="mr-2 h-5 w-5"
+                          aria-hidden="true"
+                        />
+                      )}
+                      Promote to HoE
+                    </button>
+                  )}
+                </Menu.Item>
               </div>
             </Menu.Items>
           </Transition>

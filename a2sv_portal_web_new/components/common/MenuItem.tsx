@@ -30,7 +30,7 @@ export default function MenuItem({ menuItems,color}: Props) {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute w-fit right-0 drop-shadow-md z-50 mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items className="absolute w-fit right-0 drop-shadow-md z-[100] mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             {menuItems.map((menuItem: MenuItemProps, index: number) => (
               <div key={index} className="px-1 py-1">
                 <Menu.Item>
@@ -39,7 +39,7 @@ export default function MenuItem({ menuItems,color}: Props) {
                       onClick={menuItem.onClick}
                       className={`${
                         active ? "bg-[#5956E9] text-white" : "text-gray-900"
-                      } group flex w-fit items-center rounded-md pl-1 pr-5 py-2 text-sm whitespace-nowrap`}
+                      } group flex w-full items-center rounded-md pl-1 pr-5 py-2 text-sm whitespace-nowrap z-50`}
                     >
                       {active ? (
                         index == 0 ? (

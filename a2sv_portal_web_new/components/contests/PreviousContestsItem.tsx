@@ -74,7 +74,7 @@ const PreviousContestsItem = () => {
   return (
     <div className="flex flex-col">
       <div className="mx-3 my-2 font-semibold text-md text-[#565656]">
-        <h2 className="font-semibold text-lg">Previous Contests</h2>
+        <h2 className="font-semibold text-md">Previous Contests</h2>
       </div>
       <div className="overflow-x-auto relative bg-white border-blue-100 shadow-md sm:rounded-lg border">
         <WithPermission

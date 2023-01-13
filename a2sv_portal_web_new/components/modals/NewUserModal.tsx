@@ -23,26 +23,14 @@ type Props = {
 };
 
 const FORM_VALIDATION = yup.object().shape({
-  name: yup.string().required("Required").min(3).max(40),
   email: yup
     .string()
     .required("Required")
     .email("email should have the format user@example.com"),
-
-  password: yup
-    .string()
-    .min(8)
-    .required("Required")
-    .min(8, "Too Short!")
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-    ),
-  role: yup.string(),
 });
 
 const NewUserModal = (props: Props) => {
-  const [addNewUser] = useMutation(CREATE_USER_MUTATION);
+  const [addNewUser,{data,error}] = useMutation(CREATE_USER_MUTATION);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const authUser = useReactiveVar<AuthUser | any>(authenticatedUser);
@@ -59,11 +47,7 @@ const NewUserModal = (props: Props) => {
             setIsLoading(true);
             await addNewUser({
               variables: {
-                createUserInput: {
                   email: values.email,
-                  password: values.password,
-                  role: GraphqlUserRole.STUDENT,
-                },
               },
               refetchQueries: "active",
               notifyOnNetworkStatusChange: true,
@@ -83,8 +67,13 @@ const NewUserModal = (props: Props) => {
             <Form>
               <div
                 role="alert"
-                className="flex flex-col gap-y-3 min-h-[400px] bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-8 py-5"
+                className="flex flex-col gap-y-3 min-h-fit bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-8 py-5"
               >
+                {JSON.stringify(errors)}
+                {JSON.stringify(data)}
+                {JSON.stringify(error)}
+
+
                 <div className="w-full flex flex-col items-center">
                   <div className="my-3 w-full flex justify-between items-center">
                     <h2 className="font-semibold text-lg">Create New User</h2>
@@ -125,20 +114,6 @@ const NewUserModal = (props: Props) => {
                   <div className="flex flex-col justify-start gap-y-4">
                     <div>
                       <FormField
-                        id="name"
-                        name="name"
-                        placeholder="Name"
-                        error={errors.name}
-                        touched={touched.name}
-                      />
-                      {touched.name && errors.name && (
-                        <p className="w-full text-xs text-red-500">
-                          {errors.name}
-                        </p>
-                      )}
-                    </div>
-                    <div>
-                      <FormField
                         id="email"
                         name="email"
                         placeholder="Email"
@@ -148,20 +123,6 @@ const NewUserModal = (props: Props) => {
                       {touched.email && errors.email && (
                         <p className="w-full text-xs text-red-500">
                           {errors.email}
-                        </p>
-                      )}
-                    </div>
-                    <div>
-                      <FormField
-                        id="password"
-                        name="password"
-                        placeholder="Password"
-                        error={errors.password}
-                        touched={touched.password}
-                      />
-                      {touched.password && errors.password && (
-                        <p className="w-full text-xs text-red-500">
-                          {errors.password}
                         </p>
                       )}
                     </div>

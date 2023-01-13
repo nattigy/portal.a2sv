@@ -10,7 +10,11 @@ import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import { useMutation, useReactiveVar } from "@apollo/client";
 import { UserProfile } from "../../types/user";
-import { UPDATE_USER_PROFILE } from "../../lib/apollo/Mutations/usersMutations";
+import {
+  CREATE_USER_PROFILE,
+  UPDATE_USER_PROFILE,
+} from "../../lib/apollo/Mutations/usersMutations";
+import Router, { useRouter } from "next/router";
 
 type Props = {
   userProfile: UserProfile;
@@ -32,22 +36,48 @@ export interface ProfileFormValues {
   hackerrank: string;
   codeforces: string;
   geeksforgeeks: string;
+  resumeLink: string;
+  educationPlace: string;
+  currentWorkStatus: string;
+  currentEducationStatus: string;
+  countryCode: string;
+  bio: string;
+  userProfileAddress: {
+    country: string;
+    city: string;
+  };
 }
 
 const FORM_VALIDATION = yup.object().shape({
-  firstname: yup.string().required(),
-  lastname: yup.string().required(),
-  // email: yup
-  //   .string()
-  //   .required("Required")
-  //   .email("email should have the format user@example.com"),
-  // phone: yup.string().length(12),
-  // linkedin: yup.string(),
-  // dob: yup.date().required("Required"),
+  firstName: yup.string().required(),
+  lastName: yup.string().required(),
+  email: yup
+    .string()
+    .required("Required")
+    .email("email should have the format user@example.com"),
+  phone: yup.string().required("Required"),
+  linkedin: yup.string().required("Required"),
+  dob: yup.date().required("Required"),
+  insta: yup.string().required("Required"),
+  twitter: yup.string().required("Required"),
+  telegram: yup.string().required("Required"),
+  facebook: yup.string().required("Required"),
+  leetcode: yup.string().required("Required"),
+  hackerrank: yup.string().required("Required"),
+  codeforces: yup.string().required("Required"),
+  resumeLink: yup.string().required("Required"),
+  educationPlace: yup.string().required("Required"),
+  // bio:yup.string().required("Required"),
 });
 
 const ProfileInfo = ({ userProfile }: Props) => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
+  const router = useRouter();
+  const isProfileComplete = authUser.userProfile !== null;
+
+  const [createUserProfile, { loading, error }] =
+    useMutation(CREATE_USER_PROFILE);
+
   const [updateUserProfile, { loading: updateLoading, error: updateError }] =
     useMutation(UPDATE_USER_PROFILE);
 
@@ -60,13 +90,23 @@ const ProfileInfo = ({ userProfile }: Props) => {
     linkedin: userProfile?.linkedin || "",
     insta: userProfile?.instagram || "",
     twitter: userProfile?.twitter || "",
-    telegram: "",
+    telegram: userProfile?.telegram || "",
     facebook: userProfile?.facebook || "",
     leetcode: userProfile?.leetcode || "",
     hackerrank: userProfile?.hackerrank || "",
     codeforces: userProfile?.codeforces || "",
     geeksforgeeks: userProfile?.geekforgeeks || "",
+    resumeLink: userProfile?.resumeLink || "",
     email: "",
+    educationPlace: userProfile?.educationPlace || "AAiT",
+    currentWorkStatus: userProfile?.currentWorkStatus || "",
+    currentEducationStatus: userProfile?.currentEducationStatus || "",
+    countryCode: userProfile?.countryCode || "Ethiopia",
+    bio: userProfile?.bio || "bio",
+    userProfileAddress: {
+      country: userProfile?.userProfileAddress?.country || "Ethiopia",
+      city: userProfile?.userProfileAddress?.city || "Addis Ababa",
+    },
     photo: null,
   };
 
@@ -85,31 +125,64 @@ const ProfileInfo = ({ userProfile }: Props) => {
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values) => {
-            await updateUserProfile({
-              variables: {
-                updateUserProfileInput: {
-                  userId: authUser.id,
-                  hackerrank: values.hackerrank,
-                  geekforgeeks: values.geeksforgeeks,
-                  codeforces: values.codeforces,
-                  leetcode: values.leetcode,
-                  facebook: values.facebook,
-                  twitter: values.twitter,
-                  instagram: values.insta,
-                  firstName: values.firstName,
-                  lastName: values.lastName,
-                  phone: values.phone,
-                  birthDate: values.dob,
-                  linkedin: values.linkedin,
+            if (isProfileComplete) {
+              await updateUserProfile({
+                variables: {
+                  updateUserProfileInput: {
+                    userId: authUser.id,
+                    hackerrank: values.hackerrank,
+                    geekforgeeks: values.geeksforgeeks,
+                    codeforces: values.codeforces,
+                    leetcode: values.leetcode,
+                    facebook: values.facebook,
+                    twitter: values.twitter,
+                    instagram: values.insta,
+                    firstName: values.firstName,
+                    lastName: values.lastName,
+                    phone: values.phone,
+                    birthDate: values.dob,
+                    linkedin: values.linkedin,
+                    resumeLink: values.resumeLink,
+                  },
                 },
-              },
-              refetchQueries: "active",
-              notifyOnNetworkStatusChange: true,
-            });
+                refetchQueries: "active",
+                notifyOnNetworkStatusChange: true,
+              });
+            } else {
+              console.log(values);
+              await createUserProfile({
+                variables: {
+                  createUserProfileInput: {
+                    bio: values.bio,
+                    codeforces: values.codeforces,
+                    countryCode: "+251",
+                    educationPlace: "AAiT",
+                    firstName: values.firstName,
+                    hackerrank: values.hackerrank,
+                    instagram: values.insta,
+                    lastName: values.lastName,
+                    leetcode: values.leetcode,
+                    linkedin: values.linkedin,
+                    phone: values.phone,
+                    resumeLink: values.resumeLink,
+                    currentEducationStatus: "GRADUATED",
+                    currentWorkStatus: "EMPLOYED",
+                    userProfileAddress: {
+                      city: "AA",
+                      country: "Ethiopia",
+                    },
+                  },
+                },
+                refetchQueries: "active",
+                onCompleted: async () => router.push("/profile"),
+                notifyOnNetworkStatusChange: true,
+              });
+            }
           }}
         >
           {(formik) => (
             <Form>
+              {JSON.stringify(formik.errors)}
               {tabIndex == 0 && <PersonalDetails formik={formik} />}
               {tabIndex == 1 && <SocialMediaDetails formik={formik} />}
               {tabIndex == 2 && <ProgrammingDetails formik={formik} />}
@@ -135,4 +208,3 @@ const ProfileInfo = ({ userProfile }: Props) => {
 };
 
 export default ProfileInfo;
-

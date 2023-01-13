@@ -94,7 +94,7 @@ const TopicsItem = ({ topic, idx }: Props) => {
               </p>
             </div>
             <div className="h-12 relative">
-              <div className="absolute top-2 right-2 z-30 ">
+              <div className="absolute top-2 right-2">
                 <MenuItem
                   color="black"
                   menuItems={[

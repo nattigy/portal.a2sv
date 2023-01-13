@@ -18,10 +18,10 @@ const LeftSidebar = (props: Props) => {
     [GraphqlUserRole.HEAD_OF_ACADEMY]: [
       "/dashboard",
       "/seasons",
+      "/repository",
       "/groups",
       "/users",
       "/contests",
-      "/settings",
     ],
     [GraphqlUserRole.HEAD_OF_EDUCATION]: [
       "/dashboard",
@@ -29,7 +29,6 @@ const LeftSidebar = (props: Props) => {
       "/groups",
       "/users",
       "/contests",
-      "/settings",
     ],
     [GraphqlUserRole.STUDENT]: [
       "/dashboard",
@@ -37,7 +36,6 @@ const LeftSidebar = (props: Props) => {
       "/groups",
       "/users",
       "/contests",
-      "/settings",
     ]
   }
 
@@ -50,8 +48,9 @@ const LeftSidebar = (props: Props) => {
               href="#"
               className={clsx(
                 " flex items-center justify-center p-4 text-sm font-medium transition-all duration-200  group fill-indigo-700  hover:bg-indigo-600 hover:fill-white hover:text-white ",
-                router.pathname.includes(route) ?
-                  "bg-indigo-100 fill-indigo-700 text-indigo-700 border-r-4 border-indigo-700  " : " fill-gray-700 ",
+                router.pathname.includes(route)
+                  ? "bg-indigo-100 fill-indigo-700 text-indigo-700 border-r-4 border-indigo-700  "
+                  : " fill-gray-700 "
               )}
             >
               {getSVGIcon(route)}

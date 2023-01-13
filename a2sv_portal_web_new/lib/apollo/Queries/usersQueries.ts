@@ -17,13 +17,19 @@ export const GET_SINGLE_USER_QUERY = gql`
 `;
 
 export const GET_USER_PROFILE = gql`
-  query User($userId: String!) {
-    user(id: $userId) {
+  query User($uniqueUserInput: UniqueUserInput!) {
+    user(uniqueUserInput: $uniqueUserInput) {
       userProfile {
+        userProfileAddress {
+          city
+          country
+        }
         bio
         birthDate
         codeforces
         createdAt
+        currentEducationStatus
+        currentWorkStatus
         educationDegree
         educationField
         educationPlace
@@ -39,9 +45,11 @@ export const GET_USER_PROFILE = gql`
         lastName
         leetcode
         linkedin
+        middleName
         phone
         photoUrl
         resumeLink
+        telegram
         tshirtSize
         twitter
         updatedAt

@@ -29,7 +29,7 @@ const UpcomingContestItem = (props: Props) => {
   };
   return (
     <div className="flex flex-col gap-y-2">
-      <h1 className="font-semibold text-lg">Upcoming Contest</h1>
+      <h1 className="font-semibold text-md">Upcoming Contest</h1>
       <div className="grid xs:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
         {props.upcomingContests ? (
           props.upcomingContests.map((contest) => {
