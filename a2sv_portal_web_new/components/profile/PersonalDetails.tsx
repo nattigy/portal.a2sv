@@ -1,4 +1,4 @@
-import { Form, Formik, FormikProps } from "formik";
+import { Field, Form, Formik, FormikProps } from "formik";
 import React, { useRef, useState } from "react";
 import FileForm from "./FileForm";
 import * as yup from "yup";
@@ -8,12 +8,18 @@ import DOBInputField from "./DOBInputField";
 import { ProfileFormValues } from "./ProfileInfo";
 import FormField from "../common/FormField";
 import CustomFormField from "./CustomFormField";
+import Button from "../common/Button";
+import FormDropdown from "../common/FormDropdown";
+import { FaChevronDown } from "react-icons/fa";
+import { getNationality } from "../../helpers/getNationalityFlag";
+import { COUNTRIES } from "../../helpers/constants";
 
 type Props = {
   formik: FormikProps<ProfileFormValues>;
+  changeTabIndex: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const PersonalDetails = ({ formik }: Props) => {
+const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
   return (
     <div className="bg-white p-4">
       <div className="flex justify-between p-2">
@@ -22,6 +28,15 @@ const PersonalDetails = ({ formik }: Props) => {
           <h5 className="text-sm font-normal">
             Update your personal details and photo here
           </h5>
+        </div>
+        <div className="flex-1 flex flex-row justify-end gap-x-4 pr-4">
+          <Button
+            text="Next"
+            onClick={() => {
+              changeTabIndex((prevTabIndex) => prevTabIndex + 1);
+            }}
+            classname="bg-primary text-white px-5 text-sm"
+          />
         </div>
         {/* <div className="flex gap-4">
           <button className="w-24 p-1 border rounded-lg text-sm border-[#BCBCBC]">
@@ -95,7 +110,7 @@ const PersonalDetails = ({ formik }: Props) => {
           onChange={(e: any) => formik.setFieldValue("dob", e)}
         />
         <hr className="mx-2" />
-        <div className="w-full flex justify-between items-center p-2">
+        {/* <div className="w-full flex justify-between items-center p-2">
           <h1 className="text-sm font-semibold">Linkedin URL</h1>
 
           <div className="w-2/3">
@@ -108,7 +123,7 @@ const PersonalDetails = ({ formik }: Props) => {
             />
           </div>
         </div>
-        <hr className="mx-2" />
+        <hr className="mx-2" /> */}
         <FileForm
           inputProps={{
             id: "photo",
@@ -124,6 +139,15 @@ const PersonalDetails = ({ formik }: Props) => {
         <div className="w-full flex justify-between items-center p-2">
           <h1 className="text-sm font-semibold">Work Status</h1>
           <div className="w-2/3">
+            <FormDropdown
+              name="currentWorkStatus"
+              options={[
+                { name: "Employed", value: "EMPLOYED" },
+                { name: "Unemployed", value: "UNEMPLOYED" },
+              ]}
+              icon={<FaChevronDown size={16} />}
+              placeholder="Work Status"
+            />
             <CustomFormField
               id="status"
               name="status"
@@ -134,10 +158,11 @@ const PersonalDetails = ({ formik }: Props) => {
             />
           </div>
         </div>
+
         <hr className="mx-2" />
         <div className="w-full flex justify-between items-center p-2">
           <h1 className="text-sm font-semibold">Resume Link</h1>
-        <div className="w-2/3">
+          <div className="w-2/3">
             <CustomFormField
               id="resumeLink"
               name="resumeLink"
@@ -146,8 +171,84 @@ const PersonalDetails = ({ formik }: Props) => {
               formik={formik}
             />
           </div>
-          </div>
+        </div>
 
+        <hr className="mx-2" />
+        <div className="w-full flex justify-between items-center p-2">
+          <h1 className="text-sm font-semibold">Country</h1>
+          <div className="w-2/3">
+            <FormDropdown
+              name="userProfileAddress.country"
+              options={COUNTRIES.map((country) => ({
+                name: country,
+                value: country,
+              }))}
+              flag={getNationality(formik.values.userProfileAddress.country)}
+              placeholder="Country"
+              icon={<FaChevronDown size={16} />}
+            />
+            <h1 className="text-xs font-light text-red-700">
+              {(formik.errors as any)["userProfileAddress.country"]}
+            </h1>
+          </div>
+        </div>
+        <hr className="mx-2" />
+
+        <div className="w-full flex justify-between items-center p-2">
+          <h1 className="text-sm font-semibold">Education Status</h1>
+          <div className="w-2/3">
+            <div>
+              <FormDropdown
+                name="currentEducationStatus"
+                options={[
+                  { name: "Graduated", value: "GRADUATED" },
+                  { name: "Continuing", value: "CONTINUING" },
+                ]}
+                placeholder="Education Status"
+                icon={<FaChevronDown size={16} />}
+              />
+
+              <h1 className="text-xs font-light text-red-700">
+                {(formik.errors as any)["educationStatus"]}
+              </h1>
+            </div>
+          </div>
+        </div>
+
+        <hr className="mx-2" />
+        <div className="w-full flex justify-between items-center p-2">
+          <h1 className="text-sm font-semibold">Education Institiue</h1>
+          <div className="w-2/3">
+            <CustomFormField
+              id="educationPlace"
+              name="educationPlace"
+              placeholder="Enter Resume Link"
+              type="text"
+              formik={formik}
+            />
+          </div>
+        </div>
+        <hr className="mx-2" />
+        <div className="w-full flex justify-between items-start p-2">
+          <h1 className="text-sm font-semibold my-2">Your Bio</h1>
+          <div className="w-2/3">
+            <Field
+              as="textarea"
+              id="bio"
+              name="bio"
+              rows={10}
+              className={clsx(
+                "w-full text-xs resize-none placeholder-[#767676] rounded-md focus:outline-none py-3 px-4 my-2",
+                (formik.errors as any)["bio"] && (formik.touched as any)["bio"]
+                  ? "border border-red-500"
+                  : "border border-[#D2D2D2]"
+              )}
+            ></Field>
+            <h1 className="text-xs font-light text-red-700">
+              {(formik.errors as any)["bio"]}
+            </h1>
+          </div>
+        </div>
       </div>
     </div>
   );

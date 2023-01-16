@@ -15,6 +15,7 @@ import HOEAutocomplete from "../users/HOEAutocomplete";
 import { Group } from "../../types/group";
 import { FaChevronDown } from "react-icons/fa";
 import { count } from "console";
+import { COUNTRIES } from "../../helpers/constants";
 
 export enum RoleTypes {
   STUDENT = "Student",
@@ -183,21 +184,20 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
                 <div className="w-full">
                   <div className="flex flex-col justify-start">
                     <div className="flex items-center my-2 relative">
-                      <div className="absolute left-2 z-10">
+                      {/* <div className="absolute left-2 z-10">
                         <img
                           src={getNationality(values.country)}
                           className="w-6 rounded-full"
                           alt=""
                         />
-                      </div>
+                      </div> */}
                       <FormDropdown
                         name="country"
                         placeholder="Select Country"
-                        options={[
-                          { name: "Ethiopia", value: "Ethiopia" },
-                          { name: "Ghana", value: "Ghana" },
-                          { name: "Turkey", value: "Turkey" },
-                        ]}
+                        options={COUNTRIES.map((country) => ({
+                          name: country,
+                          value: country,
+                        }))}
                         icon={<FaChevronDown size={16} />}
                       />
                     </div>

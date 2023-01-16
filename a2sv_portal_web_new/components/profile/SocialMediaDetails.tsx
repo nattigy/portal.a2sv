@@ -4,16 +4,24 @@ import { isError } from "lodash";
 import React from "react";
 import { FiExternalLink } from "react-icons/fi";
 import { MdAlternateEmail } from "react-icons/md";
-import { SiFacebook, SiInstagram, SiTelegram, SiTwitter } from "react-icons/si";
+import {
+  SiFacebook,
+  SiInstagram,
+  SiLinkedin,
+  SiTelegram,
+  SiTwitter,
+} from "react-icons/si";
+import Button from "../common/Button";
+import CustomLinkField from "./CustomLinkField";
 import { ProfileFormValues } from "./ProfileInfo";
 
 type Props = {
-  formik:FormikProps<ProfileFormValues>
+  formik: FormikProps<ProfileFormValues>;
+  changeTabIndex: React.Dispatch<React.SetStateAction<number>>;
 };
 
-
-const SocialMediaDetails = ({formik}: Props) => {
-  const{errors,touched} = formik;
+const SocialMediaDetails = ({ formik, changeTabIndex }: Props) => {
+  const { errors, touched } = formik;
 
   return (
     <div className="bg-white p-4">
@@ -25,130 +33,73 @@ const SocialMediaDetails = ({formik}: Props) => {
             Update your social media tags here
           </h5>
         </div>
-        {/* <div className="flex gap-4">
-          <button className="w-24 p-2 border rounded-lg text-sm border-[#BCBCBC]">
-            Cancel
-          </button>
-          <button
-            type="submit"
-            form="profile-form"
-            className="w-24 p-2 border rounded-lg bg-[#5956E9] text-sm text-white border-red-200"
-          >
-            Save
-          </button>
-        </div> */}
+        <div className=" flex-1 flex flex-row justify-end gap-x-4 pr-4">
+          <Button
+            text="Back"
+            onClick={() => {
+              changeTabIndex((prevTabIndex) => prevTabIndex - 1);
+            }}
+            classname="bg-gray-100 text-primary px-5 text-sm h-10"
+          />
+          <Button
+            text="Next"
+            onClick={() => {
+              changeTabIndex((prevTabIndex) => prevTabIndex + 1);
+            }}
+            classname=" text-white bg-primary px-5 text-sm h-10 font-normal"
+          />
+        </div>
       </div>
       <hr className="ml-4" />
       <div className="flex flex-col gap-y-2 w-1/2">
-            <div className="flex">
-              <div className="flex w-2/5 items-center gap-x-2 p-2">
-                <SiInstagram size={24} color="blue" />
-                <h1 className="text-sm">Instagram Url</h1>
-              </div>
-              <div className="flex w-full relative ml-4">
-                <MdAlternateEmail className="absolute left-2 top-1/3" />
+        <CustomLinkField
+          name="insta"
+          placeholder="Instagram"
+          title="Instagram URL"
+          touched={touched.insta}
+          error={errors.insta}
+          icon={<SiInstagram size={24} color="blue" />}
+        />
+        <hr className="mx-2" />
+        <CustomLinkField
+          name="twitter"
+          placeholder="Twitter"
+          title="Twitter URL"
+          touched={touched.twitter}
+          error={errors.twitter}
+          icon={<SiTwitter size={24} color="blue" />}
+        />
 
-                <Field
-                  id="insta"
-                  name="insta"
-                  placeholder="Enter your Instagram account"
-                  type="text"
-                  className={clsx(
-                    "w-full text-xs placeholder-[#767676] rounded-md focus:outline-none py-3 px-8 my-2",
-                    errors.insta && touched.insta
-                      ? "border border-red-500"
-                      : "border border-[#D2D2D2]"
-                  )}
-                />
-                <FiExternalLink className="absolute top-1/3 right-2" />
-              </div>
-              <h1 className="text-xs font-light text-red-700">
-                {(errors as any)["insta"]}
-              </h1>
-            </div>
-            <hr className="mx-2" />
+        <hr className="mx-2" />
 
-            <div className="flex">
-              <div className="flex w-2/5 items-center gap-x-2 p-2">
-                <SiTwitter size={24} color="blue" />
-                <h1 className="text-sm">Twitter Url</h1>
-              </div>
-              <div className="flex w-full relative ml-4">
-                <MdAlternateEmail className="absolute left-2 top-1/3" />
+        <CustomLinkField
+          name="telegram"
+          placeholder="Telegram"
+          title="Telegram URL"
+          touched={touched.telegram}
+          error={errors.telegram}
+          icon={<SiTelegram size={24} color="blue" />}
+        />
 
-                <Field
-                  id="twitter"
-                  name="twitter"
-                  placeholder="Enter your Twitter account"
-                  type="text"
-                  className={clsx(
-                    "w-full text-xs placeholder-[#767676] rounded-md focus:outline-none py-3 px-8 my-2",
-                    errors.twitter && touched.twitter
-                      ? "border border-red-500"
-                      : "border border-[#D2D2D2]"
-                  )}
-                />
-                <FiExternalLink className="absolute top-1/3 right-2" />
-              </div>
-              <h1 className="text-xs font-light text-red-700">
-                {(errors as any)["twitter"]}
-              </h1>
-            </div>
-            <hr className="mx-2" />
-
-            <div className="flex w-full">
-              <div className="w-2/5 flex items-center gap-x-2 p-2">
-                <SiTelegram size={24} color="blue" />
-                <h1 className="text-sm">Telegram Url</h1>
-              </div>
-              <div className="flex w-full relative ml-4">
-                <MdAlternateEmail className="absolute left-2 top-1/3" />
-                <Field
-                  id="telegram"
-                  name="telegram"
-                  placeholder="Enter your Telegram account"
-                  type="text"
-                  className={clsx(
-                    "w-full text-xs placeholder-[#767676] rounded-md focus:outline-none py-3 px-8 my-2",
-                    errors.telegram && touched.telegram
-                      ? "border border-red-500"
-                      : "border border-[#D2D2D2]"
-                  )}
-                />
-                <FiExternalLink className="absolute top-1/3 right-2" />
-              </div>
-              <h1 className="text-xs font-light text-red-700">
-                {(errors as any)["telegram"]}
-              </h1>
-            </div>
-            <hr className="mx-2" />
-
-            <div className="w-full flex">
-              <div className="flex w-2/5 items-center gap-x-2 p-2">
-                <SiFacebook size={24} color="blue" />
-                <h1 className="text-sm">Facebook Url</h1>
-              </div>
-              <div className="flex w-full relative ml-4">
-                <MdAlternateEmail className="absolute left-2 top-1/3" />
-                <Field
-                  id="facebook"
-                  name="facebook"
-                  placeholder="Enter your Facebook account"
-                  type="text"
-                  className={clsx(
-                    "w-full text-xs placeholder-[#767676] rounded-md focus:outline-none py-3 px-8 my-2",
-                    errors.facebook && touched.facebook
-                      ? "border border-red-500"
-                      : "border border-[#D2D2D2]"
-                  )}
-                />
-                <FiExternalLink className="absolute top-1/3 right-2" />
-              </div>
-              <h1 className="text-xs font-light text-red-700">
-                {(errors as any)["facebook"]}
-              </h1>
-            </div>
-            </div>
+        <hr className="mx-2" />
+        <CustomLinkField
+          name="linkedin"
+          placeholder="Linkedin"
+          title="Linkedin URL"
+          touched={touched.linkedin}
+          error={errors.linkedin}
+          icon={<SiLinkedin size={24} color="blue" />}
+        />
+        <hr className="mx-2" />
+        <CustomLinkField
+          name="facebook"
+          placeholder="Facebook"
+          title="Facebook URL"
+          touched={touched.facebook}
+          error={errors.facebook}
+          icon={<SiFacebook size={24} color="blue" />}
+        />
+      </div>
     </div>
   );
 };

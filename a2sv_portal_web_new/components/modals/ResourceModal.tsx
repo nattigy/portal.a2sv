@@ -1,7 +1,6 @@
 import * as yup from "yup";
 import { Form, Formik, FormikProps } from "formik";
 import React, { useRef, useState } from "react";
-import { getNationality } from "../../helpers/getNationalityFlag";
 import { Resource } from "../../types/resource";
 import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormDropdown from "../common/FormDropdown";

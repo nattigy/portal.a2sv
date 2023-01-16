@@ -31,7 +31,7 @@ const DOBInputField = (props: DOBInputFieldProps) => {
             name={props.name}
             placeholderText={props.placeholder}
             selected={
-              props.formik.values
+              props.formik.values["dob"]
                 ? new Date(props.formik.values["dob"])
                 : null
             }
@@ -40,6 +40,7 @@ const DOBInputField = (props: DOBInputFieldProps) => {
             dateFormat="MMMM dd, yyyy"
             adjustDateOnChange
             showYearDropdown
+
           />
           <h1 className="text-xs font-light text-red-700">{errorMessage}</h1>
         </div>

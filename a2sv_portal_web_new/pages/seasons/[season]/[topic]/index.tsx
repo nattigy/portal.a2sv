@@ -8,10 +8,6 @@ import TopicStruggledList from "../../../../components/topics/TopicStruggledList
 
 const IndexPage = () => {
   const [select, setSelect] = useState("Education");
-  const dropdown: CustomDropdownProps = {
-    label: "",
-    options: ["Education", "Camp"],
-  };
 
   const Sidebar: React.FC = () => {
     return (

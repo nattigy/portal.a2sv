@@ -41,6 +41,7 @@ export const GET_USER_PROFILE = gql`
         graduationYear
         hackerrank
         id
+        email
         instagram
         lastName
         leetcode

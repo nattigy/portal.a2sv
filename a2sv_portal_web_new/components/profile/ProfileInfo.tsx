@@ -31,6 +31,7 @@ export interface ProfileFormValues {
   insta: string;
   twitter: string;
   telegram: string;
+  github: string;
   facebook: string;
   leetcode: string;
   hackerrank: string;
@@ -49,25 +50,36 @@ export interface ProfileFormValues {
 }
 
 const FORM_VALIDATION = yup.object().shape({
-  firstName: yup.string().required(),
-  lastName: yup.string().required(),
+  firstName: yup.string().required("Required"),
+  lastName: yup.string().required("Required"),
   email: yup
     .string()
     .required("Required")
-    .email("email should have the format user@example.com"),
+    .email("Email should have the format user@example.com"),
   phone: yup.string().required("Required"),
   linkedin: yup.string().required("Required"),
-  dob: yup.date().required("Required"),
+  dob: yup.date().required("Required").nullable().default(undefined),
+
   insta: yup.string().required("Required"),
   twitter: yup.string().required("Required"),
   telegram: yup.string().required("Required"),
-  facebook: yup.string().required("Required"),
+  github: yup.string().required("Required"),
   leetcode: yup.string().required("Required"),
   hackerrank: yup.string().required("Required"),
   codeforces: yup.string().required("Required"),
   resumeLink: yup.string().required("Required"),
   educationPlace: yup.string().required("Required"),
-  // bio:yup.string().required("Required"),
+  currentWorkStatus: yup.string().required("Required"),
+  currentEducationStatus: yup.string().required("Required"),
+  facebook: yup.string().required("Required"),
+  bio: yup
+    .string()
+    .required("Required")
+    .test(
+      "len",
+      "Must be at least 50 characters",
+      (val) => (val?.length || 0) >= 50
+    ),
 });
 
 const ProfileInfo = ({ userProfile }: Props) => {
@@ -85,26 +97,27 @@ const ProfileInfo = ({ userProfile }: Props) => {
     firstName: userProfile?.firstName || "",
     lastName: userProfile?.lastName || "",
     phone: userProfile?.phone || "",
-    dob: userProfile?.birthDate || null,
+    dob: userProfile?.birthDate || "",
     status: "",
     linkedin: userProfile?.linkedin || "",
     insta: userProfile?.instagram || "",
     twitter: userProfile?.twitter || "",
     telegram: userProfile?.telegram || "",
-    facebook: userProfile?.facebook || "",
+    github: userProfile?.github || "",
     leetcode: userProfile?.leetcode || "",
     hackerrank: userProfile?.hackerrank || "",
     codeforces: userProfile?.codeforces || "",
     geeksforgeeks: userProfile?.geekforgeeks || "",
     resumeLink: userProfile?.resumeLink || "",
-    email: "",
-    educationPlace: userProfile?.educationPlace || "AAiT",
+    facebook: userProfile?.facebook || "",
+    email: userProfile?.email || "",
+    educationPlace: userProfile?.educationPlace || "",
     currentWorkStatus: userProfile?.currentWorkStatus || "",
     currentEducationStatus: userProfile?.currentEducationStatus || "",
-    countryCode: userProfile?.countryCode || "Ethiopia",
-    bio: userProfile?.bio || "bio",
+    countryCode: userProfile?.countryCode || "+251",
+    bio: userProfile?.bio || "",
     userProfileAddress: {
-      country: userProfile?.userProfileAddress?.country || "Ethiopia",
+      country: userProfile?.userProfileAddress?.country || "",
       city: userProfile?.userProfileAddress?.city || "Addis Ababa",
     },
     photo: null,
@@ -134,7 +147,7 @@ const ProfileInfo = ({ userProfile }: Props) => {
                     geekforgeeks: values.geeksforgeeks,
                     codeforces: values.codeforces,
                     leetcode: values.leetcode,
-                    facebook: values.facebook,
+                    github: values.github,
                     twitter: values.twitter,
                     instagram: values.insta,
                     firstName: values.firstName,
@@ -143,6 +156,8 @@ const ProfileInfo = ({ userProfile }: Props) => {
                     birthDate: values.dob,
                     linkedin: values.linkedin,
                     resumeLink: values.resumeLink,
+                    facebook: values.facebook,
+                    bio: values.bio,
                   },
                 },
                 refetchQueries: "active",
@@ -156,20 +171,21 @@ const ProfileInfo = ({ userProfile }: Props) => {
                     bio: values.bio,
                     codeforces: values.codeforces,
                     countryCode: "+251",
-                    educationPlace: "AAiT",
+                    educationPlace: values.educationPlace,
                     firstName: values.firstName,
                     hackerrank: values.hackerrank,
                     instagram: values.insta,
                     lastName: values.lastName,
+                    facebook: values.facebook,
                     leetcode: values.leetcode,
                     linkedin: values.linkedin,
                     phone: values.phone,
                     resumeLink: values.resumeLink,
-                    currentEducationStatus: "GRADUATED",
-                    currentWorkStatus: "EMPLOYED",
+                    currentEducationStatus: values.currentEducationStatus,
+                    currentWorkStatus: values.currentWorkStatus,
                     userProfileAddress: {
-                      city: "AA",
-                      country: "Ethiopia",
+                      city: values.userProfileAddress.country,
+                      country: values.userProfileAddress.country,
                     },
                   },
                 },
@@ -182,10 +198,30 @@ const ProfileInfo = ({ userProfile }: Props) => {
         >
           {(formik) => (
             <Form>
-              {JSON.stringify(formik.errors)}
-              {tabIndex == 0 && <PersonalDetails formik={formik} />}
-              {tabIndex == 1 && <SocialMediaDetails formik={formik} />}
-              {tabIndex == 2 && <ProgrammingDetails formik={formik} />}
+              {tabIndex == 0 && (
+                <PersonalDetails changeTabIndex={setTabIndex} formik={formik} />
+              )}
+              {tabIndex == 1 && (
+                <SocialMediaDetails
+                  changeTabIndex={setTabIndex}
+                  formik={formik}
+                />
+              )}
+              {tabIndex == 2 && (
+                <>
+                <ProgrammingDetails
+                  changeTabIndex={setTabIndex}
+                  formik={formik}
+                />
+                {!formik.isValid && (
+                  <div className="bg-[#E4646451] py-1 rounded-md w-1/2 my-6">
+                    <span className="text-[#E46464] px-4 text-xs">
+                    There are errors on the form. Please fix them before continuing.
+                    </span>
+                  </div>
+                )}
+                </>
+              )}
               {updateError?.message && (
                 <div className="bg-[#E4646451] py-1 rounded-md">
                   <span className="text-[#E46464] px-4 text-xs">
@@ -193,12 +229,7 @@ const ProfileInfo = ({ userProfile }: Props) => {
                   </span>
                 </div>
               )}
-              {tabIndex == 2 && (
-                <FormAffirmativeButton
-                  text="Save Changes"
-                  isLoading={formik.isSubmitting}
-                />
-              )}
+        
             </Form>
           )}
         </Formik>
