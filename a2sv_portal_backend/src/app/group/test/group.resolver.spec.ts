@@ -132,6 +132,7 @@ describe('GroupResolver', () => {
       it('should return a number', () => {
         expect(result).toEqual(1)
       })
+      
     })
   })
 })
