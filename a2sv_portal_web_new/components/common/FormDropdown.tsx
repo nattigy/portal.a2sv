@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { Field, FormikProps } from "formik";
 import React, { useRef } from "react";
+import { getNationality } from "../../helpers/getNationalityFlag";
 
 export type optionsProp = {
   name: string;
@@ -13,6 +14,7 @@ type Props = {
   error?: string;
   icon?: any;
   touched?: boolean;
+  flag?: string;
   options: optionsProp[];
 };
 
@@ -22,11 +24,20 @@ const FormDropdown = (props: Props) => {
       <div className="flex items-center justify-center absolute right-2 top-0 w-8 h-8 z-10">
         {props.icon}
       </div>
+      {props.flag && (
+        <div className="absolute left-2 z-10">
+          <img
+            src={props.flag}
+            className="w-6 rounded-full"
+            alt=""
+          />
+        </div>
+      )}
       <Field
         as="select"
         name={props.name}
         className={clsx(
-          "bg-white w-full h-12 px-10 border rounded-md appearance-none caret-transparent",
+          "bg-white w-full h-12 px-10 border rounded-md appearance-none caret-transparent text-xs",
           props.touched && props.error ? "border-red-500" : ""
         )}
       >

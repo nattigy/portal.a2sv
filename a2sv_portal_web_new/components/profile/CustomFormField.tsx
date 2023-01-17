@@ -27,6 +27,7 @@ const CustomFormField: React.FC<FormInputProps> = (props: FormInputProps) => {
             name={props.name}
             placeholder={props.placeholder}
             type="text"
+            readonly
             className={clsx(
               "w-full text-xs placeholder-[#767676] rounded-md focus:outline-none py-3 px-4 my-2",
               isError ? "border border-red-500" : "border border-[#D2D2D2]"
@@ -47,25 +48,7 @@ const CustomFormField: React.FC<FormInputProps> = (props: FormInputProps) => {
           className="hidden"
         />
       )}
-      {props.type === "select" && (
-        <div>
-          <Field
-            as="select"
-            name={props.name}
-            className={clsx(
-              "w-full text-xs placeholder-[#767676] border border-[#D2D2D2] rounded-md focus:outline-none py-3 px-4 my-2",
-              isError ? "border border-red-500" : "border border-[#D2D2D2]"
-            )}
-          >
-            <option value={"employed"}>Employed</option>
-            <option value={"unemployed"}>Unemployed</option>
-            {/* {props.options?.map((status: string, index: number) => {
-                  <h1>status</h1>
-                })} */}
-          </Field>
-          <h1 className="text-xs font-light text-red-700">{errorMessage}</h1>
-        </div>
-      )}
+
     </div>
   );
 };

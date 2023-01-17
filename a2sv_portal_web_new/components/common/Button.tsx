@@ -11,10 +11,11 @@ export type ButtonProps = {
 
 const Button = (props: ButtonProps) => {
   return (
-    <div
+    <button
+      onClick={props.onClick}
       className={clsx(
         props.classname,
-        "flex items-center h-8 w-fit p-2 px-4 rounded-md"
+        "flex items-center h-10 w-fit p-2 px-4 rounded-md"
       )}
     >
       {props.isLoading && (
@@ -40,8 +41,8 @@ const Button = (props: ButtonProps) => {
         </svg>
       )}
       {props.icon}
-      <button onClick={props.onClick}>{props.text}</button>
-    </div>
+      {props.text}
+    </button>
   );
 };
 

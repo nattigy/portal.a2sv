@@ -37,6 +37,7 @@ export type UserProfile = {
   graduationYear: string;
   hackerrank: string;
   id: string;
+  email: string;
   instagram: string;
   lastName: string;
   leetcode: string;
