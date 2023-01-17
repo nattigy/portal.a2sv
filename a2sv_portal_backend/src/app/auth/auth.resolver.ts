@@ -7,6 +7,7 @@ import { AuthResponse } from './dto/auth-response.dto'
 import { JwtAuthGuard } from './guards/jwt-auth-guard.service'
 import { LocalAuthGuard } from './guards/local-auth.guard'
 import { User } from '../user/entities/user.entity'
+import { ForgotResponse } from './dto/forgot-response';
 
 @Resolver()
 export class AuthResolver {
@@ -28,8 +29,8 @@ export class AuthResolver {
     }
   }
 
-  @Mutation(() => String)
-  async forgotPassword(@Args('email') email: string): Promise<string> {
+  @Mutation(() => ForgotResponse)
+  async forgotPassword(@Args('email') email: string): Promise<ForgotResponse> {
     try {
       return await this.authService.forgotPassword(email)
     } catch (e) {
@@ -38,7 +39,7 @@ export class AuthResolver {
     }
   }
 
-  @Mutation(() => String)
+  @Mutation(() => ForgotResponse)
   async resetPassword(@Args('resetToken') resetToken: string, @Args('password') pass: string) {
     try {
       return this.authService.resetPassword(resetToken, pass)

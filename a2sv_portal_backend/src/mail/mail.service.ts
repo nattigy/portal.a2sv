@@ -1,27 +1,34 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable,RequestTimeoutException} from '@nestjs/common'
 import { MailerService } from '@nestjs-modules/mailer'
 import { resetPasswordEmailTemplate, verifyEmailTemplate } from '../common/email_templates'
 import { ConfigService } from '@nestjs/config'
+
 
 @Injectable()
 export class MailService {
   constructor(private readonly mailerService: MailerService,private configService: ConfigService) {}
 
   async inviteMail(email: string, code: string) {
-    await this.mailerService.sendMail({
-      to: email,
-      from:this.configService.get('PORTAL_EMAIL') ,
-      subject:"Welcome to A2SV portal",
-      // text:verifyEmailTemplate(email,code),
-      template:'emailEmail',
-      context:{
-        to:email,
-        otpCode:code
-      }
-    })
+    try{
+      await this.mailerService.sendMail({
+        to: email,
+        from:this.configService.get('PORTAL_EMAIL') ,
+        subject:"Welcome to A2SV portal",
+        // text:verifyEmailTemplate(email,code),
+        template:'emailEmail',
+        context:{
+          to:email,
+          otpCode:code
+        }
+      })
+    }catch(e){
+      throw new RequestTimeoutException();
+    }
+   
   }
 
   async resetEmail(email: string, code: string) {
+    try{
      await this.mailerService.sendMail({
       to: email,
       from:this.configService.get('PORTAL_EMAIL'),
@@ -32,6 +39,8 @@ export class MailService {
         otpCode:code
       }
     })
-    
+    }catch(e){
+      throw new RequestTimeoutException();
+    }
   }
 }
