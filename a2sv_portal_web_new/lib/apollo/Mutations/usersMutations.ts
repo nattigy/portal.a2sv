@@ -49,3 +49,9 @@ export const CHANGE_USER_ROLE = gql`
     }
   }
 `;
+
+export const REMOVE_USER = gql`
+  mutation RemoveUser($userId: String!) {
+    removeUser(userId: $userId)
+  }
+`;

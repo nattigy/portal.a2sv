@@ -31,23 +31,40 @@ export type UserProps = {
 
 const UserItem = ({ id, email, userProfile, group, role }: UserProps) => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [isAssignGroupModalOpen, setIsAssignGroupModalOpen] =
     useState<boolean>(false);
 
   const [errorMessage, setErrorMessage] = useState("");
-
-  const [removeUser, { loading }] = useMutation(REMOVE_USER);
+  const [isRoleModalOpen, setIsRoleModalOpen] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [deleteUser, { data, error, loading }] = useMutation(REMOVE_USER);
 
   return (
     <div>
-      {isModalOpen && (
+      {isRoleModalOpen && (
         <ChangeRoleModal
           userId={id}
           role={role}
           onClose={() => {
-            setIsModalOpen(false);
+            setIsRoleModalOpen(false);
+          }}
+        />
+      )}
+      {isDeleteModalOpen && (
+        <DeletePopupModal
+          description={`This action will delete ${email}'s account permanently.`}
+          errorMessage={error?.message || ""}
+          title="You are about to delete this user"
+          isLoading={loading}
+          onClose={() => setIsDeleteModalOpen(false)}
+          onDelete={async () => {
+            await deleteUser({
+              variables: {
+                userId: id,
+              },
+              refetchQueries: "active",
+              notifyOnNetworkStatusChange: true,
+            });
           }}
         />
       )}
@@ -61,7 +78,7 @@ const UserItem = ({ id, email, userProfile, group, role }: UserProps) => {
             userProfile ? userProfile.firstName + " " + userProfile.lastName : email
           } permanently`}
           onDelete={async () => {
-            await removeUser({
+            await deleteUser({
               variables: {
                 userId: id,
               },
@@ -110,7 +127,7 @@ const UserItem = ({ id, email, userProfile, group, role }: UserProps) => {
                       title: "Change role",
                       onClick: (e: any) => {
                         e.stopPropagation();
-                        setIsModalOpen(true);
+                        setIsRoleModalOpen(true);
                         // handlePromote();
                       },
                       icon: getSVGIcon("change_role"),
@@ -134,7 +151,6 @@ const UserItem = ({ id, email, userProfile, group, role }: UserProps) => {
                       onClick: (e: any) => {
                         e.stopPropagation();
                         setIsDeleteModalOpen(true);
-                        // handlePromote();
                       },
                       className: "text-red-500 group-hover:text-white",
                       color: "",
