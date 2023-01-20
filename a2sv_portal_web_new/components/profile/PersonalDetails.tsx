@@ -80,6 +80,7 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
 
           <div className="w-2/3">
             <CustomFormField
+              readOnly={true}
               id="email"
               name="email"
               placeholder="Enter Email Address"
