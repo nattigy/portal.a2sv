@@ -2,20 +2,10 @@ import { ApolloError, useReactiveVar } from "@apollo/client";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import React, { useEffect, useState } from "react";
-import { BiCalendar } from "react-icons/bi";
-import { FaChevronDown } from "react-icons/fa";
 import { Season, SeasonType } from "../../types/season";
-import { FormValues } from "../auth/LoginForm";
-import FormAffirmativeButton from "../common/FormAffirmativeButton";
-import FormDropdown from "../common/FormDropdown";
-import FormField from "../common/FormField";
-import FormRejectButton from "../common/FormRejectButton";
-import error from "next/error";
 import EmptyState from "../common/EmptyState";
 import { LoaderSmall } from "../common/Loaders";
-import SeasonList from "../seasons/SeasonList";
 import { useGetAllSeasons } from "../../lib/hooks/useSeasons";
-import Link from "next/link";
 import SearchField from "../common/SearchField";
 import SeasonRequestConfirmationModal from "./SeasonRequestConfirmationModal";
 import clsx from "clsx";
@@ -37,18 +27,11 @@ const SeasonRequestModal = ({ onClose }: Props) => {
     setSearchQuery(query);
   };
   // const [createSeason] = useMutation(CREATE_SEASON);
-  const { data, loading, error } = useGetAllSeasons({isActive: true});
+  const { data, loading, error } = useGetAllSeasons({ isActive: true });
   const [seasons, setSeasons] = useState([]);
 
   const [filteredSeasons, setFilteredSeasons] = useState([]);
 
-  const initialValues = {};
-  const FORM_VALIDATION = yup.object().shape({
-    name: yup.string().required("Required"),
-    startDate: yup.string().required("Required"),
-    endDate: yup.string().required("Required"),
-    type: yup.string().required("Required"),
-  });
 
   var images = [
     "/images/season-item.svg",
@@ -66,7 +49,7 @@ const SeasonRequestModal = ({ onClose }: Props) => {
       setSeasons(data.seasons.items);
       setFilteredSeasons(data.seasons.items);
     }
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     const filteredData = seasons.filter((season: Season) => {
@@ -81,7 +64,6 @@ const SeasonRequestModal = ({ onClose }: Props) => {
           .includes(searchQuery.trim().toLowerCase())
       );
     });
-    console.log(filteredData);
     setFilteredSeasons(filteredData);
   }, [searchQuery, seasons]);
 
@@ -93,128 +75,110 @@ const SeasonRequestModal = ({ onClose }: Props) => {
           isConfirmModalOpen ? " bg-opacity-60" : ""
         )}
       >
-        <Formik
-          initialValues={initialValues}
-          validationSchema={FORM_VALIDATION}
-          onSubmit={async (values, actions) => {
-            () => {};
-          }}
+        <div
+          role="alert"
+          className="flex flex-col gap-y-3  min-h-fit relative overflow-hidden bg-white container mx-auto w-11/12 md:w-1/2 lg:w-4/5 xl:w-2/3 rounded-xl  px-8 py-5 pb-10"
         >
-          {({ setFieldValue, isSubmitting, values, errors, touched }) => (
-            <Form className=" w-full py-8 ">
-              <div
-                role="alert"
-                className="flex flex-col gap-y-3  min-h-fit relative overflow-hidden bg-white container mx-auto w-11/12 md:w-1/2 lg:w-4/5 xl:w-2/3 rounded-xl  px-8 py-5 pb-10"
-              >
-                {isConfirmModalOpen && (
-                  <SeasonRequestConfirmationModal
-                    groupId={
-                      authUser.groupId || "c7af7b3d-221e-42e7-bf92-d62f90591461"
-                    }
-                    seasonId={activeSeasonId}
-                    onClose={() => setIsConfirmModalOpen(false)}
+          {isConfirmModalOpen && (
+            <SeasonRequestConfirmationModal
+              groupId={authUser.headToGroup.id || ""}
+              seasonId={activeSeasonId}
+              onClose={() => setIsConfirmModalOpen(false)}
+            />
+          )}
+          <div className="w-full flex flex-col">
+            <div className="my-3 w-full flex justify-between items-center">
+              <h2 className="font-semibold text-lg">Start a New Season</h2>
+              <div className="cursor-pointer" onClick={() => onClose()}>
+                <svg
+                  className="font-bold text-gray-600"
+                  width={24}
+                  height={24}
+                  viewBox="0 0 28 28"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M21 7L7 21"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
-                )}
-                <div className="w-full flex flex-col">
-                  <div className="my-3 w-full flex justify-between items-center">
-                    <h2 className="font-semibold text-lg">
-                      Start a New Season
-                    </h2>
-                    <div className="cursor-pointer" onClick={() => onClose()}>
-                      <svg
-                        className="font-bold text-gray-600"
-                        width={24}
-                        height={24}
-                        viewBox="0 0 28 28"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M21 7L7 21"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M7 7L21 21"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="w-full flex flex-col items-start mb-2">
-                    <p className="tracking-wider text-md text-start text-[#949494]">
-                      Add your group to the respective season
-                    </p>
-                  </div>
-                  <SearchField
-                    id="season-search"
-                    placeholder="Search a Global Season"
-                    onChange={handleSearch}
-                    className="!w-full !border !border-[#DCDCDC] !rounded-3xl"
+                  <path
+                    d="M7 7L21 21"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
-                  {/* SearchBar */}
-                  <div className="flex flex-col gap-y-4 mt-4">
-                    {error ? (
-                      <div>Something went wrong</div>
-                    ) : filteredSeasons.length === 0 ? (
-                      <div className="h-full flex items-center">
-                        <EmptyState />
-                      </div>
-                    ) : loading ? (
-                      <div className="w-full flex h-full items-center justify-center min-w-full min-h-full">
-                        <LoaderSmall />
-                      </div>
-                    ) : (
-                      <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                        {filteredSeasons.map((season: any, index: number) => (
-                          <div
-                            key={index}
-                            onClick={() => handleConfirmModalOpen(season.id)}
-                            className="cursor-pointer"
-                          >
-                            <div className="h-36 relative">
-                              <div className="h-full w-full bg-gradient-to-t from-black/75 absolute z-10"></div>
-                              <img
-                                className="h-full w-full flex flex-col justify-between rounded-t-md gap-y-2 object-cover absolute z-0"
-                                src={
-                                  images[
-                                    Math.floor(Math.random() * images.length)
-                                  ]
-                                }
-                                alt=""
-                              />
-                              <div className="flex flex-col justify-between gap-y-2 absolute z-20 h-full p-4">
-                                <div className="rounded-t-md">
-                                  <h1 className="text-md font-semibold text-white">
-                                    {season.name}
-                                  </h1>
-                                  <h1 className="text-white">{season.name}</h1>
-                                </div>
-                                <div className="flex gap-x-2">
-                                  <div className="p-2 w-20 bg-[#E4E3F0] rounded-md text-sm text-primary text-center">
-                                    Current
-                                  </div>
-                                  <div className="p-2 w-20 bg-[#E4E3F0] rounded-md text-sm text-primary text-center">
-                                    21 days
-                                  </div>
-                                </div>
-                              </div>
+                </svg>
+              </div>
+            </div>
+            <div className="w-full flex flex-col items-start mb-2">
+              <p className="tracking-wider text-md text-start text-[#949494]">
+                Add your group to the respective season
+              </p>
+            </div>
+            <SearchField
+              id="season-search"
+              placeholder="Search a Global Season"
+              onChange={handleSearch}
+              className="!w-full !border !border-[#DCDCDC] !rounded-3xl"
+            />
+            {/* SearchBar */}
+            <div className="flex flex-col gap-y-4 mt-4">
+              {error ? (
+                <div>Something went wrong</div>
+              ) : filteredSeasons.length === 0 ? (
+                <div className="h-full flex items-center">
+                  <EmptyState />
+                </div>
+              ) : loading ? (
+                <div className="w-full flex h-full items-center justify-center min-w-full min-h-full">
+                  <LoaderSmall />
+                </div>
+              ) : (
+                <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {filteredSeasons.map((season: any, index: number) => (
+                    <div
+                      key={index}
+                      onClick={() => handleConfirmModalOpen(season.id)}
+                      className="cursor-pointer"
+                    >
+                      <div className="h-36 relative">
+                        <div className="h-full w-full bg-gradient-to-t from-black/75 absolute z-10"></div>
+                        <img
+                          className="h-full w-full flex flex-col justify-between rounded-t-md gap-y-2 object-cover absolute z-0"
+                          src={
+                            images[Math.floor(Math.random() * images.length)]
+                          }
+                          alt=""
+                        />
+                        <div className="flex flex-col justify-between gap-y-2 absolute z-20 h-full p-4">
+                          <div className="rounded-t-md">
+                            <h1 className="text-md font-semibold text-white">
+                              {season.name}
+                            </h1>
+                            <h1 className="text-white">{season.name}</h1>
+                          </div>
+                          <div className="flex gap-x-2">
+                            <div className="p-2 w-20 bg-[#E4E3F0] rounded-md text-sm text-primary text-center">
+                              Current
+                            </div>
+                            <div className="p-2 w-20 bg-[#E4E3F0] rounded-md text-sm text-primary text-center">
+                              21 days
                             </div>
                           </div>
-                        ))}
+                        </div>
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  ))}
                 </div>
-              </div>
-            </Form>
-          )}
-        </Formik>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

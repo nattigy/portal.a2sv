@@ -52,8 +52,8 @@ const SeasonRequestItem = ({ head, season, group }: SeasonRequestItemProps) => {
                 : head.email + " "}
             </span>
             requested to start
-            <span className="font-semibold">{" " + season.name}</span> for
-            <span className="font-semibold">{" " + group.name}</span>
+            <span className="font-semibold"> {season.name}</span> for
+            <span className="font-semibold"> {group.name}</span>
           </p>
           <div className="flex justify-between items-center">
             <button
