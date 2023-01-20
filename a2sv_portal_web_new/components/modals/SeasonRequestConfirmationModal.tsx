@@ -21,6 +21,7 @@ const SeasonRequestConfirmationModal = ({
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
   const handleConfirmRequestNewModal = async () => {
+    setIsLoading(true);
     await requestNewSeason({
       variables: {
         addGroupToASeasonInput: {
@@ -31,9 +32,11 @@ const SeasonRequestConfirmationModal = ({
       refetchQueries: "active",
       notifyOnNetworkStatusChange: true,
       onCompleted: (data) => {
+        setIsLoading(false);
         onClose();
       },
       onError: (error) => {
+        setIsLoading(false);
         setErrorMessage((error as ApolloError).message);
       },
     });
