@@ -39,7 +39,7 @@ export class AuthResolver {
     }
   }
 
-  @Mutation(() => ForgotResponse)
+  @Mutation(() => String)
   async resetPassword(@Args('resetToken') resetToken: string, @Args('password') pass: string) {
     try {
       return this.authService.resetPassword(resetToken, pass)
@@ -48,7 +48,7 @@ export class AuthResolver {
     }
   }
 
-  @Mutation(() => String)
+  @Mutation(() => ForgotResponse)
   async resendOtp(@Args('email') email: string) {
     try {
       return this.authService.resendOtp(email)
