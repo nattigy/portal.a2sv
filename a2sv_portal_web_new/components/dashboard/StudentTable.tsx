@@ -83,17 +83,11 @@ const StudentTable = (props: Props) => {
                 </div>
               </th>
               <th scope="col" className="py-3 px-6">
-                <div className="flex flex-row gap-x-1">
-                  <div className="text-[#979797]">Email</div>
-                  <div className="flex flex-row">
-                    <FaLongArrowAltUp className="-mr-2 pr-1" />
-                    <FaLongArrowAltDown />
-                  </div>
-                </div>
+                <div className="text-[#979797]">Country</div>
               </th>
               <th scope="col" className="py-3 px-6">
                 <div className="flex flex-row gap-x-1">
-                  <div className="text-[#979797]">Residence</div>
+                  <div className="text-[#979797]">Rank</div>
                   <div className="flex flex-row">
                     <FaLongArrowAltUp className="-mr-2 pr-1" />
                     <FaLongArrowAltDown />
@@ -104,7 +98,7 @@ const StudentTable = (props: Props) => {
                 <div className="text-[#979797]">Date Joined</div>
               </th>
               <th scope="col" className="py-3 px-6">
-                <div className="text-[#979797]"></div>
+                <div className="text-[#979797]">Details</div>
               </th>
             </tr>
           </thead>
@@ -146,14 +140,8 @@ const StudentTable = (props: Props) => {
                           alt=""
                         />
                         <h1>
-                          {student.firstName + " " + student.lastName ?? "No Name"}
-                        </h1>
-                      </div>
-                    </td>
-                    <td scope="row" className="py-4 px-6 whitespace-nowrap">
-                      <div className="flex flex-row items-start gap-x-2">
-                        <h1>
-                          {student.email ?? "No Email"}
+                          {student.firstName + " " + student.lastName ??
+                            "No Name"}
                         </h1>
                       </div>
                     </td>
@@ -161,7 +149,7 @@ const StudentTable = (props: Props) => {
                       <div className="pl-8">
                         {student.group?.country ? (
                           <img
-                            src={getNationality("Ethiopia")}
+                            src={getNationality(student.group.country)}
                             className="w-6 rounded-3xl"
                             alt=""
                           />
@@ -176,6 +164,11 @@ const StudentTable = (props: Props) => {
                     </td>
                     <td className="py-4 px-6">
                       <div className="flex flex-row gap-x-2">
+                        1
+                      </div>
+                    </td>
+                    <td className="py-4 px-6">
+                      <div className="flex flex-row gap-x-2">
                         {format(new Date(student.createdAt), "MMM, d, u")}
                       </div>
                     </td>
@@ -184,9 +177,7 @@ const StudentTable = (props: Props) => {
                         href="#"
                         className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                       >
-                        <div className="pl-4">
-                          <BsThreeDotsVertical onClick={()=>{}}/>
-                        </div>
+                        View Stats
                       </a>
                     </td>
                   </tr>

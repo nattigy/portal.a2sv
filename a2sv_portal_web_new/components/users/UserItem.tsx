@@ -4,12 +4,16 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { GraphqlUserRole, UserRoleType } from "../../types/user";
 import UserRoleChip from "./UserRoleChip";
 import PromoteStudent from "../common/PromoteStudent";
-import { useMutation, useReactiveVar } from "@apollo/client";
-import { CHANGE_USER_ROLE } from "../../lib/apollo/Mutations/usersMutations";
+import { ApolloError, useMutation, useReactiveVar } from "@apollo/client";
+import {
+  CHANGE_USER_ROLE,
+  REMOVE_USER,
+} from "../../lib/apollo/Mutations/usersMutations";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import MenuItem from "../common/MenuItem";
 import ChangeRoleModal from "../modals/ChangeRoleModal";
 import { getSVGIcon } from "../../helpers/getSVGPath";
+import DeletePopupModal from "../modals/DeletePopupModal";
 export type UserProps = {
   id: string;
   userProfile: {
@@ -28,6 +32,13 @@ export type UserProps = {
 const UserItem = ({ id, email, userProfile, group, role }: UserProps) => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [isAssignGroupModalOpen, setIsAssignGroupModalOpen] =
+    useState<boolean>(false);
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [removeUser, { loading }] = useMutation(REMOVE_USER);
 
   return (
     <div>
@@ -37,6 +48,32 @@ const UserItem = ({ id, email, userProfile, group, role }: UserProps) => {
           role={role}
           onClose={() => {
             setIsModalOpen(false);
+          }}
+        />
+      )}
+      {isDeleteModalOpen && (
+        <DeletePopupModal
+          title="You are about to delete this user?"
+          errorMessage={errorMessage}
+          isLoading={loading}
+          onClose={() => setIsDeleteModalOpen(false)}
+          description={`This action will delete ${
+            userProfile ? userProfile.firstName + " " + userProfile.lastName : email
+          } permanently`}
+          onDelete={async () => {
+            await removeUser({
+              variables: {
+                userId: id,
+              },
+              notifyOnNetworkStatusChange: true,
+              refetchQueries: "active",
+              onCompleted: (data) => {
+                setIsDeleteModalOpen(false);
+              },
+              onError: (error) => {
+                setErrorMessage((error as ApolloError).message);
+              },
+            });
           }}
         />
       )}
@@ -96,6 +133,8 @@ const UserItem = ({ id, email, userProfile, group, role }: UserProps) => {
                       title: "Delete Student",
                       onClick: (e: any) => {
                         e.stopPropagation();
+                        setIsDeleteModalOpen(true);
+                        // handlePromote();
                       },
                       className: "text-red-500 group-hover:text-white",
                       color: "",

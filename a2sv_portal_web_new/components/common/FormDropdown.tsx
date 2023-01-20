@@ -14,14 +14,14 @@ type Props = {
   error?: string;
   icon?: any;
   touched?: boolean;
-  flag?: string;
+  flag?: string ;
   options: optionsProp[];
 };
 
 const FormDropdown = (props: Props) => {
   return (
-    <div className=" rounded-full w-full h-8 flex flex-shrink-0 justify-start relative items-center outline-none focus:outline-none appearance-none">
-      <div className="flex items-center justify-center absolute right-2 top-0 w-8 h-8 z-10">
+    <div className=" rounded-full w-full h-8 flex flex-shrink-0 justify-start relative items-center outline-none focus:outline-none">
+      <div className="flex items-center justify-center absolute my-auto text-[#949494] right-2 top-0 bottom-0 w-6 h-6 z-10">
         {props.icon}
       </div>
       {props.flag && (
@@ -36,14 +36,15 @@ const FormDropdown = (props: Props) => {
       <Field
         as="select"
         name={props.name}
+        placeholder={props.placeholder}
         className={clsx(
-          "bg-white w-full h-12 px-10 border rounded-md appearance-none caret-transparent text-xs",
+          "bg-white w-full h-12 px-10 border rounded-md appearance-none caret-transparent text-sm placeholder:text-[#949494]",
           props.touched && props.error ? "border-red-500" : ""
         )}
       >
-        <option className="h-20" value="" selected disabled hidden>
+        {/* <option className="h-20 text-pink-400" value="" selected disabled hidden>
           {props.placeholder}
-        </option>
+        </option> */}
 
         {props.options.map((option: optionsProp, index) => (
           <option key={index} value={option.value}>

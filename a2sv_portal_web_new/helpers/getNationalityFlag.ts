@@ -9,6 +9,6 @@ export const getNationality: any = (name: string) => {
     case "Turkey":
       return "/icons/turkey-flag.png";
     default:
-      return "/icons/white-flag.png";
+      return "/icons/ethiopia-flag.png";
   }
 };

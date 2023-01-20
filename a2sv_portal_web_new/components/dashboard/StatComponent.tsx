@@ -29,12 +29,16 @@ const generalStatList: GeneralStatItemProps[] = [
     value:"420",
   },
   {
-    title:"Avg. Attendance",
-    value:"--%",
-  },
-  {
     title:"Topics Covered",
     value:"12",
+  },
+  {
+    title:"Contest Rating",
+    value:"653",
+  },
+  {
+    title:"Contests Attended",
+    value:"7",
   },
   {
     title:"Group Rank",
@@ -132,9 +136,9 @@ const StatComponent = (props: Props) => {
           {/* {props.groupData?.group.name} */}
           {/* {JSON.stringify(props.groupData)} */}
         </p>
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">
+        <div className="w-full grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 ">
           {generalStatList.map((item, index) => (
-            <GeneralStatItem key={index} {...item} idx={index%4}/>
+            <GeneralStatItem key={index} {...item} idx={index%5}/>
           ))}
         </div>
         <div className="rounded-lg items-center w-full flex flex-col lg:flex-row gap-4">

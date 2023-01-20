@@ -5,6 +5,6 @@ export type Group = {
   school: string;
   createdAt: string;
   head?: { id: string; email: string };
-  users?: any[];
+  students?: any[];
   totalStudentsCount: number;
 };

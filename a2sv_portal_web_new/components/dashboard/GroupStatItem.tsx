@@ -8,7 +8,7 @@ export type GropStatItemProps = {
 };
 const GroupStatItem = (props: GropStatItemProps) => {
   return (
-    <div className="h-[70px] w-full flex gap-x-2 lg:gap-x-0 rounded-lg bg-white mt-2 px-2 md:px-1 items-center">
+    <div className="h-[70px] w-full flex gap-x-2 lg:gap-x-1 rounded-lg bg-white mt-2 px-2 md:px-1 items-center">
       <div className="w-[25%] h-11">
         <img src={props.path} className="w-full h-full" alt="" />
       </div>

@@ -19,7 +19,7 @@ const GroupStatList = () => {
   return (
     <div>
       <p className="font-semibold text-[#565656] text-lg">Dashboard</p>
-      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-5">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-5">
         {groupStats.map((item, index) => (
           <GroupStatItem {...item} path={svgs[index]} key={index} />
         ))}

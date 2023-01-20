@@ -9,6 +9,7 @@ const colors:string[] = [
   "#5956E9",
   "#FFCE31",
   "#428BC1",
+  "#AF77C2",
   "#8CB14E"
 ]
 

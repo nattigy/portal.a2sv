@@ -14,6 +14,7 @@ import SeasonSidebarItem from "../seasons/SeasonSidebarItem";
 import SeasonList from "../seasons/SeasonList";
 import { Season, SeasonType } from "../../types/season";
 import StatComponent from "./StatComponent";
+import CustomDropdown from "../common/CustomDropdown";
 
 type Props = {
   groupId: string;
@@ -91,7 +92,15 @@ const GroupInfo = ({ groupId }: Props) => {
       }
     >
       <div className="flex flex-col">
-        <h1 className="text-2xl font-bold mb-2">Dashboard</h1>
+        <div className="flex justify-between">
+          <h1 className="text-2xl font-bold mb-2">Dashboard</h1>
+          <CustomDropdown
+            customProps={{
+              label: "",
+              options: ["Camp 22", "Education 22", "Project 22"],
+            }}
+          />
+        </div>
         <DashboardFilter
           handleTabChange={handleTabChange}
           activeIndex={tabIndex}

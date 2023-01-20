@@ -16,6 +16,7 @@ import { Group } from "../../types/group";
 import { FaChevronDown } from "react-icons/fa";
 import { count } from "console";
 import { COUNTRIES } from "../../helpers/constants";
+import { MdAdd } from "react-icons/md";
 
 export enum RoleTypes {
   STUDENT = "Student",
@@ -175,22 +176,26 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
                         touched={touched.name}
                         error={errors.name}
                       />
-                      <p className="w-full text-xs text-red-500">
-                        {errors.name}
-                      </p>
+                      {errors.name && (
+                        <div className="bg-red-400/20 w-full p-2 px-4 rounded-md">
+                          <p className="w-full text-xs text-red-400">
+                            {errors.name}
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
                 <div className="w-full">
                   <div className="flex flex-col justify-start">
                     <div className="flex items-center my-2 relative">
-                      {/* <div className="absolute left-2 z-10">
+                      <div className="absolute left-2 z-10">
                         <img
                           src={getNationality(values.country)}
                           className="w-6 rounded-full"
                           alt=""
                         />
-                      </div> */}
+                      </div>
                       <FormDropdown
                         name="country"
                         placeholder="Select Country"
@@ -206,13 +211,15 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
                 <div className="w-full">
                   <div className="flex flex-col justify-start">
                     <div className="flex flex-col items-center">
-                      <HOEAutocomplete
-                        user={group?.head}
-                        handleSearchStudent={setSelected}
-                      />
-                      <p className="w-full text-xs text-red-500">
-                        {errors.name}
-                      </p>
+                      <div className="flex w-full items-center gap-x-4">
+                        <HOEAutocomplete
+                          user={group?.head}
+                          handleSearchStudent={setSelected}
+                        />
+                        <div className="bg-primary/10 rounded-full p-1">
+                          <MdAdd color="#5956E9" size={24} />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -229,9 +236,13 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
                         error={errors.school}
                         touched={touched.school}
                       />
-                      <p className="w-full text-xs text-red-500">
-                        {errors.school}
-                      </p>
+                      {errors.school && (
+                        <div className="bg-red-400/20 w-full p-2 px-4 rounded-md">
+                          <p className="w-full text-xs text-red-400">
+                            {errors.school}
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

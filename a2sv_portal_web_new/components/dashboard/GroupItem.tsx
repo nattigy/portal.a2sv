@@ -56,6 +56,8 @@ const GroupItem = ({ groupProps, color }: Props) => {
   };
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
 
+  console.log("Here", groupProps.students);
+
   return (
     <>
       {isEditModalOpen && (
@@ -67,10 +69,10 @@ const GroupItem = ({ groupProps, color }: Props) => {
       )}
       {isDeleteModalOpen && (
         <DeletePopupModal
-          title="Delete Group"
+          title="You are about to delete this Group"
           errorMessage={errorMessage}
           isLoading={loading}
-          description="This will delete the group"
+          description={`This action will delete ${groupProps.name} permanently`}
           onClose={() => setIsDeleteModalOpen(false)}
           onDelete={async () => {
             await deleteGroup({
@@ -183,12 +185,18 @@ const GroupItem = ({ groupProps, color }: Props) => {
         </div>
         <div className="flex flex-row justify-between items-center px-2  h-1/3">
           <div className="flex flex-row -space-x-2 items-center ">
-            {groupProps.users?.map((item, index) => (
+            {groupProps.students?.slice(0,3).map((item, index) => (
               <StudentAvatar url={item.userProfile?.photoUrl} key={index} />
             ))}
-            <div className="w-8 h-8 rounded-full bg-[#D9D9D9] text-[#000] border-solid border-white border-2 text-[10px] font-semibold flex items-center justify-center">
-              +{groupProps.totalStudentsCount}
-            </div>
+            {groupProps.students && groupProps.students?.length >= 3 ? (
+              <div className="w-8 h-8 rounded-full bg-[#D9D9D9] text-[#000] border-solid border-white border-2 text-[10px] font-semibold flex items-center justify-center">
+                +{groupProps.students.length - 3}
+              </div>
+            ) : (
+              <div className="w-8 h-8 rounded-full bg-[#D9D9D9] text-[#000] border-solid border-white border-2 text-[10px] font-semibold flex items-center justify-center">
+                +{0}
+              </div>
+            )}
           </div>
           <CustomLink
             href={

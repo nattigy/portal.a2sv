@@ -27,7 +27,7 @@ const HOADashboard = (props: Props) => {
       {isModalOpen && (
         <GroupModal isEditing={false} onClose={() => setIsModalOpen(false)} />
       )}
-      <div className="w-full h-screen flex flex-col gap-y-2">
+      <div className="w-full h-screen flex flex-col gap-y-6">
         <GroupStatList />
         <div className="flex flex-row justify-between ">
           <div>
@@ -53,7 +53,6 @@ const HOADashboard = (props: Props) => {
               placeholder="Search a group"
               id="group-search"
             />
-            <CustomDropdown customProps={dropdown} />
           </div>
           <div className="col-span-12">
             <GroupItemList />
