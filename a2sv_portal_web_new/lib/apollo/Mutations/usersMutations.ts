@@ -35,12 +35,6 @@ export const UPDATE_USER_PROFILE = gql`
   }
 `;
 
-export const REMOVE_USER = gql`
-  mutation RemoveUser($userId: String!) {
-    removeUser(userId: $userId)
-  }
-`;
-
 
 export const CHANGE_USER_ROLE = gql`
   mutation UpdateUser($updateUserInput: UpdateUserInput!) {

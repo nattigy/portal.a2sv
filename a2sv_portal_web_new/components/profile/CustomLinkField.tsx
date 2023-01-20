@@ -18,7 +18,7 @@ type Props = {
 const CustomLinkField = (props: Props) => {
   return (
     <div className="flex gap-x">
-    <div className="flex w-5/12 items-center gap-x-2 p-2">
+    <div className="flex w-6/12 items-center gap-x-2 p-2">
       {props.imgPath?<img src={props.imgPath} className="w-8" alt="" />:props.icon}
       <h1 className="text-sm">{props.title}</h1>
     </div>
