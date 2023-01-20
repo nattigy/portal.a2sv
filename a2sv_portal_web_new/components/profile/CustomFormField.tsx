@@ -11,6 +11,7 @@ export type FormInputProps = {
   formik: FormikProps<ProfileFormValues>;
   options?: Array<string>;
   setFile?: React.Dispatch<React.SetStateAction<File | undefined>>;
+  readOnly?:boolean;
 };
 
 const CustomFormField: React.FC<FormInputProps> = (props: FormInputProps) => {
@@ -23,11 +24,11 @@ const CustomFormField: React.FC<FormInputProps> = (props: FormInputProps) => {
       {props.type === "text" && (
         <div>
           <Field
+            readOnly = {props.readOnly}
             id={props.id}
             name={props.name}
             placeholder={props.placeholder}
             type="text"
-            readonly
             className={clsx(
               "w-full text-xs placeholder-[#767676] rounded-md focus:outline-none py-3 px-4 my-2",
               isError ? "border border-red-500" : "border border-[#D2D2D2]"
