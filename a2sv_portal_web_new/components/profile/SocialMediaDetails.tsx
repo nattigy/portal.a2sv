@@ -51,7 +51,7 @@ const SocialMediaDetails = ({ formik, changeTabIndex }: Props) => {
         </div>
       </div>
       <hr className="ml-4" />
-      <div className="flex flex-col gap-y-2 w-1/2">
+      <div className="flex flex-col gap-y-2 xl:w-1/2 lg:w-3/5 md:w-5/6 w-full pr-6">
         <CustomLinkField
           name="insta"
           placeholder="Instagram"

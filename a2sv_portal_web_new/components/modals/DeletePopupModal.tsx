@@ -21,22 +21,22 @@ const DeletePopupModal = (props: Props) => {
       <div className=" transition-all duration-200 py-8 text-[#565656] w-screen h-screen absolute top-0 bottom-0 left-0 right-0 bg-gray-900 bg-opacity-30 z-50">
         <div
           role="alert"
-          className="flex flex-col gap-y-2 min-h-fit bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-8 py-5"
+          className="flex flex-col gap-y-2 min-h-fit bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-8 py-8"
         >
-          <div className="flex flex-col h-full gap-y-4 items-center justify-between">
-            <div className="rounded-full border-2 border-[#D72B2B] p-2">
+          <div className="flex flex-col h-full  items-center justify-between">
+            <div className="rounded-full border-2 border-[#D72B2B] p-2 mb-5">
               <BiTrash color="#D72B2B" size={36} />
             </div>
-            <div className="flex flex-col items-center gap-y-1">
+            <div className="flex flex-col items-center gap-y-1 px-3">
               <h1 className="font-bold text-lg">{props.title}</h1>
-              <h1 className="font-semibold text-md text-[#A6A6A6]">
-                {props.description}
+              <h1 className="font-medium text-md text-[#838383]">
+                {props.description} Are you sure?
               </h1>
             </div>
             <div className="w-full flex flex-col">
-              <h1 className="font-semibold text-center text-md text-[#A6A6A6]">
+              {/* <h1 className="font-semibold text-center text-md text-[#A6A6A6]">
                 Are you sure?
-              </h1>
+              </h1> */}
               <div className="flex justify-end gap-x-2">
                 <Button
                   text="Cancel"

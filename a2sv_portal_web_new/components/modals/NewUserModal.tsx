@@ -25,8 +25,8 @@ type Props = {
 const FORM_VALIDATION = yup.object().shape({
   email: yup
     .string()
-    .required("Required")
-    .email("email should have the format user@example.com"),
+    .required("Email can't be empty")
+    .email("Email should have the format user@example.com"),
 });
 
 const NewUserModal = (props: Props) => {

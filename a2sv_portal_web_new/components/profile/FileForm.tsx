@@ -37,9 +37,9 @@ const FileForm = (props: CustomInputProps) => {
               : ""
           )}
         >
-          <div className="w-1/5 h-32 flex justify-start">
+          <div className="w-1/5 flex justify-start">
             <img
-              className="rounded-full w-12 h-12 border border-[#626262]"
+              className="rounded-full md:w-12 w-8 border border-[#626262]"
               src={preview ? preview : "/images/default-profile.svg"}
               alt=""
             />
@@ -48,11 +48,11 @@ const FileForm = (props: CustomInputProps) => {
             htmlFor="dropzone-photo"
             className="flex flex-col justify-center items-center w-full h-32 border border-[#D2D2D2] rounded-lg cursor-pointer hover:bg-gray-100 dark:border-[#D2D2D2] dark:hover:border-gray-500 dark:hover:bg-gray-200"
           >
-            <div className="flex flex-col justify-center items-center pt-5 pb-6">
+            <div className="flex flex-col justify-center items-center text-center px-2">
               <div className="bg-[#5956E91F] rounded-full">
                 <svg
                   aria-hidden="true"
-                  className="p-2 w-10 h-10 text-[#5956E9]"
+                  className="p-2 md:w-10 md:h-10 w-9 h-9 text-[#5956E9]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -66,11 +66,11 @@ const FileForm = (props: CustomInputProps) => {
                   ></path>
                 </svg>
               </div>
-              <p className="leading-7 text-sm">
+              <p className=" md:text-sm text-[12px]">
                 <span className="font-semibold">Click to upload</span> or drag
                 and drop
               </p>
-              <p className="leading-7 text-xs text-gray-500 dark:text-gray-400">
+              <p className=" md:text-xs text-[9px] text-gray-500 dark:text-gray-400">
                 SVG, PNG, JPG or GIF (MAX. 800x400px)
               </p>
             </div>

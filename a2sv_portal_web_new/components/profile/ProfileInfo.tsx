@@ -214,8 +214,8 @@ const ProfileInfo = ({ userProfile }: Props) => {
                   formik={formik}
                 />
                 {!formik.isValid && (
-                  <div className="bg-[#E4646451] py-1 rounded-md w-1/2 my-6">
-                    <span className="text-[#E46464] px-4 text-xs">
+                  <div className="bg-[#E4646451] py-1 px-4 rounded-md xl:w-1/2 lg:w-3/5 md:w-5/6 w-full my-6">
+                    <span className="text-[#E46464] text-xs">
                     There are errors on the form. Please fix them before continuing.
                     </span>
                   </div>

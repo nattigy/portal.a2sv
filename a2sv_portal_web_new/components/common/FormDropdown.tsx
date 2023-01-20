@@ -38,8 +38,9 @@ const FormDropdown = (props: Props) => {
         name={props.name}
         placeholder={props.placeholder}
         className={clsx(
-          "bg-white w-full h-12 px-10 border rounded-md appearance-none caret-transparent text-sm placeholder:text-[#949494]",
-          props.touched && props.error ? "border-red-500" : ""
+          "bg-white w-full h-12  border rounded-md appearance-none caret-transparent text-xs",
+          props.touched && props.error ? "border-red-500" : "",
+          props.flag?"px-10":"px-4"
         )}
       >
         {/* <option className="h-20 text-pink-400" value="" selected disabled hidden>
