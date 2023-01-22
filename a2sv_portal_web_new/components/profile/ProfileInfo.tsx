@@ -16,6 +16,7 @@ import {
 } from "../../lib/apollo/Mutations/usersMutations";
 import Router, { useRouter } from "next/router";
 import SecurityDetails from "./SecurityDetails";
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 type Props = {
   userProfile: UserProfile;
@@ -50,6 +51,22 @@ export interface ProfileFormValues {
   };
 }
 
+const handleValidate = (value?: string) => {
+  const isValid = isValidPhoneNumber(value || "");
+  return isValid;
+};
+
+yup.addMethod(yup.string, "validPhone", function (errorMessage) {
+  return this.test(`valid-phone-number`, errorMessage, function (value) {
+    const { path, createError } = this;
+
+    return (
+      (value && handleValidate(value)) ||
+      createError({ path, message: errorMessage })
+    );
+  });
+});
+
 const FORM_VALIDATION = yup.object().shape({
   firstName: yup.string().required("Required"),
   lastName: yup.string().required("Required"),
@@ -57,7 +74,7 @@ const FORM_VALIDATION = yup.object().shape({
     .string()
     .required("Required")
     .email("Email should have the format user@example.com"),
-  phone: yup.string().required("Required"),
+  phone: (yup.string() as any).required("Required").validPhone("Invalid Phone Number"),
   linkedin: yup.string().required("Required"),
   dob: yup.date().required("Required").nullable().default(undefined),
 

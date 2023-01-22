@@ -1,7 +1,6 @@
 import { Field, Form, Formik, FormikProps } from "formik";
 import React, { useRef, useState } from "react";
 import FileForm from "./FileForm";
-import * as yup from "yup";
 import clsx from "clsx";
 import PhoneInputField from "./PhoneInputField";
 import DOBInputField from "./DOBInputField";
@@ -93,13 +92,13 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
         <hr className="mx-2" />
 
         <PhoneInputField
-          className="w-full text-xs placeholder-[#767676] rounded-md appearance-none focus:outline-none px-4 py-1 border border-[#D2D2D2]"
-          country="ET"
+          className="w-full text-xs placeholder-[#767676] rounded-md appearance-none focus:outline-none px-4 py-1"
           name="phone"
           placeholder="Enter Phone Number"
           label="Phone Number"
           formik={formik}
           onChange={(e: any) => formik.setFieldValue("phone", e)}
+          onFocus={(e:any) => formik.setFieldTouched("phone", e)}
         />
         <hr className="mx-2" />
         <DOBInputField
