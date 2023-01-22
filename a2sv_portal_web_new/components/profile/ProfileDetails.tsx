@@ -9,8 +9,6 @@ type Props = {
   user: AuthUser;
 };
 const ProfileDetails = ({ userProfile, user }: Props) => {
-  console.log(userProfile);
-  console.log(user);
   const router = useRouter();
   const goToEditProfile = () => {
     router.push("/profile/edit");
@@ -77,14 +75,14 @@ const ProfileDetails = ({ userProfile, user }: Props) => {
   };
 
   return (
-    <div className="grid grid-cols-5 gap-4 w-full">
-      <div className="col-span-2">
+    <div className="flex flex-col md:flex-row gap-4 w-full">
+      <div className={`w-full lg:w-1/3 overflow-hidden`}>
         <div className="rounded-md border-b border-gray-200 bg-white px-4 py-5 sm:px-6 mb-4">
           <div className="p-4">
             <img
               className="rounded-lg w-full"
               alt="Profile"
-              src="https://picsum.photos/400/250"
+              src="https://picsum.photos/350/200"
             />
 
             <p className="uppercase text-center p-4 text-xl">
@@ -120,33 +118,38 @@ const ProfileDetails = ({ userProfile, user }: Props) => {
             {programmingHandles.map((programmingHandle) => (
               <li
                 key={programmingHandle.id}
-                className="flex p-4 items-center cursor-pointer hover:bg-[#F9F9F9]"
+                className="flex p-4 items-center cursor-pointer hover:bg-[#F9F9F9] w-full"
               >
-                <div className="rounded-full bg-primary-lite w-14 h-14 flex justify-center items-center">
+                <div className="rounded-full bg-primary-lite flex justify-center items-center min-w-[50px] min-h-[50px] flex-1">
                   <img
-                    className="h-6 w-6"
+                    className="w-6 h-6"
                     src={programmingHandle.icon}
                     alt=""
                   />
                 </div>
 
-                <div className="ml-3">
-                  <p className="text-md font-medium text-gray-900">
+                <div className="mx-3 w-full flex-3 max-w-[70%]">
+                  <p className="text-md font-medium text-gray-900 ">
                     {programmingHandle.name}
                   </p>
-                  <p className="text-md text-gray-500 mt-1">
+                  <p className="text-md text-gray-500 mt-1 text-ellipsis overflow-hidden w-full">
                     {programmingHandle.handle}
                   </p>
                 </div>
-                <div className="flex-1" />
-
-                <img className="h-4 w-4" src="/icons/openlink.svg" alt="" />
+                {/* <div className="flex-1" /> */}
+                <img
+                  className="h-4 w-4 flex-1"
+                  src="/icons/openlink.svg"
+                  alt=""
+                />
               </li>
             ))}
           </ul>
         </div>
       </div>
-      <div className="col-span-3 rounded-md border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+      <div
+        className={`w-full lg:w-2/3 rounded-md border-b border-gray-200 bg-white px-4 py-5 sm:px-6`}
+      >
         <div className="p-6 uppercase text-xl">{basicInfo.fullname}</div>
         <div className="px-6 font-light">{userProfile?.bio}</div>
         <div className="flex items-center px-6 py-8">
@@ -170,7 +173,10 @@ const ProfileDetails = ({ userProfile, user }: Props) => {
           </p>
           {Object.entries(workInfo).map(
             (value: [string, string], index: number) => (
-              <div className="flex px-6 py-2" key={value[0]}>
+              <div
+                className="flex flex-col md:flex-row px-6 py-2"
+                key={value[0]}
+              >
                 <p className="capitalize mr-4 text-[#979797]">{value[0]}:</p>
                 <p>{value[1]}</p>
               </div>

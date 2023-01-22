@@ -10,18 +10,22 @@ const DashboardTopic: DashboardTopicItemProps[] = [
   {
     questions: 10,
     topicName: "Dynamic Programming",
+    comfortability: 66,
   },
   {
     questions: 20,
     topicName: "Sliding Window",
+    comfortability: 54,
   },
   {
     questions: 34,
     topicName: "Bit Manipulation",
+    comfortability: 52,
   },
   {
     questions: 15,
     topicName: "Queue",
+    comfortability: 38,
   },
 ];
 const strugglingWith: { percent: number; name: string }[] = [

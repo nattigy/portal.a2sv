@@ -10,6 +10,7 @@ export type InputProps = {
   placeholder: string;
   type: string;
   formik: FormikProps<any>;
+  fullWidth?: Boolean;
 };
 
 const CustomTextField: React.FC<InputProps> = (props: InputProps) => {
@@ -23,7 +24,9 @@ const CustomTextField: React.FC<InputProps> = (props: InputProps) => {
     (props.formik.touched as any)[props.name];
   const errorMessage = (props.formik.errors as any)[props.name];
   return (
-    <div className="flex flex-row justify-around">
+    <div
+      className={`flex flex-row justify-around ${props.fullWidth && "w-full"}`}
+    >
       <Field
         autoComplete="off"
         id={props.id}
@@ -33,9 +36,7 @@ const CustomTextField: React.FC<InputProps> = (props: InputProps) => {
         onChange={props.formik.handleChange}
         className={clsx(
           "w-full text-xs placeholder-[#767676] bg-[#EFF3F9] rounded-md focus:outline-none py-3 px-4 my-2",
-          isError
-            ? "border border-red-500"
-            : ""
+          isError ? "border border-red-500" : ""
         )}
       />
       <div className="relative flex items-center mt-1">

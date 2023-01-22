@@ -7,8 +7,6 @@ import { useGetUserProfile } from "../../lib/hooks/useUsers";
 
 const ProfilePage = () => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
-  console.log(authUser);
-  console.log("sjdhfjalsdkhf");
 
   const { data, loading, error, refetch } = useGetUserProfile(authUser.id);
   return (

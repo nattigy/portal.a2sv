@@ -15,6 +15,7 @@ import {
   UPDATE_USER_PROFILE,
 } from "../../lib/apollo/Mutations/usersMutations";
 import Router, { useRouter } from "next/router";
+import SecurityDetails from "./SecurityDetails";
 
 type Props = {
   userProfile: UserProfile;
@@ -160,7 +161,7 @@ const ProfileInfo = ({ userProfile }: Props) => {
 
                     instagram: values.insta,
                     twitter: values.twitter,
-                    telegram:values.telegram,
+                    telegram: values.telegram,
                     linkedin: values.linkedin,
                     facebook: values.facebook,
 
@@ -195,10 +196,10 @@ const ProfileInfo = ({ userProfile }: Props) => {
 
                     instagram: values.insta,
                     twitter: values.twitter,
-                    telegram:values.telegram,
+                    telegram: values.telegram,
                     linkedin: values.linkedin,
                     facebook: values.facebook,
-                    
+
                     leetcode: values.leetcode,
                     geekforgeeks: values.geeksforgeeks,
                     hackerrank: values.hackerrank,
@@ -226,17 +227,18 @@ const ProfileInfo = ({ userProfile }: Props) => {
               )}
               {tabIndex == 2 && (
                 <>
-                <ProgrammingDetails
-                  changeTabIndex={setTabIndex}
-                  formik={formik}
-                />
-                {!formik.isValid && (
-                  <div className="bg-[#E4646451] py-1 px-4 rounded-md xl:w-1/2 lg:w-3/5 md:w-5/6 w-full my-6">
-                    <span className="text-[#E46464] text-xs">
-                    There are errors on the form. Please fix them before continuing.
-                    </span>
-                  </div>
-                )}
+                  <ProgrammingDetails
+                    changeTabIndex={setTabIndex}
+                    formik={formik}
+                  />
+                  {!formik.isValid && (
+                    <div className="bg-[#E4646451] py-1 px-4 rounded-md xl:w-1/2 lg:w-3/5 md:w-5/6 w-full my-6">
+                      <span className="text-[#E46464] text-xs">
+                        There are errors on the form. Please fix them before
+                        continuing.
+                      </span>
+                    </div>
+                  )}
                 </>
               )}
               {updateError?.message && (
@@ -246,10 +248,10 @@ const ProfileInfo = ({ userProfile }: Props) => {
                   </span>
                 </div>
               )}
-        
             </Form>
           )}
         </Formik>
+        {tabIndex == 3 && <SecurityDetails />}
       </div>
     </div>
   );

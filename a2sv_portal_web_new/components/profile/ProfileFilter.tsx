@@ -11,6 +11,9 @@ const filterItems: Array<FilterItem> = [
   {
     title: "Programming Site Handles",
   },
+  {
+    title: "Security",
+  },
 ];
 
 type Props = {

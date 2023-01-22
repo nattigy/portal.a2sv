@@ -10,7 +10,7 @@ const SidebarLayout = (props: Props) => {
   return (
     <div
       className={clsx(
-        "bg-white flex min-h-screen lg:w-72 drop-shadow-xl relative z-40 pt-4"
+        "bg-white flex min-h-screen lg:w-[350px] drop-shadow-xl relative z-40 pt-4"
       )}
     >
       <div

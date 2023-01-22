@@ -35,12 +35,17 @@ export const UPDATE_USER_PROFILE = gql`
   }
 `;
 
-
 export const CHANGE_USER_ROLE = gql`
   mutation UpdateUser($updateUserInput: UpdateUserInput!) {
     updateUser(updateUserInput: $updateUserInput) {
       id
     }
+  }
+`;
+
+export const CHANGE_PASSWORD = gql`
+  mutation CreateUserProfile($newPassword: String!, $oldPassword: String!) {
+    changePassword(newPassword: $newPassword, oldPassword: $oldPassword)
   }
 `;
 

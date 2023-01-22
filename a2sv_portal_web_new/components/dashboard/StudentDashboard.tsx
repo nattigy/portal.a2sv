@@ -60,18 +60,22 @@ const StudentDashboard = (props: Props) => {
     {
       questions: 10,
       topicName: "Dynamic Programming",
+      comfortability: 66,
     },
     {
       questions: 20,
       topicName: "Sliding Window",
+      comfortability: 54,
     },
     {
       questions: 34,
       topicName: "Bit Manipulation",
+      comfortability: 52,
     },
     {
       questions: 15,
       topicName: "Queue",
+      comfortability: 38,
     },
   ];
 
@@ -121,9 +125,8 @@ const StudentDashboard = (props: Props) => {
     },
   ];
   const Sidebar: React.FC = () => {
-
     return (
-      <div className="flex flex-col gap-y-3">
+      <div className="flex flex-col gap-y-3 ">
         <p className="text-[#565656] font-semibold text-lg">Topics Covered</p>
         <div className="flex flex-row justify-between text-[#B2B2B2] text-xs">
           <p>Topic</p>
