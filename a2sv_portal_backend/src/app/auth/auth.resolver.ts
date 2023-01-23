@@ -7,6 +7,7 @@ import { AuthResponse } from './dto/auth-response.dto'
 import { JwtAuthGuard } from './guards/jwt-auth-guard.service'
 import { LocalAuthGuard } from './guards/local-auth.guard'
 import { User } from '../user/entities/user.entity'
+import { ForgotResponse } from './dto/forgot-response';
 
 @Resolver()
 export class AuthResolver {
@@ -28,12 +29,13 @@ export class AuthResolver {
     }
   }
 
-  @Mutation(() => String)
-  async forgotPassword(@Args('email') email: string): Promise<string> {
+  @Mutation(() => ForgotResponse)
+  async forgotPassword(@Args('email') email: string): Promise<ForgotResponse> {
     try {
       return await this.authService.forgotPassword(email)
     } catch (e) {
-      throw new BadRequestException("Error sending request!")
+      console.log(e);
+      throw new BadRequestException("User doesn't exit!")
     }
   }
 
@@ -42,11 +44,11 @@ export class AuthResolver {
     try {
       return this.authService.resetPassword(resetToken, pass)
     } catch (e) {
-      throw new BadRequestException("Error reset password!")
+      throw new BadRequestException("User doesn't exit!")
     }
   }
 
-  @Mutation(() => String)
+  @Mutation(() => ForgotResponse)
   async resendOtp(@Args('email') email: string) {
     try {
       return this.authService.resendOtp(email)
@@ -85,7 +87,8 @@ export class AuthResolver {
     try {
       return await this.authService.checkOtpStatus(email)
     } catch (e) {
-      throw new BadRequestException("Error sending OTP!")
+      console.log(e);
+      throw new BadRequestException("Otp does not exit  for the User")
     }
   }
 
@@ -97,7 +100,7 @@ export class AuthResolver {
     } catch (e) {
       throw new BadRequestException("Error changing password!")
     }
-  }
+  }  
 
   // @Public()
   // @Mutation(() => AuthResponse)

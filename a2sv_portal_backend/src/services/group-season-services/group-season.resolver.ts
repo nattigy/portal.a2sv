@@ -1,10 +1,7 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { GroupSeasonService } from './group-season.service'
 import { GroupSeason } from '../../app/group-season/entities/group-season.entity'
-import {
-  CreateGroupSeasonInput,
-  GroupSeasonId,
-} from '../../app/group-season/dto/create-group-season.input'
+import { CreateGroupSeasonInput, GroupSeasonId } from '../../app/group-season/dto/create-group-season.input'
 import { PaginationInput } from '../../common/page/pagination.input'
 import {
   UpdateGroupSeasonInput,
@@ -13,11 +10,18 @@ import {
 import { PaginationGroupSeason } from '../../common/page/pagination-info'
 import { GroupSeasonTopicId } from '../../app/group-season-topic/dto/create-group-season-topic.input'
 import { GroupSeasonTopic } from '../../app/group-season-topic/entities/group-season-topic.entity'
-import { GroupSeasonTopicProblem } from '../../app/group-season-topic-problem/entities/group-season-topic-problem.entity'
+import {
+  GroupSeasonTopicProblem,
+} from '../../app/group-season-topic-problem/entities/group-season-topic-problem.entity'
 import { GroupSeasonTopicProblemService } from './group-season-topic-problem.service'
 import { GroupSeasonTopicService } from './group-season-topic.service'
 import { FilterGroupSeasonInput } from '../../app/group-season/dto/filter-group-season.input'
-import { GroupSeasonContestService } from './group-season-contest.service'
+import { UseGuards } from '@nestjs/common'
+import { PoliciesGuard } from '../../casl/policy/policy.guard'
+import { CheckPolicies } from '../../casl/policy/policy.decorator'
+import { GroupSeasonAbilities } from '../../casl/handler/group-season-abilities.handler'
+import { GroupSeasonTopicAbilities } from '../../casl/handler/group-season-topic-abilities.handler'
+import { GroupSeasonTopicProblemAbilities } from '../../casl/handler/group-season-topic-problem-abilities.handler'
 
 @Resolver(() => GroupSeason)
 export class GroupSeasonResolver {
@@ -26,8 +30,11 @@ export class GroupSeasonResolver {
     private readonly groupSeasonTopicService: GroupSeasonTopicService,
     private readonly groupSeasonTopicProblemService: GroupSeasonTopicProblemService,
     // private readonly groupSeasonContestService: GroupSeasonContestService, // private readonly groupSeasonContestProblemService: GroupSeasonContestProblemService,
-  ) {}
+  ) {
+  }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(GroupSeasonAbilities.create)
   @Mutation(() => GroupSeason)
   async addGroupToASeason(
     @Args('addGroupToASeasonInput') createGroupSeasonInput: CreateGroupSeasonInput,
@@ -35,6 +42,8 @@ export class GroupSeasonResolver {
     return this.groupSeasonService.addGroupToASeason(createGroupSeasonInput)
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(GroupSeasonAbilities.read)
   @Query(() => GroupSeason)
   async groupSeason(
     @Args('groupSeasonId') groupSeasonId: GroupSeasonId,
@@ -42,6 +51,8 @@ export class GroupSeasonResolver {
     return this.groupSeasonService.groupSeason(groupSeasonId)
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(GroupSeasonAbilities.read)
   @Query(() => PaginationGroupSeason)
   async groupSeasons(
     @Args('filterGroupSeasonInput') filterGroupSeasonInput: FilterGroupSeasonInput,
@@ -50,6 +61,8 @@ export class GroupSeasonResolver {
     return this.groupSeasonService.groupsSeasons(filterGroupSeasonInput, paginationInput)
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(GroupSeasonAbilities.update)
   @Mutation(() => GroupSeason)
   async updateGroupSeason(
     @Args('updateGroupSeasonInput') updateGroupSeasonInput: UpdateGroupSeasonInput,
@@ -57,16 +70,20 @@ export class GroupSeasonResolver {
     return this.groupSeasonService.updateGroupSeason(updateGroupSeasonInput)
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(GroupSeasonAbilities.update)
   @Mutation(() => GroupSeason)
   async updateGroupSeasonJoinRequest(
     @Args('updateGroupSeasonJoinRequestInput')
-    updateGroupSeasonJoinRequestInput: UpdateGroupSeasonJoinRequestInput,
+      updateGroupSeasonJoinRequestInput: UpdateGroupSeasonJoinRequestInput,
   ): Promise<GroupSeason> {
     return this.groupSeasonService.updateGroupSeasonJoinRequest(
       updateGroupSeasonJoinRequestInput,
     )
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(GroupSeasonAbilities.delete)
   @Mutation(() => GroupSeason)
   async removeGroupFromASeason(@Args('groupSeasonId') groupSeasonId: GroupSeasonId) {
     return this.groupSeasonService.removeGroupFromASeason(groupSeasonId)
@@ -80,6 +97,8 @@ export class GroupSeasonResolver {
   //   return this.groupSeasonTopicService.addTopicToGroupSeason(createGroupSeasonTopicInput)
   // }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(GroupSeasonTopicAbilities.create)
   @Mutation(() => Int)
   async addTopicsToGroupSeason(
     @Args('groupSeasonId') { groupId, seasonId }: GroupSeasonId,
@@ -95,11 +114,15 @@ export class GroupSeasonResolver {
     return topicIds.length
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(GroupSeasonTopicAbilities.read)
   @Query(() => GroupSeasonTopic)
   async groupSeasonTopic(@Args('groupSeasonTopicId') groupSeasonTopicId: GroupSeasonTopicId) {
     return this.groupSeasonTopicService.groupSeasonTopic(groupSeasonTopicId)
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(GroupSeasonTopicAbilities.read)
   @Query(() => [GroupSeasonTopic])
   async groupSeasonTopics(
     @Args('groupSeasonId') groupSeasonId: GroupSeasonId,
@@ -108,6 +131,8 @@ export class GroupSeasonResolver {
     return this.groupSeasonTopicService.groupSeasonTopics(groupSeasonId, paginationInput)
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(GroupSeasonTopicAbilities.delete)
   @Mutation(() => GroupSeasonTopic)
   async removeGroupSeasonTopic(
     @Args('groupSeasonTopicId') groupSeasonTopicId: GroupSeasonTopicId,
@@ -145,6 +170,8 @@ export class GroupSeasonResolver {
   //   )
   // }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(GroupSeasonTopicProblemAbilities.create)
   @Mutation(() => Int)
   async addProblemsToGroupSeasonTopic(
     @Args('groupSeasonTopicId') { groupId, topicId, seasonId }: GroupSeasonTopicId,
@@ -170,6 +197,8 @@ export class GroupSeasonResolver {
   //   )
   // }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(GroupSeasonTopicProblemAbilities.delete)
   @Mutation(() => GroupSeasonTopicProblem)
   async removeGroupSeasonTopicProblems(
     @Args('groupSeasonTopicId') { groupId, topicId, seasonId }: GroupSeasonTopicId,

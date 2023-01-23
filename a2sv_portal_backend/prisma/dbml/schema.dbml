@@ -405,7 +405,6 @@ Table Otp {
   id String [pk]
   email String [unique, not null]
   code Int [not null]
-  expiryDate DateTime
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
 }

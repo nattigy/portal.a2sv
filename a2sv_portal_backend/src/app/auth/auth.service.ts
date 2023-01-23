@@ -2,15 +2,15 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { Context } from '@nestjs/graphql'
 import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
-import { Response } from 'express'
 import { UserService } from '../user/user.service'
 import { AuthResponse } from './dto/auth-response.dto'
-
 import { PrismaService } from 'src/prisma/prisma.service'
 import { StatusEnum } from '@prisma/client'
 import GenerateOTP from '../../common/generat'
 import { MailService } from '../../mail/mail.service'
 import { User } from '../user/entities/user.entity'
+import { ForgotResponse } from './dto/forgot-response';
+
 
 
 @Injectable()
@@ -31,7 +31,7 @@ export class AuthService {
     return null
   }
 
-  async forgotPassword(email: string): Promise<string | null> {
+  async forgotPassword(email: string): Promise<ForgotResponse > {
     const otpCode = GenerateOTP()
 
     const user = await this.usersService.user({ email })
@@ -41,7 +41,19 @@ export class AuthService {
     // if(user.status === StatusEnum.INACTIVE){
     //   throw new NotFoundException("User not active");
     // }
-    await this.prismaService.otp.upsert({
+    const existingOtp = await this.prismaService.otp.findUnique({
+      where:{email}
+    })
+
+    if(existingOtp){
+      const otpDate = new Date(existingOtp.updatedAt).getTime()
+      const now = (new Date().getTime())
+      const dateDiff = ((now - otpDate) / 1000) / 60
+      if(dateDiff < 30){
+       return {message: `Retry After ${30 - dateDiff}minutes`, expireDateTime: expireDateTime(existingOtp.updatedAt,30),sentOn: existingOtp.updatedAt};
+      }
+    }
+    const otp  = await this.prismaService.otp.upsert({
       where: {
         email: user.email,
       },
@@ -56,9 +68,8 @@ export class AuthService {
       },
 
     })
-
     await this.mailService.resetEmail(user.email, otpCode.toString())
-    return 'Rest Code Sent'
+    return { message:'Email have been sent, verify the Code sent', expireDateTime:expireDateTime(existingOtp.updatedAt,3), sentOn: otp.updatedAt} as ForgotResponse ;
   }
 
   async resetPassword(resetToken: string, pass: string) {
@@ -107,22 +118,7 @@ export class AuthService {
   async signUp(email: string): Promise<string> {
     const otpCode = GenerateOTP().toString()
     const user = await this.usersService.createUser({ email, password: otpCode })
-
-
-    // await this.prismaService.otp.upsert({
-    //   where: {
-    //     email: user.email,
-    //   },
-    //   update: {
-    //     code: otpCode,
-    //   },
-    //   create: {
-    //     email: user.email,
-    //     code: otpCode,
-    //   },
-    // })
     await this.mailService.inviteMail(user.email, otpCode)
-    // redirect to verify page
     return 'Short code has been sent to your email'
   }
 
@@ -163,7 +159,7 @@ export class AuthService {
   }
 
 
-  async resendOtp(email: string): Promise<string> {
+  async resendOtp(email: string): Promise<ForgotResponse> {
     const otp = await this.prismaService.otp.findUnique({
       where: { email },
     })
@@ -191,9 +187,9 @@ export class AuthService {
         },
       })
       await this.mailService.resetEmail(otp.email, otpCode.toString())
-      return 'OTP resented'
+      return { message:'Code is sent to your  email', expireDateTime:expireDateTime(otp.updatedAt,3), sentOn: new Date(otp.updatedAt)} as ForgotResponse;
     }
-    return dateDiff.toString()
+    return { message:'User your preveious code', expireDateTime:expireDateTime(otp.updatedAt,3), sentOn:  new Date(otp.updatedAt)} as ForgotResponse;
   }
 
   async checkOtpStatus(email: string): Promise<Date> {
@@ -201,7 +197,7 @@ export class AuthService {
     if (!userOtp) {
       throw new NotFoundException('Otp for the user does not exit!')
     }
-    return userOtp.updatedAt
+    return userOtp.updatedAt;
   }
 
   async changePassword(u: User, oldPass: string, newPass: string): Promise<string> {
@@ -229,5 +225,13 @@ export class AuthService {
       }
       return 'Password changed.'
     }
+    
   }
+  
 }
+
+
+function expireDateTime(date,minutes){
+  return new Date(date.getTime() + minutes * 60000);
+}
+
