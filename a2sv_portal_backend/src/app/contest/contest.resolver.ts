@@ -6,11 +6,18 @@ import { PaginationContest } from 'src/common/page/pagination-info'
 import { FilterContestInput } from './dto/filter-contest.input'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { UpdateContestInput } from './dto/update-contest.input'
+import { UseGuards } from '@nestjs/common'
+import { PoliciesGuard } from '../../casl/policy/policy.guard'
+import { CheckPolicies } from '../../casl/policy/policy.decorator'
+import { ContestAbilities } from '../../casl/handler/contest-abilities.handler'
 
 @Resolver(() => Contest)
 export class ContestResolver {
-  constructor(private readonly contestService: ContestService) {}
+  constructor(private readonly contestService: ContestService) {
+  }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(ContestAbilities.create)
   @Mutation(() => Contest)
   async createContest(
     @Args('createContestInput') createContestInput: CreateContestInput,
@@ -18,6 +25,8 @@ export class ContestResolver {
     return this.contestService.createContest(createContestInput)
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(ContestAbilities.read)
   @Query(() => PaginationContest)
   async contests(
     @Args('filterContestInput', { nullable: true }) filterContestInput?: FilterContestInput,
@@ -26,11 +35,15 @@ export class ContestResolver {
     return this.contestService.contests(filterContestInput, pageInfoInput)
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(ContestAbilities.read)
   @Query(() => Contest)
   async contest(@Args('contestId') contestId: string): Promise<Contest> {
     return this.contestService.contest(contestId)
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(ContestAbilities.update)
   @Mutation(() => Contest)
   async updateContest(
     @Args('updateContestInput') updateContestInput: UpdateContestInput,
@@ -38,6 +51,8 @@ export class ContestResolver {
     return this.contestService.update(updateContestInput)
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(ContestAbilities.update)
   @Mutation(() => Contest)
   async removeProblemsFromContest(
     @Args('contestId') contestId: string,
@@ -46,6 +61,8 @@ export class ContestResolver {
     return this.contestService.removeProblemsFromContest(contestId, problemIds)
   }
 
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(ContestAbilities.delete)
   @Mutation(() => Int)
   async removeContest(@Args('contestId') contestId: string): Promise<number> {
     return this.contestService.removeContest(contestId)

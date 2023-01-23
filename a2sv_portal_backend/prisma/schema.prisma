@@ -346,13 +346,13 @@ model UserProfile {
   firstName              String
   middleName             String
   lastName               String
-  email              String            @unique
+  email                  String                     @unique
   photoUrl               String?
   phone                  String
   countryCode            String
   birthDate              DateTime?
   resumeLink             String
-  telegram                 String?
+  telegram               String?
   github                 String?
   linkedin               String?
   twitter                String?
@@ -388,11 +388,11 @@ model UserProfileAddress {
 }
 
 model Otp {
-  id         String    @id @default(uuid())
-  email      String    @unique
-  code       Int
-  createdAt  DateTime? @default(now())
-  updatedAt  DateTime? @updatedAt
+  id        String    @id @default(uuid())
+  email     String    @unique
+  code      Int
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 model Permission {

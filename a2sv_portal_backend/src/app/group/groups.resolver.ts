@@ -7,13 +7,17 @@ import { UpdateGroupInput } from './dto/update-group.input'
 import { Group } from './entities/group.entity'
 import { GroupsService } from './groups.service'
 import descriptions from './group.doc'
+import { GroupAbilities } from '../../casl/handler/group-abilities.handler'
+import { CheckPolicies } from '../../casl/policy/policy.decorator'
+import { UseGuards } from '@nestjs/common'
+import { PoliciesGuard } from '../../casl/policy/policy.guard'
 
 @Resolver(() => Group)
 export class GroupsResolver {
   constructor(private readonly groupsService: GroupsService) {}
 
-  // @UseGuards(PoliciesGuard)
-  // @CheckPolicies(GroupAbilities.create)
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(GroupAbilities.create)
   @Mutation(() => Group, { description: descriptions.createGroup })
   async createGroup(
     @Args('createGroupInput') createGroupInput: CreateGroupInput,
@@ -21,15 +25,15 @@ export class GroupsResolver {
     return this.groupsService.createGroup(createGroupInput)
   }
 
-  // @UseGuards(PoliciesGuard)
-  // @CheckPolicies(GroupAbilities.read)
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(GroupAbilities.read)
   @Query(() => Group, { description: descriptions.group })
   async group(@Args('groupId') groupId: string): Promise<Group> {
     return this.groupsService.group(groupId)
   }
 
-  // @UseGuards(PoliciesGuard)
-  // @CheckPolicies(GroupAbilities.read)
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(GroupAbilities.read)
   @Query(() => PaginationGroup)
   async groups(
     @Args('filterGroupInput', { nullable: true }) filterGroupInput?: FilterGroupInput,
@@ -38,8 +42,8 @@ export class GroupsResolver {
     return this.groupsService.groups(filterGroupInput, paginationInput)
   }
 
-  // @UseGuards(PoliciesGuard)
-  // @CheckPolicies(GroupAbilities.update)
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(GroupAbilities.update)
   @Mutation(() => Group, { description: descriptions.updateGroup })
   async updateGroup(
     @Args('updateGroupInput') updateGroupInput: UpdateGroupInput,
@@ -65,8 +69,8 @@ export class GroupsResolver {
   //   )
   // }
 
-  // @UseGuards(PoliciesGuard)
-  // @CheckPolicies(GroupAbilities.delete)
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(GroupAbilities.delete)
   @Mutation(() => Int, { description: descriptions.deleteGroup })
   async removeGroup(@Args('groupId') groupId: string): Promise<number> {
     return this.groupsService.removeGroup(groupId)

@@ -8,6 +8,8 @@ import { AuthService } from './auth.service'
 import { JwtStrategy } from './strategies/jwt.strategy'
 import { LocalStrategy } from './strategies/local.strategy'
 import { MailModule } from '../../mail/mail.module'
+import { JwtAuthGuard } from './guards/jwt-auth-guard.service'
+import { PoliciesGuard } from '../../casl/policy/policy.guard'
 
 @Global()
 @Module({
@@ -25,14 +27,14 @@ import { MailModule } from '../../mail/mail.module'
     JwtStrategy,
     AuthResolver,
     AuthService,
-    // {
-    //   provide: 'APP_GUARD',
-    //   useClass: JwtAuthGuard,
-    // },
-    // {
-    //   provide: 'APP_GUARD',
-    //   useClass: PoliciesGuard,
-    // },
+    {
+      provide: 'APP_GUARD',
+      useClass: JwtAuthGuard,
+    },
+    {
+      provide: 'APP_GUARD',
+      useClass: PoliciesGuard,
+    },
   ],
 })
 export class AuthModule {}
