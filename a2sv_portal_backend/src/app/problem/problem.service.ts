@@ -43,7 +43,10 @@ export class ProblemService {
     const tags = filterProblemInput?.tags
     const filter: Prisma.ProblemWhereInput = {
       id: filterProblemInput?.id,
-      title: filterProblemInput?.title,
+      title: {
+        ...filterProblemInput?.title,
+        mode: Prisma.QueryMode.insensitive,
+      },
       platform: filterProblemInput?.platform,
       link: filterProblemInput?.link,
       difficulty: filterProblemInput?.difficulty,

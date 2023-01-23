@@ -5,10 +5,9 @@ import { GraphQLISODateTime, GraphQLModule } from '@nestjs/graphql'
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core'
 import { AppResolver } from './app.resolver'
 import { AppService } from './app.service'
-import { AuthModule } from './auth/auth.module'
+import { AuthModule } from './app/auth/auth.module'
 import { CaslModule } from './casl/casl.module'
 import { ProblemModule } from './app/problem/problem.module'
-import { RolesModule } from './roles/roles.module'
 import { TagModule } from './app/tag/tag.module'
 import { TopicModule } from './app/topic/topic.module'
 import { UserProfileModule } from './app/user-profile/user-profile.module'
@@ -16,9 +15,29 @@ import { PrismaModule } from './prisma/prisma.module'
 // import { DataAnalyticsModule } from './data-analytics/data-analytics.module'
 import { ScheduleModule } from '@nestjs/schedule'
 import { ServicesModule } from './services/services.module'
+import { MailModule } from './mail/mail.module'
+import { MailerModule } from '@nestjs-modules/mailer'
+import { join } from 'path'
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 @Module({
   imports: [
+    MailerModule.forRoot({
+      // transport: 'smtps://user@example.com:topsecret@smtp.example.com',
+      // or
+      transport: {
+        host: 'smtp.socketlabs.com',
+        secure: false,
+        auth: {
+          user: process.env.SOCKET_LABS_USER_NAME,
+          pass: process.env.SOCKET_LABS_PASSWORD,
+        },
+      },
+      template:{
+        dir: join(__dirname,'../mail/template'),
+        adapter: new HandlebarsAdapter(),
+      }
+    }),
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -46,34 +65,15 @@ import { ServicesModule } from './services/services.module'
       },
       resolvers: { DateTime: GraphQLISODateTime },
     }),
+    MailModule,
     AuthModule,
     PrismaModule,
     CaslModule,
-    // GroupModule,
-    RolesModule,
-    // UserModule,
-    // SeasonModule,
     TagModule,
     ProblemModule,
     TopicModule,
     UserProfileModule,
-    // UserGroupSeasonTopicModule,
-    // SeasonTopicModule,
-    // SeasonTopicProblemModule,
-    // UserGroupSeasonTopicProblemModule,
-    // ContestModule,
-    // UserGroupSeasonContestModule,
-    // UserGroupSeasonContestProblemModule,
     PrismaModule,
-    CaslModule,
-    // DataAnalyticsModule,
-    // SeasonContestModule,
-    // GroupSeasonTopicModule,
-    // GroupSeasonContestModule,
-    // GroupSeasonModule,
-    // UserGroupSeasonModule,
-    // GroupSeasonTopicProblemModule,
-    // GroupSeasonContestProblemModule,
     ServicesModule,
   ],
   providers: [AppService, AppResolver],

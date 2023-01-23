@@ -1,4 +1,5 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { BadRequestException, UseGuards } from '@nestjs/common'
 import { PaginationUser } from '../../common/page/pagination-info'
 import { UpdateUserInput } from './dto/update-user.input'
 import { User } from './entities/user.entity'
@@ -7,6 +8,10 @@ import { FilterUserInput, UniqueUserInput } from './dto/filter-user-input'
 import descriptions from './user.doc'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { CreateUserInput } from './dto/create-user.input'
+import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
+import { PoliciesGuard } from '../../casl/policy/policy.guard'
+import { UserAbilities } from '../../casl/handler/user-abilities.handler'
+import { CheckPolicies } from '../../casl/policy/policy.decorator'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -14,12 +19,12 @@ export class UserResolver {
 
   // @UseGuards(JwtAuthGuard, PoliciesGuard)
   // @CheckPolicies(UserAbilities.create)
-  @Mutation(() => User, {
-    description: descriptions.createUser,
-  })
-  async createUser(@Args('createUserInput') createUserInput: CreateUserInput): Promise<User> {
-    return this.userService.createUser(createUserInput)
-  }
+  // @Mutation(() => User, {
+  //   description: descriptions.createUser,
+  // })
+  // async createUser(@Args('createUserInput') createUserInput: CreateUserInput): Promise<User> {
+  //   return this.userService.createUser(createUserInput)
+  // }
 
   // @UseGuards(JwtAuthGuard, PoliciesGuard)
   // @CheckPolicies(UserAbilities.read)
@@ -31,7 +36,7 @@ export class UserResolver {
     try {
       return this.userService.users(filterUserInput, paginationInput)
     } catch (e) {
-      return e.message
+      throw new BadRequestException("Error loading users!")
     }
   }
 
@@ -42,7 +47,7 @@ export class UserResolver {
     try {
       return this.userService.user(uniqueUserInput)
     } catch (e) {
-      return e.message
+      throw new BadRequestException("Error loading user!")
     }
   }
 
@@ -50,7 +55,11 @@ export class UserResolver {
   // @CheckPolicies(UserAbilities.update)
   @Mutation(() => User, { description: descriptions.updateUser })
   async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return this.userService.updateUser(updateUserInput)
+    try {
+      return this.userService.updateUser(updateUserInput)
+    } catch (e) {
+      throw new BadRequestException("Error updating user!")
+    }
   }
 
   // @UseGuards(JwtAuthGuard, PoliciesGuard)
@@ -60,13 +69,21 @@ export class UserResolver {
     @Args('groupId') groupId: string,
     @Args('studentIds', { type: () => [String] }) studentIds: string[],
   ) {
-    return this.userService.updateUser(studentIds.map(userId => ({ userId, groupId })))
+    try {
+      return this.userService.updateUser(studentIds.map(userId => ({ userId, groupId })))
+    } catch (e) {
+      throw new BadRequestException("Error adding users to a group!")
+    }
   }
 
   // @UseGuards(JwtAuthGuard, PoliciesGuard)
   // @CheckPolicies(UserAbilities.delete)
   @Mutation(() => Int, { description: descriptions.deleteUser })
   async removeUser(@Args('userId') userId: string) {
-    return this.userService.removeUser(userId)
+    try {
+      return this.userService.removeUser(userId)
+    } catch (e) {
+      throw new BadRequestException("Error removing user!")
+    }
   }
 }

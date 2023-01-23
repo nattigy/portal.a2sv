@@ -21,8 +21,9 @@ export class UserGroupSeasonResolver {
   constructor(
     private readonly userGroupSeasonService: UserGroupSeasonService,
     private readonly userGroupSeasonTopicService: UserGroupSeasonTopicService,
-    private readonly seasonTopicUserProblemService: UserGroupSeasonTopicProblemService,
-  ) {}
+    private readonly seasonTopicUserProblemService: UserGroupSeasonTopicProblemService, // private readonly userGroupSeasonContestService: UserGroupSeasonContestService,
+  ) // private readonly userGroupSeasonContestProblemService: UserGroupSeasonContestProblemService,
+  {}
 
   @Query(() => UserGroupSeason)
   async userGroupSeason(
@@ -124,4 +125,68 @@ export class UserGroupSeasonResolver {
   //     seasonTopicProblemUserId,
   //   )
   // }
+
+  // @Query(() => UserGroupSeasonContest)
+  // async userGroupSeasonContest(
+  //   @Args('userGroupSeasonContestId') userGroupSeasonContestId: UserGroupSeasonContestId,
+  // ): Promise<UserGroupSeasonContest> {
+  //   return this.userGroupSeasonContestService.userGroupSeasonContest(userGroupSeasonContestId)
+  // }
+
+  // @Query(() => PaginationUserGroupSeasonContest)
+  // async userGroupSeasonContests(
+  //   @Args('filterUserGroupSeasonContestInput') filterUserGroupSeasonContestInput: FilterUserGroupSeasonContestInput,
+  //   @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
+  // ): Promise<PaginationUserGroupSeasonContest> {
+  //   return this.userGroupSeasonContestService.userGroupSeasonContests(filterUserGroupSeasonContestInput, paginationInput)
+  // }
+  //
+  // @Mutation(() => UserGroupSeasonContest)
+  // async updateUserGroupSeasonContest(
+  //   @Args('updateUserGroupSeasonContestInput')
+  //     updateUserContestInput: UpdateUserGroupSeasonContestInput,
+  // ): Promise<UserGroupSeasonContest> {
+  //   return this.userGroupSeasonContestService.updateUserGroupSeasonContest(updateUserContestInput)
+  // }
+  //
+  // @Mutation(() => UserGroupSeasonContestProblem)
+  // async updateUserContestProblem(
+  //   @Args('updateUserGroupSeasonContestProblemInput')
+  //     updateUserContestProblemInput: UpdateUserGroupSeasonContestProblemInput,
+  // ) {
+  //   return this.userGroupSeasonContestService.updateUserContestProblem(updateUserContestProblemInput)
+  // }
+  //
+  // // @Mutation(() => Int)
+  // // async removeUserGroupSeasonContest(
+  // //   @Args('userGroupSeasonContestId') userGroupSeasonContestId: UserGroupSeasonContestId,
+  // // ): Promise<number> {
+  // //   return this.userGroupSeasonContestService.removeUserGroupSeasonContest(userGroupSeasonContestId)
+  // // }
+  //
+  // @Query(() => UserGroupSeasonContestProblem)
+  // async userGroupSeasonContestProblem(
+  //   @Args('userGroupSeasonContestProblemId') userGroupSeasonContestProblemId: UserGroupSeasonContestProblemId,
+  // ) {
+  //   return this.userGroupSeasonContestProblemService.userGroupSeasonContestProblem(userGroupSeasonContestProblemId)
+  // }
+  //
+  // // @Query(() => PaginationUserGroupSeasonContestProblem)
+  // // async userGroupSeasonContestProblems(
+  // //   @Args('filterUserGroupSeasonContestProblemInput', { nullable: true})
+  // //   filterUserGroupSeasonContestProblemInput?: FilterUserGroupSeasonContestProblemInput,
+  // //   @Args('pageInfoInput', {  nullable: true }) pageInfoInput?: PaginationInput,
+  // // ) {
+  // //   return this.userGroupSeasonContestProblemService.userGroupSeasonContestProblems(filterUserGroupSeasonContestProblemInput, pageInfoInput)
+  // // }
+  //
+  // // @Mutation(() => Int)
+  // // async removeUserGroupSeasonContestProblem(
+  // //   @Args('userGroupSeasonContestProblemId')
+  // //   userGroupSeasonContestProblemId: UserGroupSeasonContestProblemId,
+  // // ) {
+  // //   return this.userGroupSeasonContestProblemService.removeUserGroupSeasonContestProblem(
+  // //     userGroupSeasonContestProblemId,
+  // //   )
+  // // }
 }

@@ -7,3 +7,10 @@ env_variables:
   DB_NAME: "portal-db-v1"
   DB_PASS: "portal-postgresql"
   DB_INSTANCE: "portal-backend-369707:europe-west3:portal-db-v1"
+
+  #Socket Lab
+  SOCKET_LABS_USER_NAME: "server42224"
+  SOCKET_LABS_PASSWORD: "Zm5i8TNp3k9R6DxY"
+
+  #email
+  PORTAL_EMAIL: "riyad@a2sv.org"

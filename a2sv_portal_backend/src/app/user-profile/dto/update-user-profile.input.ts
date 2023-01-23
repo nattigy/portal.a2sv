@@ -4,31 +4,40 @@ import { UpdateUserProfileAddressInput } from './user-profile-addres.input'
 
 @InputType()
 export class UpdateUserProfileInput {
-  @Field(() => String)
+  @Field()
   userId: string
 
-  @Field()
+  @Field({ nullable: true })
+  firstName?: string
+
+  @Field({ nullable: true })
+  middleName?: string
+
+  @Field({ nullable: true })
+  lastName?: string
+
+  @Field({ nullable: true })
   phone?: string
 
-  @Field()
+  @Field({ nullable: true })
   countryCode?: string
 
   @Field({ nullable: true })
   birthDate?: Date
 
-  @Field()
+  @Field({ nullable: true })
   resumeLink?: string
 
   @Field({ nullable: true })
   photoUrl?: string
 
-  @Field()
+  @Field({ nullable: true })
   bio?: string
 
-  @Field(() => CurrentWorkStatusEnum)
+  @Field(() => CurrentWorkStatusEnum, { nullable: true })
   currentWorkStatus?: CurrentWorkStatusEnum
 
-  @Field(() => CurrentEducationStatusEnum)
+  @Field(() => CurrentEducationStatusEnum, { nullable: true })
   currentEducationStatus?: CurrentEducationStatusEnum
 
   @Field({ nullable: true })
@@ -49,7 +58,10 @@ export class UpdateUserProfileInput {
   @Field({ nullable: true })
   tshirtSize?: string
 
-  @Field()
+  @Field({ nullable: true })
+  telegram?: string
+
+  @Field({ nullable: true })
   leetcode?: string
 
   @Field({ nullable: true })
@@ -61,10 +73,10 @@ export class UpdateUserProfileInput {
   @Field({ nullable: true })
   website?: string
 
-  @Field()
+  @Field({ nullable: true })
   hackerrank?: string
 
-  @Field()
+  @Field({ nullable: true })
   codeforces?: string
 
   @Field({ nullable: true })

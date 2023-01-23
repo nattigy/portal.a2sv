@@ -1,6 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql'
 import { RoleEnum, StatusEnum } from '@prisma/client'
-import { StringFilter } from '../../../common/filter-types/string-filter'
 import { DateTimeFilter } from '../../../common/filter-types/date-filter'
 
 @InputType()
@@ -8,8 +7,8 @@ export class FilterUserInput {
   @Field({ nullable: true })
   id?: string
 
-  @Field(() => StringFilter, { nullable: true })
-  name?: StringFilter
+  // @Field(() => StringFilter, { nullable: true })
+  // name?: StringFilter
 
   @Field(() => RoleEnum, { nullable: true })
   role?: RoleEnum

@@ -67,6 +67,39 @@ export class GroupSeasonContestRepository {
     })
   }
 
+  async upsert(params: {
+    where: Prisma.GroupSeasonContestWhereUniqueInput
+    data: Prisma.GroupSeasonContestUpdateInput
+  }): Promise<GroupSeasonContest> {
+    const { where, data } = params
+    return this.prismaService.groupSeasonContest.upsert({
+      where,
+      create: {
+        groupSeason: {
+          connect: {
+            groupId_seasonId: {
+              groupId: where.groupId_seasonId_contestId.groupId,
+              seasonId: where.groupId_seasonId_contestId.seasonId,
+            },
+          },
+        },
+        seasonContest: {
+          connect: {
+            seasonId_contestId: {
+              seasonId: where.groupId_seasonId_contestId.seasonId,
+              contestId: where.groupId_seasonId_contestId.contestId,
+            },
+          },
+        },
+        contest: { connect: { id: where.groupId_seasonId_contestId.contestId } },
+        startTime: data.startTime as Date,
+        endTime: data.endTime as Date,
+      },
+      update: data,
+      include: this.include,
+    })
+  }
+
   async remove(where: Prisma.GroupSeasonContestWhereUniqueInput) {
     return this.prismaService.groupSeasonContest.delete({ where })
   }

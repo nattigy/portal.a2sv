@@ -4,9 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // url      = env("LOCAL_DB_URL")
   url      = env("DB_URL")
-  //  shadowDatabaseUrl = env("SHADOW_DB_URL")
 }
 
 generator dbml {
@@ -88,13 +86,11 @@ model Problem {
 
 model User {
   id                 String            @id @default(uuid())
-  firstName          String
-  middleName         String
-  lastName           String
   role               RoleEnum
   email              String            @unique
   password           String
   status             StatusEnum
+  verified           Boolean?          @default(false)
   groupId            String?
   createdAt          DateTime?         @default(now())
   updatedAt          DateTime?
@@ -169,6 +165,7 @@ model GroupSeason {
   //number of students, total submissions, total accepted, acceptance rate
   //group contest rating, number of contest attended,
   //join request approved / pendding
+  //numberOfStudents
   group               Group                @relation(fields: [groupId], references: [id], onDelete: Cascade)
   season              Season               @relation(fields: [seasonId], references: [id], onDelete: Cascade)
   head                User?                @relation(fields: [headId], references: [id])
@@ -186,7 +183,8 @@ model GroupSeasonTopic {
   seasonId                 String
   topicId                  String
   //group season topic stat should be added here
-  // comfortablity percentage
+  numberOfProblems         Int?                      @default(0)
+  comfortability           Int?                      @default(0)
   createdAt                DateTime?                 @default(now())
   updatedAt                DateTime?                 @updatedAt
   groupSeason              GroupSeason               @relation(fields: [groupId, seasonId], references: [groupId, seasonId], onDelete: Cascade)
@@ -247,16 +245,21 @@ model GroupSeasonContestProblem {
 }
 
 model UserGroupSeason {
-  userId                  String
-  groupId                 String
-  seasonId                String
-  //user stat info should be added here
-  user                    User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  groupSeason             GroupSeason              @relation(fields: [groupId, seasonId], references: [groupId, seasonId], onDelete: Cascade)
-  createdAt               DateTime?                @default(now())
-  updatedAt               DateTime?                @updatedAt
-  userGroupSeasonTopics   UserGroupSeasonTopic[]
-  userGroupSeasonContests UserGroupSeasonContest[]
+  userId                   String
+  groupId                  String
+  seasonId                 String
+  rank                     Int?                     @default(0)
+  totalSubmissions         Int?                     @default(0)
+  totalAcceptedSubmissions Int?                     @default(0)
+  acceptanceRate           Int?                     @default(0)
+  averageContestRating     Int?                     @default(0)
+  totalContestsAttended    Int?                     @default(0)
+  user                     User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  groupSeason              GroupSeason              @relation(fields: [groupId, seasonId], references: [groupId, seasonId], onDelete: Cascade)
+  createdAt                DateTime?                @default(now())
+  updatedAt                DateTime?                @updatedAt
+  userGroupSeasonTopics    UserGroupSeasonTopic[]
+  userGroupSeasonContests  UserGroupSeasonContest[]
 
   @@id([userId, groupId, seasonId])
 }
@@ -267,6 +270,9 @@ model UserGroupSeasonTopic {
   seasonId                     String
   topicId                      String
   comfortLevel                 ComfortLevelEnum              @default(UNCOMFORTABLE)
+  totalSubmissions             Int?                          @default(0)
+  totalAcceptedSubmissions     Int?                          @default(0)
+  comfortabilityPercentage     Int?                          @default(0)
   createdAt                    DateTime?                     @default(now())
   updatedAt                    DateTime?                     @updatedAt
   userGroupSeason              UserGroupSeason               @relation(fields: [userId, groupId, seasonId], references: [userId, groupId, seasonId], onDelete: Cascade)
@@ -286,11 +292,7 @@ model UserGroupSeasonTopicProblem {
   status                  UserTopicProblemStatusEnum @default(NOT_SOLVED)
   numberOfAttempts        Int
   numberOfMinutes         Int
-  // solved                  Boolean                 @default(false)
   solutionLink            String?
-  // attempts                Int                     @default(0)
-  // timeDedicated           Int                     @default(0)
-  // needHelp                Boolean                 @default(false)
   createdAt               DateTime?                  @default(now())
   updatedAt               DateTime?                  @updatedAt
   userGroupSeasonTopic    UserGroupSeasonTopic       @relation(fields: [userId, groupId, seasonId, topicId], references: [userId, groupId, seasonId, topicId], onDelete: Cascade)
@@ -341,11 +343,16 @@ model UserGroupSeasonContestProblem {
 model UserProfile {
   id                     String                     @id @default(uuid())
   userId                 String                     @unique
+  firstName              String
+  middleName             String
+  lastName               String
+  email                  String                     @unique
   photoUrl               String?
   phone                  String
   countryCode            String
   birthDate              DateTime?
   resumeLink             String
+  telegram               String?
   github                 String?
   linkedin               String?
   twitter                String?
@@ -378,6 +385,14 @@ model UserProfileAddress {
   userProfile UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   @@id([profileId])
+}
+
+model Otp {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  code      Int
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 model Permission {

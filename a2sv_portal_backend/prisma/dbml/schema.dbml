@@ -77,13 +77,11 @@ Table Problem {
 
 Table User {
   id String [pk]
-  firstName String [not null]
-  middleName String [not null]
-  lastName String [not null]
   role RoleEnum [not null]
   email String [unique, not null]
   password String [not null]
   status StatusEnum [not null]
+  verified Boolean [default: false]
   groupId String
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
@@ -180,6 +178,8 @@ Table GroupSeasonTopic {
   groupId String [not null]
   seasonId String [not null]
   topicId String [not null]
+  numberOfProblems Int [default: 0]
+  comfortability Int [default: 0]
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   groupSeason GroupSeason [not null]
@@ -250,6 +250,12 @@ Table UserGroupSeason {
   userId String [not null]
   groupId String [not null]
   seasonId String [not null]
+  rank Int [default: 0]
+  totalSubmissions Int [default: 0]
+  totalAcceptedSubmissions Int [default: 0]
+  acceptanceRate Int [default: 0]
+  averageContestRating Int [default: 0]
+  totalContestsAttended Int [default: 0]
   user User [not null]
   groupSeason GroupSeason [not null]
   createdAt DateTime [default: `now()`]
@@ -268,6 +274,9 @@ Table UserGroupSeasonTopic {
   seasonId String [not null]
   topicId String [not null]
   comfortLevel ComfortLevelEnum [not null, default: 'UNCOMFORTABLE']
+  totalSubmissions Int [default: 0]
+  totalAcceptedSubmissions Int [default: 0]
+  comfortabilityPercentage Int [default: 0]
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   userGroupSeason UserGroupSeason [not null]
@@ -346,11 +355,16 @@ Table UserGroupSeasonContestProblem {
 Table UserProfile {
   id String [pk]
   userId String [unique, not null]
+  firstName String [not null]
+  middleName String [not null]
+  lastName String [not null]
+  email String [unique, not null]
   photoUrl String
   phone String [not null]
   countryCode String [not null]
   birthDate DateTime
   resumeLink String [not null]
+  telegram String
   github String
   linkedin String
   twitter String
@@ -385,6 +399,14 @@ Table UserProfileAddress {
   indexes {
     (profileId) [pk]
   }
+}
+
+Table Otp {
+  id String [pk]
+  email String [unique, not null]
+  code Int [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
 }
 
 Table Permission {

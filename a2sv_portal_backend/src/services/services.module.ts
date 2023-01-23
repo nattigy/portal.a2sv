@@ -18,30 +18,62 @@ import { UserGroupSeasonResolver } from './user-group-season-services/user-group
 import { UserGroupSeasonService } from './user-group-season-services/user-group-season.service'
 import { UserGroupSeasonTopicProblemService } from './user-group-season-services/user-group-season-topic-problem.service'
 import { UserGroupSeasonTopicService } from './user-group-season-services/user-group-season-topic.service'
+import { GroupSeasonContestModule } from '../app/group-season-contest/group-season-contest.module'
+import { GroupSeasonContestProblemModule } from '../app/group-season-contest-problem/group-season-contest-problem.module'
+import { SeasonContestModule } from '../app/season-contest/season-contest.module'
+import { GroupSeasonContestService } from './group-season-services/group-season-contest.service'
+import { GroupSeasonContestProblemService } from './group-season-services/group-season-contest-problem.service'
+import { ContestModule } from '../app/contest/contest.module'
+import { SeasonContestRepository } from 'src/app/season-contest/season-contest.repository'
+import { SeasonContestResolver } from 'src/app/season-contest/season-contest.resolver'
+import { SeasonContestService } from 'src/app/season-contest/season-contest.service'
+import { ContestRepository } from 'src/app/contest/contest.repository'
+import { ContestResolver } from 'src/app/contest/contest.resolver'
+import { ContestService } from 'src/app/contest/contest.service'
+import { GroupSeasonContestRepository } from 'src/app/group-season-contest/group-season-contest.repository'
+import { GroupSeasonContestResolver } from './group-season-services/group-season-contest.resolver'
 
 @Module({
   imports: [
     UserModule,
     GroupModule,
     SeasonModule,
+    // ContestModule,
     SeasonTopicModule,
     SeasonTopicProblemModule,
+    // SeasonContestModule,
     GroupSeasonModule,
     GroupSeasonTopicModule,
     GroupSeasonTopicProblemModule,
+    // GroupSeasonContestModule,
+    // GroupSeasonContestProblemModule,
     UserGroupSeasonModule,
     UserGroupSeasonTopicModule,
     UserGroupSeasonTopicProblemModule,
+    // UserGroupSeasonContestModule,
+    // UserGroupSeasonContestProblemModule,
   ],
   providers: [
+    // ContestRepository,
+    // ContestResolver,
+    // ContestService,
+    // SeasonContestRepository,
+    // SeasonContestResolver,
+    // SeasonContestService,
     GroupSeasonResolver,
     GroupSeasonService,
     GroupSeasonTopicService,
     GroupSeasonTopicProblemService,
+    // GroupSeasonContestRepository,
+    // GroupSeasonContestService,
+    // GroupSeasonContestResolver,
+    // GroupSeasonContestProblemService,
     UserGroupSeasonResolver,
     UserGroupSeasonService,
     UserGroupSeasonTopicService,
     UserGroupSeasonTopicProblemService,
+    // UserGroupSeasonContestService,
+    // UserGroupSeasonContestProblemService,
   ],
 })
 export class ServicesModule {}

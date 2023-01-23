@@ -20,7 +20,7 @@ export class GroupsService {
     // if headId is in the create input check if the user with the headId exists
     // if not return user not found if the user is there check if the user has been assigned
     // to another group
-
+    const createData: Prisma.GroupCreateInput = { ...createGroupInput }
     if (headId) {
       const foundUser = await this.prismaService.user.findUnique({
         where: { id: headId },
@@ -32,11 +32,11 @@ export class GroupsService {
       if (foundUser.headToGroup) {
         throw new Error(`User with id ${headId} is already assigned to another group!`)
       }
+      createData.head = { connect: { id: headId } }
     }
-
+    // TODO: if group is found in that name throw name has already been used error!
     return this.groupRepository.create({
-      ...createGroupInput,
-      head: { connect: { id: headId } },
+      ...createData,
     })
   }
 

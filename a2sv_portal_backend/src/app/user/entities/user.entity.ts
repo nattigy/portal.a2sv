@@ -1,21 +1,12 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { RoleEnum, StatusEnum } from '@prisma/client'
-import { Group } from 'src/app/group/entities/group.entity'
-import { UserProfile } from 'src/app/user-profile/entities/user-profile.entity'
+import { Group } from '../../group/entities/group.entity'
+import { UserProfile } from '../../user-profile/entities/user-profile.entity'
 
 @ObjectType()
 export class User {
   @Field({ description: 'Id of the user' })
   id: string
-
-  @Field()
-  firstName: string
-
-  @Field()
-  middleName: string
-
-  @Field()
-  lastName: string
 
   @Field(() => RoleEnum, { defaultValue: RoleEnum.STUDENT, description: 'Role of the user' })
   role: RoleEnum
@@ -43,8 +34,8 @@ export class User {
   })
   headToGroup?: Group
 
-  @Field({ nullable: true, description: 'Id of the userprofile for the user ' })
-  userProfilesId?: string
+  // @Field({ nullable: true, description: 'Id of the userprofile for the user ' })
+  // userProfilesId?: string
 
   @Field(() => UserProfile, { nullable: true, description: 'user profile of the user' })
   userProfile?: UserProfile
@@ -54,6 +45,9 @@ export class User {
 
   @Field(() => Date, { nullable: true })
   updatedAt?: Date
+
+  // @Field(() => Boolean, { nullable: true })
+  // verified: boolean
 }
 
 registerEnumType(StatusEnum, { name: 'StatusEnum' })

@@ -31,13 +31,36 @@ export class UserGroupSeasonRepository {
     },
   }
 
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.UserGroupSeasonCreateInput): Promise<UserGroupSeason> {
     return this.prismaService.userGroupSeason.create({
       data,
-      include: this.include,
+      include: {
+        user: true,
+        userGroupSeasonTopics: {
+          include: {
+            topic: true,
+            userGroupSeasonTopicProblems: {
+              include: {
+                problem: { include: { tags: true } },
+              },
+            },
+          },
+        },
+        userGroupSeasonContests: {
+          include: {
+            contest: {
+              include: { problems: { include: { tags: true } } },
+            },
+            userGroupSeasonContestProblems: {
+              include: {
+                problem: { include: { tags: true } },
+              },
+            },
+          },
+        },
+      },
     })
   }
 

@@ -67,7 +67,7 @@ export class ContestService {
       where: { id: contestId },
       data: {
         ...updateContest,
-        problems: { connect: problems.map(p => ({ id: p.problemId })) },
+        problems: { connect: problems?.map(p => ({ id: p.problemId })) },
       },
     })
   }

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable, NotFoundException, NotAcceptableException } from '@nestjs/common'
 import { RoleEnum, StatusEnum } from '@prisma/client'
 import * as bcrypt from 'bcrypt'
 import { PaginationUser } from '../../common/page/pagination-info'
@@ -31,20 +31,17 @@ export class UserService {
   ) {}
 
   async createUser(createUserInput: CreateUserInput): Promise<User> {
-    const { email, firstName, middleName, lastName, password } = createUserInput
+    const { email, password} = createUserInput
 
     const foundUser = await this.userRepository.findOne({ email })
 
-    if (foundUser) throw new Error('Email is already in use!')
+    if (foundUser) throw new NotAcceptableException('Email is already in use!')
 
-    const saltOrRounds = 10
+    const saltOrRounds = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, saltOrRounds)
 
     return this.userRepository.create({
       email,
-      firstName,
-      middleName,
-      lastName,
       password: hash,
       status: StatusEnum.ACTIVE,
       role: RoleEnum.STUDENT,
@@ -55,8 +52,8 @@ export class UserService {
     filterUserInput?: FilterUserInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationUser> {
-    const name = filterUserInput?.name
-    delete filterUserInput?.name
+    // const name = filterUserInput?.name
+    // delete filterUserInput?.name
     const usersCount = await this.userRepository.count(filterUserInput)
     const users: User[] = await this.userRepository.findAll({
       skip,
@@ -104,7 +101,7 @@ export class UserService {
 
     const foundUser = await this.prismaService.user.findUnique({ where: { id: userId } })
 
-    if (!foundUser) throw new NotFoundException(`Contest with id ${userId} does not exist!`)
+    if (!foundUser) throw new NotFoundException(`User with id ${userId} does not exist!`)
 
     if (updates.email) {
       const foundUserByEmail = await this.prismaService.user.findUnique({
@@ -112,7 +109,7 @@ export class UserService {
       })
 
       if (foundUserByEmail && foundUserByEmail.email !== foundUser.email)
-        throw new Error('That email is already registered!')
+        throw new NotAcceptableException('Email is already in use!')
     }
 
     return this.userRepository.update({
@@ -381,12 +378,7 @@ export class UserService {
   // }
 
   async removeUser(id: string) {
-    try {
-      await this.userRepository.remove({ id })
-    } catch (e) {
-      console.log(`Fail to delete user with id ${id}`, ' : ', e)
-      throw new Error(`Fail to delete user with id ${id}`)
-    }
+    await this.userRepository.remove({ id })
     return 1
   }
 }

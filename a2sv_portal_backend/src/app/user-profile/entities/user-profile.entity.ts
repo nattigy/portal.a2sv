@@ -11,6 +11,18 @@ export class UserProfile {
   @Field()
   userId: string
 
+  @Field()
+  firstName: string
+
+  @Field()
+  middleName: string
+
+  @Field()
+  lastName: string
+
+  @Field({ description: 'Email of the user' })
+  email: string
+
   @Field({ nullable: true })
   photoUrl?: string
 
@@ -28,6 +40,9 @@ export class UserProfile {
 
   @Field({ nullable: true })
   github?: string
+
+  @Field({ nullable: true })
+  telegram?: string
 
   @Field({ nullable: true })
   linkedin?: string

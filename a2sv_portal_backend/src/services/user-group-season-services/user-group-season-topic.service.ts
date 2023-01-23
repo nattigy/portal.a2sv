@@ -10,7 +10,7 @@ import { UserGroupSeasonTopicRepository } from '../../app/user-group-season-topi
 import { UserGroupSeasonTopicProblemService } from './user-group-season-topic-problem.service'
 import { UpdateUserGroupSeasonTopicProblemInput } from '../../app/user-group-season-topic-problem/dto/update-user-group-season-topic-problem.input'
 import { GroupSeasonTopicRepository } from '../../app/group-season-topic/group-season-topic.repository'
-import { ComfortLevelEnum } from '@prisma/client'
+import { ComfortLevelEnum, UserTopicProblemStatusEnum } from '@prisma/client'
 import { GroupSeasonTopic } from '../../app/group-season-topic/entities/group-season-topic.entity'
 import { UserGroupSeasonTopicProblemRepository } from '../../app/user-group-season-topic-problem/user-group-season-topic-problem.repository'
 import { UserGroupSeasonRepository } from '../../app/user-group-season/user-group-season.repository'
@@ -50,14 +50,24 @@ export class UserGroupSeasonTopicService {
           topicId,
         },
       })
+      const totalSubmissions = userGroupSeasonTopicProblems.items.filter(
+        p => p.status !== UserTopicProblemStatusEnum.NOT_SOLVED,
+      ).length
+      const totalAcceptedSubmissions = userGroupSeasonTopicProblems.items.filter(
+        p => p.status === UserTopicProblemStatusEnum.SOLVED,
+      ).length
       userGroupSeasonTopic = {
         seasonId,
         groupId,
         topicId,
         userId,
-        userGroupSeasonTopicProblems: [],
         comfortLevel: ComfortLevelEnum.UNCOMFORTABLE,
+        totalSubmissions,
+        totalAcceptedSubmissions,
+        comfortabilityPercentage:
+          (totalAcceptedSubmissions / userGroupSeasonTopicProblems.items.length) * 100,
         topic: groupSeasonTopic.topic,
+        userGroupSeasonTopicProblems: [],
       }
     }
     userGroupSeasonTopic.userGroupSeasonTopicProblems = userGroupSeasonTopicProblems.items
@@ -68,7 +78,7 @@ export class UserGroupSeasonTopicService {
     { ...filterUserGroupSeasonTopicInput }: FilterUserGroupSeasonTopicInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationUserGroupSeasonTopic> {
-    // TODO: do mapping with groupSeasonTopics
+    // mapping with groupSeasonTopics
     const { groupId, seasonId, userId } = filterUserGroupSeasonTopicInput
     const count = await this.userGroupSeasonTopicRepository.count(
       filterUserGroupSeasonTopicInput,
@@ -117,22 +127,33 @@ export class UserGroupSeasonTopicService {
         if (check) {
           result.push(check)
         } else {
-          if (user.groupId)
+          if (user.groupId) {
+            const userProblems = userGroupSeasonTopicProblems.items.filter(
+              u =>
+                u.userId === user.id &&
+                u.groupId === user.groupId &&
+                u.seasonId === groupSeasonTopic.seasonId &&
+                u.topicId === groupSeasonTopic.topicId,
+            )
+            const solved = userProblems.filter(
+              p => p.status === UserTopicProblemStatusEnum.SOLVED,
+            ).length
+            const totalSubmissions = userProblems.filter(
+              p => p.status !== UserTopicProblemStatusEnum.NOT_SOLVED,
+            ).length
             result.push({
               seasonId: groupSeasonTopic.seasonId,
               userId: user.id,
               groupId: user.groupId,
               topicId: groupSeasonTopic.topicId,
               comfortLevel: ComfortLevelEnum.UNCOMFORTABLE,
+              totalAcceptedSubmissions: solved,
+              totalSubmissions,
+              comfortabilityPercentage: (solved / userProblems.length) * 100,
               topic: groupSeasonTopic.topic,
-              userGroupSeasonTopicProblems: userGroupSeasonTopicProblems.items.filter(
-                u =>
-                  u.userId === user.id &&
-                  u.groupId === user.groupId &&
-                  u.seasonId === groupSeasonTopic.seasonId &&
-                  u.topicId === groupSeasonTopic.topicId,
-              ),
+              userGroupSeasonTopicProblems: userProblems,
             })
+          }
         }
       }
     }
@@ -147,14 +168,15 @@ export class UserGroupSeasonTopicService {
     ...updates
   }: UpdateUserGroupSeasonTopicInput): Promise<UserGroupSeasonTopic> {
     const { userId, groupId, seasonId, topicId } = id
-    // Find user with userId and throw NotFoundException if doesn't exist
-    // check if user is in the same group as groupId provided if not throw "user not in the group" Error
-    // get group from user, and search for GroupSeasonTopic if it doesn't exist,
-    // throw NotFoundException "topic hasn't been added to your group"
-    // check if the groupSeason the user in is active if not throw "season is not active error"
-    // upsert UserGroupSeason
-    // TODO: search for group and throw notFoundException if not found,
-    // TODO: search for season and throw notFoundException if not found,
+    /*
+    1. Find user with userId and throw NotFoundException if doesn't exist
+    check if user is in the same group as groupId provided if not throw "user not in the group" Error
+    2. Get group from user, and search for GroupSeasonTopic if it doesn't exist,
+    throw NotFoundException "topic hasn't been added to your group"
+    3. Check if the groupSeason the user in is active if not throw "season is not active error"
+    4. Upsert UserGroupSeason search for group and throw notFoundException if not found,
+    search for season and throw notFoundException if not found,
+    */
     const group = await this.prismaService.group.findUnique({ where: { id: groupId } })
     const season = await this.prismaService.season.findUnique({ where: { id: seasonId } })
     if (!season) {
@@ -200,9 +222,9 @@ export class UserGroupSeasonTopicService {
   }
 
   async updateUserProblemStatus({ id, ...updates }: UpdateUserGroupSeasonTopicProblemInput) {
-    // TODO: search for problem and throw notFoundException if not found,
-    // TODO: search for GroupSeasonTopicProblem from the groupId if not found,
-    // TODO: throw NotFoundException "problem under this topic hasn't been added to your group yet!"
+    // search for problem and throw notFoundException if not found,
+    // search for GroupSeasonTopicProblem from the groupId if not found,
+    // throw NotFoundException "problem under this topic hasn't been added to your group yet!"
     const { userId, groupId, seasonId, topicId, problemId } = id
 
     const problem = await this.prismaService.problem.findUnique({
