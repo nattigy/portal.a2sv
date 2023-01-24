@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common'
 import { UserGroupSeasonTopicProblemRepository } from './user-group-season-topic-problem.repository'
+import { UserGroupSeasonTopicProblemService } from './user-group-season-topic-problem.service'
 
 @Module({
-  providers: [UserGroupSeasonTopicProblemRepository],
-  exports: [UserGroupSeasonTopicProblemRepository],
+  providers: [UserGroupSeasonTopicProblemRepository, UserGroupSeasonTopicProblemService],
+  exports: [UserGroupSeasonTopicProblemRepository, UserGroupSeasonTopicProblemService],
 })
-export class UserGroupSeasonTopicProblemModule {}
+export class UserGroupSeasonTopicProblemModule {
+}
