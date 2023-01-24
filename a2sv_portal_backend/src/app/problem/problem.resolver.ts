@@ -26,7 +26,7 @@ export class ProblemResolver {
   @Query(() => PaginationProblem, { description: 'Find all problems with populated tags' })
   async problems(
     @Args('filterProblemInput', { type: () => FilterProblemInput, nullable: true })
-    filterProblemInput: FilterProblemInput,
+    filterProblemInput?: FilterProblemInput,
     @Args('pageInfoInput', { type: () => PaginationInput, nullable: true })
     pageInfoInput?: PaginationInput,
   ): Promise<PaginationProblem> {

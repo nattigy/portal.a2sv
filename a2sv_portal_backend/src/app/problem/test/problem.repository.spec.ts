@@ -1,16 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { GroupRepository } from '../group.repository'
+import { ProblemRepository } from '../problem.repository'
 
+describe('ProblemRepository', () => {
+  let repository: ProblemRepository
 
-describe('GroupRepository', () => {
-  let repository: GroupRepository
-  
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [GroupRepository],
+      providers: [ProblemRepository],
     }).compile()
 
-   repository = module.get<GroupRepository>(GroupRepository)
+   repository = module.get<ProblemRepository>(ProblemRepository)
   })
 
   it('should be defined', () => {
