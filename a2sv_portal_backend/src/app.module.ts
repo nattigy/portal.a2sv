@@ -19,6 +19,9 @@ import { MailModule } from './mail/mail.module'
 import { MailerModule } from '@nestjs-modules/mailer'
 import { join } from 'path'
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { UserGroupSeasonDailyAnalyticsResolver } from './app/user-group-season-daily-analytics/user-group-season-daily-analytics.resolver';
+import { UserGroupSeasonDailyAnalyticsModule } from './app/user-group-season-daily-analytics/user-group-season-daily-analytics.module';
+import { UsersUpdateProblemStatusModule } from './users-update-problem-status/users-update-problem-status.module';
 
 @Module({
   imports: [
@@ -75,7 +78,9 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
     UserProfileModule,
     PrismaModule,
     ServicesModule,
+    UserGroupSeasonDailyAnalyticsModule,
+    UsersUpdateProblemStatusModule,
   ],
-  providers: [AppService, AppResolver],
+  providers: [AppService, AppResolver, UserGroupSeasonDailyAnalyticsResolver],
 })
 export class AppModule {}

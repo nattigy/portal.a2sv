@@ -25,7 +25,7 @@ export class SeasonTopicProblemResolver {
     description: descriptions.createSeasonTopicProblem,
   })
   async addProblemsToSeasonTopic(
-    @Args('seasonTopicProblemId') { seasonId, topicId }: SeasonTopicProblemId,
+    @Args('seasonTopicId') { seasonId, topicId }: SeasonTopicId,
     @Args('problemIds', { type: () => [String] }) problemIds: string[],
   ) {
     for (const problemId of problemIds) {

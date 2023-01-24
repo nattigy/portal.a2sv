@@ -8,6 +8,7 @@ import { GroupSeasonTopicRepository } from '../../app/group-season-topic/group-s
 import { FilterGroupSeasonTopicInput } from '../../app/group-season-topic/dto/filter-group-season-topic.input'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { SeasonTopicRepository } from '../../app/season-topic/season-topic.repository'
+import { UserTopicProblemStatusEnum } from '@prisma/client'
 
 @Injectable()
 export class GroupSeasonTopicService {
@@ -15,7 +16,8 @@ export class GroupSeasonTopicService {
     private readonly groupSeasonTopicRepository: GroupSeasonTopicRepository,
     private readonly seasonTopicRepository: SeasonTopicRepository,
     private readonly prismaService: PrismaService,
-  ) {}
+  ) {
+  }
 
   async addTopicToGroupSeason({ groupId, seasonId, topicId }: CreateGroupSeasonTopicInput) {
     // search for groupSeason if groupSeason not found throw groupSeason not found exception
@@ -64,20 +66,33 @@ export class GroupSeasonTopicService {
   }
 
   async groupSeasonTopic({ groupId, seasonId, topicId }: GroupSeasonTopicId) {
-    return this.groupSeasonTopicRepository.findOne({
+    const groupTopic = await this.groupSeasonTopicRepository.findOne({
       groupId_seasonId_topicId: { topicId, seasonId, groupId },
     })
+    groupTopic.numberOfProblems = groupTopic.groupSeasonTopicProblems.length
+    groupTopic.comfortability = (groupTopic.groupSeasonTopicProblems.map(p =>
+      p.userGroupSeasonTopicProblems,
+    ).flat(1).filter(up => up.status === UserTopicProblemStatusEnum.SOLVED).length / groupTopic.numberOfProblems) * 100
+    return groupTopic
   }
 
   async groupSeasonTopics(
     filterGroupSeasonTopicInput: FilterGroupSeasonTopicInput,
     { skip, take }: PaginationInput = { take: 50, skip: 0 },
   ) {
-    return this.groupSeasonTopicRepository.findAll({
+    const groupTopics = await this.groupSeasonTopicRepository.findAll({
       skip,
       take,
       where: filterGroupSeasonTopicInput,
     })
+    groupTopics.map(groupTopic => {
+      groupTopic.numberOfProblems = groupTopic.groupSeasonTopicProblems.length
+      groupTopic.comfortability = (groupTopic.groupSeasonTopicProblems.map(p =>
+        p.userGroupSeasonTopicProblems,
+      ).flat(1).filter(up => up.status === UserTopicProblemStatusEnum.SOLVED).length / groupTopic.numberOfProblems) * 100
+      return groupTopic
+    })
+    return groupTopics
   }
 
   async removeGroupSeasonTopic({ groupId, seasonId, topicId }: GroupSeasonTopicId) {

@@ -245,23 +245,38 @@ model GroupSeasonContestProblem {
 }
 
 model UserGroupSeason {
-  userId                   String
-  groupId                  String
-  seasonId                 String
-  rank                     Int?                     @default(0)
-  totalSubmissions         Int?                     @default(0)
-  totalAcceptedSubmissions Int?                     @default(0)
-  acceptanceRate           Int?                     @default(0)
-  averageContestRating     Int?                     @default(0)
-  totalContestsAttended    Int?                     @default(0)
-  user                     User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  groupSeason              GroupSeason              @relation(fields: [groupId, seasonId], references: [groupId, seasonId], onDelete: Cascade)
-  createdAt                DateTime?                @default(now())
-  updatedAt                DateTime?                @updatedAt
-  userGroupSeasonTopics    UserGroupSeasonTopic[]
-  userGroupSeasonContests  UserGroupSeasonContest[]
+  userId                        String
+  groupId                       String
+  seasonId                      String
+  rank                          Int?                            @default(0)
+  totalSubmissions              Int?                            @default(0)
+  totalAcceptedSubmissions      Int?                            @default(0)
+  acceptanceRate                Int?                            @default(0)
+  averageContestRating          Int?                            @default(0)
+  totalContestsAttended         Int?                            @default(0)
+  user                          User                            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  groupSeason                   GroupSeason                     @relation(fields: [groupId, seasonId], references: [groupId, seasonId], onDelete: Cascade)
+  createdAt                     DateTime?                       @default(now())
+  updatedAt                     DateTime?                       @updatedAt
+  userGroupSeasonTopics         UserGroupSeasonTopic[]
+  userGroupSeasonContests       UserGroupSeasonContest[]
+  userGroupSeasonDailyAnalytics UserGroupSeasonDailyAnalytics[]
 
   @@id([userId, groupId, seasonId])
+}
+
+model UserGroupSeasonDailyAnalytics {
+  userId          String
+  groupId         String
+  seasonId        String
+  solvedCount     Int             @default(0)
+  wrongCount      Int             @default(0)
+  // rank      Int             @default(0)
+  userGroupSeason UserGroupSeason @relation(fields: [userId, groupId, seasonId], references: [userId, groupId, seasonId], onDelete: Cascade)
+  createdAt       DateTime        @default(now()) @db.Date
+  updatedAt       DateTime        @updatedAt @db.Date
+
+  @@id([userId, createdAt])
 }
 
 model UserGroupSeasonTopic {
@@ -500,13 +515,3 @@ enum UserTopicProblemStatusEnum {
 //  @@id([problemId, userId])
 //}
 //
-//model UserAnalytics {
-//  userId      String
-//  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-//  createdAt   DateTime @default(now()) @db.Date
-//  updatedAt   DateTime @updatedAt @db.Date
-//  solvedCount Int      @default(0)
-//  wrongCount  Int      @default(0)
-//
-//  @@id([userId, createdAt])
-//}
