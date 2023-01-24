@@ -90,7 +90,7 @@ export class CaslAbilityFactory {
         can(Action.Manage, GroupSeason)
         can(Action.Read, GroupSeasonContest)
         can(Action.Manage, GroupSeasonContestProblem)
-        can(Action.Read, GroupSeasonTopic)
+        can(Action.Manage, GroupSeasonTopic)
         can(Action.Manage, GroupSeasonTopicProblem)
         can(Action.Manage, Problem)
         can(Action.Manage, Season)
