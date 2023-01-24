@@ -4,6 +4,6 @@ export const TopicServiceMock = {
     topic: jest.fn().mockResolvedValue(topicStub()),
     topics: jest.fn().mockResolvedValue([topicStub()]),
     updateTopic: jest.fn().mockResolvedValue(topicStub()),
-    removeTopic: jest.fn().mockResolvedValue(topicStub)
+    removeTopic: jest.fn().mockResolvedValue(1)
   }
   
