@@ -376,16 +376,15 @@ Table UserProfile {
   middleName String [not null]
   lastName String [not null]
   email String [unique, not null]
-  photoUrl String
+  photoUrl String [not null]
   phone String [not null]
   countryCode String [not null]
-  birthDate DateTime
+  birthDate DateTime [not null]
   resumeLink String [not null]
-  telegram String
-  github String
-  linkedin String
+  telegram String [not null]
+  github String [not null]
+  linkedin String [not null]
   twitter String
-  facebook String
   instagram String
   leetcode String [not null]
   codeforces String [not null]

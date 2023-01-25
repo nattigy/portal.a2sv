@@ -363,16 +363,15 @@ model UserProfile {
   middleName             String
   lastName               String
   email                  String                     @unique
-  photoUrl               String?
+  photoUrl               String
   phone                  String
   countryCode            String
-  birthDate              DateTime?
+  birthDate              DateTime
   resumeLink             String
-  telegram               String?
-  github                 String?
-  linkedin               String?
+  telegram               String
+  github                 String
+  linkedin               String
   twitter                String?
-  facebook               String?
   instagram              String?
   leetcode               String
   codeforces             String

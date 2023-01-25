@@ -23,8 +23,8 @@ export class UserProfile {
   @Field({ description: 'Email of the user' })
   email: string
 
-  @Field({ nullable: true })
-  photoUrl?: string
+  @Field()
+  photoUrl: string
 
   @Field()
   phone: string
@@ -32,26 +32,23 @@ export class UserProfile {
   @Field()
   countryCode: string
 
-  @Field({ nullable: true })
-  birthDate?: Date
+  @Field()
+  birthDate: Date
 
   @Field()
   resumeLink: string
 
-  @Field({ nullable: true })
-  github?: string
+  @Field()
+  github: string
 
-  @Field({ nullable: true })
-  telegram?: string
+  @Field()
+  telegram: string
 
-  @Field({ nullable: true })
-  linkedin?: string
+  @Field()
+  linkedin: string
 
   @Field({ nullable: true })
   twitter?: string
-
-  @Field({ nullable: true })
-  facebook?: string
 
   @Field({ nullable: true })
   instagram?: string
