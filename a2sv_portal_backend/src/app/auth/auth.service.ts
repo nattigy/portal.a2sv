@@ -71,7 +71,7 @@ export class AuthService {
     await this.mailService.resetEmail(user.email, otpCode.toString())
     return {
       message: 'Email have been sent, verify the Code sent',
-      expireDateTime: expireDateTime(existingOtp.updatedAt, 3),
+      expireDateTime: expireDateTime(otp.updatedAt, 3),
       sentOn: otp.updatedAt,
     } as ForgotResponse
   }
