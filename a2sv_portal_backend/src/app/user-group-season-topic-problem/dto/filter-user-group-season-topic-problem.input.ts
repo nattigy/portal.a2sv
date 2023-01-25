@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql'
+import { DateTimeFilter } from '../../../common/filter-types/date-filter'
 
 @InputType()
 export class FilterUserGroupSeasonTopicProblemInput {
@@ -16,4 +17,7 @@ export class FilterUserGroupSeasonTopicProblemInput {
 
   @Field({ nullable: true })
   userId?: string
+
+  // @Field(() => DateTimeFilter, { nullable: true })
+  statusUpdatedAt?: Date
 }

@@ -310,6 +310,7 @@ model UserGroupSeasonTopicProblem {
   solutionLink            String?
   createdAt               DateTime?                  @default(now())
   updatedAt               DateTime?                  @updatedAt
+  statusUpdatedAt         DateTime?                  @updatedAt @db.Date
   userGroupSeasonTopic    UserGroupSeasonTopic       @relation(fields: [userId, groupId, seasonId, topicId], references: [userId, groupId, seasonId, topicId], onDelete: Cascade)
   groupSeasonTopicProblem GroupSeasonTopicProblem    @relation(fields: [groupId, seasonId, topicId, problemId], references: [groupId, seasonId, topicId, problemId], onDelete: Cascade)
   problem                 Problem                    @relation(fields: [problemId], references: [id], onDelete: Cascade)

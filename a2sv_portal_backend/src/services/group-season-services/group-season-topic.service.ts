@@ -16,8 +16,7 @@ export class GroupSeasonTopicService {
     private readonly groupSeasonTopicRepository: GroupSeasonTopicRepository,
     private readonly seasonTopicRepository: SeasonTopicRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async addTopicToGroupSeason({ groupId, seasonId, topicId }: CreateGroupSeasonTopicInput) {
     // search for groupSeason if groupSeason not found throw groupSeason not found exception
@@ -70,9 +69,13 @@ export class GroupSeasonTopicService {
       groupId_seasonId_topicId: { topicId, seasonId, groupId },
     })
     groupTopic.numberOfProblems = groupTopic.groupSeasonTopicProblems.length
-    groupTopic.comfortability = (groupTopic.groupSeasonTopicProblems.map(p =>
-      p.userGroupSeasonTopicProblems,
-    ).flat(1).filter(up => up.status === UserTopicProblemStatusEnum.SOLVED).length / groupTopic.numberOfProblems) * 100
+    groupTopic.comfortability =
+      (groupTopic.groupSeasonTopicProblems
+        .map(p => p.userGroupSeasonTopicProblems)
+        .flat(1)
+        .filter(up => up.status === UserTopicProblemStatusEnum.SOLVED).length /
+        groupTopic.numberOfProblems) *
+      100
     return groupTopic
   }
 
@@ -87,9 +90,13 @@ export class GroupSeasonTopicService {
     })
     groupTopics.map(groupTopic => {
       groupTopic.numberOfProblems = groupTopic.groupSeasonTopicProblems.length
-      groupTopic.comfortability = (groupTopic.groupSeasonTopicProblems.map(p =>
-        p.userGroupSeasonTopicProblems,
-      ).flat(1).filter(up => up.status === UserTopicProblemStatusEnum.SOLVED).length / groupTopic.numberOfProblems) * 100
+      groupTopic.comfortability =
+        (groupTopic.groupSeasonTopicProblems
+          .map(p => p.userGroupSeasonTopicProblems)
+          .flat(1)
+          .filter(up => up.status === UserTopicProblemStatusEnum.SOLVED).length /
+          groupTopic.numberOfProblems) *
+        100
       return groupTopic
     })
     return groupTopics

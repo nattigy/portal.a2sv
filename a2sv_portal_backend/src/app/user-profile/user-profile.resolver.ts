@@ -20,7 +20,7 @@ export class UserProfileResolver {
   async createUserProfile(
     @Args('createUserProfileInput')
     createUserProfileInput: CreateUserProfileInput,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
   ) {
     return this.userProfileService.createUserProfile(createUserProfileInput, user)
   }

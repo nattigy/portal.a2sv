@@ -9,7 +9,7 @@ describe('TopicRepository', () => {
       providers: [TopicRepository],
     }).compile()
 
-   repository = module.get<TopicRepository>(TopicRepository)
+    repository = module.get<TopicRepository>(TopicRepository)
   })
 
   it('should be defined', () => {

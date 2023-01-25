@@ -23,4 +23,6 @@ export class UpdateUserGroupSeasonTopicProblemInput {
 
   @Field(() => Int)
   numberOfMinutes?: number
+
+  statusUpdatedAt?: Date
 }

@@ -32,22 +32,20 @@ describe('TopicService', () => {
       let topic: Topic
       let createTopicDto: CreateTopicInput
 
-      beforeEach(async () => 
-        {
-          createTopicDto = {
-            name: topicStub().name,
-            description: topicStub().description
-          }
+      beforeEach(async () => {
+        createTopicDto = {
+          name: topicStub().name,
+          description: topicStub().description,
+        }
         topic = await service.create(createTopicDto)
-        
       })
-      it ('should be called with createTopicDto argument', async () => {
+      it('should be called with createTopicDto argument', async () => {
         jest.spyOn(service, 'create').getMockImplementation()
         expect(await service.create(createTopicDto)).toEqual(topicStub())
         expect(service.create).toHaveBeenCalledWith(createTopicDto)
       })
 
-      it ('should return a topic', () => {
+      it('should return a topic', () => {
         expect(topic).toEqual(topicStub())
       })
     })
@@ -75,21 +73,20 @@ describe('TopicService', () => {
 
   describe('topics', () => {
     describe('when called it should return all topics', () => {
-      let topics : PaginationTopic
-        beforeEach(async () => {
-          topics = await service.topics({})
-        })
-       
-        it('should return list of topics', async () =>{
-          expect(topics.items).toEqual([topicStub()])
-        }) 
+      let topics: PaginationTopic
+      beforeEach(async () => {
+        topics = await service.topics({})
+      })
 
-        it('should return a list of length one', () => {
-          expect(topics).toHaveLength(1)
-        })
+      it('should return list of topics', async () => {
+        expect(topics.items).toEqual([topicStub()])
+      })
+
+      it('should return a list of length one', () => {
+        expect(topics).toHaveLength(1)
+      })
     })
   })
-  
 
   describe('update', () => {
     describe('when topic with id exist it should update the topic', () => {
@@ -97,12 +94,12 @@ describe('TopicService', () => {
       let updateTopicDto: UpdateTopicInput
 
       beforeEach(async () => {
-          updateTopicDto ={
-            topicId: topicStub().id,
-            name: topicStub().name,
-            description:topicStub().description
-          }
-          topic = await service.updateTopic(updateTopicDto)
+        updateTopicDto = {
+          topicId: topicStub().id,
+          name: topicStub().name,
+          description: topicStub().description,
+        }
+        topic = await service.updateTopic(updateTopicDto)
       })
       it('should be called with updateTopicDto argument', async () => {
         jest.spyOn(service, 'updateTopic').getMockImplementation()
@@ -113,7 +110,6 @@ describe('TopicService', () => {
       it('should return a topic', () => {
         expect(topic).toEqual(topicStub())
       })
-
     })
   })
   describe('removeTopic', () => {
@@ -135,5 +131,4 @@ describe('TopicService', () => {
       })
     })
   })
-
 })

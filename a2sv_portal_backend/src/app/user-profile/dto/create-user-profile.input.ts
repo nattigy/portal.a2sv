@@ -11,7 +11,7 @@ export class CreateUserProfileInput {
   firstName: string
 
   @Field()
-  middleName: string = ""
+  middleName: string = ''
 
   @Field()
   lastName: string

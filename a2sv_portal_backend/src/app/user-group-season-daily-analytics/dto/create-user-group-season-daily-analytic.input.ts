@@ -5,7 +5,5 @@ export class UserGroupSeasonDailyAnalyticInput {
 
   seasonId: string
 
-  solvedCount: number
-
-  wrongCount: number
+  createdAt: Date
 }

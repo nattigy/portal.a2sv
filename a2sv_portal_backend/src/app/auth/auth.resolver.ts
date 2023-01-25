@@ -7,12 +7,11 @@ import { AuthResponse } from './dto/auth-response.dto'
 import { JwtAuthGuard } from './guards/jwt-auth-guard.service'
 import { LocalAuthGuard } from './guards/local-auth.guard'
 import { User } from '../user/entities/user.entity'
-import { ForgotResponse } from './dto/forgot-response';
+import { ForgotResponse } from './dto/forgot-response'
 
 @Resolver()
 export class AuthResolver {
-  constructor(private readonly authService: AuthService) {
-  }
+  constructor(private readonly authService: AuthService) {}
 
   @Public()
   @Mutation(() => AuthResponse)
@@ -25,7 +24,7 @@ export class AuthResolver {
       const { accessToken, userId } = await this.authService.login(context)
       return { accessToken, userId }
     } catch (e) {
-      throw new BadRequestException("Error logging in!")
+      throw new BadRequestException('Error logging in!')
     }
   }
 
@@ -34,7 +33,7 @@ export class AuthResolver {
     try {
       return await this.authService.forgotPassword(email)
     } catch (e) {
-      console.log(e);
+      console.log(e)
       throw new BadRequestException("User doesn't exit!")
     }
   }
@@ -53,7 +52,7 @@ export class AuthResolver {
     try {
       return this.authService.resendOtp(email)
     } catch (e) {
-      throw new BadRequestException("Error resending OTP!")
+      throw new BadRequestException('Error resending OTP!')
     }
   }
 
@@ -67,18 +66,16 @@ export class AuthResolver {
     try {
       return this.authService.verifyOtp(context, otpCode, email)
     } catch (e) {
-      throw new BadRequestException("Error validating OTP!")
+      throw new BadRequestException('Error validating OTP!')
     }
   }
 
   @Mutation(() => String)
-  async createUser(
-    @Args('email') email: string,
-  ): Promise<String | null> {
+  async createUser(@Args('email') email: string): Promise<String | null> {
     try {
       return await this.authService.signUp(email)
     } catch (e) {
-      throw new BadRequestException("Error creating user!")
+      throw new BadRequestException('Error creating user!')
     }
   }
 
@@ -87,20 +84,24 @@ export class AuthResolver {
     try {
       return await this.authService.checkOtpStatus(email)
     } catch (e) {
-      console.log(e);
-      throw new BadRequestException("Otp does not exit  for the User")
+      console.log(e)
+      throw new BadRequestException('Otp does not exit  for the User')
     }
   }
 
   @UseGuards(JwtAuthGuard)
   @Mutation(() => String)
-  async changePassword(@CurrentUser() user: User, @Args('oldPassword') oldPass: string, @Args('newPassword') newPass: string): Promise<string> {
+  async changePassword(
+    @CurrentUser() user: User,
+    @Args('oldPassword') oldPass: string,
+    @Args('newPassword') newPass: string,
+  ): Promise<string> {
     try {
       return this.authService.changePassword(user, oldPass, newPass)
     } catch (e) {
-      throw new BadRequestException("Error changing password!")
+      throw new BadRequestException('Error changing password!')
     }
-  }  
+  }
 
   // @Public()
   // @Mutation(() => AuthResponse)
@@ -123,7 +124,7 @@ export class AuthResolver {
     try {
       return user
     } catch (e) {
-      throw new BadRequestException("Error loading user!")
+      throw new BadRequestException('Error loading user!')
     }
   }
 }

@@ -5,8 +5,7 @@ export abstract class MockModel<T, TC, TW, TWU, TU> {
     this.constructorSpy(createEntityData)
   }
 
-  constructorSpy(_createEntityData: T): void {
-  }
+  constructorSpy(_createEntityData: T): void {}
 
   async create(data: TC): Promise<T> {
     return this.entityStub
@@ -29,10 +28,7 @@ export abstract class MockModel<T, TC, TW, TWU, TU> {
     return [this.entityStub]
   }
 
-  async update(params: {
-    where: TWU
-    data: TU
-  }): Promise<T> {
+  async update(params: { where: TWU; data: TU }): Promise<T> {
     return this.entityStub
   }
 

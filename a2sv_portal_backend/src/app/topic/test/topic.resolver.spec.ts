@@ -25,67 +25,61 @@ describe('TopicResolver', () => {
     expect(resolver).toBeDefined()
   })
 
-
   describe('createTopic', () => {
     describe('when called should create topic', () => {
-        let topic: Topic
-        let createTopicDto: CreateTopicInput
+      let topic: Topic
+      let createTopicDto: CreateTopicInput
 
-        beforeEach(async () => 
-        {
-          createTopicDto = {
-            name: topicStub().name,
-            description: topicStub().description
-          }
+      beforeEach(async () => {
+        createTopicDto = {
+          name: topicStub().name,
+          description: topicStub().description,
+        }
 
-          topic = await resolver.createTopic(createTopicDto)
-        })
+        topic = await resolver.createTopic(createTopicDto)
+      })
 
+      it('should be called woth createTopicDto argument', async () => {
+        jest.spyOn(resolver, 'createTopic').getMockImplementation()
+        expect(await resolver.createTopic(createTopicDto)).toEqual(topicStub())
+        expect(resolver.createTopic).toHaveBeenCalledWith(createTopicDto)
+      })
 
-        it ('should be called woth createTopicDto argument', async () => {
-          jest.spyOn(resolver, 'createTopic').getMockImplementation()
-          expect(await resolver.createTopic(createTopicDto)).toEqual(topicStub())
-          expect(resolver.createTopic).toHaveBeenCalledWith(createTopicDto)
-        })
-
-        it ('should return a topic', () => {
-            expect(topic).toEqual(topicStub())
+      it('should return a topic', () => {
+        expect(topic).toEqual(topicStub())
       })
     })
-
   })
 
   describe('topics', () => {
     describe('when called should get topics list', () => {
-        let topics : PaginationTopic
-        beforeEach(async () => {
-          topics = await resolver.topics()
-        })
-       
-        it('should return list of topics', async () =>{
-          expect(topics.items).toEqual([topicStub()])
-        })
+      let topics: PaginationTopic
+      beforeEach(async () => {
+        topics = await resolver.topics()
+      })
+
+      it('should return list of topics', async () => {
+        expect(topics.items).toEqual([topicStub()])
+      })
       it('should return a list of length one', () => {
         expect(topics).toHaveLength(1)
       })
     })
-   
   })
 
   describe('update topic', () => {
     describe('when called should update topic', () => {
-        let topic: Topic
-        let updateTopicDto: UpdateTopicInput
+      let topic: Topic
+      let updateTopicDto: UpdateTopicInput
 
-        beforeEach(async () => {
-          updateTopicDto ={
-            topicId: topicStub().id,
-            name: topicStub().name,
-            description:topicStub().description
-          }
-       
+      beforeEach(async () => {
+        updateTopicDto = {
+          topicId: topicStub().id,
+          name: topicStub().name,
+          description: topicStub().description,
+        }
+
         topic = await resolver.updateTopic(updateTopicDto)
-        
       })
       it('should be called with updateTopicDto argument', async () => {
         jest.spyOn(resolver, 'updateTopic').getMockImplementation()
@@ -95,7 +89,6 @@ describe('TopicResolver', () => {
       it('should return a topic', () => {
         expect(topic).toEqual(topicStub())
       })
-
     })
   })
 
@@ -118,5 +111,4 @@ describe('TopicResolver', () => {
       })
     })
   })
-
 })

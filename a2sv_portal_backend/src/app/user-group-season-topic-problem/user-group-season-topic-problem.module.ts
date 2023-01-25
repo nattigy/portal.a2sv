@@ -4,7 +4,6 @@ import { UserGroupSeasonTopicProblemService } from './user-group-season-topic-pr
 
 @Module({
   providers: [UserGroupSeasonTopicProblemRepository, UserGroupSeasonTopicProblemService],
-  exports: [UserGroupSeasonTopicProblemRepository, UserGroupSeasonTopicProblemService],
+  exports: [UserGroupSeasonTopicProblemService, UserGroupSeasonTopicProblemRepository],
 })
-export class UserGroupSeasonTopicProblemModule {
-}
+export class UserGroupSeasonTopicProblemModule {}

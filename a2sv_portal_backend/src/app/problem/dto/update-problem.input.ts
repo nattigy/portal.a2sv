@@ -3,7 +3,7 @@ import { ProblemDifficultyTypeEnum } from '@prisma/client'
 import { CreateTagInput } from '../../tag/dto/create-tag.input'
 
 @InputType()
-export class UpdateProblemInput{
+export class UpdateProblemInput {
   @Field()
   problemId: string
 

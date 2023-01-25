@@ -36,7 +36,7 @@ export class UserResolver {
     try {
       return this.userService.users(filterUserInput, paginationInput)
     } catch (e) {
-      throw new BadRequestException("Error loading users!")
+      throw new BadRequestException('Error loading users!')
     }
   }
 
@@ -47,7 +47,7 @@ export class UserResolver {
     try {
       return this.userService.user(uniqueUserInput)
     } catch (e) {
-      throw new BadRequestException("Error loading user!")
+      throw new BadRequestException('Error loading user!')
     }
   }
 
@@ -58,7 +58,7 @@ export class UserResolver {
     try {
       return this.userService.updateUser(updateUserInput)
     } catch (e) {
-      throw new BadRequestException("Error updating user!")
+      throw new BadRequestException('Error updating user!')
     }
   }
 
@@ -72,7 +72,7 @@ export class UserResolver {
     try {
       return this.userService.updateUser(studentIds.map(userId => ({ userId, groupId })))
     } catch (e) {
-      throw new BadRequestException("Error adding users to a group!")
+      throw new BadRequestException('Error adding users to a group!')
     }
   }
 
@@ -83,7 +83,7 @@ export class UserResolver {
     try {
       return this.userService.removeUser(userId)
     } catch (e) {
-      throw new BadRequestException("Error removing user!")
+      throw new BadRequestException('Error removing user!')
     }
   }
 }

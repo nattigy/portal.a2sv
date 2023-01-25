@@ -31,7 +31,7 @@ export class UserService {
   ) {}
 
   async createUser(createUserInput: CreateUserInput): Promise<User> {
-    const { email, password} = createUserInput
+    const { email, password } = createUserInput
 
     const foundUser = await this.userRepository.findOne({ email })
 

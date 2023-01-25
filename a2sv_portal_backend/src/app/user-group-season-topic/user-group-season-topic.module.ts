@@ -6,5 +6,4 @@ import { UserGroupSeasonTopicService } from './user-group-season-topic.service'
   providers: [UserGroupSeasonTopicRepository, UserGroupSeasonTopicService],
   exports: [UserGroupSeasonTopicRepository, UserGroupSeasonTopicService],
 })
-export class UserGroupSeasonTopicModule {
-}
+export class UserGroupSeasonTopicModule {}

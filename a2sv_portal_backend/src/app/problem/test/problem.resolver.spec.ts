@@ -15,9 +15,10 @@ describe('ProblemResolver', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [ProblemResolver, ProblemService],
-    }).overrideProvider(ProblemService)
-    .useValue(ProblemServiceMock)
-    .compile()
+    })
+      .overrideProvider(ProblemService)
+      .useValue(ProblemServiceMock)
+      .compile()
 
     resolver = module.get<ProblemResolver>(ProblemResolver)
   })
@@ -36,8 +37,8 @@ describe('ProblemResolver', () => {
           title: problemStub().title,
           difficulty: problemStub().difficulty,
           link: problemStub().link,
-          platform:problemStub().platform,
-          tags: problemStub().tags
+          platform: problemStub().platform,
+          tags: problemStub().tags,
         }
         problem = await resolver.createProblem(createProblemDto)
       })
@@ -76,7 +77,6 @@ describe('ProblemResolver', () => {
   describe('problems', () => {
     describe('when called should return list of problems', () => {
       let problems: PaginationProblem
-     
 
       beforeEach(async () => {
         problems = await resolver.problems()
@@ -136,6 +136,4 @@ describe('ProblemResolver', () => {
       })
     })
   })
-
-
 })

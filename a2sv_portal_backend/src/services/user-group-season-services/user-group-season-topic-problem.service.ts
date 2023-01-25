@@ -120,30 +120,6 @@ export class UserGroupSeasonTopicProblemService {
       pageInfo: { skip, take, count },
     }
   }
-
-  // async removeUserGroupSeasonTopicProblem({
-  //   seasonId,
-  //   topicId,
-  //   problemId,
-  //   userId,
-  //   groupId,
-  // }: UserGroupSeasonTopicProblemId) {
-  //   try {
-  //     await this.userGroupSeasonTopicProblemRepository.remove({
-  //       userId_groupId_seasonId_topicId_problemId: {
-  //         seasonId,
-  //         groupId,
-  //         topicId,
-  //         problemId,
-  //         userId,
-  //       },
-  //     })
-  //   } catch (e) {
-  //     console.log(`Fail to delete season topic user problem with id ${seasonId}`, ' : ', e)
-  //     throw new Error(`Fail to delete season topic user problem with id ${seasonId}`)
-  //   }
-  //   return 1
-  // }
 }
 
 // TODO: Add user analytics here

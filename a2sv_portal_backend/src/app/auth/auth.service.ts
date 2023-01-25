@@ -9,9 +9,7 @@ import { StatusEnum } from '@prisma/client'
 import GenerateOTP from '../../common/generat'
 import { MailService } from '../../mail/mail.service'
 import { User } from '../user/entities/user.entity'
-import { ForgotResponse } from './dto/forgot-response';
-
-
+import { ForgotResponse } from './dto/forgot-response'
 
 @Injectable()
 export class AuthService {
@@ -20,8 +18,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly prismaService: PrismaService,
     private readonly mailService: MailService,
-  ) {
-  }
+  ) {}
 
   async validateUser(email: string, pass: string): Promise<User | null> {
     const user = await this.prismaService.user.findUnique({ where: { email } })
@@ -31,7 +28,7 @@ export class AuthService {
     return null
   }
 
-  async forgotPassword(email: string): Promise<ForgotResponse > {
+  async forgotPassword(email: string): Promise<ForgotResponse> {
     const otpCode = GenerateOTP()
 
     const user = await this.usersService.user({ email })
@@ -42,18 +39,22 @@ export class AuthService {
     //   throw new NotFoundException("User not active");
     // }
     const existingOtp = await this.prismaService.otp.findUnique({
-      where:{email}
+      where: { email },
     })
 
-    if(existingOtp){
+    if (existingOtp) {
       const otpDate = new Date(existingOtp.updatedAt).getTime()
-      const now = (new Date().getTime())
-      const dateDiff = ((now - otpDate) / 1000) / 60
-      if(dateDiff < 30){
-       return {message: `Retry After ${30 - dateDiff}minutes`, expireDateTime: expireDateTime(existingOtp.updatedAt,30),sentOn: existingOtp.updatedAt};
+      const now = new Date().getTime()
+      const dateDiff = (now - otpDate) / 1000 / 60
+      if (dateDiff < 30) {
+        return {
+          message: `Retry After ${30 - dateDiff}minutes`,
+          expireDateTime: expireDateTime(existingOtp.updatedAt, 30),
+          sentOn: existingOtp.updatedAt,
+        }
       }
     }
-    const otp  = await this.prismaService.otp.upsert({
+    const otp = await this.prismaService.otp.upsert({
       where: {
         email: user.email,
       },
@@ -66,10 +67,13 @@ export class AuthService {
         code: otpCode,
         updatedAt: new Date(),
       },
-
     })
     await this.mailService.resetEmail(user.email, otpCode.toString())
-    return { message:'Email have been sent, verify the Code sent', expireDateTime:expireDateTime(existingOtp.updatedAt,3), sentOn: otp.updatedAt} as ForgotResponse ;
+    return {
+      message: 'Email have been sent, verify the Code sent',
+      expireDateTime: expireDateTime(existingOtp.updatedAt, 3),
+      sentOn: otp.updatedAt,
+    } as ForgotResponse
   }
 
   async resetPassword(resetToken: string, pass: string) {
@@ -148,7 +152,7 @@ export class AuthService {
     const now = new Date().getTime()
     const otpDate = new Date(otp.updatedAt).getTime()
 
-    if ((((now - otpDate) / 1000) / 60) > 30) {
+    if ((now - otpDate) / 1000 / 60 > 30) {
       throw new NotFoundException('OTP expired!')
     }
     if (user.status === StatusEnum.INACTIVE) {
@@ -157,7 +161,6 @@ export class AuthService {
     const accessToken = await this.setToken(context, user)
     return { accessToken, userId: user.id }
   }
-
 
   async resendOtp(email: string): Promise<ForgotResponse> {
     const otp = await this.prismaService.otp.findUnique({
@@ -168,11 +171,11 @@ export class AuthService {
     }
 
     const otpDate = new Date(otp.updatedAt).getTime()
-    const now = (new Date().getTime())
+    const now = new Date().getTime()
 
-    const dateDiff = ((now - otpDate) / 1000) / 60
+    const dateDiff = (now - otpDate) / 1000 / 60
 
-    if ((((now - otpDate) / 1000) / 60) > 3) {
+    if ((now - otpDate) / 1000 / 60 > 3) {
       const otpCode = GenerateOTP()
       await this.prismaService.otp.upsert({
         where: {
@@ -187,9 +190,17 @@ export class AuthService {
         },
       })
       await this.mailService.resetEmail(otp.email, otpCode.toString())
-      return { message:'Code is sent to your  email', expireDateTime:expireDateTime(otp.updatedAt,3), sentOn: new Date(otp.updatedAt)} as ForgotResponse;
+      return {
+        message: 'Code is sent to your  email',
+        expireDateTime: expireDateTime(otp.updatedAt, 3),
+        sentOn: new Date(otp.updatedAt),
+      } as ForgotResponse
     }
-    return { message:'User your preveious code', expireDateTime:expireDateTime(otp.updatedAt,3), sentOn:  new Date(otp.updatedAt)} as ForgotResponse;
+    return {
+      message: 'User your preveious code',
+      expireDateTime: expireDateTime(otp.updatedAt, 3),
+      sentOn: new Date(otp.updatedAt),
+    } as ForgotResponse
   }
 
   async checkOtpStatus(email: string): Promise<Date> {
@@ -197,7 +208,7 @@ export class AuthService {
     if (!userOtp) {
       throw new NotFoundException('Otp for the user does not exit!')
     }
-    return userOtp.updatedAt;
+    return userOtp.updatedAt
   }
 
   async changePassword(u: User, oldPass: string, newPass: string): Promise<string> {
@@ -209,7 +220,6 @@ export class AuthService {
       throw new NotFoundException('User Not found with this email!')
     }
     if (bcrypt.compareSync(oldPass, user.password)) {
-
       const saltOrRounds = await bcrypt.genSalt(10)
       const hash = await bcrypt.hash(newPass, saltOrRounds)
       const updatedUser = await this.prismaService.user.update({
@@ -225,13 +235,9 @@ export class AuthService {
       }
       return 'Password changed.'
     }
-    
   }
-  
 }
 
-
-function expireDateTime(date,minutes){
-  return new Date(date.getTime() + minutes * 60000);
+function expireDateTime(date, minutes) {
+  return new Date(date.getTime() + minutes * 60000)
 }
-

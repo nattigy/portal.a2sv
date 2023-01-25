@@ -4,9 +4,8 @@ import { MailResolver } from './mail.resolver'
 import { ConfigModule } from '@nestjs/config'
 
 @Module({
-  imports:[ConfigModule],
+  imports: [ConfigModule],
   providers: [MailService, MailResolver],
   exports: [MailService],
 })
-export class MailModule {
-}
+export class MailModule {}

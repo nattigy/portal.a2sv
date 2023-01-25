@@ -15,9 +15,10 @@ describe('ProblemService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [ProblemService, ProblemRepository],
-    }).overrideProvider(ProblemRepository)
-    .useValue(ProblemRepositoryMock)
-    .compile()
+    })
+      .overrideProvider(ProblemRepository)
+      .useValue(ProblemRepositoryMock)
+      .compile()
 
     service = module.get<ProblemService>(ProblemService)
   })
@@ -26,20 +27,19 @@ describe('ProblemService', () => {
     expect(service).toBeDefined()
   })
 
-  describe('createProblem', () =>{
-    describe('when given needed fields it should create a problem', () =>{
+  describe('createProblem', () => {
+    describe('when given needed fields it should create a problem', () => {
       let problem: Problem
       let createProblemDto: CreateProblemInput
-      beforeEach( async () => {
-
+      beforeEach(async () => {
         createProblemDto = {
           title: problemStub().title,
           difficulty: problemStub().difficulty,
           link: problemStub().link,
-          platform:problemStub().platform,
-          tags: problemStub().tags
+          platform: problemStub().platform,
+          tags: problemStub().tags,
         }
-      problem = await service.createProblem(createProblemDto)
+        problem = await service.createProblem(createProblemDto)
       })
 
       it('should be called with  createProblemDto argument', async () => {
@@ -135,6 +135,4 @@ describe('ProblemService', () => {
       })
     })
   })
-
-
 })

@@ -21,9 +21,8 @@ export class UserGroupSeasonResolver {
   constructor(
     private readonly userGroupSeasonService: UserGroupSeasonService,
     private readonly userGroupSeasonTopicService: UserGroupSeasonTopicService,
-    private readonly seasonTopicUserProblemService: UserGroupSeasonTopicProblemService, // private readonly userGroupSeasonContestService: UserGroupSeasonContestService,
-  ) // private readonly userGroupSeasonContestProblemService: UserGroupSeasonContestProblemService,
-  {}
+    private readonly seasonTopicUserProblemService: UserGroupSeasonTopicProblemService, // private readonly userGroupSeasonContestService: UserGroupSeasonContestService, // private readonly userGroupSeasonContestProblemService: UserGroupSeasonContestProblemService,
+  ) {}
 
   @Query(() => UserGroupSeason)
   async userGroupSeason(
@@ -79,21 +78,6 @@ export class UserGroupSeasonResolver {
       updateUserTopicComfortabilityInput,
     )
   }
-
-  @Mutation(() => UserGroupSeasonTopicProblem)
-  async updateUserProblemStatus(
-    @Args('updateProblemStatusInput')
-    updateProblemStatusInput: UpdateUserGroupSeasonTopicProblemInput,
-  ): Promise<UserGroupSeasonTopicProblem> {
-    return this.userGroupSeasonTopicService.updateUserProblemStatus(updateProblemStatusInput)
-  }
-
-  // @Mutation(() => UserGroupSeasonTopic)
-  // async removeUserGroupSeasonTopic(
-  //   @Args('userGroupSeasonTopicId') userGroupSeasonTopicId: UserGroupSeasonTopicId,
-  // ) {
-  //   return this.userGroupSeasonTopicService.removeUserGroupSeasonTopic(userGroupSeasonTopicId)
-  // }
 
   @Query(() => UserGroupSeasonTopicProblem)
   async userGroupSeasonTopicProblem(

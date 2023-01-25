@@ -18,10 +18,11 @@ import { ServicesModule } from './services/services.module'
 import { MailModule } from './mail/mail.module'
 import { MailerModule } from '@nestjs-modules/mailer'
 import { join } from 'path'
-import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
-import { UserGroupSeasonDailyAnalyticsResolver } from './app/user-group-season-daily-analytics/user-group-season-daily-analytics.resolver';
-import { UserGroupSeasonDailyAnalyticsModule } from './app/user-group-season-daily-analytics/user-group-season-daily-analytics.module';
-import { UsersUpdateProblemStatusModule } from './users-update-problem-status/users-update-problem-status.module';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter'
+import { UserGroupSeasonDailyAnalyticsModule } from './app/user-group-season-daily-analytics/user-group-season-daily-analytics.module'
+import { UsersUpdateProblemStatusModule } from './users-update-problem-status/users-update-problem-status.module'
+import { UserGroupSeasonTopicResolver } from './app/user-group-season-topic/user-group-season-topic.resolver'
+import { UserGroupSeasonDailyAnalyticResolver } from './app/user-group-season-daily-analytics/user-group-season-daily-analytic.resolver';
 
 @Module({
   imports: [
@@ -36,10 +37,10 @@ import { UsersUpdateProblemStatusModule } from './users-update-problem-status/us
           pass: process.env.SOCKET_LABS_PASSWORD,
         },
       },
-      template:{
-        dir: join(__dirname,'../mail/template'),
+      template: {
+        dir: join(__dirname, '../mail/template'),
         adapter: new HandlebarsAdapter(),
-      }
+      },
     }),
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
@@ -68,19 +69,19 @@ import { UsersUpdateProblemStatusModule } from './users-update-problem-status/us
       },
       resolvers: { DateTime: GraphQLISODateTime },
     }),
-    MailModule,
+    // MailModule,
     AuthModule,
     PrismaModule,
     CaslModule,
-    TagModule,
-    ProblemModule,
-    TopicModule,
-    UserProfileModule,
+    // TagModule,
+    // ProblemModule,
+    // TopicModule,
+    // UserProfileModule,
     PrismaModule,
     ServicesModule,
-    UserGroupSeasonDailyAnalyticsModule,
+    // UserGroupSeasonDailyAnalyticsModule,
     UsersUpdateProblemStatusModule,
   ],
-  providers: [AppService, AppResolver, UserGroupSeasonDailyAnalyticsResolver],
+  providers: [AppService, AppResolver],
 })
 export class AppModule {}

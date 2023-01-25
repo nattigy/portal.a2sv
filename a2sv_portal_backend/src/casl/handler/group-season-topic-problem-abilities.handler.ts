@@ -1,8 +1,6 @@
 import { Action } from '../../app/auth/action.enum'
 import { AppAbility } from '../casl-ability.factory'
-import {
-  GroupSeasonTopicProblem
-} from '../../app/group-season-topic-problem/entities/group-season-topic-problem.entity'
+import { GroupSeasonTopicProblem } from '../../app/group-season-topic-problem/entities/group-season-topic-problem.entity'
 
 export class GroupSeasonTopicProblemAbilities {
   static read(ability: AppAbility) {
