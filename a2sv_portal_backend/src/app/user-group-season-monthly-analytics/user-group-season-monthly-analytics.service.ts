@@ -1,22 +1,20 @@
 import { Injectable } from '@nestjs/common'
-import { UserGroupSeasonDailyAnalyticInput } from './dto/user-group-season-daily-analytic.input'
-import { UserGroupSeasonId } from '../user-group-season/dto/create-group-user-season.input'
 import { PrismaService } from '../../prisma/prisma.service'
 import { UserTopicProblemStatusEnum } from '@prisma/client'
+import { UserGroupSeasonId } from '../user-group-season/dto/create-group-user-season.input'
+import { UserGroupSeasonMonthlyAnalyticInput } from './dto/user-group-season-monthly-analytic.input'
 
 @Injectable()
-export class UserGroupSeasonDailyAnalyticsService {
-  constructor(
-    private readonly prismaService: PrismaService,
-  ) {
+export class UserGroupSeasonMonthlyAnalyticsService {
+  constructor(private readonly prismaService: PrismaService) {
   }
 
   async findAll() {
-    return this.prismaService.userGroupSeasonDailyAnalytics.findMany({})
+    return this.prismaService.userGroupSeasonMonthlyAnalytics.findMany({})
   }
 
   async findOne(userId: string, createdAt: Date) {
-    return this.prismaService.userGroupSeasonDailyAnalytics.findUnique({
+    return this.prismaService.userGroupSeasonMonthlyAnalytics.findUnique({
       where: {
         userId_createdAt: {
           userId,
@@ -26,7 +24,7 @@ export class UserGroupSeasonDailyAnalyticsService {
     })
   }
 
-  async upsert({ userId, groupId, seasonId, createdAt }: UserGroupSeasonDailyAnalyticInput) {
+  async upsert({ userId, groupId, seasonId, createdAt }: UserGroupSeasonMonthlyAnalyticInput) {
     const userProblems = await this.prismaService.userGroupSeasonTopicProblem.findMany({
       where: {
         userId,
@@ -35,7 +33,7 @@ export class UserGroupSeasonDailyAnalyticsService {
         statusUpdatedAt: createdAt,
       },
     })
-    return this.prismaService.userGroupSeasonDailyAnalytics.upsert({
+    return this.prismaService.userGroupSeasonMonthlyAnalytics.upsert({
       where: {
         userId_createdAt: {
           userId,
@@ -62,6 +60,6 @@ export class UserGroupSeasonDailyAnalyticsService {
   }
 
   async remove(id: UserGroupSeasonId) {
-    return `This action removes a #${id} userGroupSeasonDailyAnalytic`
+    return `This action removes a #${id} userGroupSeasonMonthlyAnalytic`
   }
 }

@@ -1,18 +1,23 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { UserGroupSeasonTopicId } from '../../app/user-group-season-topic/dto/create-user-group-season-topic.input'
-import { UpdateUserGroupSeasonTopicInput } from '../../app/user-group-season-topic/dto/update-user-group-season-topic.input'
+import {
+  UpdateUserGroupSeasonTopicInput,
+} from '../../app/user-group-season-topic/dto/update-user-group-season-topic.input'
 import { PrismaService } from '../../prisma/prisma.service'
 import { UserGroupSeasonTopic } from '../../app/user-group-season-topic/entities/user-group-season-topic.entity'
 import { PaginationInput } from '../../common/page/pagination.input'
-import { FilterUserGroupSeasonTopicInput } from '../../app/user-group-season-topic/dto/filter-user-group-season-topic-input'
+import {
+  FilterUserGroupSeasonTopicInput,
+} from '../../app/user-group-season-topic/dto/filter-user-group-season-topic-input'
 import { PaginationUserGroupSeasonTopic } from '../../common/page/pagination-info'
 import { UserGroupSeasonTopicRepository } from '../../app/user-group-season-topic/user-group-season-topic.repository'
 import { UserGroupSeasonTopicProblemService } from './user-group-season-topic-problem.service'
-import { UpdateUserGroupSeasonTopicProblemInput } from '../../app/user-group-season-topic-problem/dto/update-user-group-season-topic-problem.input'
 import { GroupSeasonTopicRepository } from '../../app/group-season-topic/group-season-topic.repository'
 import { ComfortLevelEnum, UserTopicProblemStatusEnum } from '@prisma/client'
 import { GroupSeasonTopic } from '../../app/group-season-topic/entities/group-season-topic.entity'
-import { UserGroupSeasonTopicProblemRepository } from '../../app/user-group-season-topic-problem/user-group-season-topic-problem.repository'
+import {
+  UserGroupSeasonTopicProblemRepository,
+} from '../../app/user-group-season-topic-problem/user-group-season-topic-problem.repository'
 import { UserGroupSeasonRepository } from '../../app/user-group-season/user-group-season.repository'
 
 @Injectable()
@@ -24,14 +29,15 @@ export class UserGroupSeasonTopicService {
     private readonly userGroupSeasonTopicProblemRepository: UserGroupSeasonTopicProblemRepository,
     private readonly groupSeasonTopicRepository: GroupSeasonTopicRepository,
     private readonly userGroupSeasonTopicProblemService: UserGroupSeasonTopicProblemService,
-  ) {}
+  ) {
+  }
 
   async userGroupSeasonTopic({
-    userId,
-    groupId,
-    seasonId,
-    topicId,
-  }: UserGroupSeasonTopicId): Promise<UserGroupSeasonTopic> {
+                               userId,
+                               groupId,
+                               seasonId,
+                               topicId,
+                             }: UserGroupSeasonTopicId): Promise<UserGroupSeasonTopic> {
     let userGroupSeasonTopic = await this.userGroupSeasonTopicRepository.findOne({
       userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },
     })
@@ -65,7 +71,8 @@ export class UserGroupSeasonTopicService {
         totalSubmissions,
         totalAcceptedSubmissions,
         comfortabilityPercentage:
-          (totalAcceptedSubmissions / userGroupSeasonTopicProblems.items.length) * 100,
+          userGroupSeasonTopicProblems.items.length > 0 ?
+            (totalAcceptedSubmissions / userGroupSeasonTopicProblems.items.length) * 100 : 0.0,
         topic: groupSeasonTopic.topic,
         userGroupSeasonTopicProblems: [],
       }
@@ -107,7 +114,7 @@ export class UserGroupSeasonTopicService {
     for (const userGroupSeasonTopic of userGroupSeasonTopics) {
       mappedUGSTs[
         `${userGroupSeasonTopic.userId}${userGroupSeasonTopic.groupId}${userGroupSeasonTopic.seasonId}${userGroupSeasonTopic.topicId}`
-      ] = {
+        ] = {
         ...userGroupSeasonTopic,
         userGroupSeasonTopicProblems: userGroupSeasonTopicProblems.items.filter(
           u =>
@@ -123,7 +130,7 @@ export class UserGroupSeasonTopicService {
         const check =
           mappedUGSTs[
             `${user.id}${groupSeasonTopic.groupId}${groupSeasonTopic.seasonId}${groupSeasonTopic.topicId}`
-          ]
+            ]
         if (check) {
           result.push(check)
         } else {
@@ -149,7 +156,7 @@ export class UserGroupSeasonTopicService {
               comfortLevel: ComfortLevelEnum.UNCOMFORTABLE,
               totalAcceptedSubmissions: solved,
               totalSubmissions,
-              comfortabilityPercentage: (solved / userProblems.length) * 100,
+              comfortabilityPercentage: userProblems.length > 0 ? (solved / userProblems.length) * 100 : 0.0,
               topic: groupSeasonTopic.topic,
               userGroupSeasonTopicProblems: userProblems,
             })
@@ -157,6 +164,7 @@ export class UserGroupSeasonTopicService {
         }
       }
     }
+    // console.log(result)
     return {
       items: result,
       pageInfo: { skip, take, count },
@@ -164,9 +172,9 @@ export class UserGroupSeasonTopicService {
   }
 
   async updateUserTopicComfortability({
-    id,
-    ...updates
-  }: UpdateUserGroupSeasonTopicInput): Promise<UserGroupSeasonTopic> {
+                                        id,
+                                        ...updates
+                                      }: UpdateUserGroupSeasonTopicInput): Promise<UserGroupSeasonTopic> {
     const { userId, groupId, seasonId, topicId } = id
     /*
     1. Find user with userId and throw NotFoundException if doesn't exist
@@ -198,7 +206,7 @@ export class UserGroupSeasonTopicService {
     })
     if (!foundGroupSeasonTopic) throw new Error('Topic is not added to your group yet!')
     if (!foundGroupSeasonTopic.groupSeason.isActive)
-      throw new Error("This group's season is not active!")
+      throw new Error('This group\'s season is not active!')
 
     const userGSTP = await this.userGroupSeasonTopicRepository.findOne({
       userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },

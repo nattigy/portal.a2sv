@@ -20,9 +20,11 @@ import { MailerModule } from '@nestjs-modules/mailer'
 import { join } from 'path'
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter'
 import { UserGroupSeasonDailyAnalyticsModule } from './app/user-group-season-daily-analytics/user-group-season-daily-analytics.module'
-import { UsersUpdateProblemStatusModule } from './users-update-problem-status/users-update-problem-status.module'
+import { UsersUpdateProblemStatusModule } from './services/users-update-problem-status/users-update-problem-status.module'
 import { UserGroupSeasonTopicResolver } from './app/user-group-season-topic/user-group-season-topic.resolver'
 import { UserGroupSeasonDailyAnalyticResolver } from './app/user-group-season-daily-analytics/user-group-season-daily-analytic.resolver';
+import { UserGroupSeasonWeeklyAnalyticsModule } from './app/user-group-season-weekly-analytics/user-group-season-weekly-analytics.module';
+import { UserGroupSeasonMonthlyAnalyticsModule } from './app/user-group-season-monthly-analytics/user-group-season-monthly-analytics.module';
 
 @Module({
   imports: [
@@ -69,14 +71,14 @@ import { UserGroupSeasonDailyAnalyticResolver } from './app/user-group-season-da
       },
       resolvers: { DateTime: GraphQLISODateTime },
     }),
-    // MailModule,
+    MailModule,
     AuthModule,
     PrismaModule,
     CaslModule,
-    // TagModule,
-    // ProblemModule,
-    // TopicModule,
-    // UserProfileModule,
+    TagModule,
+    ProblemModule,
+    TopicModule,
+    UserProfileModule,
     PrismaModule,
     ServicesModule,
     // UserGroupSeasonDailyAnalyticsModule,

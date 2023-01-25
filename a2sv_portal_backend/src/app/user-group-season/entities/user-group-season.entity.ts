@@ -1,4 +1,4 @@
-import { Field, Float, Int, ObjectType } from '@nestjs/graphql'
+import { Field, Float, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql'
 
 import { User } from '../../user/entities/user.entity'
 import { UserGroupSeasonTopic } from '../../user-group-season-topic/entities/user-group-season-topic.entity'
@@ -15,7 +15,7 @@ export class UserGroupSeason {
   @Field()
   seasonId: string
 
-  @Field(() => User, { nullable: true })
+  @Field(() => User)
   user: User
 
   @Field(() => Float)
@@ -42,9 +42,9 @@ export class UserGroupSeason {
   @Field(() => UserGroupSeasonContest)
   userGroupSeasonContests: UserGroupSeasonContest[]
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   updatedAt?: Date
 }

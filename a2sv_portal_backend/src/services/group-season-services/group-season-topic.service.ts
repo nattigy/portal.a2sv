@@ -70,12 +70,12 @@ export class GroupSeasonTopicService {
     })
     groupTopic.numberOfProblems = groupTopic.groupSeasonTopicProblems.length
     groupTopic.comfortability =
-      (groupTopic.groupSeasonTopicProblems
+      groupTopic.numberOfProblems > 0 ? (groupTopic.groupSeasonTopicProblems
         .map(p => p.userGroupSeasonTopicProblems)
         .flat(1)
         .filter(up => up.status === UserTopicProblemStatusEnum.SOLVED).length /
         groupTopic.numberOfProblems) *
-      100
+      100 : 0.0
     return groupTopic
   }
 
@@ -91,12 +91,12 @@ export class GroupSeasonTopicService {
     groupTopics.map(groupTopic => {
       groupTopic.numberOfProblems = groupTopic.groupSeasonTopicProblems.length
       groupTopic.comfortability =
-        (groupTopic.groupSeasonTopicProblems
+        groupTopic.numberOfProblems > 0 ?  (groupTopic.groupSeasonTopicProblems
           .map(p => p.userGroupSeasonTopicProblems)
           .flat(1)
           .filter(up => up.status === UserTopicProblemStatusEnum.SOLVED).length /
           groupTopic.numberOfProblems) *
-        100
+        100 : 0.0
       return groupTopic
     })
     return groupTopics

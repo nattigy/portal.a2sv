@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { Field, Float, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql'
 import { UserGroupSeasonContestProblem } from '../../user-group-season-contest-problem/entities/user-group-season-contest-problem.entity'
 import { Contest } from '../../contest/entities/contest.entity'
 
@@ -25,7 +25,7 @@ export class UserGroupSeasonContest {
   @Field(() => Int)
   rank: number
 
-  @Field(() => Int)
+  @Field(() => Float)
   timeSpent: number
 
   @Field(() => Boolean)
@@ -37,9 +37,9 @@ export class UserGroupSeasonContest {
   @Field(() => [UserGroupSeasonContestProblem])
   userGroupSeasonContestProblems: UserGroupSeasonContestProblem[]
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   updatedAt?: Date
 }

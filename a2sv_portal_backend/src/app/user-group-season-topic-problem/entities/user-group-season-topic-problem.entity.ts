@@ -1,4 +1,4 @@
-import { Field, GraphQLISODateTime, Int, ObjectType, registerEnumType } from '@nestjs/graphql'
+import { Field, Float, GraphQLISODateTime, Int, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { Problem } from '../../problem/entities/problem.entity'
 import { UserTopicProblemStatusEnum } from '@prisma/client'
 
@@ -36,7 +36,7 @@ export class UserGroupSeasonTopicProblem {
   @Field({ nullable: true })
   solutionLink?: string
 
-  @Field(() => Int)
+  @Field(() => Float)
   numberOfMinutes: number
 
   @Field(() => Problem)

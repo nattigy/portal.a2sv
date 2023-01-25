@@ -28,6 +28,7 @@ export class AuthResolver {
     }
   }
 
+  @Public()
   @Mutation(() => ForgotResponse)
   async forgotPassword(@Args('email') email: string): Promise<ForgotResponse> {
     try {
@@ -47,6 +48,7 @@ export class AuthResolver {
     }
   }
 
+  @Public()
   @Mutation(() => ForgotResponse)
   async resendOtp(@Args('email') email: string) {
     try {
@@ -56,6 +58,7 @@ export class AuthResolver {
     }
   }
 
+  @Public()
   @Mutation(() => AuthResponse)
   @Mutation(() => User)
   async validateOtp(
@@ -79,6 +82,7 @@ export class AuthResolver {
     }
   }
 
+  @Public()
   @Query(() => Date)
   async checkOtpStatus(@Args('email') email: string): Promise<Date> {
     try {

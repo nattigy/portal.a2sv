@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { Field, Float, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql'
 import { GroupSeasonTopicProblem } from '../../group-season-topic-problem/entities/group-season-topic-problem.entity'
 import { Topic } from '../../topic/entities/topic.entity'
 
@@ -19,15 +19,15 @@ export class GroupSeasonTopic {
   @Field(() => Int)
   numberOfProblems: number
 
-  @Field(() => Int)
+  @Field(() => Float)
   comfortability: number
 
   @Field(() => [GroupSeasonTopicProblem], { description: 'Example field (placeholder)' })
   groupSeasonTopicProblems: GroupSeasonTopicProblem[]
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   updatedAt?: Date
 }

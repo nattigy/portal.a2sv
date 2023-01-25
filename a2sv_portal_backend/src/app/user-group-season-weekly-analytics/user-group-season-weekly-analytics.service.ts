@@ -1,22 +1,19 @@
-import { Injectable } from '@nestjs/common'
-import { UserGroupSeasonDailyAnalyticInput } from './dto/user-group-season-daily-analytic.input'
-import { UserGroupSeasonId } from '../user-group-season/dto/create-group-user-season.input'
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service'
 import { UserTopicProblemStatusEnum } from '@prisma/client'
+import { UserGroupSeasonId } from '../user-group-season/dto/create-group-user-season.input'
+import { UserGroupSeasonWeeklyAnalyticInput } from './dto/user-group-season-weekly-analytic.input'
 
 @Injectable()
-export class UserGroupSeasonDailyAnalyticsService {
-  constructor(
-    private readonly prismaService: PrismaService,
-  ) {
-  }
+export class UserGroupSeasonWeeklyAnalyticsService {
+  constructor(private readonly prismaService: PrismaService) {}
 
   async findAll() {
-    return this.prismaService.userGroupSeasonDailyAnalytics.findMany({})
+    return this.prismaService.userGroupSeasonWeeklyAnalytics.findMany({})
   }
 
   async findOne(userId: string, createdAt: Date) {
-    return this.prismaService.userGroupSeasonDailyAnalytics.findUnique({
+    return this.prismaService.userGroupSeasonWeeklyAnalytics.findUnique({
       where: {
         userId_createdAt: {
           userId,
@@ -26,7 +23,7 @@ export class UserGroupSeasonDailyAnalyticsService {
     })
   }
 
-  async upsert({ userId, groupId, seasonId, createdAt }: UserGroupSeasonDailyAnalyticInput) {
+  async upsert({ userId, groupId, seasonId, createdAt }: UserGroupSeasonWeeklyAnalyticInput) {
     const userProblems = await this.prismaService.userGroupSeasonTopicProblem.findMany({
       where: {
         userId,
@@ -35,7 +32,7 @@ export class UserGroupSeasonDailyAnalyticsService {
         statusUpdatedAt: createdAt,
       },
     })
-    return this.prismaService.userGroupSeasonDailyAnalytics.upsert({
+    return this.prismaService.userGroupSeasonWeeklyAnalytics.upsert({
       where: {
         userId_createdAt: {
           userId,
@@ -56,12 +53,12 @@ export class UserGroupSeasonDailyAnalyticsService {
         seasonId,
         solvedCount: userProblems.filter(up => up.status === UserTopicProblemStatusEnum.SOLVED)
           .length,
-        wrongCount: userProblems.map(up => up.status === UserTopicProblemStatusEnum.SOLVED ? up.numberOfAttempts - 1 : up.numberOfAttempts).reduce((a, b) => a + b, 0),
+        wrongCount: userProblems.map(up =>up.status === UserTopicProblemStatusEnum.SOLVED ? up.numberOfAttempts - 1 : up.numberOfAttempts).reduce((a, b) => a + b, 0),
       },
     })
   }
 
   async remove(id: UserGroupSeasonId) {
-    return `This action removes a #${id} userGroupSeasonDailyAnalytic`
+    return `This action removes a #${id} userGroupSeasonWeeklyAnalytic`
   }
 }

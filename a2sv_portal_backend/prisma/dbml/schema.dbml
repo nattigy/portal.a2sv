@@ -179,7 +179,7 @@ Table GroupSeasonTopic {
   seasonId String [not null]
   topicId String [not null]
   numberOfProblems Int [default: 0]
-  comfortability Int [default: 0]
+  comfortability Float [default: 0]
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   groupSeason GroupSeason [not null]
@@ -253,8 +253,8 @@ Table UserGroupSeason {
   rank Int [default: 0]
   totalSubmissions Int [default: 0]
   totalAcceptedSubmissions Int [default: 0]
-  acceptanceRate Int [default: 0]
-  averageContestRating Int [default: 0]
+  acceptanceRate Float [default: 0]
+  averageContestRating Float [default: 0]
   totalContestsAttended Int [default: 0]
   user User [not null]
   groupSeason GroupSeason [not null]
@@ -263,6 +263,8 @@ Table UserGroupSeason {
   userGroupSeasonTopics UserGroupSeasonTopic [not null]
   userGroupSeasonContests UserGroupSeasonContest [not null]
   userGroupSeasonDailyAnalytics UserGroupSeasonDailyAnalytics [not null]
+  userGroupSeasonWeeklyAnalytics UserGroupSeasonWeeklyAnalytics [not null]
+  userGroupSeasonMonthlyAnalytics UserGroupSeasonMonthlyAnalytics [not null]
 
   indexes {
     (userId, groupId, seasonId) [pk]
@@ -270,6 +272,36 @@ Table UserGroupSeason {
 }
 
 Table UserGroupSeasonDailyAnalytics {
+  userId String [not null]
+  groupId String [not null]
+  seasonId String [not null]
+  solvedCount Int [not null, default: 0]
+  wrongCount Int [not null, default: 0]
+  userGroupSeason UserGroupSeason [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+
+  indexes {
+    (userId, createdAt) [pk]
+  }
+}
+
+Table UserGroupSeasonWeeklyAnalytics {
+  userId String [not null]
+  groupId String [not null]
+  seasonId String [not null]
+  solvedCount Int [not null, default: 0]
+  wrongCount Int [not null, default: 0]
+  userGroupSeason UserGroupSeason [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+
+  indexes {
+    (userId, createdAt) [pk]
+  }
+}
+
+Table UserGroupSeasonMonthlyAnalytics {
   userId String [not null]
   groupId String [not null]
   seasonId String [not null]
@@ -292,7 +324,7 @@ Table UserGroupSeasonTopic {
   comfortLevel ComfortLevelEnum [not null, default: 'UNCOMFORTABLE']
   totalSubmissions Int [default: 0]
   totalAcceptedSubmissions Int [default: 0]
-  comfortabilityPercentage Int [default: 0]
+  comfortabilityPercentage Float [default: 0]
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   userGroupSeason UserGroupSeason [not null]
@@ -312,8 +344,8 @@ Table UserGroupSeasonTopicProblem {
   topicId String [not null]
   problemId String [not null]
   status UserTopicProblemStatusEnum [not null, default: 'NOT_SOLVED']
-  numberOfAttempts Int [not null]
-  numberOfMinutes Int [not null]
+  numberOfAttempts Int [not null, default: 0]
+  numberOfMinutes Float [not null, default: 0]
   solutionLink String
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
@@ -335,7 +367,7 @@ Table UserGroupSeasonContest {
   problemsSolved Int [not null, default: 0]
   wrongSubmissions Int [not null, default: 0]
   rank Int [not null, default: 0]
-  timeSpent Int [not null, default: 0]
+  timeSpent Float [not null, default: 0]
   contestAttended Boolean [not null, default: false]
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
@@ -356,8 +388,8 @@ Table UserGroupSeasonContestProblem {
   contestId String [not null]
   problemId String [not null]
   status UserContestProblemStatusEnum [not null, default: 'NOT_SOLVED']
-  numberOfAttempts Int [not null]
-  numberOfMinutes Int [not null]
+  numberOfAttempts Int [not null, default: 0]
+  numberOfMinutes Float [not null, default: 0]
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   userGroupSeasonContest UserGroupSeasonContest [not null]
@@ -570,6 +602,10 @@ Ref: UserGroupSeason.userId > User.id [delete: Cascade]
 Ref: UserGroupSeason.(groupId, seasonId) > GroupSeason.(groupId, seasonId) [delete: Cascade]
 
 Ref: UserGroupSeasonDailyAnalytics.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
+
+Ref: UserGroupSeasonWeeklyAnalytics.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
+
+Ref: UserGroupSeasonMonthlyAnalytics.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
 
 Ref: UserGroupSeasonTopic.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
 

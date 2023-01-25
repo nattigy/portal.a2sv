@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { PrismaService } from '../prisma/prisma.service'
-import { UserGroupSeasonTopicProblemService } from '../app/user-group-season-topic-problem/user-group-season-topic-problem.service'
-import { UpdateUserGroupSeasonTopicProblemInput } from '../app/user-group-season-topic-problem/dto/update-user-group-season-topic-problem.input'
-import { UserGroupSeasonTopicService } from '../app/user-group-season-topic/user-group-season-topic.service'
+import { PrismaService } from '../../prisma/prisma.service'
+import { UserGroupSeasonTopicProblemService } from '../../app/user-group-season-topic-problem/user-group-season-topic-problem.service'
+import { UpdateUserGroupSeasonTopicProblemInput } from '../../app/user-group-season-topic-problem/dto/update-user-group-season-topic-problem.input'
+import { UserGroupSeasonTopicService } from '../../app/user-group-season-topic/user-group-season-topic.service'
 import { ComfortLevelEnum } from '@prisma/client'
-import { UserGroupSeasonService } from '../app/user-group-season/user-group-season.service'
-import { UserGroupSeasonDailyAnalyticsService } from '../app/user-group-season-daily-analytics/user-group-season-daily-analytics.service'
+import { UserGroupSeasonService } from '../../app/user-group-season/user-group-season.service'
+import { UserGroupSeasonDailyAnalyticsService } from '../../app/user-group-season-daily-analytics/user-group-season-daily-analytics.service'
 
 @Injectable()
 export class UsersUpdateProblemStatusService {

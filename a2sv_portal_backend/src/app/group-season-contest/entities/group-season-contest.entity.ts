@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql'
+import { Field, GraphQLISODateTime, ObjectType } from '@nestjs/graphql'
 import { Contest } from '../../contest/entities/contest.entity'
 import { GroupSeasonContestProblem } from '../../group-season-contest-problem/entities/group-season-contest-problem.entity'
 
@@ -14,10 +14,10 @@ export class GroupSeasonContest {
   contestId: string
 
   // TODO: add all necessary fields from contest
-  @Field(() => Date)
+  @Field(() => GraphQLISODateTime)
   startTime: Date
 
-  @Field(() => Date)
+  @Field(() => GraphQLISODateTime)
   endTime: Date
 
   @Field(() => Contest)
@@ -29,9 +29,9 @@ export class GroupSeasonContest {
   // @Field(() => [UserGroupSeasonContest])
   // userGroupSeasonContests: UserGroupSeasonContest[]
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   updatedAt?: Date
 }

@@ -53,7 +53,7 @@ export class UserGroupSeasonTopicProblemService {
         groupId,
         status: UserTopicProblemStatusEnum.NOT_SOLVED,
         numberOfAttempts: 0,
-        numberOfMinutes: 0,
+        numberOfMinutes: 0.0,
         solutionLink: '',
         problem: groupSeasonTopicProblem.problem,
       }
@@ -108,7 +108,7 @@ export class UserGroupSeasonTopicProblemService {
               problemId: groupSeasonTopicProblem.problemId,
               status: UserTopicProblemStatusEnum.NOT_SOLVED,
               numberOfAttempts: 0,
-              numberOfMinutes: 0,
+              numberOfMinutes: 0.0,
               solutionLink: '',
               problem: groupSeasonTopicProblem.problem,
             })
