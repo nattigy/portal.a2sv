@@ -86,7 +86,7 @@ export class UserGroupSeasonTopicService {
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationUserGroupSeasonTopic> {
     // mapping with groupSeasonTopics
-    const { groupId, seasonId, userId } = filterUserGroupSeasonTopicInput
+    const { groupId, seasonId, userId, topicId } = filterUserGroupSeasonTopicInput
     const count = await this.userGroupSeasonTopicRepository.count(
       filterUserGroupSeasonTopicInput,
     )
@@ -101,7 +101,7 @@ export class UserGroupSeasonTopicService {
       })
     const userGroupSeasonTopicProblems =
       await this.userGroupSeasonTopicProblemService.userGroupSeasonTopicProblems({
-        ...filterUserGroupSeasonTopicInput,
+        userId, groupId, seasonId, topicId,
       })
     const groupSeasonTopics: GroupSeasonTopic[] =
       await this.groupSeasonTopicRepository.findAll({
