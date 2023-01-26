@@ -1,9 +1,9 @@
 import { useLazyQuery, useQuery } from "@apollo/client";
 import {
-  GET_ALL_GROUP_TOPICS_BY_SEASON_ID_QUERY,
-  GET_ALL_TOPICS_BY_SEASON_ID_QUERY,
+    GET_ALL_TOPICS_BY_SEASON_ID_QUERY,
   GET_ALL_TOPICS_QUERY,
   GET_ALL_TOPICS_BY_GROUP_AND_SEASON_ID_QUERY,
+  GET_SEASON_TOPICS,
 } from "../apollo/Queries/topicsQueries";
 
 export const useGetAllTopicsBySeasonIdQuery = (seasonId: any) => {
@@ -15,17 +15,17 @@ export const useGetAllTopicsBySeasonIdQuery = (seasonId: any) => {
     },
   });
 };
-export const useGetAllGroupTopicsBySeasonIdQuery = (seasonId: string) => {
-  return useLazyQuery(GET_ALL_GROUP_TOPICS_BY_SEASON_ID_QUERY, {
-    notifyOnNetworkStatusChange: true,
-    errorPolicy: "all",
-    variables: {
-      filterSeasonTopicInput: {
-        seasonId,
-      },
-    },
-  });
-};
+// export const useGetAllGroupTopicsBySeasonIdQuery = (seasonId: string) => {
+//   return useLazyQuery(GET_SEASON_TOPICS, {
+//     notifyOnNetworkStatusChange: true,
+//     errorPolicy: "all",
+//     variables: {
+//       filterSeasonTopicInput: {
+//         seasonId,
+//       },
+//     },
+//   });
+// };
 
 export const useGetAllTopicsByGroupAndSeasonIdQuery = (
   seasonId: string,
@@ -43,6 +43,17 @@ export const useGetAllTopicsByGroupAndSeasonIdQuery = (
 
 export const useGetAllTopics = () => {
   return useQuery(GET_ALL_TOPICS_QUERY, {
+    notifyOnNetworkStatusChange: true,
+    errorPolicy: "all",
+  });
+};
+
+export const useGetSeasonTopics = (seasonId: string) => {
+  return useLazyQuery(GET_SEASON_TOPICS, {
+    variables: {
+      seasonId: seasonId,
+      paginationInput: null,
+    },
     notifyOnNetworkStatusChange: true,
     errorPolicy: "all",
   });

@@ -5,7 +5,7 @@ import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../types/user";
 import useAllProblems, {
   useGetProblemsByGroupSeasonTopic,
-  useGetProblemsBySeasonTopicForHOA,
+  useGetSeasonTopicProblems,
 } from "../../lib/hooks/useAllProblems";
 import { LoaderSmall } from "../common/Loaders";
 import Button from "../common/Button";
@@ -31,31 +31,19 @@ type ProblemsPageProps = {
 };
 
 const ProblemsPage = (props: ProblemsPageProps) => {
+  const {seasonId,topicId} = props;
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddNewProblemModalOpen, setIsAddNewProblemModalOpen] =
     useState<boolean>(false);
-  // const { loading, data, error } = useGetProblemsByGroupSeasonTopic(
-  //   // props.seasonId,
-  //   // props.topicId,
-  //   // "e71957cb-6c20-4ccc-afc3-b924cb6b978a",
-  //   // authUser.groupId,
-  //   "32c54ff0-429f-4407-b310-8ab898e227c4",
-  //   "e71957cb-6c20-4ccc-afc3-b924cb6b978a",
-  //   "e8f0dfdf-cb21-4484-880f-650c10f4ae6d",
-  //   );
-  const {
-    loading: hoaLoading,
-    data: hoaData,
-    error: hoaError,
-  } = useGetProblemsBySeasonTopicForHOA("e71957cb-6c20-4ccc-afc3-b924cb6b978a");
 
+  const {data,loading,error} = useGetSeasonTopicProblems(seasonId,topicId);
   const [
     removeSeasonTopic,
     { loading: removeTopicLoading, error: removeTopicError },
   ] = useMutation(REMOVE_SEASON_TOPIC);
   const [problems, setProblems] = useState<ProblemType[]>([]);
-  const [hoaProblems, setHoaProblems] = useState<ProblemType[]>([]);
+  const [seasonTopicProblems, setSeasonTopicProblems] = useState<ProblemType[]>([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
@@ -80,14 +68,14 @@ const ProblemsPage = (props: ProblemsPageProps) => {
     //     data?.groupSeasonTopic?.groupSeasonTopicProblems?.map((item: any) => item.problem)
     //   );
     // }
-    if (hoaData) {
-      setHoaProblems(
-        hoaData?.seasonsTopics?.items?.seasonTopicProblems?.map(
+    if (data) {
+      setSeasonTopicProblems(
+        data?.seasonTopic?.seasonTopicProblems?.map(
           (item: any) => item.problem
         )
       );
     }
-  }, [hoaData]);
+  }, [data]);
   const router = useRouter();
 
   return (
@@ -181,19 +169,19 @@ const ProblemsPage = (props: ProblemsPageProps) => {
             </div>
           </div>
         </div>
-        {hoaLoading ? (
+        {loading ? (
           <div className="w-full flex items-center justify-center">
             <LoaderSmall />
           </div>
-        ) : hoaError ? (
+        ) : error ? (
           <p>Something went wrong</p>
-        ) : hoaProblems?.length === 0 ? (
+        ) : seasonTopicProblems?.length === 0 ? (
           <EmptyState />
         ) : (
           <div>
             {authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY && (
               <ProblemsTable
-                problems={hoaProblems}
+                problems={seasonTopicProblems}
                 seasonId={props.seasonId}
                 topicId={props.topicId}
               />

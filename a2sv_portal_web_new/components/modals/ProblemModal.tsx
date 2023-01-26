@@ -8,19 +8,15 @@ import { IoMdClose } from "react-icons/io";
 import Tag from "../common/Tag";
 import { ApolloError, useMutation } from "@apollo/client";
 import {
-  ADD_EXISTING_PROBLEM,
-  CREATE_PROBLEM_MUTATION,
+  ADD_PROBLEM_TO_SEASON_TOPIC,
+  CREATE_PROBLEM,
   UPDATE_PROBLEM,
 } from "../../lib/apollo/Mutations/problemsMutations";
-import AutoCompleteProblems, {
-  AutoCompleteProblemsProps,
-} from "../problems/ProblemsAutocomplete";
 import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormRejectButton from "../common/FormRejectButton";
 import FormField from "../common/FormField";
 import FormRadio from "../common/FormRadio";
 import ProblemsAutocomplete from "../problems/ProblemsAutocomplete";
-import { platform } from "os";
 
 interface FormValues {
   search: string;
@@ -38,15 +34,14 @@ type Props = {
   topicId?: string;
   seasonId?: string;
   problem?: ProblemType;
-  newProblem?:boolean;
+  newProblem?: boolean;
 };
 
 const ProblemModal = (props: Props) => {
-  const [createNewProblem] = useMutation(CREATE_PROBLEM_MUTATION);
-  const [addExistingProblem] = useMutation(ADD_EXISTING_PROBLEM);
+  const [createNewProblem] = useMutation(CREATE_PROBLEM);
   const [updateProblem] = useMutation(UPDATE_PROBLEM);
+  const [addProblemToSeasonTopic] = useMutation(ADD_PROBLEM_TO_SEASON_TOPIC);
 
-  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const [input, setInput] = useState("");
@@ -141,7 +136,6 @@ const ProblemModal = (props: Props) => {
                 },
               });
             } else {
-              setIsLoading(true);
               if (existingProblem === null) {
                 await createNewProblem({
                   variables: {
@@ -158,16 +152,12 @@ const ProblemModal = (props: Props) => {
                   refetchQueries: "active",
                   notifyOnNetworkStatusChange: true,
                   onCompleted: async (data) => {
-                    await addExistingProblem({
+                    await addProblemToSeasonTopic({
                       variables: {
-                        updateSeasonTopicInput: {
-                          seasonId: props.seasonId?.toString(),
-                          topicId: props.topicId?.toString(),
-                          problems: [
-                            {
-                              problemId: data.createProblem.id,
-                            },
-                          ],
+                        problemIds: [data.createProblem.id],
+                        seasonTopicId: {
+                          seasonId: props.seasonId,
+                          topicId: props.topicId,
                         },
                       },
                       refetchQueries: "active",
@@ -183,32 +173,24 @@ const ProblemModal = (props: Props) => {
                   },
                   onError: (error) => {
                     setErrorMessage((error as ApolloError).message);
-                    setIsLoading(false);
                   },
                 });
               } else {
-                await addExistingProblem({
+                await addProblemToSeasonTopic({
                   variables: {
-                    updateSeasonTopicInput: {
-                      seasonId: props.seasonId?.toString(),
-                      topicId: props.topicId?.toString(),
-                      problems: [
-                        {
-                          problemId: existingProblem.id.toString(),
-                        },
-                      ],
+                    problemIds: [existingProblem.id],
+                    seasonTopicId: {
+                      seasonId: props.seasonId,
+                      topicId: props.topicId,
                     },
                   },
                   refetchQueries: "active",
                   notifyOnNetworkStatusChange: true,
                   onCompleted: (data) => {
-                    console.log("Add existing success", data);
-                    setIsLoading(false);
                     props.onClose();
                   },
                   onError: (error) => {
                     setErrorMessage((error as ApolloError).message);
-                    setIsLoading(false);
                   },
                 });
               }
@@ -225,9 +207,7 @@ const ProblemModal = (props: Props) => {
                 <div className="w-full flex flex-col gap-y-2 items-center">
                   <div className="my-2 w-full flex justify-between items-center">
                     {props.isEditing ? (
-                      <h2 className="font-semibold text-lg">
-                       Edit Problem
-                      </h2>
+                      <h2 className="font-semibold text-lg">Edit Problem</h2>
                     ) : (
                       <h2 className="font-semibold text-lg">Add New Problem</h2>
                     )}
@@ -268,7 +248,7 @@ const ProblemModal = (props: Props) => {
                       or choose existing one
                     </p>
                   )} */}
-                  {!props.isEditing &&!props.newProblem && (
+                  {!props.isEditing && !props.newProblem && (
                     <div className="w-full flex flex-col justify-start gap-y-2">
                       <ProblemsAutocomplete
                         handleSearchProblem={handleSearchProblem}
@@ -318,24 +298,7 @@ const ProblemModal = (props: Props) => {
                                       alt=""
                                       className="absolute left-3 z-10"
                                     />
-                                    {/* <FormDropdown
-                                      name="platform"
-                                      placeholder="Select Platform"
-                                      error={errors.platform}
-                                      touched={touched.platform}
-                                      icon={<FaChevronDown size={16} />}
-                                      options={[
-                                        { name: "Leetcode", value: "Leetcode" },
-                                        {
-                                          name: "Hackerrank",
-                                          value: "Hackerrank",
-                                        },
-                                        {
-                                          name: "Codeforces",
-                                          value: "Codeforces",
-                                        },
-                                      ]}
-                                    /> */}
+          
                                     <Field
                                       as="select"
                                       name="platform"

@@ -57,9 +57,9 @@ export const GET_ALL_TOPICS_BY_SEASON_ID_QUERY = gql`
   }
 `;
 
-export const GET_ALL_GROUP_TOPICS_BY_SEASON_ID_QUERY = gql`
-  query SeasonTopics($filterSeasonTopicInput: FilterSeasonTopicInput!) {
-    seasonTopics(filterSeasonTopicInput: $filterSeasonTopicInput) {
+export const GET_SEASON_TOPICS = gql`
+query SeasonsTopics($seasonId: String!, $paginationInput: PaginationInput) {
+  seasonsTopics(seasonId: $seasonId, paginationInput: $paginationInput) {
       items {
         topicId
         topic {

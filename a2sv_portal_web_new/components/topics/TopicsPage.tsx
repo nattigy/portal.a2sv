@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import WithPermission from "../../lib/Guard/WithPermission";
 import {
-  useGetAllGroupTopicsBySeasonIdQuery,
+  useGetSeasonTopics,
   useGetAllTopics,
 } from "../../lib/hooks/useTopics";
 import { GraphqlUserRole } from "../../types/user";
@@ -26,7 +26,7 @@ const TopicsPage = ({ seasonId }: Props) => {
   };
 
   const [fetchSeasonTopics, { data, refetch, loading }] =
-    useGetAllGroupTopicsBySeasonIdQuery(seasonId);
+  useGetSeasonTopics(seasonId);
   const [seasonTopics, setSeasonTopics] = useState([]);
   const [tabIndex, setTabIndex] = useState(0);
   useEffect(() => {

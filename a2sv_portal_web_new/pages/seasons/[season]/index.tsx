@@ -16,15 +16,20 @@ import {
 } from "../../../lib/constants/authenticated";
 import WithPermission from "../../../lib/Guard/WithPermission";
 import {
-  useGetAllGroupTopicsBySeasonIdQuery,
-  useGetAllTopics,
+  
+  useGetAllTopics, useGetSeasonTopics,
 } from "../../../lib/hooks/useTopics";
 import { GraphqlUserRole } from "../../../types/user";
 
 const IndexPage = () => {
-  const authUser = useReactiveVar(authenticatedUser) as AuthUser;
+  const router = useRouter();
   const [isAddTopicToGroupModalOpen, setIsAddTopicToGroupModalOpen] =
     useState(false);
+
+  const [fetchSeasonTopics, { data, refetch, loading }] =
+  useGetSeasonTopics(
+      router.query?.seasonId?.toString() || ""
+    );
   const {
     data: allTopics,
     loading: allTopcisLoading,
@@ -34,24 +39,9 @@ const IndexPage = () => {
   const handleAddTopicToGroupModalOpen = () => {
     setIsAddTopicToGroupModalOpen(true);
   };
-  const router = useRouter();
-  const [fetchSeasonTopics, { data, refetch, loading }] =
-    useGetAllGroupTopicsBySeasonIdQuery(
-      router.query?.seasonId?.toString() || ""
-    );
+
   const [topics, setTopics] = useState([]);
   const [tabIndex, setTabIndex] = useState(0);
-  // useEffect(() => {
-  //   if (!router.isReady) return;
-  //   fetchSeasonTopics({
-  //     variables: {
-  //       filterSeasonTopicInput: {
-  //         seasonId: router.query?.seasonId?.toString() || "",
-  //       },
-  //     },
-  //   });
-  //   // codes using router.query
-  // }, [router.isReady,refetch,data,fetchSeasonTopics]);
 
   const handleTabChange = (index: number) => {
     setTabIndex(index);
@@ -120,14 +110,6 @@ const IndexPage = () => {
             activeIndex={tabIndex}
           />
         </WithPermission>
-
-        {/* {loading ? (
-        <div className="w-full h-full flex justify-center items-center">
-          <LoaderSmall color="#5956E9" />
-        </div>
-      ) : error ? (
-        <p>Something went wrong</p>
-      ) : ( */}
 
         <div className="w-full flex flex-col gap-y-4">
           {loading ? (
