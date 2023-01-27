@@ -30,7 +30,10 @@ export class UserGroupSeasonMonthlyAnalyticsService {
         userId,
         groupId,
         seasonId,
-        statusUpdatedAt: createdAt,
+        statusUpdatedAt: {
+          gte: new Date(new Date(createdAt).getTime() - 30 * 24 * 60 * 60 * 1000),
+          lte: createdAt,
+        },
       },
     })
     return this.prismaService.userGroupSeasonMonthlyAnalytics.upsert({

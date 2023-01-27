@@ -6,6 +6,12 @@ import { UserGroupSeasonTopicService } from '../../app/user-group-season-topic/u
 import { ComfortLevelEnum } from '@prisma/client'
 import { UserGroupSeasonService } from '../../app/user-group-season/user-group-season.service'
 import { UserGroupSeasonDailyAnalyticsService } from '../../app/user-group-season-daily-analytics/user-group-season-daily-analytics.service'
+import {
+  UserGroupSeasonWeeklyAnalyticsService
+} from '../../app/user-group-season-weekly-analytics/user-group-season-weekly-analytics.service'
+import {
+  UserGroupSeasonMonthlyAnalyticsService
+} from '../../app/user-group-season-monthly-analytics/user-group-season-monthly-analytics.service'
 
 @Injectable()
 export class UsersUpdateProblemStatusService {
@@ -14,6 +20,8 @@ export class UsersUpdateProblemStatusService {
     private readonly userGroupSeasonTopicService: UserGroupSeasonTopicService,
     private readonly userGroupSeasonService: UserGroupSeasonService,
     private readonly userGroupSeasonDailyAnalyticsService: UserGroupSeasonDailyAnalyticsService,
+    private readonly userGroupSeasonWeeklyAnalyticsService: UserGroupSeasonWeeklyAnalyticsService,
+    private readonly userGroupSeasonMonthlyAnalyticsService: UserGroupSeasonMonthlyAnalyticsService,
     private readonly prismaService: PrismaService,
   ) {}
 
@@ -132,6 +140,20 @@ export class UsersUpdateProblemStatusService {
     }
     // update the stat on today's date
     await this.userGroupSeasonDailyAnalyticsService.upsert({
+      userId,
+      groupId,
+      seasonId,
+      createdAt: updated.statusUpdatedAt,
+    })
+    // update the weekly
+    await this.userGroupSeasonWeeklyAnalyticsService.upsert({
+      userId,
+      groupId,
+      seasonId,
+      createdAt: updated.statusUpdatedAt,
+    })
+    // update the monthly stat
+    await this.userGroupSeasonMonthlyAnalyticsService.upsert({
       userId,
       groupId,
       seasonId,

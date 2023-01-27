@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
 import { UserTopicProblemStatusEnum } from '@prisma/client'
 import { UserGroupSeasonId } from '../user-group-season/dto/create-group-user-season.input'
@@ -6,7 +6,8 @@ import { UserGroupSeasonWeeklyAnalyticInput } from './dto/user-group-season-week
 
 @Injectable()
 export class UserGroupSeasonWeeklyAnalyticsService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async findAll() {
     return this.prismaService.userGroupSeasonWeeklyAnalytics.findMany({})
@@ -29,7 +30,10 @@ export class UserGroupSeasonWeeklyAnalyticsService {
         userId,
         groupId,
         seasonId,
-        statusUpdatedAt: createdAt,
+        statusUpdatedAt: {
+          gte: new Date(new Date(createdAt).getTime() - 7 * 24 * 60 * 60 * 1000),
+          lte: createdAt,
+        },
       },
     })
     return this.prismaService.userGroupSeasonWeeklyAnalytics.upsert({
@@ -53,7 +57,7 @@ export class UserGroupSeasonWeeklyAnalyticsService {
         seasonId,
         solvedCount: userProblems.filter(up => up.status === UserTopicProblemStatusEnum.SOLVED)
           .length,
-        wrongCount: userProblems.map(up =>up.status === UserTopicProblemStatusEnum.SOLVED ? up.numberOfAttempts - 1 : up.numberOfAttempts).reduce((a, b) => a + b, 0),
+        wrongCount: userProblems.map(up => up.status === UserTopicProblemStatusEnum.SOLVED ? up.numberOfAttempts - 1 : up.numberOfAttempts).reduce((a, b) => a + b, 0),
       },
     })
   }

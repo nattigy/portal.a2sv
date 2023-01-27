@@ -3,6 +3,7 @@ import { UserGroupSeasonMonthlyAnalyticsService } from './user-group-season-mont
 import { UserGroupSeasonMonthlyAnalyticsResolver } from './user-group-season-monthly-analytics.resolver';
 
 @Module({
-  providers: [UserGroupSeasonMonthlyAnalyticsResolver, UserGroupSeasonMonthlyAnalyticsService]
+  providers: [UserGroupSeasonMonthlyAnalyticsResolver, UserGroupSeasonMonthlyAnalyticsService],
+  exports: [UserGroupSeasonMonthlyAnalyticsService]
 })
 export class UserGroupSeasonMonthlyAnalyticsModule {}

@@ -56,9 +56,9 @@ export class UserGroupSeasonTopicService {
           topicId,
         },
       })
-      const totalSubmissions = userGroupSeasonTopicProblems.items.filter(
-        p => p.status !== UserTopicProblemStatusEnum.NOT_SOLVED,
-      ).length
+      const totalSubmissions = userGroupSeasonTopicProblems.items.map(
+        p => p.numberOfAttempts,
+      ).reduce((a, b) => a + b, 0)
       const totalAcceptedSubmissions = userGroupSeasonTopicProblems.items.filter(
         p => p.status === UserTopicProblemStatusEnum.SOLVED,
       ).length
@@ -145,9 +145,9 @@ export class UserGroupSeasonTopicService {
             const solved = userProblems.filter(
               p => p.status === UserTopicProblemStatusEnum.SOLVED,
             ).length
-            const totalSubmissions = userProblems.filter(
-              p => p.status !== UserTopicProblemStatusEnum.NOT_SOLVED,
-            ).length
+            const totalSubmissions = userProblems.map(
+              p => p.numberOfAttempts,
+            ).reduce((a, b) => a + b, 0)
             result.push({
               seasonId: groupSeasonTopic.seasonId,
               userId: user.id,
@@ -164,7 +164,6 @@ export class UserGroupSeasonTopicService {
         }
       }
     }
-    // console.log(result)
     return {
       items: result,
       pageInfo: { skip, take, count },
