@@ -34,7 +34,6 @@ export const GET_USER_PROFILE = gql`
         educationField
         educationPlace
         educationYear
-        facebook
         firstName
         geekforgeeks
         github

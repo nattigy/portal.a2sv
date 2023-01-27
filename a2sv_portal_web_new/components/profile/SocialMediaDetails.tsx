@@ -91,14 +91,6 @@ const SocialMediaDetails = ({ formik, changeTabIndex }: Props) => {
           icon={<SiLinkedin size={24} color="blue" />}
         />
         <hr className="mx-2" />
-        <CustomLinkField
-          name="facebook"
-          placeholder="Facebook"
-          title="Facebook URL"
-          touched={touched.facebook}
-          error={errors.facebook}
-          icon={<SiFacebook size={24} color="blue" />}
-        />
       </div>
     </div>
   );

@@ -34,7 +34,6 @@ export interface ProfileFormValues {
   twitter: string;
   telegram: string;
   github: string;
-  facebook: string;
   leetcode: string;
   hackerrank: string;
   codeforces: string;
@@ -89,7 +88,6 @@ const FORM_VALIDATION = yup.object().shape({
   educationPlace: yup.string().required("Required"),
   currentWorkStatus: yup.string().required("Required"),
   currentEducationStatus: yup.string().required("Required"),
-  facebook: yup.string().required("Required"),
   bio: yup
     .string()
     .required("Required")
@@ -127,7 +125,6 @@ const ProfileInfo = ({ userProfile }: Props) => {
     codeforces: userProfile?.codeforces || "",
     geeksforgeeks: userProfile?.geekforgeeks || "",
     resumeLink: userProfile?.resumeLink || "",
-    facebook: userProfile?.facebook || "",
     email: authUser.email,
     educationPlace: userProfile?.educationPlace || "",
     currentWorkStatus: userProfile?.currentWorkStatus || "",
@@ -180,8 +177,6 @@ const ProfileInfo = ({ userProfile }: Props) => {
                     twitter: values.twitter,
                     telegram: values.telegram,
                     linkedin: values.linkedin,
-                    facebook: values.facebook,
-
                     leetcode: values.leetcode,
                     geekforgeeks: values.geeksforgeeks,
                     hackerrank: values.hackerrank,
@@ -215,8 +210,6 @@ const ProfileInfo = ({ userProfile }: Props) => {
                     twitter: values.twitter,
                     telegram: values.telegram,
                     linkedin: values.linkedin,
-                    facebook: values.facebook,
-
                     leetcode: values.leetcode,
                     geekforgeeks: values.geeksforgeeks,
                     hackerrank: values.hackerrank,

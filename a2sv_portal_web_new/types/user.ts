@@ -30,7 +30,6 @@ export type UserProfile = {
   educationField: string;
   educationPlace: string;
   educationYear: string;
-  facebook: string;
   firstName: string;
   geekforgeeks: string;
   github: string;

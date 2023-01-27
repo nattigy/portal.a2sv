@@ -30,7 +30,6 @@ export const GET_ME_QUERY = gql`
         educationPlace
         educationYear
         email
-        facebook
         firstName
         geekforgeeks
         github
