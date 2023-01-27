@@ -1,4 +1,3 @@
-import { useReactiveVar } from "@apollo/client";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import BaseLayout from "../../../components/common/BaseLayout";
@@ -8,15 +7,9 @@ import { LoaderSmall } from "../../../components/common/Loaders";
 import TopicModal from "../../../components/modals/TopicModal";
 import TopicList from "../../../components/topics/TopicList";
 import TopicsFilter from "../../../components/topics/TopicsFilter";
-import TopicsPage from "../../../components/topics/TopicsPage";
 import TopicStruggledList from "../../../components/topics/TopicStruggledList";
-import {
-  authenticatedUser,
-  AuthUser,
-} from "../../../lib/constants/authenticated";
 import WithPermission from "../../../lib/Guard/WithPermission";
 import {
-  
   useGetAllTopics, useGetSeasonTopics,
 } from "../../../lib/hooks/useTopics";
 import { GraphqlUserRole } from "../../../types/user";
@@ -26,14 +19,14 @@ const IndexPage = () => {
   const [isAddTopicToGroupModalOpen, setIsAddTopicToGroupModalOpen] =
     useState(false);
 
-  const [fetchSeasonTopics, { data, refetch, loading }] =
+  const [fetchSeasonTopics, { data, refetch, loading ,error}] =
   useGetSeasonTopics(
       router.query?.seasonId?.toString() || ""
     );
   const {
     data: allTopics,
     loading: allTopcisLoading,
-    error,
+    error:allTopicsError,
   } = useGetAllTopics();
 
   const handleAddTopicToGroupModalOpen = () => {
@@ -52,15 +45,15 @@ const IndexPage = () => {
   }, [tabIndex, refetch, fetchSeasonTopics]);
 
   useEffect(() => {
-    if (tabIndex == 0) {
-      if (allTopics) {
-        setTopics(allTopics?.topics?.items);
-      }
-    } else {
+    // if (tabIndex == 0) {
+    //   if (allTopics) {
+    //     setTopics(allTopics?.topics?.items);
+    //   }
+    // } else {
       if (data) {
-        setTopics(data.seasonTopics?.items.map((item: any) => item.topic));
+        setTopics(data.seasonsTopics?.items.map((item: any) => item.topic));
       }
-    }
+    // }
   }, [refetch, data, tabIndex, allTopics]);
 
   const Sidebar: React.FC = () => {
@@ -95,11 +88,22 @@ const IndexPage = () => {
         <div className="w-full flex flex-col md:flex-row justify-between">
           <div className=" justify-between flex items-center mb-2 gap-x-5 ">
             <h1 className="text-lg font-semibold text-gray-700">Topics</h1>
+            {/* {JSON.stringify(data)} */}
+            {/* {JSON.stringify(router.query?.seasonId)} */}
+            {/* {JSON.stringify(error)} */}
+
           </div>
-          <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION]}>
+          {/* <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION]}>
             <Button
               onClick={handleAddTopicToGroupModalOpen}
               text="Add Topic to Group"
+              classname="bg-primary text-white text-xs"
+            />
+          </WithPermission> */}
+          <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_ACADEMY]}>
+            <Button
+              onClick={handleAddTopicToGroupModalOpen}
+              text="Add Topic to Season"
               classname="bg-primary text-white text-xs"
             />
           </WithPermission>
@@ -118,7 +122,7 @@ const IndexPage = () => {
             </div>
           ) : // ) : error ? (
           //   <p>Something went wrong</p>
-          topics.length === 0 ? (
+          topics?.length === 0 ? (
             <EmptyState />
           ) : (
             <TopicList

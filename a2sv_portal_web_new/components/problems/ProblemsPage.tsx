@@ -19,6 +19,7 @@ import { REMOVE_SEASON_TOPIC } from "../../lib/apollo/Mutations/topicsMutations"
 import { useRouter } from "next/router";
 import ProblemsTable from "./ProblemsTable";
 import { getSVGIcon } from "../../helpers/getSVGPath";
+import WithPermission from "../../lib/Guard/WithPermission";
 
 export type PlatformInfo = {
   id: string;
@@ -31,19 +32,21 @@ type ProblemsPageProps = {
 };
 
 const ProblemsPage = (props: ProblemsPageProps) => {
-  const {seasonId,topicId} = props;
+  const { seasonId, topicId } = props;
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddNewProblemModalOpen, setIsAddNewProblemModalOpen] =
     useState<boolean>(false);
 
-  const {data,loading,error} = useGetSeasonTopicProblems(seasonId,topicId);
+  const { data, loading, error } = useGetSeasonTopicProblems(seasonId, topicId);
   const [
     removeSeasonTopic,
     { loading: removeTopicLoading, error: removeTopicError },
   ] = useMutation(REMOVE_SEASON_TOPIC);
   const [problems, setProblems] = useState<ProblemType[]>([]);
-  const [seasonTopicProblems, setSeasonTopicProblems] = useState<ProblemType[]>([]);
+  const [seasonTopicProblems, setSeasonTopicProblems] = useState<ProblemType[]>(
+    []
+  );
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
@@ -70,9 +73,7 @@ const ProblemsPage = (props: ProblemsPageProps) => {
     // }
     if (data) {
       setSeasonTopicProblems(
-        data?.seasonTopic?.seasonTopicProblems?.map(
-          (item: any) => item.problem
-        )
+        data?.seasonTopic?.seasonTopicProblems?.map((item: any) => item.problem)
       );
     }
   }, [data]);
@@ -179,13 +180,18 @@ const ProblemsPage = (props: ProblemsPageProps) => {
           <EmptyState />
         ) : (
           <div>
-            {authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY && (
+            <WithPermission
+              allowedRoles={[
+                GraphqlUserRole.HEAD_OF_ACADEMY,
+                GraphqlUserRole.HEAD_OF_EDUCATION,
+              ]}
+            >
               <ProblemsTable
                 problems={seasonTopicProblems}
                 seasonId={props.seasonId}
                 topicId={props.topicId}
               />
-            )}
+            </WithPermission>
             {/* {authUser.role !== GraphqlUserRole.HEAD_OF_ACADEMY && (
               <ProblemsTable
                 problems={problems}

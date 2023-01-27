@@ -18,11 +18,11 @@ type Props = {
 };
 const TopicsPage = ({ seasonId }: Props) => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
-  const [isAddTopicToGroupModalOpen, setIsAddTopicToGroupModalOpen] =
+  const [isGroupModalOpen, setIsGroupModalOpen] =
     useState(false);
 
   const handleAddTopicToGroupModalOpen = () => {
-    setIsAddTopicToGroupModalOpen(true);
+    setIsGroupModalOpen(true);
   };
 
   const [fetchSeasonTopics, { data, refetch, loading }] =
@@ -33,7 +33,6 @@ const TopicsPage = ({ seasonId }: Props) => {
     fetchSeasonTopics();
   }, [tabIndex, refetch, fetchSeasonTopics]);
 
-  console.log("Daksfkldfsklfdklmdta", data);
   useEffect(() => {
     if (data) {
       setSeasonTopics(data?.seasonTopics?.items);

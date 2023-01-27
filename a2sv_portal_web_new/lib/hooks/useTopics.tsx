@@ -52,7 +52,6 @@ export const useGetSeasonTopics = (seasonId: string) => {
   return useLazyQuery(GET_SEASON_TOPICS, {
     variables: {
       seasonId: seasonId,
-      paginationInput: null,
     },
     notifyOnNetworkStatusChange: true,
     errorPolicy: "all",

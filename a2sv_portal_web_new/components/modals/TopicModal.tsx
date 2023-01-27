@@ -27,25 +27,28 @@ type Props = {
 };
 
 const TopicModal = (props: Props) => {
-  // const INITIAL_VALUES = {} as FormValues;
   const [errorMessage, setErrorMessage] = useState("");
   const [addNewTopic, { loading, error, data }] = useMutation(
     CREATE_TOPIC_MUTATION
   );
   const [editTopic, { loading: editLoading, error: editError }] =
     useMutation(EDIT_TOPIC);
-  const [addTopicToGroupAndSeason] = useMutation(ADD_SEASON_TOPIC);
+  const [addTopicToSeason] = useMutation(ADD_SEASON_TOPIC);
   const [existingTopic, setExistingTopic] = useState<TopicType | null>(null);
 
   const INITIAL_VALUES: FormValues = {
     topic_title: props.topic?.name || "",
     description: props.topic?.description || "",
   };
-
-  const FORM_VALIDATION = yup.object().shape({
-    topic_title: yup.string().required("Required"),
-    description: yup.string().required("Required"),
-  });
+  let validationShape;
+  if (existingTopic === null) {
+    validationShape = yup.object().shape({
+      topic_title: yup.string().required("Required"),
+      description: yup.string().required("Required"),
+    });
+  
+  }
+  const FORM_VALIDATION = validationShape;
 
   return (
     <>
@@ -83,8 +86,23 @@ const TopicModal = (props: Props) => {
                   },
                   refetchQueries: "active",
                   notifyOnNetworkStatusChange: true,
-                  onCompleted: () => {
-                    //another call here
+                  onCompleted: async(data) => {
+                    await addTopicToSeason({
+                      variables: {
+                        createSeasonTopicInput: {
+                          seasonId: props.seasonId,
+                          topicId: data.createTopic.id,
+                        },
+                      },
+                      refetchQueries: "active",
+                      notifyOnNetworkStatusChange: true,
+                      onCompleted: (data) => {
+                        props.onClose();
+                      },
+                      onError: (error) => {
+                        setErrorMessage((error as ApolloError).message);
+                      },
+                    });
 
                     props.onClose();
                   },
@@ -93,9 +111,9 @@ const TopicModal = (props: Props) => {
                   },
                 });
               } else {
-                await addTopicToGroupAndSeason({
+                await addTopicToSeason({
                   variables: {
-                    addTopicToGroupInput: {
+                    createSeasonTopicInput: {
                       seasonId: props.seasonId,
                       topicId: existingTopic?.id,
                     },
