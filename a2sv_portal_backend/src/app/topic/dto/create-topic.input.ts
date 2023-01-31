@@ -5,6 +5,6 @@ export class CreateTopicInput {
   @Field()
   name: string
 
-  @Field()
-  description: string
+  @Field({nullable: true})
+  description?: string
 }

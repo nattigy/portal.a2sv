@@ -57,7 +57,7 @@ model Contest {
 model Topic {
   id                   String                 @id @default(uuid())
   name                 String                 @unique
-  description          String
+  description          String?
   createdAt            DateTime?              @default(now())
   updatedAt            DateTime?              @updatedAt
   seasonTopics         SeasonTopic[]
@@ -494,7 +494,6 @@ enum RoleEnum {
 enum ComfortLevelEnum {
   COMFORTABLE
   UNCOMFORTABLE
-  MEDIOCRE
 }
 
 enum SeasonTypeEnum {

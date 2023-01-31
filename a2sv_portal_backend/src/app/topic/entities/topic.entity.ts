@@ -8,8 +8,8 @@ export class Topic {
   @Field({ description: 'Name of the topic' })
   name: string
 
-  @Field({ description: 'Description of the topic' })
-  description: string
+  @Field({ description: 'Description of the topic', nullable:true})
+  description?: string
 
   @Field(() => Date, { nullable: true })
   createdAt?: Date

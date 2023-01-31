@@ -48,7 +48,7 @@ Table Contest {
 Table Topic {
   id String [pk]
   name String [unique, not null]
-  description String [not null]
+  description String
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   seasonTopics SeasonTopic [not null]
@@ -516,7 +516,6 @@ Enum RoleEnum {
 Enum ComfortLevelEnum {
   COMFORTABLE
   UNCOMFORTABLE
-  MEDIOCRE
 }
 
 Enum SeasonTypeEnum {
