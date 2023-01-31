@@ -78,6 +78,8 @@ const IndexPage = () => {
         <SeasonRequestModal onClose={() => setIsRequestModalOpen(false)} />
       )}
 
+<WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_ACADEMY]}>
+
       <div className="flex flex-col gap-y-4">
         <div className="flex items-center justify-between rounded-md">
           <h1 className="text-lg font-semibold">Global Seasons</h1>
@@ -114,6 +116,7 @@ const IndexPage = () => {
           )}
         </div>
       </div>
+      </WithPermission>
 
       <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION]}>
         <div className="flex flex-col gap-y-4">

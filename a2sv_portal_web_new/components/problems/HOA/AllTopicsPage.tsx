@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useApollo } from "../../../lib/apollo/apolloClient";
 import { useGetAllTopics } from "../../../lib/hooks/useTopics";
+import { Topic } from "../../../types/topic";
 import Button from "../../common/Button";
 import EmptyState from "../../common/EmptyState";
 import { LoaderSmall } from "../../common/Loaders";
 import TopicModal from "../../modals/TopicModal";
-import TopicsList from "./TopicsList";
+import RepositoryTopicItem from "../../topics/RepositoryTopicItem";
 
 type Props = {};
 
 const AllTopicsPage = (props: Props) => {
   const [topicsData, setTopicsData] = useState([]);
-  const apolloClient = useApollo(props);
   const { data, refetch, error, loading } = useGetAllTopics();
   const [isTopicModalOpen, setIsTopicModalOpen] = useState<boolean>(false);
 
@@ -50,7 +50,11 @@ const AllTopicsPage = (props: Props) => {
           </div>
 
           {topicsData?.length > 0 ? (
-            <TopicsList topics={topicsData} />
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-3 gap-x-12">
+              {topicsData.map((topic: Topic, idx: number) => (
+                <RepositoryTopicItem idx={idx} key={idx} topic={topic} />
+              ))}
+            </div>
           ) : (
             <EmptyState />
           )}

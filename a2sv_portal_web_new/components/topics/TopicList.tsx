@@ -20,7 +20,6 @@ const TopicList = (props: TopicListProps) => {
                 season={props.season}
                 topic={item}
                 key={idx}
-                title={item.name}
                 groupId={props.groupId}
               />
             </>

@@ -1,53 +1,31 @@
-import React from "react";
+import { useMutation } from "@apollo/client";
+import React, { useState } from "react";
 import { FiChevronRight } from "react-icons/fi";
 import { generateRandomColor } from "../../helpers/getReactIcon";
+import { getSVGIcon } from "../../helpers/getSVGPath";
+import { slugify } from "../../helpers/slugify";
+import { REMOVE_TOPIC } from "../../lib/apollo/Mutations/topicsMutations";
+import { Topic } from "../../types/topic";
 import CustomLink from "../common/CustomLink";
+import MenuItem from "../common/MenuItem";
 import SeasonItem from "../seasons/SeasonItem";
 
-export type TopicItemProps = {
-  title: string;
+export type Props = {
   season?: { name: string; id: string };
-  topic: any;
+  topic: Topic;
   groupId?: string;
   idx: number;
 };
-export type ColorSVG = {
-  imgPath: string;
-  color: string;
-};
+
 const colors = ["#5956E9", "#FFDC60", "#FFADAD", "#FFADAD"];
-export const titleToIcon: { [title: string]: ColorSVG } = {
-  "Dynamic Programming": { imgPath: "/icons/dp-icon.svg", color: "#5956E9" },
-  "Sliding Window": { imgPath: "/icons/sw-icon.svg", color: "#FFDC60" },
-  "Bit Manipulation": { imgPath: "/icons/bm-icon.svg", color: "#FFADAD" },
-  Queue: { imgPath: "/icons/queue-icon.svg", color: "#FFADAD" },
-};
-export const slugify = (...args: (string | number)[]): string => {
-  const value = args.join(" ");
-  return value
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9 ]/g, "")
-    .replace(/\s+/g, "-");
-};
 
-const TopicItem = (props: TopicItemProps) => {
-  const pathname = `${slugify(
-    props.season?.name.toString() || ""
-  )}/topics/${slugify(props.topic.name)}/problems`;
 
-  const href = {
-    pathname: pathname,
-    query: {
-      seasonId: props.season?.id,
-      groupId: props.groupId,
-      topicId: props.topic.id,
-    }, // the data
-  };
+const TopicItem = (props: Props) => {
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [removeTopic, { data, loading, error }] = useMutation(REMOVE_TOPIC);
+  
   return (
-    <CustomLink href={href}>
       <div className="h-[72px] flex w-full rounded-r-lg gap-x-3 bg-white items-center cursor-pointer">
         <div
           className={`w-1 h-full`}
@@ -58,15 +36,38 @@ const TopicItem = (props: TopicItemProps) => {
         {/* <img src={titleToIcon[props.title].imgPath} className="w-12" alt="" /> */}
         <div className="flex flex-row justify-between w-full items-center pr-3">
           <div className="flex flex-col justify-center">
-            <p className="font-Poppins font-semibold text-sm">{props.title}</p>
+            <p className="font-Poppins font-semibold text-sm">{props.topic.name}</p>
             <p className="font-Poppins font-medium text-xs text-[#8A8A8A]">
               Solved 12/32
             </p>
           </div>
-          <FiChevronRight size={18} />
+          {/* <div className="h-12 relative">
+              <div className="absolute top-2 right-2">
+                <MenuItem
+                  color="black"
+                  menuItems={[
+                    {
+                      title: "Edit Topic",
+                      onClick: (e: any) => {
+                        e.stopPropagation();
+                        handleEditModalOpen();
+                      },
+                      icon: getSVGIcon("edit"),
+                    },
+                    {
+                      title: "Delete Topic",
+                      onClick: (e: any) => {
+                        e.stopPropagation();
+                        handleDeleteModalOpen();
+                      },
+                      icon: getSVGIcon("delete"),
+                    },
+                  ]}
+                />
+              </div>
+            </div> */}
         </div>
       </div>
-    </CustomLink>
   );
 };
 

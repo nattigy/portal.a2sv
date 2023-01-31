@@ -5,6 +5,7 @@ import Button from "../../../components/common/Button";
 import EmptyState from "../../../components/common/EmptyState";
 import { LoaderSmall } from "../../../components/common/Loaders";
 import TopicModal from "../../../components/modals/TopicModal";
+import GlobalTopicItem from "../../../components/topics/GlobalTopicItem";
 import TopicList from "../../../components/topics/TopicList";
 import TopicsFilter from "../../../components/topics/TopicsFilter";
 import TopicStruggledList from "../../../components/topics/TopicStruggledList";
@@ -12,6 +13,7 @@ import WithPermission from "../../../lib/Guard/WithPermission";
 import {
   useGetAllTopics, useGetSeasonTopics,
 } from "../../../lib/hooks/useTopics";
+import { Topic } from "../../../types/topic";
 import { GraphqlUserRole } from "../../../types/user";
 
 const IndexPage = () => {
@@ -125,14 +127,25 @@ const IndexPage = () => {
           topics?.length === 0 ? (
             <EmptyState />
           ) : (
-            <TopicList
-              season={{
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-3 gap-x-12">
+              {topics.map((topic:Topic,idx:number)=>
+              <GlobalTopicItem idx={idx} key={idx} season={{
                 id: router.query.seasonId?.toString() || "",
                 name: router.query.season?.toString() || "",
-              }}
-              topics={topics}
-              title="Topics"
-            />
+              }} topic={topic} />
+              
+              )}
+
+            </div>
+            // <TopicList
+            //   season={{
+            //     id: router.query.seasonId?.toString() || "",
+            //     name: router.query.season?.toString() || "",
+            //   }}
+            //   topics={topics}
+            //   title="Topics"
+            // />
           )}
         </div>
         {/* )} */}
