@@ -13,8 +13,8 @@ import { ApolloError, useMutation } from "@apollo/client";
 import { REMOVE_SEASON } from "../../lib/apollo/Mutations/seasonsMutations";
 import WithPermission from "../../lib/Guard/WithPermission";
 import { GraphqlUserRole } from "../../types/user";
-import { slugify } from "../topics/TopicItem";
 import { getSVGIcon } from "../../helpers/getSVGPath";
+import { slugify } from "../../helpers/slugify";
 
 type Props = {
   seasonProps: Season;

@@ -18,7 +18,6 @@ import {
 } from "../../types/contest";
 import { GraphqlUserRole } from "../../types/user";
 import CustomLink from "../common/CustomLink";
-import { slugify } from "../topics/TopicItem";
 import { AttendedChips } from "./AttendedChips";
 
 type Props = {
