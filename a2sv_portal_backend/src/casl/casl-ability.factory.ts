@@ -80,9 +80,9 @@ export class CaslAbilityFactory {
         break
       case RoleEnum.HEAD_OF_ACADEMY:
         can(Action.Manage, Contest)
-        can(Action.Read, Group)
+        can(Action.Manage, Group)
         can(Action.Manage, GroupSeason)
-        can(Action.Read, GroupSeasonContest)
+        can(Action.Manage, GroupSeasonContest)
         can(Action.Manage, GroupSeasonContestProblem)
         can(Action.Manage, GroupSeasonTopic)
         can(Action.Manage, GroupSeasonTopicProblem)
