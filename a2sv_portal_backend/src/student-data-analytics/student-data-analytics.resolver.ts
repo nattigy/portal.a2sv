@@ -8,6 +8,15 @@ import { UpdateStudentDataAnalyticInput } from './dto/update-student-data-analyt
 export class StudentDataAnalyticsResolver {
   constructor(private readonly studentDataAnalyticsService: StudentDataAnalyticsService) {}
 
+
+    @Query(() => [StudentDataAnalytic], { name: 'dataAnalytic' })
+    findOne(
+    @Args('end_date', { type: () => Date, nullable: true }) end_date?: Date,
+    @Args('user_id', { type: () => String }) user_id?: string,
+  ): Promise<UserAnalytics[]> {
+    return this.studentDataAnalyticsService.userStat(end_date, user_id)
+  }  
+
   @Mutation(() => StudentDataAnalytic)
   createStudentDataAnalytic(@Args('createStudentDataAnalyticInput') createStudentDataAnalyticInput: CreateStudentDataAnalyticInput) {
     return this.studentDataAnalyticsService.create(createStudentDataAnalyticInput);
@@ -16,11 +25,6 @@ export class StudentDataAnalyticsResolver {
   @Query(() => [StudentDataAnalytic], { name: 'studentDataAnalytics' })
   findAll() {
     return this.studentDataAnalyticsService.findAll();
-  }
-
-  @Query(() => StudentDataAnalytic, { name: 'studentDataAnalytic' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.studentDataAnalyticsService.findOne(id);
   }
 
   @Mutation(() => StudentDataAnalytic)
