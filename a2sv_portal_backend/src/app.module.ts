@@ -23,9 +23,9 @@ import { UserGroupSeasonDailyAnalyticsModule } from './app/user-group-season-dai
 import { UsersUpdateProblemStatusModule } from './services/users-update-problem-status/users-update-problem-status.module'
 import { UserGroupSeasonTopicResolver } from './app/user-group-season-topic/user-group-season-topic.resolver'
 import { UserGroupSeasonDailyAnalyticResolver } from './app/user-group-season-daily-analytics/user-group-season-daily-analytic.resolver';
-import { UserGroupSeasonWeeklyAnalyticsModule } from './app/user-group-season-weekly-analytics/user-group-season-weekly-analytics.module';
 import { UserGroupSeasonMonthlyAnalyticsModule } from './app/user-group-season-monthly-analytics/user-group-season-monthly-analytics.module';
 import { UsersUpdateTopicComfortabilityModule } from './services/users-update-topic-comfortability/users-update-topic-comfortability.module';
+import { StudentDataAnalyticsModule } from './student-data-analytics/student-data-analytics.module';
 
 @Module({
   imports: [
@@ -85,6 +85,7 @@ import { UsersUpdateTopicComfortabilityModule } from './services/users-update-to
     // UserGroupSeasonDailyAnalyticsModule,
     UsersUpdateProblemStatusModule,
     UsersUpdateTopicComfortabilityModule,
+    StudentDataAnalyticsModule,
   ],
   providers: [AppService, AppResolver],
 })

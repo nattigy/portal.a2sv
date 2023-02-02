@@ -1,13 +1,13 @@
-// import { Injectable } from '@nestjs/common'
-// import { Cron, CronExpression } from '@nestjs/schedule'
-// import { Status } from '@prisma/client'
-// import { PrismaService } from 'src/prisma/prisma.service'
-// import { CreateDataAnalyticInput } from './dto/create-data-analytic.input'
-//
-// @Injectable()
-// export class DataAnalyticsService {
-//   constructor(private readonly prismaService: PrismaService) {}
-//
+// // import { Injectable } from '@nestjs/common'
+// // import { Cron, CronExpression } from '@nestjs/schedule'
+// // import { Status } from '@prisma/client'
+// // import { PrismaService } from 'src/prisma/prisma.service'
+// // import { CreateDataAnalyticInput } from './dto/create-data-analytic.input'
+// //
+// // @Injectable()
+// // export class DataAnalyticsService {
+// //   constructor(private readonly prismaService: PrismaService) {}
+// //
 //   @Cron(CronExpression.EVERY_HOUR, {
 //     name: 'Scheduler Populate user_data fields',
 //     timeZone: 'Africa/Addis_Ababa',
@@ -41,15 +41,15 @@
 //     }
 //     console.log('===== populating user_stat ======')
 //   }
-//
-//   create(createDataAnalyticInput: CreateDataAnalyticInput) {
-//     return 'This action adds a new dataAnalytic'
-//   }
-//
-//   findAll() {
-//     return `This action returns all dataAnalytics`
-//   }
-//
+
+// //   create(createDataAnalyticInput: CreateDataAnalyticInput) {
+// //     return 'This action adds a new dataAnalytic'
+// //   }
+// //
+// //   findAll() {
+// //     return `This action returns all dataAnalytics`
+// //   }
+// //
 //   async userStat(end_date?: Date, user_id?: string) {
 //     const date = end_date ? new Date(end_date) : new Date()
 //     const start_date = new Date(
@@ -71,4 +71,4 @@
 //       },
 //     })
 //   }
-// }
+// // }

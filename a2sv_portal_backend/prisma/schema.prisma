@@ -261,46 +261,19 @@ model UserGroupSeason {
   userGroupSeasonTopics           UserGroupSeasonTopic[]
   userGroupSeasonContests         UserGroupSeasonContest[]
   userGroupSeasonDailyAnalytics   UserGroupSeasonDailyAnalytics[]
-  userGroupSeasonWeeklyAnalytics  UserGroupSeasonWeeklyAnalytics[]
-  userGroupSeasonMonthlyAnalytics UserGroupSeasonMonthlyAnalytics[]
 
   @@id([userId, groupId, seasonId])
 }
 
 model UserGroupSeasonDailyAnalytics {
-  userId          String
+  userId          String 
   groupId         String
   seasonId        String
   solvedCount     Int             @default(0)
   wrongCount      Int             @default(0)
-  // rank      Int             @default(0)
-  userGroupSeason UserGroupSeason @relation(fields: [userId, groupId, seasonId], references: [userId, groupId, seasonId], onDelete: Cascade)
-  createdAt       DateTime        @default(now()) @db.Date
-  updatedAt       DateTime        @updatedAt @db.Date
-
-  @@id([userId, createdAt])
-}
-
-model UserGroupSeasonWeeklyAnalytics {
-  userId          String
-  groupId         String
-  seasonId        String
-  solvedCount     Int             @default(0)
-  wrongCount      Int             @default(0)
-  // rank      Int             @default(0)
-  userGroupSeason UserGroupSeason @relation(fields: [userId, groupId, seasonId], references: [userId, groupId, seasonId], onDelete: Cascade)
-  createdAt       DateTime        @default(now()) @db.Date
-  updatedAt       DateTime        @updatedAt @db.Date
-
-  @@id([userId, createdAt])
-}
-
-model UserGroupSeasonMonthlyAnalytics {
-  userId          String
-  groupId         String
-  seasonId        String
-  solvedCount     Int             @default(0)
-  wrongCount      Int             @default(0)
+  month           Int
+  week            Int
+  year            Int 
   // rank      Int             @default(0)
   userGroupSeason UserGroupSeason @relation(fields: [userId, groupId, seasonId], references: [userId, groupId, seasonId], onDelete: Cascade)
   createdAt       DateTime        @default(now()) @db.Date

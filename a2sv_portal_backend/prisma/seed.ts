@@ -8,6 +8,8 @@ import topicData from './seeds/topicData'
 import userData from './seeds/userData'
 import contestData from './seeds/contestData'
 
+import { UserGroupSeasonDailyAnalytic } from './../src/app/user-group-season-daily-analytics/entities/user-group-season-daily-analytic.entity';
+
 const prisma = new PrismaClient()
 
 async function main() {
@@ -46,7 +48,7 @@ async function main() {
       data: seasonData,
     })
     //   console.log('topic')
-    await prisma.group.createMany({
+    const listGroups = await prisma.group.createMany({
       data: groupsData,
     })
     // //   console.log('group')
@@ -102,6 +104,9 @@ async function main() {
 
     console.log("add users to a group")
     const users = await prisma.user.findMany({})
+    for(const user of users){
+      user.groupId = listGroups[Math.floor(Math.random() * listGroups.count)]
+    }
     const group = await prisma.group.findFirst({})
     await prisma.user.updateMany({
       where: {
@@ -182,22 +187,64 @@ async function main() {
       }))
     })
 
-    //   const endYear = new Date('2023-1-1')
-    //   const analyticsList = []
-    //   for (let d = new Date('2022-1-2'); d <= endYear; d.setDate(d.getDate() + 1)) {
-    //     for (const user of users) {
-    //       analyticsList.push({
-    //         userId: user.id,
-    //         createdAt: new Date(d),
-    //         solvedCount: Math.floor(Math.random() * 10),
-    //         wrongCount: Math.floor(Math.random() * 10) + 1,
-    //       })
-    //     }
-    //   }
-    //   await prisma.userAnalytics.createMany({
-    //     data: analyticsList,
-    //   })
-    //   console.log('userAnalytics')
+    for(const user of users){
+     await prisma.userGroupSeason.upsert({
+        where:{
+          userId_groupId_seasonId:{
+            userId:user.id,
+            groupId:group.id,
+            seasonId:season.id
+          }
+        },
+        create:{
+          userId:user.id,
+          groupId:group.id,
+          seasonId:season.id
+        },
+        update:{
+          userId:user.id,
+          groupId:group.id,
+          seasonId:season.id
+        }
+      })
+    }
+
+      const endYear = new Date('2023-1-31');
+      const analyticsList = []
+      // eslint-disable-next-line no-unmodified-loop-condition
+      for (let d = new Date('2022-1-2'); d <= endYear; d.setDate(d.getDate() + 1)) {
+        const currentDate = new Date(d) as any;
+        currentDate.setHours(0, 0, 0, 0)
+        const currentYear = currentDate.getFullYear();
+        const startDate = new Date(currentYear,0,1) as any;
+        const days = Math.floor((currentDate - startDate) / (1000*60*60*24));
+        const weeknubmer = Math.ceil(days / 7);
+        for (const user of users) {
+          analyticsList.push({
+            userId: user.id,
+            seasonId: season.id,
+            groupId: group.id,
+            createdAt: new Date(d),
+            solvedCount: Math.floor(Math.random() * 10),
+            wrongCount: Math.floor(Math.random() * 10) + 1,
+            week:weeknubmer,
+            month:currentDate.getMonth(), 
+            year:currentDate.getFullYear()
+          })
+        }
+      }
+      
+      // await prisma.userGroupSeasonDailyAnalytics.createMany({
+      //   data: analyticsList.map(d => ({
+      //     groupId:d.groupId,
+      //     seasonId:d.seasonId
+      //   })),
+      // })
+      // console.log("Add user daily anayltics appended")
+
+      for(const data of analyticsList){
+          await prisma.userGroupSeasonDailyAnalytics.create({data})
+      }
   } catch (e) {
     console.error(e)
     process.exit(1)
