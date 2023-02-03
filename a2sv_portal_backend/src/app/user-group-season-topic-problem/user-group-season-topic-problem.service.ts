@@ -7,6 +7,7 @@ import { UserGroupSeasonTopicProblem } from './entities/user-group-season-topic-
 import { GroupSeasonTopicProblem } from '../group-season-topic-problem/entities/group-season-topic-problem.entity'
 import { UserTopicProblemStatusEnum } from '@prisma/client'
 
+
 @Injectable()
 export class UserGroupSeasonTopicProblemService {
   constructor(
@@ -35,6 +36,37 @@ export class UserGroupSeasonTopicProblemService {
   async updateUserProblemStatus({ id, ...updates }: UpdateUserGroupSeasonTopicProblemInput) {
     const { userId, groupId, seasonId, topicId, problemId } = id
 
+    // const today = new Date().toISOString();
+    // if(updates.status === UserTopicProblemStatusEnum.SOLVED){
+    //   // await this.prismaService.user
+    //   await this.prismaService.userGroupSeasonDailyAnalytics.update({
+    //     where:{
+    //       userId_createdAt:{
+    //         userId,
+    //         createdAt: today 
+    //     }
+    //     },
+    //     data: {
+    //       solvedCount:{
+    //         increment: 1
+    //       }
+    //     }
+    //   })
+    // }else if(updates.status !== UserTopicProblemStatusEnum.NOT_SOLVED){
+    //   this.prismaService.userGroupSeasonDailyAnalytics.update({
+    //     where:{
+    //       userId_createdAt:{
+    //         userId,
+    //         createdAt: today 
+    //     }
+    //     },
+    //     data: {
+    //       wrongCount:{
+    //         decrement: 1
+    //       }
+    //     }
+    //   })
+    // }
     return this.userGroupSeasonTopicProblemRepository.upsert({
       where: {
         userId_groupId_seasonId_topicId_problemId: {

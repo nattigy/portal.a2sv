@@ -44,9 +44,20 @@ export const userData =[
         // "firstName": "Hanna ",
         // "lastName": "Samuel",
         // "middleName": "S",
-        "role": RoleEnum.STUDENT,
+        "role": RoleEnum.HEAD_OF_ACADEMY,
+        "status": StatusEnum.ACTIVE
+    },
+    {
+        "email": "natnael.hussein@a2sv.org",
+        "password":  '$2b$10$meWlkGCFEHkP/serox2RGuOr3LQJBnPLweHt3ZmL0S0yBbSbg9Tnm',
+        // "firstName": "Hanna ",
+        // "lastName": "Samuel",
+        // "middleName": "S",
+        "role": RoleEnum.HEAD_OF_EDUCATION,
         "status": StatusEnum.ACTIVE
     }
+
+
 ]
 
 export default userData

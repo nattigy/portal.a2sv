@@ -1,4 +1,3 @@
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { GraphQLISODateTime, GraphQLModule } from '@nestjs/graphql'
@@ -19,12 +18,14 @@ import { MailModule } from './mail/mail.module'
 import { MailerModule } from '@nestjs-modules/mailer'
 import { join } from 'path'
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter'
-import { UserGroupSeasonDailyAnalyticsModule } from './app/user-group-season-daily-analytics/user-group-season-daily-analytics.module'
-import { UsersUpdateProblemStatusModule } from './services/users-update-problem-status/users-update-problem-status.module'
-import { UserGroupSeasonTopicResolver } from './app/user-group-season-topic/user-group-season-topic.resolver'
-import { UserGroupSeasonDailyAnalyticResolver } from './app/user-group-season-daily-analytics/user-group-season-daily-analytic.resolver';
-import { UserGroupSeasonWeeklyAnalyticsModule } from './app/user-group-season-weekly-analytics/user-group-season-weekly-analytics.module';
-import { UserGroupSeasonMonthlyAnalyticsModule } from './app/user-group-season-monthly-analytics/user-group-season-monthly-analytics.module';
+import {
+  UsersUpdateProblemStatusModule,
+} from './services/users-update-problem-status/users-update-problem-status.module'
+import {
+  UsersUpdateTopicComfortabilityModule,
+} from './services/users-update-topic-comfortability/users-update-topic-comfortability.module'
+import { StudentDataAnalyticsModule } from './student-data-analytics/student-data-analytics.module'
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { Resource } from './app/resource/entities/resource.entity'
 import { ResourceModule } from './app/resource/resource.module'
 
@@ -58,7 +59,6 @@ import { ResourceModule } from './app/resource/resource.module'
         res,
       }),
       driver: ApolloDriver,
-      // autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
       playground: false,
 
@@ -84,9 +84,11 @@ import { ResourceModule } from './app/resource/resource.module'
     UserProfileModule,
     PrismaModule,
     ServicesModule,
-    // UserGroupSeasonDailyAnalyticsModule,
     UsersUpdateProblemStatusModule,
+    UsersUpdateTopicComfortabilityModule,
+    StudentDataAnalyticsModule,
   ],
   providers: [AppService, AppResolver],
 })
-export class AppModule {}
+export class AppModule {
+}

@@ -17,16 +17,21 @@ export class UserProfileService {
   ) {}
 
   async createUserProfile(createUserProfileInput: CreateUserProfileInput, user: User) {
-    return this.userProfileRepository.create({
-      ...createUserProfileInput,
-      email: user.email,
-      user: {
-        connect: { id: user.id },
-      },
-      userProfileAddress: {
-        create: createUserProfileInput.userProfileAddress,
-      },
-    })
+    try{
+      const userProfile =  await this.userProfileRepository.create({
+        ...createUserProfileInput,
+        email: user.email,
+        user: {
+          connect: { id: user.id },
+        },
+        userProfileAddress: {
+          create: createUserProfileInput.userProfileAddress,
+        },
+      })
+      return userProfile;
+    }catch(e){
+      console.log(e);
+    }
   }
 
   async userProfiles(
