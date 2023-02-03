@@ -7,7 +7,7 @@ export class StudentDataAnalytic {
     @Field(() => Int, { description: 'number of solved problems per day' })
     solvedCount: number
   
-    @Field(() => Int, { description: 'number of solved problems per day' })
+    @Field(() => Int, { description: 'number of wrong submissions problems per day' })
     wrongCount: number
   
     @Field(() => Date, { description: 'date of problem solved' })
@@ -16,6 +16,4 @@ export class StudentDataAnalytic {
     @Field(() => Date, { description: 'date of problem solved' })
     updatedAt: Date
   
-    @Field(() => User, { description: 'date of problem solved' })
-    user: User
 }

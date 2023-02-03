@@ -8,8 +8,6 @@ import topicData from './seeds/topicData'
 import userData from './seeds/userData'
 import contestData from './seeds/contestData'
 
-import { UserGroupSeasonDailyAnalytic } from './../src/app/user-group-season-daily-analytics/entities/user-group-season-daily-analytic.entity';
-
 const prisma = new PrismaClient()
 
 async function main() {
@@ -234,17 +232,10 @@ async function main() {
         }
       }
       
-      // await prisma.userGroupSeasonDailyAnalytics.createMany({
-      //   data: analyticsList.map(d => ({
-      //     groupId:d.groupId,
-      //     seasonId:d.seasonId
-      //   })),
-      // })
-      // console.log("Add user daily anayltics appended")
-
-      for(const data of analyticsList){
-          await prisma.userGroupSeasonDailyAnalytics.create({data})
-      }
+    await prisma.userGroupSeasonDailyAnalytics.createMany({
+      data:analyticsList
+    })
+      
   } catch (e) {
     console.error(e)
     process.exit(1)

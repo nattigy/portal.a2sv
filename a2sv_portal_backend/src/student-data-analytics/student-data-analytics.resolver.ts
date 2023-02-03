@@ -8,32 +8,46 @@ import { UpdateStudentDataAnalyticInput } from './dto/update-student-data-analyt
 export class StudentDataAnalyticsResolver {
   constructor(private readonly studentDataAnalyticsService: StudentDataAnalyticsService) {}
 
-
-    @Query(() => [StudentDataAnalytic], { name: 'dataAnalytic' })
+  @Query(() => [StudentDataAnalytic], { name: 'Studentdailystat' })
     findOne(
-    @Args('end_date', { type: () => Date, nullable: true }) end_date?: Date,
-    @Args('user_id', { type: () => String }) user_id?: string,
-  ): Promise<UserAnalytics[]> {
-    return this.studentDataAnalyticsService.userStat(end_date, user_id)
+    @Args('user_id', { type: () => String }) userId: string,
+    @Args('user_id', { type: () => String }) seasonId: string,
+    @Args('end_date', { type: () => Date, nullable: true }) startDate?: Date,
+    @Args('end_date', { type: () => Date, nullable: true }) endDate?: Date
+  ): Promise<StudentDataAnalytic[]> {
+    return this.studentDataAnalyticsService.userStat(userId,seasonId,startDate,endDate);
   }  
 
-  @Mutation(() => StudentDataAnalytic)
-  createStudentDataAnalytic(@Args('createStudentDataAnalyticInput') createStudentDataAnalyticInput: CreateStudentDataAnalyticInput) {
-    return this.studentDataAnalyticsService.create(createStudentDataAnalyticInput);
-  }
+  @Query(() => [StudentDataAnalytic], { name: 'Studentweeklystat' })
+    userWeeklyStat(
+    @Args('user_id', { type: () => String }) userId: string,
+    @Args('user_id', { type: () => String }) seasonId: string,
+    @Args('end_date', { type: () => Date, nullable: true }) startDate?: Date,
+    @Args('end_date', { type: () => Date, nullable: true }) endDate?: Date
+  ) {
+    return this.studentDataAnalyticsService.weeklyUserStart(userId,seasonId,startDate,endDate);
+  } 
 
-  @Query(() => [StudentDataAnalytic], { name: 'studentDataAnalytics' })
-  findAll() {
-    return this.studentDataAnalyticsService.findAll();
-  }
+  @Query(() => [StudentDataAnalytic], { name: 'Studentmontlystat' })
+  userMonthlyStat(
+  @Args('user_id', { type: () => String }) userId: string,
+  @Args('user_id', { type: () => String }) seasonId: string,
+  @Args('end_date', { type: () => Date, nullable: true }) startDate?: Date,
+  @Args('end_date', { type: () => Date, nullable: true }) endDate?: Date
+) {
+  return this.studentDataAnalyticsService.montlyUserStart(userId,seasonId,startDate,endDate);
+} 
 
-  @Mutation(() => StudentDataAnalytic)
-  updateStudentDataAnalytic(@Args('updateStudentDataAnalyticInput') updateStudentDataAnalyticInput: UpdateStudentDataAnalyticInput) {
-    return this.studentDataAnalyticsService.update(updateStudentDataAnalyticInput.id, updateStudentDataAnalyticInput);
-  }
+@Query(() => [StudentDataAnalytic], { name: 'Studentyearlystat' })
+yearlyUserStat(
+@Args('user_id', { type: () => String }) userId: string,
+@Args('user_id', { type: () => String }) seasonId: string,
+@Args('end_date', { type: () => Date, nullable: true }) startDate?: Date,
+@Args('end_date', { type: () => Date, nullable: true }) endDate?: Date
+) {
+return this.studentDataAnalyticsService.yearlUserStat(userId,seasonId,startDate,endDate);
+} 
 
-  @Mutation(() => StudentDataAnalytic)
-  removeStudentDataAnalytic(@Args('id', { type: () => Int }) id: number) {
-    return this.studentDataAnalyticsService.remove(id);
-  }
+
+
 }
