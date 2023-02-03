@@ -246,9 +246,12 @@ async function main() {
     // console.log("Add user daily anayltics appended")
 
     console.log("create student daily stat")
-    for (const data of analyticsList) {
-      await prisma.userGroupSeasonDailyAnalytics.create({ data })
-    }
+    // for (const data of analyticsList) {
+      await prisma.userGroupSeasonDailyAnalytics.createMany({
+        data: analyticsList,
+        skipDuplicates: true
+      })
+    // }
   } catch (e) {
     console.error(e)
     process.exit(1)
