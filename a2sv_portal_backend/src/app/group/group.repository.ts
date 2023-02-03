@@ -5,12 +5,19 @@ import { Group } from './entities/group.entity'
 
 @Injectable()
 export class GroupRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(data: Prisma.GroupCreateInput): Promise<Group> {
     return this.prismaService.group.create({
       data,
-      include: { users: true, head: true },
+      include: {
+        users: {
+          include: {
+            userProfile: { include: { user: true } },
+          },
+        }, head: true,
+      },
     })
   }
 
@@ -30,7 +37,13 @@ export class GroupRepository {
       take,
       where,
       orderBy,
-      include: { users: true, head: true },
+      include: {
+        users: {
+          include: {
+            userProfile: { include: { user: true } },
+          },
+        }, head: true,
+      },
     })
   }
 
@@ -46,7 +59,13 @@ export class GroupRepository {
     return this.prismaService.group.update({
       data,
       where,
-      include: { users: true, head: true },
+      include: {
+        users: {
+          include: {
+            userProfile: { include: { user: true } },
+          },
+        }, head: true,
+      },
     })
   }
 
