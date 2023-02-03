@@ -5,26 +5,34 @@ export const GET_SINGLE_GROUP_QUERY = gql`
     group(groupId: $groupId) {
       id
       name
-      school
       country
+      school
       head {
         id
-        firstName
-        lastName
         email
+        userProfile {
+          firstName
+          lastName
+        }
         role
       }
       users {
         id
-        firstName
-        lastName
         email
+        role
+        userProfile {
+          firstName
+          lastName
+          photoUrl
+        }
+        group {
+          country
+        }
         createdAt
       }
       createdAt
     }
-  }
-`;
+}`;
 
 export const GET_ALL_GROUPS_QUERY = gql`
   query GET_ALL_GROUPS_QUERY {

@@ -6,20 +6,15 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 
 export type StudentsInfo = {
   id: number;
-  name?: string;
-  photo?: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  nationality?: string;
-  country?: string;
-  residence?: string;
-  dateJoined?: string;
+  userProfile: {
+    firstName: string;
+    lastName: string;
+    photoUrl: string;
+  },
   group: {
-    name: string;
-    id: number;
     country: string;
-  };
+  }
   createdAt: string;
 };
 
@@ -133,15 +128,14 @@ const StudentTable = (props: Props) => {
                         <img
                           className="w-7"
                           src={
-                            student.photo
-                              ? student.photo
+                            student.userProfile?.photoUrl
+                              ? student.userProfile?.photoUrl
                               : "/images/group-students-profile.svg"
                           }
                           alt=""
                         />
                         <h1>
-                          {student.firstName + " " + student.lastName ??
-                            "No Name"}
+                          {student.userProfile ? student.userProfile.firstName + " " + student.userProfile.lastName : student.email}
                         </h1>
                       </div>
                     </td>
