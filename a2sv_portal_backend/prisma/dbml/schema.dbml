@@ -263,8 +263,6 @@ Table UserGroupSeason {
   userGroupSeasonTopics UserGroupSeasonTopic [not null]
   userGroupSeasonContests UserGroupSeasonContest [not null]
   userGroupSeasonDailyAnalytics UserGroupSeasonDailyAnalytics [not null]
-  userGroupSeasonWeeklyAnalytics UserGroupSeasonWeeklyAnalytics [not null]
-  userGroupSeasonMonthlyAnalytics UserGroupSeasonMonthlyAnalytics [not null]
 
   indexes {
     (userId, groupId, seasonId) [pk]
@@ -280,36 +278,6 @@ Table UserGroupSeasonDailyAnalytics {
   month Int [not null]
   week Int [not null]
   year Int [not null]
-  userGroupSeason UserGroupSeason [not null]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-
-  indexes {
-    (userId, createdAt) [pk]
-  }
-}
-
-Table UserGroupSeasonWeeklyAnalytics {
-  userId String [not null]
-  groupId String [not null]
-  seasonId String [not null]
-  solvedCount Int [not null, default: 0]
-  wrongCount Int [not null, default: 0]
-  userGroupSeason UserGroupSeason [not null]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-
-  indexes {
-    (userId, createdAt) [pk]
-  }
-}
-
-Table UserGroupSeasonMonthlyAnalytics {
-  userId String [not null]
-  groupId String [not null]
-  seasonId String [not null]
-  solvedCount Int [not null, default: 0]
-  wrongCount Int [not null, default: 0]
   userGroupSeason UserGroupSeason [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
@@ -605,10 +573,6 @@ Ref: UserGroupSeason.userId > User.id [delete: Cascade]
 Ref: UserGroupSeason.(groupId, seasonId) > GroupSeason.(groupId, seasonId) [delete: Cascade]
 
 Ref: UserGroupSeasonDailyAnalytics.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
-
-Ref: UserGroupSeasonWeeklyAnalytics.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
-
-Ref: UserGroupSeasonMonthlyAnalytics.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
 
 Ref: UserGroupSeasonTopic.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
 
