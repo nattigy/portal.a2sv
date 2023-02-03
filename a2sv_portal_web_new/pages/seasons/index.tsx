@@ -18,6 +18,7 @@ import EmptyState from "../../components/common/EmptyState";
 import { LoaderSmall } from "../../components/common/Loaders";
 import SeasonRequestModal from "../../components/modals/SeasonRequestModal";
 import { SeasonType } from "../../types/season";
+import GroupSeasonItem from "../../components/seasons/GroupSeasonItem";
 
 const IndexPage = () => {
   const [isNewModalOpen, setIsNewModalOpen] = useState<boolean>(false);
@@ -135,8 +136,13 @@ const IndexPage = () => {
                 <LoaderSmall />
               </div>
             ) : (
-              <SeasonList seasons={groupSeasons} />
-            )}
+              <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-6">
+              {groupSeasons.map((item: any, index: number) => (
+                <GroupSeasonItem key={index} seasonProps={item} />
+              ))}
+            </div>)
+              // <SeasonList seasons={groupSeasons} />
+            }
           </div>
         </div>
       </WithPermission>
