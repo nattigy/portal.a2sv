@@ -51,9 +51,19 @@ Table Topic {
   description String
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
+  resources Resource [not null]
   seasonTopics SeasonTopic [not null]
   GroupSeasonTopic GroupSeasonTopic [not null]
   UserGroupSeasonTopic UserGroupSeasonTopic [not null]
+}
+
+Table Resource {
+  id String [pk]
+  type String [not null]
+  name String [not null]
+  description String [not null]
+  link String [unique, not null]
+  topic Topic [not null]
 }
 
 Table Problem {
@@ -477,6 +487,11 @@ Table Tag {
   id String [pk]
   name String [unique, not null]
   problems Problem [not null]
+}
+
+Table ResourceToTopic {
+  resourcesId String [ref: > Resource.id]
+  topicId String [ref: > Topic.id]
 }
 
 Table ProblemToTag {

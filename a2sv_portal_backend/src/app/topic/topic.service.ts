@@ -16,7 +16,7 @@ export class TopicService {
     private readonly topicRepository: TopicRepository,
   ) {}
 
-  async create({ name, description }: CreateTopicInput): Promise<Topic> {
+  async create({ resources, name, description }: CreateTopicInput): Promise<Topic> {
     // TODO: check if topic with this name already exists and if it does return
     // TODO: "topic with this name already" exists error
 
@@ -27,15 +27,22 @@ export class TopicService {
     return this.topicRepository.create({
       name,
       description,
+      resources:{
+        connectOrCreate: resources.map(t => ({
+          where:{ type: t.type, name: t.name, description:t.description, link:t.link},
+          create: { type: t.type, name: t.name, description:t.description, link:t.link}
+        }))
+      }
     })
   }
 
   async topics(
-    filterTopicInput: FilterTopicInput,
+    filterTopicInput?: FilterTopicInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationTopic> {
-    filterTopicInput = {
-      ...filterTopicInput,
+    const resources = filterTopicInput?.resources
+    const filter: Prisma.TopicWhereInput = {
+      id: filterTopicInput?.id,
       name: {
         ...filterTopicInput?.name,
         mode: Prisma.QueryMode.insensitive,
@@ -45,11 +52,15 @@ export class TopicService {
         mode: Prisma.QueryMode.insensitive,
       },
     }
-    const count = await this.topicRepository.count(filterTopicInput)
+    if(resources){
+      filter.resources = { some: {name:{in: resources}}}
+    }
+    
+    const count = await this.topicRepository.count(filter)
     const topics = await this.topicRepository.findAll({
       skip,
       take,
-      where: filterTopicInput,
+      where: filter,
     })
     return {
       items: topics,
@@ -65,7 +76,7 @@ export class TopicService {
     return topic
   }
 
-  async updateTopic({ topicId, ...update }: UpdateTopicInput): Promise<Topic> {
+  async updateTopic({ resources,topicId, ...update }: UpdateTopicInput): Promise<Topic> {
     // TODO: check if topic with this Id exists and if it doesn't return
     // TODO: "topic with this Id doesn't" exists error
     const foundTopic = await this.topicRepository.findOne({ id: topicId })
@@ -82,7 +93,15 @@ export class TopicService {
 
     return this.topicRepository.update({
       where: { id: topicId },
-      data: update,
+      data:{ ...update,
+      resources:{
+        connectOrCreate: resources?.map(t => ({
+           create:{type: t.type, description: t.description,link:t.link, name:t.name},
+           where: {type: t.type, description: t.description,link:t.link, name:t.name}
+       
+          }))
+      }
+    }
     })
   }
 

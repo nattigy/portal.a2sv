@@ -25,6 +25,8 @@ import { UserGroupSeasonTopicResolver } from './app/user-group-season-topic/user
 import { UserGroupSeasonDailyAnalyticResolver } from './app/user-group-season-daily-analytics/user-group-season-daily-analytic.resolver';
 import { UserGroupSeasonWeeklyAnalyticsModule } from './app/user-group-season-weekly-analytics/user-group-season-weekly-analytics.module';
 import { UserGroupSeasonMonthlyAnalyticsModule } from './app/user-group-season-monthly-analytics/user-group-season-monthly-analytics.module';
+import { Resource } from './app/resource/entities/resource.entity'
+import { ResourceModule } from './app/resource/resource.module'
 
 @Module({
   imports: [
@@ -76,6 +78,7 @@ import { UserGroupSeasonMonthlyAnalyticsModule } from './app/user-group-season-m
     PrismaModule,
     CaslModule,
     TagModule,
+    ResourceModule,
     ProblemModule,
     TopicModule,
     UserProfileModule,

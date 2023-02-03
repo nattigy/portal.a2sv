@@ -60,9 +60,19 @@ model Topic {
   description          String?
   createdAt            DateTime?              @default(now())
   updatedAt            DateTime?              @updatedAt
+  resources            Resource[]
   seasonTopics         SeasonTopic[]
   GroupSeasonTopic     GroupSeasonTopic[]
   UserGroupSeasonTopic UserGroupSeasonTopic[]
+}
+
+model Resource{
+  id                   String                 @id @default(uuid())
+  type                 String
+  name                 String
+  description          String
+  link                 String                 @unique               
+  topic                Topic[]
 }
 
 model Problem {
