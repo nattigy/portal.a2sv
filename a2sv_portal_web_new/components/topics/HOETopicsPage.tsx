@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import TopicList from "../topics/TopicList";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../types/user";
-import { useGetAllTopicsByGroupAndSeasonIdQuery } from "../../lib/hooks/useTopics";
 import Button from "../common/Button";
 import EmptyState from "../common/EmptyState";
 import { LoaderSmall } from "../common/Loaders";

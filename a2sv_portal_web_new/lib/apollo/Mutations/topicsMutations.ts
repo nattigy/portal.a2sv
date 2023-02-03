@@ -19,6 +19,14 @@ export const ADD_SEASON_TOPIC = gql`
     }
   }
 `;
+export const ADD_GROUP_SEASON_TOPIC = gql`
+  mutation AddTopicsToGroupSeason(
+    $groupSeasonId: GroupSeasonId!
+    $topicIds: [String!]!
+  ) {
+    addTopicsToGroupSeason(groupSeasonId: $groupSeasonId, topicIds: $topicIds)
+  }
+`;
 
 export const REMOVE_TOPIC = gql`
   mutation RemoveTopic($topicId: String!) {
