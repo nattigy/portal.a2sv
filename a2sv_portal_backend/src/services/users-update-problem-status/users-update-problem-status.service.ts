@@ -1,11 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
-import { UserGroupSeasonTopicProblemService } from '../../app/user-group-season-topic-problem/user-group-season-topic-problem.service'
-import { UpdateUserGroupSeasonTopicProblemInput } from '../../app/user-group-season-topic-problem/dto/update-user-group-season-topic-problem.input'
+import {
+  UserGroupSeasonTopicProblemService,
+} from '../../app/user-group-season-topic-problem/user-group-season-topic-problem.service'
+import {
+  UpdateUserGroupSeasonTopicProblemInput,
+} from '../../app/user-group-season-topic-problem/dto/update-user-group-season-topic-problem.input'
 import { UserGroupSeasonTopicService } from '../../app/user-group-season-topic/user-group-season-topic.service'
 import { ComfortLevelEnum } from '@prisma/client'
 import { UserGroupSeasonService } from '../../app/user-group-season/user-group-season.service'
-import { StudentDataAnalyticsService } from './../../student-data-analytics/student-data-analytics.service';
+import { StudentDataAnalyticsService } from '../../app/user-group-season-analytics/student-data-analytics.service'
 
 @Injectable()
 export class UsersUpdateProblemStatusService {
@@ -13,8 +17,10 @@ export class UsersUpdateProblemStatusService {
     private readonly userGroupSeasonTopicProblemService: UserGroupSeasonTopicProblemService,
     private readonly userGroupSeasonTopicService: UserGroupSeasonTopicService,
     private readonly userGroupSeasonService: UserGroupSeasonService,
+    private readonly studentDataAnalyticsService: StudentDataAnalyticsService,
     private readonly prismaService: PrismaService,
-  ) {}
+  ) {
+  }
 
   async updateSeasonTopicProblemStatus(
     updateUserGroupSeasonTopicProblemInput: UpdateUserGroupSeasonTopicProblemInput,
@@ -80,7 +86,7 @@ export class UsersUpdateProblemStatusService {
     })
     if (!foundGroupSeasonTopic) throw new Error('Topic is not added to your group yet!')
     if (!foundGroupSeasonTopic.groupSeason.isActive)
-      throw new Error("This group's season is not active!")
+      throw new Error('This group\'s season is not active!')
 
     const userGSTP = await this.prismaService.userGroupSeasonTopic.findUnique({
       where: {
@@ -120,22 +126,22 @@ export class UsersUpdateProblemStatusService {
     )
 
     // update usersDailyStat
-    // if (oldStatus) {
-    //   // if the status was updated in previous times the update the stat on that date
-    //   await this.prismaService.userGroupSeasonDailyAnalytics.upsert({
-    //     userId,
-    //     groupId,
-    //     seasonId,
-    //     createdAt: oldStatus.statusUpdatedAt,
-    //   })
-    // }
-    // // update the stat on today's date
-    // await this.prismaService.userGroupSeasonDailyAnalytics.upsert({
-    //   userId,
-    //   groupId,
-    //   seasonId,
-    //   createdAt: updated.statusUpdatedAt,
-    // })
+    if (oldStatus) {
+      // if the status was updated in previous times the update the stat on that date
+      await this.studentDataAnalyticsService.upsert({
+        userId,
+        groupId,
+        seasonId,
+        createdAt: oldStatus.statusUpdatedAt,
+      })
+    }
+    // update the stat on today's date
+    await this.studentDataAnalyticsService.upsert({
+      userId,
+      groupId,
+      seasonId,
+      createdAt: updated.statusUpdatedAt,
+    })
 
     return updated
   }

@@ -236,7 +236,7 @@ async function main() {
         }
       }
 
-    await prisma.userGroupSeasonDailyAnalytics.createMany({
+    await prisma.userGroupSeasonAnalytics.createMany({
       data: analyticsList,
       skipDuplicates: true
     })
