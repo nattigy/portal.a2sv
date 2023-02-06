@@ -211,47 +211,35 @@ async function main() {
       })
     }
 
-    console.log("student analytics")
-    const endYear = new Date('2023-1-31')
-    const analyticsList = []
-    // eslint-disable-next-line no-unmodified-loop-condition
-    for (let d = new Date('2022-1-2'); d <= endYear; d.setDate(d.getDate() + 1)) {
-      const currentDate = new Date(d) as any
-      currentDate.setHours(0, 0, 0, 0)
-      const currentYear = currentDate.getFullYear()
-      const startDate = new Date(currentYear, 0, 1) as any
-      const days = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24))
-      const weeknubmer = Math.ceil(days / 7)
-      for (const user of users) {
-        analyticsList.push({
-          userId: user.id,
-          seasonId: season.id,
-          groupId: group.id,
-          createdAt: new Date(d),
-          solvedCount: Math.floor(Math.random() * 10),
-          wrongCount: Math.floor(Math.random() * 10) + 1,
-          week: weeknubmer,
-          month: currentDate.getMonth(),
-          year: currentDate.getFullYear(),
-        })
+      const endYear = new Date('2023-1-31');
+      const analyticsList = []
+      // eslint-disable-next-line no-unmodified-loop-condition
+      for (let d = new Date('2022-1-2'); d <= endYear; d.setDate(d.getDate() + 1)) {
+        const currentDate = new Date(d) as any;
+        currentDate.setHours(0, 0, 0, 0)
+        const currentYear = currentDate.getFullYear();
+        const startDate = new Date(currentYear,0,1) as any;
+        const days = Math.floor((currentDate - startDate) / (1000*60*60*24));
+        const weeknubmer = Math.ceil(days / 7);
+        for (const user of users) {
+          analyticsList.push({
+            userId: user.id,
+            seasonId: season.id,
+            groupId: group.id,
+            createdAt: new Date(d),
+            solvedCount: Math.floor(Math.random() * 10),
+            wrongCount: Math.floor(Math.random() * 10) + 1,
+            week:weeknubmer,
+            month:currentDate.getMonth(), 
+            year:currentDate.getFullYear()
+          })
+        }
       }
-    }
 
-    // await prisma.userGroupSeasonDailyAnalytics.createMany({
-    //   data: analyticsList.map(d => ({
-    //     groupId:d.groupId,
-    //     seasonId:d.seasonId
-    //   })),
-    // })
-    // console.log("Add user daily anayltics appended")
-
-    console.log("create student daily stat")
-    // for (const data of analyticsList) {
-      await prisma.userGroupSeasonDailyAnalytics.createMany({
-        data: analyticsList,
-        skipDuplicates: true
-      })
-    // }
+    await prisma.userGroupSeasonDailyAnalytics.createMany({
+      data: analyticsList,
+      skipDuplicates: true
+    })
   } catch (e) {
     console.error(e)
     process.exit(1)

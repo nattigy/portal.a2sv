@@ -5,7 +5,7 @@ import { UpdateUserGroupSeasonTopicProblemInput } from '../../app/user-group-sea
 import { UserGroupSeasonTopicService } from '../../app/user-group-season-topic/user-group-season-topic.service'
 import { ComfortLevelEnum } from '@prisma/client'
 import { UserGroupSeasonService } from '../../app/user-group-season/user-group-season.service'
-import { UserGroupSeasonDailyAnalyticsService } from '../../app/user-group-season-daily-analytics/user-group-season-daily-analytics.service'
+import { StudentDataAnalyticsService } from './../../student-data-analytics/student-data-analytics.service';
 
 @Injectable()
 export class UsersUpdateProblemStatusService {
@@ -13,7 +13,6 @@ export class UsersUpdateProblemStatusService {
     private readonly userGroupSeasonTopicProblemService: UserGroupSeasonTopicProblemService,
     private readonly userGroupSeasonTopicService: UserGroupSeasonTopicService,
     private readonly userGroupSeasonService: UserGroupSeasonService,
-    private readonly userGroupSeasonDailyAnalyticsService: UserGroupSeasonDailyAnalyticsService,
     private readonly prismaService: PrismaService,
   ) {}
 
@@ -121,22 +120,22 @@ export class UsersUpdateProblemStatusService {
     )
 
     // update usersDailyStat
-    if (oldStatus) {
-      // if the status was updated in previous times the update the stat on that date
-      await this.userGroupSeasonDailyAnalyticsService.upsert({
-        userId,
-        groupId,
-        seasonId,
-        createdAt: oldStatus.statusUpdatedAt,
-      })
-    }
-    // update the stat on today's date
-    await this.userGroupSeasonDailyAnalyticsService.upsert({
-      userId,
-      groupId,
-      seasonId,
-      createdAt: updated.statusUpdatedAt,
-    })
+    // if (oldStatus) {
+    //   // if the status was updated in previous times the update the stat on that date
+    //   await this.prismaService.userGroupSeasonDailyAnalytics.upsert({
+    //     userId,
+    //     groupId,
+    //     seasonId,
+    //     createdAt: oldStatus.statusUpdatedAt,
+    //   })
+    // }
+    // // update the stat on today's date
+    // await this.prismaService.userGroupSeasonDailyAnalytics.upsert({
+    //   userId,
+    //   groupId,
+    //   seasonId,
+    //   createdAt: updated.statusUpdatedAt,
+    // })
 
     return updated
   }

@@ -1,3 +1,4 @@
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { GraphQLISODateTime, GraphQLModule } from '@nestjs/graphql'
@@ -18,6 +19,8 @@ import { MailModule } from './mail/mail.module'
 import { MailerModule } from '@nestjs-modules/mailer'
 import { join } from 'path'
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter'
+import { UsersUpdateProblemStatusModule } from './services/users-update-problem-status/users-update-problem-status.module'
+import { StudentDataAnalyticsModule } from './student-data-analytics/student-data-analytics.module';
 import {
   UsersUpdateProblemStatusModule,
 } from './services/users-update-problem-status/users-update-problem-status.module'
@@ -25,7 +28,6 @@ import {
   UsersUpdateTopicComfortabilityModule,
 } from './services/users-update-topic-comfortability/users-update-topic-comfortability.module'
 import { StudentDataAnalyticsModule } from './services/student-data-analytics/student-data-analytics.module'
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 
 @Module({
   imports: [
