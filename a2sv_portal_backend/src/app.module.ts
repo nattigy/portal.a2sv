@@ -24,7 +24,7 @@ import {
 import {
   UsersUpdateTopicComfortabilityModule,
 } from './services/users-update-topic-comfortability/users-update-topic-comfortability.module'
-import { StudentDataAnalyticsModule } from './student-data-analytics/student-data-analytics.module'
+import { StudentDataAnalyticsModule } from './services/student-data-analytics/student-data-analytics.module'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 
 @Module({

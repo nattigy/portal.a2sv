@@ -35,30 +35,33 @@ export class UserGroupSeasonDailyAnalyticsService {
         statusUpdatedAt: createdAt,
       },
     })
-    // return this.prismaService.userGroupSeasonDailyAnalytics.upsert({
-    //   where: {
-    //     userId_createdAt: {
-    //       userId,
-    //       createdAt,
-    //     },
-    //   },
-    //   create: {
-    //     userId,
-    //     groupId,
-    //     seasonId,
-    //     solvedCount: userProblems.filter(up => up.status === UserTopicProblemStatusEnum.SOLVED)
-    //       .length,
-    //     wrongCount: userProblems.map(up => up.status === UserTopicProblemStatusEnum.SOLVED ? up.numberOfAttempts - 1 : up.numberOfAttempts).reduce((a, b) => a + b, 0),
-    //   },
-    //   update: {
-    //     userId,
-    //     groupId,
-    //     seasonId,
-    //     solvedCount: userProblems.filter(up => up.status === UserTopicProblemStatusEnum.SOLVED)
-    //       .length,
-    //     wrongCount: userProblems.map(up => up.status === UserTopicProblemStatusEnum.SOLVED ? up.numberOfAttempts - 1 : up.numberOfAttempts).reduce((a, b) => a + b, 0),
-    //   },
-    // })
+    return this.prismaService.userGroupSeasonDailyAnalytics.upsert({
+      where: {
+        userId_createdAt: {
+          userId,
+          createdAt,
+        },
+      },
+      create: {
+        userId,
+        groupId,
+        seasonId,
+        solvedCount: userProblems.filter(up => up.status === UserTopicProblemStatusEnum.SOLVED)
+          .length,
+        wrongCount: userProblems.map(up => up.status === UserTopicProblemStatusEnum.SOLVED ? up.numberOfAttempts - 1 : up.numberOfAttempts).reduce((a, b) => a + b, 0),
+        month: new Date().getMonth(),
+        week: 0,
+        year: new Date().getFullYear(),
+      },
+      update: {
+        userId,
+        groupId,
+        seasonId,
+        solvedCount: userProblems.filter(up => up.status === UserTopicProblemStatusEnum.SOLVED)
+          .length,
+        wrongCount: userProblems.map(up => up.status === UserTopicProblemStatusEnum.SOLVED ? up.numberOfAttempts - 1 : up.numberOfAttempts).reduce((a, b) => a + b, 0),
+      },
+    })
   }
 
   async remove(id: UserGroupSeasonId) {
