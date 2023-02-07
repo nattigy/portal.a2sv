@@ -19,13 +19,8 @@ const BaseLayout = ({ sidebar, children }: LayoutProps) => {
   const [activePath, setActivePath] = useState("");
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
   const router = useRouter();
-  const isProfileComplete = authUser.userProfile !== null;
-  // if (router.pathname !== "/profile/edit" && !isProfileComplete) {
-  //   router.replace("/profile/edit");
-  // }
 
   const apolloClient = useApollo({});
-  const [logout] = useLogout();
 
   useEffect(() => {
     setActivePath(router.pathname);

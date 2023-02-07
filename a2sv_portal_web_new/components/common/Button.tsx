@@ -7,15 +7,18 @@ export type ButtonProps = {
   icon?: any;
   classname?: string;
   isLoading?: boolean;
+  disabled?: boolean
 };
 
 const Button = (props: ButtonProps) => {
   return (
     <button
       onClick={props.onClick}
+      disabled={props.disabled}
       className={clsx(
         props.classname,
-        "flex items-center h-10 w-fit p-2 px-4 rounded-md"
+        "flex items-center h-10 w-fit p-2 px-4 rounded-md",
+        props.disabled && "cursor-not-allowed"
       )}
     >
       {props.isLoading && (

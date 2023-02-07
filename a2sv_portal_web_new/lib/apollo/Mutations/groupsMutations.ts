@@ -39,14 +39,21 @@ export const DELETE_GROUP = gql`
 export const ADD_STUDENTS_TO_GROUP = gql`
   mutation AddUsersToAGroup($groupId: String!, $studentIds: [String!]!) {
     addUsersToAGroup(groupId: $groupId, studentIds: $studentIds)
-}`;
+  }
+`;
+
+export const REMOVE_STUDENTS_FROM_GROUP = gql`
+  mutation AddUsersToAGroup($groupId: String!, $studentIds: [String!]!) {
+    addUsersToAGroup(groupId: $groupId, studentIds: $studentIds)
+  }
+`;
 
 export const EDIT_GROUP = gql`
- mutation UpdateGroup($updateGroupInput: UpdateGroupInput!) {
-  updateGroup(updateGroupInput: $updateGroupInput) {
-    id
+  mutation UpdateGroup($updateGroupInput: UpdateGroupInput!) {
+    updateGroup(updateGroupInput: $updateGroupInput) {
+      id
+    }
   }
-}
 `;
 
 /*
