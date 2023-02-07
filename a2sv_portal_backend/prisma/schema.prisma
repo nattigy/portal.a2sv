@@ -245,62 +245,35 @@ model GroupSeasonContestProblem {
 }
 
 model UserGroupSeason {
-  userId                          String
-  groupId                         String
-  seasonId                        String
-  rank                            Int?                              @default(0)
-  totalSubmissions                Int?                              @default(0)
-  totalAcceptedSubmissions        Int?                              @default(0)
-  acceptanceRate                  Float?                            @default(0.0)
-  averageContestRating            Float?                            @default(0.0)
-  totalContestsAttended           Int?                              @default(0)
-  user                            User                              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  groupSeason                     GroupSeason                       @relation(fields: [groupId, seasonId], references: [groupId, seasonId], onDelete: Cascade)
-  createdAt                       DateTime?                         @default(now())
-  updatedAt                       DateTime?                         @updatedAt
-  userGroupSeasonTopics           UserGroupSeasonTopic[]
-  userGroupSeasonContests         UserGroupSeasonContest[]
-  userGroupSeasonDailyAnalytics   UserGroupSeasonDailyAnalytics[]
-  userGroupSeasonWeeklyAnalytics  UserGroupSeasonWeeklyAnalytics[]
-  userGroupSeasonMonthlyAnalytics UserGroupSeasonMonthlyAnalytics[]
+  userId                        String
+  groupId                       String
+  seasonId                      String
+  rank                          Int?                       @default(0)
+  totalSubmissions              Int?                       @default(0)
+  totalAcceptedSubmissions      Int?                       @default(0)
+  acceptanceRate                Float?                     @default(0.0)
+  averageContestRating          Float?                     @default(0.0)
+  totalContestsAttended         Int?                       @default(0)
+  user                          User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  groupSeason                   GroupSeason                @relation(fields: [groupId, seasonId], references: [groupId, seasonId], onDelete: Cascade)
+  createdAt                     DateTime?                  @default(now())
+  updatedAt                     DateTime?                  @updatedAt
+  userGroupSeasonTopics         UserGroupSeasonTopic[]
+  userGroupSeasonContests       UserGroupSeasonContest[]
+  userGroupSeasonDailyAnalytics UserGroupSeasonAnalytics[]
 
   @@id([userId, groupId, seasonId])
 }
 
-model UserGroupSeasonDailyAnalytics {
+model UserGroupSeasonAnalytics {
   userId          String
   groupId         String
   seasonId        String
   solvedCount     Int             @default(0)
   wrongCount      Int             @default(0)
-  // rank      Int             @default(0)
-  userGroupSeason UserGroupSeason @relation(fields: [userId, groupId, seasonId], references: [userId, groupId, seasonId], onDelete: Cascade)
-  createdAt       DateTime        @default(now()) @db.Date
-  updatedAt       DateTime        @updatedAt @db.Date
-
-  @@id([userId, createdAt])
-}
-
-model UserGroupSeasonWeeklyAnalytics {
-  userId          String
-  groupId         String
-  seasonId        String
-  solvedCount     Int             @default(0)
-  wrongCount      Int             @default(0)
-  // rank      Int             @default(0)
-  userGroupSeason UserGroupSeason @relation(fields: [userId, groupId, seasonId], references: [userId, groupId, seasonId], onDelete: Cascade)
-  createdAt       DateTime        @default(now()) @db.Date
-  updatedAt       DateTime        @updatedAt @db.Date
-
-  @@id([userId, createdAt])
-}
-
-model UserGroupSeasonMonthlyAnalytics {
-  userId          String
-  groupId         String
-  seasonId        String
-  solvedCount     Int             @default(0)
-  wrongCount      Int             @default(0)
+  month           Int
+  week            Int
+  year            Int
   // rank      Int             @default(0)
   userGroupSeason UserGroupSeason @relation(fields: [userId, groupId, seasonId], references: [userId, groupId, seasonId], onDelete: Cascade)
   createdAt       DateTime        @default(now()) @db.Date

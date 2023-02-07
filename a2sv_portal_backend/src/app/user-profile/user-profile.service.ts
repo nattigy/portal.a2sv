@@ -83,7 +83,7 @@ export class UserProfileService {
       // Delete previous image file from GCS
       const user = await this.userService.user({ id: userId })
       const profile = await this.userProfileRepository.findOne({ id: user.userProfile.id })
-      
+
       await this.storageService.delete(profile.photoUrl)
 
       const fileName = await this.storageService.save(updates.photoUrl, userId)

@@ -69,16 +69,6 @@ export class UserGroupSeasonResolver {
     )
   }
 
-  @Mutation(() => UserGroupSeasonTopic)
-  async updateUserTopicComfortability(
-    @Args('updateUserTopicComfortabilityInput')
-    updateUserTopicComfortabilityInput: UpdateUserGroupSeasonTopicInput,
-  ) {
-    return this.userGroupSeasonTopicService.updateUserTopicComfortability(
-      updateUserTopicComfortabilityInput,
-    )
-  }
-
   @Query(() => UserGroupSeasonTopicProblem)
   async userGroupSeasonTopicProblem(
     @Args('userGroupSeasonTopicProblemId')

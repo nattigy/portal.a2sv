@@ -1,4 +1,4 @@
-export class UserGroupSeasonWeeklyAnalyticInput {
+export class UserGroupSeasonDailyAnalyticInput {
   userId: string
 
   groupId: string

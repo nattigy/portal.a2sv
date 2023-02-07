@@ -1,17 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
-import { UserGroupSeasonTopicProblemService } from '../../app/user-group-season-topic-problem/user-group-season-topic-problem.service'
-import { UpdateUserGroupSeasonTopicProblemInput } from '../../app/user-group-season-topic-problem/dto/update-user-group-season-topic-problem.input'
+import {
+  UserGroupSeasonTopicProblemService,
+} from '../../app/user-group-season-topic-problem/user-group-season-topic-problem.service'
+import {
+  UpdateUserGroupSeasonTopicProblemInput,
+} from '../../app/user-group-season-topic-problem/dto/update-user-group-season-topic-problem.input'
 import { UserGroupSeasonTopicService } from '../../app/user-group-season-topic/user-group-season-topic.service'
 import { ComfortLevelEnum } from '@prisma/client'
 import { UserGroupSeasonService } from '../../app/user-group-season/user-group-season.service'
-import { UserGroupSeasonDailyAnalyticsService } from '../../app/user-group-season-daily-analytics/user-group-season-daily-analytics.service'
-import {
-  UserGroupSeasonWeeklyAnalyticsService
-} from '../../app/user-group-season-weekly-analytics/user-group-season-weekly-analytics.service'
-import {
-  UserGroupSeasonMonthlyAnalyticsService
-} from '../../app/user-group-season-monthly-analytics/user-group-season-monthly-analytics.service'
+import { StudentDataAnalyticsService } from '../../app/user-group-season-analytics/student-data-analytics.service'
 
 @Injectable()
 export class UsersUpdateProblemStatusService {
@@ -19,11 +17,10 @@ export class UsersUpdateProblemStatusService {
     private readonly userGroupSeasonTopicProblemService: UserGroupSeasonTopicProblemService,
     private readonly userGroupSeasonTopicService: UserGroupSeasonTopicService,
     private readonly userGroupSeasonService: UserGroupSeasonService,
-    private readonly userGroupSeasonDailyAnalyticsService: UserGroupSeasonDailyAnalyticsService,
-    private readonly userGroupSeasonWeeklyAnalyticsService: UserGroupSeasonWeeklyAnalyticsService,
-    private readonly userGroupSeasonMonthlyAnalyticsService: UserGroupSeasonMonthlyAnalyticsService,
+    private readonly studentDataAnalyticsService: StudentDataAnalyticsService,
     private readonly prismaService: PrismaService,
-  ) {}
+  ) {
+  }
 
   async updateSeasonTopicProblemStatus(
     updateUserGroupSeasonTopicProblemInput: UpdateUserGroupSeasonTopicProblemInput,
@@ -89,7 +86,7 @@ export class UsersUpdateProblemStatusService {
     })
     if (!foundGroupSeasonTopic) throw new Error('Topic is not added to your group yet!')
     if (!foundGroupSeasonTopic.groupSeason.isActive)
-      throw new Error("This group's season is not active!")
+      throw new Error('This group\'s season is not active!')
 
     const userGSTP = await this.prismaService.userGroupSeasonTopic.findUnique({
       where: {
@@ -131,7 +128,7 @@ export class UsersUpdateProblemStatusService {
     // update usersDailyStat
     if (oldStatus) {
       // if the status was updated in previous times the update the stat on that date
-      await this.userGroupSeasonDailyAnalyticsService.upsert({
+      await this.studentDataAnalyticsService.upsert({
         userId,
         groupId,
         seasonId,
@@ -139,21 +136,7 @@ export class UsersUpdateProblemStatusService {
       })
     }
     // update the stat on today's date
-    await this.userGroupSeasonDailyAnalyticsService.upsert({
-      userId,
-      groupId,
-      seasonId,
-      createdAt: updated.statusUpdatedAt,
-    })
-    // update the weekly
-    await this.userGroupSeasonWeeklyAnalyticsService.upsert({
-      userId,
-      groupId,
-      seasonId,
-      createdAt: updated.statusUpdatedAt,
-    })
-    // update the monthly stat
-    await this.userGroupSeasonMonthlyAnalyticsService.upsert({
+    await this.studentDataAnalyticsService.upsert({
       userId,
       groupId,
       seasonId,

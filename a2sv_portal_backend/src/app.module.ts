@@ -19,13 +19,14 @@ import { MailModule } from './mail/mail.module'
 import { MailerModule } from '@nestjs-modules/mailer'
 import { join } from 'path'
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter'
-import { UserGroupSeasonDailyAnalyticsModule } from './app/user-group-season-daily-analytics/user-group-season-daily-analytics.module'
-import { UsersUpdateProblemStatusModule } from './services/users-update-problem-status/users-update-problem-status.module'
-import { UserGroupSeasonTopicResolver } from './app/user-group-season-topic/user-group-season-topic.resolver'
-import { UserGroupSeasonDailyAnalyticResolver } from './app/user-group-season-daily-analytics/user-group-season-daily-analytic.resolver';
-import { UserGroupSeasonWeeklyAnalyticsModule } from './app/user-group-season-weekly-analytics/user-group-season-weekly-analytics.module';
-import { UserGroupSeasonMonthlyAnalyticsModule } from './app/user-group-season-monthly-analytics/user-group-season-monthly-analytics.module';
 import { StorageModule } from './storage/storage.module';
+import {
+  UsersUpdateTopicComfortabilityModule,
+} from './services/users-update-topic-comfortability/users-update-topic-comfortability.module'
+import {
+  UsersUpdateProblemStatusModule
+} from './services/users-update-problem-status/users-update-problem-status.module'
+import { StudentDataAnalyticsModule } from './app/user-group-season-analytics/student-data-analytics.module'
 
 @Module({
   imports: [
@@ -57,7 +58,6 @@ import { StorageModule } from './storage/storage.module';
         res,
       }),
       driver: ApolloDriver,
-      // autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
       playground: false,
 
@@ -82,10 +82,12 @@ import { StorageModule } from './storage/storage.module';
     UserProfileModule,
     PrismaModule,
     ServicesModule,
-    // UserGroupSeasonDailyAnalyticsModule,
     UsersUpdateProblemStatusModule,
     StorageModule,
+    UsersUpdateTopicComfortabilityModule,
+    StudentDataAnalyticsModule,
   ],
   providers: [AppService, AppResolver],
 })
-export class AppModule {}
+export class AppModule {
+}
