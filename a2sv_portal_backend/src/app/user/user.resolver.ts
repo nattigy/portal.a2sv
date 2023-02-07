@@ -77,6 +77,20 @@ export class UserResolver {
   }
 
   // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  // @CheckPolicies(UserAbilities.update)
+  @Mutation(() => Int, { description: descriptions.updateUser })
+  async removeUsersFromAGroup(
+    @Args('groupId') groupId: string,
+    @Args('studentIds', { type: () => [String] }) studentIds: string[],
+  ) {
+    try {
+      return this.userService.removeUsersFromAGroup(studentIds.map(userId => ({ userId, groupId })))
+    } catch (e) {
+      throw new BadRequestException('Error adding users to a group!')
+    }
+  }
+
+  // @UseGuards(JwtAuthGuard, PoliciesGuard)
   // @CheckPolicies(UserAbilities.delete)
   @Mutation(() => Int, { description: descriptions.deleteUser })
   async removeUser(@Args('userId') userId: string) {
