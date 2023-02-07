@@ -25,6 +25,7 @@ import { UserGroupSeasonTopicResolver } from './app/user-group-season-topic/user
 import { UserGroupSeasonDailyAnalyticResolver } from './app/user-group-season-daily-analytics/user-group-season-daily-analytic.resolver';
 import { UserGroupSeasonWeeklyAnalyticsModule } from './app/user-group-season-weekly-analytics/user-group-season-weekly-analytics.module';
 import { UserGroupSeasonMonthlyAnalyticsModule } from './app/user-group-season-monthly-analytics/user-group-season-monthly-analytics.module';
+import { StorageModule } from './storage/storage.module';
 
 @Module({
   imports: [
@@ -83,6 +84,7 @@ import { UserGroupSeasonMonthlyAnalyticsModule } from './app/user-group-season-m
     ServicesModule,
     // UserGroupSeasonDailyAnalyticsModule,
     UsersUpdateProblemStatusModule,
+    StorageModule,
   ],
   providers: [AppService, AppResolver],
 })

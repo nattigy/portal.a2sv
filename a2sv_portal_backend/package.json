@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@casl/ability": "^6.3.2",
+    "@google-cloud/storage": "^6.9.1",
     "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/apollo": "^10.0.22",
     "@nestjs/cli": "^9.0.0",
