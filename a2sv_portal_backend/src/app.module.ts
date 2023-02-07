@@ -19,6 +19,7 @@ import { MailModule } from './mail/mail.module'
 import { MailerModule } from '@nestjs-modules/mailer'
 import { join } from 'path'
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter'
+import { StorageModule } from './storage/storage.module';
 import {
   UsersUpdateTopicComfortabilityModule,
 } from './services/users-update-topic-comfortability/users-update-topic-comfortability.module'
@@ -82,6 +83,7 @@ import { StudentDataAnalyticsModule } from './app/user-group-season-analytics/st
     PrismaModule,
     ServicesModule,
     UsersUpdateProblemStatusModule,
+    StorageModule,
     UsersUpdateTopicComfortabilityModule,
     StudentDataAnalyticsModule,
   ],

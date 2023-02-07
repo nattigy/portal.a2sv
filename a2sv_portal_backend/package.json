@@ -28,6 +28,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@google-cloud/storage": "^6.9.1",
     "@casl/ability": "^6.3.3",
     "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/apollo": "^10.1.7",
