@@ -260,12 +260,12 @@ model UserGroupSeason {
   updatedAt                     DateTime?                  @updatedAt
   userGroupSeasonTopics         UserGroupSeasonTopic[]
   userGroupSeasonContests       UserGroupSeasonContest[]
-  userGroupSeasonDailyAnalytics UserGroupSeasonAnalytics[]
+  userGroupSeasonDailyAnalytics UserGroupSeasonDataAnalytics[]
 
   @@id([userId, groupId, seasonId])
 }
 
-model UserGroupSeasonAnalytics {
+model UserGroupSeasonDataAnalytics {
   userId          String
   groupId         String
   seasonId        String

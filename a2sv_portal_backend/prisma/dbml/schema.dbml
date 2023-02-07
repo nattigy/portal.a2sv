@@ -262,14 +262,14 @@ Table UserGroupSeason {
   updatedAt DateTime
   userGroupSeasonTopics UserGroupSeasonTopic [not null]
   userGroupSeasonContests UserGroupSeasonContest [not null]
-  userGroupSeasonDailyAnalytics UserGroupSeasonAnalytics [not null]
+  userGroupSeasonDailyAnalytics UserGroupSeasonDataAnalytics [not null]
 
   indexes {
     (userId, groupId, seasonId) [pk]
   }
 }
 
-Table UserGroupSeasonAnalytics {
+Table UserGroupSeasonDataAnalytics {
   userId String [not null]
   groupId String [not null]
   seasonId String [not null]
@@ -572,7 +572,7 @@ Ref: UserGroupSeason.userId > User.id [delete: Cascade]
 
 Ref: UserGroupSeason.(groupId, seasonId) > GroupSeason.(groupId, seasonId) [delete: Cascade]
 
-Ref: UserGroupSeasonAnalytics.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
+Ref: UserGroupSeasonDataAnalytics.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
 
 Ref: UserGroupSeasonTopic.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
 
