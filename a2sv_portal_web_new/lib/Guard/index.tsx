@@ -85,27 +85,20 @@ const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
   const { data: user, loading, refetch, error } = useGetMe();
   const router = useRouter();
   // const user = {getMe:mockUsers[1]};
-  
-  useEffect(() => {
-    if (user) {
-      console.log(user, " is user")
-      authenticatedVar(true);
-      authenticatedUser(user?.getMe);
-      if (router.pathname.includes("/auth")) {
-        router.replace("/")
-      }
-    } else {
-      authenticatedVar(false);
-      authenticatedUser({});
-    }
-  }, [refetch, user]);
 
   useEffect(() => {
     if (user) {
       authenticatedVar(true);
       authenticatedUser(user?.getMe);
+      if (router.pathname.includes("/auth")) {
+        router.replace("/")
+      }
+      if (user?.userProfile === null) {
+        router.replace("/profile/edit");
+      }
     } else {
       authenticatedVar(false);
+      authenticatedUser({});
     }
   }, [refetch, user]);
 

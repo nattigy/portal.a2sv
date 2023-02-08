@@ -29,7 +29,7 @@ export interface ProfileFormValues {
   dob: Date;
   status: string;
   linkedin: string;
-  photo: File | null;
+  photoUrl: string | null;
   insta: string;
   twitter: string;
   telegram: string;
@@ -135,7 +135,7 @@ const ProfileInfo = ({ userProfile }: Props) => {
       country: userProfile?.userProfileAddress?.country || "",
       city: userProfile?.userProfileAddress?.city || "Addis Ababa",
     },
-    photo: null,
+    photoUrl: "asfasfa",
   };
 
   const [tabIndex, setTabIndex] = useState(0);
@@ -172,7 +172,6 @@ const ProfileInfo = ({ userProfile }: Props) => {
                     currentEducationStatus: values.currentEducationStatus,
                     educationPlace: values.educationPlace,
                     bio: values.bio,
-
                     instagram: values.insta,
                     twitter: values.twitter,
                     telegram: values.telegram,
@@ -182,6 +181,7 @@ const ProfileInfo = ({ userProfile }: Props) => {
                     hackerrank: values.hackerrank,
                     codeforces: values.codeforces,
                     github: values.github,
+                    photoUrl: values.photoUrl,
                   },
                 },
                 refetchQueries: "active",
@@ -205,7 +205,7 @@ const ProfileInfo = ({ userProfile }: Props) => {
                     currentEducationStatus: values.currentEducationStatus,
                     educationPlace: values.educationPlace,
                     bio: values.bio,
-
+                    photoUrl: "sfasfasfas",
                     instagram: values.insta,
                     twitter: values.twitter,
                     telegram: values.telegram,

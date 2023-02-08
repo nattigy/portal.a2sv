@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
 import { getNationality } from "../../helpers/getNationalityFlag";
 import { format } from "date-fns";
-import { BsThreeDotsVertical } from "react-icons/bs";
 
 export type StudentsInfo = {
   id: number;
@@ -20,29 +19,35 @@ export type StudentsInfo = {
 
 type Props = {
   students: Array<StudentsInfo>;
+  selectedStudentsId: Set<string>,
+  setSelectedStudentsId: React.Dispatch<React.SetStateAction<Set<string>>>
 };
 
 const StudentTable = (props: Props) => {
   const [checkedAll, setCheckedAll] = useState(false);
+  const [selectedStudents, setSelectedStudents] = useState([])
+  const allStudents = props.students.map(st => st.id.toString())
   const [checkedState, setCheckedState] = useState(
     new Array(props.students.length).fill(false)
   );
 
-  const handleSingleCheck = (position: any) => {
-    const updatedCheckedState = checkedState.map((item, index) =>
-      index === position ? !item : item
-    );
-
-    setCheckedState(updatedCheckedState);
+  const handleSingleCheck = (studentId: any) => {
+    if (props.selectedStudentsId.has(studentId)) {
+      props.selectedStudentsId.delete(studentId)
+      props.setSelectedStudentsId(new Set([...props.selectedStudentsId].filter(st => st != studentId)))
+    } else {
+      props.setSelectedStudentsId(new Set([...props.selectedStudentsId, studentId]))
+    }
+    if (checkedAll && props.selectedStudentsId.size !== allStudents.length) setCheckedAll(false)
   };
 
   const handleAllCheck = () => {
-    const updatedCheckedState = checkedState.map((item, index) =>
-      checkedAll ? (item ? !item : item) : item ? item : !item
-    );
-
-    setCheckedState(updatedCheckedState);
-    setCheckedAll(!checkedAll);
+    if (checkedAll) {
+      props.setSelectedStudentsId(new Set())
+    } else {
+      props.setSelectedStudentsId(new Set(props.students.map(st => st.id.toString())))
+    }
+    setCheckedAll(prev => !prev)
   };
 
   return (
@@ -110,8 +115,8 @@ const StudentTable = (props: Props) => {
                         <input
                           id="checkbox-table-search-1"
                           name={`prob-${student.id}`}
-                          checked={checkedState[index]}
-                          onChange={() => handleSingleCheck(index)}
+                          checked={props.selectedStudentsId.has(student.id.toString())}
+                          onChange={() => handleSingleCheck(student.id.toString())}
                           type="checkbox"
                           className="w-4 h-4 text-blue-600 bg-gray-100 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700"
                         />
