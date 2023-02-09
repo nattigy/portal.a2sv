@@ -56,7 +56,6 @@ const GroupItem = ({ groupProps, color }: Props) => {
   };
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
 
-  console.log("Here", groupProps.students);
 
   return (
     <>

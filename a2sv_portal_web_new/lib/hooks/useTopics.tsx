@@ -14,7 +14,7 @@ export const useGetAllTopics = () => {
 };
 
 export const useGetSeasonTopics = (seasonId: string) => {
-  return useLazyQuery(GET_SEASON_TOPICS, {
+  return useQuery(GET_SEASON_TOPICS, {
     variables: {
       seasonId: seasonId,
     },
@@ -23,7 +23,7 @@ export const useGetSeasonTopics = (seasonId: string) => {
   });
 };
 export const useGetGroupSeasonTopics = (seasonId: string,groupId:string) => {
-  return useLazyQuery(GET_GROUP_SEASON_TOPICS, {
+  return useQuery(GET_GROUP_SEASON_TOPICS, {
     variables: {
       groupSeasonId: {
         groupId: groupId,

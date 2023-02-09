@@ -11,9 +11,7 @@ import MenuItem from "../common/MenuItem";
 import SeasonItem from "../seasons/SeasonItem";
 
 export type Props = {
-  season?: { name: string; id: string };
   topic: Topic;
-  groupId?: string;
   idx: number;
 };
 
@@ -21,9 +19,7 @@ const colors = ["#5956E9", "#FFDC60", "#FFADAD", "#FFADAD"];
 
 
 const TopicItem = (props: Props) => {
-  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-  const [removeTopic, { data, loading, error }] = useMutation(REMOVE_TOPIC);
+  
   
   return (
       <div className="h-[72px] flex w-full rounded-r-lg gap-x-3 bg-white items-center cursor-pointer">
@@ -33,7 +29,6 @@ const TopicItem = (props: Props) => {
             background: colors[props.idx % colors.length],
           }}
         ></div>
-        {/* <img src={titleToIcon[props.title].imgPath} className="w-12" alt="" /> */}
         <div className="flex flex-row justify-between w-full items-center pr-3">
           <div className="flex flex-col justify-center">
             <p className="font-Poppins font-semibold text-sm">{props.topic.name}</p>
@@ -41,31 +36,6 @@ const TopicItem = (props: Props) => {
               Solved 12/32
             </p>
           </div>
-          {/* <div className="h-12 relative">
-              <div className="absolute top-2 right-2">
-                <MenuItem
-                  color="black"
-                  menuItems={[
-                    {
-                      title: "Edit Topic",
-                      onClick: (e: any) => {
-                        e.stopPropagation();
-                        handleEditModalOpen();
-                      },
-                      icon: getSVGIcon("edit"),
-                    },
-                    {
-                      title: "Delete Topic",
-                      onClick: (e: any) => {
-                        e.stopPropagation();
-                        handleDeleteModalOpen();
-                      },
-                      icon: getSVGIcon("delete"),
-                    },
-                  ]}
-                />
-              </div>
-            </div> */}
         </div>
       </div>
   );
