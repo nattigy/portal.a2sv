@@ -55,7 +55,7 @@ const GroupItemList = () => {
   ) : data?.items?.length === 0 ? (
     <EmptyState />
   ) : (
-    <div className=" w-full h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <div className=" w-full h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 xl:gap-x-12">
       {groups &&
         groups.map((group: any, index: number) => (
           <GroupItem

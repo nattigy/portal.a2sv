@@ -34,7 +34,7 @@ export const useGetAllFilteredProblems = () => {
 };
 
 export const useGetSeasonTopicProblems = (seasonId: string,topicId:string) => {
-  return useQuery(GET_PROBLEMS_BY_SEASON_TOPIC, {
+  return useLazyQuery(GET_PROBLEMS_BY_SEASON_TOPIC, {
     notifyOnNetworkStatusChange: true,
     errorPolicy: "all",
     variables: {
@@ -51,7 +51,7 @@ export const useGetProblemsByGroupSeasonTopic = (
   topicId: string,
   groupId: string
 ) => {
-  return useQuery(GET_PROBLEMS_BY_GROUP_SEASON_TOPIC, {
+  return useLazyQuery(GET_PROBLEMS_BY_GROUP_SEASON_TOPIC, {
     notifyOnNetworkStatusChange: true,
     errorPolicy: "all",
 

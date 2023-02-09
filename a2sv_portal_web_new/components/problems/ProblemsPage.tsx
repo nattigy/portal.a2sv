@@ -38,15 +38,29 @@ const ProblemsPage = (props: ProblemsPageProps) => {
   const [isAddNewProblemModalOpen, setIsAddNewProblemModalOpen] =
     useState<boolean>(false);
 
-  const { data, loading, error } = useGetSeasonTopicProblems(seasonId, topicId);
+  const [loadSeasonTopicProblems, { data, loading, error }] =
+    useGetSeasonTopicProblems(seasonId, topicId);
+  const [
+    loadGroupSeasonTopicProblems,
+    {
+      data: groupData,
+      loading: groupLoading,
+      error: groupError,
+      refetch: groupRefetch,
+    },
+  ] = useGetProblemsByGroupSeasonTopic(seasonId, topicId, authUser.groupId);
   const [
     removeSeasonTopic,
     { loading: removeTopicLoading, error: removeTopicError },
   ] = useMutation(REMOVE_SEASON_TOPIC);
-  const [problems, setProblems] = useState<ProblemType[]>([]);
-  const [seasonTopicProblems, setSeasonTopicProblems] = useState<ProblemType[]>(
-    []
-  );
+
+  const [seasonTopicProblems, setSeasonTopicProblems] = useState<any[]>([]);
+  const [groupSeasonTopicProblems, setGroupSeasonTopicProblems] = useState<
+    ProblemType[]
+  >([]);
+  const [filteredSeasonTopicProblems, setFilteredSeasonTopicProblems] =
+    useState<any[]>([]);
+
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
@@ -66,19 +80,35 @@ const ProblemsPage = (props: ProblemsPageProps) => {
   };
 
   useEffect(() => {
-    // if (data) {
-    //   setProblems(
-    //     data?.groupSeasonTopic?.groupSeasonTopicProblems?.map((item: any) => item.problem)
-    //   );
-    // }
+    if ((authUser as any).role !== GraphqlUserRole.HEAD_OF_ACADEMY) {
+      loadGroupSeasonTopicProblems();
+    }
+    loadSeasonTopicProblems();
+  }, [authUser, loadGroupSeasonTopicProblems, loadSeasonTopicProblems]);
+
+  useEffect(() => {
     if (data) {
       setSeasonTopicProblems(
         data?.seasonTopic?.seasonTopicProblems?.map((item: any) => item.problem)
       );
     }
-  }, [data]);
-  const router = useRouter();
+    if (data && groupData) {
+      const allproblemsId = new Set();
+      const groupFetchedProblems =
+        groupData?.groupSeasonTopic?.groupSeasonTopicProblems?.map(
+          (item: any) => {
+            allproblemsId.add(item.problem.id);
+            return item.problem;
+          }
+        );
 
+      setGroupSeasonTopicProblems(groupFetchedProblems);
+      let intersect = seasonTopicProblems.filter((i) => !allproblemsId.has(i.id));
+      setFilteredSeasonTopicProblems(intersect);
+    }
+  }, [data, groupData]);
+
+  const router = useRouter();
   return (
     <>
       {isAddNewProblemModalOpen && (
@@ -180,25 +210,38 @@ const ProblemsPage = (props: ProblemsPageProps) => {
           <EmptyState />
         ) : (
           <div>
-            <WithPermission
-              allowedRoles={[
-                GraphqlUserRole.HEAD_OF_ACADEMY,
-                GraphqlUserRole.HEAD_OF_EDUCATION,
-              ]}
-            >
+            <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_ACADEMY]}>
               <ProblemsTable
                 problems={seasonTopicProblems}
                 seasonId={props.seasonId}
                 topicId={props.topicId}
+                group={false}
               />
             </WithPermission>
-            {/* {authUser.role !== GraphqlUserRole.HEAD_OF_ACADEMY && (
-              <ProblemsTable
-                problems={problems}
-                seasonId={props.seasonId}
-                topicId={props.topicId}
-              />
-            )} */}
+            <WithPermission
+              allowedRoles={[
+                GraphqlUserRole.HEAD_OF_EDUCATION,
+                GraphqlUserRole.STUDENT,
+              ]}
+            >
+              <div className="flex flex-col gap-y-[2rem]">
+                <div className="flex flex-col gap-y-2">
+                  <h1>Group Problems</h1>
+                  <ProblemsTable
+                    problems={groupSeasonTopicProblems}
+                    seasonId={props.seasonId}
+                    topicId={props.topicId}
+                    group={true}
+                  />
+                </div>
+                <ProblemsTable
+                  problems={filteredSeasonTopicProblems}
+                  seasonId={props.seasonId}
+                  topicId={props.topicId}
+                  group={false}
+                />
+              </div>
+            </WithPermission>
           </div>
         )}
       </div>

@@ -5,14 +5,18 @@ import { DifficultyChips } from "./DifficultyChips";
 import { getIcon } from "../../helpers/getReactIcon";
 import {
   ProblemType,
-  ProblemDifficultyType,
-  ProblemStatus,
 } from "../../types/problems";
-import CustomLink from "../common/CustomLink";
-import { BiTrash } from "react-icons/bi";
 import DeletePopupModal from "../modals/DeletePopupModal";
-import { ApolloError, useMutation } from "@apollo/client";
-import { REMOVE_SEASON_TOPIC_PROBLEM } from "../../lib/apollo/Mutations/problemsMutations";
+import { ApolloError, useMutation, useReactiveVar } from "@apollo/client";
+import {
+  ADD_PROBLEM_TO_GROUP_SEASON_TOPIC,
+  REMOVE_SEASON_TOPIC_PROBLEM,
+} from "../../lib/apollo/Mutations/problemsMutations";
+import { GraphqlUserRole } from "../../types/user";
+import Button from "../common/Button";
+import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
+import clsx from "clsx";
+import { format } from "date-fns";
 
 export type PlatformInfo = {
   id: string;
@@ -20,12 +24,13 @@ export type PlatformInfo = {
 };
 
 type Props = {
-  problems: ProblemType[];
+  problems: any[];
   seasonId?: string;
   topicId?: string;
+  group?: boolean;
 };
 
-const ProblemsTable = ({ problems, seasonId, topicId }: Props) => {
+const ProblemsTable = ({ problems, seasonId, topicId, group }: Props) => {
   // const [titleAscending, setTitleAscending] = useState(false)
   // const [titleDescending, setTitleDescending] = useState(false)
   // const [difficultyAscending, setDifficultyAscending] = useState(false)
@@ -35,35 +40,64 @@ const ProblemsTable = ({ problems, seasonId, topicId }: Props) => {
     REMOVE_SEASON_TOPIC_PROBLEM
   );
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [checkedAll, setCheckedAll] = useState(false);
-  const [checkedState, setCheckedState] = useState(
-    new Array(problems?.length).fill(false)
+  const [
+    addGroupSeasonTopicProblems,
+    { loading: addLoading, error: addError },
+  ] = useMutation(ADD_PROBLEM_TO_GROUP_SEASON_TOPIC);
+  const [selectedProblem, setSelectedProblem] = useState<Set<string>>(
+    new Set([])
   );
-  const [problemId, setProblemId] = useState("");
+
+  const allProblemsId = [...problems]?.map((problem: any) => problem.id);
+  const [checkedAll, setCheckedAll] = useState(false);
+  const authUser = useReactiveVar(authenticatedUser) as AuthUser;
+
+  const [selectedProblemsCount, setSelectedProblemsCount] = useState(0);
+
+  const handleProblemCheck = (id: string) => {
+    if (selectedProblem.has(id)) {
+      selectedProblem.delete(id);
+    } else {
+      selectedProblem.add(id);
+    }
+    setSelectedProblemsCount(selectedProblem.size);
+    if (checkedAll && selectedProblem.size !== allProblemsId.length) {
+      setCheckedAll(false);
+    }
+  };
+
+  const handleAllProblemCheck = () => {
+    if (checkedAll) {
+      setSelectedProblem(new Set());
+      setSelectedProblemsCount(0);
+    } else {
+      setSelectedProblem(new Set([...allProblemsId]));
+      setSelectedProblemsCount(allProblemsId.length);
+    }
+    setCheckedAll(!checkedAll);
+  };
+
+  const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
   };
 
-  const handleSingleCheck = (position: any) => {
-    const updatedCheckedState = checkedState.map((item, index) =>
-      index === position ? !item : item
-    );
-
-    setCheckedState(updatedCheckedState);
+  const handleAddGroupSeasonTopicProblems = async () => {
+    await addGroupSeasonTopicProblems({
+      variables: {
+        groupSeasonTopicId: {
+          groupId: authUser.groupId,
+          seasonId: seasonId,
+          topicId: topicId,
+        },
+        problemIds: [...selectedProblem]
+      },
+      refetchQueries: "active",
+      notifyOnNetworkStatusChange: true,
+    })
   };
-
-  const handleAllCheck = () => {
-    const updatedCheckedState = checkedState.map((item, index) =>
-      checkedAll ? (item ? !item : item) : item ? item : !item
-    );
-
-    setCheckedState(updatedCheckedState);
-    setCheckedAll(!checkedAll);
-  };
-
   return (
     <>
       {isDeleteModalOpen && (
@@ -77,7 +111,7 @@ const ProblemsTable = ({ problems, seasonId, topicId }: Props) => {
             await removeSeasonTopicProblem({
               variables: {
                 seasonTopicProblemId: {
-                  problemId: problemId,
+                  // problemId: problemId,
                   seasonId: seasonId,
                   topicId: topicId,
                 },
@@ -91,10 +125,20 @@ const ProblemsTable = ({ problems, seasonId, topicId }: Props) => {
           }}
         />
       )}
-
       <div className="overflow-x-auto relative bg-white border-blue-100 shadow-md sm:rounded-lg border p-4 ">
-        <div className="mx-3 my-2 font-semibold text-md text-[#565656]">
+        <div className="flex justify-between mx-3 my-2 font-semibold text-md text-[#565656]">
           <h2>Problem Set</h2>
+          {(authUser as any).role !== GraphqlUserRole.STUDENT && (
+            <Button
+              onClick={handleAddGroupSeasonTopicProblems}
+              text={group ? "Remove Problem" : "Add New Problem"}
+              classname={clsx(
+                "bg-primary text-white text-xs",
+                selectedProblemsCount === 0 ? "hidden" : ""
+              )}
+              isLoading={group ? false : addLoading}
+            />
+          )}
         </div>
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-[#979797] bg-white ">
@@ -104,7 +148,7 @@ const ProblemsTable = ({ problems, seasonId, topicId }: Props) => {
                   <input
                     id="checkbox-all-search"
                     checked={checkedAll}
-                    onChange={() => handleAllCheck()}
+                    onChange={() => handleAllProblemCheck()}
                     type="checkbox"
                     className="w-4 h-4 text-blue-600 bg-white rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-white"
                   />
@@ -135,10 +179,7 @@ const ProblemsTable = ({ problems, seasonId, topicId }: Props) => {
                 <div className="text-[#979797]">Platform</div>
               </th>
               <th scope="col" className="py-3 px-6">
-                <div className="text-[#979797]">Status</div>
-              </th>
-              <th scope="col" className="py-3 px-6">
-                <div className="text-[#979797]">Action</div>
+                <div className="text-[#979797]">Created at</div>
               </th>
             </tr>
           </thead>
@@ -155,8 +196,8 @@ const ProblemsTable = ({ problems, seasonId, topicId }: Props) => {
                         <input
                           id="checkbox-table-search-1"
                           name={`prob-${problem.id}`}
-                          checked={checkedState[index]}
-                          onChange={() => handleSingleCheck(index)}
+                          checked={selectedProblem.has(problem.id)}
+                          onChange={() => handleProblemCheck(problem.id)}
                           type="checkbox"
                           className="w-4 h-4 text-blue-600 bg-gray-100 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700"
                         />
@@ -184,23 +225,13 @@ const ProblemsTable = ({ problems, seasonId, topicId }: Props) => {
                       />
                     </td>
                     <td className="py-4 px-6">
-                      <div className="flex flex-row gap-x-2 uppercase">
+                      <div className="flex items-center flex-row gap-x-2 capitalize">
                         {getIcon(problem.platform?.toUpperCase())}
-                        {problem.platform}
+                        {problem.platform.toLowerCase()}
                       </div>
                     </td>
-                    <td className="py-4 px-6">{problem.status ?? "Unknown"}</td>
-
                     <td className="py-4 px-6">
-                      <div className="pl-4">
-                        <BiTrash
-                          onClick={() => {
-                            setProblemId(problem.id);
-                            setIsDeleteModalOpen(true);
-                          }}
-                          color="#ad1c1c"
-                        />
-                      </div>
+                      {format(new Date(problem.createdAt), "MMM dd yyyy")}
                     </td>
                   </tr>
                 );

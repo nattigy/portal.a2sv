@@ -50,3 +50,15 @@ export const ADD_PROBLEM_TO_SEASON_TOPIC = gql`
     )
   }
 `;
+
+export const ADD_PROBLEM_TO_GROUP_SEASON_TOPIC = gql`
+  mutation AddProblemsToGroupSeasonTopic(
+    $groupSeasonTopicId: GroupSeasonTopicId!, 
+    $problemIds: [String!]!
+  ) {
+    addProblemsToGroupSeasonTopic(
+      groupSeasonTopicId: $groupSeasonTopicId, 
+      problemIds: $problemIds
+    )
+  }
+`

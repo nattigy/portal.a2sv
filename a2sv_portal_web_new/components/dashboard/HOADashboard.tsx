@@ -54,7 +54,7 @@ const HOADashboard = (props: Props) => {
               id="group-search"
             />
           </div>
-          <div className="col-span-12">
+          <div className="w-full col-span-12">
             <GroupItemList />
           </div>
           {/* <div className="hidden lg:block col-span-3 w-full h-full ">
