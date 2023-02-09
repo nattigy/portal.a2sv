@@ -17,10 +17,8 @@ const TopicList = (props: TopicListProps) => {
             <>
               <TopicItem
                 idx={idx}
-                season={props.season}
                 topic={item}
                 key={idx}
-                groupId={props.groupId}
               />
             </>
           ))}
