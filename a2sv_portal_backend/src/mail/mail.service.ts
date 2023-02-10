@@ -1,6 +1,5 @@
 import { Injectable, RequestTimeoutException } from '@nestjs/common'
 import { MailerService } from '@nestjs-modules/mailer'
-import { resetPasswordEmailTemplate, verifyEmailTemplate } from '../common/email_templates'
 import { ConfigService } from '@nestjs/config'
 
 @Injectable()

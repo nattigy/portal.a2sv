@@ -7,13 +7,19 @@ import { Topic } from './entities/topic.entity'
 import { TopicService } from './topic.service'
 import { FilterTopicInput } from './dto/filter-topic-input'
 import descriptions from './topic.doc'
+import { UseGuards } from '@nestjs/common'
+import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
+import { PoliciesGuard } from '../../casl/policy/policy.guard'
+import { CheckPolicies } from '../../casl/policy/policy.decorator'
+import { ProblemAbilities } from '../../casl/handler/problem-abilities.handler'
+import { TopicAbilities } from '../../casl/handler/topic-abilities.handler'
 
 @Resolver(() => Topic)
 export class TopicResolver {
   constructor(private readonly topicService: TopicService) {}
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(TopicAbilities.create)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(ProblemAbilities.create)
   @Mutation(() => Topic, { description: descriptions.createTopic })
   async createTopic(
     @Args('createTopicInput') createTopicInput: CreateTopicInput,
@@ -21,8 +27,8 @@ export class TopicResolver {
     return this.topicService.create(createTopicInput)
   }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(TopicAbilities.read)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(TopicAbilities.read)
   @Query(() => PaginationTopic, { description: descriptions.topics })
   async topics(
     @Args('filterTopicInput', { type: () => FilterTopicInput, nullable: true })
@@ -40,8 +46,8 @@ export class TopicResolver {
   //   return this.topicService.topic(topicId)
   // }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(TopicAbilities.update)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(TopicAbilities.update)
   @Mutation(() => Topic, { description: descriptions.updateTopic })
   async updateTopic(
     @Args('updateTopicInput') updateTopicInput: UpdateTopicInput,
@@ -49,8 +55,8 @@ export class TopicResolver {
     return this.topicService.updateTopic(updateTopicInput)
   }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(TopicAbilities.delete)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(TopicAbilities.delete)
   @Mutation(() => Int, { description: descriptions.deleteTopic })
   async removeTopic(@Args('topicId') topicId: string) {
     return this.topicService.removeTopic(topicId)

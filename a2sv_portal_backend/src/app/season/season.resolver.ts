@@ -7,13 +7,18 @@ import { Season } from './entities/season.entity'
 import { SeasonService } from './season.service'
 import { FilterSeasonInput } from './dto/filter-season-input'
 import descriptions from './season.doc'
-import { BadRequestException } from '@nestjs/common'
+import { BadRequestException, UseGuards } from '@nestjs/common'
+import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
+import { PoliciesGuard } from '../../casl/policy/policy.guard'
+import { CheckPolicies } from '../../casl/policy/policy.decorator'
+import { SeasonAbilities } from '../../casl/handler/season-abilities.handler'
 
 @Resolver(() => Season)
 export class SeasonResolver {
-  constructor(private readonly seasonService: SeasonService) {
-  }
+  constructor(private readonly seasonService: SeasonService) {}
 
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(SeasonAbilities.create)
   @Mutation(() => Season, { description: descriptions.createSeason })
   async createSeason(
     @Args('createSeasonInput') createSeasonInput: CreateSeasonInput,
@@ -26,6 +31,8 @@ export class SeasonResolver {
     }
   }
 
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(SeasonAbilities.read)
   @Query(() => PaginationSeason, { description: descriptions.seasons })
   async seasons(
     @Args('filterSeasonInput', { nullable: true }) filterSeasonInput?: FilterSeasonInput,
@@ -39,6 +46,8 @@ export class SeasonResolver {
     }
   }
 
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(SeasonAbilities.read)
   @Query(() => Season, { description: descriptions.season })
   async season(@Args('seasonId') seasonId: string) {
     try {
@@ -49,6 +58,8 @@ export class SeasonResolver {
     }
   }
 
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(SeasonAbilities.update)
   @Mutation(() => Season, { description: descriptions.updateSeason })
   async updateSeason(
     @Args('updateSeasonInput') updateSeasonInput: UpdateSeasonInput,
@@ -61,6 +72,8 @@ export class SeasonResolver {
     }
   }
 
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(SeasonAbilities.delete)
   @Mutation(() => Int, { description: descriptions.deleteSeason })
   async removeSeason(@Args('seasonId') seasonId: string) {
     try {

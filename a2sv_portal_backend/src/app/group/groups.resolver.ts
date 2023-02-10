@@ -14,8 +14,7 @@ import { PoliciesGuard } from '../../casl/policy/policy.guard'
 
 @Resolver(() => Group)
 export class GroupsResolver {
-  constructor(private readonly groupsService: GroupsService) {
-  }
+  constructor(private readonly groupsService: GroupsService) {}
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.create)
@@ -71,24 +70,6 @@ export class GroupsResolver {
       throw new BadRequestException('Failed to update group!')
     }
   }
-
-  // @UseGuards(PoliciesGuard)
-  // @CheckPolicies(GroupAbilities.read)
-  // @Query(() => GroupsPaginated)
-  // async groupsPagination(
-  //   @Args('filterGroupInput', { type: () => FilterGroupInput, nullable: true })
-  //   filterGroupInput?: FilterGroupInput,
-  //   @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-  //   pageInfoInput?: PaginationInfoInput,
-  //   @Args('userPaginationInput', { type: () => PaginationInfoInput, nullable: true })
-  //   userPaginationInput?: PaginationInfoInput,
-  // ): Promise<GroupsPaginated> {
-  //   return this.groupsService.groupsPagination(
-  //     filterGroupInput,
-  //     pageInfoInput,
-  //     userPaginationInput,
-  //   )
-  // }
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.delete)

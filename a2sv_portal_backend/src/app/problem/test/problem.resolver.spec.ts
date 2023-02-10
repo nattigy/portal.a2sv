@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { PaginationProblem } from 'src/common/page/pagination-info'
 import { CreateProblemInput } from '../dto/create-problem.input'
-import { FilterProblemInput } from '../dto/filter-problem-input'
 import { UpdateProblemInput } from '../dto/update-problem.input'
 import { Problem } from '../entities/problem.entity'
 import { ProblemResolver } from '../problem.resolver'

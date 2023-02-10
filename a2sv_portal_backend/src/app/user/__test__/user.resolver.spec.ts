@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { UserResolver } from '../user.resolver'
 import { UserServiceMock } from './_mocks/user-service.mock'
-import { updateUserStub, userCreateStub, userStub } from './stubs/user.stub'
+import { updateUserStub, userStub } from './stubs/user.stub'
 import { UserService } from '../user.service'
 
 describe('UserResolver', () => {

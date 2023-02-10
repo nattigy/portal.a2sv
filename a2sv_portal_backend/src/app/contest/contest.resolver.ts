@@ -13,8 +13,7 @@ import { ContestAbilities } from '../../casl/handler/contest-abilities.handler'
 
 @Resolver(() => Contest)
 export class ContestResolver {
-  constructor(private readonly contestService: ContestService) {
-  }
+  constructor(private readonly contestService: ContestService) {}
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(ContestAbilities.create)

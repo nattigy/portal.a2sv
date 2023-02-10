@@ -1,7 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing'
 import { UserRepository } from '../user.repository'
 import { UserModel } from './support/user.model'
-import { userStub } from './stubs/user.stub'
 
 describe('UserRepository', () => {
   let repository: UserRepository

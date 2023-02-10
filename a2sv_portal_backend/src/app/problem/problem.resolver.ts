@@ -7,13 +7,18 @@ import { Problem } from './entities/problem.entity'
 import { ProblemService } from './problem.service'
 import { FilterProblemInput } from './dto/filter-problem-input'
 import descriptions from './problem.doc'
+import { UseGuards } from '@nestjs/common'
+import { CheckPolicies } from '../../casl/policy/policy.decorator'
+import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
+import { PoliciesGuard } from '../../casl/policy/policy.guard'
+import { ProblemAbilities } from '../../casl/handler/problem-abilities.handler'
 
 @Resolver(() => Problem)
 export class ProblemResolver {
   constructor(private readonly problemService: ProblemService) {}
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(ProblemAbilities.create)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(ProblemAbilities.create)
   @Mutation(() => Problem, { description: descriptions.createProblem })
   async createProblem(
     @Args('createProblemInput') createProblemInput: CreateProblemInput,
@@ -21,8 +26,8 @@ export class ProblemResolver {
     return await this.problemService.createProblem(createProblemInput)
   }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(ProblemAbilities.read)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(ProblemAbilities.read)
   @Query(() => PaginationProblem, { description: 'Find all problems with populated tags' })
   async problems(
     @Args('filterProblemInput', { type: () => FilterProblemInput, nullable: true })
@@ -33,15 +38,15 @@ export class ProblemResolver {
     return await this.problemService.problems(filterProblemInput, pageInfoInput)
   }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(ProblemAbilities.read)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(ProblemAbilities.read)
   @Query(() => Problem, { description: descriptions.problem })
   async problem(@Args('problemId') problemId: string): Promise<Problem> {
     return await this.problemService.problem(problemId)
   }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(ProblemAbilities.update)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(ProblemAbilities.update)
   @Mutation(() => Problem, { description: descriptions.updateProblem })
   async updateProblem(
     @Args('updateProblemInput') updateProblemInput: UpdateProblemInput,
@@ -49,8 +54,8 @@ export class ProblemResolver {
     return this.problemService.updateProblem(updateProblemInput)
   }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(ProblemAbilities.delete)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(ProblemAbilities.delete)
   @Mutation(() => Int, { description: descriptions.removeProblem })
   async removeProblem(@Args('problemId') problemId: string): Promise<number> {
     return this.problemService.remove(problemId)

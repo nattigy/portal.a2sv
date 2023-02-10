@@ -1,10 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { UserRepository } from '../user.repository'
 import { PrismaService } from '../../../prisma/prisma.service'
-import { prismaMock } from '../../../prisma/__test__/singleton'
-import { RoleEnum } from '.prisma/client'
-import { userCreateStub, userStub } from './stubs/user.stub'
-import { Prisma, StatusEnum } from '@prisma/client'
 import { User } from '../entities/user.entity'
 import { UserModel } from './support/user.model'
 
