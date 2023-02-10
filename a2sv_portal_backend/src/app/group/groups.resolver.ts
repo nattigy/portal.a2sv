@@ -26,6 +26,7 @@ export class GroupsResolver {
     try {
       return this.groupsService.createGroup(createGroupInput)
     } catch (e) {
+      console.error('Error: ', e)
       throw new BadRequestException('Creating group failed!')
     }
   }
@@ -37,6 +38,7 @@ export class GroupsResolver {
     try {
       return this.groupsService.group(groupId)
     } catch (e) {
+      console.error('Error: ', e)
       throw new BadRequestException('Failed to fetch group info!')
     }
   }
@@ -51,6 +53,7 @@ export class GroupsResolver {
     try {
       return this.groupsService.groups(filterGroupInput, paginationInput)
     } catch (e) {
+      console.error('Error: ', e)
       throw new BadRequestException('Failed to fetch groups!')
     }
   }
@@ -64,6 +67,7 @@ export class GroupsResolver {
     try {
       return this.groupsService.updateGroup(updateGroupInput)
     } catch (e) {
+      console.error('Error: ', e)
       throw new BadRequestException('Failed to update group!')
     }
   }
@@ -93,6 +97,7 @@ export class GroupsResolver {
     try {
       return this.groupsService.removeGroup(groupId)
     } catch (e) {
+      console.error('Error: ', e)
       throw new BadRequestException('Failed to remove group!')
     }
   }
