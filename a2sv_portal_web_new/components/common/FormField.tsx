@@ -20,7 +20,7 @@ const FormField = (props: Props) => {
       type="text"
       className={clsx(
         "w-full text-sm placeholder-[#949494] border resize-none bg-white rounded-md focus:outline-none py-3 px-4 my-2",
-        props.touched && props.error ? "border-red-500" : "border-[#DCDCDC]"
+         props.error ? "border-red-500" : "border-[#DCDCDC]"
       )}
       {...props.props}
     />

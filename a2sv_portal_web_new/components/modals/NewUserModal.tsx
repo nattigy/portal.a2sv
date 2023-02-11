@@ -12,10 +12,7 @@ import FormField from "../common/FormField";
 import FormDropdown from "../common/FormDropdown";
 
 interface FormValues {
-  name: string;
   email: string;
-  password: string;
-  role: GraphqlUserRole;
 }
 
 type Props = {
@@ -30,12 +27,10 @@ const FORM_VALIDATION = yup.object().shape({
 });
 
 const NewUserModal = (props: Props) => {
-  const [addNewUser,{data,error}] = useMutation(CREATE_USER_MUTATION);
-  const [isLoading, setIsLoading] = useState(false);
+  const [addNewUser,{data,error,loading}] = useMutation(CREATE_USER_MUTATION);
   const [errorMessage, setErrorMessage] = useState("");
-  const authUser = useReactiveVar<AuthUser | any>(authenticatedUser);
 
-  const INITIAL_VALUES = {} as FormValues;
+  const INITIAL_VALUES = {email:""} as FormValues;
 
   return (
     <>
@@ -44,7 +39,6 @@ const NewUserModal = (props: Props) => {
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
-            setIsLoading(true);
             await addNewUser({
               variables: {
                   email: values.email,
@@ -52,28 +46,21 @@ const NewUserModal = (props: Props) => {
               refetchQueries: "active",
               notifyOnNetworkStatusChange: true,
               onCompleted: (data) => {
-                setIsLoading(false);
                 props.onClose();
               },
               onError: (error) => {
                 setErrorMessage((error as ApolloError).message);
-                setIsLoading(false);
               },
             });
             actions.resetForm();
           }}
         >
-          {({ isSubmitting, handleChange, errors, touched }) => (
+          {({ isSubmitting, handleChange, errors, touched}) => (
             <Form>
               <div
                 role="alert"
                 className="flex flex-col gap-y-3 min-h-fit bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-8 py-5"
               >
-                {JSON.stringify(errors)}
-                {JSON.stringify(data)}
-                {JSON.stringify(error)}
-
-
                 <div className="w-full flex flex-col items-center">
                   <div className="my-3 w-full flex justify-between items-center">
                     <h2 className="font-semibold text-lg">Create New User</h2>
@@ -117,59 +104,16 @@ const NewUserModal = (props: Props) => {
                         id="email"
                         name="email"
                         placeholder="Email"
-                        error={errors.email}
-                        touched={touched.email}
+                        error={errors['email']}
+                        touched={touched['email']}
                       />
-                      {touched.email && errors.email && (
+                      {errors['email'] && (
                         <p className="w-full text-xs text-red-500">
-                          {errors.email}
+                          {errors['email']}
                         </p>
                       )}
                     </div>
                     <div className="flex flex-col gap-y-4">
-                      {/* <div>
-                        <div className="my-3 w-full flex justify-between items-center">
-                          <h2 className="font-semibold text-lg">Roles</h2>
-                        </div>
-                        <p className="tracking-wider text-md text-start text-[#949494]">
-                          This role will be used to grant different permissions
-                          to different users.
-                        </p>
-                      </div> */}
-                      {/* {authUser &&
-                        authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY && (
-                          <div className="flex flex-col justify-start gap-y-4">
-                            <div className="flex items-center">
-                              <FormDropdown
-                                name="role"
-                                placeholder="Select Role"
-                                error={errors.role}
-                                touched={touched.role}
-                                icon={
-                                  <AiOutlineUser
-                                    size={20}
-                                    className="absolute left-2"
-                                  />
-                                }
-                                options={[
-                                  {
-                                    name: "Student",
-                                    value: GraphqlUserRole.STUDENT,
-                                  },
-                                  {
-                                    name: "Assistant",
-                                    value: GraphqlUserRole.ASSISTANT,
-                                  },
-                                  {
-                                    name: "Head of Education",
-                                    value: GraphqlUserRole.HEAD_OF_EDUCATION,
-                                  },
-                                ]}
-                                icon={<FaChevronDown size={16} />}
-                              />
-                            </div>
-                          </div>
-                        )} */}
                     </div>
                   </div>
                   {errorMessage && (
@@ -184,7 +128,7 @@ const NewUserModal = (props: Props) => {
                       text="Cancel"
                       onClick={() => props.onClose()}
                     />
-                    <FormAffirmativeButton isLoading={isLoading} text="Save" />
+                    <FormAffirmativeButton isLoading={loading} text="Save" />
                   </div>
                 </div>
               </div>

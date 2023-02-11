@@ -130,13 +130,13 @@ const SeasonRequestModal = ({ onClose }: Props) => {
             <div className="flex flex-col gap-y-4 mt-4">
               {error ? (
                 <div>Something went wrong</div>
-              ) : filteredSeasons.length === 0 ? (
-                <div className="h-full flex items-center">
-                  <EmptyState />
-                </div>
-              ) : loading ? (
+              )  : loading ? (
                 <div className="w-full flex h-full items-center justify-center min-w-full min-h-full">
                   <LoaderSmall />
+                </div>
+              ): filteredSeasons.length === 0 ? (
+                <div className="h-full flex items-center">
+                  <EmptyState />
                 </div>
               ) : (
                 <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-6">
