@@ -20,6 +20,9 @@ import { useRouter } from "next/router";
 import ProblemsTable from "./ProblemsTable";
 import { getSVGIcon } from "../../helpers/getSVGPath";
 import WithPermission from "../../lib/Guard/WithPermission";
+import ProblemsList from "./ProblemsList";
+import { MdOutlineTableView, MdViewList } from "react-icons/md";
+import { AiOutlineTable } from "react-icons/ai";
 
 export type PlatformInfo = {
   id: string;
@@ -34,6 +37,8 @@ type ProblemsPageProps = {
 const ProblemsPage = (props: ProblemsPageProps) => {
   const { seasonId, topicId } = props;
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
+  const [tableView, setTableView] = useState(true);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddNewProblemModalOpen, setIsAddNewProblemModalOpen] =
     useState<boolean>(false);
@@ -103,7 +108,9 @@ const ProblemsPage = (props: ProblemsPageProps) => {
         );
 
       setGroupSeasonTopicProblems(groupFetchedProblems);
-      let intersect = seasonTopicProblems.filter((i) => !allproblemsId.has(i.id));
+      let intersect = seasonTopicProblems.filter(
+        (i) => !allproblemsId.has(i.id)
+      );
       setFilteredSeasonTopicProblems(intersect);
     }
   }, [data, groupData]);
@@ -145,13 +152,20 @@ const ProblemsPage = (props: ProblemsPageProps) => {
           }}
         />
       )}
-      <div className="h-screen font-semibold text-[#565656]">
+      <div className="h-full font-semibold text-[#565656]">
         <div className="w-full font-semibold text-xl text-[#565656]">
           <div className="w-full flex items-center justify-between relative">
             <h1 className="capitalize text-xl font-semibold">
               {props.topicName}
             </h1>
-            <div className="flex flex-row items-center gap-x-5 mb-2">
+            <div className="flex flex-row items-center gap-x-3 mb-2">
+              <div
+                onClick={() => {
+                  setTableView(!tableView);
+                }}
+              >
+                {tableView ? <AiOutlineTable color="#5956e9" size={28}/> : <MdViewList color="#5956e9" size={28}/>}
+              </div>
               <SearchField
                 onChange={(e) => handleSearch}
                 placeholder="Search a problem"
@@ -218,28 +232,48 @@ const ProblemsPage = (props: ProblemsPageProps) => {
                 group={false}
               />
             </WithPermission>
-            <WithPermission
-              allowedRoles={[
-                GraphqlUserRole.HEAD_OF_EDUCATION,
-                GraphqlUserRole.STUDENT,
-              ]}
-            >
+            <WithPermission allowedRoles={[GraphqlUserRole.STUDENT]}>
               <div className="flex flex-col gap-y-[2rem]">
-                <div className="flex flex-col gap-y-2">
-                  <h1>Group Problems</h1>
-                  <ProblemsTable
-                    problems={groupSeasonTopicProblems}
-                    seasonId={props.seasonId}
-                    topicId={props.topicId}
-                    group={true}
-                  />
-                </div>
                 <ProblemsTable
                   problems={filteredSeasonTopicProblems}
                   seasonId={props.seasonId}
                   topicId={props.topicId}
                   group={false}
                 />
+              </div>
+            </WithPermission>
+
+            <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION]}>
+              <div className="flex flex-col gap-y-[2rem]">
+                <div className="flex flex-col gap-y-2 my-5">
+                  {tableView ? (
+                    <>
+                      <h1>Group Problems</h1>
+                      <ProblemsTable
+                        problems={groupSeasonTopicProblems}
+                        seasonId={props.seasonId}
+                        topicId={props.topicId}
+                        group={true}
+                      />
+                      <br/>
+                      <h1>All Problems</h1>
+                      <ProblemsTable
+                        problems={filteredSeasonTopicProblems}
+                        seasonId={props.seasonId}
+                        topicId={props.topicId}
+                        group={false}
+                      />
+                    </>
+                  ) : (
+                    <ProblemsList
+                      groupProblems={groupSeasonTopicProblems}
+                      allProblems={filteredSeasonTopicProblems}
+                      seasonId={props.seasonId}
+                      topicId={props.topicId}
+                      group={true}
+                    />
+                  )}
+                </div>
               </div>
             </WithPermission>
           </div>

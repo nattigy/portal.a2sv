@@ -16,21 +16,12 @@ export const CREATE_PROBLEM = gql`
   }
 `;
 
-
 export const REMOVE_PROBLEM = gql`
   mutation RemoveProblem($problemId: String!) {
     removeProblem(problemId: $problemId)
   }
 `;
-export const REMOVE_SEASON_TOPIC_PROBLEM = gql`
-  mutation RemoveSeasonTopicProblem(
-    $seasonTopicProblemId: SeasonTopicProblemId!
-  ) {
-    removeSeasonTopicProblem(seasonTopicProblemId: $seasonTopicProblemId) {
-      problemId
-    }
-  }
-`;
+
 export const UPDATE_PROBLEM = gql`
   mutation UpdateProblem($updateProblemInput: UpdateProblemInput!) {
     updateProblem(updateProblemInput: $updateProblemInput) {
@@ -51,12 +42,35 @@ export const ADD_PROBLEM_TO_SEASON_TOPIC = gql`
   }
 `;
 
+export const REMOVE_SEASON_TOPIC_PROBLEM = gql`
+  mutation RemoveSeasonTopicProblem(
+    $seasonTopicProblemId: SeasonTopicProblemId!
+  ) {
+    removeSeasonTopicProblem(seasonTopicProblemId: $seasonTopicProblemId) {
+      problemId
+    }
+  }
+`;
+
+
 export const ADD_PROBLEM_TO_GROUP_SEASON_TOPIC = gql`
   mutation AddProblemsToGroupSeasonTopic(
     $groupSeasonTopicId: GroupSeasonTopicId!, 
     $problemIds: [String!]!
   ) {
     addProblemsToGroupSeasonTopic(
+      groupSeasonTopicId: $groupSeasonTopicId, 
+      problemIds: $problemIds
+    )
+  }
+`
+
+export const REMOVE_PROBLEM_FROM_GROUP_SEASON_TOPIC = gql`
+  mutation RemoveGroupSeasonTopicProblems(
+    $groupSeasonTopicId: GroupSeasonTopicId!, 
+    $problemIds: [String!]!
+  ) {
+    removeGroupSeasonTopicProblems(
       groupSeasonTopicId: $groupSeasonTopicId, 
       problemIds: $problemIds
     )

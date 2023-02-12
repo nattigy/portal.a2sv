@@ -10,6 +10,7 @@ import DeletePopupModal from "../modals/DeletePopupModal";
 import { ApolloError, useMutation, useReactiveVar } from "@apollo/client";
 import {
   ADD_PROBLEM_TO_GROUP_SEASON_TOPIC,
+  REMOVE_PROBLEM_FROM_GROUP_SEASON_TOPIC,
   REMOVE_SEASON_TOPIC_PROBLEM,
 } from "../../lib/apollo/Mutations/problemsMutations";
 import { GraphqlUserRole } from "../../types/user";
@@ -44,6 +45,12 @@ const ProblemsTable = ({ problems, seasonId, topicId, group }: Props) => {
     addGroupSeasonTopicProblems,
     { loading: addLoading, error: addError },
   ] = useMutation(ADD_PROBLEM_TO_GROUP_SEASON_TOPIC);
+
+  const [
+    removeGroupSeasonTopicProblems,
+    { loading: removeLoading, error: removeError },
+  ] = useMutation(REMOVE_PROBLEM_FROM_GROUP_SEASON_TOPIC);
+
   const [selectedProblem, setSelectedProblem] = useState<Set<string>>(
     new Set([])
   );
@@ -98,6 +105,22 @@ const ProblemsTable = ({ problems, seasonId, topicId, group }: Props) => {
       notifyOnNetworkStatusChange: true,
     })
   };
+
+  const handleRemoveGroupSeasonTopicProblems = async () => {
+    await removeGroupSeasonTopicProblems({
+      variables: {
+        groupSeasonTopicId: {
+          groupId: authUser.groupId,
+          seasonId: seasonId,
+          topicId: topicId,
+        },
+        problemIds: [...selectedProblem]
+      },
+      refetchQueries: "active",
+      notifyOnNetworkStatusChange: true,
+    })
+  };
+
   return (
     <>
       {isDeleteModalOpen && (
@@ -130,13 +153,13 @@ const ProblemsTable = ({ problems, seasonId, topicId, group }: Props) => {
           <h2>Problem Set</h2>
           {(authUser as any).role !== GraphqlUserRole.STUDENT && (
             <Button
-              onClick={handleAddGroupSeasonTopicProblems}
-              text={group ? "Remove Problem" : "Add New Problem"}
+              onClick={group ? handleRemoveGroupSeasonTopicProblems : handleAddGroupSeasonTopicProblems}
+              text={group ? "Remove Problem from Group" : "Add Problem to Group"}
               classname={clsx(
                 "bg-primary text-white text-xs",
                 selectedProblemsCount === 0 ? "hidden" : ""
               )}
-              isLoading={group ? false : addLoading}
+              isLoading={group ? removeLoading : addLoading}
             />
           )}
         </div>
