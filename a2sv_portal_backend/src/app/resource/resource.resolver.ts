@@ -1,4 +1,5 @@
 import { Query } from '@nestjs/common'
+import { BadRequestException } from '@nestjs/common/exceptions'
 import { Args, Mutation, Resolver } from '@nestjs/graphql'
 import { CreateResourceInput } from './dto/create-resource.input'
 import { UpdateResourceInput } from './dto/update-resource.input'
@@ -25,7 +26,15 @@ export class ResourceResolver {
   async updateResource(
     @Args('updateTagInput') updateResourceInput: UpdateResourceInput,
   ): Promise<Resource> {
-    return await this.resourceService.updateResource(updateResourceInput.id, updateResourceInput)
+    try {
+      return await this.resourceService.updateResource(
+        updateResourceInput.id,
+        updateResourceInput,
+      )
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Error Updating resource!')
+    }
   }
 
   // @Mutation(() => Resource)

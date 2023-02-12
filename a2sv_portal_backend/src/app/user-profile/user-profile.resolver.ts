@@ -10,6 +10,7 @@ import { UpdateUserProfileInput } from './dto/update-user-profile.input'
 import { CurrentUser } from '../auth/auth.decorator'
 import { UseGuards } from '@nestjs/common'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
+import { BadRequestException } from '@nestjs/common/exceptions'
 
 @Resolver(() => User)
 export class UserProfileResolver {
@@ -22,7 +23,12 @@ export class UserProfileResolver {
     createUserProfileInput: CreateUserProfileInput,
     @CurrentUser() user: User,
   ) {
-    return this.userProfileService.createUserProfile(createUserProfileInput, user)
+    try {
+      return this.userProfileService.createUserProfile(createUserProfileInput, user)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Error creating userProfile!')
+    }
   }
 
   @Query(() => PaginationUserProfile)
@@ -32,12 +38,22 @@ export class UserProfileResolver {
     @Args('pageInfoInput', { nullable: true })
     pageInfoInput?: PaginationInput,
   ): Promise<PaginationUserProfile> {
-    return this.userProfileService.userProfiles(filterUserProfileInput, pageInfoInput)
+    try {
+      return this.userProfileService.userProfiles(filterUserProfileInput, pageInfoInput)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Error loading userProfiles!')
+    }
   }
 
   @Query(() => UserProfile)
   async userProfile(@Args('userProfileId') userProfileId: string) {
-    return this.userProfileService.userProfile(userProfileId)
+    try {
+      return this.userProfileService.userProfile(userProfileId)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Error loading userProfile!')
+    }
   }
 
   @Mutation(() => UserProfile)
@@ -45,11 +61,21 @@ export class UserProfileResolver {
     @Args('updateUserProfileInput')
     updateUserProfileInput: UpdateUserProfileInput,
   ) {
-    return this.userProfileService.updateUserProfile(updateUserProfileInput)
+    try {
+      return this.userProfileService.updateUserProfile(updateUserProfileInput)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Error Updating userProfile!')
+    }
   }
 
   @Mutation(() => Int)
   async removeUserProfile(@Args('userProfileId') userProfileId: string) {
-    return this.userProfileService.remove(userProfileId)
+    try {
+      return this.userProfileService.remove(userProfileId)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Error removing userProfile!')
+    }
   }
 }

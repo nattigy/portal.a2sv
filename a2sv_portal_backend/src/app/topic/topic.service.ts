@@ -97,7 +97,7 @@ export class TopicService {
       resources:{
         connectOrCreate: resources?.map(t => ({
            create:{type: t.type, description: t.description,link:t.link, name:t.name},
-           where: {type: t.type, description: t.description,link:t.link, name:t.name}
+           where: {link:t.link}
        
           }))
       }

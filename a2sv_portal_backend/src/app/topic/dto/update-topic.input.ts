@@ -6,12 +6,12 @@ export class UpdateTopicInput {
   @Field()
   topicId: string
 
-  @Field()
+  @Field({nullable:true})
   name?: string
 
-  @Field()
+  @Field({nullable:true})
   description?: string
 
-  @Field(() => [CreateResourceInput])
+  @Field(() => [CreateResourceInput], {nullable:true})
   resources?: CreateResourceInput[]
 }
