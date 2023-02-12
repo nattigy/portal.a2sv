@@ -1,3 +1,4 @@
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { GraphQLISODateTime, GraphQLModule } from '@nestjs/graphql'
@@ -18,15 +19,14 @@ import { MailModule } from './mail/mail.module'
 import { MailerModule } from '@nestjs-modules/mailer'
 import { join } from 'path'
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter'
-import {
-  UsersUpdateProblemStatusModule,
-} from './services/users-update-problem-status/users-update-problem-status.module'
+import { StorageModule } from './storage/storage.module';
 import {
   UsersUpdateTopicComfortabilityModule,
 } from './services/users-update-topic-comfortability/users-update-topic-comfortability.module'
-import { StudentDataAnalyticsModule } from './student-data-analytics/student-data-analytics.module'
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
-import { Resource } from './app/resource/entities/resource.entity'
+import {
+  UsersUpdateProblemStatusModule
+} from './services/users-update-problem-status/users-update-problem-status.module'
+import { StudentDataAnalyticsModule } from './app/user-group-season-analytics/student-data-analytics.module'
 import { ResourceModule } from './app/resource/resource.module'
 
 @Module({
@@ -85,6 +85,7 @@ import { ResourceModule } from './app/resource/resource.module'
     PrismaModule,
     ServicesModule,
     UsersUpdateProblemStatusModule,
+    StorageModule,
     UsersUpdateTopicComfortabilityModule,
     StudentDataAnalyticsModule,
   ],

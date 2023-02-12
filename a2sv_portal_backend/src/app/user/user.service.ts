@@ -118,6 +118,21 @@ export class UserService {
     })
   }
 
+  async removeUsersFromAGroup(updateUserInput: UpdateUserInput[]) {
+    if (Array.isArray(updateUserInput)) {
+      let groupId = null
+      if (updateUserInput.length > 0) groupId = updateUserInput[0].groupId
+      return (
+        await this.prismaService.user.updateMany({
+          where: {
+            id: { in: updateUserInput.map(u => u.userId) },
+          },
+          data: { groupId: null },
+        })
+      ).count
+    }
+  }
+
   // async studentStats(id: string): Promise<StudentStat> {
   //   const user = await this.findById(id)
   //   if (!user) {

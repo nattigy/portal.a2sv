@@ -259,24 +259,24 @@ model UserGroupSeason {
   userId                        String
   groupId                       String
   seasonId                      String
-  rank                          Int?                            @default(0)
-  totalSubmissions              Int?                            @default(0)
-  totalAcceptedSubmissions      Int?                            @default(0)
-  acceptanceRate                Float?                          @default(0.0)
-  averageContestRating          Float?                          @default(0.0)
-  totalContestsAttended         Int?                            @default(0)
-  user                          User                            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  groupSeason                   GroupSeason                     @relation(fields: [groupId, seasonId], references: [groupId, seasonId], onDelete: Cascade)
-  createdAt                     DateTime?                       @default(now())
-  updatedAt                     DateTime?                       @updatedAt
+  rank                          Int?                       @default(0)
+  totalSubmissions              Int?                       @default(0)
+  totalAcceptedSubmissions      Int?                       @default(0)
+  acceptanceRate                Float?                     @default(0.0)
+  averageContestRating          Float?                     @default(0.0)
+  totalContestsAttended         Int?                       @default(0)
+  user                          User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  groupSeason                   GroupSeason                @relation(fields: [groupId, seasonId], references: [groupId, seasonId], onDelete: Cascade)
+  createdAt                     DateTime?                  @default(now())
+  updatedAt                     DateTime?                  @updatedAt
   userGroupSeasonTopics         UserGroupSeasonTopic[]
   userGroupSeasonContests       UserGroupSeasonContest[]
-  userGroupSeasonDailyAnalytics UserGroupSeasonDailyAnalytics[]
+  userGroupSeasonDailyAnalytics UserGroupSeasonDataAnalytics[]
 
   @@id([userId, groupId, seasonId])
 }
 
-model UserGroupSeasonDailyAnalytics {
+model UserGroupSeasonDataAnalytics {
   userId          String
   groupId         String
   seasonId        String

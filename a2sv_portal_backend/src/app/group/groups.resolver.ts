@@ -9,12 +9,13 @@ import { GroupsService } from './groups.service'
 import descriptions from './group.doc'
 import { GroupAbilities } from '../../casl/handler/group-abilities.handler'
 import { CheckPolicies } from '../../casl/policy/policy.decorator'
-import { UseGuards } from '@nestjs/common'
+import { BadRequestException, UseGuards } from '@nestjs/common'
 import { PoliciesGuard } from '../../casl/policy/policy.guard'
 
 @Resolver(() => Group)
 export class GroupsResolver {
-  constructor(private readonly groupsService: GroupsService) {}
+  constructor(private readonly groupsService: GroupsService) {
+  }
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.create)
@@ -22,14 +23,22 @@ export class GroupsResolver {
   async createGroup(
     @Args('createGroupInput') createGroupInput: CreateGroupInput,
   ): Promise<Group> {
-    return this.groupsService.createGroup(createGroupInput)
+    try {
+      return this.groupsService.createGroup(createGroupInput)
+    } catch (e) {
+      throw new BadRequestException('Creating group failed!')
+    }
   }
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.read)
   @Query(() => Group, { description: descriptions.group })
   async group(@Args('groupId') groupId: string): Promise<Group> {
-    return this.groupsService.group(groupId)
+    try {
+      return this.groupsService.group(groupId)
+    } catch (e) {
+      throw new BadRequestException('Failed to fetch group info!')
+    }
   }
 
   @UseGuards(PoliciesGuard)
@@ -39,7 +48,11 @@ export class GroupsResolver {
     @Args('filterGroupInput', { nullable: true }) filterGroupInput?: FilterGroupInput,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<PaginationGroup> {
-    return this.groupsService.groups(filterGroupInput, paginationInput)
+    try {
+      return this.groupsService.groups(filterGroupInput, paginationInput)
+    } catch (e) {
+      throw new BadRequestException('Failed to fetch groups!')
+    }
   }
 
   @UseGuards(PoliciesGuard)
@@ -48,7 +61,11 @@ export class GroupsResolver {
   async updateGroup(
     @Args('updateGroupInput') updateGroupInput: UpdateGroupInput,
   ): Promise<Group> {
-    return this.groupsService.updateGroup(updateGroupInput)
+    try {
+      return this.groupsService.updateGroup(updateGroupInput)
+    } catch (e) {
+      throw new BadRequestException('Failed to update group!')
+    }
   }
 
   // @UseGuards(PoliciesGuard)
@@ -73,6 +90,10 @@ export class GroupsResolver {
   @CheckPolicies(GroupAbilities.delete)
   @Mutation(() => Int, { description: descriptions.deleteGroup })
   async removeGroup(@Args('groupId') groupId: string): Promise<number> {
-    return this.groupsService.removeGroup(groupId)
+    try {
+      return this.groupsService.removeGroup(groupId)
+    } catch (e) {
+      throw new BadRequestException('Failed to remove group!')
+    }
   }
 }

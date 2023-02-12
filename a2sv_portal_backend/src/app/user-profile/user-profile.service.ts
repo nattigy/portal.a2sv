@@ -8,30 +8,33 @@ import { PaginationUserProfile } from 'src/common/page/pagination-info'
 import { PaginationInput } from 'src/common/page/pagination.input'
 import { UpdateUserProfileInput } from './dto/update-user-profile.input'
 import { User } from '../user/entities/user.entity'
+import { StorageService } from 'src/storage/storage.service'
+import { UserService } from '../user/user.service'
 
 @Injectable()
 export class UserProfileService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly userProfileRepository: UserProfileRepository,
+    private storageService: StorageService,
+    private userService: UserService,
   ) {}
 
   async createUserProfile(createUserProfileInput: CreateUserProfileInput, user: User) {
-    try{
-      const userProfile =  await this.userProfileRepository.create({
-        ...createUserProfileInput,
-        email: user.email,
-        user: {
-          connect: { id: user.id },
-        },
-        userProfileAddress: {
-          create: createUserProfileInput.userProfileAddress,
-        },
-      })
-      return userProfile;
-    }catch(e){
-      console.log(e);
+    if (createUserProfileInput.photoUrl) {
+      const fileName = await this.storageService.save(createUserProfileInput.photoUrl, user.id)
+      createUserProfileInput = { ...createUserProfileInput, photoUrl: fileName }
     }
+    return this.userProfileRepository.create({
+      ...createUserProfileInput,
+      email: user.email,
+      user: {
+        connect: { id: user.id },
+      },
+      userProfileAddress: {
+        create: createUserProfileInput.userProfileAddress,
+      },
+    })
   }
 
   async userProfiles(
@@ -39,9 +42,19 @@ export class UserProfileService {
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationUserProfile> {
     const count = await this.userProfileRepository.count(filterUserProfileInput)
-    const userProfiles: UserProfile[] = await this.userProfileRepository.findAll({
+    let userProfiles: UserProfile[] = await this.userProfileRepository.findAll({
       where: filterUserProfileInput,
     })
+
+    userProfiles = await Promise.all(
+      userProfiles.map(async userProfile => {
+        return {
+          ...userProfile,
+          photoUrl: await this.storageService.get(userProfile.photoUrl),
+        }
+      }),
+    )
+
     return {
       items: userProfiles,
       pageInfo: {
@@ -53,12 +66,29 @@ export class UserProfileService {
   }
 
   async userProfile(id: string): Promise<UserProfile> {
-    return this.userProfileRepository.findOne({
+    let profile = await this.userProfileRepository.findOne({
       id,
     })
+
+    if (profile.photoUrl) {
+      profile = { ...profile, photoUrl: await this.storageService.get(profile.photoUrl) }
+    }
+
+    return profile
   }
 
   async updateUserProfile({ userId, ...updates }: UpdateUserProfileInput) {
+    if (updates.photoUrl) {
+      // TOD0
+      // Delete previous image file from GCS
+      const user = await this.userService.user({ id: userId })
+      const profile = await this.userProfileRepository.findOne({ id: user.userProfile.id })
+
+      await this.storageService.delete(profile.photoUrl)
+
+      const fileName = await this.storageService.save(updates.photoUrl, userId)
+      updates = { ...updates, photoUrl: fileName }
+    }
     return this.userProfileRepository.update({
       where: {
         userId,
@@ -72,6 +102,12 @@ export class UserProfileService {
 
   async remove(id: string) {
     try {
+      // TOD0
+      // Delete image file from GCS
+      const profile = await this.userProfile(id)
+      if (profile.photoUrl) {
+        await this.storageService.delete(profile.photoUrl)
+      }
       await this.userProfileRepository.remove({ id })
     } catch (e) {
       console.log(`Fail to delete user profile with id ${id}`, ' : ', e)

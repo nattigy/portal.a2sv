@@ -6,7 +6,11 @@ import { PrismaService } from '../../prisma/prisma.service'
 @Injectable()
 export class UserGroupSeasonRepository {
   include = {
-    user: true,
+    user: {
+      include: {
+        userProfile: { include: { user: true } },
+      },
+    },
     userGroupSeasonTopics: {
       include: {
         topic: true,
@@ -37,7 +41,11 @@ export class UserGroupSeasonRepository {
     return this.prismaService.userGroupSeason.create({
       data,
       include: {
-        user: true,
+        user: {
+          include: {
+            userProfile: { include: { user: true } },
+          },
+        },
         userGroupSeasonTopics: {
           include: {
             topic: true,
