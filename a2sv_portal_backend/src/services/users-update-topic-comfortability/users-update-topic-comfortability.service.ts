@@ -1,7 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import {
-  UpdateUserGroupSeasonTopicInput,
-} from '../../app/user-group-season-topic/dto/update-user-group-season-topic.input'
+import { UpdateUserGroupSeasonTopicInput } from '../../app/user-group-season-topic/dto/update-user-group-season-topic.input'
 import { UserGroupSeasonTopic } from '../../app/user-group-season-topic/entities/user-group-season-topic.entity'
 import { ComfortLevelEnum } from '@prisma/client'
 import { PrismaService } from '../../prisma/prisma.service'
@@ -14,13 +12,12 @@ export class UsersUpdateTopicComfortabilityService {
     private readonly userGroupSeasonTopicRepository: UserGroupSeasonTopicRepository,
     private readonly userGroupSeasonRepository: UserGroupSeasonRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async updateUserTopicComfortability({
-                                        id,
-                                        ...updates
-                                      }: UpdateUserGroupSeasonTopicInput): Promise<UserGroupSeasonTopic> {
+    id,
+    ...updates
+  }: UpdateUserGroupSeasonTopicInput): Promise<UserGroupSeasonTopic> {
     const { userId, groupId, seasonId, topicId } = id
     /*
     1. Find user with userId and throw NotFoundException if doesn't exist
@@ -52,7 +49,7 @@ export class UsersUpdateTopicComfortabilityService {
     })
     if (!foundGroupSeasonTopic) throw new Error('Topic is not added to your group yet!')
     if (!foundGroupSeasonTopic.groupSeason.isActive)
-      throw new Error('This group\'s season is not active!')
+      throw new Error("This group's season is not active!")
 
     const userGSTP = await this.userGroupSeasonTopicRepository.findOne({
       userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },

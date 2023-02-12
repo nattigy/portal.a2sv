@@ -93,21 +93,26 @@ export class GroupSeasonTopicProblemService {
     })
   }
 
-  // async groupSeasonTopicProblem({
-  //   groupId,
-  //   seasonId,
-  //   topicId,
-  //   problemId,
-  // }: GroupSeasonTopicProblemId) {
-  //   return this.groupSeasonTopicProblemRepository.findOne({
-  //     groupId_seasonId_topicId_problemId: {
-  //       problemId,
-  //       topicId,
-  //       seasonId,
-  //       groupId,
-  //     },
-  //   })
-  // }
+  async groupSeasonTopicProblem({
+    groupId,
+    seasonId,
+    topicId,
+    problemId,
+  }: GroupSeasonTopicProblemId) {
+    const gSTP = await this.groupSeasonTopicProblemRepository.findOne({
+      groupId_seasonId_topicId_problemId: {
+        problemId,
+        topicId,
+        seasonId,
+        groupId,
+      },
+    })
+    if (!gSTP) {
+      throw new NotFoundException('Problem not added to this group under this season!')
+    }
+    return gSTP
+  }
+
   //
   // async groupSeasonTopicProblems(
   //   { groupId, seasonId, topicId, problemId }: FilterGroupSeasonTopicProblemInput,
@@ -126,6 +131,7 @@ export class GroupSeasonTopicProblemService {
     topicId,
     problemId,
   }: GroupSeasonTopicProblemId) {
+    await this.groupSeasonTopicProblem({ groupId, seasonId, problemId, topicId })
     return this.groupSeasonTopicProblemRepository.remove({
       groupId_seasonId_topicId_problemId: { problemId, topicId, seasonId, groupId },
     })

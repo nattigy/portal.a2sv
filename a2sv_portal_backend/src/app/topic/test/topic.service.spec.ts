@@ -2,11 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { TopicService } from '../topic.service'
 import { TopicRepository } from '../topic.repository'
 import { TopicRepositoryMock } from './__mocks__/topic-repository.mock'
-import { createTopicStub, topicStub, updateTopicStub } from './stubs/topic.stub'
+import { topicStub } from './stubs/topic.stub'
 import { Topic } from '../entities/topic.entity'
 import { CreateTopicInput } from '../dto/create-topic.input'
 import { PaginationTopic } from 'src/common/page/pagination-info'
 import { UpdateTopicInput } from '../dto/update-topic.input'
+
 describe('TopicService', () => {
   let service: TopicService
   // const mockTopicRepository = {

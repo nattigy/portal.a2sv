@@ -9,6 +9,8 @@ import { FilterSeasonContestInput } from './dto/filter-season-contest.input'
 export class SeasonContestResolver {
   constructor(private readonly seasonContestService: SeasonContestService) {}
 
+  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  // @CheckPolicies(SeasonContestAbilities.create)
   @Mutation(() => SeasonContest)
   async addContestToASeason(
     @Args('createSeasonContestInput') createSeasonContestInput: CreateSeasonContestInput,
@@ -16,6 +18,8 @@ export class SeasonContestResolver {
     return this.seasonContestService.addContestToASeason(createSeasonContestInput)
   }
 
+  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  // @CheckPolicies(SeasonContestAbilities.read)
   @Query(() => [SeasonContest])
   async seasonContests(
     @Args('filterSeasonContestInput', { nullable: true })
@@ -25,6 +29,8 @@ export class SeasonContestResolver {
     return this.seasonContestService.seasonContests(filterSeasonContestInput)
   }
 
+  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  // @CheckPolicies(SeasonContestAbilities.read)
   @Query(() => SeasonContest)
   async seasonContest(
     @Args('seasonContestId') seasonContestId: SeasonContestId,
@@ -32,6 +38,8 @@ export class SeasonContestResolver {
     return this.seasonContestService.seasonContest(seasonContestId)
   }
 
+  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  // @CheckPolicies(SeasonContestAbilities.delete)
   @Mutation(() => SeasonContest)
   async removeSeasonContest(@Args('seasonContestId') seasonContestId: SeasonContestId) {
     return this.seasonContestService.removeSeasonContest(seasonContestId)

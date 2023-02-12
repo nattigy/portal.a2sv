@@ -13,11 +13,10 @@ import {
 import { PaginationGroupSeason } from '../../common/page/pagination-info'
 import { GroupSeasonTopicId } from '../../app/group-season-topic/dto/create-group-season-topic.input'
 import { GroupSeasonTopic } from '../../app/group-season-topic/entities/group-season-topic.entity'
-import { GroupSeasonTopicProblem } from '../../app/group-season-topic-problem/entities/group-season-topic-problem.entity'
 import { GroupSeasonTopicProblemService } from './group-season-topic-problem.service'
 import { GroupSeasonTopicService } from './group-season-topic.service'
 import { FilterGroupSeasonInput } from '../../app/group-season/dto/filter-group-season.input'
-import { UseGuards } from '@nestjs/common'
+import { BadRequestException, UseGuards } from '@nestjs/common'
 import { PoliciesGuard } from '../../casl/policy/policy.guard'
 import { CheckPolicies } from '../../casl/policy/policy.decorator'
 import { GroupSeasonAbilities } from '../../casl/handler/group-season-abilities.handler'
@@ -29,9 +28,8 @@ export class GroupSeasonResolver {
   constructor(
     private readonly groupSeasonService: GroupSeasonService,
     private readonly groupSeasonTopicService: GroupSeasonTopicService,
-    private readonly groupSeasonTopicProblemService: GroupSeasonTopicProblemService,
-  ) // private readonly groupSeasonContestService: GroupSeasonContestService, // private readonly groupSeasonContestProblemService: GroupSeasonContestProblemService,
-  {}
+    private readonly groupSeasonTopicProblemService: GroupSeasonTopicProblemService, // private readonly groupSeasonContestService: GroupSeasonContestService, // private readonly groupSeasonContestProblemService: GroupSeasonContestProblemService,
+  ) {}
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupSeasonAbilities.create)
@@ -39,7 +37,12 @@ export class GroupSeasonResolver {
   async addGroupToASeason(
     @Args('addGroupToASeasonInput') createGroupSeasonInput: CreateGroupSeasonInput,
   ): Promise<GroupSeason> {
-    return this.groupSeasonService.addGroupToASeason(createGroupSeasonInput)
+    try {
+      return this.groupSeasonService.addGroupToASeason(createGroupSeasonInput)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Failed to add group to a season!')
+    }
   }
 
   @UseGuards(PoliciesGuard)
@@ -48,7 +51,12 @@ export class GroupSeasonResolver {
   async groupSeason(
     @Args('groupSeasonId') groupSeasonId: GroupSeasonId,
   ): Promise<GroupSeason> {
-    return this.groupSeasonService.groupSeason(groupSeasonId)
+    try {
+      return this.groupSeasonService.groupSeason(groupSeasonId)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Failed to load group season!')
+    }
   }
 
   @UseGuards(PoliciesGuard)
@@ -58,7 +66,12 @@ export class GroupSeasonResolver {
     @Args('filterGroupSeasonInput') filterGroupSeasonInput: FilterGroupSeasonInput,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<PaginationGroupSeason> {
-    return this.groupSeasonService.groupsSeasons(filterGroupSeasonInput, paginationInput)
+    try {
+      return this.groupSeasonService.groupsSeasons(filterGroupSeasonInput, paginationInput)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Failed to load groupSeason!')
+    }
   }
 
   @UseGuards(PoliciesGuard)
@@ -67,7 +80,12 @@ export class GroupSeasonResolver {
   async updateGroupSeason(
     @Args('updateGroupSeasonInput') updateGroupSeasonInput: UpdateGroupSeasonInput,
   ): Promise<GroupSeason> {
-    return this.groupSeasonService.updateGroupSeason(updateGroupSeasonInput)
+    try {
+      return this.groupSeasonService.updateGroupSeason(updateGroupSeasonInput)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Failed to update group season!')
+    }
   }
 
   @UseGuards(PoliciesGuard)
@@ -77,16 +95,26 @@ export class GroupSeasonResolver {
     @Args('updateGroupSeasonJoinRequestInput')
     updateGroupSeasonJoinRequestInput: UpdateGroupSeasonJoinRequestInput,
   ): Promise<GroupSeason> {
-    return this.groupSeasonService.updateGroupSeasonJoinRequest(
-      updateGroupSeasonJoinRequestInput,
-    )
+    try {
+      return this.groupSeasonService.updateGroupSeasonJoinRequest(
+        updateGroupSeasonJoinRequestInput,
+      )
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Failed to update join request!')
+    }
   }
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupSeasonAbilities.delete)
   @Mutation(() => GroupSeason)
   async removeGroupFromASeason(@Args('groupSeasonId') groupSeasonId: GroupSeasonId) {
-    return this.groupSeasonService.removeGroupFromASeason(groupSeasonId)
+    try {
+      return this.groupSeasonService.removeGroupFromASeason(groupSeasonId)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Failed to remove group from a season!')
+    }
   }
 
   // @Mutation(() => GroupSeasonTopic)
@@ -104,21 +132,31 @@ export class GroupSeasonResolver {
     @Args('groupSeasonId') { groupId, seasonId }: GroupSeasonId,
     @Args('topicIds', { type: () => [String] }) topicIds: string[],
   ): Promise<number> {
-    for (const topicId of topicIds) {
-      await this.groupSeasonTopicService.addTopicToGroupSeason({
-        groupId,
-        topicId,
-        seasonId,
-      })
+    try {
+      for (const topicId of topicIds) {
+        await this.groupSeasonTopicService.addTopicToGroupSeason({
+          groupId,
+          topicId,
+          seasonId,
+        })
+      }
+      return topicIds.length
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Failed to add topics to a season!')
     }
-    return topicIds.length
   }
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupSeasonTopicAbilities.read)
   @Query(() => GroupSeasonTopic)
   async groupSeasonTopic(@Args('groupSeasonTopicId') groupSeasonTopicId: GroupSeasonTopicId) {
-    return this.groupSeasonTopicService.groupSeasonTopic(groupSeasonTopicId)
+    try {
+      return this.groupSeasonTopicService.groupSeasonTopic(groupSeasonTopicId)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Failed to load groupSeasonTopic!')
+    }
   }
 
   @UseGuards(PoliciesGuard)
@@ -128,7 +166,12 @@ export class GroupSeasonResolver {
     @Args('groupSeasonId') groupSeasonId: GroupSeasonId,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ) {
-    return this.groupSeasonTopicService.groupSeasonTopics(groupSeasonId, paginationInput)
+    try {
+      return this.groupSeasonTopicService.groupSeasonTopics(groupSeasonId, paginationInput)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Failed to load groupSeasonTopics!')
+    }
   }
 
   @UseGuards(PoliciesGuard)
@@ -137,7 +180,12 @@ export class GroupSeasonResolver {
   async removeGroupSeasonTopic(
     @Args('groupSeasonTopicId') groupSeasonTopicId: GroupSeasonTopicId,
   ) {
-    return this.groupSeasonTopicService.removeGroupSeasonTopic(groupSeasonTopicId)
+    try {
+      return this.groupSeasonTopicService.removeGroupSeasonTopic(groupSeasonTopicId)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Failed to remove group season topic!')
+    }
   }
 
   // @Mutation(() => GroupSeasonTopicProblem)
@@ -177,15 +225,20 @@ export class GroupSeasonResolver {
     @Args('groupSeasonTopicId') { groupId, topicId, seasonId }: GroupSeasonTopicId,
     @Args('problemIds', { type: () => [String] }) problemIds: string[],
   ): Promise<number> {
-    for (const problemId of problemIds) {
-      await this.groupSeasonTopicProblemService.addProblemToGroupSeasonTopic({
-        problemId,
-        groupId,
-        topicId,
-        seasonId,
-      })
+    try {
+      for (const problemId of problemIds) {
+        await this.groupSeasonTopicProblemService.addProblemToGroupSeasonTopic({
+          problemId,
+          groupId,
+          topicId,
+          seasonId,
+        })
+      }
+      return problemIds.length
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Failed to add problems to a groupSeasonTopic!')
     }
-    return problemIds.length
   }
 
   // @Mutation(() => GroupSeasonTopicProblem)
@@ -199,19 +252,24 @@ export class GroupSeasonResolver {
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupSeasonTopicProblemAbilities.delete)
-  @Mutation(() => GroupSeasonTopicProblem)
+  @Mutation(() => Int)
   async removeGroupSeasonTopicProblems(
     @Args('groupSeasonTopicId') { groupId, topicId, seasonId }: GroupSeasonTopicId,
     @Args('problemIds', { type: () => [String] }) problemIds: string[],
   ): Promise<number> {
-    for (const problemId of problemIds) {
-      await this.groupSeasonTopicProblemService.removeGroupSeasonTopicProblem({
-        problemId,
-        groupId,
-        topicId,
-        seasonId,
-      })
+    try {
+      for (const problemId of problemIds) {
+        await this.groupSeasonTopicProblemService.removeGroupSeasonTopicProblem({
+          problemId,
+          groupId,
+          topicId,
+          seasonId,
+        })
+      }
+      return problemIds.length
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Failed to remove problems from groupSeasonTopic!')
     }
-    return problemIds.length
   }
 }

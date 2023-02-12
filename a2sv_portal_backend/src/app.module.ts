@@ -19,13 +19,9 @@ import { MailModule } from './mail/mail.module'
 import { MailerModule } from '@nestjs-modules/mailer'
 import { join } from 'path'
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter'
-import { StorageModule } from './storage/storage.module';
-import {
-  UsersUpdateTopicComfortabilityModule,
-} from './services/users-update-topic-comfortability/users-update-topic-comfortability.module'
-import {
-  UsersUpdateProblemStatusModule
-} from './services/users-update-problem-status/users-update-problem-status.module'
+import { StorageModule } from './storage/storage.module'
+import { UsersUpdateTopicComfortabilityModule } from './services/users-update-topic-comfortability/users-update-topic-comfortability.module'
+import { UsersUpdateProblemStatusModule } from './services/users-update-problem-status/users-update-problem-status.module'
 import { StudentDataAnalyticsModule } from './app/user-group-season-analytics/student-data-analytics.module'
 import { ResourceModule } from './app/resource/resource.module'
 
@@ -91,5 +87,4 @@ import { ResourceModule } from './app/resource/resource.module'
   ],
   providers: [AppService, AppResolver],
 })
-export class AppModule {
-}
+export class AppModule {}
