@@ -83,14 +83,6 @@ export class GroupSeasonContestRepository {
             },
           },
         },
-        seasonContest: {
-          connect: {
-            seasonId_contestId: {
-              seasonId: where.groupId_seasonId_contestId.seasonId,
-              contestId: where.groupId_seasonId_contestId.contestId,
-            },
-          },
-        },
         contest: { connect: { id: where.groupId_seasonId_contestId.contestId } },
         startTime: data.startTime as Date,
         endTime: data.endTime as Date,
