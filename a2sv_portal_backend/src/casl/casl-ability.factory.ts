@@ -20,7 +20,6 @@ import { GroupSeasonContest } from '../app/group-season-contest/entities/group-s
 import { GroupSeasonContestProblem } from '../app/group-season-contest-problem/entities/group-season-contest-problem.entity'
 import { GroupSeasonTopic } from '../app/group-season-topic/entities/group-season-topic.entity'
 import { GroupSeasonTopicProblem } from '../app/group-season-topic-problem/entities/group-season-topic-problem.entity'
-import { SeasonContest } from '../app/season-contest/entities/season-contest.entity'
 import { UserGroupSeason } from '../app/user-group-season/entities/user-group-season.entity'
 
 export type Subjects =
@@ -34,7 +33,6 @@ export type Subjects =
       | typeof GroupSeasonTopicProblem
       | typeof Problem
       | typeof Season
-      | typeof SeasonContest
       | typeof SeasonTopic
       | typeof SeasonTopicProblem
       | typeof Tag
@@ -65,7 +63,6 @@ export class CaslAbilityFactory {
         can(Action.Read, GroupSeasonTopicProblem)
         can(Action.Read, Problem)
         can(Action.Read, Season)
-        can(Action.Read, SeasonContest)
         can(Action.Read, SeasonTopic)
         can(Action.Read, SeasonTopicProblem)
         can(Action.Read, Tag)
@@ -88,7 +85,6 @@ export class CaslAbilityFactory {
         can(Action.Manage, GroupSeasonTopicProblem)
         can(Action.Manage, Problem)
         can(Action.Manage, Season)
-        can(Action.Manage, SeasonContest)
         can(Action.Manage, SeasonTopic)
         can(Action.Manage, SeasonTopicProblem)
         can(Action.Manage, Tag)
@@ -111,7 +107,6 @@ export class CaslAbilityFactory {
         can(Action.Manage, GroupSeasonTopicProblem)
         can(Action.Manage, Problem)
         can(Action.Manage, Season)
-        can(Action.Manage, SeasonContest)
         can(Action.Manage, SeasonTopic)
         can(Action.Manage, SeasonTopicProblem)
         can(Action.Manage, Tag)
@@ -134,7 +129,6 @@ export class CaslAbilityFactory {
         can(Action.Manage, GroupSeasonTopicProblem)
         can(Action.Manage, Problem)
         can(Action.Manage, Season)
-        can(Action.Manage, SeasonContest)
         can(Action.Manage, SeasonTopic)
         can(Action.Manage, SeasonTopicProblem)
         can(Action.Manage, Tag)
@@ -157,7 +151,6 @@ export class CaslAbilityFactory {
         can(Action.Read, GroupSeasonTopicProblem)
         can(Action.Read, Problem)
         can(Action.Read, Season)
-        can(Action.Read, SeasonContest)
         can(Action.Read, SeasonTopic)
         can(Action.Read, SeasonTopicProblem)
         can(Action.Read, Tag)
