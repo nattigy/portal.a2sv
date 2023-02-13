@@ -12,6 +12,7 @@ import { CheckPolicies } from '../../casl/policy/policy.decorator'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
 import { PoliciesGuard } from '../../casl/policy/policy.guard'
 import { ProblemAbilities } from '../../casl/handler/problem-abilities.handler'
+import { BadRequestException } from '@nestjs/common/exceptions'
 
 @Resolver(() => Problem)
 export class ProblemResolver {
@@ -23,7 +24,12 @@ export class ProblemResolver {
   async createProblem(
     @Args('createProblemInput') createProblemInput: CreateProblemInput,
   ): Promise<Problem> {
-    return await this.problemService.createProblem(createProblemInput)
+    try {
+      return await this.problemService.createProblem(createProblemInput)
+    } catch (e) {
+      console.log('Error: ', e)
+      throw new BadRequestException('Error creating a problem!')
+    }
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
@@ -35,14 +41,24 @@ export class ProblemResolver {
     @Args('pageInfoInput', { type: () => PaginationInput, nullable: true })
     pageInfoInput?: PaginationInput,
   ): Promise<PaginationProblem> {
-    return await this.problemService.problems(filterProblemInput, pageInfoInput)
+    try {
+      return await this.problemService.problems(filterProblemInput, pageInfoInput)
+    } catch (e) {
+      console.log('Error: ', e)
+      throw new BadRequestException('Error loading problems!')
+    }
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.read)
   @Query(() => Problem, { description: descriptions.problem })
   async problem(@Args('problemId') problemId: string): Promise<Problem> {
-    return await this.problemService.problem(problemId)
+    try {
+      return await this.problemService.problem(problemId)
+    } catch (e) {
+      console.log('Error: ', e)
+      throw new BadRequestException('Error loading a problem!')
+    }
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
@@ -51,13 +67,23 @@ export class ProblemResolver {
   async updateProblem(
     @Args('updateProblemInput') updateProblemInput: UpdateProblemInput,
   ): Promise<Problem> {
-    return this.problemService.updateProblem(updateProblemInput)
+    try {
+      return this.problemService.updateProblem(updateProblemInput)
+    } catch (e) {
+      console.log('Error: ', e)
+      throw new BadRequestException('Error updating a problem!')
+    }
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(ProblemAbilities.delete)
   @Mutation(() => Int, { description: descriptions.removeProblem })
   async removeProblem(@Args('problemId') problemId: string): Promise<number> {
-    return this.problemService.remove(problemId)
+    try {
+      return this.problemService.remove(problemId)
+    } catch (e) {
+      console.log('Error: ', e)
+      throw new BadRequestException('Error removing a problem!')
+    }
   }
 }
