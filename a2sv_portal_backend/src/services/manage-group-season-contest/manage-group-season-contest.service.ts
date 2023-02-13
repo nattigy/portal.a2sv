@@ -1,34 +1,33 @@
 import { Injectable } from '@nestjs/common'
-import { ContestRepository } from '../../app/contest/contest.repository'
 import { GroupSeasonContestRepository } from '../../app/group-season-contest/group-season-contest.repository'
 import { GroupSeasonRepository } from '../../app/group-season/group-season.repository'
-import { SeasonContestService } from '../../app/season-contest/season-contest.service'
-import { PrismaService } from 'src/prisma/prisma.service'
+import { PrismaService } from '../../prisma/prisma.service'
+import { ContestRepository } from '../../app/contest/contest.repository'
 import {
   CreateGroupSeasonContestInput,
   GroupSeasonContestId,
 } from '../../app/group-season-contest/dto/create-group-season-contest.input'
+import { FilterGroupSeasonContestInput } from '../../app/group-season-contest/dto/filter-group-season-contest.input'
+import { PaginationInput } from '../../common/page/pagination.input'
 import { UpdateGroupSeasonContestInput } from '../../app/group-season-contest/dto/update-group-season-contest.input'
-import { FilterGroupSeasonContestInput } from 'src/app/group-season-contest/dto/filter-group-season-contest.input'
-import { PaginationInput } from 'src/common/page/pagination.input'
 
 @Injectable()
-export class GroupSeasonContestService {
+export class ManageGroupSeasonContestService {
   // TODO: create constructor for groupSeasonContestRepository
   // TODO: add seasonContest service
   constructor(
     private readonly groupSeasonContestRepository: GroupSeasonContestRepository,
     private readonly groupSeasonRepository: GroupSeasonRepository,
-    private readonly seasonContestService: SeasonContestService,
     private readonly prismaService: PrismaService,
     private readonly contestRepository: ContestRepository,
-  ) {}
+  ) {
+  }
 
   async addContestToAGroupSeason({
-    groupId,
-    seasonId,
-    contestId,
-  }: CreateGroupSeasonContestInput) {
+                                   groupId,
+                                   seasonId,
+                                   contestId,
+                                 }: CreateGroupSeasonContestInput) {
     const groupSeason = await this.groupSeasonRepository.findOne({
       groupId_seasonId: {
         groupId,
@@ -39,8 +38,6 @@ export class GroupSeasonContestService {
     if (!groupSeason.isActive) {
       throw new Error('This group season is not active!')
     }
-    // TODO: upsert contest to seasonContest call seasonContest service
-    await this.seasonContestService.addContestToASeason({ contestId, seasonId })
     // TODO: upsert groupSeasonContest // TODO: take start time and end time from contest
     const contest = await this.contestRepository.findOne({
       id: contestId,

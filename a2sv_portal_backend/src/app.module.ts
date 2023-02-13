@@ -23,6 +23,10 @@ import { StorageModule } from './storage/storage.module'
 import { UsersUpdateTopicComfortabilityModule } from './services/users-update-topic-comfortability/users-update-topic-comfortability.module'
 import { UsersUpdateProblemStatusModule } from './services/users-update-problem-status/users-update-problem-status.module'
 import { StudentDataAnalyticsModule } from './app/user-group-season-analytics/student-data-analytics.module'
+import { ManageGroupSeasonContestModule } from './services/manage-group-season-contest/manage-group-season-contest.module';
+import { UserUpdateContestProblemModule } from './services/user-update-contest-problem/user-update-contest-problem.module';
+import { ContestStatsModule } from './services/contest-stats/contest-stats.module';
+import { ContestLeaderboardModule } from './services/contest-leaderboard/contest-leaderboard.module';
 
 @Module({
   imports: [
@@ -82,6 +86,10 @@ import { StudentDataAnalyticsModule } from './app/user-group-season-analytics/st
     StorageModule,
     UsersUpdateTopicComfortabilityModule,
     StudentDataAnalyticsModule,
+    ManageGroupSeasonContestModule,
+    UserUpdateContestProblemModule,
+    ContestStatsModule,
+    ContestLeaderboardModule,
   ],
   providers: [AppService, AppResolver],
 })
