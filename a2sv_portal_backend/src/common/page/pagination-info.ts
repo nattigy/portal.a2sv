@@ -14,6 +14,7 @@ import { UserProfile } from '../../app/user-profile/entities/user-profile.entity
 import { UserGroupSeasonTopic } from '../../app/user-group-season-topic/entities/user-group-season-topic.entity'
 import { GroupSeason } from '../../app/group-season/entities/group-season.entity'
 import { GroupSeasonContest } from '../../app/group-season-contest/entities/group-season-contest.entity'
+import { Resource } from 'src/app/resource/entities/resource.entity'
 
 @ObjectType()
 export class PaginationInfo {
@@ -139,6 +140,14 @@ export class PaginationUserGroupSeasonContestProblem {
 export class PaginationProblem {
   @Field(() => [Problem])
   items: Problem[]
+
+  @Field(() => PaginationInfo)
+  pageInfo: PaginationInfo
+}
+@ObjectType()
+export class PaginationResource{
+  @Field(() => [Resource])
+  items: Resource[]
 
   @Field(() => PaginationInfo)
   pageInfo: PaginationInfo

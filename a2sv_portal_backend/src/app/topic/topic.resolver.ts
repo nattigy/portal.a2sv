@@ -13,6 +13,7 @@ import { PoliciesGuard } from '../../casl/policy/policy.guard'
 import { CheckPolicies } from '../../casl/policy/policy.decorator'
 import { ProblemAbilities } from '../../casl/handler/problem-abilities.handler'
 import { TopicAbilities } from '../../casl/handler/topic-abilities.handler'
+import { BadRequestException } from '@nestjs/common/exceptions'
 
 @Resolver(() => Topic)
 export class TopicResolver {
@@ -24,7 +25,12 @@ export class TopicResolver {
   async createTopic(
     @Args('createTopicInput') createTopicInput: CreateTopicInput,
   ): Promise<Topic> {
-    return this.topicService.create(createTopicInput)
+    try {
+      return this.topicService.create(createTopicInput)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Error creating Topic!')
+    }
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
@@ -36,7 +42,12 @@ export class TopicResolver {
     @Args('pageInfoInput', { type: () => PaginationInput, nullable: true })
     pageInfoInput?: PaginationInput,
   ): Promise<PaginationTopic> {
-    return this.topicService.topics(filterTopicInput, pageInfoInput)
+    try {
+      return this.topicService.topics(filterTopicInput, pageInfoInput)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Error loading Topics')
+    }
   }
 
   // @UseGuards(JwtAuthGuard, PoliciesGuard)
@@ -52,13 +63,23 @@ export class TopicResolver {
   async updateTopic(
     @Args('updateTopicInput') updateTopicInput: UpdateTopicInput,
   ): Promise<Topic> {
-    return this.topicService.updateTopic(updateTopicInput)
+    try {
+      return this.topicService.updateTopic(updateTopicInput)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Error updating topic')
+    }
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(TopicAbilities.delete)
   @Mutation(() => Int, { description: descriptions.deleteTopic })
   async removeTopic(@Args('topicId') topicId: string) {
-    return this.topicService.removeTopic(topicId)
+    try {
+      return this.topicService.removeTopic(topicId)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Error removing topic!')
+    }
   }
 }

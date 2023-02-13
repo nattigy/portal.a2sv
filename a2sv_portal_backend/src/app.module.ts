@@ -27,6 +27,7 @@ import { ManageGroupSeasonContestModule } from './services/manage-group-season-c
 import { UserUpdateContestProblemModule } from './services/user-update-contest-problem/user-update-contest-problem.module';
 import { ContestStatsModule } from './services/contest-stats/contest-stats.module';
 import { ContestLeaderboardModule } from './services/contest-leaderboard/contest-leaderboard.module';
+import { ResourceModule } from './app/resource/resource.module'
 
 @Module({
   imports: [
@@ -77,6 +78,7 @@ import { ContestLeaderboardModule } from './services/contest-leaderboard/contest
     PrismaModule,
     CaslModule,
     TagModule,
+    ResourceModule,
     ProblemModule,
     TopicModule,
     UserProfileModule,

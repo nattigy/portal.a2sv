@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DB_URL")
+ 
 }
 
 generator dbml {
@@ -55,12 +56,22 @@ model Contest {
 model Topic {
   id                   String                 @id @default(uuid())
   name                 String                 @unique
-  description          String
+  description          String?
   createdAt            DateTime?              @default(now())
   updatedAt            DateTime?              @updatedAt
+  resources            Resource[]
   seasonTopics         SeasonTopic[]
   GroupSeasonTopic     GroupSeasonTopic[]
   UserGroupSeasonTopic UserGroupSeasonTopic[]
+}
+
+model Resource{
+  id                   String                 @id @default(uuid())
+  type                 String
+  name                 String
+  description          String
+  link                 String                 @unique               
+  topic                Topic[]
 }
 
 model Problem {
@@ -436,7 +447,6 @@ enum RoleEnum {
 enum ComfortLevelEnum {
   COMFORTABLE
   UNCOMFORTABLE
-  MEDIOCRE
 }
 
 enum SeasonTypeEnum {
