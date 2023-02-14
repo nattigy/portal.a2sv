@@ -1,30 +1,27 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { GroupSeasonService } from './group-season.service'
+import { GroupSeasonTopicService } from './group-season-topic.service'
+import { GroupSeasonTopicProblemService } from './group-season-topic-problem.service'
+import { BadRequestException, UseGuards } from '@nestjs/common'
+import { PoliciesGuard } from '../../casl/policy/policy.guard'
+import { CheckPolicies } from '../../casl/policy/policy.decorator'
+import { GroupSeasonAbilities } from '../../casl/handler/group-season-abilities.handler'
 import { GroupSeason } from '../../app/group-season/entities/group-season.entity'
-import {
-  CreateGroupSeasonInput,
-  GroupSeasonId,
-} from '../../app/group-season/dto/create-group-season.input'
+import { CreateGroupSeasonInput, GroupSeasonId } from '../../app/group-season/dto/create-group-season.input'
+import { PaginationGroupSeason } from '../../common/page/pagination-info'
+import { FilterGroupSeasonInput } from '../../app/group-season/dto/filter-group-season.input'
 import { PaginationInput } from '../../common/page/pagination.input'
 import {
   UpdateGroupSeasonInput,
   UpdateGroupSeasonJoinRequestInput,
 } from '../../app/group-season/dto/update-group-season.input'
-import { PaginationGroupSeason } from '../../common/page/pagination-info'
-import { GroupSeasonTopicId } from '../../app/group-season-topic/dto/create-group-season-topic.input'
-import { GroupSeasonTopic } from '../../app/group-season-topic/entities/group-season-topic.entity'
-import { GroupSeasonTopicProblemService } from './group-season-topic-problem.service'
-import { GroupSeasonTopicService } from './group-season-topic.service'
-import { FilterGroupSeasonInput } from '../../app/group-season/dto/filter-group-season.input'
-import { BadRequestException, UseGuards } from '@nestjs/common'
-import { PoliciesGuard } from '../../casl/policy/policy.guard'
-import { CheckPolicies } from '../../casl/policy/policy.decorator'
-import { GroupSeasonAbilities } from '../../casl/handler/group-season-abilities.handler'
 import { GroupSeasonTopicAbilities } from '../../casl/handler/group-season-topic-abilities.handler'
+import { GroupSeasonTopic } from '../../app/group-season-topic/entities/group-season-topic.entity'
+import { GroupSeasonTopicId } from '../../app/group-season-topic/dto/create-group-season-topic.input'
 import { GroupSeasonTopicProblemAbilities } from '../../casl/handler/group-season-topic-problem-abilities.handler'
 
-@Resolver(() => GroupSeason)
-export class GroupSeasonResolver {
+@Resolver()
+export class ManageGroupSeasonResolver {
   constructor(
     private readonly groupSeasonService: GroupSeasonService,
     private readonly groupSeasonTopicService: GroupSeasonTopicService,
@@ -93,7 +90,7 @@ export class GroupSeasonResolver {
   @Mutation(() => GroupSeason)
   async updateGroupSeasonJoinRequest(
     @Args('updateGroupSeasonJoinRequestInput')
-    updateGroupSeasonJoinRequestInput: UpdateGroupSeasonJoinRequestInput,
+      updateGroupSeasonJoinRequestInput: UpdateGroupSeasonJoinRequestInput,
   ): Promise<GroupSeason> {
     try {
       return this.groupSeasonService.updateGroupSeasonJoinRequest(

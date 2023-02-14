@@ -14,7 +14,6 @@ import { UserProfileModule } from './app/user-profile/user-profile.module'
 import { PrismaModule } from './prisma/prisma.module'
 // import { DataAnalyticsModule } from './data-analytics/data-analytics.module'
 import { ScheduleModule } from '@nestjs/schedule'
-import { ServicesModule } from './services/services.module'
 import { MailModule } from './mail/mail.module'
 import { MailerModule } from '@nestjs-modules/mailer'
 import { join } from 'path'
@@ -28,6 +27,8 @@ import { UserUpdateContestProblemModule } from './services/user-update-contest-p
 import { ContestStatsModule } from './services/contest-stats/contest-stats.module';
 import { ContestLeaderboardModule } from './services/contest-leaderboard/contest-leaderboard.module';
 import { ResourceModule } from './app/resource/resource.module'
+import { ManageGroupSeasonModule } from './services/manage-group-season/manage-group-season.module';
+import { ManageUserGroupSeasonModule } from './services/manage-user-group-season/manage-user-group-season.module';
 
 @Module({
   imports: [
@@ -83,11 +84,12 @@ import { ResourceModule } from './app/resource/resource.module'
     TopicModule,
     UserProfileModule,
     PrismaModule,
-    ServicesModule,
     UsersUpdateProblemStatusModule,
     StorageModule,
     UsersUpdateTopicComfortabilityModule,
     StudentDataAnalyticsModule,
+    ManageGroupSeasonModule,
+    ManageUserGroupSeasonModule,
     // ManageGroupSeasonContestModule,
     // UserUpdateContestProblemModule,
     // ContestStatsModule,

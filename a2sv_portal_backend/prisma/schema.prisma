@@ -5,7 +5,6 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DB_URL")
- 
 }
 
 generator dbml {
@@ -65,13 +64,13 @@ model Topic {
   UserGroupSeasonTopic UserGroupSeasonTopic[]
 }
 
-model Resource{
-  id                   String                 @id @default(uuid())
-  type                 String
-  name                 String
-  description          String
-  link                 String                 @unique               
-  topic                Topic[]
+model Resource {
+  id          String  @id @default(uuid())
+  type        String
+  name        String
+  description String
+  link        String  @unique
+  topic       Topic[]
 }
 
 model Problem {
