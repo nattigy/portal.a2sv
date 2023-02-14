@@ -9,8 +9,8 @@ import TopicItem from "./TopicItem";
 type Props = {
   idx: number;
   topic: Topic;
-  isChecked:boolean;
-  handleOnChange:()=>void
+  selectedItems: Set<string>;
+  handleOnChange: (item: string) => void;
   season: { id: string; name: string };
 };
 
@@ -38,9 +38,9 @@ const GroupTopicItem = (props: Props) => {
                 id="checkbox-button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  props.handleOnChange();
+                  props.handleOnChange(props.topic.id);
                 }}
-                checked={props.isChecked}
+                checked={props.selectedItems.has(props.topic.id)}
               />
               {/* <label htmlFor="radio-button">Option text</label> */}
             </div>
