@@ -19,7 +19,7 @@ import {
 } from "../../types/contest";
 import { authenticatedUser } from "../../lib/constants/authenticated";
 import { useReactiveVar } from "@apollo/client";
-import { getStatusColor, StatusChips } from "./StatusChips";
+import { getStatusColor, StatusChips } from "../problems/StatusChips";
 import { BiUser } from "react-icons/bi";
 
 type Props = {

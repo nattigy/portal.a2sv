@@ -52,27 +52,37 @@ export const REMOVE_SEASON_TOPIC_PROBLEM = gql`
   }
 `;
 
-
 export const ADD_PROBLEM_TO_GROUP_SEASON_TOPIC = gql`
   mutation AddProblemsToGroupSeasonTopic(
-    $groupSeasonTopicId: GroupSeasonTopicId!, 
+    $groupSeasonTopicId: GroupSeasonTopicId!
     $problemIds: [String!]!
   ) {
     addProblemsToGroupSeasonTopic(
-      groupSeasonTopicId: $groupSeasonTopicId, 
+      groupSeasonTopicId: $groupSeasonTopicId
       problemIds: $problemIds
     )
   }
-`
+`;
 
 export const REMOVE_PROBLEM_FROM_GROUP_SEASON_TOPIC = gql`
   mutation RemoveGroupSeasonTopicProblems(
-    $groupSeasonTopicId: GroupSeasonTopicId!, 
+    $groupSeasonTopicId: GroupSeasonTopicId!
     $problemIds: [String!]!
   ) {
     removeGroupSeasonTopicProblems(
-      groupSeasonTopicId: $groupSeasonTopicId, 
+      groupSeasonTopicId: $groupSeasonTopicId
       problemIds: $problemIds
     )
   }
-`
+`;
+export const UPDATE_USER_PROBLEM_STATUS = gql`
+  mutation UpdateUserProblemStatus(
+    $updateProblemStatusInput: UpdateUserGroupSeasonTopicProblemInput!
+  ) {
+    updateUserProblemStatus(
+      updateProblemStatusInput: $updateProblemStatusInput
+    ) {
+      userId
+    }
+  }
+`;

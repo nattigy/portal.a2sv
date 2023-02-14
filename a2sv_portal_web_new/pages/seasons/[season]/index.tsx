@@ -10,6 +10,7 @@ import GlobalTopicItem from "../../../components/topics/GlobalTopicItem";
 import GroupTopicItem from "../../../components/topics/GroupTopicItem";
 import HOATopicsPage from "../../../components/topics/HOATopicsPage";
 import HOETopicsPage from "../../../components/topics/HOETopicsPage";
+import StudentToicsPage from "../../../components/topics/StudentToicsPage";
 import TopicList from "../../../components/topics/TopicList";
 import TopicsFilter from "../../../components/topics/TopicsFilter";
 import TopicStruggledList from "../../../components/topics/TopicStruggledList";
@@ -56,6 +57,10 @@ const IndexPage = () => {
         <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION]}>
           <HOETopicsPage/>
         </WithPermission>
+        <WithPermission allowedRoles={[GraphqlUserRole.STUDENT]}>
+          <StudentToicsPage/>
+        </WithPermission>
+
       </div>
     </BaseLayout>
   );

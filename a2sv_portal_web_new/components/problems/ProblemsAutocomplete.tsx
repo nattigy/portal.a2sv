@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
-import useAllProblems from "../../lib/hooks/useAllProblems";
+import {useAllProblems} from "../../lib/hooks/useProblems";
 import { ProblemDifficultyType, ProblemType } from "../../types/problems";
 import CommonAutocomplete from "../common/CustomAutocomplete";
 

@@ -5,6 +5,7 @@ import {
   GET_ALL_PROBLEMS_QUERY,
   GET_PROBLEMS_BY_GROUP_SEASON_TOPIC,
   GET_PROBLEMS_BY_SEASON_TOPIC,
+  GET_USER_GROUP_SEASON_TOPIC_PROBLEMS,
 } from "../apollo/Queries/problemsQueries";
 
 export const useAllProblems = () => {
@@ -33,7 +34,10 @@ export const useGetAllFilteredProblems = () => {
   });
 };
 
-export const useGetSeasonTopicProblems = (seasonId: string,topicId:string) => {
+export const useGetSeasonTopicProblems = (
+  seasonId: string,
+  topicId: string
+) => {
   return useLazyQuery(GET_PROBLEMS_BY_SEASON_TOPIC, {
     notifyOnNetworkStatusChange: true,
     errorPolicy: "all",
@@ -65,4 +69,22 @@ export const useGetProblemsByGroupSeasonTopic = (
   });
 };
 
-export default useAllProblems;
+export const useGetUserGroupSeasonTopicProblems = (
+  userId: string,
+  topicId: string,
+  seasonId: string,
+  groupId: string
+) => {
+  return useQuery(GET_USER_GROUP_SEASON_TOPIC_PROBLEMS, {
+    notifyOnNetworkStatusChange: true,
+    errorPolicy: "all",
+    variables: {
+      userGroupSeasonTopicId: {
+        userId,
+        topicId,
+        seasonId,
+        groupId,
+      },
+    },
+  });
+};

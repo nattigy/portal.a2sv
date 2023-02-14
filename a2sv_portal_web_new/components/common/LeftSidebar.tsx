@@ -32,7 +32,7 @@ const LeftSidebar = (props: Props) => {
     ],
     [GraphqlUserRole.STUDENT]: [
       "/dashboard",
-      // "/problems",
+      "/seasons",
       "/groups",
       "/users",
       "/contests",

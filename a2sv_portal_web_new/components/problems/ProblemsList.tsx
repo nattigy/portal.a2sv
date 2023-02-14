@@ -38,7 +38,7 @@ const ProblemsList = ({
     await addGroupSeasonTopicProblems({
       variables: {
         groupSeasonTopicId: {
-          groupId: authUser.groupId,
+          groupId: authUser.headToGroup.id,
           seasonId: seasonId,
           topicId: topicId,
         },
@@ -53,7 +53,7 @@ const ProblemsList = ({
     await removeGroupSeasonTopicProblems({
       variables: {
         groupSeasonTopicId: {
-          groupId: authUser.groupId,
+          groupId: authUser.headToGroup.id,
           seasonId: seasonId,
           topicId: topicId,
         },

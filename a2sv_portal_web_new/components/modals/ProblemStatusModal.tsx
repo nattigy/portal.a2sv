@@ -4,35 +4,43 @@ import * as yup from "yup";
 import clsx from "clsx";
 import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormRejectButton from "../common/FormRejectButton";
+import { useMutation } from "@apollo/client";
+import { UPDATE_USER_PROBLEM_STATUS } from "../../lib/apollo/Mutations/problemsMutations";
+import { QuestionStatus, UserProblem } from "../../types";
 
-export enum QuestionStatus {
-  SOLVED = "SOLVED",
-  NOT_SOLVED = "NOT_SOLVED",
-  UNABLE_TO_SOLVE = "UNABLE_TO_SOLVE",
-}
+
 
 interface FormValues {
   status: QuestionStatus;
   time_spent: number;
-  wrong_submissions: number;
+  // wrong_submissions: number;
   total_attempts: number;
 }
 
 type Props = {
   onClose: () => void;
+  errorMessage?: string;
+  userId: string;
+  topicId: string;
+  seasonId: string;
+  groupId: string;
+  userProblem:UserProblem;
+
 };
-const ProblemDetailModal = (props: Props) => {
+const ProblemStatusModal = (props: Props) => {
+  const [updateProblemStatus, { error: updateError }] = useMutation(
+    UPDATE_USER_PROBLEM_STATUS
+  );
+
   const INITIAL_VALUES = {
-    // status: QuestionStatus.NOT_SOLVED,
-    // time_spent: 0,
-    // total_attempts: 0,
-    // wrong_submissions: 0
+    status: props.userProblem.status || QuestionStatus.NOT_SOLVED,
+    time_spent: props.userProblem.numberOfMinutes,
+    total_attempts: props.userProblem.numberOfAttempts,
   } as FormValues;
 
   const FORM_VALIDATION = yup.object().shape({
     status: yup.string().required("Required"),
     time_spent: yup.number().min(0).required("Required"),
-    wrong_submissions: yup.number().min(0).required("Required"),
     total_attempts: yup.number().min(0).required("Required"),
   });
 
@@ -42,7 +50,29 @@ const ProblemDetailModal = (props: Props) => {
         <Formik
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
-          onSubmit={() => {}}
+          onSubmit={ async (values) => {
+            await updateProblemStatus({
+              variables: {
+                updateProblemStatusInput: {
+                  status: values.status,
+                  numberOfMinutes: values.time_spent,
+                  numberOfAttempts: values.total_attempts,
+                  id: {
+                    userId: props.userId,
+                    topicId: props.topicId,
+                    problemId: props.userProblem.problem.id,
+                    seasonId: props.seasonId,
+                    groupId: props.groupId,
+                  },
+                },
+              },
+              refetchQueries:"active",
+              notifyOnNetworkStatusChange: true,
+              onCompleted(data) {
+                props.onClose();
+              },
+            });
+          }}
         >
           {({ isSubmitting, errors, touched }) => (
             <Form>
@@ -53,6 +83,7 @@ const ProblemDetailModal = (props: Props) => {
                 <div className="w-full flex flex-col items-center">
                   <div className="my-3 w-full flex justify-between items-center">
                     <h2 className="font-bold">Problem Details</h2>
+                    {JSON.stringify(errors)}
                     <div
                       className="cursor-pointer"
                       onClick={() => props.onClose()}
@@ -99,7 +130,7 @@ const ProblemDetailModal = (props: Props) => {
                             id="solved"
                             type="radio"
                             value={QuestionStatus.SOLVED}
-                            name="problem-status"
+                            name="status"
                             className="peer checkbox appearance-none focus:outline-none rounded-full border-2 border-green-700 checked:border-indigo-700 absolute cursor-pointer w-full h-full"
                           />
                           <div className="check-icon border-4 peer-checked:bg-indigo-700 rounded-full w-full h-full z-1" />
@@ -118,7 +149,7 @@ const ProblemDetailModal = (props: Props) => {
                             type="radio"
                             value={QuestionStatus.NOT_SOLVED}
                             checked
-                            name="problem-status"
+                            name="status"
                             className="peer checkbox appearance-none focus:outline-none rounded-full border-2  border-yellow-700 checked:border-indigo-700 absolute cursor-pointer w-full h-full"
                           />
                           <div className="check-icon border-4 peer-checked:bg-indigo-700 rounded-full w-full h-full z-1" />
@@ -136,7 +167,7 @@ const ProblemDetailModal = (props: Props) => {
                             id="unable-to-solve"
                             type="radio"
                             value={QuestionStatus.UNABLE_TO_SOLVE}
-                            name="problem-status"
+                            name="status"
                             className="peer checkbox appearance-none focus:outline-none rounded-full border-2  border-red-700 checked:border-indigo-700 absolute cursor-pointer w-full h-full"
                           />
                           <div className="check-icon border-4 peer-checked:bg-indigo-700 rounded-full w-full h-full z-1" />
@@ -165,7 +196,7 @@ const ProblemDetailModal = (props: Props) => {
                       )}
                     />
                   </div>
-                  <div className="flex justify-between items-center">
+                  {/* <div className="flex justify-between items-center">
                     <p className="text-sm font-semibold ">Wrong submissions </p>
                     <Field
                       name="wrong_submissions"
@@ -179,7 +210,7 @@ const ProblemDetailModal = (props: Props) => {
                           : ""
                       )}
                     />
-                  </div>
+                  </div> */}
                   <div className="flex justify-between items-center">
                     <p className="text-sm font-semibold ">Total attempts </p>
                     <Field
@@ -202,10 +233,18 @@ const ProblemDetailModal = (props: Props) => {
                       onClick={() => props.onClose()}
                     />
                     <FormAffirmativeButton
+
                       isLoading={isSubmitting}
                       text="Save"
                     />
                   </div>
+                  {props.errorMessage && (
+                    <div className="bg-[#E4646451] py-1 rounded-md">
+                      <span className="text-[#E46464] px-4 text-xs">
+                        {props.errorMessage}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             </Form>
@@ -216,4 +255,4 @@ const ProblemDetailModal = (props: Props) => {
   );
 };
 
-export default ProblemDetailModal;
+export default ProblemStatusModal;

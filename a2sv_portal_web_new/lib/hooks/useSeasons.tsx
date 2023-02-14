@@ -45,11 +45,11 @@ export const useGetSeasonRequests = () => {
   });
 };
 
-export const useGetGroupSeasons = (headId: string) => {
+export const useGetGroupSeasons = (groupId: string) => {
   return useLazyQuery(GET_GROUP_SEASONS, {
     variables: {
       filterGroupSeasonInput: {
-        headId:headId,
+        groupId:groupId,
         joinRequest: "APPROVED",
       },
     },

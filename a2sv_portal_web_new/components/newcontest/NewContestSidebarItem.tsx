@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
-import { useGetAllFilteredProblems } from "../../lib/hooks/useAllProblems";
+import { useGetAllFilteredProblems } from "../../lib/hooks/useProblems";
 import { ProblemDifficultyType } from "../../types/problems";
 import { QuestionsInfo } from "./AddQuestionListItem";
 import AddQuestionsList from "./AddQuestionsList";

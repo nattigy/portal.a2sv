@@ -14,40 +14,58 @@ const StudentToicsPage = () => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
   const { data, loading, error } = useGetGroupSeasonTopics(
     router.query?.seasonId?.toString() || "",
-    authUser.headToGroup?.id || ""
+    authUser.groupId || ""
   );
 
+  // const href = {
+  //   pathname: pathname,
+  //   query: {
+  //     seasonId: props.season?.id,
+  //     topicId: props.topic.id,
+  //   },
+  // };
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-5">
-      {loading ? (
-        <div className="h-full w-full flex justify-center items-center">
-          <LoaderSmall />
+    <>
+      <div className="w-full flex flex-col md:flex-row justify-between">
+        <div className=" justify-between flex items-center mb-2 gap-x-5 ">
+          <h1 className="text-lg font-semibold text-gray-700">Group Topics</h1>
         </div>
-      ) : error ? (
-        <p>Something went wrong</p>
-      ) : data.groupSeasonTopics?.length === 0 ? (
-        <EmptyState />
-      ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-3 gap-x-12">
-          {data.groupSeasonTopics?.map((item: any, idx: number) => (
-            <CustomLink
-            key={idx}
-              href={{
-                pathname: `${slugify(
-                  router.query.season?.toString() || ""
-                )}/topics/${slugify(item.topic.name)}/problems`,
-                query: {
-                  seasonId: router.query.seasonId,
-                  topicId: item.topic.id,
-                },
-              }}
-            >
-              <TopicItem idx={idx} topic={item.topic} key={idx} />
-            </CustomLink>
-          ))}
-        </div>
-      )}
-    </div>
+      </div>
+
+      <div className="w-full flex flex-col gap-y-4">
+        {loading ? (
+          <div className="h-full w-full flex justify-center items-center">
+            <LoaderSmall />
+          </div>
+        ) : error ? (
+          <p>Something went wrong</p>
+        ) : data?.groupSeasonTopics?.length === 0 ? (
+          <EmptyState />
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-3 gap-x-12">
+            {data.groupSeasonTopics?.map((item: any, idx: number) => (
+              <CustomLink
+                key={idx}
+                href={{
+                  pathname: `${slugify(
+                    router.query.season?.toString() || ""
+                  )}/topics/${slugify(item.topic.name)}/problems`,
+                  query: {
+                    seasonId: router.query.seasonId,
+                    topicId: item.topic.id,
+                  },
+                }}
+              >
+                <div>
+                  <TopicItem idx={idx} topic={item.topic} />
+                </div>
+              </CustomLink>
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

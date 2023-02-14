@@ -75,7 +75,7 @@ const GroupSeasonItem = ({ seasonProps }: Props) => {
           onDelete={async () => {}}
         />
       )}
-      <Link href={href} as={pathname}>
+      <Link href={href}>
         <div className="cursor-pointer">
           <div className="h-36 relative">
             <div className="absolute top-2 right-2 z-30 ">

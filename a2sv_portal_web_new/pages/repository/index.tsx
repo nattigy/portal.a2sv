@@ -4,7 +4,7 @@ import AllProblemsPage from "../../components/problems/HOA/AllProblemsPage";
 import AllTopicsPage from "../../components/problems/HOA/AllTopicsPage";
 import ProblemsFilter from "../../components/problems/HOA/ProblemsFilter";
 import { useApollo } from "../../lib/apollo/apolloClient";
-import { useAllProblems } from "../../lib/hooks/useAllProblems";
+import { useAllProblems } from "../../lib/hooks/useProblems";
 
 type Props = {};
 

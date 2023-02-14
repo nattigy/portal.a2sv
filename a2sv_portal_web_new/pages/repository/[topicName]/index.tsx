@@ -5,7 +5,7 @@ import EmptyState from "../../../components/common/EmptyState";
 import { LoaderSmall } from "../../../components/common/Loaders";
 import HOAAllProblemsPage from "../../../components/problems/HOA/AllProblemsPage";
 import ProblemsList from "../../../components/problems/HOA/ProblemsList";
-import { useGetAllProblemsByTags } from "../../../lib/hooks/useAllProblems";
+import { useGetAllProblemsByTags } from "../../../lib/hooks/useProblems";
 
 const IndexPage = () => {
   const [problemsData, setProblemsData] = useState([]);

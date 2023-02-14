@@ -36,6 +36,31 @@ export const GET_ALL_PROBLEMS_QUERY = gql`
     }
   }
 `;
+export const GET_USER_GROUP_SEASON_TOPIC_PROBLEMS = gql`
+  query UserGroupSeasonTopic($userGroupSeasonTopicId: UserGroupSeasonTopicId!) {
+    userGroupSeasonTopic(userGroupSeasonTopicId: $userGroupSeasonTopicId) {
+      userGroupSeasonTopicProblems {
+        status
+        numberOfAttempts
+        numberOfMinutes
+        solutionLink
+        problem {
+          updatedAt
+          title
+          tags {
+            name
+            id
+          }
+          platform
+          link
+          id
+          difficulty
+          createdAt
+        }
+      }
+    }
+  }
+`;
 
 export const GET_ALL_PROBLEMS_BY_TAG_QUERY = gql`
   query Problems($filterProblemInput: FilterProblemInput) {

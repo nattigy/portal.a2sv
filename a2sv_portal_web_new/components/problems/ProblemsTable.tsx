@@ -95,7 +95,7 @@ const ProblemsTable = ({ problems, seasonId, topicId, group }: Props) => {
     await addGroupSeasonTopicProblems({
       variables: {
         groupSeasonTopicId: {
-          groupId: authUser.groupId,
+          groupId: authUser.headToGroup?.id || authUser.groupId,
           seasonId: seasonId,
           topicId: topicId,
         },
@@ -250,11 +250,11 @@ const ProblemsTable = ({ problems, seasonId, topicId, group }: Props) => {
                     <td className="py-4 px-6">
                       <div className="flex items-center flex-row gap-x-2 capitalize">
                         {getIcon(problem.platform?.toUpperCase())}
-                        {problem.platform.toLowerCase()}
+                        {problem.platform?.toLowerCase()}
                       </div>
                     </td>
                     <td className="py-4 px-6">
-                      {format(new Date(problem.createdAt), "MMM dd yyyy")}
+                      {format(new Date(problem?.createdAt||3), "MMM dd yyyy")}
                     </td>
                   </tr>
                 );

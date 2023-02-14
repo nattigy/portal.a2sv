@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useApollo } from "../../../lib/apollo/apolloClient";
-import useAllProblems from "../../../lib/hooks/useAllProblems";
+import {useAllProblems} from "../../../lib/hooks/useProblems";
 import Button from "../../common/Button";
 import EmptyState from "../../common/EmptyState";
 import { LoaderSmall } from "../../common/Loaders";

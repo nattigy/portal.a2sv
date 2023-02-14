@@ -18,7 +18,7 @@ const HOETopicsPage = () => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
   const { data, loading, error } = useGetGroupSeasonTopics(
     router.query?.seasonId?.toString() || "",
-    authUser.headToGroup?.id || ""
+    authUser.headToGroup?.id || authUser.groupId ||  ""
   );
   const {
     data: seasonTopicData,

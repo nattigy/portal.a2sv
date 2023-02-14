@@ -26,6 +26,7 @@ const IndexPage = () => {
   const { data, loading, error } = useGetAllSeasons({});
   const [groupSeasons, setGroupSeasons] = useState([]);
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
+
   const [
     getGroupSeasons,
     {
@@ -33,17 +34,15 @@ const IndexPage = () => {
       loading: groupSeasonLoading,
       error: groupSeasonError,
     },
-  ] = useGetGroupSeasons(authUser?.id);
+  ] = useGetGroupSeasons(authUser?.headToGroup?.id || authUser?.groupId||"");
 
   useEffect(() => {
-    if (authUser.role == GraphqlUserRole.HEAD_OF_EDUCATION) {
       getGroupSeasons();
-    }
+    
   }, []);
 
   useEffect(() => {
     if (
-      authUser.role == GraphqlUserRole.HEAD_OF_EDUCATION &&
       groupSeasonData?.groupSeasons?.items
     ) {
       setGroupSeasons(
@@ -119,7 +118,7 @@ const IndexPage = () => {
       </div>
       </WithPermission>
 
-      <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION]}>
+      <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION,GraphqlUserRole.STUDENT]}>
         <div className="flex flex-col gap-y-4">
           <div className="flex items-center justify-between rounded-md">
             <h1 className="text-lg font-semibold">Group Seasons</h1>
