@@ -22,8 +22,8 @@ export class UserProfileService {
 
   async createUserProfile(createUserProfileInput: CreateUserProfileInput, user: User) {
     if (createUserProfileInput.photoUrl) {
-      const fileName = await this.storageService.save(createUserProfileInput.photoUrl, user.id)
-      createUserProfileInput = { ...createUserProfileInput, photoUrl: fileName }
+      const url = await this.storageService.save(createUserProfileInput.photoUrl, user.id)
+      createUserProfileInput = { ...createUserProfileInput, photoUrl: url }
     }
     return this.userProfileRepository.create({
       ...createUserProfileInput,
@@ -42,18 +42,18 @@ export class UserProfileService {
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationUserProfile> {
     const count = await this.userProfileRepository.count(filterUserProfileInput)
-    let userProfiles: UserProfile[] = await this.userProfileRepository.findAll({
+    const userProfiles: UserProfile[] = await this.userProfileRepository.findAll({
       where: filterUserProfileInput,
     })
 
-    userProfiles = await Promise.all(
-      userProfiles.map(async userProfile => {
-        return {
-          ...userProfile,
-          photoUrl: await this.storageService.get(userProfile.photoUrl),
-        }
-      }),
-    )
+    // userProfiles = await Promise.all(
+    //   userProfiles.map(async userProfile => {
+    //     return {
+    //       ...userProfile,
+    //       photoUrl: await this.storageService.get(userProfile.photoUrl),
+    //     }
+    //   }),
+    // )
 
     return {
       items: userProfiles,
@@ -66,15 +66,15 @@ export class UserProfileService {
   }
 
   async userProfile(id: string): Promise<UserProfile> {
-    let profile = await this.userProfileRepository.findOne({
+    return await this.userProfileRepository.findOne({
       id,
     })
 
-    if (profile.photoUrl) {
-      profile = { ...profile, photoUrl: await this.storageService.get(profile.photoUrl) }
-    }
+    // if (profile.photoUrl) {
+    //   profile = { ...profile, photoUrl: await this.storageService.get(profile.photoUrl) }
+    // }
 
-    return profile
+    // return profile
   }
 
   async updateUserProfile({ userId, ...updates }: UpdateUserProfileInput) {
@@ -86,8 +86,9 @@ export class UserProfileService {
 
       await this.storageService.delete(profile.photoUrl)
 
-      const fileName = await this.storageService.save(updates.photoUrl, userId)
-      updates = { ...updates, photoUrl: fileName }
+      const url = await this.storageService.save(updates.photoUrl, userId)
+      console.log(url, 'url...')
+      updates = { ...updates, photoUrl: url }
     }
     return this.userProfileRepository.update({
       where: {

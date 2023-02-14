@@ -40,7 +40,7 @@ export class StorageService {
     })
     stream.end(fileBuffer)
 
-    return file.name
+    return `${this.storageURL}/${this.bucket}/${file.name}`
   }
 
   async delete(path: string) {
