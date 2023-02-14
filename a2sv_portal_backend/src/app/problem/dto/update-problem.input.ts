@@ -1,4 +1,4 @@
-import { Field, InputType, PartialType } from '@nestjs/graphql'
+import { Field, InputType } from '@nestjs/graphql'
 import { ProblemDifficultyTypeEnum } from '@prisma/client'
 import { CreateTagInput } from '../../tag/dto/create-tag.input'
 

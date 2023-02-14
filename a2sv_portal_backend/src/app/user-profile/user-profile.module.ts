@@ -7,6 +7,6 @@ import { UserModule } from '../user/user.module'
 
 @Module({
   providers: [UserProfileRepository, UserProfileResolver, UserProfileService],
-  imports: [StorageModule, UserModule]
+  imports: [StorageModule, UserModule],
 })
 export class UserProfileModule {}

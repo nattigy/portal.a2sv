@@ -3,11 +3,12 @@ import { PrismaService } from 'src/prisma/prisma.service'
 import { Cron, CronExpression } from '@nestjs/schedule'
 import { StatusEnum, UserTopicProblemStatusEnum } from '@prisma/client'
 import { UserGroupSeasonDailyAnalyticInput } from './dto/user-group-season-daily-analytic.input'
+import { StudentWeeklyAnalytic } from './entities/weekly-data-analytic-entity'
+import { StudentYearlyAnalytic } from './entities/yearly-data-analytic-entity'
 
 @Injectable()
 export class StudentDataAnalyticsService {
-  constructor(private prismaService: PrismaService) {
-  }
+  constructor(private prismaService: PrismaService) {}
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT, {
     name: 'Scheduler Populate user_data fields',
@@ -30,14 +31,15 @@ export class StudentDataAnalyticsService {
       throw new NotFoundException('NO USER IN THE DATABASE')
     }
 
-    const activeSeason = await this.prismaService.season.findMany({
-      where: {
-        isActive: true,
-      },
-    })
-    const seasonId = activeSeason[0].id
     for (const user of users) {
-      await this.prismaService.userGroupSeasonAnalytics.upsert({
+      const activeSeason = await this.prismaService.groupSeason.findMany({
+        where: {
+          groupId: user.groupId,
+          isActive: true,
+        },
+      })
+      const seasonId = activeSeason[0].seasonId
+      await this.prismaService.userGroupSeasonDataAnalytics.upsert({
         where: {
           userId_createdAt: {
             userId: user.id,
@@ -65,7 +67,6 @@ export class StudentDataAnalyticsService {
     console.log('===== populating user_stat ======')
   }
 
-
   async upsert({ userId, groupId, seasonId, createdAt }: UserGroupSeasonDailyAnalyticInput) {
     const userProblems = await this.prismaService.userGroupSeasonTopicProblem.findMany({
       where: {
@@ -75,7 +76,7 @@ export class StudentDataAnalyticsService {
         statusUpdatedAt: createdAt,
       },
     })
-    return this.prismaService.userGroupSeasonAnalytics.upsert({
+    return this.prismaService.userGroupSeasonDataAnalytics.upsert({
       where: {
         userId_createdAt: {
           userId,
@@ -88,7 +89,13 @@ export class StudentDataAnalyticsService {
         seasonId,
         solvedCount: userProblems.filter(up => up.status === UserTopicProblemStatusEnum.SOLVED)
           .length,
-        wrongCount: userProblems.map(up => up.status === UserTopicProblemStatusEnum.SOLVED ? up.numberOfAttempts - 1 : up.numberOfAttempts).reduce((a, b) => a + b, 0),
+        wrongCount: userProblems
+          .map(up =>
+            up.status === UserTopicProblemStatusEnum.SOLVED
+              ? up.numberOfAttempts - 1
+              : up.numberOfAttempts,
+          )
+          .reduce((a, b) => a + b, 0),
         month: new Date().getMonth(),
         week: 0,
         year: new Date().getFullYear(),
@@ -99,37 +106,21 @@ export class StudentDataAnalyticsService {
         seasonId,
         solvedCount: userProblems.filter(up => up.status === UserTopicProblemStatusEnum.SOLVED)
           .length,
-        wrongCount: userProblems.map(up => up.status === UserTopicProblemStatusEnum.SOLVED ? up.numberOfAttempts - 1 : up.numberOfAttempts).reduce((a, b) => a + b, 0),
+        wrongCount: userProblems
+          .map(up =>
+            up.status === UserTopicProblemStatusEnum.SOLVED
+              ? up.numberOfAttempts - 1
+              : up.numberOfAttempts,
+          )
+          .reduce((a, b) => a + b, 0),
       },
     })
   }
 
-
-  async yearlUserStat(seasonId: string, userId: string, startDate?: Date, endDate?: Date) {
-    // const date = end_date ? new Date(end_date) : new Date()
-    // const start_date = new Date(
-    //   `${date.getFullYear() - 1}-${date.getMonth()}-${date.getDate()}`,
-    // )
-    // return this.prismaService.userAnalytics.findMany({
-    //   where: {
-    //     userId: user_id,
-    //     createdAt: {
-    //       lte: end_date,
-    //       gte: start_date,
-    //     },
-    //   },
-    //   include: {
-    //     user: true,
-    //   },
-    //   orderBy: {
-    //     createdAt: 'asc',
-    //   },
-    // })
+  async yearlUserStat(userId: string, seasonId: string, startDate?: Date, endDate?: Date) {
     const date = endDate ? new Date(endDate) : new Date()
-    const start = new Date(
-      `${date.getFullYear() - 1}-${date.getMonth()}-${date.getDate()}`,
-    )
-    return await this.prismaService.userGroupSeasonAnalytics.groupBy({
+    const start = new Date(`${date.getFullYear() - 1}-${date.getMonth()}-${date.getDate()}`)
+    const yearlystat = await this.prismaService.userGroupSeasonDataAnalytics.groupBy({
       by: ['year'],
       where: {
         userId,
@@ -144,15 +135,19 @@ export class StudentDataAnalyticsService {
         solvedCount: true,
         wrongCount: true,
       },
+      orderBy: {
+        year: 'asc',
+      },
     })
+    return yearlystat as unknown as StudentYearlyAnalytic
   }
 
   async weeklyUserStart(userId: string, seasonId: string, startDate?: Date, endDate?: Date) {
     const date = endDate ? new Date(endDate) : new Date()
-    const start = startDate ? new Date(startDate) : new Date(
-      `${date.getFullYear() - 1}-${date.getMonth()}-${date.getDate()}`,
-    )
-    return await this.prismaService.userGroupSeasonAnalytics.groupBy({
+    const start = startDate
+      ? new Date(startDate)
+      : new Date(`${date.getFullYear() - 1}-${date.getMonth()}-${date.getDate()}`)
+    const weeklystat = await this.prismaService.userGroupSeasonDataAnalytics.groupBy({
       by: ['week'],
       where: {
         userId,
@@ -166,15 +161,17 @@ export class StudentDataAnalyticsService {
         solvedCount: true,
         wrongCount: true,
       },
+      orderBy: {
+        week: 'asc',
+      },
     })
+    return weeklystat as unknown as StudentWeeklyAnalytic
   }
 
   async montlyUserStart(userId: string, seasonId: string, startDate?: Date, endDate?: Date) {
     const date = endDate ? new Date(endDate) : new Date()
-    const start = new Date(
-      `${date.getFullYear() - 1}-${date.getMonth()}-${date.getDate()}`,
-    )
-    return await this.prismaService.userGroupSeasonAnalytics.groupBy({
+    const start = new Date(`${date.getFullYear() - 1}-${date.getMonth()}-${date.getDate()}`)
+    const monthlystat = await this.prismaService.userGroupSeasonDataAnalytics.groupBy({
       by: ['month'],
       where: {
         userId,
@@ -188,33 +185,41 @@ export class StudentDataAnalyticsService {
         solvedCount: true,
         wrongCount: true,
       },
+      orderBy: {
+        month: 'asc',
+      },
     })
-  }
 
+    return monthlystat as unknown as StudentWeeklyAnalytic
+  }
 
   async userStat(userId: string, seasonId: string, startDate?: Date, endDate?: Date) {
     const date = endDate ? new Date(endDate) : new Date()
-    const start = startDate ? new Date(startDate) : new Date(
-      `${date.getFullYear() - 1}-${date.getMonth()}-${date.getDate()}`,
-    )
-    const user = await this.prismaService.user.findUniqueOrThrow({
+    const start = startDate
+      ? new Date(startDate)
+      : new Date(`${date.getFullYear() - 1}-${date.getMonth()}-${date.getDate()}`)
+    const user = await this.prismaService.user.findUnique({
       where: {
         id: userId,
       },
     })
-    return this.prismaService.userGroupSeasonAnalytics.findMany({
+
+    if (!user) {
+      throw new NotFoundException('User Not Found With this ID')
+    }
+    const userdailystat = await this.prismaService.userGroupSeasonDataAnalytics.findMany({
       where: {
-        userId,
-        groupId: user.groupId,
-        seasonId,
-        createdAt: {
-          lte: endDate,
-          gte: start,
+        userGroupSeason: {
+          userId,
+          groupId: user.groupId,
+          seasonId,
         },
       },
       orderBy: {
         createdAt: 'asc',
       },
     })
+
+    return userdailystat
   }
 }

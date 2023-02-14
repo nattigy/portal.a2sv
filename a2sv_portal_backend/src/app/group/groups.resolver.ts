@@ -14,8 +14,7 @@ import { PoliciesGuard } from '../../casl/policy/policy.guard'
 
 @Resolver(() => Group)
 export class GroupsResolver {
-  constructor(private readonly groupsService: GroupsService) {
-  }
+  constructor(private readonly groupsService: GroupsService) {}
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.create)
@@ -26,6 +25,7 @@ export class GroupsResolver {
     try {
       return this.groupsService.createGroup(createGroupInput)
     } catch (e) {
+      console.error('Error: ', e)
       throw new BadRequestException('Creating group failed!')
     }
   }
@@ -37,6 +37,7 @@ export class GroupsResolver {
     try {
       return this.groupsService.group(groupId)
     } catch (e) {
+      console.error('Error: ', e)
       throw new BadRequestException('Failed to fetch group info!')
     }
   }
@@ -51,6 +52,7 @@ export class GroupsResolver {
     try {
       return this.groupsService.groups(filterGroupInput, paginationInput)
     } catch (e) {
+      console.error('Error: ', e)
       throw new BadRequestException('Failed to fetch groups!')
     }
   }
@@ -64,27 +66,10 @@ export class GroupsResolver {
     try {
       return this.groupsService.updateGroup(updateGroupInput)
     } catch (e) {
+      console.error('Error: ', e)
       throw new BadRequestException('Failed to update group!')
     }
   }
-
-  // @UseGuards(PoliciesGuard)
-  // @CheckPolicies(GroupAbilities.read)
-  // @Query(() => GroupsPaginated)
-  // async groupsPagination(
-  //   @Args('filterGroupInput', { type: () => FilterGroupInput, nullable: true })
-  //   filterGroupInput?: FilterGroupInput,
-  //   @Args('pageInfoInput', { type: () => PaginationInfoInput, nullable: true })
-  //   pageInfoInput?: PaginationInfoInput,
-  //   @Args('userPaginationInput', { type: () => PaginationInfoInput, nullable: true })
-  //   userPaginationInput?: PaginationInfoInput,
-  // ): Promise<GroupsPaginated> {
-  //   return this.groupsService.groupsPagination(
-  //     filterGroupInput,
-  //     pageInfoInput,
-  //     userPaginationInput,
-  //   )
-  // }
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.delete)
@@ -93,6 +78,7 @@ export class GroupsResolver {
     try {
       return this.groupsService.removeGroup(groupId)
     } catch (e) {
+      console.error('Error: ', e)
       throw new BadRequestException('Failed to remove group!')
     }
   }

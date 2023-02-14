@@ -5,8 +5,9 @@ import { UpdateTopicInput } from '../dto/update-topic.input'
 import { Topic } from '../entities/topic.entity'
 import { TopicResolver } from '../topic.resolver'
 import { TopicService } from '../topic.service'
-import { createTopicStub, topicStub, updateTopicStub } from './stubs/topic.stub'
+import { topicStub } from './stubs/topic.stub'
 import { TopicServiceMock } from './__mocks__/topic-service.mock'
+
 describe('TopicResolver', () => {
   let resolver: TopicResolver
 

@@ -6,7 +6,7 @@ import { PaginationContest } from 'src/common/page/pagination-info'
 import { FilterContestInput } from './dto/filter-contest.input'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { UpdateContestInput } from './dto/update-contest.input'
-import { UseGuards } from '@nestjs/common'
+import { BadRequestException, UseGuards } from '@nestjs/common'
 import { PoliciesGuard } from '../../casl/policy/policy.guard'
 import { CheckPolicies } from '../../casl/policy/policy.decorator'
 import { ContestAbilities } from '../../casl/handler/contest-abilities.handler'
@@ -21,7 +21,12 @@ export class ContestResolver {
   async createContest(
     @Args('createContestInput') createContestInput: CreateContestInput,
   ): Promise<Contest> {
-    return this.contestService.createContest(createContestInput)
+    try {
+      return this.contestService.createContest(createContestInput)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Failed to create contest!')
+    }
   }
 
   @UseGuards(PoliciesGuard)
@@ -31,14 +36,24 @@ export class ContestResolver {
     @Args('filterContestInput', { nullable: true }) filterContestInput?: FilterContestInput,
     @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInput,
   ): Promise<PaginationContest> {
-    return this.contestService.contests(filterContestInput, pageInfoInput)
+    try {
+      return this.contestService.contests(filterContestInput, pageInfoInput)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Failed to load contests!')
+    }
   }
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(ContestAbilities.read)
   @Query(() => Contest)
   async contest(@Args('contestId') contestId: string): Promise<Contest> {
-    return this.contestService.contest(contestId)
+    try {
+      return this.contestService.contest(contestId)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Failed to load contest!')
+    }
   }
 
   @UseGuards(PoliciesGuard)
@@ -47,7 +62,12 @@ export class ContestResolver {
   async updateContest(
     @Args('updateContestInput') updateContestInput: UpdateContestInput,
   ): Promise<Contest> {
-    return this.contestService.update(updateContestInput)
+    try {
+      return this.contestService.update(updateContestInput)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Failed to update contest!')
+    }
   }
 
   @UseGuards(PoliciesGuard)
@@ -57,13 +77,23 @@ export class ContestResolver {
     @Args('contestId') contestId: string,
     @Args('problemIds', { type: () => [String] }) problemIds: string[],
   ): Promise<Contest> {
-    return this.contestService.removeProblemsFromContest(contestId, problemIds)
+    try {
+      return this.contestService.removeProblemsFromContest(contestId, problemIds)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Failed to remove problem!')
+    }
   }
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(ContestAbilities.delete)
   @Mutation(() => Int)
   async removeContest(@Args('contestId') contestId: string): Promise<number> {
-    return this.contestService.removeContest(contestId)
+    try {
+      return this.contestService.removeContest(contestId)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Failed to remove contest!')
+    }
   }
 }

@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { SeasonResolver } from '../season.resolver'
 import { SeasonService } from './../season.service'
 import { SeasonServiceMock } from './season.service.mock'
-import { Season } from './../entities/season.entity'
 import { CreateSeasonInput } from './../dto/create-season.input'
 import { SeasonStub } from './season.stub'
 

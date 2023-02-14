@@ -47,4 +47,3 @@ export class StorageService {
     await this.storage.bucket(this.bucket).file(path).delete({ ignoreNotFound: true })
   }
 }
-

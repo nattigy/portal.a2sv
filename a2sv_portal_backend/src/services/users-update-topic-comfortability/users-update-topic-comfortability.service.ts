@@ -22,15 +22,15 @@ export class UsersUpdateTopicComfortabilityService {
                                         ...updates
                                       }: UpdateUserGroupSeasonTopicInput): Promise<UserGroupSeasonTopic> {
     const { userId, groupId, seasonId, topicId } = id
-    /*
-    1. Find user with userId and throw NotFoundException if doesn't exist
-    check if user is in the same group as groupId provided if not throw "user not in the group" Error
-    2. Get group from user, and search for GroupSeasonTopic if it doesn't exist,
-    throw NotFoundException "topic hasn't been added to your group"
-    3. Check if the groupSeason the user in is active if not throw "season is not active error"
-    4. Upsert UserGroupSeason search for group and throw notFoundException if not found,
-    search for season and throw notFoundException if not found,
-    */
+    /**
+     1. Find user with userId and throw NotFoundException if doesn't exist
+     check if user is in the same group as groupId provided if not throw "user not in the group" Error
+     2. Get group from user, and search for GroupSeasonTopic if it doesn't exist,
+     throw NotFoundException "topic hasn't been added to your group"
+     3. Check if the groupSeason the user in is active if not throw "season is not active error"
+     4. Upsert UserGroupSeason search for group and throw notFoundException if not found,
+     search for season and throw notFoundException if not found,
+     **/
     const group = await this.prismaService.group.findUnique({ where: { id: groupId } })
     const season = await this.prismaService.season.findUnique({ where: { id: seasonId } })
     if (!season) {
@@ -61,16 +61,22 @@ export class UsersUpdateTopicComfortabilityService {
       where: { userId_groupId_seasonId: { userId, groupId, seasonId } },
       data: {},
     })
+    console.log("userGSTP")
+    console.log(userGSTP)
+    console.log("updates.comfortLevel")
+    console.log(updates.comfortLevel)
+    console.log(updates.comfortLevel
+      ? updates.comfortLevel : userGSTP
+        ? userGSTP.comfortLevel : ComfortLevelEnum.UNCOMFORTABLE)
+    // return userGSTP
     return this.userGroupSeasonTopicRepository.upsert({
       where: {
         userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },
       },
       data: {
-        comfortLevel: userGSTP
-          ? updates.comfortLevel
-            ? updates.comfortLevel
-            : userGSTP.comfortLevel
-          : ComfortLevelEnum.UNCOMFORTABLE,
+        comfortLevel: updates.comfortLevel
+          ? updates.comfortLevel : userGSTP
+            ? userGSTP.comfortLevel : ComfortLevelEnum.UNCOMFORTABLE,
       },
     })
   }

@@ -1,5 +1,4 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { DateTimeFilter } from '../../../common/filter-types/date-filter'
 
 @InputType()
 export class FilterUserGroupSeasonTopicProblemInput {

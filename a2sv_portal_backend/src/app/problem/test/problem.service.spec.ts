@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { TopicRepository } from 'src/app/topic/topic.repository'
 import { PaginationProblem } from 'src/common/page/pagination-info'
 import { CreateProblemInput } from '../dto/create-problem.input'
 import { UpdateProblemInput } from '../dto/update-problem.input'

@@ -1,4 +1,5 @@
 import { SeasonTypeEnum } from '@prisma/client'
+
 export const SeasonStub = () => ({
   id: '1',
   name: 'Camp Season',

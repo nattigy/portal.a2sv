@@ -14,7 +14,7 @@
     "deploy": "gcloud app deploy --quiet",
     "gcp-build": "npm run build",
     "prebuild": "rimraf dist",
-    "build": "prisma generate && nest build",
+    "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "node dist/src/main.js",
     "dev": "nest start --watch",
@@ -28,8 +28,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@google-cloud/storage": "^6.9.1",
     "@casl/ability": "^6.3.3",
+    "@google-cloud/storage": "^6.9.1",
     "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/apollo": "^10.1.7",
     "@nestjs/cli": "^9.1.9",
@@ -80,6 +80,7 @@
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "jest": "^29.4.1",
     "jest-mock-extended": "^3.0.1",
     "prettier": "^2.8.3",

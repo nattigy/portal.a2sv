@@ -5,11 +5,18 @@ import { SeasonTopicService } from './season-topic.service'
 import descriptions from './season-topic.doc'
 import { PaginationSeasonTopic } from '../../common/page/pagination-info'
 import { PaginationInput } from '../../common/page/pagination.input'
+import { UseGuards } from '@nestjs/common'
+import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
+import { PoliciesGuard } from '../../casl/policy/policy.guard'
+import { CheckPolicies } from '../../casl/policy/policy.decorator'
+import { SeasonTopicAbilities } from '../../casl/handler/season-topic-abilities.handler'
 
 @Resolver(() => SeasonTopic)
 export class SeasonTopicResolver {
   constructor(private readonly seasonTopicService: SeasonTopicService) {}
 
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(SeasonTopicAbilities.create)
   @Mutation(() => SeasonTopic, { description: descriptions.createSeasonTopic })
   async addTopicsToASeason(
     @Args('createSeasonTopicInput')
@@ -18,6 +25,8 @@ export class SeasonTopicResolver {
     return this.seasonTopicService.addTopicsToASeason(createSeasonTopicInput)
   }
 
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(SeasonTopicAbilities.read)
   @Query(() => SeasonTopic, { description: descriptions.seasonTopic })
   async seasonTopic(
     @Args('seasonTopicId') seasonTopicId: SeasonTopicId,
@@ -25,6 +34,8 @@ export class SeasonTopicResolver {
     return this.seasonTopicService.seasonTopic(seasonTopicId)
   }
 
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(SeasonTopicAbilities.read)
   @Query(() => PaginationSeasonTopic, { description: descriptions.seasonTopics })
   async seasonsTopics(
     @Args('seasonId') seasonId: string,
@@ -33,6 +44,8 @@ export class SeasonTopicResolver {
     return this.seasonTopicService.seasonsTopics({ seasonId }, paginationInput)
   }
 
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(SeasonTopicAbilities.delete)
   @Mutation(() => SeasonTopic, { description: descriptions.removeSeasonTopic })
   async removeSeasonTopic(@Args('seasonTopicId') seasonTopicId: SeasonTopicId) {
     return this.seasonTopicService.removeSeasonTopic(seasonTopicId)

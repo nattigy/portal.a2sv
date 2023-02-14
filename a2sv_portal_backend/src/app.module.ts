@@ -14,19 +14,21 @@ import { UserProfileModule } from './app/user-profile/user-profile.module'
 import { PrismaModule } from './prisma/prisma.module'
 // import { DataAnalyticsModule } from './data-analytics/data-analytics.module'
 import { ScheduleModule } from '@nestjs/schedule'
-import { ServicesModule } from './services/services.module'
 import { MailModule } from './mail/mail.module'
 import { MailerModule } from '@nestjs-modules/mailer'
 import { join } from 'path'
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter'
-import { StorageModule } from './storage/storage.module';
-import {
-  UsersUpdateTopicComfortabilityModule,
-} from './services/users-update-topic-comfortability/users-update-topic-comfortability.module'
-import {
-  UsersUpdateProblemStatusModule
-} from './services/users-update-problem-status/users-update-problem-status.module'
+import { StorageModule } from './storage/storage.module'
+import { UsersUpdateTopicComfortabilityModule } from './services/users-update-topic-comfortability/users-update-topic-comfortability.module'
+import { UsersUpdateProblemStatusModule } from './services/users-update-problem-status/users-update-problem-status.module'
 import { StudentDataAnalyticsModule } from './app/user-group-season-analytics/student-data-analytics.module'
+import { ManageGroupSeasonContestModule } from './services/manage-group-season-contest/manage-group-season-contest.module';
+import { UserUpdateContestProblemModule } from './services/user-update-contest-problem/user-update-contest-problem.module';
+import { ContestStatsModule } from './services/contest-stats/contest-stats.module';
+import { ContestLeaderboardModule } from './services/contest-leaderboard/contest-leaderboard.module';
+import { ResourceModule } from './app/resource/resource.module'
+import { ManageGroupSeasonModule } from './services/manage-group-season/manage-group-season.module';
+import { ManageUserGroupSeasonModule } from './services/manage-user-group-season/manage-user-group-season.module';
 
 @Module({
   imports: [
@@ -77,17 +79,22 @@ import { StudentDataAnalyticsModule } from './app/user-group-season-analytics/st
     PrismaModule,
     CaslModule,
     TagModule,
+    ResourceModule,
     ProblemModule,
     TopicModule,
     UserProfileModule,
     PrismaModule,
-    ServicesModule,
     UsersUpdateProblemStatusModule,
     StorageModule,
     UsersUpdateTopicComfortabilityModule,
     StudentDataAnalyticsModule,
+    ManageGroupSeasonModule,
+    ManageUserGroupSeasonModule,
+    // ManageGroupSeasonContestModule,
+    // UserUpdateContestProblemModule,
+    // ContestStatsModule,
+    // ContestLeaderboardModule,
   ],
   providers: [AppService, AppResolver],
 })
-export class AppModule {
-}
+export class AppModule {}

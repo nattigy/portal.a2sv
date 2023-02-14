@@ -5,11 +5,7 @@ import { UserGroupSeasonModule } from '../../app/user-group-season/user-group-se
 import { UserGroupSeasonTopicModule } from '../../app/user-group-season-topic/user-group-season-topic.module'
 
 @Module({
-  imports: [
-    UserGroupSeasonModule,
-    UserGroupSeasonTopicModule,
-  ],
+  imports: [UserGroupSeasonModule, UserGroupSeasonTopicModule],
   providers: [UsersUpdateTopicComfortabilityResolver, UsersUpdateTopicComfortabilityService],
 })
-export class UsersUpdateTopicComfortabilityModule {
-}
+export class UsersUpdateTopicComfortabilityModule {}

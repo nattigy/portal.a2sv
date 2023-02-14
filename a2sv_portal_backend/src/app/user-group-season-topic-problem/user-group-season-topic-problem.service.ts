@@ -1,12 +1,9 @@
 import { UpdateUserGroupSeasonTopicProblemInput } from './dto/update-user-group-season-topic-problem.input'
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { UserGroupSeasonTopicProblemRepository } from './user-group-season-topic-problem.repository'
 import { PrismaService } from '../../prisma/prisma.service'
 import { UserGroupSeasonTopicProblemId } from './dto/user-group-season-topic-problem-id.input'
 import { UserGroupSeasonTopicProblem } from './entities/user-group-season-topic-problem.entity'
-import { GroupSeasonTopicProblem } from '../group-season-topic-problem/entities/group-season-topic-problem.entity'
-import { UserTopicProblemStatusEnum } from '@prisma/client'
-
 
 @Injectable()
 export class UserGroupSeasonTopicProblemService {
@@ -43,7 +40,7 @@ export class UserGroupSeasonTopicProblemService {
     //     where:{
     //       userId_createdAt:{
     //         userId,
-    //         createdAt: today 
+    //         createdAt: today
     //     }
     //     },
     //     data: {
@@ -57,7 +54,7 @@ export class UserGroupSeasonTopicProblemService {
     //     where:{
     //       userId_createdAt:{
     //         userId,
-    //         createdAt: today 
+    //         createdAt: today
     //     }
     //     },
     //     data: {
