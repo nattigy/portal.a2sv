@@ -79,15 +79,15 @@ export class UserProfileService {
 
   async updateUserProfile({ userId, ...updates }: UpdateUserProfileInput) {
     if (updates.photoUrl) {
-      // TOD0
       // Delete previous image file from GCS
       const user = await this.userService.user({ id: userId })
-      const profile = await this.userProfileRepository.findOne({ id: user.userProfile.id })
+      const profile = await this.userProfile(user.userProfile?.id)
 
-      await this.storageService.delete(profile.photoUrl)
+      if (profile.photoUrl) {
+        await this.storageService.delete(profile.photoUrl)
+      }
 
       const url = await this.storageService.save(updates.photoUrl, userId)
-      console.log(url, 'url...')
       updates = { ...updates, photoUrl: url }
     }
     return this.userProfileRepository.update({
@@ -103,10 +103,9 @@ export class UserProfileService {
 
   async remove(id: string) {
     try {
-      // TOD0
       // Delete image file from GCS
       const profile = await this.userProfile(id)
-      if (profile.photoUrl) {
+      if (profile?.photoUrl) {
         await this.storageService.delete(profile.photoUrl)
       }
       await this.userProfileRepository.remove({ id })

@@ -1,5 +1,6 @@
 import { Storage } from '@google-cloud/storage'
 import { Injectable } from '@nestjs/common'
+import { BadRequestException } from '@nestjs/common/exceptions'
 import StorageConfig from 'storage-config'
 
 @Injectable()
@@ -33,17 +34,26 @@ export class StorageService {
     // const object = metadata?.reduce((obj, item) => Object.assign(obj, item), {})
     const file = this.storage.bucket(this.bucket).file(path)
     const stream = file.createWriteStream()
-    stream.on('finish', async () => {
-      return await file.setMetadata({
-        // metadata: object,
+
+    try {
+      stream.on('finish', async () => {
+        return await file.setMetadata({
+          // metadata: object,
+        })
       })
-    })
-    stream.end(fileBuffer)
+      stream.end(fileBuffer)
+    } catch (e) {
+      throw new BadRequestException('Error uploading photo to GCS!')
+    }
 
     return `${this.storageURL}/${this.bucket}/${file.name}`
   }
 
   async delete(path: string) {
-    await this.storage.bucket(this.bucket).file(path).delete({ ignoreNotFound: true })
+    try {
+      await this.storage.bucket(this.bucket).file(path.slice(50,)).delete({ ignoreNotFound: true })
+    } catch (e) {
+      return new BadRequestException('Error removing old photo from GCS!')
+    }
   }
 }
