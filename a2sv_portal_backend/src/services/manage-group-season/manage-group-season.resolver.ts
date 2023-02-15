@@ -173,12 +173,16 @@ export class ManageGroupSeasonResolver {
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupSeasonTopicAbilities.delete)
-  @Mutation(() => GroupSeasonTopic)
-  async removeGroupSeasonTopic(
-    @Args('groupSeasonTopicId') groupSeasonTopicId: GroupSeasonTopicId,
+  @Mutation(() => Int)
+  async removeGroupSeasonTopics(
+    @Args('groupSeasonId') groupSeasonId: GroupSeasonId,
+    @Args('problemIds', { type: () => [String] }) topicIds: string[],
   ) {
     try {
-      return this.groupSeasonTopicService.removeGroupSeasonTopic(groupSeasonTopicId)
+      for (const topicId of topicIds) {
+        await this.groupSeasonTopicService.removeGroupSeasonTopic({ ...groupSeasonId, topicId })
+      }
+      return topicIds.length
     } catch (e) {
       console.error('Error: ', e)
       throw new BadRequestException('Failed to remove group season topic!')
