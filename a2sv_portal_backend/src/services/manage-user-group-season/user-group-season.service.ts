@@ -114,6 +114,9 @@ export class UserGroupSeasonService {
             acceptanceRate: 0,
             averageContestRating: 0,
             totalContestsAttended: 0,
+            easyCount: 0,
+            mediumCount: 0,
+            hardCount: 0,
             userGroupSeasonTopics: [],
             userGroupSeasonContests: [],
             user,
@@ -142,6 +145,15 @@ export class UserGroupSeasonService {
       const totalAcceptedSubmissions = uTopics
         .map(t => t.totalAcceptedSubmissions)
         .reduce((a, b) => a + b, 0)
+      const easyCount = uTopics
+        .flatMap(t => t.userGroupSeasonTopicProblems.filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
+          .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.EASY), 1).length
+      const mediumCount = uTopics
+        .flatMap(t => t.userGroupSeasonTopicProblems.filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
+          .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.MEDIUM), 1).length
+      const hardCount = uTopics
+        .flatMap(t => t.userGroupSeasonTopicProblems.filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
+          .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.HARD), 1).length
       const acceptanceRate =
         (uTopics.map(t => t.comfortabilityPercentage).reduce((a, b) => a + b, 0) /
           uTopics.length) *
@@ -151,8 +163,12 @@ export class UserGroupSeasonService {
         totalSubmissions,
         totalAcceptedSubmissions,
         acceptanceRate,
+        easyCount,
+        mediumCount,
+        hardCount,
       }
     }
+    console.log(userStats)
     return userStats
   }
 

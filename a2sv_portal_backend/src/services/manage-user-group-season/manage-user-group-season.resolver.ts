@@ -35,7 +35,7 @@ export class ManageUserGroupSeasonResolver {
     return this.userGroupSeasonService.userGroupSeason(userGroupSeasonId)
   }
 
-  @Query(() => UserGroupSeason)
+  @Query(() => [UserGroupSeason])
   async userGroupSeasons(
     @Args('filterUserGroupSeasonInput') filterUserGroupSeasonInput: FilterUserGroupSeasonInput,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
