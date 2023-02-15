@@ -57,10 +57,12 @@ Table Topic {
 
 Table Resource {
   id String [pk]
-  type String [not null]
+  type ResourceTypeEnum [not null]
   name String [not null]
   description String [not null]
   link String [unique, not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
   topic Topic [not null]
 }
 
@@ -493,6 +495,13 @@ Enum UserTopicProblemStatusEnum {
   SOLVED
   NOT_SOLVED
   UNABLE_TO_SOLVE
+}
+
+Enum ResourceTypeEnum {
+  VEDIO
+  PPT
+  PDF
+  DOC
 }
 
 Ref: Group.headId - User.id

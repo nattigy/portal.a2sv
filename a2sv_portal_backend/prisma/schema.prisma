@@ -67,10 +67,12 @@ model Topic {
 
 model Resource{
   id                   String                 @id @default(uuid())
-  type                 String
+  type                 ResourceTypeEnum
   name                 String
   description          String
   link                 String                 @unique               
+  createdAt            DateTime?              @default(now())
+  updatedAt            DateTime?              @updatedAt
   topic                Topic[]
 }
 
@@ -475,6 +477,13 @@ enum UserTopicProblemStatusEnum {
   UNABLE_TO_SOLVE
 }
 
+enum ResourceTypeEnum {
+  VEDIO
+  PPT
+  PDF
+  DOC
+}
+
 //model ProgrammingPlatformHandle {
 //  id             String      @id @default(uuid())
 //  profileId      String
@@ -497,3 +506,5 @@ enum UserTopicProblemStatusEnum {
 //  @@id([problemId, userId])
 //}
 //
+
+

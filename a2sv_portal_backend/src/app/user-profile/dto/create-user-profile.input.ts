@@ -36,6 +36,9 @@ export class CreateUserProfileInput {
 
   @Field()
   github: string
+  
+  @Field()
+  email: string
 
   @Field()
   linkedin: string

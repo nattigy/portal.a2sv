@@ -24,7 +24,7 @@ export class ResourceResolver {
 
   @Mutation(() => Resource)
   async updateResource(
-    @Args('updateTagInput') updateResourceInput: UpdateResourceInput,
+    @Args('updateResourceInput') updateResourceInput: UpdateResourceInput,
   ): Promise<Resource> {
     try {
       return await this.resourceService.updateResource(

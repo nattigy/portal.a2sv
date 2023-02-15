@@ -13,16 +13,16 @@ import { UpdateGroupSeasonContestInput } from '../../app/group-season-contest/dt
 
 @Injectable()
 export class ManageGroupSeasonContestService {
-  // // TODO: create constructor for groupSeasonContestRepository
-  // // TODO: add seasonContest service
-  // constructor(
-  //   private readonly groupSeasonContestRepository: GroupSeasonContestRepository,
-  //   private readonly groupSeasonRepository: GroupSeasonRepository,
-  //   private readonly prismaService: PrismaService,
-  //   private readonly contestRepository: ContestRepository,
-  // ) {
-  // }
-  //
+  // TODO: create constructor for groupSeasonContestRepository
+  // TODO: add seasonContest service
+  constructor(
+    private readonly groupSeasonContestRepository: GroupSeasonContestRepository,
+    private readonly groupSeasonRepository: GroupSeasonRepository,
+    private readonly prismaService: PrismaService,
+    private readonly contestRepository: ContestRepository,
+  ) {
+  }
+  
   // async addContestToAGroupSeason({
   //                                  groupId,
   //                                  seasonId,

@@ -46,11 +46,14 @@ export class UserProfileRepository {
     data: Prisma.UserProfileUpdateInput
   }): Promise<UserProfile> {
     const { where, data } = params
-    return this.prismaService.userProfile.update({
+    console.log(where, data, "user profile check")
+    const ans = await this.prismaService.userProfile.update({
       data,
-      where,
+      where:{userId:"8dbbc720-7f58-4a48-8bd0-d9a40c06f65e"},
       include: { user: true, userProfileAddress: true },
     })
+    console.log(ans, "after")
+    return ans
   }
 
   async remove(where: Prisma.UserProfileWhereUniqueInput) {

@@ -29,7 +29,7 @@ export class TopicService {
       description,
       resources:{
         connectOrCreate: resources.map(t => ({
-          where:{ type: t.type, name: t.name, description:t.description, link:t.link},
+          where:{ link:t.link},
           create: { type: t.type, name: t.name, description:t.description, link:t.link}
         }))
       }
