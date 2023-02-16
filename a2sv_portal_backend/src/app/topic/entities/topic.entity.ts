@@ -11,9 +11,6 @@ export class Topic {
 
   @Field({ description: 'Description of the topic', nullable:true})
   description?: string
-
-  @Field(() => [Resource])
-  resources?: Resource[]
   
   @Field(() => Date, { nullable: true })
   createdAt?: Date

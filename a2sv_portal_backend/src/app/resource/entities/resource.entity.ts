@@ -23,6 +23,8 @@ export class Resource {
 
   @Field(() => Date, { nullable: true })
   updatedAt?: Date
+  
+  
 }
 
 registerEnumType(ResourceTypeEnum, {name: 'ResourceTypeEnum'})

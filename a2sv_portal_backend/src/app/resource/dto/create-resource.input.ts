@@ -1,5 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { Resource, ResourceTypeEnum } from '@prisma/client'
+import { ResourceTypeEnum } from '@prisma/client'
+import { CreateSeasonTopicInput } from 'src/app/season-topic/dto/create-season-topic.input'
 // import { CreateTopicInput } from 'src/app/topic/dto/create-topic.input'
 
 @InputType()
@@ -15,7 +16,7 @@ export class CreateResourceInput {
 
   @Field()
   link: string
-
-  // @Field(() => [CreateTopicInput])
-  // topics: CreateTopicInput[]
+  
+  @Field(() => [CreateSeasonTopicInput])
+  seasonTopics: CreateSeasonTopicInput[]
 }

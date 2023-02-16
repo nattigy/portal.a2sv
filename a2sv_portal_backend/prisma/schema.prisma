@@ -5,7 +5,6 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DB_URL")
- 
 }
 
 generator dbml {
@@ -65,15 +64,18 @@ model Topic {
   UserGroupSeasonTopic UserGroupSeasonTopic[]
 }
 
-model Resource{
-  id                   String                 @id @default(uuid())
-  type                 ResourceTypeEnum
-  name                 String
-  description          String
-  link                 String                 @unique               
-  createdAt            DateTime?              @default(now())
-  updatedAt            DateTime?              @updatedAt
-  topic                Topic[]
+model Resource {
+  id                  String                @id @default(uuid())
+  type                ResourceTypeEnum
+  name                String
+  description         String
+  link                String                @unique
+  createdAt           DateTime?             @default(now())
+  updatedAt           DateTime?             @updatedAt
+  Topic               Topic?                @relation(fields: [topicId], references: [id])
+  topicId             String?
+  seasonId            String?
+  seasonTopicResource SeasonTopicResource[]
 }
 
 model Problem {
@@ -112,14 +114,14 @@ model User {
 }
 
 model SeasonTopic {
-  seasonId            String
-  topicId             String
-  createdAt           DateTime?            @default(now())
-  updatedAt           DateTime?            @updatedAt
-  season              Season               @relation(fields: [seasonId], references: [id], onDelete: Cascade)
-  topic               Topic                @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  seasonTopicProblems SeasonTopicProblem[]
-  groupSeasonTopics   GroupSeasonTopic[]
+  seasonId             String
+  topicId              String
+  createdAt            DateTime?             @default(now())
+  updatedAt            DateTime?             @updatedAt
+  season               Season                @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+  topic                Topic                 @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  seasonTopicProblems  SeasonTopicProblem[]
+  groupSeasonTopics    GroupSeasonTopic[]
 
   @@id([seasonId, topicId])
 }
@@ -135,6 +137,18 @@ model SeasonTopicProblem {
   groupSeasonTopicProblems GroupSeasonTopicProblem[]
 
   @@id([seasonId, topicId, problemId])
+}
+
+model SeasonTopicResource {
+  seasonId    String
+  topicId     String
+  resourceId  String
+  createdAt   DateTime?   @default(now())
+  updatedAt   DateTime?   @updatedAt
+ 
+  resource    Resource    @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@id([seasonId, topicId, resourceId])
 }
 
 model GroupSeason {
@@ -478,7 +492,7 @@ enum UserTopicProblemStatusEnum {
 }
 
 enum ResourceTypeEnum {
-  VEDIO
+  VIDEO
   PPT
   PDF
   DOC
@@ -506,5 +520,3 @@ enum ResourceTypeEnum {
 //  @@id([problemId, userId])
 //}
 //
-
-

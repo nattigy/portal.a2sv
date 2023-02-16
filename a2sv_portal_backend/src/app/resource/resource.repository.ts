@@ -27,9 +27,9 @@ export class ResourceRepository {
       take,
       where,
       orderBy,
-      include: {
-        topic: true,
-      },
+      // include: {
+      //   seasonTopic: true,
+      // },
     })
   }
 
@@ -38,9 +38,9 @@ export class ResourceRepository {
   async findOne(where: Prisma.ResourceWhereInput) {
     return this.prismaService.resource.findFirst({
       where,
-      include: {
-        topic: true,
-      },
+      // include: {
+      //   topic: true,
+      // },
     })
   }
   async update(params:{
@@ -52,9 +52,9 @@ export class ResourceRepository {
         data,
       where,
       
-      include: {
-        topic: true,
-      },
+      // include: {
+      //   topic: true,
+      // },
     })
   }
 

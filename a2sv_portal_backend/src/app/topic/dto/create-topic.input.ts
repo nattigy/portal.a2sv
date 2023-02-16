@@ -9,7 +9,4 @@ export class CreateTopicInput {
   @Field({nullable: true})
   description?: string
 
-  @Field(() => [CreateResourceInput])
-  resources?: CreateResourceInput[]
-
 }

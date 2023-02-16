@@ -63,7 +63,11 @@ Table Resource {
   link String [unique, not null]
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
-  topic Topic [not null]
+  Topic Topic
+  topicId String
+  SeasonTopic SeasonTopic
+  seasonId String
+  seasonTopicResource SeasonTopicResource [not null]
 }
 
 Table Problem {
@@ -108,6 +112,7 @@ Table SeasonTopic {
   updatedAt DateTime
   season Season [not null]
   topic Topic [not null]
+  resources Resource [not null]
   seasonTopicProblems SeasonTopicProblem [not null]
   groupSeasonTopics GroupSeasonTopic [not null]
 
@@ -128,6 +133,19 @@ Table SeasonTopicProblem {
 
   indexes {
     (seasonId, topicId, problemId) [pk]
+  }
+}
+
+Table SeasonTopicResource {
+  seasonId String [not null]
+  topicId String [not null]
+  resourceId String [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  resource Resource [not null]
+
+  indexes {
+    (seasonId, topicId, resourceId) [pk]
   }
 }
 
@@ -427,11 +445,6 @@ Table Tag {
   problems Problem [not null]
 }
 
-Table ResourceToTopic {
-  resourcesId String [ref: > Resource.id]
-  topicId String [ref: > Topic.id]
-}
-
 Table ProblemToTag {
   tagsId String [ref: > Tag.id]
   problemsId String [ref: > Problem.id]
@@ -498,13 +511,17 @@ Enum UserTopicProblemStatusEnum {
 }
 
 Enum ResourceTypeEnum {
-  VEDIO
+  VIDEO
   PPT
   PDF
   DOC
 }
 
 Ref: Group.headId - User.id
+
+Ref: Resource.topicId > Topic.id
+
+Ref: Resource.(seasonId, topicId) > SeasonTopic.(seasonId, topicId)
 
 Ref: Problem.contestId > Contest.id
 
@@ -517,6 +534,8 @@ Ref: SeasonTopic.topicId > Topic.id [delete: Cascade]
 Ref: SeasonTopicProblem.(seasonId, topicId) > SeasonTopic.(seasonId, topicId) [delete: Cascade]
 
 Ref: SeasonTopicProblem.problemId > Problem.id [delete: Cascade]
+
+Ref: SeasonTopicResource.resourceId > Resource.id [delete: Cascade]
 
 Ref: GroupSeason.groupId > Group.id [delete: Cascade]
 

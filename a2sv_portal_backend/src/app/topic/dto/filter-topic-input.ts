@@ -13,9 +13,6 @@ export class FilterTopicInput {
 
   @Field(() => StringFilter, { nullable: true })
   description?: StringFilter
-
-  @Field(() => [String], {nullable: true})
-  resources?: string[]
   
   @Field(() => DateTimeFilter, { nullable: true })
   createdAt?: DateTimeFilter

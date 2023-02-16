@@ -12,6 +12,4 @@ export class UpdateTopicInput {
   @Field({nullable:true})
   description?: string
 
-  @Field(() => [CreateResourceInput], {nullable:true})
-  resources?: CreateResourceInput[]
 }

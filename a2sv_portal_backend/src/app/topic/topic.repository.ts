@@ -8,7 +8,7 @@ export class TopicRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.TopicCreateInput): Promise<Topic> {
-    return this.prismaService.topic.create({ data, include: { resources: true } })
+    return this.prismaService.topic.create({ data })
   }
 
   async count(where: Prisma.TopicWhereInput): Promise<number> {
@@ -26,13 +26,12 @@ export class TopicRepository {
       skip,
       take,
       where,
-      orderBy,
-      include: { resources: true },
+      orderBy
     })
   }
 
   async findOne(where: Prisma.TopicWhereUniqueInput): Promise<Topic> {
-    return this.prismaService.topic.findUnique({ where, include: { resources: true } })
+    return this.prismaService.topic.findUnique({ where })
   }
 
   async update(params: {
@@ -40,7 +39,7 @@ export class TopicRepository {
     data: Prisma.TopicUpdateInput
   }): Promise<Topic> {
     const { where, data } = params
-    return this.prismaService.topic.update({ data, where, include: { resources: true } })
+    return this.prismaService.topic.update({ data, where})
   }
 
   async remove(where: Prisma.TopicWhereUniqueInput) {
