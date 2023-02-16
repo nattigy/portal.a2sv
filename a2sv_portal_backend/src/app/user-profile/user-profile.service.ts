@@ -22,8 +22,8 @@ export class UserProfileService {
 
   async createUserProfile(createUserProfileInput: CreateUserProfileInput, user: User) {
     if (createUserProfileInput.photoUrl) {
-      const fileName = await this.storageService.save(createUserProfileInput.photoUrl, user.id)
-      createUserProfileInput = { ...createUserProfileInput, photoUrl: fileName }
+      const url = await this.storageService.save(createUserProfileInput.photoUrl, user.id)
+      createUserProfileInput = { ...createUserProfileInput, photoUrl: url }
     }
     return this.userProfileRepository.create({
       ...createUserProfileInput,
@@ -42,18 +42,18 @@ export class UserProfileService {
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationUserProfile> {
     const count = await this.userProfileRepository.count(filterUserProfileInput)
-    let userProfiles: UserProfile[] = await this.userProfileRepository.findAll({
+    const userProfiles: UserProfile[] = await this.userProfileRepository.findAll({
       where: filterUserProfileInput,
     })
 
-    userProfiles = await Promise.all(
-      userProfiles.map(async userProfile => {
-        return {
-          ...userProfile,
-          photoUrl: await this.storageService.get(userProfile.photoUrl),
-        }
-      }),
-    )
+    // userProfiles = await Promise.all(
+    //   userProfiles.map(async userProfile => {
+    //     return {
+    //       ...userProfile,
+    //       photoUrl: await this.storageService.get(userProfile.photoUrl),
+    //     }
+    //   }),
+    // )
 
     return {
       items: userProfiles,
@@ -66,28 +66,29 @@ export class UserProfileService {
   }
 
   async userProfile(id: string): Promise<UserProfile> {
-    let profile = await this.userProfileRepository.findOne({
+    return await this.userProfileRepository.findOne({
       id,
     })
 
-    if (profile.photoUrl) {
-      profile = { ...profile, photoUrl: await this.storageService.get(profile.photoUrl) }
-    }
+    // if (profile.photoUrl) {
+    //   profile = { ...profile, photoUrl: await this.storageService.get(profile.photoUrl) }
+    // }
 
-    return profile
+    // return profile
   }
 
   async updateUserProfile({ userId, ...updates }: UpdateUserProfileInput) {
     if (updates.photoUrl) {
-      // TOD0
       // Delete previous image file from GCS
       const user = await this.userService.user({ id: userId })
-      const profile = await this.userProfileRepository.findOne({ id: user.userProfile.id })
+      const profile = await this.userProfile(user.userProfile?.id)
 
-      await this.storageService.delete(profile.photoUrl)
+      if (profile.photoUrl) {
+        await this.storageService.delete(profile.photoUrl)
+      }
 
-      const fileName = await this.storageService.save(updates.photoUrl, userId)
-      updates = { ...updates, photoUrl: fileName }
+      const url = await this.storageService.save(updates.photoUrl, userId)
+      updates = { ...updates, photoUrl: url }
     }
     return this.userProfileRepository.update({
       where: {
@@ -102,10 +103,9 @@ export class UserProfileService {
 
   async remove(id: string) {
     try {
-      // TOD0
       // Delete image file from GCS
       const profile = await this.userProfile(id)
-      if (profile.photoUrl) {
+      if (profile?.photoUrl) {
         await this.storageService.delete(profile.photoUrl)
       }
       await this.userProfileRepository.remove({ id })
