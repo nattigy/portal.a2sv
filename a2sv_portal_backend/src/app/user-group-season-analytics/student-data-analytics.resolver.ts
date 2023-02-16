@@ -10,11 +10,12 @@ export class StudentDataAnalyticsResolver {
   constructor(private readonly studentDataAnalyticsService: StudentDataAnalyticsService) {}
 
   @Query(() => [StudentDataAnalytic], { name: 'Studentdailystat' })
-  findOne(
+  studentDailyStat(
     @Args('user_id', { type: () => String }) userId: string,
-    @Args('season_id', { type: () => String }) seasonId: string
+    @Args('start_date', { type: () => Date, nullable: true }) startDate?: Date,
+    @Args('end_date', { type: () => Date, nullable: true }) endDate?: Date,
   ): Promise<StudentDataAnalytic[]> {
-    return this.studentDataAnalyticsService.userStat(userId, seasonId)
+    return this.studentDataAnalyticsService.userStat(userId, startDate,endDate)
   }
 
   @Query(() => [StudentWeeklyAnalytic], { name: 'Studentweeklystat' })
