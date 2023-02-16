@@ -61,14 +61,6 @@ export class UsersUpdateTopicComfortabilityService {
       where: { userId_groupId_seasonId: { userId, groupId, seasonId } },
       data: {},
     })
-    console.log("userGSTP")
-    console.log(userGSTP)
-    console.log("updates.comfortLevel")
-    console.log(updates.comfortLevel)
-    console.log(updates.comfortLevel
-      ? updates.comfortLevel : userGSTP
-        ? userGSTP.comfortLevel : ComfortLevelEnum.UNCOMFORTABLE)
-    // return userGSTP
     return this.userGroupSeasonTopicRepository.upsert({
       where: {
         userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },

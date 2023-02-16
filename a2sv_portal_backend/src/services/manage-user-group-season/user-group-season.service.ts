@@ -6,6 +6,7 @@ import { UserGroupSeasonRepository } from '../../app/user-group-season/user-grou
 import { UserGroupSeasonTopicService } from './user-group-season-topic.service'
 import { PrismaService } from '../../prisma/prisma.service'
 import { UserGroupSeason } from 'src/app/user-group-season/entities/user-group-season.entity'
+import { ProblemDifficultyTypeEnum, UserTopicProblemStatusEnum } from '@prisma/client'
 
 @Injectable()
 export class UserGroupSeasonService {
@@ -39,6 +40,9 @@ export class UserGroupSeasonService {
         totalSubmissions: 0,
         totalAcceptedSubmissions: 0,
         acceptanceRate: 0,
+        easyCount: 0,
+        mediumCount: 0,
+        hardCount: 0,
         averageContestRating: 0,
         totalContestsAttended: 0,
         userGroupSeasonTopics: [],
@@ -51,6 +55,15 @@ export class UserGroupSeasonService {
       const totalAcceptedSubmissions = userTopics.items
         .map(t => t.totalAcceptedSubmissions)
         .reduce((a, b) => a + b, 0)
+      const easyCount = userTopics.items
+        .flatMap(t => t.userGroupSeasonTopicProblems.filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
+          .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.EASY), 1).length
+      const mediumCount = userTopics.items
+        .flatMap(t => t.userGroupSeasonTopicProblems.filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
+          .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.MEDIUM), 1).length
+      const hardCount = userTopics.items
+        .flatMap(t => t.userGroupSeasonTopicProblems.filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
+          .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.HARD), 1).length
       userStat = {
         groupId,
         seasonId,
@@ -62,6 +75,9 @@ export class UserGroupSeasonService {
         acceptanceRate: (totalAcceptedSubmissions / totalSubmissions) * 100,
         averageContestRating: 0,
         totalContestsAttended: 0,
+        easyCount,
+        mediumCount,
+        hardCount,
         userGroupSeasonTopics: userTopics.items,
         userGroupSeasonContests: [],
       }
@@ -98,6 +114,9 @@ export class UserGroupSeasonService {
             acceptanceRate: 0,
             averageContestRating: 0,
             totalContestsAttended: 0,
+            easyCount: 0,
+            mediumCount: 0,
+            hardCount: 0,
             userGroupSeasonTopics: [],
             userGroupSeasonContests: [],
             user,
@@ -126,6 +145,15 @@ export class UserGroupSeasonService {
       const totalAcceptedSubmissions = uTopics
         .map(t => t.totalAcceptedSubmissions)
         .reduce((a, b) => a + b, 0)
+      const easyCount = uTopics
+        .flatMap(t => t.userGroupSeasonTopicProblems.filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
+          .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.EASY), 1).length
+      const mediumCount = uTopics
+        .flatMap(t => t.userGroupSeasonTopicProblems.filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
+          .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.MEDIUM), 1).length
+      const hardCount = uTopics
+        .flatMap(t => t.userGroupSeasonTopicProblems.filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
+          .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.HARD), 1).length
       const acceptanceRate =
         (uTopics.map(t => t.comfortabilityPercentage).reduce((a, b) => a + b, 0) /
           uTopics.length) *
@@ -135,8 +163,12 @@ export class UserGroupSeasonService {
         totalSubmissions,
         totalAcceptedSubmissions,
         acceptanceRate,
+        easyCount,
+        mediumCount,
+        hardCount,
       }
     }
+    console.log(userStats)
     return userStats
   }
 
