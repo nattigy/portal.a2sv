@@ -10,13 +10,12 @@ export class StudentDataAnalyticsResolver {
   constructor(private readonly studentDataAnalyticsService: StudentDataAnalyticsService) {}
 
   @Query(() => [StudentDataAnalytic], { name: 'Studentdailystat' })
-  findOne(
+  studentDailyStat(
     @Args('user_id', { type: () => String }) userId: string,
-    @Args('season_id', { type: () => String }) seasonId: string,
     @Args('start_date', { type: () => Date, nullable: true }) startDate?: Date,
     @Args('end_date', { type: () => Date, nullable: true }) endDate?: Date,
   ): Promise<StudentDataAnalytic[]> {
-    return this.studentDataAnalyticsService.userStat(userId, seasonId, startDate, endDate)
+    return this.studentDataAnalyticsService.userStat(userId, startDate,endDate)
   }
 
   @Query(() => [StudentWeeklyAnalytic], { name: 'Studentweeklystat' })
@@ -37,25 +36,19 @@ export class StudentDataAnalyticsResolver {
   @Query(() => [StudentMonthlyAnalytic], { name: 'Studentmontlystat' })
   userMonthlyStat(
     @Args('user_id', { type: () => String }) userId: string,
-    @Args('season_id', { type: () => String }) seasonId: string,
-    @Args('start_date', { type: () => Date, nullable: true }) startDate?: Date,
-    @Args('end_date', { type: () => Date, nullable: true }) endDate?: Date,
+    @Args('season_id', { type: () => String }) seasonId: string
   ) {
     return this.studentDataAnalyticsService.montlyUserStart(
       userId,
-      seasonId,
-      startDate,
-      endDate,
+      seasonId
     )
   }
 
   @Query(() => [StudentYearlyAnalytic], { name: 'Studentyearlystat' })
   yearlyUserStat(
     @Args('user_id', { type: () => String }) userId: string,
-    @Args('season_id', { type: () => String }) seasonId: string,
-    @Args('start_date', { type: () => Date, nullable: true }) startDate?: Date,
-    @Args('end_date', { type: () => Date, nullable: true }) endDate?: Date,
+    @Args('season_id', { type: () => String }) seasonId: string
   ) {
-    return this.studentDataAnalyticsService.yearlUserStat(userId, seasonId, startDate, endDate)
+    return this.studentDataAnalyticsService.yearlUserStat(userId, seasonId)
   }
 }
