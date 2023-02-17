@@ -298,7 +298,7 @@ const ProblemModal = (props: Props) => {
                                       alt=""
                                       className="absolute left-3 z-10"
                                     />
-          
+
                                     <Field
                                       as="select"
                                       name="platform"

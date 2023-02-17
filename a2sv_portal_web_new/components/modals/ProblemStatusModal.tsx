@@ -7,8 +7,7 @@ import FormRejectButton from "../common/FormRejectButton";
 import { useMutation } from "@apollo/client";
 import { UPDATE_USER_PROBLEM_STATUS } from "../../lib/apollo/Mutations/problemsMutations";
 import { QuestionStatus, UserProblem } from "../../types";
-
-
+import FormRadio from "../common/FormRadio";
 
 interface FormValues {
   status: QuestionStatus;
@@ -24,8 +23,7 @@ type Props = {
   topicId: string;
   seasonId: string;
   groupId: string;
-  userProblem:UserProblem;
-
+  userProblem: UserProblem;
 };
 const ProblemStatusModal = (props: Props) => {
   const [updateProblemStatus, { error: updateError }] = useMutation(
@@ -50,7 +48,7 @@ const ProblemStatusModal = (props: Props) => {
         <Formik
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
-          onSubmit={ async (values) => {
+          onSubmit={async (values) => {
             await updateProblemStatus({
               variables: {
                 updateProblemStatusInput: {
@@ -66,7 +64,7 @@ const ProblemStatusModal = (props: Props) => {
                   },
                 },
               },
-              refetchQueries:"active",
+              refetchQueries: "active",
               notifyOnNetworkStatusChange: true,
               onCompleted(data) {
                 props.onClose();
@@ -124,61 +122,27 @@ const ProblemStatusModal = (props: Props) => {
                       <p className="text-lg font-semibold ">Status </p>
                     </div>
                     <div className="flex flex-col justify-start gap-y-4">
-                      <div className="flex items-center">
-                        <div className="bg-white dark:bg-gray-100 rounded-full w-5 h-5 flex flex-shrink-0 justify-center items-center relative">
-                          <Field
-                            id="solved"
-                            type="radio"
-                            value={QuestionStatus.SOLVED}
-                            name="status"
-                            className="peer checkbox appearance-none focus:outline-none rounded-full border-2 border-green-700 checked:border-indigo-700 absolute cursor-pointer w-full h-full"
-                          />
-                          <div className="check-icon border-4 peer-checked:bg-indigo-700 rounded-full w-full h-full z-1" />
-                        </div>
-                        <label
-                          htmlFor="solved"
-                          className="ml-2 text-sm leading-4 font-normal text-gray-800"
-                        >
-                          Solved
-                        </label>
-                      </div>
-                      <div className="flex items-center">
-                        <div className="bg-white dark:bg-gray-100 rounded-full w-5 h-5 flex flex-shrink-0 justify-center items-center relative">
-                          <Field
-                            id="not-solved"
-                            type="radio"
-                            value={QuestionStatus.NOT_SOLVED}
-                            checked
-                            name="status"
-                            className="peer checkbox appearance-none focus:outline-none rounded-full border-2  border-yellow-700 checked:border-indigo-700 absolute cursor-pointer w-full h-full"
-                          />
-                          <div className="check-icon border-4 peer-checked:bg-indigo-700 rounded-full w-full h-full z-1" />
-                        </div>
-                        <label
-                          htmlFor="not-solved"
-                          className="ml-2 text-sm leading-4 font-normal text-gray-800"
-                        >
-                          Not solved
-                        </label>
-                      </div>
-                      <div className="flex items-center">
-                        <div className="bg-white dark:bg-gray-100 rounded-full w-5 h-5 flex flex-shrink-0 justify-center items-center relative">
-                          <Field
-                            id="unable-to-solve"
-                            type="radio"
-                            value={QuestionStatus.UNABLE_TO_SOLVE}
-                            name="status"
-                            className="peer checkbox appearance-none focus:outline-none rounded-full border-2  border-red-700 checked:border-indigo-700 absolute cursor-pointer w-full h-full"
-                          />
-                          <div className="check-icon border-4 peer-checked:bg-indigo-700 rounded-full w-full h-full z-1" />
-                        </div>
-                        <label
-                          htmlFor="unable-to-solve"
-                          className="ml-2 text-sm leading-4 font-normal text-gray-800"
-                        >
-                          Unable to solve
-                        </label>
-                      </div>
+                      <FormRadio
+                        className="accent-green-700 focus:accent-green-700"
+                        id="solved"
+                        name="status"
+                        value={QuestionStatus.SOLVED}
+                        valueName="Solved"
+                      />
+                      <FormRadio
+                        className="accent-yellow-700 focus:accent-yellow-700"
+                        id="not-solved"
+                        name="status"
+                        value={QuestionStatus.NOT_SOLVED}
+                        valueName="Not Solved"
+                      />
+                      <FormRadio
+                        className="accent-red-700 focus:accent-red-700"
+                        id="unable-to-solve"
+                        name="status"
+                        value={QuestionStatus.UNABLE_TO_SOLVE}
+                        valueName="Unable to Solve"
+                      />
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
@@ -233,7 +197,6 @@ const ProblemStatusModal = (props: Props) => {
                       onClick={() => props.onClose()}
                     />
                     <FormAffirmativeButton
-
                       isLoading={isSubmitting}
                       text="Save"
                     />
