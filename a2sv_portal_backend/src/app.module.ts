@@ -31,6 +31,13 @@ import { ManageUserGroupSeasonModule } from './services/manage-user-group-season
 import { UserModule } from './app/user/user.module'
 import { GroupModule } from './app/group/group.module'
 import { SeasonModule } from './app/season/season.module'
+import {
+  ManageGroupSeasonContestModule
+} from './services/manage-group-season-contest/manage-group-season-contest.module'
+import {
+  UserUpdateContestProblemModule
+} from './services/user-update-contest-problem/user-update-contest-problem.module'
+import { ContestModule } from './app/contest/contest.module'
 
 @Module({
   imports: [
@@ -79,6 +86,7 @@ import { SeasonModule } from './app/season/season.module'
     PrismaModule,
     CaslModule,
     TagModule,
+    ContestModule,
     ResourceModule,
     ProblemModule,
     TopicModule,
@@ -93,8 +101,8 @@ import { SeasonModule } from './app/season/season.module'
     StudentDataAnalyticsModule,
     ManageGroupSeasonModule,
     ManageUserGroupSeasonModule,
-    // ManageGroupSeasonContestModule,
-    // UserUpdateContestProblemModule,
+    ManageGroupSeasonContestModule,
+    UserUpdateContestProblemModule,
     // ContestStatsModule,
     // ContestLeaderboardModule,
   ],
