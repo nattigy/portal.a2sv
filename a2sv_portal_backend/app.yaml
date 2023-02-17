@@ -14,3 +14,16 @@ env_variables:
 
   #email
   PORTAL_EMAIL: "riyad@a2sv.org"
+
+  PORJECT_ID: "portal-backend-369707"
+  STORAGE_MEDIA_BUCKET: "a2sv-portal-images"
+  STORAGE_URL: "https://storage.googleapis.com"
+  CLIENT_EMAIL: "portal-bucket-storage@portal-backend-369707.iam.gserviceaccount.com"
+  PRIVATE_KEY: "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDKa00eWztt0qNw\nzbIXOJzS3UnqEPwfnInPX7S0gAnLHBdsGckaQancg8z4USCgAMAtAn3PZynmDejM\nMX1tp2x0YVr+t8sbpoD4jF3SFeql6H1SNdktWbMjO9WBEbdupWD55WONj+0fHVjV\n3Jucyi5PL1y9Cok9XKoWbVdlugZXQTrT2Ipj7gy9W00IwcSkQtofNhD/x0HsX8hU\nyylnC4tlRwMJdtlnkqU9CwQmABDetOTMcxcf4FfFQiWygQcUHVXNZim30YnyM7KQ\nhKB4pW3k+zkg78+Zz/0GVNoz/sm/oyBHqk2hFxq+7Fo7BntR5UkQjJFhqA+qcgp8\ndcqGdHC/AgMBAAECggEAOCOKP+ENmmfQ7Hgf7FDHLbQxy7jqM9o2Xk0s0OKx1KL1\n3AVKwP11HrNvJW9anQWYRuNqARubgzJYXklbgA3vBlf55KsUqZaELmq/moR5j4nr\nN+G3WdyG0j7F+AXx2b4EJ0p3UcuY+AgrmySUA+gO7+cy0Tsa1OneQloQ4yW0nH38\nYPyt9qOuwoxK+ji7pwtwAGLPLDGcJMhoQlfLIw+LThhyWbX3IXf9oHkxnllRhluD\nPTtjTkHs5vrRL+UqeA4TvOmZpOGe0Yt9vU+2irRak0QJpco2M3OxTP4H4xVgI9h0\nXcxQNCQvFLBzOXSVlc+q3cKTflqKsRJwo9NBOLtAAQKBgQDv/JJYR+WgMm0LAFhL\nSd0dPvi5f9dE4oGyNNyFMo/3gx1jXnpnBVyEko75ibhj7RGUvXthqLC00GDcc6kj\npyqehDM1AnO/l2YKAzVkN2kB1Wc14qWyGcYKZCWCNdxdL0vDxRne77XwlY+Vkkd+\nlidCAqItHguVJz/8Sgf8xtdB3wKBgQDX7QF6Zpns59hvAvOIOr+N1g8mnMWBOu4g\nykwyszSdYai3TKv7+BU9Kp0jhLB3UI2LM/HXlU9BB0ALWR66c1zqgu060Hmul4DS\ny1E1kqj3q/34vRu/yV1C2WfWn/nQtzTETyyhKlTzRqotiKLU7MuKBSmyrG16WVII\nBjR+QXdtIQKBgGXdhZjnW7a18MccrF24ypxhYF4Mv6lDo92qxnfbUHS1OMI3Fimo\ngu7a7slJBfWUaUQDcd2wJuF5GcQ5a+/wQwzp/HphwhPvBab2WbFiO7ZFiPu8aqzA\nd+ltPOaaSiFbtAMzJJoWkdm/AiVw49v9jEheqcwQ1sXG1UgXfHB1TmVtAoGBAIIf\nG5Ltnbj8hptvhd8EuEb7RqoYM5WLM9Gi14R+Jijpn0jG9aWkfPgdZBDxd36Plpza\nstUd72LawaeVD0WBG+9e8yNMWufx+PoO+GN2fEi05xosrDpJWOBeL4tRYLR8k1nx\n9I0y+3qXjRpfivERuh70uYopCth+V0bqplunjBbBAoGBAOqXOtiLkS0wAh4oxyIl\nEQzZ/UJEz+4pJRAY5e39m4sRovzvCLFNXyeKNcqkgzS3l+u6GShYXz1K5FGk3cDP\nmYrTH2SQMEjrzNb0wkTCaEmeYdmA6kxK82nnc3Wv0Drp9JFmZMHqZHXcu/J/hVK9\n5LZnfiZeRbWYDStbBqtQS7Xp\n-----END PRIVATE KEY-----\n"
+
+
+
+
+
+
+

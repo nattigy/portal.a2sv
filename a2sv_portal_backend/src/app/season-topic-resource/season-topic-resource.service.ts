@@ -1,66 +1,44 @@
-// import { Injectable } from '@nestjs/common'
-// import { PrismaService } from '../../prisma/prisma.service'
-// import {
-//   CreateSeasonTopicProblemInput,
-//   SeasonTopicProblemId,
-// } from './dto/create-season-topic-problem.input'
-// import { SeasonTopicProblem } from './entities/season-topic-problem.entity'
-// import { SeasonTopicProblemRepository } from './season-topic-problem.repository'
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { PrismaService } from 'src/prisma/prisma.service'
+import { SeasonTopicId } from '../season-topic/dto/create-season-topic.input'
+import { UpdateSeasonTopicResourceInput } from './dto/update-season-topic-resource.input'
+import { SeasonTopicResource } from './entities/season-topic-resource.entity'
+import { SeasonTopicResourceRepository } from './season-topic-resource.repository'
 
-// @Injectable()
-// export class SeasonTopicResourceService {
-//   constructor(
-//     private readonly seasonTopicResourceRepository: SeasonTopicProblemRepository,
-//     private readonly prismaService: PrismaService,
-//   ) {}
+@Injectable()
+export class SeasonTopicResourceService {
+  constructor(
+    private readonly seasonTopicResourceRepository: SeasonTopicResourceRepository,
+    private readonly prismaService: PrismaService,
+  ) {}
 
-//   async addProblemToSeasonTopic({
-//     seasonId,
-//     topicId,
-//     problemId,
-//   }: CreateSeasonTopicProblemInput): Promise<SeasonTopicProblem> {
-//     // TODO: check if the season is active
-//     // upsert seasonTopic and change create to upsert seasonTopicProblem
-//     return this.seasonTopicProblemRepository.create({
-//       seasonTopic: {
-//         connect: {
-//           seasonId_topicId: {
-//             topicId,
-//             seasonId,
-//           },
-//         },
-//       },
-//       problem: {
-//         connect: { id: problemId },
-//       },
-//     })
-//   }
+  async updateSeasonTopicResource(
+    { seasonId, topicId }: SeasonTopicId,
+    updateSeasonTopicResource: UpdateSeasonTopicResourceInput,
+  ): Promise<SeasonTopicResource> {
+    const foundResource = await this.prismaService.seasonTopicResource.findUnique({
+      where: {
+        seasonId_topicId: {
+          seasonId,
+          topicId,
+        },
+      },
+    })
+    if (!foundResource) throw new NotFoundException('Resource Not Found')
+    return this.seasonTopicResourceRepository.update({
+      where: {
+        seasonId_topicId: {
+          seasonId,
+          topicId,
+        },
+      },
+      data: updateSeasonTopicResource,
+    })
+  }
 
-//   // async seasonTopicProblem({ seasonId, topicId, problemId }: SeasonTopicProblemId): Promise<SeasonTopicProblem> {
-//   //   return this.seasonTopicProblemRepository.findOne({
-//   //     seasonId_topicId_problemId: { seasonId, topicId, problemId },
-//   //   })
-//   // }
-//   //
-//   // async seasonTopicProblems(
-//   //   seasonTopicProblemFilter: SeasonTopicProblemFilter,
-//   //   { skip, take }: PaginationInput = { take: 50, skip: 0 },
-//   // ): Promise<PaginationSeasonTopicProblem> {
-//   //   const count = await this.seasonTopicProblemRepository.count(seasonTopicProblemFilter)
-//   //   const seasonTopicProblems: SeasonTopicProblem[] =
-//   //     await this.seasonTopicProblemRepository.findAll({
-//   //       where: seasonTopicProblemFilter,
-//   //       skip, take,
-//   //     })
-//   //   return {
-//   //     items: seasonTopicProblems,
-//   //     pageInfo: { skip, take, count },
-//   //   }
-//   // }
-
-//   async remove({ seasonId, problemId, topicId }: SeasonTopicProblemId) {
-//     return this.seasonTopicProblemRepository.remove({
-//       seasonId_topicId_problemId: { seasonId, topicId, problemId },
-//     })
-//   }
-// }
+  async removeSeasonTopicResource({ seasonId, topicId }: SeasonTopicId) {
+    return this.seasonTopicResourceRepository.remove({
+      seasonId_topicId: { seasonId, topicId },
+    })
+  }
+}

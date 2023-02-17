@@ -13,7 +13,8 @@ export class SeasonTopicRepository {
       include: {
         season: true,
         topic: true, 
-        resources:true,      
+        seasonTopicResources:true,
+        // resources:true,      
         seasonTopicProblems: {
           include: { problem: { include: { tags: true } } },
         },
@@ -40,7 +41,8 @@ export class SeasonTopicRepository {
       include: {
         season: true,
         topic: true,
-        resources:true,
+        seasonTopicResources:true,
+        // resources:true,
         seasonTopicProblems: {
           include: { problem: { include: { tags: true } } },
         },
@@ -54,7 +56,8 @@ export class SeasonTopicRepository {
       include: {
         season: true,
         topic: true,
-        resources:true,
+        seasonTopicResources:true,
+        // resources:true,
         seasonTopicProblems: {
           include: { problem: { include: { tags: true } } },
         },
@@ -73,7 +76,7 @@ export class SeasonTopicRepository {
       include: {
         season: true,
         topic: true,
-        resources:true,
+        seasonTopicResources:true,
         seasonTopicProblems: {
           include: { problem: { include: { tags: true } } },
         },
@@ -96,6 +99,7 @@ export class SeasonTopicRepository {
       include: {
         season: true,
         topic: true,
+        seasonTopicResources:true,
         seasonTopicProblems: {
           include: { problem: { include: { tags: true } } },
         },

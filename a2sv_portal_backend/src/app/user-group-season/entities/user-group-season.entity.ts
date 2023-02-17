@@ -30,6 +30,15 @@ export class UserGroupSeason {
   @Field(() => Float)
   acceptanceRate: number
 
+  @Field(() => Int)
+  easyCount: number
+
+  @Field(() => Int)
+  mediumCount: number
+
+  @Field(() => Int)
+  hardCount: number
+
   @Field(() => Float)
   averageContestRating: number
 

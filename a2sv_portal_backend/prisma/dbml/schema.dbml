@@ -49,25 +49,9 @@ Table Topic {
   description String
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
-  resources Resource [not null]
   seasonTopics SeasonTopic [not null]
   GroupSeasonTopic GroupSeasonTopic [not null]
   UserGroupSeasonTopic UserGroupSeasonTopic [not null]
-}
-
-Table Resource {
-  id String [pk]
-  type ResourceTypeEnum [not null]
-  name String [not null]
-  description String [not null]
-  link String [unique, not null]
-  createdAt DateTime [default: `now()`]
-  updatedAt DateTime
-  Topic Topic
-  topicId String
-  SeasonTopic SeasonTopic
-  seasonId String
-  seasonTopicResource SeasonTopicResource [not null]
 }
 
 Table Problem {
@@ -112,9 +96,9 @@ Table SeasonTopic {
   updatedAt DateTime
   season Season [not null]
   topic Topic [not null]
-  resources Resource [not null]
   seasonTopicProblems SeasonTopicProblem [not null]
   groupSeasonTopics GroupSeasonTopic [not null]
+  seasonTopicResources SeasonTopicResource [not null]
 
   indexes {
     (seasonId, topicId) [pk]
@@ -139,13 +123,16 @@ Table SeasonTopicProblem {
 Table SeasonTopicResource {
   seasonId String [not null]
   topicId String [not null]
-  resourceId String [not null]
+  type ResourceTypeEnum [not null]
+  name String [not null]
+  description String [not null]
+  link String [not null]
+  seasonTopic SeasonTopic [not null]
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
-  resource Resource [not null]
 
   indexes {
-    (seasonId, topicId, resourceId) [pk]
+    (seasonId, topicId) [pk]
   }
 }
 
@@ -251,6 +238,9 @@ Table UserGroupSeason {
   acceptanceRate Float [default: 0]
   averageContestRating Float [default: 0]
   totalContestsAttended Int [default: 0]
+  easyCount Int [default: 0]
+  mediumCount Int [default: 0]
+  hardCount Int [default: 0]
   user User [not null]
   groupSeason GroupSeason [not null]
   createdAt DateTime [default: `now()`]
@@ -519,10 +509,6 @@ Enum ResourceTypeEnum {
 
 Ref: Group.headId - User.id
 
-Ref: Resource.topicId > Topic.id
-
-Ref: Resource.(seasonId, topicId) > SeasonTopic.(seasonId, topicId)
-
 Ref: Problem.contestId > Contest.id
 
 Ref: User.groupId - Group.id
@@ -535,7 +521,7 @@ Ref: SeasonTopicProblem.(seasonId, topicId) > SeasonTopic.(seasonId, topicId) [d
 
 Ref: SeasonTopicProblem.problemId > Problem.id [delete: Cascade]
 
-Ref: SeasonTopicResource.resourceId > Resource.id [delete: Cascade]
+Ref: SeasonTopicResource.(seasonId, topicId) > SeasonTopic.(seasonId, topicId) [delete: Cascade]
 
 Ref: GroupSeason.groupId > Group.id [delete: Cascade]
 

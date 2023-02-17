@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { CreateResourceInput } from 'src/app/resource/dto/create-resource.input'
+import { CreateSeasonTopicResourceInput } from 'src/app/season-topic-resource/dto/create-season-topic-resource.input'
 
 @InputType()
 export class CreateSeasonTopicInput {
@@ -11,8 +11,8 @@ export class CreateSeasonTopicInput {
   })
   topicId: string
 
-  @Field(() => [CreateResourceInput], {nullable:true})
-  resources?: CreateResourceInput[]
+  @Field(() => [CreateSeasonTopicResourceInput], {nullable:true})
+  seasonTopicResources?: CreateSeasonTopicResourceInput[]
 
   // @Field(() => [UpdateSeasonTopicProblemInput], { nullable: true })
   // problems?: UpdateSeasonTopicProblemInput[]
@@ -26,27 +26,3 @@ export class SeasonTopicId {
   @Field()
   topicId: string
 }
-
-// @InputType()
-// export class CreateSeasonTopicResourceInput{
-//   @Field()
-//   seasonId: string
-
-//   @Field()
-//   topicId: string
-
-//   @Field()
-//   resourceId: string
-// }
-
-// @InputType()
-// export class SeasonTopicResourceId{
-//   @Field()
-//   seasonId: string
-
-//   @Field()
-//   topicId: string
-
-//   @Field()
-//   resourceId: string
-// }

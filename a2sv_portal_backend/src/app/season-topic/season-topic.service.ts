@@ -25,7 +25,7 @@ export class SeasonTopicService {
       topic: { connect: { id: topicId } },
     })
   }
- 
+
   async seasonTopic({ seasonId, topicId }: SeasonTopicId): Promise<SeasonTopic> {
     /// TODO: generate stat here
     return this.seasonTopicRepository.findOne({
@@ -44,13 +44,12 @@ export class SeasonTopicService {
       take,
       where: filterSeasonTopicInput,
     })
-    console.log(seasonTopics,"val")
+    // console.log(seasonTopics, 'val')
     return {
       items: seasonTopics,
       pageInfo: { take, skip, count },
     }
   }
-
 
   async removeSeasonTopic({ seasonId, topicId }: SeasonTopicId) {
     return this.seasonTopicRepository.remove({
@@ -58,26 +57,31 @@ export class SeasonTopicService {
     })
   }
 
- async addResourceToSeasonTopic({
+  async addResourceToSeasonTopic({
     seasonId,
     topicId,
-    resources
-  }: CreateSeasonTopicInput):Promise<SeasonTopic>{
-      return this.seasonTopicRepository.update({
-        where: {
-          seasonId_topicId: {
-            seasonId,topicId
-          }
+    seasonTopicResources,
+  }: CreateSeasonTopicInput): Promise<SeasonTopic> {
+    return this.seasonTopicRepository.update({
+      where: {
+        seasonId_topicId: {
+          seasonId,
+          topicId,
         },
-        data: {
-      
-          // resources:{
-          //   connectOrCreate: resources.map(t => ({
-          //     where:{link:t.link},
-          //     create: { type: t.type, name: t.name, description:t.description, link:t.link}
-          //   }))
-          // }
-        }
-      })
+      },
+      data: {
+        seasonTopicResources: {
+          connectOrCreate: seasonTopicResources.map(t => ({
+            where: {
+              seasonId_topicId: {
+                seasonId,
+                topicId,
+              },
+            },
+            create: { type:t.type, description: t.description, link:t.link, name:t.name},
+          })),
+        },
+      },
+    })
   }
 }

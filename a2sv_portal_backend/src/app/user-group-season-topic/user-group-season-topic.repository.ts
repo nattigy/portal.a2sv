@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
-import { Prisma } from '@prisma/client'
+import { ComfortLevelEnum, Prisma } from '@prisma/client'
 import { UserGroupSeasonTopic } from './entities/user-group-season-topic.entity'
 
 @Injectable()
@@ -72,6 +72,7 @@ export class UserGroupSeasonTopicRepository {
     return this.prismaService.userGroupSeasonTopic.upsert({
       where,
       create: {
+        comfortLevel: data.comfortLevel === ComfortLevelEnum.COMFORTABLE ? "COMFORTABLE" : "UNCOMFORTABLE",
         userGroupSeason: {
           connect: {
             userId_groupId_seasonId: {

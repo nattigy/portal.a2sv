@@ -1,5 +1,4 @@
 import { Field, ObjectType } from '@nestjs/graphql'
-import { Resource } from 'src/app/resource/entities/resource.entity'
 
 @ObjectType()
 export class Topic {

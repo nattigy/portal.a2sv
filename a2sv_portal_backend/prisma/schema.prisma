@@ -58,24 +58,9 @@ model Topic {
   description          String?
   createdAt            DateTime?              @default(now())
   updatedAt            DateTime?              @updatedAt
-  resources            Resource[]
   seasonTopics         SeasonTopic[]
   GroupSeasonTopic     GroupSeasonTopic[]
   UserGroupSeasonTopic UserGroupSeasonTopic[]
-}
-
-model Resource {
-  id                  String                @id @default(uuid())
-  type                ResourceTypeEnum
-  name                String
-  description         String
-  link                String                @unique
-  createdAt           DateTime?             @default(now())
-  updatedAt           DateTime?             @updatedAt
-  Topic               Topic?                @relation(fields: [topicId], references: [id])
-  topicId             String?
-  seasonId            String?
-  seasonTopicResource SeasonTopicResource[]
 }
 
 model Problem {
@@ -114,14 +99,15 @@ model User {
 }
 
 model SeasonTopic {
-  seasonId             String
-  topicId              String
-  createdAt            DateTime?             @default(now())
-  updatedAt            DateTime?             @updatedAt
-  season               Season                @relation(fields: [seasonId], references: [id], onDelete: Cascade)
-  topic                Topic                 @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  seasonTopicProblems  SeasonTopicProblem[]
-  groupSeasonTopics    GroupSeasonTopic[]
+  seasonId            String
+  topicId             String
+  createdAt           DateTime?             @default(now())
+  updatedAt           DateTime?             @updatedAt
+  season              Season                @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+  topic               Topic                 @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  seasonTopicProblems SeasonTopicProblem[]
+  groupSeasonTopics   GroupSeasonTopic[]
+  seasonTopicResources SeasonTopicResource[]
 
   @@id([seasonId, topicId])
 }
@@ -142,13 +128,15 @@ model SeasonTopicProblem {
 model SeasonTopicResource {
   seasonId    String
   topicId     String
-  resourceId  String
-  createdAt   DateTime?   @default(now())
-  updatedAt   DateTime?   @updatedAt
- 
-  resource    Resource    @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  type        ResourceTypeEnum
+  name        String
+  description String
+  link        String
+  seasonTopic SeasonTopic      @relation(fields: [seasonId, topicId], references: [seasonId, topicId],onDelete: Cascade)
+  createdAt   DateTime?        @default(now())
+  updatedAt   DateTime?        @updatedAt
 
-  @@id([seasonId, topicId, resourceId])
+  @@id([seasonId, topicId])
 }
 
 model GroupSeason {
@@ -250,6 +238,9 @@ model UserGroupSeason {
   acceptanceRate                Float?                         @default(0.0)
   averageContestRating          Float?                         @default(0.0)
   totalContestsAttended         Int?                           @default(0)
+  easyCount                     Int?                           @default(0)
+  mediumCount                   Int?                           @default(0)
+  hardCount                     Int?                           @default(0)
   user                          User                           @relation(fields: [userId], references: [id], onDelete: Cascade)
   groupSeason                   GroupSeason                    @relation(fields: [groupId, seasonId], references: [groupId, seasonId], onDelete: Cascade)
   createdAt                     DateTime?                      @default(now())

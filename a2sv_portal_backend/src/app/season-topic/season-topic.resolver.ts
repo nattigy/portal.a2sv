@@ -29,7 +29,7 @@ export class SeasonTopicResolver {
   @CheckPolicies(SeasonTopicAbilities.read)
   @Mutation(() => SeasonTopic)
   async addResourcesToSeasonTopic(@Args('createSeasonTopicInput') createSeasonTopicInput:CreateSeasonTopicInput): Promise<SeasonTopic>{
-    console.log("resources", createSeasonTopicInput)
+    // console.log("resources", createSeasonTopicInput)
     return this.seasonTopicService.addResourceToSeasonTopic(createSeasonTopicInput)
   }
 

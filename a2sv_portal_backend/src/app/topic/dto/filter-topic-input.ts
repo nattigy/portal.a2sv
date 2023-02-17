@@ -1,5 +1,4 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { Resource } from 'src/app/resource/entities/resource.entity'
 import { DateTimeFilter } from '../../../common/filter-types/date-filter'
 import { StringFilter } from '../../../common/filter-types/string-filter'
 

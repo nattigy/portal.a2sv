@@ -1,5 +1,6 @@
-import { Field, GraphQLISODateTime, ObjectType } from '@nestjs/graphql'
-import { Resource } from 'src/app/resource/entities/resource.entity'
+import { Field, GraphQLISODateTime, ObjectType, registerEnumType } from '@nestjs/graphql'
+import { ResourceTypeEnum } from '@prisma/client'
+import { SeasonTopic } from 'src/app/season-topic/entities/season-topic.entity'
 
 @ObjectType()
 export class SeasonTopicResource {
@@ -8,12 +9,18 @@ export class SeasonTopicResource {
 
   @Field()
   topicId: string
+  
+  @Field(() => ResourceTypeEnum)
+  type: ResourceTypeEnum
 
   @Field()
-  resourceId: string
+  name: string
 
-  @Field(() => Resource)
-  resource: Resource
+  @Field()
+  description: string
+
+  @Field()
+  link: string
 
   @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date
@@ -21,3 +28,5 @@ export class SeasonTopicResource {
   @Field(() => GraphQLISODateTime, { nullable: true })
   updatedAt?: Date
 }
+
+registerEnumType(ResourceTypeEnum, {name: 'ResourceTypeEnum'})

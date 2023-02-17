@@ -1,26 +1,32 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
-
-import { UserGroupSeasonId } from '../../app/user-group-season/dto/create-group-user-season.input'
-import { UserGroupSeason } from '../../app/user-group-season/entities/user-group-season.entity'
 import { UserGroupSeasonService } from './user-group-season.service'
-import { PaginationInput } from '../../common/page/pagination.input'
+import { UserGroupSeasonTopicService } from './user-group-season-topic.service'
+import { UserGroupSeasonTopicProblemService } from './user-group-season-topic-problem.service'
+import { UserGroupSeason } from '../../app/user-group-season/entities/user-group-season.entity'
+import { UserGroupSeasonId } from '../../app/user-group-season/dto/create-group-user-season.input'
 import { FilterUserGroupSeasonInput } from '../../app/user-group-season/dto/filter-user-group-season-input'
+import { PaginationInput } from '../../common/page/pagination.input'
 import { UserGroupSeasonTopic } from '../../app/user-group-season-topic/entities/user-group-season-topic.entity'
 import { UserGroupSeasonTopicId } from '../../app/user-group-season-topic/dto/create-user-group-season-topic.input'
 import { PaginationUserGroupSeasonTopic } from '../../common/page/pagination-info'
-import { FilterUserGroupSeasonTopicInput } from '../../app/user-group-season-topic/dto/filter-user-group-season-topic-input'
-import { UserGroupSeasonTopicProblem } from '../../app/user-group-season-topic-problem/entities/user-group-season-topic-problem.entity'
-import { UserGroupSeasonTopicService } from './user-group-season-topic.service'
-import { UserGroupSeasonTopicProblemService } from './user-group-season-topic-problem.service'
-import { UserGroupSeasonTopicProblemId } from '../../app/user-group-season-topic-problem/dto/user-group-season-topic-problem-id.input'
+import {
+  FilterUserGroupSeasonTopicInput,
+} from '../../app/user-group-season-topic/dto/filter-user-group-season-topic-input'
+import {
+  UserGroupSeasonTopicProblem,
+} from '../../app/user-group-season-topic-problem/entities/user-group-season-topic-problem.entity'
+import {
+  UserGroupSeasonTopicProblemId,
+} from '../../app/user-group-season-topic-problem/dto/user-group-season-topic-problem-id.input'
 
-@Resolver(() => UserGroupSeason)
-export class UserGroupSeasonResolver {
+@Resolver()
+export class ManageUserGroupSeasonResolver {
   constructor(
     private readonly userGroupSeasonService: UserGroupSeasonService,
     private readonly userGroupSeasonTopicService: UserGroupSeasonTopicService,
     private readonly seasonTopicUserProblemService: UserGroupSeasonTopicProblemService, // private readonly userGroupSeasonContestService: UserGroupSeasonContestService, // private readonly userGroupSeasonContestProblemService: UserGroupSeasonContestProblemService,
-  ) {}
+  ) {
+  }
 
   @Query(() => UserGroupSeason)
   async userGroupSeason(
@@ -29,7 +35,7 @@ export class UserGroupSeasonResolver {
     return this.userGroupSeasonService.userGroupSeason(userGroupSeasonId)
   }
 
-  @Query(() => UserGroupSeason)
+  @Query(() => [UserGroupSeason])
   async userGroupSeasons(
     @Args('filterUserGroupSeasonInput') filterUserGroupSeasonInput: FilterUserGroupSeasonInput,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
@@ -57,9 +63,9 @@ export class UserGroupSeasonResolver {
   @Query(() => PaginationUserGroupSeasonTopic)
   async userGroupSeasonTopics(
     @Args('filterUserGroupSeasonTopicInput', { nullable: true })
-    filterUserGroupSeasonTopicInput?: FilterUserGroupSeasonTopicInput,
+      filterUserGroupSeasonTopicInput?: FilterUserGroupSeasonTopicInput,
     @Args('pageInfoInput', { nullable: true })
-    pageInfoInput?: PaginationInput,
+      pageInfoInput?: PaginationInput,
   ) {
     return this.userGroupSeasonTopicService.userGroupSeasonTopics(
       filterUserGroupSeasonTopicInput,
@@ -70,7 +76,7 @@ export class UserGroupSeasonResolver {
   @Query(() => UserGroupSeasonTopicProblem)
   async userGroupSeasonTopicProblem(
     @Args('userGroupSeasonTopicProblemId')
-    userGroupSeasonTopicProblemId: UserGroupSeasonTopicProblemId,
+      userGroupSeasonTopicProblemId: UserGroupSeasonTopicProblemId,
   ): Promise<UserGroupSeasonTopicProblem> {
     return this.seasonTopicUserProblemService.userGroupSeasonTopicProblem(
       userGroupSeasonTopicProblemId,
