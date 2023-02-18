@@ -14,38 +14,41 @@ type Props = {
   error?: string;
   icon?: any;
   touched?: boolean;
-  flag?: string ;
+  flag?: string;
   options: optionsProp[];
 };
 
 const FormDropdown = (props: Props) => {
   return (
-    <div className=" rounded-full w-full h-8 flex flex-shrink-0 justify-start relative items-center outline-none focus:outline-none">
-      <div className="flex items-center justify-center absolute my-auto text-[#949494] right-2 top-0 bottom-0 w-6 h-6 z-10">
+    <div className=" rounded-full w-full  flex flex-shrink-0 justify-start relative items-center outline-none focus:outline-none">
+      <div className="flex items-center justify-center absolute my-auto text-[#949494] right-2  bottom-7 w-6  z-10">
         {props.icon}
       </div>
       {props.flag && (
         <div className="absolute left-2 z-10">
-          <img
-            src={props.flag}
-            className="w-6 rounded-full"
-            alt=""
-          />
+          <img src={props.flag} className="w-6 rounded-full" alt="" />
         </div>
       )}
+      <div className="w-full">
       <Field
         as="select"
         name={props.name}
         placeholder={props.placeholder}
         className={clsx(
-          "bg-white w-full h-12  border rounded-md appearance-none caret-transparent text-xs",
+          "bg-white w-full h-10 border rounded-md appearance-none caret-transparent text-xs",
           props.touched && props.error ? "border-red-500" : "",
-          props.flag?"px-10":"px-4"
+          props.flag ? "px-10" : "px-4"
         )}
       >
-        {/* <option className="h-20 text-pink-400" value="" selected disabled hidden>
+        <option
+          className="h-20 text-pink-400"
+          value=""
+          selected
+          disabled
+          hidden
+        >
           {props.placeholder}
-        </option> */}
+        </option>
 
         {props.options.map((option: optionsProp, index) => (
           <option key={index} value={option.value}>
@@ -53,6 +56,8 @@ const FormDropdown = (props: Props) => {
           </option>
         ))}
       </Field>
+      <h1 className="text-xs font-light text-red-700">{props.error}</h1>
+      </div>
     </div>
   );
 };

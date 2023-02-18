@@ -37,7 +37,6 @@ const ProblemsItem = ({ problem }: Props) => {
           problem={problem}
           isEditing={true}
           onClose={() => setIsEditModalOpen(false)}
-          seasonId={""}
         />
       )}
       {isDeleteModalOpen && (

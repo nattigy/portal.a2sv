@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Formik, Form, Field, FormikValues } from "formik";
+import { Formik, Form } from "formik";
 import * as yup from "yup";
 import clsx from "clsx";
 import { ApolloError, useMutation } from "@apollo/client";
@@ -13,6 +13,7 @@ import FormRejectButton from "../common/FormRejectButton";
 import FormField from "../common/FormField";
 import TopicsAutocomplete, { TopicType } from "../topics/TopicsAutocomplete";
 import { Topic } from "../../types/topic";
+import CloseIcon from "../common/CloseIcon";
 interface FormValues {
   topic_title: string;
   description: string;
@@ -23,16 +24,13 @@ type Props = {
   topic?: Topic;
   onClose: () => void;
   seasonId?: string;
-  newTopic?: boolean;
+  addToSeason?: boolean;
 };
 
 const TopicModal = (props: Props) => {
   const [errorMessage, setErrorMessage] = useState("");
-  const [addNewTopic, { loading, error, data }] = useMutation(
-    CREATE_TOPIC_MUTATION
-  );
-  const [editTopic, { loading: editLoading, error: editError }] =
-    useMutation(EDIT_TOPIC);
+  const [addNewTopic] = useMutation(CREATE_TOPIC_MUTATION);
+  const [editTopic] = useMutation(EDIT_TOPIC);
   const [addTopicToSeason] = useMutation(ADD_SEASON_TOPIC);
   const [existingTopic, setExistingTopic] = useState<TopicType | null>(null);
 
@@ -46,10 +44,69 @@ const TopicModal = (props: Props) => {
       topic_title: yup.string().required("Required"),
       description: yup.string().required("Required"),
     });
-  
   }
   const FORM_VALIDATION = validationShape;
 
+  const handleAddTopicToASeason = async (topicId: string) => {
+    await addTopicToSeason({
+      variables: {
+        createSeasonTopicInput: {
+          seasonId: props.seasonId,
+          topicId: topicId,
+        },
+      },
+      refetchQueries: "active",
+      notifyOnNetworkStatusChange: true,
+      onCompleted: (data) => {
+        props.onClose();
+      },
+      onError: (error) => {
+        setErrorMessage((error as ApolloError).message);
+      },
+    });
+  };
+
+  const handleEditTopic = async (description: string, title: string) => {
+    await editTopic({
+      variables: {
+        updateTopicInput: {
+          description: description,
+          name: title,
+          topicId: props.topic?.id,
+        },
+      },
+      refetchQueries: "active",
+      notifyOnNetworkStatusChange: true,
+      onCompleted: () => {
+        props.onClose();
+      },
+      onError: (error) => {
+        setErrorMessage((error as ApolloError).message);
+      },
+    });
+  };
+
+  const handleCreateTopic = async (description: string, title: string) => {
+    await addNewTopic({
+      variables: {
+        createTopicInput: {
+          name: title,
+          description: description,
+        },
+      },
+      refetchQueries: "active",
+      notifyOnNetworkStatusChange: true,
+      onCompleted: async (data) => {
+        if (props.addToSeason) {
+          handleAddTopicToASeason(data.createTopic.id);
+        }
+        props.onClose();
+      },
+      onError: (error) => {
+        setErrorMessage((error as ApolloError).message);
+      },
+    });
+  };
   return (
     <>
       <div className=" transition-all duration-200 py-8 text-[#565656] w-screen h-screen absolute top-0 bottom-0 left-0 right-0 bg-gray-900 bg-opacity-30 z-50">
@@ -58,76 +115,11 @@ const TopicModal = (props: Props) => {
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
             if (props.isEditing) {
-              await editTopic({
-                variables: {
-                  updateTopicInput: {
-                    description: values.description,
-                    name: values.topic_title,
-                    topicId: props.topic?.id,
-                  },
-                },
-                refetchQueries: "active",
-                notifyOnNetworkStatusChange: true,
-                onCompleted: () => {
-                  props.onClose();
-                },
-                onError: (error) => {
-                  setErrorMessage((error as ApolloError).message);
-                },
-              });
+              await handleEditTopic(values.description, values.topic_title);
+            } else if (existingTopic === null) {
+              await handleCreateTopic(values.topic_title, values.description);
             } else {
-              if (existingTopic === null) {
-                await addNewTopic({
-                  variables: {
-                    createTopicInput: {
-                      name: values.topic_title,
-                      description: values.description,
-                    },
-                  },
-                  refetchQueries: "active",
-                  notifyOnNetworkStatusChange: true,
-                  onCompleted: async(data) => {
-                    await addTopicToSeason({
-                      variables: {
-                        createSeasonTopicInput: {
-                          seasonId: props.seasonId,
-                          topicId: data.createTopic.id,
-                        },
-                      },
-                      refetchQueries: "active",
-                      notifyOnNetworkStatusChange: true,
-                      onCompleted: (data) => {
-                        props.onClose();
-                      },
-                      onError: (error) => {
-                        setErrorMessage((error as ApolloError).message);
-                      },
-                    });
-
-                    props.onClose();
-                  },
-                  onError: (error) => {
-                    setErrorMessage((error as ApolloError).message);
-                  },
-                });
-              } else {
-                await addTopicToSeason({
-                  variables: {
-                    createSeasonTopicInput: {
-                      seasonId: props.seasonId,
-                      topicId: existingTopic?.id,
-                    },
-                  },
-                  refetchQueries: "active",
-                  notifyOnNetworkStatusChange: true,
-                  onCompleted: (data) => {
-                    props.onClose();
-                  },
-                  onError: (error) => {
-                    setErrorMessage((error as ApolloError).message);
-                  },
-                });
-              }
+              await handleAddTopicToASeason(existingTopic.id);
             }
             actions.resetForm();
           }}
@@ -147,42 +139,24 @@ const TopicModal = (props: Props) => {
                         Create New Topic
                       </h2>
                     )}
-                    <div
-                      className="cursor-pointer"
-                      onClick={() => props.onClose()}
-                    >
-                      <svg
-                        className="font-bold text-gray-600"
-                        width={24}
-                        height={24}
-                        viewBox="0 0 28 28"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M21 7L7 21"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M7 7L21 21"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </div>
+                    <CloseIcon onClose={() => props.onClose()} />
                   </div>
-                  <p className="text-sm">
-                    Add new problem under a topic. You can create new problem or
-                    choose existing one
-                  </p>
+                  {props.isEditing ? (
+                    <p className="text-sm">
+                      
+                    </p>
+                  ) : props.addToSeason ? (
+                    <p className="text-sm">
+                      You can create a new topic or choose existing from the repository.
+                    </p>
+                  ) : (
+                    <p className="text-sm">
+                    </p>
+                  )}
+
                   <div className="w-full flex flex-col gap-y-2">
                     <div className="w-full">
-                      {!props.newTopic && (
+                      {props.addToSeason && (
                         <div className="mt-4">
                           <div className="flex flex-col justify-start gap-y-4">
                             <div className={clsx("flex items-center")}>
@@ -196,10 +170,6 @@ const TopicModal = (props: Props) => {
                     </div>
                     {!existingTopic && (
                       <>
-                        {/* <h2 className="font-semibold text-lg">
-                          Create New Topic
-                        </h2> */}
-
                         <div className="w-full">
                           <div className="flex justify-between items-center">
                             <h2 className="font-medium text-sm">Topic Title</h2>

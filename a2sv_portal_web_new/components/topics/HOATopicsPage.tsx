@@ -28,6 +28,7 @@ const HOATopicsPage = () => {
       {isNewTopicModalOpen && (
         <TopicModal
           isEditing={false}
+          addToSeason={true}
           onClose={() => setIsNewTopicModalOpen(false)}
           seasonId={router.query?.seasonId?.toString()}
         />

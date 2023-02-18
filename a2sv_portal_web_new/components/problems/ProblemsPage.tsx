@@ -4,7 +4,6 @@ import { ApolloError, useMutation, useReactiveVar } from "@apollo/client";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import { GraphqlUserRole } from "../../types/user";
 import {
-  useAllProblems,
   useGetProblemsByGroupSeasonTopic,
   useGetSeasonTopicProblems,
 } from "../../lib/hooks/useProblems";
@@ -14,7 +13,6 @@ import SearchField from "../common/SearchField";
 import EmptyState from "../common/EmptyState";
 import ProblemModal from "../modals/ProblemModal";
 import MenuItem from "../common/MenuItem";
-import TopicModal from "../modals/TopicModal";
 import DeletePopupModal from "../modals/DeletePopupModal";
 import { REMOVE_SEASON_TOPIC } from "../../lib/apollo/Mutations/topicsMutations";
 import { useRouter } from "next/router";
@@ -22,7 +20,7 @@ import ProblemsTable from "./ProblemsTable";
 import { getSVGIcon } from "../../helpers/getSVGPath";
 import WithPermission from "../../lib/Guard/WithPermission";
 import ProblemsList from "./ProblemsList";
-import { MdOutlineTableView, MdViewList } from "react-icons/md";
+import {  MdViewList } from "react-icons/md";
 import { AiOutlineTable } from "react-icons/ai";
 import StudentProblemsTable from "./StudentProblemsTable";
 
@@ -72,12 +70,9 @@ const ProblemsPage = (props: ProblemsPageProps) => {
   const [filteredSeasonTopicProblems, setFilteredSeasonTopicProblems] =
     useState<any[]>([]);
 
-  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
-  const handleEditModalOpen = () => {
-    setIsEditModalOpen(true);
-  };
+
   const handleDeleteModalOpen = () => {
     setIsDeleteModalOpen(true);
   };
@@ -131,14 +126,8 @@ const ProblemsPage = (props: ProblemsPageProps) => {
         <ProblemModal
           isEditing={false}
           {...props}
+          addProblemToSeasonTopic={authUser.role == GraphqlUserRole.HEAD_OF_EDUCATION}
           onClose={() => setIsAddNewProblemModalOpen(false)}
-        />
-      )}
-      {isEditModalOpen && (
-        <TopicModal
-          isEditing={true}
-          onClose={() => setIsEditModalOpen(false)}
-          seasonId={""}
         />
       )}
       {isDeleteModalOpen && (
@@ -200,13 +189,6 @@ const ProblemsPage = (props: ProblemsPageProps) => {
                 <MenuItem
                   color="#000000"
                   menuItems={[
-                    // {
-                    //   title: "Edit Topic",
-                    //   onClick: (e: any) => {
-                    //     e.stopPropagation();
-                    //     handleEditModalOpen();
-                    //   },
-                    // },
                     {
                       title: "Delete Topic",
                       onClick: (e: any) => {
@@ -218,17 +200,6 @@ const ProblemsPage = (props: ProblemsPageProps) => {
                   ]}
                 />
               )}
-              {/* <MenuItem
-                color="#000000"
-                menuItems={[
-                  {
-                    title: "Delete Topic",
-                    onClick: (e: any) => {
-                      setIsDeleteModalOpen(true);
-                    },
-                  },
-                ]}
-              /> */}
             </div>
           </div>
         </div>

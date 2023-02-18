@@ -96,6 +96,10 @@ const FORM_VALIDATION = yup.object().shape({
       "Must be at least 50 characters",
       (val) => (val?.length || 0) >= 50
     ),
+
+  userProfileAddress:yup.object().shape({
+    country:yup.string().required("Required")
+  })
 });
 
 const ProfileInfo = ({ userProfile }: Props) => {

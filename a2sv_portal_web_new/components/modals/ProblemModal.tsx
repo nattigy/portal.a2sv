@@ -17,6 +17,7 @@ import FormRejectButton from "../common/FormRejectButton";
 import FormField from "../common/FormField";
 import FormRadio from "../common/FormRadio";
 import ProblemsAutocomplete from "../problems/ProblemsAutocomplete";
+import CloseIcon from "../common/CloseIcon";
 
 interface FormValues {
   search: string;
@@ -30,16 +31,15 @@ interface FormValues {
 type Props = {
   onClose: () => void;
   isEditing: boolean;
-  values?: FormValues;
   topicId?: string;
   seasonId?: string;
   problem?: ProblemType;
-  newProblem?: boolean;
+  addProblemToSeasonTopic?: boolean;
 };
 
 const ProblemModal = (props: Props) => {
-  const [createNewProblem] = useMutation(CREATE_PROBLEM);
-  const [updateProblem] = useMutation(UPDATE_PROBLEM);
+  const [createProblem] = useMutation(CREATE_PROBLEM);
+  const [editProblem] = useMutation(UPDATE_PROBLEM);
   const [addProblemToSeasonTopic] = useMutation(ADD_PROBLEM_TO_SEASON_TOPIC);
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -104,96 +104,90 @@ const ProblemModal = (props: Props) => {
   const deleteTag = (index: number) => {
     setTags((prevState) => prevState.filter((tag, i) => i !== index));
   };
+  const handleAddProblemToSeasonTopic = async (problemId: string) => {
+    await addProblemToSeasonTopic({
+      variables: {
+        problemIds: [problemId],
+        seasonTopicId: {
+          seasonId: props.seasonId,
+          topicId: props.topicId,
+        },
+      },
+      refetchQueries: "active",
+      notifyOnNetworkStatusChange: true,
+      onCompleted: (data) => {
+        props.onClose();
+      },
+      onError: (error) => {
+        setErrorMessage((error as ApolloError).message);
+      },
+    });
+  };
+  const handleCreateProblem = async (values: FormValues) => {
+    await createProblem({
+      variables: {
+        createProblemInput: {
+          difficulty: values.difficulty,
+          link: values.link,
+          title: values.name,
+          tags: tags.map((tag) => {
+            return { name: tag };
+          }),
+          platform: values.platform,
+        },
+      },
+      refetchQueries: "active",
+      notifyOnNetworkStatusChange: true,
+      onCompleted: async (data) => {
+        if(props.addProblemToSeasonTopic)
+          handleAddProblemToSeasonTopic(data.createProblem.id);
+        else{
+          props.onClose();
+        }
+      },
+      onError: (error) => {
+        setErrorMessage((error as ApolloError).message);
+      },
+    });
+  };
+  const handleEditProblem = async (values: FormValues) => {
+    await editProblem({
+      variables: {
+        updateProblemInput: {
+          problemId: props.problem?.id,
+          difficulty: values.difficulty,
+          link: values.link,
+          platform: values.platform,
+          tags: tags.map((tag) => {
+            return { name: tag };
+          }),
+          title: values.name,
+        },
+      },
+      refetchQueries: "active",
+      notifyOnNetworkStatusChange: true,
+      onCompleted: (data) => {
+        props.onClose();
+      },
+      onError: (error) => {
+        setErrorMessage((error as ApolloError).message);
+      },
+    });
+  };
 
   return (
     <>
       <div className=" transition-all duration-200 py-8 text-[#565656] w-screen h-screen absolute top-0 bottom-0 left-0 right-0 bg-gray-900 bg-opacity-30 z-50">
         <Formik
-          initialValues={props.values ? props.values : INITIAL_VALUES}
+          initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
             if (props.isEditing) {
-              await updateProblem({
-                variables: {
-                  updateProblemInput: {
-                    problemId: props.problem?.id,
-                    difficulty: values.difficulty,
-                    link: values.link,
-                    platform: values.platform,
-                    tags: tags.map((tag) => {
-                      return { name: tag };
-                    }),
-                    title: values.name,
-                  },
-                },
-                refetchQueries: "active",
-                notifyOnNetworkStatusChange: true,
-                onCompleted: (data) => {
-                  props.onClose();
-                },
-                onError: (error) => {
-                  setErrorMessage((error as ApolloError).message);
-                },
-              });
+             await handleEditProblem(values);
+            } else if (existingProblem === null) {
+              await handleCreateProblem(values);
             } else {
-              if (existingProblem === null) {
-                await createNewProblem({
-                  variables: {
-                    createProblemInput: {
-                      difficulty: values.difficulty,
-                      link: values.link,
-                      title: values.name,
-                      tags: tags.map((tag) => {
-                        return { name: tag };
-                      }),
-                      platform: values.platform,
-                    },
-                  },
-                  refetchQueries: "active",
-                  notifyOnNetworkStatusChange: true,
-                  onCompleted: async (data) => {
-                    await addProblemToSeasonTopic({
-                      variables: {
-                        problemIds: [data.createProblem.id],
-                        seasonTopicId: {
-                          seasonId: props.seasonId,
-                          topicId: props.topicId,
-                        },
-                      },
-                      refetchQueries: "active",
-                      notifyOnNetworkStatusChange: true,
-                      onCompleted: (data) => {
-                        props.onClose();
-                      },
-                      onError: (error) => {
-                        setErrorMessage((error as ApolloError).message);
-                      },
-                    });
-                    props.onClose();
-                  },
-                  onError: (error) => {
-                    setErrorMessage((error as ApolloError).message);
-                  },
-                });
-              } else {
-                await addProblemToSeasonTopic({
-                  variables: {
-                    problemIds: [existingProblem.id],
-                    seasonTopicId: {
-                      seasonId: props.seasonId,
-                      topicId: props.topicId,
-                    },
-                  },
-                  refetchQueries: "active",
-                  notifyOnNetworkStatusChange: true,
-                  onCompleted: (data) => {
-                    props.onClose();
-                  },
-                  onError: (error) => {
-                    setErrorMessage((error as ApolloError).message);
-                  },
-                });
-              }
+              await handleAddProblemToSeasonTopic(existingProblem.id);
             }
             actions.resetForm();
           }}
@@ -205,40 +199,14 @@ const ProblemModal = (props: Props) => {
                 className="flex flex-col gap-y-3 min-h-fit justify-between bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-10 py-5"
               >
                 <div className="w-full flex flex-col gap-y-2 items-center">
+
                   <div className="my-2 w-full flex justify-between items-center">
                     {props.isEditing ? (
                       <h2 className="font-semibold text-lg">Edit Problem</h2>
                     ) : (
                       <h2 className="font-semibold text-lg">Add New Problem</h2>
                     )}
-                    <div
-                      className="cursor-pointer"
-                      onClick={() => props.onClose()}
-                    >
-                      <svg
-                        className="font-bold text-gray-600"
-                        width={24}
-                        height={24}
-                        viewBox="0 0 28 28"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M21 7L7 21"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M7 7L21 21"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </div>
+                    <CloseIcon onClose={() => props.onClose()}/>
                   </div>
                   {/* {props.isEditing ? (
                     <p>You can replace the problem from the exisiting ones.</p>
@@ -248,7 +216,7 @@ const ProblemModal = (props: Props) => {
                       or choose existing one
                     </p>
                   )} */}
-                  {!props.isEditing && !props.newProblem && (
+                  {!props.isEditing && props.addProblemToSeasonTopic && (
                     <div className="w-full flex flex-col justify-start gap-y-2">
                       <ProblemsAutocomplete
                         handleSearchProblem={handleSearchProblem}
@@ -264,15 +232,7 @@ const ProblemModal = (props: Props) => {
                     <div>
                       {existingProblem === null && (
                         <div className="w-full flex flex-col items-center">
-                          {/* {props.isEditing ? (
-                            <div className="my-3 w-full flex justify-between items-center">
-                              <h2 className="font-bold">Update Problem</h2>
-                            </div>
-                          ) : (
-                            <div className="my-3 w-full flex justify-between items-center">
-                              <h2 className="font-bold">Create New</h2>
-                            </div>
-                          )} */}
+         
                           <div className="w-full">
                             <div className="flex flex-row gap-x-3 my-3">
                               <div className="flex flex-col w-3/5 justify-start gap-y-1">
@@ -304,7 +264,7 @@ const ProblemModal = (props: Props) => {
                                       name="platform"
                                       className={clsx(
                                         "w-full text-sm border bg-white rounded-md focus:outline-none py-3 pl-8 my-2",
-                                        touched.name && errors.name
+                                        touched.platform && errors.platform
                                           ? "border-red-500"
                                           : "border-[#DCDCDC]"
                                       )}
@@ -312,7 +272,6 @@ const ProblemModal = (props: Props) => {
                                       <option
                                         className="h-20"
                                         value=""
-                                        selected
                                         disabled
                                         hidden
                                       >
@@ -391,7 +350,7 @@ const ProblemModal = (props: Props) => {
                                     type="text"
                                     className={clsx(
                                       "w-full text-xs placeholder-[#949494] border bg-white rounded-md focus:outline-none py-3 px-4 pl-8",
-                                      touched.name && errors.name
+                                      touched.tags && errors.tags
                                         ? "border-red-500"
                                         : "border-[#DCDCDC]"
                                     )}
@@ -429,7 +388,7 @@ const ProblemModal = (props: Props) => {
                     text="Cancel"
                     onClick={() => props.onClose()}
                   />
-                  <FormAffirmativeButton isLoading={isSubmitting} text="Save" />{" "}
+                  <FormAffirmativeButton isLoading={isSubmitting} text="Save" />
                 </div>
               </div>
             </Form>

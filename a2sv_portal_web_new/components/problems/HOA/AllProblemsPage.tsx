@@ -29,7 +29,6 @@ const AllProblemsPage = (props: Props) => {
           onClose={() => {
             setIsProblemModalOpen(false);
           }}
-          newProblem={true}
         />
       )}
       <div className="flex flex-col items-end pb-4">

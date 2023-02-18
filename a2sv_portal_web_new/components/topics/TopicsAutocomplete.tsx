@@ -6,7 +6,7 @@ type Props = {
   handleSearchTopic: (selected: any) => void;
 };
 export type TopicType = {
-  id: number;
+  id: string;
   name: string;
 };
 const TopicsAutocomplete = ({ handleSearchTopic }: Props) => {

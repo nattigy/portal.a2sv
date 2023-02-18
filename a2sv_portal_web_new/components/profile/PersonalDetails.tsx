@@ -98,7 +98,7 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
           label="Phone Number"
           formik={formik}
           onChange={(e: any) => formik.setFieldValue("phone", e)}
-          onFocus={(e:any) => formik.setFieldTouched("phone", e)}
+          onFocus={(e: any) => formik.setFieldTouched("phone", e)}
         />
         <hr className="mx-2" />
         <DOBInputField
@@ -147,14 +147,8 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
               ]}
               icon={<FaChevronDown size={16} />}
               placeholder="Work Status"
-            />
-            <CustomFormField
-              id="status"
-              name="status"
-              placeholder=""
-              type="select"
-              formik={formik}
-              // options={props.inputProps.options}
+              error={(formik.errors as any)["currentWorkStatus"]}
+              touched={(formik.touched as any)["currentWorkStatus"]}
             />
           </div>
         </div>
@@ -186,10 +180,17 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
               flag={getNationality(formik.values.userProfileAddress.country)}
               placeholder="Country"
               icon={<FaChevronDown size={16} />}
+              error={
+                (formik.errors as any)["userProfileAddress"]
+                  ? (formik.errors as any)["userProfileAddress"]["country"]
+                  : ""
+              }
+              touched={
+                (formik.touched as any)["userProfileAddress"]
+                  ? (formik.touched as any)["userProfileAddress"]["country"]
+                  : ""
+              }
             />
-            <h1 className="text-xs font-light text-red-700">
-              {(formik.errors as any)["userProfileAddress.country"]}
-            </h1>
           </div>
         </div>
         <hr className="mx-2" />
@@ -204,13 +205,14 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
                   { name: "Graduated", value: "GRADUATED" },
                   { name: "Continuing", value: "CONTINUING" },
                 ]}
-                placeholder="Education Status"
+                placeholder="Enter Education Status"
+                error={(formik.errors as any)["currentEducationStatus"]}
+                touched={(formik.touched as any)["currentEducationStatus"]}
                 icon={<FaChevronDown size={16} />}
               />
-
-              <h1 className="text-xs font-light text-red-700">
-                {(formik.errors as any)["educationStatus"]}
-              </h1>
+              {/* <h1 className="text-xs font-light text-red-700">
+                {(formik.errors as any)["currentEducationStatus"]}
+              </h1> */}
             </div>
           </div>
         </div>
@@ -222,7 +224,7 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
             <CustomFormField
               id="educationPlace"
               name="educationPlace"
-              placeholder="Enter Resume Link"
+              placeholder="Enter Education Institiue"
               type="text"
               formik={formik}
             />
@@ -244,9 +246,9 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
                   : "border border-[#D2D2D2]"
               )}
             ></Field>
-            <h1 className="text-xs font-light text-red-700">
+            {/* <h1 className="text-xs font-light text-red-700">
               {(formik.errors as any)["bio"]}
-            </h1>
+            </h1> */}
           </div>
         </div>
       </div>

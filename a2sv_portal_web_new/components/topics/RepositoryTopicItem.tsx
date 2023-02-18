@@ -41,7 +41,6 @@ const RepositoryTopicItem = (props: Props) => {
           onClose={() => {
             setIsEditModalOpen(false);
           }}
-          newTopic={true}
           topic={props.topic}
         />
       )}
