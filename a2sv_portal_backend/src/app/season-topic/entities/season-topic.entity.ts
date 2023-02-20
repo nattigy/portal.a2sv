@@ -2,7 +2,7 @@ import { Field, ObjectType } from '@nestjs/graphql'
 import { Season } from '../../season/entities/season.entity'
 import { Topic } from '../../topic/entities/topic.entity'
 import { SeasonTopicProblem } from '../../season-topic-problem/entities/season-topic-problem.entity'
-import { SeasonTopicResource } from 'src/app/season-topic-resource/entities/season-topic-resource.entity'
+import { SeasonTopicResource } from '../../season-topic-resource/entities/season-topic-resource.entity'
 
 @ObjectType()
 export class SeasonTopic {
