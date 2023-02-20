@@ -16,7 +16,7 @@ export class TopicService {
     private readonly topicRepository: TopicRepository,
   ) {}
 
-  async create({ resources, name, description }: CreateTopicInput): Promise<Topic> {
+  async create({ name, description }: CreateTopicInput): Promise<Topic> {
     // TODO: check if topic with this name already exists and if it does return
     // TODO: "topic with this name already" exists error
 
@@ -27,12 +27,6 @@ export class TopicService {
     return this.topicRepository.create({
       name,
       description,
-      resources:{
-        connectOrCreate: resources.map(t => ({
-          where:{ type: t.type, name: t.name, description:t.description, link:t.link},
-          create: { type: t.type, name: t.name, description:t.description, link:t.link}
-        }))
-      }
     })
   }
 
@@ -40,7 +34,7 @@ export class TopicService {
     filterTopicInput?: FilterTopicInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationTopic> {
-    const resources = filterTopicInput?.resources
+   
     const filter: Prisma.TopicWhereInput = {
       id: filterTopicInput?.id,
       name: {
@@ -52,9 +46,7 @@ export class TopicService {
         mode: Prisma.QueryMode.insensitive,
       },
     }
-    if(resources){
-      filter.resources = { some: {name:{in: resources}}}
-    }
+
     
     const count = await this.topicRepository.count(filter)
     const topics = await this.topicRepository.findAll({
@@ -76,7 +68,7 @@ export class TopicService {
     return topic
   }
 
-  async updateTopic({ resources,topicId, ...update }: UpdateTopicInput): Promise<Topic> {
+  async updateTopic({topicId, ...update }: UpdateTopicInput): Promise<Topic> {
     // TODO: check if topic with this Id exists and if it doesn't return
     // TODO: "topic with this Id doesn't" exists error
     const foundTopic = await this.topicRepository.findOne({ id: topicId })
@@ -93,15 +85,7 @@ export class TopicService {
 
     return this.topicRepository.update({
       where: { id: topicId },
-      data:{ ...update,
-      resources:{
-        connectOrCreate: resources?.map(t => ({
-           create:{type: t.type, description: t.description,link:t.link, name:t.name},
-           where: {link:t.link}
-       
-          }))
-      }
-    }
+      data:{ ...update}
     })
   }
 

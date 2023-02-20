@@ -14,82 +14,82 @@ export class ManageGroupSeasonContestResolver {
   constructor(private readonly manageGroupSeasonContestService: ManageGroupSeasonContestService) {
   }
 
-  // @Mutation(() => GroupSeasonContest)
-  // async addContestToAGroupSeason(
-  //   @Args('createGroupSeasonContestInput')
-  //     createGroupSeasonContestInput: CreateGroupSeasonContestInput,
+  @Mutation(() => GroupSeasonContest)
+  async addContestToAGroupSeason(
+    @Args('createGroupSeasonContestInput')
+      createGroupSeasonContestInput: CreateGroupSeasonContestInput,
+  ) {
+    return this.manageGroupSeasonContestService.addContestToAGroupSeason(
+      createGroupSeasonContestInput,
+    )
+  }
+
+  @Query(() => GroupSeasonContest)
+  async groupSeasonContests(
+    @Args('filter') { groupId, seasonId }: GroupSeasonId,
+    @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
+  ): Promise<GroupSeasonContest[]> {
+    return this.manageGroupSeasonContestService.groupSeasonContests(
+      { groupId, seasonId },
+      paginationInput,
+    )
+  }
+
+  @Query(() => GroupSeasonContest)
+  async groupSeasonContest(
+    @Args('groupSeasonContestId') groupSeasonContestId: GroupSeasonContestId,
+  ) {
+    return this.manageGroupSeasonContestService.groupSeasonContest(groupSeasonContestId)
+  }
+
+  @Mutation(() => GroupSeasonContest)
+  async updateGroupSeasonContest(
+    @Args('updateGroupSeasonContestInput')
+      updateGroupSeasonContestInput: UpdateGroupSeasonContestInput,
+  ) {
+    return this.manageGroupSeasonContestService.updateGroupSeasonContest(
+      updateGroupSeasonContestInput,
+    )
+  }
+
+  @Mutation(() => GroupSeasonContest)
+  async removeGroupSeasonContest(
+    @Args('groupSeasonContestId') groupSeasonContestId: GroupSeasonContestId,
+  ) {
+    return this.manageGroupSeasonContestService.removeGroupSeasonContest(groupSeasonContestId)
+  }
+
+  // @Mutation(() => GroupSeasonContestProblem)
+  // createGroupSeasonContestProblem(
+  //   @Args('createGroupSeasonContestProblemInput')
+  //   createGroupSeasonContestProblemInput: CreateGroupSeasonContestProblemInput,
   // ) {
-  //   return this.manageGroupSeasonContestService.addContestToAGroupSeason(
-  //     createGroupSeasonContestInput,
+  //   return this.manageGroupSeasonContestService.create(createGroupSeasonContestProblemInput)
+  // }
+  //
+  // @Query(() => [GroupSeasonContestProblem], { name: 'groupSeasonContestProblem' })
+  // findAll() {
+  //   return this.manageGroupSeasonContestService.findAll()
+  // }
+  //
+  // @Query(() => GroupSeasonContestProblem, { name: 'groupSeasonContestProblem' })
+  // findOne(@Args('id', { type: () => Int }) id: number) {
+  //   return this.manageGroupSeasonContestService.findOne(id)
+  // }
+  //
+  // @Mutation(() => GroupSeasonContestProblem)
+  // updateGroupSeasonContestProblem(
+  //   @Args('updateGroupSeasonContestProblemInput')
+  //   updateGroupSeasonContestProblemInput: UpdateGroupSeasonContestProblemInput,
+  // ) {
+  //   return this.manageGroupSeasonContestService.update(
+  //     updateGroupSeasonContestProblemInput.id,
+  //     updateGroupSeasonContestProblemInput,
   //   )
   // }
   //
-  // @Query(() => GroupSeasonContest)
-  // async groupSeasonContests(
-  //   @Args('filter') { groupId, seasonId }: GroupSeasonId,
-  //   @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
-  // ): Promise<GroupSeasonContest[]> {
-  //   return this.manageGroupSeasonContestService.groupSeasonContests(
-  //     { groupId, seasonId },
-  //     paginationInput,
-  //   )
+  // @Mutation(() => GroupSeasonContestProblem)
+  // removeGroupSeasonContestProblem(@Args('id', { type: () => Int }) id: number) {
+  //   return this.manageGroupSeasonContestService.remove(id)
   // }
-  //
-  // @Query(() => GroupSeasonContest)
-  // async groupSeasonContest(
-  //   @Args('groupSeasonContestId') groupSeasonContestId: GroupSeasonContestId,
-  // ) {
-  //   return this.manageGroupSeasonContestService.groupSeasonContest(groupSeasonContestId)
-  // }
-  //
-  // @Mutation(() => GroupSeasonContest)
-  // async updateGroupSeasonContest(
-  //   @Args('updateGroupSeasonContestInput')
-  //     updateGroupSeasonContestInput: UpdateGroupSeasonContestInput,
-  // ) {
-  //   return this.manageGroupSeasonContestService.updateGroupSeasonContest(
-  //     updateGroupSeasonContestInput,
-  //   )
-  // }
-  //
-  // @Mutation(() => GroupSeasonContest)
-  // async removeGroupSeasonContest(
-  //   @Args('groupSeasonContestId') groupSeasonContestId: GroupSeasonContestId,
-  // ) {
-  //   return this.manageGroupSeasonContestService.removeGroupSeasonContest(groupSeasonContestId)
-  // }
-  //
-  // // @Mutation(() => GroupSeasonContestProblem)
-  // // createGroupSeasonContestProblem(
-  // //   @Args('createGroupSeasonContestProblemInput')
-  // //   createGroupSeasonContestProblemInput: CreateGroupSeasonContestProblemInput,
-  // // ) {
-  // //   return this.manageGroupSeasonContestService.create(createGroupSeasonContestProblemInput)
-  // // }
-  // //
-  // // @Query(() => [GroupSeasonContestProblem], { name: 'groupSeasonContestProblem' })
-  // // findAll() {
-  // //   return this.manageGroupSeasonContestService.findAll()
-  // // }
-  // //
-  // // @Query(() => GroupSeasonContestProblem, { name: 'groupSeasonContestProblem' })
-  // // findOne(@Args('id', { type: () => Int }) id: number) {
-  // //   return this.manageGroupSeasonContestService.findOne(id)
-  // // }
-  // //
-  // // @Mutation(() => GroupSeasonContestProblem)
-  // // updateGroupSeasonContestProblem(
-  // //   @Args('updateGroupSeasonContestProblemInput')
-  // //   updateGroupSeasonContestProblemInput: UpdateGroupSeasonContestProblemInput,
-  // // ) {
-  // //   return this.manageGroupSeasonContestService.update(
-  // //     updateGroupSeasonContestProblemInput.id,
-  // //     updateGroupSeasonContestProblemInput,
-  // //   )
-  // // }
-  // //
-  // // @Mutation(() => GroupSeasonContestProblem)
-  // // removeGroupSeasonContestProblem(@Args('id', { type: () => Int }) id: number) {
-  // //   return this.manageGroupSeasonContestService.remove(id)
-  // // }
 }

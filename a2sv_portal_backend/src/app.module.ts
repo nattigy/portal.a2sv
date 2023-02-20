@@ -25,12 +25,19 @@ import {
   UsersUpdateProblemStatusModule,
 } from './services/users-update-problem-status/users-update-problem-status.module'
 import { StudentDataAnalyticsModule } from './app/user-group-season-analytics/student-data-analytics.module'
-import { ResourceModule } from './app/resource/resource.module'
 import { ManageGroupSeasonModule } from './services/manage-group-season/manage-group-season.module'
 import { ManageUserGroupSeasonModule } from './services/manage-user-group-season/manage-user-group-season.module'
 import { UserModule } from './app/user/user.module'
 import { GroupModule } from './app/group/group.module'
 import { SeasonModule } from './app/season/season.module'
+import {
+  ManageGroupSeasonContestModule
+} from './services/manage-group-season-contest/manage-group-season-contest.module'
+import {
+  UserUpdateContestProblemModule
+} from './services/user-update-contest-problem/user-update-contest-problem.module'
+import { ContestModule } from './app/contest/contest.module'
+import { SeasonTopicResourceModule } from './app/season-topic-resource/season-topic-resource.module'
 
 @Module({
   imports: [
@@ -79,7 +86,8 @@ import { SeasonModule } from './app/season/season.module'
     PrismaModule,
     CaslModule,
     TagModule,
-    ResourceModule,
+    // ContestModule,
+    SeasonTopicResourceModule,
     ProblemModule,
     TopicModule,
     UserModule,

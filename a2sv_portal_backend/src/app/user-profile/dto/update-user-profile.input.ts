@@ -8,6 +8,9 @@ export class UpdateUserProfileInput {
   userId: string
 
   @Field({ nullable: true })
+  email?:string
+
+  @Field({ nullable: true })
   firstName?: string
 
   @Field({ nullable: true })
@@ -87,9 +90,6 @@ export class UpdateUserProfileInput {
 
   @Field({ nullable: true })
   twitter?: string
-
-  @Field({ nullable: true })
-  facebook?: string
 
   @Field(() => UpdateUserProfileAddressInput, { nullable: true })
   userProfileAddress?: UpdateUserProfileAddressInput

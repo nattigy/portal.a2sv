@@ -58,19 +58,9 @@ model Topic {
   description          String?
   createdAt            DateTime?              @default(now())
   updatedAt            DateTime?              @updatedAt
-  resources            Resource[]
   seasonTopics         SeasonTopic[]
   GroupSeasonTopic     GroupSeasonTopic[]
   UserGroupSeasonTopic UserGroupSeasonTopic[]
-}
-
-model Resource {
-  id          String  @id @default(uuid())
-  type        String
-  name        String
-  description String
-  link        String  @unique
-  topic       Topic[]
 }
 
 model Problem {
@@ -111,12 +101,13 @@ model User {
 model SeasonTopic {
   seasonId            String
   topicId             String
-  createdAt           DateTime?            @default(now())
-  updatedAt           DateTime?            @updatedAt
-  season              Season               @relation(fields: [seasonId], references: [id], onDelete: Cascade)
-  topic               Topic                @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  createdAt           DateTime?             @default(now())
+  updatedAt           DateTime?             @updatedAt
+  season              Season                @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+  topic               Topic                 @relation(fields: [topicId], references: [id], onDelete: Cascade)
   seasonTopicProblems SeasonTopicProblem[]
   groupSeasonTopics   GroupSeasonTopic[]
+  seasonTopicResources SeasonTopicResource[]
 
   @@id([seasonId, topicId])
 }
@@ -132,6 +123,20 @@ model SeasonTopicProblem {
   groupSeasonTopicProblems GroupSeasonTopicProblem[]
 
   @@id([seasonId, topicId, problemId])
+}
+
+model SeasonTopicResource {
+  seasonId    String
+  topicId     String
+  type        ResourceTypeEnum
+  name        String
+  description String
+  link        String
+  seasonTopic SeasonTopic      @relation(fields: [seasonId, topicId], references: [seasonId, topicId],onDelete: Cascade)
+  createdAt   DateTime?        @default(now())
+  updatedAt   DateTime?        @updatedAt
+
+  @@id([seasonId, topicId])
 }
 
 model GroupSeason {
@@ -475,6 +480,13 @@ enum UserTopicProblemStatusEnum {
   SOLVED
   NOT_SOLVED
   UNABLE_TO_SOLVE
+}
+
+enum ResourceTypeEnum {
+  VIDEO
+  PPT
+  PDF
+  DOC
 }
 
 //model ProgrammingPlatformHandle {

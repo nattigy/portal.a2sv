@@ -1,6 +1,4 @@
 import { Field, InputType} from '@nestjs/graphql'
-import { CreateResourceInput } from 'src/app/resource/dto/create-resource.input'
-
 @InputType()
 export class UpdateTopicInput {
   @Field()
@@ -12,6 +10,4 @@ export class UpdateTopicInput {
   @Field({nullable:true})
   description?: string
 
-  @Field(() => [CreateResourceInput], {nullable:true})
-  resources?: CreateResourceInput[]
 }
