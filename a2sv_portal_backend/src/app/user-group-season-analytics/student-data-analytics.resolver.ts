@@ -9,8 +9,8 @@ import { StudentYearlyAnalytic } from './entities/yearly-data-analytic-entity'
 export class StudentDataAnalyticsResolver {
   constructor(private readonly studentDataAnalyticsService: StudentDataAnalyticsService) {}
 
-  @Query(() => [StudentDataAnalytic], { name: 'Studentdailystat' })
-  studentDailyStat(
+  @Query(() => [StudentDataAnalytic])
+  async studentDailyStat(
     @Args('user_id', { type: () => String }) userId: string,
     @Args('start_date', { type: () => Date, nullable: true }) startDate?: Date,
     @Args('end_date', { type: () => Date, nullable: true }) endDate?: Date,
@@ -18,37 +18,37 @@ export class StudentDataAnalyticsResolver {
     return this.studentDataAnalyticsService.userStat(userId, startDate,endDate)
   }
 
-  @Query(() => [StudentWeeklyAnalytic], { name: 'Studentweeklystat' })
-  userWeeklyStat(
+  @Query(() => [StudentWeeklyAnalytic])
+  async studentWeeklyStat(
     @Args('user_id', { type: () => String }) userId: string,
-    @Args('season_id', { type: () => String }) seasonId: string,
+    // @Args('season_id', { type: () => String }) seasonId: string,
     @Args('start_date', { type: () => Date, nullable: true }) startDate?: Date,
     @Args('end_date', { type: () => Date, nullable: true }) endDate?: Date,
   ) {
     return this.studentDataAnalyticsService.weeklyUserStart(
       userId,
-      seasonId,
+      // seasonId,
       startDate,
       endDate,
     )
   }
 
-  @Query(() => [StudentMonthlyAnalytic], { name: 'Studentmontlystat' })
-  userMonthlyStat(
+  @Query(() => [StudentMonthlyAnalytic])
+  async studentMonthlyStat(
     @Args('user_id', { type: () => String }) userId: string,
-    @Args('season_id', { type: () => String }) seasonId: string
+    // @Args('season_id', { type: () => String }) seasonId: string
   ) {
-    return this.studentDataAnalyticsService.montlyUserStart(
+    return this.studentDataAnalyticsService.monthlyUserStart(
       userId,
-      seasonId
+      // seasonId
     )
   }
 
-  @Query(() => [StudentYearlyAnalytic], { name: 'Studentyearlystat' })
-  yearlyUserStat(
+  @Query(() => [StudentYearlyAnalytic])
+  async studentYearlyStat(
     @Args('user_id', { type: () => String }) userId: string,
-    @Args('season_id', { type: () => String }) seasonId: string
+    // @Args('season_id', { type: () => String }) seasonId: string
   ) {
-    return this.studentDataAnalyticsService.yearlUserStat(userId, seasonId)
+    return this.studentDataAnalyticsService.yearlyUserStat(userId)
   }
 }

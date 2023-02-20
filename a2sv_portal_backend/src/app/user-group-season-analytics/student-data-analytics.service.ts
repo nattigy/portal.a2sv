@@ -117,7 +117,7 @@ export class StudentDataAnalyticsService {
     })
   }
 
-  async yearlUserStat(userId: string, seasonId: string, endDate?: Date) {
+  async yearlyUserStat(userId: string) {
     const date = endDate ? new Date(endDate) : new Date()
     const start = new Date(`${date.getFullYear() - 1}-${date.getMonth()}-${date.getDate()}`)
     const yearlystat = await this.prismaService.userGroupSeasonDataAnalytics.groupBy({
@@ -142,7 +142,7 @@ export class StudentDataAnalyticsService {
     return yearlystat as unknown as StudentYearlyAnalytic
   }
 
-  async weeklyUserStart(userId: string, seasonId: string, startDate?: Date, endDate?: Date) {
+  async weeklyUserStart(userId: string, startDate?: Date, endDate?: Date) {
     const date = new Date()
   
     const user = await this.prismaService.user.findUnique({
@@ -150,14 +150,14 @@ export class StudentDataAnalyticsService {
         id: userId,
       },
     })
-    const groupSeason = await this.prismaService.groupSeason.findUnique({
-      where:{
-        groupId_seasonId:{
-          seasonId,
-          groupId:user.groupId
-        }
-      }
-    })
+    // const groupSeason = await this.prismaService.groupSeason.findUnique({
+    //   where:{
+    //     // groupId_seasonId:{
+    //       // seasonId,
+    //       groupId:user.groupId
+    //     // }
+    //   }
+    // })
     const startdate = new Date(groupSeason.startDate)
     const enddate = date;
     const weeklystat = await this.prismaService.userGroupSeasonDataAnalytics.groupBy({
@@ -168,7 +168,7 @@ export class StudentDataAnalyticsService {
           lte: enddate,
           gte: startdate,
         },
-        seasonId,
+        // seasonId,
       },
       _sum: {
         solvedCount: true,
@@ -181,7 +181,7 @@ export class StudentDataAnalyticsService {
     return weeklystat as unknown as StudentWeeklyAnalytic
   }
 
-  async montlyUserStart(userId: string, seasonId: string, startDate?: Date, endDate?: Date) {
+  async monthlyUserStart(userId: string, startDate?: Date, endDate?: Date) {
     const date = new Date()
   
     const user = await this.prismaService.user.findUnique({
@@ -189,14 +189,14 @@ export class StudentDataAnalyticsService {
         id: userId,
       },
     })
-    const groupSeason = await this.prismaService.groupSeason.findUnique({
-      where:{
-        groupId_seasonId:{
-          seasonId,
-          groupId:user.groupId
-        }
-      }
-    })
+    // const groupSeason = await this.prismaService.groupSeason.findUnique({
+    //   where:{
+    //     groupId_seasonId:{
+    //       seasonId,
+    //       groupId:user.groupId
+    //     }
+    //   }
+    // })
     const startdate = new Date(groupSeason.startDate)
     const enddate = date;
     
@@ -208,7 +208,7 @@ export class StudentDataAnalyticsService {
           lte: enddate,
           gte: startdate,
         },
-        seasonId,
+        // seasonId,
       },
       _sum: {
         solvedCount: true,
