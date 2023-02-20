@@ -2,6 +2,7 @@ import { Field, ObjectType } from '@nestjs/graphql'
 import { Season } from '../../season/entities/season.entity'
 import { Topic } from '../../topic/entities/topic.entity'
 import { SeasonTopicProblem } from '../../season-topic-problem/entities/season-topic-problem.entity'
+import { SeasonTopicResource } from 'src/app/season-topic-resource/entities/season-topic-resource.entity'
 
 @ObjectType()
 export class SeasonTopic {
@@ -17,6 +18,9 @@ export class SeasonTopic {
   @Field(() => Topic)
   topic: Topic
 
+  @Field(() => [SeasonTopicResource], {nullable:true})
+  seasonTopicResources?: SeasonTopicResource[]
+
   @Field(() => [SeasonTopicProblem])
   seasonTopicProblems: SeasonTopicProblem[]
 
@@ -25,4 +29,5 @@ export class SeasonTopic {
 
   @Field(() => Date, { nullable: true })
   updatedAt?: Date
+
 }

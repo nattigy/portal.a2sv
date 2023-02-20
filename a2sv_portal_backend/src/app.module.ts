@@ -25,7 +25,6 @@ import {
   UsersUpdateProblemStatusModule,
 } from './services/users-update-problem-status/users-update-problem-status.module'
 import { StudentDataAnalyticsModule } from './app/user-group-season-analytics/student-data-analytics.module'
-import { ResourceModule } from './app/resource/resource.module'
 import { ManageGroupSeasonModule } from './services/manage-group-season/manage-group-season.module'
 import { ManageUserGroupSeasonModule } from './services/manage-user-group-season/manage-user-group-season.module'
 import { UserModule } from './app/user/user.module'
@@ -38,6 +37,7 @@ import {
   UserUpdateContestProblemModule
 } from './services/user-update-contest-problem/user-update-contest-problem.module'
 import { ContestModule } from './app/contest/contest.module'
+import { SeasonTopicResourceModule } from './app/season-topic-resource/season-topic-resource.module'
 
 @Module({
   imports: [
@@ -87,7 +87,7 @@ import { ContestModule } from './app/contest/contest.module'
     CaslModule,
     TagModule,
     ContestModule,
-    ResourceModule,
+    SeasonTopicResourceModule,
     ProblemModule,
     TopicModule,
     UserModule,

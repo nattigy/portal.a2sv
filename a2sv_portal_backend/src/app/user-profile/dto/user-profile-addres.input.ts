@@ -16,6 +16,9 @@ export class UpdateUserProfileAddressInput {
 
   @Field({ nullable: true })
   city?: string
+
+  // @Field({ nullable: true })
+  // profileId?: string
 }
 
 @InputType()
