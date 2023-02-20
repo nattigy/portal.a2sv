@@ -21,13 +21,11 @@ export class StudentDataAnalyticsResolver {
   @Query(() => [StudentWeeklyAnalytic])
   async studentWeeklyStat(
     @Args('user_id', { type: () => String }) userId: string,
-    // @Args('season_id', { type: () => String }) seasonId: string,
     @Args('start_date', { type: () => Date, nullable: true }) startDate?: Date,
     @Args('end_date', { type: () => Date, nullable: true }) endDate?: Date,
   ) {
     return this.studentDataAnalyticsService.weeklyUserStart(
       userId,
-      // seasonId,
       startDate,
       endDate,
     )
@@ -36,19 +34,21 @@ export class StudentDataAnalyticsResolver {
   @Query(() => [StudentMonthlyAnalytic])
   async studentMonthlyStat(
     @Args('user_id', { type: () => String }) userId: string,
-    // @Args('season_id', { type: () => String }) seasonId: string
+    @Args('start_date', { type: () => Date, nullable: true }) startDate?: Date,
+    @Args('end_date', { type: () => Date, nullable: true }) endDate?: Date
   ) {
     return this.studentDataAnalyticsService.monthlyUserStart(
       userId,
-      // seasonId
+      startDate,endDate
     )
   }
 
   @Query(() => [StudentYearlyAnalytic])
   async studentYearlyStat(
     @Args('user_id', { type: () => String }) userId: string,
-    // @Args('season_id', { type: () => String }) seasonId: string
+    @Args('start_date', { type: () => Date, nullable: true }) startDate?: Date,
+    @Args('end_date', { type: () => Date, nullable: true }) endDate?: Date,
   ) {
-    return this.studentDataAnalyticsService.yearlyUserStat(userId)
+    return this.studentDataAnalyticsService.yearlyUserStat(userId,startDate,endDate)
   }
 }
