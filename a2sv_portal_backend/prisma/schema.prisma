@@ -99,14 +99,14 @@ model User {
 }
 
 model SeasonTopic {
-  seasonId            String
-  topicId             String
-  createdAt           DateTime?             @default(now())
-  updatedAt           DateTime?             @updatedAt
-  season              Season                @relation(fields: [seasonId], references: [id], onDelete: Cascade)
-  topic               Topic                 @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  seasonTopicProblems SeasonTopicProblem[]
-  groupSeasonTopics   GroupSeasonTopic[]
+  seasonId             String
+  topicId              String
+  createdAt            DateTime?             @default(now())
+  updatedAt            DateTime?             @updatedAt
+  season               Season                @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+  topic                Topic                 @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  seasonTopicProblems  SeasonTopicProblem[]
+  groupSeasonTopics    GroupSeasonTopic[]
   seasonTopicResources SeasonTopicResource[]
 
   @@id([seasonId, topicId])
@@ -132,7 +132,7 @@ model SeasonTopicResource {
   name        String
   description String
   link        String
-  seasonTopic SeasonTopic      @relation(fields: [seasonId, topicId], references: [seasonId, topicId],onDelete: Cascade)
+  seasonTopic SeasonTopic      @relation(fields: [seasonId, topicId], references: [seasonId, topicId], onDelete: Cascade)
   createdAt   DateTime?        @default(now())
   updatedAt   DateTime?        @updatedAt
 

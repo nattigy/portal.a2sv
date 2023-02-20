@@ -86,7 +86,7 @@ import { SeasonTopicResourceModule } from './app/season-topic-resource/season-to
     PrismaModule,
     CaslModule,
     TagModule,
-    // ContestModule,
+    ContestModule,
     SeasonTopicResourceModule,
     ProblemModule,
     TopicModule,
