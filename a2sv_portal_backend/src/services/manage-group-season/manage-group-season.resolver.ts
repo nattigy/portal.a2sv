@@ -7,7 +7,10 @@ import { PoliciesGuard } from '../../casl/policy/policy.guard'
 import { CheckPolicies } from '../../casl/policy/policy.decorator'
 import { GroupSeasonAbilities } from '../../casl/handler/group-season-abilities.handler'
 import { GroupSeason } from '../../app/group-season/entities/group-season.entity'
-import { CreateGroupSeasonInput, GroupSeasonId } from '../../app/group-season/dto/create-group-season.input'
+import {
+  CreateGroupSeasonInput,
+  GroupSeasonId,
+} from '../../app/group-season/dto/create-group-season.input'
 import { PaginationGroupSeason } from '../../common/page/pagination-info'
 import { FilterGroupSeasonInput } from '../../app/group-season/dto/filter-group-season.input'
 import { PaginationInput } from '../../common/page/pagination.input'
@@ -90,7 +93,7 @@ export class ManageGroupSeasonResolver {
   @Mutation(() => GroupSeason)
   async updateGroupSeasonJoinRequest(
     @Args('updateGroupSeasonJoinRequestInput')
-      updateGroupSeasonJoinRequestInput: UpdateGroupSeasonJoinRequestInput,
+    updateGroupSeasonJoinRequestInput: UpdateGroupSeasonJoinRequestInput,
   ): Promise<GroupSeason> {
     try {
       return this.groupSeasonService.updateGroupSeasonJoinRequest(
@@ -180,7 +183,10 @@ export class ManageGroupSeasonResolver {
   ) {
     try {
       for (const topicId of topicIds) {
-        await this.groupSeasonTopicService.removeGroupSeasonTopic({ ...groupSeasonId, topicId })
+        await this.groupSeasonTopicService.removeGroupSeasonTopic({
+          ...groupSeasonId,
+          topicId,
+        })
       }
       return topicIds.length
     } catch (e) {

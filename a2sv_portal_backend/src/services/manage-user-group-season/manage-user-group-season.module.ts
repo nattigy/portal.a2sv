@@ -8,12 +8,8 @@ import { UserGroupSeasonTopicProblemService } from './user-group-season-topic-pr
 import { UserGroupSeasonModule } from '../../app/user-group-season/user-group-season.module'
 import { UserGroupSeasonContestModule } from '../../app/user-group-season-contest/user-group-season-contest.module'
 import { UserGroupSeasonTopicModule } from '../../app/user-group-season-topic/user-group-season-topic.module'
-import {
-  UserGroupSeasonTopicProblemModule,
-} from '../../app/user-group-season-topic-problem/user-group-season-topic-problem.module'
-import {
-  UserGroupSeasonContestProblemModule,
-} from '../../app/user-group-season-contest-problem/user-group-season-contest-problem.module'
+import { UserGroupSeasonTopicProblemModule } from '../../app/user-group-season-topic-problem/user-group-season-topic-problem.module'
+import { UserGroupSeasonContestProblemModule } from '../../app/user-group-season-contest-problem/user-group-season-contest-problem.module'
 import { GroupSeasonTopicModule } from '../../app/group-season-topic/group-season-topic.module'
 import { GroupSeasonTopicProblemModule } from '../../app/group-season-topic-problem/group-season-topic-problem.module'
 
@@ -36,5 +32,4 @@ import { GroupSeasonTopicProblemModule } from '../../app/group-season-topic-prob
     UserGroupSeasonTopicProblemService,
   ],
 })
-export class ManageUserGroupSeasonModule {
-}
+export class ManageUserGroupSeasonModule {}

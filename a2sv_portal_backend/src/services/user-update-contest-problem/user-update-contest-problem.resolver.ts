@@ -3,7 +3,7 @@ import { UserUpdateContestProblemService } from './user-update-contest-problem.s
 
 @Resolver()
 export class UserUpdateContestProblemResolver {
-  constructor(private readonly userUpdateContestProblemService: UserUpdateContestProblemService) {
-  }
-
+  constructor(
+    private readonly userUpdateContestProblemService: UserUpdateContestProblemService,
+  ) {}
 }

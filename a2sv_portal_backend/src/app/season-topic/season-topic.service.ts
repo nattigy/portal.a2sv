@@ -6,7 +6,6 @@ import { PaginationInput } from '../../common/page/pagination.input'
 import { PaginationSeasonTopic } from '../../common/page/pagination-info'
 import { SeasonTopicRepository } from './season-topic.repository'
 import { SeasonTopic } from './entities/season-topic.entity'
-// import { CreateSeasonTopicResourceInput } from './dto/create-season-topic.input'
 
 @Injectable()
 export class SeasonTopicService {
@@ -44,7 +43,6 @@ export class SeasonTopicService {
       take,
       where: filterSeasonTopicInput,
     })
-    // console.log(seasonTopics, 'val')
     return {
       items: seasonTopics,
       pageInfo: { take, skip, count },
@@ -71,15 +69,15 @@ export class SeasonTopicService {
       },
       data: {
         seasonTopicResources: {
-          connectOrCreate: seasonTopicResources.map(t => ({
-            where: {
-              seasonId_topicId: {
-                seasonId,
-                topicId,
-              },
-            },
-            create: { type:t.type, description: t.description, link:t.link, name:t.name},
-          })),
+          createMany: {
+            skipDuplicates: true,
+            data: seasonTopicResources.map(t => ({
+              type: t.type,
+              description: t.description,
+              link: t.link,
+              name: t.name,
+            })),
+          },
         },
       },
     })

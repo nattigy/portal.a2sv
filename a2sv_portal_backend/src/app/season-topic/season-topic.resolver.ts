@@ -28,8 +28,9 @@ export class SeasonTopicResolver {
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(SeasonTopicAbilities.read)
   @Mutation(() => SeasonTopic)
-  async addResourcesToSeasonTopic(@Args('createSeasonTopicInput') createSeasonTopicInput:CreateSeasonTopicInput): Promise<SeasonTopic>{
-    // console.log("resources", createSeasonTopicInput)
+  async addResourcesToSeasonTopic(
+    @Args('createSeasonTopicInput') createSeasonTopicInput: CreateSeasonTopicInput,
+  ): Promise<SeasonTopic> {
     return this.seasonTopicService.addResourceToSeasonTopic(createSeasonTopicInput)
   }
 

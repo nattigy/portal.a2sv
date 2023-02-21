@@ -105,6 +105,23 @@ Table SeasonTopic {
   }
 }
 
+Table SeasonTopicResource {
+  id String [not null]
+  seasonId String [not null]
+  topicId String [not null]
+  type ResourceTypeEnum [not null]
+  name String [not null]
+  description String [not null]
+  link String [not null]
+  seasonTopic SeasonTopic [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+
+  indexes {
+    (id, seasonId, topicId) [pk]
+  }
+}
+
 Table SeasonTopicProblem {
   seasonId String [not null]
   topicId String [not null]
@@ -117,22 +134,6 @@ Table SeasonTopicProblem {
 
   indexes {
     (seasonId, topicId, problemId) [pk]
-  }
-}
-
-Table SeasonTopicResource {
-  seasonId String [not null]
-  topicId String [not null]
-  type ResourceTypeEnum [not null]
-  name String [not null]
-  description String [not null]
-  link String [not null]
-  seasonTopic SeasonTopic [not null]
-  createdAt DateTime [default: `now()`]
-  updatedAt DateTime
-
-  indexes {
-    (seasonId, topicId) [pk]
   }
 }
 
@@ -517,11 +518,11 @@ Ref: SeasonTopic.seasonId > Season.id [delete: Cascade]
 
 Ref: SeasonTopic.topicId > Topic.id [delete: Cascade]
 
+Ref: SeasonTopicResource.(seasonId, topicId) > SeasonTopic.(seasonId, topicId) [delete: Cascade]
+
 Ref: SeasonTopicProblem.(seasonId, topicId) > SeasonTopic.(seasonId, topicId) [delete: Cascade]
 
 Ref: SeasonTopicProblem.problemId > Problem.id [delete: Cascade]
-
-Ref: SeasonTopicResource.(seasonId, topicId) > SeasonTopic.(seasonId, topicId) [delete: Cascade]
 
 Ref: GroupSeason.groupId > Group.id [delete: Cascade]
 

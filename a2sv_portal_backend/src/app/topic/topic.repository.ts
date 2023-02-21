@@ -26,7 +26,7 @@ export class TopicRepository {
       skip,
       take,
       where,
-      orderBy
+      orderBy,
     })
   }
 
@@ -39,7 +39,7 @@ export class TopicRepository {
     data: Prisma.TopicUpdateInput
   }): Promise<Topic> {
     const { where, data } = params
-    return this.prismaService.topic.update({ data, where})
+    return this.prismaService.topic.update({ data, where })
   }
 
   async remove(where: Prisma.TopicWhereUniqueInput) {

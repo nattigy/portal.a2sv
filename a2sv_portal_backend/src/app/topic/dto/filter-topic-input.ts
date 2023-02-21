@@ -12,7 +12,7 @@ export class FilterTopicInput {
 
   @Field(() => StringFilter, { nullable: true })
   description?: StringFilter
-  
+
   @Field(() => DateTimeFilter, { nullable: true })
   createdAt?: DateTimeFilter
 }

@@ -15,9 +15,13 @@ import { SeasonTopicProblemModule } from '../../app/season-topic-problem/season-
     SeasonTopicProblemModule,
     GroupSeasonModule,
     GroupSeasonTopicModule,
-    GroupSeasonTopicProblemModule
+    GroupSeasonTopicProblemModule,
   ],
-  providers: [ManageGroupSeasonResolver, GroupSeasonService, GroupSeasonTopicService, GroupSeasonTopicProblemService],
+  providers: [
+    ManageGroupSeasonResolver,
+    GroupSeasonService,
+    GroupSeasonTopicService,
+    GroupSeasonTopicProblemService,
+  ],
 })
-export class ManageGroupSeasonModule {
-}
+export class ManageGroupSeasonModule {}

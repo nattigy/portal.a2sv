@@ -12,9 +12,8 @@ export class SeasonTopicRepository {
       data,
       include: {
         season: true,
-        topic: true, 
-        seasonTopicResources:true,
-        // resources:true,      
+        topic: true,
+        seasonTopicResources: true,
         seasonTopicProblems: {
           include: { problem: { include: { tags: true } } },
         },
@@ -41,8 +40,7 @@ export class SeasonTopicRepository {
       include: {
         season: true,
         topic: true,
-        seasonTopicResources:true,
-        // resources:true,
+        seasonTopicResources: true,
         seasonTopicProblems: {
           include: { problem: { include: { tags: true } } },
         },
@@ -56,8 +54,7 @@ export class SeasonTopicRepository {
       include: {
         season: true,
         topic: true,
-        seasonTopicResources:true,
-        // resources:true,
+        seasonTopicResources: true,
         seasonTopicProblems: {
           include: { problem: { include: { tags: true } } },
         },
@@ -76,7 +73,7 @@ export class SeasonTopicRepository {
       include: {
         season: true,
         topic: true,
-        seasonTopicResources:true,
+        seasonTopicResources: true,
         seasonTopicProblems: {
           include: { problem: { include: { tags: true } } },
         },
@@ -95,11 +92,11 @@ export class SeasonTopicRepository {
         season: { connect: { id: where.seasonId_topicId.seasonId } },
         topic: { connect: { id: where.seasonId_topicId.topicId } },
       },
-      update: {},
+      update: data,
       include: {
         season: true,
         topic: true,
-        seasonTopicResources:true,
+        seasonTopicResources: true,
         seasonTopicProblems: {
           include: { problem: { include: { tags: true } } },
         },

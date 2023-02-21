@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql'
+import { Field, GraphQLISODateTime, ObjectType } from '@nestjs/graphql'
 import { Season } from '../../season/entities/season.entity'
 import { Topic } from '../../topic/entities/topic.entity'
 import { SeasonTopicProblem } from '../../season-topic-problem/entities/season-topic-problem.entity'
@@ -18,16 +18,15 @@ export class SeasonTopic {
   @Field(() => Topic)
   topic: Topic
 
-  @Field(() => [SeasonTopicResource], {nullable:true})
-  seasonTopicResources?: SeasonTopicResource[]
+  @Field(() => [SeasonTopicResource], { nullable: true })
+  seasonTopicResources: SeasonTopicResource[]
 
   @Field(() => [SeasonTopicProblem])
   seasonTopicProblems: SeasonTopicProblem[]
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   updatedAt?: Date
-
 }

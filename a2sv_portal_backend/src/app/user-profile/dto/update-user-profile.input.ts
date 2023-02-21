@@ -8,7 +8,7 @@ export class UpdateUserProfileInput {
   userId: string
 
   @Field({ nullable: true })
-  email?:string
+  email?: string
 
   @Field({ nullable: true })
   firstName?: string

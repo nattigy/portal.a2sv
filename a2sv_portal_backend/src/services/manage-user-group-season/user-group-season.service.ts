@@ -55,15 +55,27 @@ export class UserGroupSeasonService {
       const totalAcceptedSubmissions = userTopics.items
         .map(t => t.totalAcceptedSubmissions)
         .reduce((a, b) => a + b, 0)
-      const easyCount = userTopics.items
-        .flatMap(t => t.userGroupSeasonTopicProblems.filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
-          .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.EASY), 1).length
-      const mediumCount = userTopics.items
-        .flatMap(t => t.userGroupSeasonTopicProblems.filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
-          .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.MEDIUM), 1).length
-      const hardCount = userTopics.items
-        .flatMap(t => t.userGroupSeasonTopicProblems.filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
-          .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.HARD), 1).length
+      const easyCount = userTopics.items.flatMap(
+        t =>
+          t.userGroupSeasonTopicProblems
+            .filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
+            .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.EASY),
+        1,
+      ).length
+      const mediumCount = userTopics.items.flatMap(
+        t =>
+          t.userGroupSeasonTopicProblems
+            .filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
+            .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.MEDIUM),
+        1,
+      ).length
+      const hardCount = userTopics.items.flatMap(
+        t =>
+          t.userGroupSeasonTopicProblems
+            .filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
+            .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.HARD),
+        1,
+      ).length
       userStat = {
         groupId,
         seasonId,
@@ -145,15 +157,27 @@ export class UserGroupSeasonService {
       const totalAcceptedSubmissions = uTopics
         .map(t => t.totalAcceptedSubmissions)
         .reduce((a, b) => a + b, 0)
-      const easyCount = uTopics
-        .flatMap(t => t.userGroupSeasonTopicProblems.filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
-          .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.EASY), 1).length
-      const mediumCount = uTopics
-        .flatMap(t => t.userGroupSeasonTopicProblems.filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
-          .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.MEDIUM), 1).length
-      const hardCount = uTopics
-        .flatMap(t => t.userGroupSeasonTopicProblems.filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
-          .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.HARD), 1).length
+      const easyCount = uTopics.flatMap(
+        t =>
+          t.userGroupSeasonTopicProblems
+            .filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
+            .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.EASY),
+        1,
+      ).length
+      const mediumCount = uTopics.flatMap(
+        t =>
+          t.userGroupSeasonTopicProblems
+            .filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
+            .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.MEDIUM),
+        1,
+      ).length
+      const hardCount = uTopics.flatMap(
+        t =>
+          t.userGroupSeasonTopicProblems
+            .filter(p => p.status === UserTopicProblemStatusEnum.SOLVED)
+            .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.HARD),
+        1,
+      ).length
       const acceptanceRate =
         (uTopics.map(t => t.comfortabilityPercentage).reduce((a, b) => a + b, 0) /
           uTopics.length) *

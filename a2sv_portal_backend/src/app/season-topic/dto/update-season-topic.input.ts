@@ -16,7 +16,6 @@ export class UpdateSeasonTopicInput extends PartialType(CreateSeasonTopicInput) 
   @Field(() => [UpdateSeasonTopicProblemInput], { nullable: true })
   problems?: UpdateSeasonTopicProblemInput[]
 
-  @Field(() => [CreateSeasonTopicResourceInput], {nullable:true})
+  @Field(() => [CreateSeasonTopicResourceInput], { nullable: true })
   seasonTopicResources?: CreateSeasonTopicResourceInput[]
-
 }

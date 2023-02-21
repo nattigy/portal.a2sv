@@ -34,7 +34,6 @@ export class TopicService {
     filterTopicInput?: FilterTopicInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ): Promise<PaginationTopic> {
-   
     const filter: Prisma.TopicWhereInput = {
       id: filterTopicInput?.id,
       name: {
@@ -47,7 +46,6 @@ export class TopicService {
       },
     }
 
-    
     const count = await this.topicRepository.count(filter)
     const topics = await this.topicRepository.findAll({
       skip,
@@ -68,7 +66,7 @@ export class TopicService {
     return topic
   }
 
-  async updateTopic({topicId, ...update }: UpdateTopicInput): Promise<Topic> {
+  async updateTopic({ topicId, ...update }: UpdateTopicInput): Promise<Topic> {
     // TODO: check if topic with this Id exists and if it doesn't return
     // TODO: "topic with this Id doesn't" exists error
     const foundTopic = await this.topicRepository.findOne({ id: topicId })
@@ -85,7 +83,7 @@ export class TopicService {
 
     return this.topicRepository.update({
       where: { id: topicId },
-      data:{ ...update}
+      data: { ...update },
     })
   }
 

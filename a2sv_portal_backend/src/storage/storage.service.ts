@@ -51,7 +51,10 @@ export class StorageService {
 
   async delete(path: string) {
     try {
-      await this.storage.bucket(this.bucket).file(path.slice(50,)).delete({ ignoreNotFound: true })
+      await this.storage
+        .bucket(this.bucket)
+        .file(path.slice(50))
+        .delete({ ignoreNotFound: true })
     } catch (e) {
       return new BadRequestException('Error removing old photo from GCS!')
     }

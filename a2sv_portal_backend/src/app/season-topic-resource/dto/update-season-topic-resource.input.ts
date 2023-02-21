@@ -1,23 +1,16 @@
 import { Field, InputType, PartialType } from '@nestjs/graphql'
-import { ResourceTypeEnum } from '@prisma/client'
+import { CreateSeasonTopicResourceInput } from './create-season-topic-resource.input'
 
 @InputType()
-export class UpdateSeasonTopicResourceInput {
+export class UpdateSeasonTopicResourceInput extends PartialType(
+  CreateSeasonTopicResourceInput,
+) {
+  @Field()
+  id: string
+
   @Field()
   seasonId: string
 
   @Field()
   topicId: string
-  
-  @Field(() => ResourceTypeEnum, {nullable:true})
-  type?: ResourceTypeEnum
-
-  @Field({nullable:true})
-  name?: string
-
-  @Field({nullable:true})
-  description?: string
-
-  @Field({nullable:true})
-  link?: string
 }

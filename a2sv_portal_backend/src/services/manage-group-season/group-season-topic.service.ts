@@ -51,10 +51,10 @@ export class GroupSeasonTopicService {
 
     if (!foundTopic) throw new NotFoundException(`Topic with id ${topicId} does not exist!`)
 
-    await this.seasonTopicRepository.upsert({
-      where: { seasonId_topicId: { seasonId, topicId } },
-      data: {},
-    })
+    // await this.seasonTopicRepository.upsert({
+    //   where: { seasonId_topicId: { seasonId, topicId } },
+    //   data: {},
+    // })
 
     return this.groupSeasonTopicRepository.upsert({
       where: {

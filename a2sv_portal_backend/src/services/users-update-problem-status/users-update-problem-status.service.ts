@@ -25,16 +25,16 @@ export class UsersUpdateProblemStatusService {
       ...updates
     } = updateUserGroupSeasonTopicProblemInput
     /**
-    1. Find user with userId and throw NotFoundException if doesn't exist
-    check if user is in the same group as groupId provided if not throw "user not in the group" Error
-    2. Get group from user, and search for GroupSeasonTopic if it doesn't exist,
-    throw NotFoundException "topic hasn't been added to your group"
-    3. Check if the groupSeason the user in is active if not throw "season is not active error"
-    4. Upsert UserGroupSeason search for group and throw notFoundException if not found,
-    search for season and throw notFoundException if not found,
-    5. search for problem and throw notFoundException if not found,
-    6. search for GroupSeasonTopicProblem from the groupId if not found,
-    7. throw NotFoundException "problem under this topic hasn't been added to your group yet!"
+     1. Find user with userId and throw NotFoundException if doesn't exist
+     check if user is in the same group as groupId provided if not throw "user not in the group" Error
+     2. Get group from user, and search for GroupSeasonTopic if it doesn't exist,
+     throw NotFoundException "topic hasn't been added to your group"
+     3. Check if the groupSeason the user in is active if not throw "season is not active error"
+     4. Upsert UserGroupSeason search for group and throw notFoundException if not found,
+     search for season and throw notFoundException if not found,
+     5. search for problem and throw notFoundException if not found,
+     6. search for GroupSeasonTopicProblem from the groupId if not found,
+     7. throw NotFoundException "problem under this topic hasn't been added to your group yet!"
      **/
 
     const problem = await this.prismaService.problem.findUnique({
@@ -99,12 +99,12 @@ export class UsersUpdateProblemStatusService {
     })
 
     /** ======== Generating or creating daily stat info ======= //
-    /* 1. fetch old problem status
-       2. if it doesn't exist continue else
-       3. check if the user is going to update the problem solved status
-       4. if it is changed then update last status updated dated
-       5. and then finally update the total problem solved count on usersDailyStat
-    **/
+     /* 1. fetch old problem status
+     2. if it doesn't exist continue else
+     3. check if the user is going to update the problem solved status
+     4. if it is changed then update last status updated dated
+     5. and then finally update the total problem solved count on usersDailyStat
+     **/
     const oldStatus =
       await this.userGroupSeasonTopicProblemService.userGroupSeasonTopicProblem({
         userId,

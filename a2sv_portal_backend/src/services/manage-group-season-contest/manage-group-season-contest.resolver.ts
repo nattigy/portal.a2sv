@@ -11,13 +11,14 @@ import { UpdateGroupSeasonContestInput } from '../../app/group-season-contest/dt
 
 @Resolver()
 export class ManageGroupSeasonContestResolver {
-  constructor(private readonly manageGroupSeasonContestService: ManageGroupSeasonContestService) {
-  }
+  constructor(
+    private readonly manageGroupSeasonContestService: ManageGroupSeasonContestService,
+  ) {}
 
   @Mutation(() => GroupSeasonContest)
   async addContestToAGroupSeason(
     @Args('createGroupSeasonContestInput')
-      createGroupSeasonContestInput: CreateGroupSeasonContestInput,
+    createGroupSeasonContestInput: CreateGroupSeasonContestInput,
   ) {
     return this.manageGroupSeasonContestService.addContestToAGroupSeason(
       createGroupSeasonContestInput,
@@ -45,7 +46,7 @@ export class ManageGroupSeasonContestResolver {
   @Mutation(() => GroupSeasonContest)
   async updateGroupSeasonContest(
     @Args('updateGroupSeasonContestInput')
-      updateGroupSeasonContestInput: UpdateGroupSeasonContestInput,
+    updateGroupSeasonContestInput: UpdateGroupSeasonContestInput,
   ) {
     return this.manageGroupSeasonContestService.updateGroupSeasonContest(
       updateGroupSeasonContestInput,

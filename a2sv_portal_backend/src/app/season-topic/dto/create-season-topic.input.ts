@@ -11,7 +11,7 @@ export class CreateSeasonTopicInput {
   })
   topicId: string
 
-  @Field(() => [CreateSeasonTopicResourceInput], {nullable:true})
+  @Field(() => [CreateSeasonTopicResourceInput], { nullable: true })
   seasonTopicResources?: CreateSeasonTopicResourceInput[]
 
   // @Field(() => [UpdateSeasonTopicProblemInput], { nullable: true })

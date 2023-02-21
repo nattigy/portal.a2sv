@@ -1,13 +1,13 @@
-import { Field, InputType} from '@nestjs/graphql'
+import { Field, InputType } from '@nestjs/graphql'
+
 @InputType()
 export class UpdateTopicInput {
   @Field()
   topicId: string
 
-  @Field({nullable:true})
+  @Field({ nullable: true })
   name?: string
 
-  @Field({nullable:true})
+  @Field({ nullable: true })
   description?: string
-
 }

@@ -72,7 +72,8 @@ export class UserGroupSeasonTopicRepository {
     return this.prismaService.userGroupSeasonTopic.upsert({
       where,
       create: {
-        comfortLevel: data.comfortLevel === ComfortLevelEnum.COMFORTABLE ? "COMFORTABLE" : "UNCOMFORTABLE",
+        comfortLevel:
+          data.comfortLevel === ComfortLevelEnum.COMFORTABLE ? 'COMFORTABLE' : 'UNCOMFORTABLE',
         userGroupSeason: {
           connect: {
             userId_groupId_seasonId: {

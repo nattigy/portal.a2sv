@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
-import { SeasonTopicId } from '../season-topic/dto/create-season-topic.input'
 import { UpdateSeasonTopicResourceInput } from './dto/update-season-topic-resource.input'
 import { SeasonTopicResource } from './entities/season-topic-resource.entity'
 import { SeasonTopicResourceRepository } from './season-topic-resource.repository'
+import { SeasonTopicResourceId } from './dto/create-season-topic-resource.input'
 
 @Injectable()
 export class SeasonTopicResourceService {
@@ -13,12 +13,13 @@ export class SeasonTopicResourceService {
   ) {}
 
   async updateSeasonTopicResource(
-    { seasonId, topicId }: SeasonTopicId,
+    { seasonId, topicId, resourceId }: SeasonTopicResourceId,
     updateSeasonTopicResource: UpdateSeasonTopicResourceInput,
   ): Promise<SeasonTopicResource> {
     const foundResource = await this.prismaService.seasonTopicResource.findUnique({
       where: {
-        seasonId_topicId: {
+        id_seasonId_topicId: {
+          id: resourceId,
           seasonId,
           topicId,
         },
@@ -27,7 +28,8 @@ export class SeasonTopicResourceService {
     if (!foundResource) throw new NotFoundException('Resource Not Found')
     return this.seasonTopicResourceRepository.update({
       where: {
-        seasonId_topicId: {
+        id_seasonId_topicId: {
+          id: resourceId,
           seasonId,
           topicId,
         },
@@ -36,9 +38,13 @@ export class SeasonTopicResourceService {
     })
   }
 
-  async removeSeasonTopicResource({ seasonId, topicId }: SeasonTopicId) {
+  async removeSeasonTopicResource({ seasonId, topicId, resourceId }: SeasonTopicResourceId) {
     return this.seasonTopicResourceRepository.remove({
-      seasonId_topicId: { seasonId, topicId },
+      id_seasonId_topicId: {
+        id: resourceId,
+        seasonId,
+        topicId,
+      },
     })
   }
 }

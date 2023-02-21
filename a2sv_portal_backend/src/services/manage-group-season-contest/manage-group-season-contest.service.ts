@@ -20,14 +20,13 @@ export class ManageGroupSeasonContestService {
     private readonly groupSeasonRepository: GroupSeasonRepository,
     private readonly prismaService: PrismaService,
     private readonly contestRepository: ContestRepository,
-  ) {
-  }
+  ) {}
 
   async addContestToAGroupSeason({
-                                   groupId,
-                                   seasonId,
-                                   contestId,
-                                 }: CreateGroupSeasonContestInput) {
+    groupId,
+    seasonId,
+    contestId,
+  }: CreateGroupSeasonContestInput) {
     const groupSeason = await this.groupSeasonRepository.findOne({
       groupId_seasonId: {
         groupId,
