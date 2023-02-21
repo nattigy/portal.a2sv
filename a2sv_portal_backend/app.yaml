@@ -2,11 +2,11 @@ runtime: nodejs16
 
 env_variables:
   PORT: 8080
-  DB_URL: "postgresql://postgres:portal-postgresql@35.198.93.142/portal-db-v1?host=35.198.93.142"
+  DB_URL: "postgresql://postgres:portal-postgresql@34.65.190.139/portal-db-v1?host=34.65.190.139"
   DB_USER: "postgres"
   DB_NAME: "portal-db-v1"
   DB_PASS: "portal-postgresql"
-  DB_INSTANCE: "portal-backend-369707:europe-west3:portal-db-v1"
+  DB_INSTANCE: "portal-backend-369707:europe-west6:portal-db-v1"
 
   #Socket Lab
   SOCKET_LABS_USER_NAME: "server42224"
