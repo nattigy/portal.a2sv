@@ -7,12 +7,14 @@ import { UserGroupSeasonContest } from './entities/user-group-season-contest.ent
 export class UserGroupSeasonContestRepository {
   include = {
     contest: {
-      include: { problems: { include: { tags: true } } },
+      include: {
+        contestProblems: { include: { problem: { include: { tags: true } } } },
+      }
     },
     userGroupSeasonContestProblems: {
       include: {
-        problem: { include: { tags: true } },
-      },
+        contestProblem: { include: { problem: { include: { tags: true } } } },
+      }
     },
   }
 
@@ -23,7 +25,18 @@ export class UserGroupSeasonContestRepository {
   ): Promise<UserGroupSeasonContest> {
     return this.prismaService.userGroupSeasonContest.create({
       data,
-      include: this.include,
+      include: {
+        contest: {
+          include: {
+            contestProblems: { include: { problem: { include: { tags: true } } } },
+          }
+        },
+        userGroupSeasonContestProblems: {
+          include: {
+            contestProblem: { include: { problem: { include: { tags: true } } } },
+          }
+        },
+      },
     })
   }
 

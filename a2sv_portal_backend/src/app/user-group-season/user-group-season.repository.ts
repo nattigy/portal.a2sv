@@ -24,12 +24,14 @@ export class UserGroupSeasonRepository {
     userGroupSeasonContests: {
       include: {
         contest: {
-          include: { problems: { include: { tags: true } } },
+          include: {
+            contestProblems: { include: { problem: { include: { tags: true } } } },
+          }
         },
         userGroupSeasonContestProblems: {
           include: {
-            problem: { include: { tags: true } },
-          },
+            contestProblem: { include: { problem: { include: { tags: true } } } },
+          }
         },
       },
     },
@@ -40,35 +42,7 @@ export class UserGroupSeasonRepository {
   async create(data: Prisma.UserGroupSeasonCreateInput): Promise<UserGroupSeason> {
     return this.prismaService.userGroupSeason.create({
       data,
-      include: {
-        user: {
-          include: {
-            userProfile: { include: { user: true } },
-          },
-        },
-        userGroupSeasonTopics: {
-          include: {
-            topic: true,
-            userGroupSeasonTopicProblems: {
-              include: {
-                problem: { include: { tags: true } },
-              },
-            },
-          },
-        },
-        userGroupSeasonContests: {
-          include: {
-            contest: {
-              include: { problems: { include: { tags: true } } },
-            },
-            userGroupSeasonContestProblems: {
-              include: {
-                problem: { include: { tags: true } },
-              },
-            },
-          },
-        },
-      },
+      include: this.include,
     })
   }
 

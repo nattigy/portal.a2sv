@@ -45,11 +45,11 @@ model Contest {
   div                    String?
   startTime              DateTime
   endTime                DateTime
-  problems               Problem[]
   createdAt              DateTime?                @default(now())
   updatedAt              DateTime?                @updatedAt
   GroupSeasonContest     GroupSeasonContest[]
   UserGroupSeasonContest UserGroupSeasonContest[]
+  contestProblems        ContestProblem[]
 }
 
 model Topic {
@@ -64,21 +64,18 @@ model Topic {
 }
 
 model Problem {
-  id                            String                          @id @default(uuid())
-  title                         String
-  platform                      String
-  link                          String                          @unique
-  difficulty                    ProblemDifficultyTypeEnum
-  tags                          Tag[]
-  createdAt                     DateTime?                       @default(now())
-  updatedAt                     DateTime?                       @updatedAt
-  contest                       Contest?                        @relation(fields: [contestId], references: [id])
-  contestId                     String?
-  seasonTopicProblems           SeasonTopicProblem[]
-  GroupSeasonTopicProblem       GroupSeasonTopicProblem[]
-  GroupSeasonContestProblem     GroupSeasonContestProblem[]
-  UserGroupSeasonTopicProblem   UserGroupSeasonTopicProblem[]
-  UserGroupSeasonContestProblem UserGroupSeasonContestProblem[]
+  id                          String                        @id @default(uuid())
+  title                       String
+  platform                    String
+  link                        String                        @unique
+  difficulty                  ProblemDifficultyTypeEnum
+  tags                        Tag[]
+  createdAt                   DateTime?                     @default(now())
+  updatedAt                   DateTime?                     @updatedAt
+  seasonTopicProblems         SeasonTopicProblem[]
+  GroupSeasonTopicProblem     GroupSeasonTopicProblem[]
+  UserGroupSeasonTopicProblem UserGroupSeasonTopicProblem[]
+  ContestProblem              ContestProblem[]
 }
 
 model User {
@@ -125,6 +122,20 @@ model SeasonTopicResource {
   updatedAt   DateTime?        @updatedAt
 
   @@id([id, seasonId, topicId])
+}
+
+model ContestProblem {
+  contestId                     String
+  problemId                     String
+  createdAt                     DateTime?                       @default(now())
+  updatedAt                     DateTime?                       @updatedAt
+  contest                       Contest                         @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  problem                       Problem                         @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  groupSeasonTopicProblems      GroupSeasonTopicProblem[]
+  GroupSeasonContestProblem     GroupSeasonContestProblem[]
+  UserGroupSeasonContestProblem UserGroupSeasonContestProblem[]
+
+  @@id([contestId, problemId])
 }
 
 model SeasonTopicProblem {
@@ -194,6 +205,9 @@ model GroupSeasonTopicProblem {
   seasonTopicProblem           SeasonTopicProblem            @relation(fields: [seasonId, topicId, problemId], references: [seasonId, topicId, problemId], onDelete: Cascade)
   problem                      Problem                       @relation(fields: [problemId], references: [id], onDelete: Cascade)
   userGroupSeasonTopicProblems UserGroupSeasonTopicProblem[]
+  ContestProblem               ContestProblem?               @relation(fields: [contestProblemContestId, contestProblemProblemId], references: [contestId, problemId])
+  contestProblemContestId      String?
+  contestProblemProblemId      String?
 
   @@id([groupId, seasonId, topicId, problemId])
 }
@@ -223,7 +237,7 @@ model GroupSeasonContestProblem {
   createdAt                      DateTime?                       @default(now())
   updatedAt                      DateTime?                       @updatedAt
   groupSeasonContest             GroupSeasonContest              @relation(fields: [groupId, seasonId, contestId], references: [groupId, seasonId, contestId], onDelete: Cascade)
-  problem                        Problem                         @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  contestProblem                 ContestProblem                  @relation(fields: [contestId, problemId], references: [contestId, problemId], onDelete: Cascade)
   userGroupSeasonContestProblems UserGroupSeasonContestProblem[]
 
   @@id([groupId, seasonId, contestId, problemId])
@@ -342,7 +356,7 @@ model UserGroupSeasonContestProblem {
   updatedAt                 DateTime?                    @updatedAt
   userGroupSeasonContest    UserGroupSeasonContest       @relation(fields: [userId, groupId, seasonId, contestId], references: [userId, groupId, seasonId, contestId], onDelete: Cascade)
   groupSeasonContestProblem GroupSeasonContestProblem    @relation(fields: [groupId, seasonId, contestId, problemId], references: [groupId, seasonId, contestId, problemId], onDelete: Cascade)
-  problem                   Problem                      @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  contestProblem            ContestProblem               @relation(fields: [contestId, problemId], references: [contestId, problemId], onDelete: Cascade)
 
   @@id([userId, groupId, seasonId, contestId, problemId])
 }
@@ -378,20 +392,22 @@ model UserProfile {
   tshirtSize             String?
   website                String?
   bio                    String
-  userProfileAddress     UserProfileAddress?
+  country                String
+  city                   String
+  // userProfileAddress     UserProfileAddress?
   createdAt              DateTime?                  @default(now())
   updatedAt              DateTime?                  @updatedAt
   user                   User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model UserProfileAddress {
-  profileId   String      @unique
-  country     String
-  city        String
-  userProfile UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
-
-  @@id([profileId])
-}
+// model UserProfileAddress {
+//   profileId   String      @unique
+//   country     String
+//   city        String
+//   userProfile UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+//
+//   @@id([profileId])
+// }
 
 model Otp {
   id        String    @id @default(uuid())
@@ -489,26 +505,3 @@ enum ResourceTypeEnum {
   PDF
   DOC
 }
-
-//model ProgrammingPlatformHandle {
-//  id             String      @id @default(uuid())
-//  profileId      String
-//  //type PlatformTypeEnum
-//  platformName   String
-//  platformHandle String
-//  iconUrl        String
-//  userProfile    UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
-//}
-
-//model UserProblem {
-//  problemId String
-//  problem   Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
-//  userId    String
-//  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-//  createdAt DateTime @default(now())
-//  updatedAt DateTime @updatedAt
-//  solved    Boolean  @default(false)
-//
-//  @@id([problemId, userId])
-//}
-//

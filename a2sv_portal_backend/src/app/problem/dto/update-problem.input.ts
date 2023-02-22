@@ -1,24 +1,8 @@
-import { Field, InputType } from '@nestjs/graphql'
-import { ProblemDifficultyTypeEnum } from '@prisma/client'
-import { CreateTagInput } from '../../tag/dto/create-tag.input'
+import { Field, InputType, PartialType } from '@nestjs/graphql'
+import { CreateProblemInput } from './create-problem.input'
 
 @InputType()
-export class UpdateProblemInput {
+export class UpdateProblemInput extends PartialType(CreateProblemInput) {
   @Field()
-  problemId: string
-
-  @Field()
-  title?: string
-
-  @Field()
-  platform?: string
-
-  @Field()
-  link?: string
-
-  @Field(() => ProblemDifficultyTypeEnum, { description: 'Difficulty of the question' })
-  difficulty?: ProblemDifficultyTypeEnum
-
-  @Field(() => [CreateTagInput])
-  tags?: CreateTagInput[]
+  id: string
 }

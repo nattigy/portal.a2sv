@@ -27,16 +27,18 @@ export class GroupSeasonRepository {
     groupSeasonContests: {
       include: {
         contest: {
-          include: { problems: { include: { tags: true } } },
+          include: {
+            contestProblems: { include: { problem: { include: { tags: true } } } },
+          },
         },
         groupSeasonContestProblems: {
           include: {
             userGroupSeasonContestProblems: {
               include: {
-                problem: { include: { tags: true } },
+                contestProblem: { include: { problem: { include: { tags: true } } } },
               },
             },
-            problem: { include: { tags: true } },
+            contestProblem: { include: { problem: { include: { tags: true } } } },
           },
         },
       },
@@ -48,43 +50,7 @@ export class GroupSeasonRepository {
   async create(data: Prisma.GroupSeasonCreateInput): Promise<GroupSeason> {
     return this.prismaService.groupSeason.create({
       data,
-      include: {
-        head: true,
-        group: true,
-        season: true,
-        groupSeasonTopics: {
-          include: {
-            topic: true,
-            groupSeasonTopicProblems: {
-              include: {
-                userGroupSeasonTopicProblems: {
-                  include: {
-                    problem: { include: { tags: true } },
-                  },
-                },
-                problem: { include: { tags: true } },
-              },
-            },
-          },
-        },
-        groupSeasonContests: {
-          include: {
-            contest: {
-              include: { problems: { include: { tags: true } } },
-            },
-            groupSeasonContestProblems: {
-              include: {
-                userGroupSeasonContestProblems: {
-                  include: {
-                    problem: { include: { tags: true } },
-                  },
-                },
-                problem: { include: { tags: true } },
-              },
-            },
-          },
-        },
-      },
+      include: this.include
     })
   }
 

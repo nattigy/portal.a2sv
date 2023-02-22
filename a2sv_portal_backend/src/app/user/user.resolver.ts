@@ -1,5 +1,5 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { BadRequestException } from '@nestjs/common'
+import { BadRequestException, UseGuards } from '@nestjs/common'
 import { PaginationUser } from '../../common/page/pagination-info'
 import { UpdateUserInput } from './dto/update-user.input'
 import { User } from './entities/user.entity'
@@ -7,6 +7,10 @@ import { UserService } from './user.service'
 import { FilterUserInput, UniqueUserInput } from './dto/filter-user-input'
 import descriptions from './user.doc'
 import { PaginationInput } from '../../common/page/pagination.input'
+import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.service'
+import { CheckPolicies } from '../../casl/policy/policy.decorator'
+import { PoliciesGuard } from '../../casl/policy/policy.guard'
+import { UserAbilities } from '../../casl/handler/user-abilities.handler'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -21,8 +25,8 @@ export class UserResolver {
   //   return this.userService.createUser(createUserInput)
   // }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(UserAbilities.read)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.read)
   @Query(() => PaginationUser)
   async users(
     @Args('filterUserInput', { nullable: true }) filterUserInput?: FilterUserInput,
@@ -36,8 +40,8 @@ export class UserResolver {
     }
   }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(UserAbilities.read)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.read)
   @Query(() => User, { description: descriptions.findOne })
   async user(@Args('uniqueUserInput') uniqueUserInput: UniqueUserInput) {
     try {
@@ -48,8 +52,8 @@ export class UserResolver {
     }
   }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(UserAbilities.update)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.update)
   @Mutation(() => User, { description: descriptions.updateUser })
   async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     try {
@@ -60,8 +64,8 @@ export class UserResolver {
     }
   }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(UserAbilities.update)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.update)
   @Mutation(() => Int, { description: descriptions.updateUser })
   async addUsersToAGroup(
     @Args('groupId') groupId: string,
@@ -75,8 +79,8 @@ export class UserResolver {
     }
   }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(UserAbilities.update)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.update)
   @Mutation(() => Int, { description: descriptions.updateUser })
   async removeUsersFromAGroup(
     @Args('groupId') groupId: string,
@@ -92,8 +96,8 @@ export class UserResolver {
     }
   }
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(UserAbilities.delete)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  @CheckPolicies(UserAbilities.delete)
   @Mutation(() => Int, { description: descriptions.deleteUser })
   async removeUser(@Args('userId') userId: string) {
     try {

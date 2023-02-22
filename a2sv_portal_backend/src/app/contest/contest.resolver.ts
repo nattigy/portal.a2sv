@@ -70,20 +70,20 @@ export class ContestResolver {
     }
   }
 
-  // @UseGuards(PoliciesGuard)
-  // @CheckPolicies(ContestAbilities.update)
-  // @Mutation(() => Contest)
-  // async removeProblemsFromContest(
-  //   @Args('contestId') contestId: string,
-  //   @Args('problemIds', { type: () => [String] }) problemIds: string[],
-  // ): Promise<Contest> {
-  //   try {
-  //     return this.contestService.removeProblemsFromContest(contestId, problemIds)
-  //   } catch (e) {
-  //     console.error('Error: ', e)
-  //     throw new BadRequestException('Failed to remove problem!')
-  //   }
-  // }
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(ContestAbilities.update)
+  @Mutation(() => Contest)
+  async removeProblemsFromContest(
+    @Args('contestId') contestId: string,
+    @Args('problemIds', { type: () => [String] }) problemIds: string[],
+  ): Promise<Contest> {
+    try {
+      return this.contestService.removeProblemsFromContest(contestId, problemIds)
+    } catch (e) {
+      console.error('Error: ', e)
+      throw new BadRequestException('Failed to remove problem!')
+    }
+  }
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(ContestAbilities.delete)

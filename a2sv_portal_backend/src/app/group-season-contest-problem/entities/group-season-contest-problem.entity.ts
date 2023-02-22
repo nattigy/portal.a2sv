@@ -1,5 +1,6 @@
 import { Field, GraphQLISODateTime, ObjectType } from '@nestjs/graphql'
 import { Problem } from '../../problem/entities/problem.entity'
+import { ContestProblem } from '../../contest-problem/entities/contest-problem.entity'
 
 @ObjectType()
 export class GroupSeasonContestProblem {
@@ -15,8 +16,8 @@ export class GroupSeasonContestProblem {
   @Field({ description: 'Example field (placeholder)' })
   problemId: string
 
-  @Field(() => Problem)
-  problem: Problem
+  @Field(() => ContestProblem)
+  contestProblem: ContestProblem
 
   // @Field(() => [UserGroupSeasonContestProblem])
   // userGroupSeasonContestProblems: UserGroupSeasonContestProblem

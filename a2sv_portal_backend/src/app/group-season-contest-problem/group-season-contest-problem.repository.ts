@@ -8,13 +8,14 @@ export class GroupSeasonContestProblemRepository {
   include = {
     userGroupSeasonContestProblems: {
       include: {
-        problem: { include: { tags: true } },
+        contestProblem: { include: { problem: { include: { tags: true } } } },
       },
     },
-    problem: { include: { tags: true } },
+    contestProblem: { include: { problem: { include: { tags: true } } } },
   }
 
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(
     data: Prisma.GroupSeasonContestProblemCreateInput,
@@ -24,10 +25,10 @@ export class GroupSeasonContestProblemRepository {
       include: {
         userGroupSeasonContestProblems: {
           include: {
-            problem: { include: { tags: true } },
+            contestProblem: { include: { problem: { include: { tags: true } } } },
           },
         },
-        problem: { include: { tags: true } },
+        contestProblem: { include: { problem: { include: { tags: true } } } },
       },
     })
   }
@@ -71,6 +72,39 @@ export class GroupSeasonContestProblemRepository {
     return this.prismaService.groupSeasonContestProblem.update({
       data,
       where,
+      include: this.include,
+    })
+  }
+
+  async upsert(params: {
+    where: Prisma.GroupSeasonContestProblemWhereUniqueInput
+    data:
+      | Prisma.GroupSeasonContestProblemUpdateInput
+      | Prisma.GroupSeasonContestProblemUncheckedUpdateInput
+  }): Promise<GroupSeasonContestProblem> {
+    const { where, data } = params
+    const {groupId_seasonId_contestId_problemId: {seasonId, problemId, groupId, contestId}} = where
+    return this.prismaService.groupSeasonContestProblem.upsert({
+      where,
+      create: {
+        groupSeasonContest: {
+          connect: {
+            groupId_seasonId_contestId: {
+              groupId,
+              seasonId,
+              contestId,
+            },
+          },
+        },
+        contestProblem: {
+          connect: {
+            contestId_problemId: {
+              contestId, problemId,
+            },
+          },
+        },
+      },
+      update: {},
       include: this.include,
     })
   }

@@ -52,49 +52,49 @@ export class UserGroupSeasonContestService {
     }
   }
 
-  async updateUserGroupSeasonContest({
-    id,
-    ...updates
-  }: UpdateUserGroupSeasonContestInput): Promise<UserGroupSeasonContest> {
-    const { userId, seasonId, contestId, groupId } = id
-    return this.prismaService.userGroupSeasonContest.upsert({
-      where: {
-        userId_groupId_seasonId_contestId: { userId, groupId, seasonId, contestId },
-      },
-      create: {
-        userGroupSeason: {
-          connect: {
-            userId_groupId_seasonId: { userId, groupId, seasonId },
-          },
-        },
-        groupSeasonContest: {
-          connect: { groupId_seasonId_contestId: { groupId, seasonId, contestId } },
-        },
-        contest: {
-          connect: { id: contestId },
-        },
-      },
-      update: updates,
-      include: {
-        contest: {
-          include: { problems: { include: { tags: true } } },
-        },
-        userGroupSeasonContestProblems: {
-          include: {
-            problem: { include: { tags: true } },
-          },
-        },
-      },
-    })
-  }
+  // async updateUserGroupSeasonContest({
+  //   id,
+  //   ...updates
+  // }: UpdateUserGroupSeasonContestInput): Promise<UserGroupSeasonContest> {
+  //   const { userId, seasonId, contestId, groupId } = id
+  //   return this.prismaService.userGroupSeasonContest.upsert({
+  //     where: {
+  //       userId_groupId_seasonId_contestId: { userId, groupId, seasonId, contestId },
+  //     },
+  //     create: {
+  //       userGroupSeason: {
+  //         connect: {
+  //           userId_groupId_seasonId: { userId, groupId, seasonId },
+  //         },
+  //       },
+  //       groupSeasonContest: {
+  //         connect: { groupId_seasonId_contestId: { groupId, seasonId, contestId } },
+  //       },
+  //       contest: {
+  //         connect: { id: contestId },
+  //       },
+  //     },
+  //     update: updates,
+  //     include: {
+  //       contest: {
+  //         include: { problems: { include: { tags: true } } },
+  //       },
+  //       userGroupSeasonContestProblems: {
+  //         include: {
+  //           problem: { include: { tags: true } },
+  //         },
+  //       },
+  //     },
+  //   })
+  // }
 
-  async updateUserContestProblem(
-    updateUserContestProblemInput: UpdateUserGroupSeasonContestProblemInput,
-  ) {
-    return this.userGroupSeasonContestProblemService.updateUserGroupSeasonContestProblem(
-      updateUserContestProblemInput,
-    )
-  }
+  // async updateUserContestProblem(
+  //   updateUserContestProblemInput: UpdateUserGroupSeasonContestProblemInput,
+  // ) {
+  //   return this.userGroupSeasonContestProblemService.updateUserGroupSeasonContestProblem(
+  //     updateUserContestProblemInput,
+  //   )
+  // }
 
   async removeUserGroupSeasonContest({
     userId,

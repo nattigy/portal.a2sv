@@ -35,81 +35,81 @@ export class UserGroupSeasonContestProblemService {
     }
   }
 
-  async userGroupSeasonContestProblem({
-    userId,
-    contestId,
-    seasonId,
-    groupId,
-    problemId,
-  }: UserGroupSeasonContestProblemId): Promise<UserGroupSeasonContestProblem> {
-    let userGroupSeasonContestProblem: UserGroupSeasonContestProblem =
-      await this.userGroupSeasonContestProblemRepository.findOne({
-        userId_groupId_seasonId_contestId_problemId: {
-          userId,
-          contestId,
-          groupId,
-          problemId,
-          seasonId,
-        },
-      })
-    if (
-      userGroupSeasonContestProblem === null ||
-      userGroupSeasonContestProblem === undefined
-    ) {
-      const contest = await this.prismaService.contest.findUnique({
-        where: { id: contestId },
-        include: { problems: { include: { tags: true } } },
-      })
-      userGroupSeasonContestProblem = {
-        contestId,
-        problemId,
-        userId,
-        groupId,
-        seasonId,
-        numberOfAttempts: 0,
-        numberOfMinutes: 0,
-        status: UserContestProblemStatusEnum.NOT_SOLVED,
-        problem: contest.problems.filter(p => p.id === problemId)[0],
-      }
-    }
-    return userGroupSeasonContestProblem
-  }
+  // async userGroupSeasonContestProblem({
+  //   userId,
+  //   contestId,
+  //   seasonId,
+  //   groupId,
+  //   problemId,
+  // }: UserGroupSeasonContestProblemId): Promise<UserGroupSeasonContestProblem> {
+  //   let userGroupSeasonContestProblem: UserGroupSeasonContestProblem =
+  //     await this.userGroupSeasonContestProblemRepository.findOne({
+  //       userId_groupId_seasonId_contestId_problemId: {
+  //         userId,
+  //         contestId,
+  //         groupId,
+  //         problemId,
+  //         seasonId,
+  //       },
+  //     })
+  //   if (
+  //     userGroupSeasonContestProblem === null ||
+  //     userGroupSeasonContestProblem === undefined
+  //   ) {
+  //     const contest = await this.prismaService.contest.findUnique({
+  //       where: { id: contestId },
+  //       include: { problems: { include: { tags: true } } },
+  //     })
+  //     userGroupSeasonContestProblem = {
+  //       contestId,
+  //       problemId,
+  //       userId,
+  //       groupId,
+  //       seasonId,
+  //       numberOfAttempts: 0,
+  //       numberOfMinutes: 0,
+  //       status: UserContestProblemStatusEnum.NOT_SOLVED,
+  //       problem: contest.problems.filter(p => p.id === problemId)[0],
+  //     }
+  //   }
+  //   return userGroupSeasonContestProblem
+  // }
 
-  async updateUserGroupSeasonContestProblem({
-    id,
-    ...updateUserGroupSeasonContestProblemInput
-  }: UpdateUserGroupSeasonContestProblemInput): Promise<UserGroupSeasonContestProblem> {
-    const { seasonId, problemId, userId, groupId, contestId } = id
-    return this.prismaService.userGroupSeasonContestProblem.upsert({
-      where: {
-        userId_groupId_seasonId_contestId_problemId: {
-          seasonId,
-          contestId,
-          groupId,
-          problemId,
-          userId,
-        },
-      },
-      create: {
-        userGroupSeasonContest: {
-          connect: {
-            userId_groupId_seasonId_contestId: { userId, groupId, seasonId, contestId },
-          },
-        },
-        groupSeasonContestProblem: {
-          connect: {
-            groupId_seasonId_contestId_problemId: { groupId, seasonId, contestId, problemId },
-          },
-        },
-        problem: { connect: { id: problemId } },
-        ...updateUserGroupSeasonContestProblemInput,
-      },
-      update: updateUserGroupSeasonContestProblemInput,
-      include: {
-        problem: { include: { tags: true } },
-      },
-    })
-  }
+  // async updateUserGroupSeasonContestProblem({
+  //   id,
+  //   ...updateUserGroupSeasonContestProblemInput
+  // }: UpdateUserGroupSeasonContestProblemInput): Promise<UserGroupSeasonContestProblem> {
+  //   const { seasonId, problemId, userId, groupId, contestId } = id
+  //   return this.prismaService.userGroupSeasonContestProblem.upsert({
+  //     where: {
+  //       userId_groupId_seasonId_contestId_problemId: {
+  //         seasonId,
+  //         contestId,
+  //         groupId,
+  //         problemId,
+  //         userId,
+  //       },
+  //     },
+  //     create: {
+  //       userGroupSeasonContest: {
+  //         connect: {
+  //           userId_groupId_seasonId_contestId: { userId, groupId, seasonId, contestId },
+  //         },
+  //       },
+  //       groupSeasonContestProblem: {
+  //         connect: {
+  //           groupId_seasonId_contestId_problemId: { groupId, seasonId, contestId, problemId },
+  //         },
+  //       },
+  //       problem: { connect: { id: problemId } },
+  //       ...updateUserGroupSeasonContestProblemInput,
+  //     },
+  //     update: updateUserGroupSeasonContestProblemInput,
+  //     include: {
+  //       problem: { include: { tags: true } },
+  //     },
+  //   })
+  // }
 
   async removeUserGroupContestProblem({
     userId,

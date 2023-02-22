@@ -1,5 +1,5 @@
-import { Field, ObjectType } from '@nestjs/graphql'
-import { Problem } from '../../problem/entities/problem.entity'
+import { Field, GraphQLISODateTime, ObjectType } from '@nestjs/graphql'
+import { ContestProblem } from '../../contest-problem/entities/contest-problem.entity'
 
 @ObjectType()
 export class Contest {
@@ -15,18 +15,18 @@ export class Contest {
   @Field({ nullable: true })
   div?: string
 
-  @Field(() => Date)
+  @Field(() => GraphQLISODateTime)
   startTime: Date
 
-  @Field(() => Date)
+  @Field(() => GraphQLISODateTime)
   endTime: Date
 
-  @Field(() => [Problem])
-  problems: Problem[]
+  @Field(() => [ContestProblem])
+  contestProblems: ContestProblem[]
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   updatedAt?: Date
 }

@@ -31,9 +31,6 @@ export class UserProfileService {
       user: {
         connect: { id: user.id },
       },
-      userProfileAddress: {
-        create: createUserProfileInput.userProfileAddress,
-      },
     })
   }
 
@@ -65,10 +62,8 @@ export class UserProfileService {
     }
   }
 
-  async userProfile(id: string): Promise<UserProfile> {
-    return await this.userProfileRepository.findOne({
-      id,
-    })
+  async userProfile(profileId: string, userId?: string): Promise<UserProfile> {
+    return await this.userProfileRepository.findOne({ id: profileId, userId})
 
     // if (profile.photoUrl) {
     //   profile = { ...profile, photoUrl: await this.storageService.get(profile.photoUrl) }
@@ -94,10 +89,7 @@ export class UserProfileService {
       where: {
         userId,
       },
-      data: {
-        ...updates,
-        userProfileAddress: {},
-      },
+      data: updates,
     })
   }
 

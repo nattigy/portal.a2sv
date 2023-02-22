@@ -1,4 +1,4 @@
-import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
+import { Field, GraphQLISODateTime, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { Group } from '../../group/entities/group.entity'
 import { Season } from '../../season/entities/season.entity'
 import { JoinRequestEnum } from '@prisma/client'
@@ -23,10 +23,10 @@ export class GroupSeason {
   @Field(() => JoinRequestEnum)
   joinRequest: JoinRequestEnum
 
-  @Field(() => Date)
+  @Field(() => GraphQLISODateTime)
   startDate: Date
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   endDate?: Date
 
   @Field(() => Group)
@@ -44,40 +44,11 @@ export class GroupSeason {
   @Field(() => [GroupSeasonContest])
   groupSeasonContests: GroupSeasonContest[]
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   updatedAt?: Date
 }
 
 registerEnumType(JoinRequestEnum, { name: 'JoinRequestEnum' })
-
-/*
-* @Field(() => Int)
-  numberOfStudents: number
-
-  @Field(() => Int)
-  numberOfTopicsCovered: number
-
-  @Field(() => Int)
-  topicsCoverage: number
-
-  @Field(() => Int)
-  numberOfAcceptedSubmissions: number
-
-  @Field(() => Int)
-  numberOfWrongSubmissions: number
-
-  @Field(() => Int)
-  totalTimeDedicated: number
-
-  // @Field(() => Int)
-  // rank: number
-
-  @Field(() => Int)
-  contestsAttended: number
-
-  @Field(() => Int)
-  numberOfProblems: number
-* */

@@ -10,7 +10,7 @@ export class UserProfileRepository {
   async create(data: Prisma.UserProfileCreateInput): Promise<UserProfile> {
     return this.prismaService.userProfile.create({
       data,
-      include: { user: true, userProfileAddress: true },
+      include: { user: true },
     })
   }
 
@@ -30,14 +30,14 @@ export class UserProfileRepository {
       take,
       where,
       orderBy,
-      include: { user: true, userProfileAddress: true },
+      include: { user: true },
     })
   }
 
   async findOne(where: Prisma.UserProfileWhereUniqueInput): Promise<UserProfile> {
     return this.prismaService.userProfile.findUnique({
       where,
-      include: { user: true, userProfileAddress: true },
+      include: { user: true },
     })
   }
 
@@ -46,14 +46,11 @@ export class UserProfileRepository {
     data: Prisma.UserProfileUpdateInput
   }): Promise<UserProfile> {
     const { where, data } = params
-    console.log(where, data, 'user profile check')
-    const ans = await this.prismaService.userProfile.update({
+    return this.prismaService.userProfile.update({
       data,
-      where: { userId: '8dbbc720-7f58-4a48-8bd0-d9a40c06f65e' },
-      include: { user: true, userProfileAddress: true },
+      where,
+      include: { user: true },
     })
-    console.log(ans, 'after')
-    return ans
   }
 
   async remove(where: Prisma.UserProfileWhereUniqueInput) {

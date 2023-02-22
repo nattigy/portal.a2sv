@@ -1,7 +1,6 @@
-import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql'
+import { Field, GraphQLISODateTime, Int, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { CurrentEducationStatusEnum, CurrentWorkStatusEnum } from '@prisma/client'
 import { User } from '../../user/entities/user.entity'
-import { UserProfileAddress } from './user-profile-address.entity'
 
 @ObjectType()
 export class UserProfile {
@@ -32,7 +31,7 @@ export class UserProfile {
   @Field()
   countryCode: string
 
-  @Field()
+  @Field(() => GraphQLISODateTime)
   birthDate: Date
 
   @Field()
@@ -98,13 +97,16 @@ export class UserProfile {
   @Field(() => User)
   user: User
 
-  @Field(() => UserProfileAddress, { nullable: true })
-  userProfileAddress?: UserProfileAddress
+  @Field()
+  country: string
 
-  @Field(() => Date, { nullable: true })
+  @Field()
+  city: string
+
+  @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   updatedAt?: Date
 }
 

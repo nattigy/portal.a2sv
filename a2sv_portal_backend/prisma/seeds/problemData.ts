@@ -1,4 +1,4 @@
-import { ProblemDifficultyTypeEnum } from "@prisma/client"
+import { ProblemDifficultyTypeEnum } from '@prisma/client'
 
 const problemData = [
   {
@@ -16,7 +16,7 @@ const problemData = [
     title: 'Reverse Integer',
     link: 'https://leetcode.com/problems/reverse-integer/',
     difficulty: ProblemDifficultyTypeEnum.MEDIUM,
-    platform: 'LEETCODE',
+    platform: 'GeeksForGeeks',
     tags: [
       {
         name: 'ARRAY',
@@ -34,5 +34,38 @@ const problemData = [
       },
     ],
   },
+  {
+    title: 'Adding elements',
+    link: 'https://leetcode.com/problems/adding-elements/',
+    difficulty: ProblemDifficultyTypeEnum.EASY,
+    platform: 'LEETCODE',
+    tags: [
+      {
+        name: 'Number',
+      },
+    ],
+  },
+  {
+    title: 'Guess a number',
+    link: 'https://leetcode.com/problems/guess-number/',
+    difficulty: ProblemDifficultyTypeEnum.MEDIUM,
+    platform: 'LEETCODE',
+    tags: [
+      {
+        name: 'BFS',
+      },
+    ],
+  },
+  {
+    title: 'Sort values',
+    link: 'https://leetcode.com/problems/sort-values/',
+    difficulty: ProblemDifficultyTypeEnum.HARD,
+    platform: 'GeeksForGeeks',
+    tags: [
+      {
+        name: 'Sorting',
+      },
+    ],
+  }
 ]
 export default problemData

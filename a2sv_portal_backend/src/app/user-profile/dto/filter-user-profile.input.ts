@@ -1,7 +1,6 @@
 import { Field, InputType, Int } from '@nestjs/graphql'
 import { CurrentEducationStatusEnum, CurrentWorkStatusEnum } from '@prisma/client'
 import { StringFilter } from 'src/common/filter-types/string-filter'
-import { FilterUserProfileAddressInput } from './user-profile-addres.input'
 
 @InputType()
 export class FilterUserProfileInput {
@@ -53,6 +52,9 @@ export class FilterUserProfileInput {
   @Field({ nullable: true })
   telegram?: string
 
-  @Field(() => FilterUserProfileAddressInput, { nullable: true })
-  userProfileAddress?: FilterUserProfileAddressInput
+  @Field({ nullable: true })
+  country?: string
+
+  @Field({ nullable: true })
+  city?: string
 }

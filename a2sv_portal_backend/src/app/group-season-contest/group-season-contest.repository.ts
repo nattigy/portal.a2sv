@@ -7,16 +7,16 @@ import { GroupSeasonContest } from './entities/group-season-contest.entity'
 export class GroupSeasonContestRepository {
   include = {
     contest: {
-      include: { problems: { include: { tags: true } } },
+      include: { contestProblems: { include: { problem: { include: { tags: true } } } } },
     },
     groupSeasonContestProblems: {
       include: {
         userGroupSeasonContestProblems: {
           include: {
-            problem: { include: { tags: true } },
+            contestProblem: { include: { problem: { include: { tags: true } } } },
           },
         },
-        problem: { include: { tags: true } },
+        contestProblem: { include: { problem: { include: { tags: true } } } },
       },
     },
   }
@@ -26,7 +26,21 @@ export class GroupSeasonContestRepository {
   async create(data: Prisma.GroupSeasonContestCreateInput): Promise<GroupSeasonContest> {
     return this.prismaService.groupSeasonContest.create({
       data,
-      include: this.include,
+      include: {
+        contest: {
+          include: { contestProblems: { include: { problem: { include: { tags: true } } } } },
+        },
+        groupSeasonContestProblems: {
+          include: {
+            userGroupSeasonContestProblems: {
+              include: {
+                contestProblem: { include: { problem: { include: { tags: true } } } },
+              },
+            },
+            contestProblem: { include: { problem: { include: { tags: true } } } },
+          },
+        },
+      },
     })
   }
 

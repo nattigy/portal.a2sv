@@ -1,6 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql'
 import { CurrentEducationStatusEnum, CurrentWorkStatusEnum } from '@prisma/client'
-import { UpdateUserProfileAddressInput } from './user-profile-addres.input'
 
 @InputType()
 export class UpdateUserProfileInput {
@@ -91,6 +90,9 @@ export class UpdateUserProfileInput {
   @Field({ nullable: true })
   twitter?: string
 
-  @Field(() => UpdateUserProfileAddressInput, { nullable: true })
-  userProfileAddress?: UpdateUserProfileAddressInput
+  @Field({ nullable: true })
+  country?: string
+
+  @Field({ nullable: true })
+  city?: string
 }

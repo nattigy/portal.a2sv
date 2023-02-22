@@ -13,12 +13,18 @@ export class ContestService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly contestRepository: ContestRepository,
-  ) {}
+  ) {
+  }
 
   async createContest({ problems, ...contestInput }: CreateContestInput): Promise<Contest> {
     return this.contestRepository.create({
       ...contestInput,
-      problems: { connect: problems.map(p => ({ id: p.problemId })) },
+      contestProblems: {
+        createMany: {
+          skipDuplicates: true,
+          data: problems.map(p => ({ problemId: p.id })),
+        },
+      },
     })
   }
 
@@ -50,10 +56,10 @@ export class ContestService {
   }
 
   async update({
-    contestId,
-    problems,
-    ...updateContest
-  }: UpdateContestInput): Promise<Contest> {
+                 contestId,
+                 problems,
+                 ...updateContest
+               }: UpdateContestInput): Promise<Contest> {
     // check if contest with this Id exists and if it doesn't return
     // "contest with this Id doesn't" exists error
     const foundContest = await this.prismaService.contest.findUnique({
@@ -67,7 +73,12 @@ export class ContestService {
       where: { id: contestId },
       data: {
         ...updateContest,
-        problems: { connect: problems?.map(p => ({ id: p.problemId })) },
+        contestProblems: {
+          createMany: {
+            skipDuplicates: true,
+            data: problems.map(p => ({ problemId: p.id })),
+          },
+        },
       },
     })
   }
@@ -75,19 +86,22 @@ export class ContestService {
   async removeProblemsFromContest(contestId: string, problemIds: string[]): Promise<Contest> {
     // check if contest with this Id exists and if it doesn't return
     // "contest with this Id doesn't" exists error'
-    const foundContest = await this.prismaService.contest.findUnique({
-      where: { id: contestId },
+    const foundContest = await this.contestRepository.findOne({
+      id: contestId,
     })
 
     if (!foundContest)
       throw new NotFoundException(`Contest with id ${contestId} does not exist!`)
 
-    return this.contestRepository.update({
-      where: { id: contestId },
-      data: {
-        problems: { disconnect: problemIds.map(problemId => ({ id: problemId })) },
+    await this.prismaService.contestProblem.deleteMany({
+      where: {
+        contestId,
+        problemId: {
+          in: problemIds,
+        },
       },
     })
+    return foundContest
   }
 
   async removeContest(id: string): Promise<number> {

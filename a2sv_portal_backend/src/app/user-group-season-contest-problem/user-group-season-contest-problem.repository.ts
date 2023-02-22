@@ -5,7 +5,8 @@ import { UserGroupSeasonContestProblem } from './entities/user-group-season-cont
 
 @Injectable()
 export class UserGroupSeasonContestProblemRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(
     data: Prisma.UserGroupSeasonContestProblemCreateInput,
@@ -13,7 +14,7 @@ export class UserGroupSeasonContestProblemRepository {
     return this.prismaService.userGroupSeasonContestProblem.create({
       data,
       include: {
-        problem: { include: { tags: true } },
+        contestProblem: { include: { problem: { include: { tags: true } } } },
       },
     })
   }
@@ -35,7 +36,7 @@ export class UserGroupSeasonContestProblemRepository {
       where,
       orderBy,
       include: {
-        problem: { include: { tags: true } },
+        contestProblem: { include: { problem: { include: { tags: true } } } },
       },
     })
   }
@@ -46,7 +47,7 @@ export class UserGroupSeasonContestProblemRepository {
     return this.prismaService.userGroupSeasonContestProblem.findUnique({
       where,
       include: {
-        problem: { include: { tags: true } },
+        contestProblem: { include: { problem: { include: { tags: true } } } },
       },
     })
   }
@@ -60,7 +61,7 @@ export class UserGroupSeasonContestProblemRepository {
       data,
       where,
       include: {
-        problem: { include: { tags: true } },
+        contestProblem: { include: { problem: { include: { tags: true } } } },
       },
     })
   }

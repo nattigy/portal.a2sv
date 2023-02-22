@@ -1,12 +1,8 @@
-import { Field, InputType, Int } from '@nestjs/graphql'
-import { CreateUserProfileAddressInput } from './user-profile-addres.input'
+import { Field, GraphQLISODateTime, InputType, Int } from '@nestjs/graphql'
 import { CurrentEducationStatusEnum, CurrentWorkStatusEnum } from '@prisma/client'
 
 @InputType()
 export class CreateUserProfileInput {
-  // @Field(() => String)
-  // userId: string
-
   @Field()
   firstName: string
 
@@ -25,7 +21,7 @@ export class CreateUserProfileInput {
   @Field()
   countryCode: string
 
-  @Field()
+  @Field(() => GraphQLISODateTime)
   birthDate: Date
 
   @Field()
@@ -91,6 +87,9 @@ export class CreateUserProfileInput {
   @Field({ nullable: true })
   geekforgeeks?: string
 
-  @Field(() => CreateUserProfileAddressInput, { nullable: true })
-  userProfileAddress?: CreateUserProfileAddressInput
+  @Field()
+  country: string
+
+  @Field()
+  city: string
 }
