@@ -2,8 +2,8 @@ runtime: nodejs16
 
 env_variables:
   PORT: 8080
-  DB_URL: "postgresql://portal-postgresql:portal-postgresql@34.65.16.249/portal-db-v1?host=34.65.16.249"
-  DB_USER: "portal-postgresql"
+  DB_URL: "postgresql://postgres:portal-postgresql@34.65.16.249/portal-db-v1?host=34.65.16.249"
+  DB_USER: "postgres"
   DB_NAME: "portal-db-v1"
   DB_PASS: "portal-postgresql"
   DB_INSTANCE: "portal-backend-369707:europe-west6:portal-db-v1"
