@@ -28,6 +28,14 @@ export const GET_SEASON_TOPICS = gql`
           id
           name
         }
+        seasonTopicResources {
+          createdAt
+          description
+          id
+          link
+          name
+          type
+        }
       }
     }
   }
