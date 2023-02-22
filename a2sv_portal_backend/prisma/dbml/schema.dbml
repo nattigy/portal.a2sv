@@ -396,7 +396,7 @@ Table UserProfile {
 }
 
 Table UserProfileAddress {
-  profileId String [pk, unique]
+  profileId String [pk]
   country String [not null]
   city String [not null]
   userProfile UserProfile [not null]
@@ -434,11 +434,6 @@ Table Tag {
   id String [pk]
   name String [unique, not null]
   problems Problem [not null]
-}
-
-Table ProblemToTag {
-  tagsId String [ref: > Tag.id]
-  problemsId String [ref: > Problem.id]
 }
 
 Enum StatusEnum {
