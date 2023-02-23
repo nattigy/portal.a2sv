@@ -14,6 +14,8 @@ const IndexPage = () => {
   }: {
     sidebarProps: Array<Resource>;
   }) => {
+    const [expanded, setExpanded] = useState<false | number>(false);
+
     return (
       <div className="flex flex-col justify-between h-full">
         <div>
@@ -23,9 +25,12 @@ const IndexPage = () => {
             </h1>
           </div>
           {sidebarProps &&
-            sidebarProps.map((sidebarProp: Resource) => {
+            sidebarProps.map((sidebarProp: Resource, index: number) => {
               return (
                 <TopicResourcesItem
+                  expanded={expanded}
+                  setExpanded={setExpanded}
+                  index={index}
                   topicResource={sidebarProp}
                   key={sidebarProp.id}
                 />
@@ -60,7 +65,10 @@ const IndexPage = () => {
   return (
     <BaseLayout sidebar={<Sidebar sidebarProps={[]} />}>
       {isModalOpen && (
-        <ResourceModal isEditing={false} onClose={() => setIsModalOpen(false)} />
+        <ResourceModal
+          isEditing={false}
+          onClose={() => setIsModalOpen(false)}
+        />
       )}
       <div>
         <ProblemsPage

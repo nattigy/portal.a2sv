@@ -23,6 +23,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "formik": "^2.2.9",
+    "framer-motion": "^9.0.4",
     "graphql": "^16.6.0",
     "lodash": "^4.17.21",
     "next": "12.2.5",

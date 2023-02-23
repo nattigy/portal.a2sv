@@ -11,6 +11,9 @@ import { getGoogleIcon } from "../../helpers/getGoogleIcon";
 import { MdChevronRight } from "react-icons/md";
 import { FiChevronDown } from "react-icons/fi";
 import { FaChevronDown } from "react-icons/fa";
+import { ADD_SEASON_TOPIC_RESOURCES } from "../../lib/apollo/Mutations/seasonsMutations";
+import { useMutation } from "@apollo/client";
+import { useRouter } from "next/router";
 
 interface FormValues {
   name: string;
@@ -31,6 +34,8 @@ const TextAreaInput = ({ field, form, ...props }: any) => {
 
 const ResourceModal = ({ isEditing, resource, onClose }: Props) => {
   const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
+  const [addResource] = useMutation(ADD_SEASON_TOPIC_RESOURCES);
 
   const INITIAL_VALUES: FormValues = {
     name: resource?.name || "",
@@ -52,7 +57,25 @@ const ResourceModal = ({ isEditing, resource, onClose }: Props) => {
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
-            () => {};
+            ()=>{}
+            // await addResource({
+            //   variables: {
+            //     createSeasonTopicInput: {
+            //       seasonId: router.query.season?.toString(),
+            //       topicId: router.query.season?.toString(),
+            //       seasonTopicResources: [
+            //         {
+            //           description: values.description,
+            //           link: values.link,
+            //           name: values.name,
+            //           type: values.type?.toUpperCase(),
+            //           seasonId: router.query.season?.toString(),
+            //           topicId: router.query.season?.toString(),
+            //         },
+            //       ],
+            //     },
+            //   },
+            // });
           }}
         >
           {({ isSubmitting, handleChange, errors, touched, values }) => (
