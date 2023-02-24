@@ -18,7 +18,7 @@ export class UserGroupSeason {
   @Field(() => User)
   user: User
 
-  @Field(() => Float)
+  @Field(() => Int)
   rank: number
 
   @Field(() => Int)

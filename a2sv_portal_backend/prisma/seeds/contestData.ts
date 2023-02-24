@@ -29,17 +29,5 @@ const contestData = [
     'startTime': '2022-11-18T05:48:54.744Z',
     'endTime': '2022-11-18T05:48:54.744Z',
   },
-  {
-    'name': 'contest 6',
-    'link': 'link1',
-    'startTime': '2022-11-18T05:48:54.744Z',
-    'endTime': '2022-11-18T05:48:54.744Z',
-  },
-  {
-    'name': 'contest 7',
-    'link': 'link1',
-    'startTime': '2022-11-18T05:48:54.744Z',
-    'endTime': '2022-11-18T05:48:54.744Z',
-  },
 ]
 export default contestData

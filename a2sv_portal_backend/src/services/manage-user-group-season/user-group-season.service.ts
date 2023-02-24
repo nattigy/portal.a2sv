@@ -84,7 +84,7 @@ export class UserGroupSeasonService {
         rank: 0,
         totalSubmissions,
         totalAcceptedSubmissions,
-        acceptanceRate: (totalAcceptedSubmissions / totalSubmissions) * 100,
+        acceptanceRate: totalSubmissions ? (totalAcceptedSubmissions / totalSubmissions) * 100 : 0,
         averageContestRating: 0,
         totalContestsAttended: 0,
         easyCount,
@@ -179,9 +179,9 @@ export class UserGroupSeasonService {
         1,
       ).length
       const acceptanceRate =
-        (uTopics.map(t => t.comfortabilityPercentage).reduce((a, b) => a + b, 0) /
+        uTopics.length ? (uTopics.map(t => t.comfortabilityPercentage).reduce((a, b) => a + b, 0) /
           uTopics.length) *
-        100
+        100 : 0
       statMap[statMapKey] = {
         ...statMap[statMapKey],
         totalSubmissions,
@@ -192,7 +192,6 @@ export class UserGroupSeasonService {
         hardCount,
       }
     }
-    console.log(userStats)
     return userStats
   }
 

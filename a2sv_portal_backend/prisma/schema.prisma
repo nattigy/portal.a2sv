@@ -30,12 +30,24 @@ model Group {
   name         String        @unique
   country      String?
   school       String?
-  headId       String?       @unique
-  head         User?         @relation("GroupHead", fields: [headId], references: [id])
+  // headId       String?       @unique
+  // head         User?         @relation("GroupHead", fields: [headId], references: [id])
   createdAt    DateTime?     @default(now())
   updatedAt    DateTime?     @updatedAt
   users        User[]
   groupSeasons GroupSeason[]
+  groupHeads    GroupHead[]
+}
+
+model GroupHead {
+  groupId   String
+  userId    String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  group     Group     @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([groupId, userId])
 }
 
 model Contest {
@@ -88,11 +100,12 @@ model User {
   groupId            String?
   createdAt          DateTime?         @default(now())
   updatedAt          DateTime?
-  headToGroup        Group?            @relation("GroupHead")
+  // headToGroup        Group?            @relation("GroupHead")
   group              Group?            @relation(fields: [groupId], references: [id])
   userProfile        UserProfile?
   headToGroupSeasons GroupSeason[]
   userGroupSeasons   UserGroupSeason[]
+  groupHeads          GroupHead[]
 }
 
 model SeasonTopic {
