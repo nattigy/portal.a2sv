@@ -10,7 +10,7 @@ import WithPermission from "../../lib/Guard/WithPermission";
 import {
   useGetAllContestsForStudent,
   useGetAllGroupContests,
-} from "../../lib/hooks/useAllContests";
+} from "../../lib/hooks/useContests";
 import {
   ContestDetail,
   ContestStatus,
@@ -24,7 +24,7 @@ type Props = {
   items: Array<ContestDetail>;
 };
 
-const PreviousContestsItem = () => {
+const PreviousContests = () => {
   const authUser = useReactiveVar(authenticatedUser);
   const [loadStudentContests, { loading, data, error, refetch }] =
     useGetAllContestsForStudent((authUser as any).id);
@@ -258,4 +258,4 @@ const PreviousContestsItem = () => {
   );
 };
 
-export default PreviousContestsItem;
+export default PreviousContests;

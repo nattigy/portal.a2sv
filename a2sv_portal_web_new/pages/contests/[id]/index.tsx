@@ -17,7 +17,7 @@ import {
   useGetAllGroupContests,
   useGetContestDetailsForStudent,
   useGetSingleGroupContests,
-} from "../../../lib/hooks/useAllContests";
+} from "../../../lib/hooks/useContests";
 import {
   ContestDetail,
   ContestProblem,

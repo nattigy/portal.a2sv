@@ -43,24 +43,35 @@ const ContestInfoItem = ({ formik }: Props) => {
               formik={formik}
               onChange={(e: any) => {
                 console.log(e);
-                formik.setFieldValue("date", new Date(e));
+                formik.setFieldValue("startTime", new Date(e));
               }}
-              name="date"
-              type="date"
+              name="startTime"
+              type="date-time"
               placeholder="Enter Date"
             />
-            <ContestTimeDateField
+            {/* <ContestTimeDateField
               className="w-full text-xs placeholder-[#767676] rounded-md focus:outline-none py-3 px-8 overflow-y-scroll"
               formik={formik}
               onChange={(e: any) => {
                 console.log(e, "Time");
                 formik.setFieldValue("time", new Date(e));
               }}
-              name="time"
+              name="endTime"
+              type="time"
+              placeholder="Enter Time"
+            /> */}
+            <ContestTimeDateField
+              className="w-full text-xs placeholder-[#767676] rounded-md focus:outline-none py-3 px-8 overflow-y-scroll"
+              formik={formik}
+              onChange={(e: any) => {
+                console.log(e, "Time");
+                formik.setFieldValue("endTime", new Date(e));
+              }}
+              name="endTime"
               type="time"
               placeholder="Enter Time"
             />
-            <div className="flex">
+            {/* <div className="flex">
               <DurationField
                 className="w-16 text-xs font-semibold placeholder-[#767676] rounded-md focus:outline-none py-3 px-4"
                 formik={formik}
@@ -71,7 +82,7 @@ const ContestInfoItem = ({ formik }: Props) => {
                 formik={formik}
                 name="minute"
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

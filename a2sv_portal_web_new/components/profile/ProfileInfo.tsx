@@ -186,6 +186,8 @@ const ProfileInfo = ({ userProfile }: Props) => {
                     codeforces: values.codeforces,
                     github: values.github,
                     photoUrl: values.photoUrl,
+                    email:values.email
+                  
                   },
                 },
                 refetchQueries: "active",
@@ -219,6 +221,8 @@ const ProfileInfo = ({ userProfile }: Props) => {
                     hackerrank: values.hackerrank,
                     codeforces: values.codeforces,
                     github: values.github,
+                    email:values.email
+
                   },
                 },
                 refetchQueries: "active",

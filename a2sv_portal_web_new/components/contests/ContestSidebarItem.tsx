@@ -31,7 +31,7 @@ const ContestSidebarItem = (props: Props) => {
           </p>
         </div>
       )}
-      <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION]}>
+      <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION,GraphqlUserRole.HEAD_OF_ACADEMY]}>
         <div className="flex flex-col items-center gap-y-6">
           <img className="w-fit h-48" src="images/add-contest.svg" alt="" />
           <Button
