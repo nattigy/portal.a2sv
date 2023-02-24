@@ -36,18 +36,7 @@ model Group {
   updatedAt    DateTime?     @updatedAt
   users        User[]
   groupSeasons GroupSeason[]
-  groupHeads    GroupHead[]
-}
-
-model GroupHead {
-  groupId   String
-  userId    String
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
-  group     Group     @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@id([groupId, userId])
+  groupHeads   GroupHead[]
 }
 
 model Contest {
@@ -91,21 +80,33 @@ model Problem {
 }
 
 model User {
-  id                 String            @id @default(uuid())
-  role               RoleEnum
-  email              String            @unique
-  password           String
-  status             StatusEnum
-  verified           Boolean?          @default(false)
-  groupId            String?
-  createdAt          DateTime?         @default(now())
-  updatedAt          DateTime?
+  id               String            @id @default(uuid())
+  role             RoleEnum
+  email            String            @unique
+  password         String
+  status           StatusEnum
+  verified         Boolean?          @default(false)
+  groupId          String?
+  createdAt        DateTime?         @default(now())
+  updatedAt        DateTime?
   // headToGroup        Group?            @relation("GroupHead")
-  group              Group?            @relation(fields: [groupId], references: [id])
-  userProfile        UserProfile?
-  headToGroupSeasons GroupSeason[]
-  userGroupSeasons   UserGroupSeason[]
-  groupHeads          GroupHead[]
+  group            Group?            @relation(fields: [groupId], references: [id])
+  userProfile      UserProfile?
+  // headToGroupSeasons GroupSeason[]
+  userGroupSeasons UserGroupSeason[]
+  groupSeasonHeads GroupSeasonHead[]
+  headToGroups     GroupHead[]
+}
+
+model GroupHead {
+  groupId   String
+  headId    String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  user      User      @relation(fields: [headId], references: [id], onDelete: Cascade)
+  group     Group     @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@id([groupId, headId])
 }
 
 model SeasonTopic {
@@ -167,8 +168,8 @@ model SeasonTopicProblem {
 model GroupSeason {
   groupId             String
   seasonId            String
+  // headId              String
   isActive            Boolean              @default(false)
-  headId              String
   joinRequest         JoinRequestEnum      @default(REQUESTED)
   startDate           DateTime
   endDate             DateTime?
@@ -179,14 +180,27 @@ model GroupSeason {
   //numberOfStudents
   group               Group                @relation(fields: [groupId], references: [id], onDelete: Cascade)
   season              Season               @relation(fields: [seasonId], references: [id], onDelete: Cascade)
-  head                User?                @relation(fields: [headId], references: [id])
+  // groupSeasonHead       GroupSeasonHead?     @relation(fields: [groupId, seasonId, headId], references: [groupId, seasonId, userId])
   createdAt           DateTime?            @default(now())
   updatedAt           DateTime?            @updatedAt
   groupSeasonTopics   GroupSeasonTopic[]
   userGroupSeasons    UserGroupSeason[]
   groupSeasonContests GroupSeasonContest[]
+  groupSeasonHeads    GroupSeasonHead[]
 
   @@id([groupId, seasonId])
+}
+
+model GroupSeasonHead {
+  groupId     String
+  seasonId    String
+  headId      String
+  createdAt   DateTime?   @default(now())
+  updatedAt   DateTime?   @updatedAt
+  groupSeason GroupSeason @relation(fields: [groupId, seasonId], references: [groupId, seasonId], onDelete: Cascade)
+  user        User        @relation(fields: [headId], references: [id], onDelete: Cascade)
+
+  @@id([groupId, seasonId, headId])
 }
 
 model GroupSeasonTopic {

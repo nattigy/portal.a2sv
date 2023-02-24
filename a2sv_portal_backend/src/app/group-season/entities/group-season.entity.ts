@@ -2,9 +2,9 @@ import { Field, GraphQLISODateTime, ObjectType, registerEnumType } from '@nestjs
 import { Group } from '../../group/entities/group.entity'
 import { Season } from '../../season/entities/season.entity'
 import { JoinRequestEnum } from '@prisma/client'
-import { User } from '../../user/entities/user.entity'
 import { GroupSeasonTopic } from '../../group-season-topic/entities/group-season-topic.entity'
 import { GroupSeasonContest } from '../../group-season-contest/entities/group-season-contest.entity'
+import { GroupSeasonHead } from '../../group-season-head/entities/group-season-head.entity'
 
 @ObjectType()
 export class GroupSeason {
@@ -14,11 +14,11 @@ export class GroupSeason {
   @Field()
   seasonId: string
 
-  @Field()
-  isActive: boolean
+  // @Field()
+  // headId: string
 
   @Field()
-  headId: string
+  isActive: boolean
 
   @Field(() => JoinRequestEnum)
   joinRequest: JoinRequestEnum
@@ -35,8 +35,8 @@ export class GroupSeason {
   @Field(() => Season)
   season: Season
 
-  @Field(() => User)
-  head: User
+  @Field(() => [GroupSeasonHead])
+  groupSeasonHeads: GroupSeasonHead[]
 
   @Field(() => [GroupSeasonTopic])
   groupSeasonTopics: GroupSeasonTopic[]

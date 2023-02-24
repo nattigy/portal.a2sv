@@ -98,7 +98,7 @@ async function main() {
     console.log('added problems to contests')
 
     let users = await prisma.user.findMany({})
-    let groups = await prisma.group.findMany({})
+    let groups = await prisma.group.findMany({include: {groupHeads: true}})
     for (const user of users) {
       if (user.role === RoleEnum.STUDENT) {
         await prisma.user.update({
@@ -126,13 +126,15 @@ async function main() {
     const g31 = await prisma.group.findFirst({ where: { name: 'Group-31' } })
     const emre = await prisma.user.findFirst({ where: { email: 'emre@a2sv.org' } })
     const sura = await prisma.user.findFirst({ where: { email: 'surafel@a2sv.org' } })
-    await prisma.group.update({
-      where: { id: g12.id },
-      data: { headId: emre.id },
+    await prisma.groupHead.upsert({
+      where: { groupId_headId: {groupId: g12.id, headId: emre.id} },
+      create:{groupId: g12.id, headId: emre.id},
+      update:{},
     })
-    await prisma.group.update({
-      where: { id: g31.id },
-      data: { headId: sura.id },
+    await prisma.groupHead.upsert({
+      where: { groupId_headId: {groupId: g31.id, headId: sura.id} },
+      create:{groupId: g31.id, headId: sura.id},
+      update:{},
     })
     console.log('assign heads to a group')
 
@@ -149,17 +151,31 @@ async function main() {
       data: { isActive: true },
     })
 
-    groups = await prisma.group.findMany({})
+    groups = await prisma.group.findMany({include: {groupHeads: true}})
     for (const season1 of seasons) {
       await prisma.groupSeason.createMany({
-        data: groups.filter(g => g.headId !== null).map(g => ({
+        data: groups.filter(g => g.groupHeads.length > 0).map(g => ({
           groupId: g.id,
           seasonId: season1.id,
-          headId: g.headId,
           startDate: '2022-12-30T12:22:34.313Z',
         })),
       })
     }
+
+    await prisma.groupSeasonHead.create({
+      data: {
+        groupId: g12.id,
+        seasonId: g12Season.id,
+        headId: emre.id,
+      }
+    })
+    await prisma.groupSeasonHead.create({
+      data: {
+        groupId: g31.id,
+        seasonId: g31Season.id,
+        headId: sura.id
+      }
+    })
 
     await prisma.groupSeason.update({
       where: {

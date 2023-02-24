@@ -21,12 +21,11 @@ Table Group {
   name String [unique, not null]
   country String
   school String
-  headId String [unique]
-  head User
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   users User [not null]
   groupSeasons GroupSeason [not null]
+  groupHeads GroupHead [not null]
 }
 
 Table Contest {
@@ -79,11 +78,24 @@ Table User {
   groupId String
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
-  headToGroup Group
   group Group
   userProfile UserProfile
-  headToGroupSeasons GroupSeason [not null]
   userGroupSeasons UserGroupSeason [not null]
+  groupSeasonHeads GroupSeasonHead [not null]
+  headToGroups GroupHead [not null]
+}
+
+Table GroupHead {
+  groupId String [not null]
+  headId String [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  user User [not null]
+  group Group [not null]
+
+  indexes {
+    (groupId, headId) [pk]
+  }
 }
 
 Table SeasonTopic {
@@ -154,21 +166,34 @@ Table GroupSeason {
   groupId String [not null]
   seasonId String [not null]
   isActive Boolean [not null, default: false]
-  headId String [not null]
   joinRequest JoinRequestEnum [not null, default: 'REQUESTED']
   startDate DateTime [not null]
   endDate DateTime
   group Group [not null]
   season Season [not null]
-  head User
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   groupSeasonTopics GroupSeasonTopic [not null]
   userGroupSeasons UserGroupSeason [not null]
   groupSeasonContests GroupSeasonContest [not null]
+  groupSeasonHeads GroupSeasonHead [not null]
 
   indexes {
     (groupId, seasonId) [pk]
+  }
+}
+
+Table GroupSeasonHead {
+  groupId String [not null]
+  seasonId String [not null]
+  headId String [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  groupSeason GroupSeason [not null]
+  user User [not null]
+
+  indexes {
+    (groupId, seasonId, headId) [pk]
   }
 }
 
@@ -509,9 +534,11 @@ Enum ResourceTypeEnum {
   DOC
 }
 
-Ref: Group.headId - User.id
+Ref: User.groupId > Group.id
 
-Ref: User.groupId - Group.id
+Ref: GroupHead.headId > User.id [delete: Cascade]
+
+Ref: GroupHead.groupId > Group.id [delete: Cascade]
 
 Ref: SeasonTopic.seasonId > Season.id [delete: Cascade]
 
@@ -531,7 +558,9 @@ Ref: GroupSeason.groupId > Group.id [delete: Cascade]
 
 Ref: GroupSeason.seasonId > Season.id [delete: Cascade]
 
-Ref: GroupSeason.headId > User.id
+Ref: GroupSeasonHead.(groupId, seasonId) > GroupSeason.(groupId, seasonId) [delete: Cascade]
+
+Ref: GroupSeasonHead.headId > User.id [delete: Cascade]
 
 Ref: GroupSeasonTopic.(groupId, seasonId) > GroupSeason.(groupId, seasonId) [delete: Cascade]
 

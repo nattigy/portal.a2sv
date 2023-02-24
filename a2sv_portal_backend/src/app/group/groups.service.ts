@@ -14,30 +14,36 @@ export class GroupsService {
   constructor(
     private readonly groupRepository: GroupRepository,
     private readonly prismaService: PrismaService,
-  ) {}
+  ) {
+  }
 
   async createGroup({ headId, ...createGroupInput }: CreateGroupInput): Promise<Group> {
-    // if headId is in the create input check if the user with the headId exists
-    // if not return user not found if the user is there check if the user has been assigned
-    // to another group
+    /** if headId is in the create input check if the user with the headId exists
+     if not return user not found if the user is there check if the user has been assigned
+     to another group
+     */
     const createData: Prisma.GroupCreateInput = { ...createGroupInput }
+    // TODO: if group is found in that name throw name has already been used error!
+    const group = await this.groupRepository.create({
+      ...createData,
+    })
     if (headId) {
       const foundUser = await this.prismaService.user.findUnique({
         where: { id: headId },
-        include: { headToGroup: true },
       })
       if (!foundUser) {
         throw new NotFoundException(`User with id ${headId} does not exist!`)
       }
-      if (foundUser.headToGroup) {
-        throw new Error(`User with id ${headId} is already assigned to another group!`)
-      }
-      createData.head = { connect: { id: headId } }
+      // if (foundUser.headToGroup) {
+      //   throw new Error(`User with id ${headId} is already assigned to another group!`)
+      // }
+      await this.prismaService.groupHead.upsert({
+        where: { groupId_headId: { groupId: group.id, headId: foundUser.id } },
+        create: { groupId: group.id, headId: foundUser.id },
+        update: {},
+      })
     }
-    // TODO: if group is found in that name throw name has already been used error!
-    return this.groupRepository.create({
-      ...createData,
-    })
+    return group
   }
 
   async group(groupId: string): Promise<Group> {
@@ -74,18 +80,11 @@ export class GroupsService {
 
     const newUpdates: Prisma.GroupUpdateInput = { ...updates }
     if (headId) {
-      const getHead = await this.prismaService.user.findUnique({
+      const foundUser = await this.prismaService.user.findUnique({
         where: { id: headId },
-        include: { headToGroup: true },
       })
-      if (!getHead) {
-        throw new NotFoundException(`User with id:${headId} not found`)
-      }
-      if (getHead.headToGroup && getHead.headToGroup.id !== groupId) {
-        throw new Error(`User with id:${headId} is already assigned to another group!`)
-      }
-      newUpdates.head = {
-        connect: { id: headId },
+      if (!foundUser) {
+        throw new NotFoundException(`User with id ${headId} does not exist!`)
       }
       // if there are active season on the group the head on that active season should also change
       const groupSeason = await this.prismaService.groupSeason.findFirst({
@@ -93,75 +92,27 @@ export class GroupsService {
       })
       if (groupSeason) {
         const { groupId, seasonId } = groupSeason
-        await this.prismaService.groupSeason.update({
-          where: { groupId_seasonId: { groupId, seasonId } },
-          data: {
-            head: { connect: { id: headId } },
+        await this.prismaService.groupSeasonHead.upsert({
+          where: {
+            groupId_seasonId_headId: {
+              groupId, seasonId, headId: foundUser.id,
+            },
           },
+          create: { groupId, seasonId, headId: foundUser.id },
+          update: {},
         })
       }
+      await this.prismaService.groupHead.upsert({
+        where: { groupId_headId: { groupId: foundGroup.id, headId: foundUser.id } },
+        create: { groupId: foundGroup.id, headId: foundUser.id },
+        update: {},
+      })
     }
     return this.groupRepository.update({
       where: { id: groupId },
       data: newUpdates,
     })
   }
-
-  // async groupsPagination(
-  //   filterGroupInput: FilterGroupInput,
-  //   {skip, take}: PaginationInfoInput,
-  //   userPaginationInput: PaginationInfoInput = {take: 100, skip: 0},
-  // ): Promise<GroupsPaginated> {
-  //   const groupsCount = (
-  //     await this.prismaService.group.findMany({
-  //       where: filterGroupInput,
-  //     })
-  //   ).length
-  //   const groups = await this.prismaService.group.findMany({
-  //     where: filterGroupInput,
-  //     skip,
-  //     take,
-  //     include: {
-  //       users: {
-  //         take: userPaginationInput.take,
-  //         skip: userPaginationInput.skip,
-  //       },
-  //       head: true,
-  //     },
-  //   })
-  //
-  //   const groupsUsersPaginated: GroupsUsersPaginated[] = []
-  //
-  //   for (let i = 0; i < groups.length; i++) {
-  //     const users = (
-  //       await this.prismaService.group.findUnique({
-  //         where: {
-  //           id: groups[i].id,
-  //         },
-  //         include: {
-  //           users: true,
-  //         },
-  //       })
-  //     ).users
-  //     groupsUsersPaginated.push({
-  //       group: groups[i],
-  //       pageInfo: {
-  //         skip: userPaginationInput.skip,
-  //         take: userPaginationInput.take,
-  //         count: users.length,
-  //       },
-  //     })
-  //   }
-  //
-  //   return {
-  //     items: groupsUsersPaginated,
-  //     pageInfo: {
-  //       skip,
-  //       take,
-  //       count: groupsCount,
-  //     },
-  //   }
-  // }
 
   async removeGroup(id: string): Promise<number> {
     try {
