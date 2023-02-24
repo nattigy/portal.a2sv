@@ -442,6 +442,11 @@ Table Tag {
   problems Problem [not null]
 }
 
+Table ProblemToTag {
+  tagsId String [ref: > Tag.id]
+  problemsId String [ref: > Problem.id]
+}
+
 Enum StatusEnum {
   ACTIVE
   INACTIVE
