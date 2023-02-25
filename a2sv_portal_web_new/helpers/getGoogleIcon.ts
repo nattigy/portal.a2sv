@@ -5,11 +5,11 @@ import { SiLeetcode, SiCodeforces, SiAcademia } from "react-icons/si";
 export const getGoogleIcon: any = (name: string) => {
   name = name.toString().trim().toLowerCase();
   switch (name) {
-    case "docs":
+    case "doc":
       return "/icons/google-docs.svg";
-    case "sheets":
+    case "sheet":
       return "/icons/google-sheets.svg";
-    case "slides":
+    case "ppt":
       return "/icons/google-slides.svg";
     case "pdf":
       return "/icons/pdf-file-icon.svg";

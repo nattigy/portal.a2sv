@@ -17,7 +17,7 @@ type Props = {
 const GroupTopicItem = (props: Props) => {
   const pathname = `${slugify(
     props.season?.name.toString() || ""
-  )}/topics/${slugify(props.topic.name)}/problems`;
+  )}/${slugify(props.topic.name)}/problems`;
 
   const href = {
     pathname: pathname,

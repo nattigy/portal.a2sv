@@ -77,6 +77,7 @@ const HOETopicsPage = () => {
       refetchQueries: "active",
       onCompleted: (data) => {
         setSelectedAllTopicsCount(0);
+        setSelectedAllTopic(new Set())
       },
     });
   };
@@ -84,16 +85,17 @@ const HOETopicsPage = () => {
   const handleRemoveTopicsFromGroup = async (ids: string[]) => {
     await removeTopicFromGroupSeason({
       variables: {
-        groupSeasonTopicId: {
+        groupSeasonId: {
           groupId: authUser.headToGroup?.id,
           seasonId: router.query?.seasonId?.toString(),
-          topicId: [...ids],
         },
+        problemIds: [...ids],
       },
       notifyOnNetworkStatusChange: true,
       refetchQueries: "active",
       onCompleted: (data) => {
         setSelectedGroupTopicsCount(0);
+        setSelectedGroupTopic(new Set())
       },
     });
   };
@@ -144,10 +146,9 @@ const HOETopicsPage = () => {
           </div>
         )}
         <Button
-          onClick={() => {}}
-          // onClick={() => {
-          //   saveChanges();
-          // }}
+          onClick={() => {
+            handleRemoveTopicsFromGroup([...selectedGroupTopic]);
+          }}
           text={`Remove Topics from Group (${selectedGroupTopicsCount})`}
           isLoading={removeLoading}
           disabled={selectedGroupTopicsCount === 0}

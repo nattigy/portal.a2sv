@@ -12,7 +12,7 @@ import { MdChevronRight } from "react-icons/md";
 import { FiChevronDown } from "react-icons/fi";
 import { FaChevronDown } from "react-icons/fa";
 import { ADD_SEASON_TOPIC_RESOURCES } from "../../lib/apollo/Mutations/seasonsMutations";
-import { useMutation } from "@apollo/client";
+import { ApolloError, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 
 interface FormValues {
@@ -57,25 +57,32 @@ const ResourceModal = ({ isEditing, resource, onClose }: Props) => {
           initialValues={INITIAL_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
-            ()=>{}
-            // await addResource({
-            //   variables: {
-            //     createSeasonTopicInput: {
-            //       seasonId: router.query.season?.toString(),
-            //       topicId: router.query.season?.toString(),
-            //       seasonTopicResources: [
-            //         {
-            //           description: values.description,
-            //           link: values.link,
-            //           name: values.name,
-            //           type: values.type?.toUpperCase(),
-            //           seasonId: router.query.season?.toString(),
-            //           topicId: router.query.season?.toString(),
-            //         },
-            //       ],
-            //     },
-            //   },
-            // });
+            await addResource({
+              variables: {
+                createSeasonTopicInput: {
+                  seasonId: router.query.seasonId?.toString(),
+                  topicId: router.query.topicId?.toString(),
+                  seasonTopicResources: [
+                    {
+                      description: values.description,
+                      link: values.link,
+                      name: values.name,
+                      type: values.type?.toUpperCase(),
+                      seasonId: router.query.seasonId?.toString(),
+                      topicId: router.query.topicId?.toString(),
+                    },
+                  ],
+                },
+              },
+              refetchQueries: "active",
+              notifyOnNetworkStatusChange: true,
+              onCompleted: (data) => {
+                onClose();
+              },
+              onError: (error) => {
+                setErrorMessage((error as ApolloError).message);
+              },
+            });
           }}
         >
           {({ isSubmitting, handleChange, errors, touched, values }) => (
@@ -157,9 +164,9 @@ const ResourceModal = ({ isEditing, resource, onClose }: Props) => {
                         name="type"
                         placeholder="Select Resource Type"
                         options={[
-                          { name: "Doc", value: "docs" },
-                          { name: "Sheet", value: "sheets" },
-                          { name: "Slide", value: "slides" },
+                          { name: "Doc", value: "doc" },
+                          { name: "Sheet", value: "sheet" },
+                          { name: "Slide", value: "ppt" },
                           { name: "PDF", value: "pdf" },
                           { name: "Video", value: "video" },
                         ]}

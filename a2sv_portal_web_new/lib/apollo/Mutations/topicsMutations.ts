@@ -51,9 +51,13 @@ export const REMOVE_SEASON_TOPIC = gql`
 
 
 export const REMOVE_GROUP_SEASON_TOPIC = gql`
-  mutation RemoveGroupSeasonTopic($groupSeasonTopicId: GroupSeasonTopicId!) {
-    removeGroupSeasonTopic(groupSeasonTopicId: $groupSeasonTopicId) {
-      groupId
-    }
+  mutation RemoveGroupSeasonTopics(
+    $groupSeasonId: GroupSeasonId!, 
+    $problemIds: [String!]!
+  ) {
+    removeGroupSeasonTopics(
+      groupSeasonId: $groupSeasonId, 
+      problemIds: $problemIds
+    )
   }
 `;
