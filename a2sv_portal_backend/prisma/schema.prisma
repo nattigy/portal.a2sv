@@ -259,15 +259,15 @@ model GroupSeasonContest {
 }
 
 model GroupSeasonContestProblem {
-  groupId                        String
-  seasonId                       String
-  contestId                      String
-  problemId                      String
-  createdAt                      DateTime?                       @default(now())
-  updatedAt                      DateTime?                       @updatedAt
-  groupSeasonContest             GroupSeasonContest              @relation(fields: [groupId, seasonId, contestId], references: [groupId, seasonId, contestId], onDelete: Cascade)
-  contestProblem                 ContestProblem                  @relation(fields: [contestId, problemId], references: [contestId, problemId], onDelete: Cascade)
-  userGroupSeasonContestProblems UserGroupSeasonContestProblem[]
+  groupId            String
+  seasonId           String
+  contestId          String
+  problemId          String
+  createdAt          DateTime?          @default(now())
+  updatedAt          DateTime?          @updatedAt
+  groupSeasonContest GroupSeasonContest @relation(fields: [groupId, seasonId, contestId], references: [groupId, seasonId, contestId], onDelete: Cascade)
+  contestProblem     ContestProblem     @relation(fields: [contestId, problemId], references: [contestId, problemId], onDelete: Cascade)
+  // userGroupSeasonContestProblems UserGroupSeasonContestProblem[]
 
   @@id([groupId, seasonId, contestId, problemId])
 }
@@ -373,19 +373,19 @@ model UserGroupSeasonContest {
 }
 
 model UserGroupSeasonContestProblem {
-  userId                    String
-  groupId                   String
-  seasonId                  String
-  contestId                 String
-  problemId                 String
-  status                    UserContestProblemStatusEnum @default(NOT_SOLVED)
-  numberOfAttempts          Int                          @default(0)
-  numberOfMinutes           Float                        @default(0.0)
-  createdAt                 DateTime?                    @default(now())
-  updatedAt                 DateTime?                    @updatedAt
-  userGroupSeasonContest    UserGroupSeasonContest       @relation(fields: [userId, groupId, seasonId, contestId], references: [userId, groupId, seasonId, contestId], onDelete: Cascade)
-  groupSeasonContestProblem GroupSeasonContestProblem    @relation(fields: [groupId, seasonId, contestId, problemId], references: [groupId, seasonId, contestId, problemId], onDelete: Cascade)
-  contestProblem            ContestProblem               @relation(fields: [contestId, problemId], references: [contestId, problemId], onDelete: Cascade)
+  userId                 String
+  groupId                String
+  seasonId               String
+  contestId              String
+  problemId              String
+  status                 UserContestProblemStatusEnum @default(NOT_SOLVED)
+  numberOfAttempts       Int                          @default(0)
+  numberOfMinutes        Float                        @default(0.0)
+  createdAt              DateTime?                    @default(now())
+  updatedAt              DateTime?                    @updatedAt
+  userGroupSeasonContest UserGroupSeasonContest       @relation(fields: [userId, groupId, seasonId, contestId], references: [userId, groupId, seasonId, contestId], onDelete: Cascade)
+  // groupSeasonContestProblem GroupSeasonContestProblem    @relation(fields: [groupId, seasonId, contestId, problemId], references: [groupId, seasonId, contestId, problemId], onDelete: Cascade)
+  contestProblem         ContestProblem               @relation(fields: [contestId, problemId], references: [contestId, problemId], onDelete: Cascade)
 
   @@id([userId, groupId, seasonId, contestId, problemId])
 }

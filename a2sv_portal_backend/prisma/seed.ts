@@ -1,4 +1,4 @@
-import { JoinRequestEnum, PrismaClient, RoleEnum } from '@prisma/client'
+import { JoinRequestEnum, PrismaClient, RoleEnum, UserContestProblemStatusEnum } from '@prisma/client'
 import { env } from 'process'
 import groupsData from './seeds/groupsData'
 import problemData from './seeds/problemData'
@@ -221,6 +221,190 @@ async function main() {
       })),
     })
     console.log('Added contests to a groupSeasons')
+
+    const userContests = await prisma.user.findMany({
+      include: {
+        group: {
+          include: {
+            groupSeasons: {
+              include: {
+                groupSeasonContests: {
+                  include: { contest: { include: { contestProblems: true } } },
+                },
+              },
+            },
+          },
+        },
+      },
+    })
+    // for (const userContest of userContests) {
+    //   // console.log(userContest.group.groupSeasons.filter(g=>g.groupSeasonContests.length>0)[0].groupSeasonContests)
+    //   for (const groupSeason of userContest.group.groupSeasons) {
+    //     await prisma.userGroupSeason.create({
+    //       data: {
+    //         groupSeason: {
+    //           connect: {
+    //             groupId_seasonId: {
+    //               groupId: groupSeason.groupId,
+    //               seasonId: groupSeason.seasonId,
+    //             }
+    //           }
+    //         },
+    //         user: { connect: {id: userContest.id} }
+    //       }
+    //     })
+    //     for (const groupSeasonContest of groupSeason.groupSeasonContests) {
+    //       await prisma.userGroupSeasonContest.create({
+    //         data: {
+    //           groupSeasonContest:{
+    //             connect:{
+    //               groupId_seasonId_contestId:{
+    //                 groupId: groupSeasonContest.groupId,
+    //                 seasonId: groupSeasonContest.seasonId,
+    //                 contestId: groupSeasonContest.contestId
+    //               }
+    //             }
+    //           },
+    //           userGroupSeason:{
+    //             connect:{
+    //               userId_groupId_seasonId:{
+    //                 userId: userContest.id,
+    //                 groupId: groupSeasonContest.groupId,
+    //                 seasonId: groupSeasonContest.seasonId,
+    //               }
+    //             }
+    //           },
+    //           contest:{ connect:{ id:groupSeasonContest.contestId } }
+    //           // userId: userContest.id,
+    //           // groupId: groupSeasonContest.groupId,
+    //           // seasonId: groupSeasonContest.seasonId,
+    //           // contestId: groupSeasonContest.contestId
+    //         }
+    //       })
+    //       for (const contestProblem of groupSeasonContest.contest.contestProblems) {
+    //         await prisma.userGroupSeasonContestProblem.create({
+    //           data: {
+    //             userGroupSeasonContest:{
+    //               connectOrCreate:{
+    //                 where: {
+    //                   userId_groupId_seasonId_contestId: {
+    //                     groupId: groupSeasonContest.groupId,
+    //                     seasonId: groupSeasonContest.contestId,
+    //                     contestId: groupSeasonContest.contestId,
+    //                     userId: userContest.id,
+    //                   }
+    //                 },
+    //                 create: {
+    //                   groupSeasonContest: {
+    //                     connectOrCreate: {
+    //                       where:{
+    //                         groupId_seasonId_contestId:{
+    //                           groupId: groupSeasonContest.groupId,
+    //                           seasonId: groupSeasonContest.contestId,
+    //                           contestId: groupSeasonContest.contestId,
+    //                         }
+    //                       },
+    //                       create:{
+    //                         groupId: groupSeasonContest.groupId,
+    //                         seasonId: groupSeasonContest.contestId,
+    //                         contestId: groupSeasonContest.contestId,
+    //                       }
+    //                     },
+    //                   },
+    //                   userGroupSeason: {
+    //                     connectOrCreate: {
+    //                       where:{
+    //                         userId_groupId_seasonId:{
+    //                           groupId: groupSeasonContest.groupId,
+    //                           seasonId: groupSeasonContest.contestId,
+    //                           userId: userContest.id,
+    //                         }
+    //                       },
+    //                       create:{
+    //                         groupId: groupSeasonContest.groupId,
+    //                         seasonId: groupSeasonContest.contestId,
+    //                         userId: userContest.id,
+    //                       }
+    //                     },
+    //                   },
+    //                   contest: {
+    //                     connect: {
+    //                       id: groupSeasonContest.contestId,
+    //                     }
+    //                   }
+    //                   // groupId: groupSeasonContest.groupId,
+    //                   // seasonId: groupSeasonContest.contestId,
+    //                   // contestId: groupSeasonContest.contestId,
+    //                   // userId: userContest.id,
+    //                 }
+    //               }
+    //             },
+    //             contestProblem: {
+    //               connect: {
+    //                 contestId_problemId: {
+    //                   contestId: groupSeasonContest.contestId,
+    //                   problemId: contestProblem.problemId,
+    //                 }
+    //               }
+    //             },
+    //             // groupSeasonContestProblem: {
+    //             //   connectOrCreate: {
+    //             //     where: {
+    //             //       groupId_seasonId_contestId_problemId:{
+    //             //         groupId: groupSeasonContest.groupId,
+    //             //         seasonId: groupSeasonContest.contestId,
+    //             //         contestId: groupSeasonContest.contestId,
+    //             //         problemId: contestProblem.problemId,
+    //             //       }
+    //             //     },
+    //             //     create: {
+    //             //       groupSeasonContest: {
+    //             //         connect: {
+    //             //           groupId_seasonId_contestId: {
+    //             //             groupId: groupSeasonContest.groupId,
+    //             //             seasonId: groupSeasonContest.contestId,
+    //             //             contestId: groupSeasonContest.contestId,
+    //             //           }
+    //             //         }
+    //             //       },
+    //             //       contestProblem: {
+    //             //         connect: {
+    //             //            contestId_problemId:{
+    //             //              contestId: groupSeasonContest.contestId,
+    //             //              problemId: contestProblem.problemId,
+    //             //            }
+    //             //         }
+    //             //       }
+    //             //     }
+    //             //   }
+    //             // },
+    //             // groupId: userContest.groupId,
+    //             // seasonId: groupSeasonContest.contestId,
+    //             // contestId: groupSeasonContest.contestId,
+    //             // problemId: contestProblem.problemId,
+    //             // userId: userContest.id,
+    //             numberOfAttempts:5,
+    //             numberOfMinutes: 20,
+    //             status: UserContestProblemStatusEnum.SOLVED_IN_CONTEST
+    //           }
+    //         })
+    //       }
+    //       // await prisma.userGroupSeasonContestProblem.createMany({
+    //       //   skipDuplicates: true,
+    //       //   data: groupSeasonContest.contest.contestProblems.map(p => ({
+    //       //     groupId: userContest.groupId,
+    //       //     seasonId: groupSeasonContest.contestId,
+    //       //     contestId: groupSeasonContest.contestId,
+    //       //     problemId: p.problemId,
+    //       //     userId: userContest.id,
+    //       //     numberOfAttempts:5,
+    //       //     numberOfMinutes: 20,
+    //       //     status: UserContestProblemStatusEnum.SOLVED_IN_CONTEST
+    //       //   }))
+    //       // })
+    //     }
+    //   }
+    // }
 
     const topics = await prisma.topic.findMany({})
     for (const season of seasons) {

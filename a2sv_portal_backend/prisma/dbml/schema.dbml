@@ -263,7 +263,6 @@ Table GroupSeasonContestProblem {
   updatedAt DateTime
   groupSeasonContest GroupSeasonContest [not null]
   contestProblem ContestProblem [not null]
-  userGroupSeasonContestProblems UserGroupSeasonContestProblem [not null]
 
   indexes {
     (groupId, seasonId, contestId, problemId) [pk]
@@ -391,7 +390,6 @@ Table UserGroupSeasonContestProblem {
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   userGroupSeasonContest UserGroupSeasonContest [not null]
-  groupSeasonContestProblem GroupSeasonContestProblem [not null]
   contestProblem ContestProblem [not null]
 
   indexes {
@@ -609,8 +607,6 @@ Ref: UserGroupSeasonContest.(groupId, seasonId, contestId) > GroupSeasonContest.
 Ref: UserGroupSeasonContest.contestId > Contest.id [delete: Cascade]
 
 Ref: UserGroupSeasonContestProblem.(userId, groupId, seasonId, contestId) > UserGroupSeasonContest.(userId, groupId, seasonId, contestId) [delete: Cascade]
-
-Ref: UserGroupSeasonContestProblem.(groupId, seasonId, contestId, problemId) > GroupSeasonContestProblem.(groupId, seasonId, contestId, problemId) [delete: Cascade]
 
 Ref: UserGroupSeasonContestProblem.(contestId, problemId) > ContestProblem.(contestId, problemId) [delete: Cascade]
 
