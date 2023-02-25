@@ -35,10 +35,12 @@ Table Contest {
   div String
   startTime DateTime [not null]
   endTime DateTime [not null]
+  date DateTime [not null]
+  duration String [not null]
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
-  GroupSeasonContest GroupSeasonContest [not null]
-  UserGroupSeasonContest UserGroupSeasonContest [not null]
+  groupSeasonContests GroupSeasonContest [not null]
+  userGroupSeasonContests UserGroupSeasonContest [not null]
   contestProblems ContestProblem [not null]
 }
 
@@ -240,8 +242,6 @@ Table GroupSeasonContest {
   groupId String [not null]
   seasonId String [not null]
   contestId String [not null]
-  startTime DateTime [not null]
-  endTime DateTime [not null]
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   groupSeason GroupSeason [not null]

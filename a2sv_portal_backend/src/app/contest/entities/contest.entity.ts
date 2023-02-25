@@ -21,6 +21,12 @@ export class Contest {
   @Field(() => GraphQLISODateTime)
   endTime: Date
 
+  @Field(() => GraphQLISODateTime)
+  date: Date
+
+  @Field()
+  duration: string
+
   @Field(() => [ContestProblem])
   contestProblems: ContestProblem[]
 

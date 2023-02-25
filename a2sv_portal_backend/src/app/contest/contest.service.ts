@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { PrismaService } from '../../prisma/prisma.service'
-import { CreateContestInput } from './dto/create-contest.input'
 import { UpdateContestInput } from './dto/update-contest.input'
 import { Contest } from './entities/contest.entity'
 import { FilterContestInput } from './dto/filter-contest.input'
@@ -14,18 +13,6 @@ export class ContestService {
     private readonly prismaService: PrismaService,
     private readonly contestRepository: ContestRepository,
   ) {
-  }
-
-  async createContest({ problems, ...contestInput }: CreateContestInput): Promise<Contest> {
-    return this.contestRepository.create({
-      ...contestInput,
-      contestProblems: {
-        createMany: {
-          skipDuplicates: true,
-          data: problems.map(p => ({ problemId: p.id })),
-        },
-      },
-    })
   }
 
   async contests(
@@ -60,8 +47,6 @@ export class ContestService {
                  problems,
                  ...updateContest
                }: UpdateContestInput): Promise<Contest> {
-    // check if contest with this Id exists and if it doesn't return
-    // "contest with this Id doesn't" exists error
     const foundContest = await this.prismaService.contest.findUnique({
       where: { id: contestId },
     })
@@ -76,32 +61,11 @@ export class ContestService {
         contestProblems: {
           createMany: {
             skipDuplicates: true,
-            data: problems.map(p => ({ problemId: p.id })),
+            data: problems.map(p => ({ problemId: p })),
           },
         },
       },
     })
-  }
-
-  async removeProblemsFromContest(contestId: string, problemIds: string[]): Promise<Contest> {
-    // check if contest with this Id exists and if it doesn't return
-    // "contest with this Id doesn't" exists error'
-    const foundContest = await this.contestRepository.findOne({
-      id: contestId,
-    })
-
-    if (!foundContest)
-      throw new NotFoundException(`Contest with id ${contestId} does not exist!`)
-
-    await this.prismaService.contestProblem.deleteMany({
-      where: {
-        contestId,
-        problemId: {
-          in: problemIds,
-        },
-      },
-    })
-    return foundContest
   }
 
   async removeContest(id: string): Promise<number> {

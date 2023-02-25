@@ -98,7 +98,7 @@ async function main() {
     console.log('added problems to contests')
 
     let users = await prisma.user.findMany({})
-    let groups = await prisma.group.findMany({include: {groupHeads: true}})
+    let groups = await prisma.group.findMany({ include: { groupHeads: true } })
     for (const user of users) {
       if (user.role === RoleEnum.STUDENT) {
         await prisma.user.update({
@@ -127,14 +127,14 @@ async function main() {
     const emre = await prisma.user.findFirst({ where: { email: 'emre@a2sv.org' } })
     const sura = await prisma.user.findFirst({ where: { email: 'surafel@a2sv.org' } })
     await prisma.groupHead.upsert({
-      where: { groupId_headId: {groupId: g12.id, headId: emre.id} },
-      create:{groupId: g12.id, headId: emre.id},
-      update:{},
+      where: { groupId_headId: { groupId: g12.id, headId: emre.id } },
+      create: { groupId: g12.id, headId: emre.id },
+      update: {},
     })
     await prisma.groupHead.upsert({
-      where: { groupId_headId: {groupId: g31.id, headId: sura.id} },
-      create:{groupId: g31.id, headId: sura.id},
-      update:{},
+      where: { groupId_headId: { groupId: g31.id, headId: sura.id } },
+      create: { groupId: g31.id, headId: sura.id },
+      update: {},
     })
     console.log('assign heads to a group')
 
@@ -151,7 +151,7 @@ async function main() {
       data: { isActive: true },
     })
 
-    groups = await prisma.group.findMany({include: {groupHeads: true}})
+    groups = await prisma.group.findMany({ include: { groupHeads: true } })
     for (const season1 of seasons) {
       await prisma.groupSeason.createMany({
         data: groups.filter(g => g.groupHeads.length > 0).map(g => ({
@@ -167,14 +167,14 @@ async function main() {
         groupId: g12.id,
         seasonId: g12Season.id,
         headId: emre.id,
-      }
+      },
     })
     await prisma.groupSeasonHead.create({
       data: {
         groupId: g31.id,
         seasonId: g31Season.id,
-        headId: sura.id
-      }
+        headId: sura.id,
+      },
     })
 
     await prisma.groupSeason.update({
@@ -202,6 +202,25 @@ async function main() {
       },
     })
     console.log('added seasons to a group')
+
+    await prisma.groupSeasonContest.createMany({
+      skipDuplicates: true,
+      data: contests.map(c => ({
+        groupId: g12.id,
+        seasonId: g12Season.id,
+        contestId: c.id,
+      })),
+    })
+
+    await prisma.groupSeasonContest.createMany({
+      skipDuplicates: true,
+      data: contests.map(c => ({
+        groupId: g31.id,
+        seasonId: g31Season.id,
+        contestId: c.id,
+      })),
+    })
+    console.log('Added contests to a groupSeasons')
 
     const topics = await prisma.topic.findMany({})
     for (const season of seasons) {
@@ -260,7 +279,7 @@ async function main() {
     users = await prisma.user.findMany({})
     for (const user of users) {
       const userGroup = await prisma.group.findUnique({
-        where: { id: user.groupId},
+        where: { id: user.groupId },
       })
       const userSeason = await prisma.groupSeason.findFirst({
         where: {
@@ -292,6 +311,24 @@ async function main() {
 
     const endYear = new Date('2023-1-31')
     const analyticsList = []
+    const userGroupSeasons = await prisma.user.findMany({
+      include: {
+        group: {
+          include: { groupSeasons: { take: 1, where: { isActive: true } } },
+        },
+      },
+    })
+
+    interface obj {
+      seasonId: string
+    }
+
+    const userSeasonMapping: { ['key']?: obj } = {}
+    for (const userGroupSeason of userGroupSeasons) {
+      userSeasonMapping[userGroupSeason.id] = {
+        seasonId: userGroupSeason.group.groupSeasons[0].seasonId,
+      }
+    }
     // eslint-disable-next-line no-unmodified-loop-condition
     for (let d = new Date('2022-1-2'); d <= endYear; d.setDate(d.getDate() + 1)) {
       const currentDate = new Date(d) as any
@@ -301,19 +338,10 @@ async function main() {
       const days = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24))
       const weeknubmer = Math.ceil(days / 7)
       for (const user of users) {
-        const userGroup = await prisma.group.findUnique({
-          where: { id: user.groupId},
-        })
-        const userSeason = await prisma.groupSeason.findFirst({
-          where: {
-            isActive: true,
-            groupId: userGroup.id,
-          },
-        })
         analyticsList.push({
           userId: user.id,
-          seasonId: userSeason.seasonId,
-          groupId: userGroup.id,
+          seasonId: userSeasonMapping[user.id].seasonId,
+          groupId: user.groupId,
           createdAt: new Date(d),
           solvedCount: Math.floor(Math.random() * 10),
           wrongCount: Math.floor(Math.random() * 10) + 1,

@@ -9,16 +9,16 @@ export class GroupSeasonContestRepository {
     contest: {
       include: { contestProblems: { include: { problem: { include: { tags: true } } } } },
     },
-    groupSeasonContestProblems: {
-      include: {
-        userGroupSeasonContestProblems: {
-          include: {
-            contestProblem: { include: { problem: { include: { tags: true } } } },
-          },
-        },
-        contestProblem: { include: { problem: { include: { tags: true } } } },
-      },
-    },
+    // groupSeasonContestProblems: {
+    //   include: {
+    //     userGroupSeasonContestProblems: {
+    //       include: {
+    //         contestProblem: { include: { problem: { include: { tags: true } } } },
+    //       },
+    //     },
+    //     contestProblem: { include: { problem: { include: { tags: true } } } },
+    //   },
+    // },
   }
 
   constructor(private readonly prismaService: PrismaService) {}
@@ -98,8 +98,8 @@ export class GroupSeasonContestRepository {
           },
         },
         contest: { connect: { id: where.groupId_seasonId_contestId.contestId } },
-        startTime: data.startTime as Date,
-        endTime: data.endTime as Date,
+        // startTime: data.startTime as Date,
+        // endTime: data.endTime as Date,
       },
       update: data,
       include: this.include,
