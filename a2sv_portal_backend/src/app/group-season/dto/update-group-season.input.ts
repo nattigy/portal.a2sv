@@ -15,7 +15,7 @@ export class UpdateGroupSeasonInput extends PartialType(CreateGroupSeasonInput) 
 }
 
 @InputType()
-export class UpdateGroupSeasonJoinRequestInput extends PartialType(CreateGroupSeasonInput) {
+export class UpdateGroupSeasonJoinRequestInput {
   @Field()
   groupId: string
 

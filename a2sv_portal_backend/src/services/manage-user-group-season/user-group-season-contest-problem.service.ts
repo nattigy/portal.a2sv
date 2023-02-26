@@ -2,29 +2,18 @@ import { Injectable } from '@nestjs/common'
 import { PaginationUserGroupSeasonContestProblem } from 'src/common/page/pagination-info'
 import { PaginationInput } from 'src/common/page/pagination.input'
 import { PrismaService } from '../../prisma/prisma.service'
-import {
-  UserGroupSeasonContestProblemId,
-} from '../../app/user-group-season-contest-problem/dto/create-user-group-season-contest-problem.input'
-import {
-  FilterUserContestProblemInput,
-} from '../../app/user-group-season-contest-problem/dto/filter-user-group-season-contest-problem'
-import {
-  UserGroupSeasonContestProblem,
-} from '../../app/user-group-season-contest-problem/entities/user-group-season-contest-problem.entity'
-import {
-  UserGroupSeasonContestProblemRepository,
-} from '../../app/user-group-season-contest-problem/user-group-season-contest-problem.repository'
-import {
-  UpdateUserGroupSeasonContestProblemInput,
-} from '../../app/user-group-season-contest-problem/dto/update-user-group-season-contest-problem.input'
+import { UserGroupSeasonContestProblemId } from '../../app/user-group-season-contest-problem/dto/create-user-group-season-contest-problem.input'
+import { FilterUserContestProblemInput } from '../../app/user-group-season-contest-problem/dto/filter-user-group-season-contest-problem'
+import { UserGroupSeasonContestProblem } from '../../app/user-group-season-contest-problem/entities/user-group-season-contest-problem.entity'
+import { UserGroupSeasonContestProblemRepository } from '../../app/user-group-season-contest-problem/user-group-season-contest-problem.repository'
+import { UpdateUserGroupSeasonContestProblemInput } from '../../app/user-group-season-contest-problem/dto/update-user-group-season-contest-problem.input'
 
 @Injectable()
 export class UserGroupSeasonContestProblemService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly userGroupSeasonContestProblemRepository: UserGroupSeasonContestProblemRepository,
-  ) {
-  }
+  ) {}
 
   async userGroupSeasonContestProblems(
     { groupId, ...filterUserGroupSeasonContestProblemInput }: FilterUserContestProblemInput,
@@ -86,10 +75,13 @@ export class UserGroupSeasonContestProblemService {
   // }
 
   async updateUserGroupSeasonContestProblem({
-                                              id,
-                                              ...updateUserGroupSeasonContestProblemInput
-                                            }: UpdateUserGroupSeasonContestProblemInput): Promise<UserGroupSeasonContestProblem> {
-    const { seasonId, problemId, userId, groupId, contestId } = id
+    seasonId,
+    contestId,
+    groupId,
+    problemId,
+    userId,
+    ...updateUserGroupSeasonContestProblemInput
+  }: UpdateUserGroupSeasonContestProblemInput): Promise<UserGroupSeasonContestProblem> {
     return this.prismaService.userGroupSeasonContestProblem.upsert({
       where: {
         userId_groupId_seasonId_contestId_problemId: {
@@ -107,9 +99,19 @@ export class UserGroupSeasonContestProblemService {
           },
         },
         contestProblem: { connect: { contestId_problemId: { problemId, contestId } } },
+        groupSeasonContestProblem: {
+          connect: {
+            groupId_seasonId_contestId_problemId: {
+              groupId,
+              seasonId,
+              problemId,
+              contestId,
+            },
+          },
+        },
         ...updateUserGroupSeasonContestProblemInput,
       },
-      update: updateUserGroupSeasonContestProblemInput,
+      update: {},
       include: {
         contestProblem: { include: { problem: { include: { tags: true } } } },
       },
@@ -117,12 +119,12 @@ export class UserGroupSeasonContestProblemService {
   }
 
   async removeUserGroupContestProblem({
-                                        userId,
-                                        contestId,
-                                        problemId,
-                                        groupId,
-                                        seasonId,
-                                      }: UserGroupSeasonContestProblemId) {
+    userId,
+    contestId,
+    problemId,
+    groupId,
+    seasonId,
+  }: UserGroupSeasonContestProblemId) {
     try {
       await this.userGroupSeasonContestProblemRepository.remove({
         userId_groupId_seasonId_contestId_problemId: {

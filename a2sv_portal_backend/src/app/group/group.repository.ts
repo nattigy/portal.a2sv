@@ -5,8 +5,7 @@ import { Group } from './entities/group.entity'
 
 @Injectable()
 export class GroupRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.GroupCreateInput): Promise<Group> {
     return this.prismaService.group.create({
@@ -17,9 +16,9 @@ export class GroupRepository {
             userProfile: { include: { user: true } },
           },
         },
-        groupHeads: {
-          include: { user: true },
-        },
+        // groupHeads: {
+        //   include: { user: true },
+        // },
       },
     })
   }
@@ -46,9 +45,9 @@ export class GroupRepository {
             userProfile: { include: { user: true } },
           },
         },
-        groupHeads: {
-          include: { user: true },
-        },
+        // groupHeads: {
+        //   include: { user: true },
+        // },
       },
     })
   }
@@ -62,9 +61,9 @@ export class GroupRepository {
             userProfile: { include: { user: true } },
           },
         },
-        groupHeads: {
-          include: { user: true },
-        },
+        // groupHeads: {
+        //   include: { user: true },
+        // },
       },
     })
   }
@@ -83,9 +82,9 @@ export class GroupRepository {
             userProfile: { include: { user: true } },
           },
         },
-        groupHeads: {
-          include: { user: true },
-        },
+        // groupHeads: {
+        //   include: { user: true },
+        // },
       },
     })
   }

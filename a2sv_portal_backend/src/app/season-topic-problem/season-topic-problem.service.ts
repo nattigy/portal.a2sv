@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../../prisma/prisma.service'
 import {
   CreateSeasonTopicProblemInput,
   SeasonTopicProblemId,
@@ -9,10 +8,7 @@ import { SeasonTopicProblemRepository } from './season-topic-problem.repository'
 
 @Injectable()
 export class SeasonTopicProblemService {
-  constructor(
-    private readonly seasonTopicProblemRepository: SeasonTopicProblemRepository,
-    private readonly prismaService: PrismaService,
-  ) {}
+  constructor(private readonly seasonTopicProblemRepository: SeasonTopicProblemRepository) {}
 
   async addProblemToSeasonTopic({
     seasonId,

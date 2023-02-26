@@ -18,7 +18,7 @@ export class UpdateUserGroupSeasonContestInput extends PartialType(
   groupId: string
 
   @Field(() => Int, { nullable: true })
-  wrongSubmissions?:number
+  wrongSubmissions?: number
 
   @Field(() => Boolean, { nullable: true })
   contestAttended?: boolean

@@ -12,13 +12,12 @@ import { FilterGroupSeasonContestInput } from '../../app/group-season-contest/dt
 export class ManageGroupSeasonContestResolver {
   constructor(
     private readonly manageGroupSeasonContestService: ManageGroupSeasonContestService,
-  ) {
-  }
+  ) {}
 
   @Mutation(() => GroupSeasonContest)
   async addContestToAGroupSeason(
     @Args('createGroupSeasonContestInput')
-      createGroupSeasonContestInput: CreateGroupSeasonContestInput,
+    createGroupSeasonContestInput: CreateGroupSeasonContestInput,
   ) {
     return this.manageGroupSeasonContestService.addContestToAGroupSeason(
       createGroupSeasonContestInput,
@@ -27,7 +26,8 @@ export class ManageGroupSeasonContestResolver {
 
   @Query(() => [GroupSeasonContest])
   async groupSeasonContests(
-    @Args('filterGroupSeasonContestInput') filterGroupSeasonContestInput: FilterGroupSeasonContestInput,
+    @Args('filterGroupSeasonContestInput')
+    filterGroupSeasonContestInput: FilterGroupSeasonContestInput,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<GroupSeasonContest[]> {
     return this.manageGroupSeasonContestService.groupSeasonContests(

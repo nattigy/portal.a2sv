@@ -27,14 +27,13 @@ import { UserModule } from './app/user/user.module'
 import { GroupModule } from './app/group/group.module'
 import { SeasonModule } from './app/season/season.module'
 import { ContestModule } from './app/contest/contest.module'
+import { ManageGroupsModule } from './services/manage-groups/manage-groups.module'
+import { ManageSeasonsModule } from './services/manage-seasons/manage-seasons.module'
+import { ManageSeasonTopicsModule } from './services/manage-season-topic/manage-season-topics.module'
 import { SeasonTopicResourceModule } from './app/season-topic-resource/season-topic-resource.module'
 import { ManageContestModule } from './services/manage-contest/manage-contest.module'
-import {
-  ManageGroupSeasonContestModule
-} from './services/manage-group-season-contest/manage-group-season-contest.module'
-import {
-  UserUpdateContestProblemModule
-} from './services/user-update-contest-problem-status/user-update-contest-problem.module'
+import { ManageGroupSeasonContestModule } from './services/manage-group-season-contest/manage-group-season-contest.module'
+import { UserUpdateContestProblemModule } from './services/user-update-contest-problem-status/user-update-contest-problem.module'
 
 @Module({
   imports: [
@@ -94,6 +93,9 @@ import {
     PrismaModule,
     UsersUpdateProblemStatusModule,
     StorageModule,
+    ManageGroupsModule,
+    ManageSeasonsModule,
+    ManageSeasonTopicsModule,
     UsersUpdateTopicComfortabilityModule,
     StudentDataAnalyticsModule,
     ManageGroupSeasonModule,

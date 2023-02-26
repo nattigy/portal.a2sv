@@ -5,5 +5,6 @@ import { TopicService } from './topic.service'
 
 @Module({
   providers: [TopicRepository, TopicService, TopicResolver],
+  exports: [TopicService],
 })
 export class TopicModule {}

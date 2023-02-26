@@ -1,4 +1,4 @@
-import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
+import { Field, GraphQLISODateTime, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { ProblemDifficultyTypeEnum } from '@prisma/client'
 import { Tag } from '../../tag/entities/tag.entity'
 
@@ -22,10 +22,10 @@ export class Problem {
   @Field(() => [Tag], { description: 'Tag of the question' })
   tags: Tag[]
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   updatedAt?: Date
 }
 

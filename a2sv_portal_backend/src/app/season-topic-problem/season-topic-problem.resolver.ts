@@ -13,20 +13,6 @@ import { SeasonTopicProblemAbilities } from '../../casl/handler/season-topic-pro
 export class SeasonTopicProblemResolver {
   constructor(private readonly seasonTopicProblemService: SeasonTopicProblemService) {}
 
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(SeasonTopicProblemAbilities.create)
-  // @Mutation(() => SeasonTopicProblem, {
-  //   description: descriptions.createSeasonTopicProblem,
-  // })
-  // async addProblemToSeasonTopic(
-  //   @Args('createSeasonTopicProblemInput')
-  //   createSeasonTopicProblemInput: CreateSeasonTopicProblemInput,
-  // ): Promise<SeasonTopicProblem> {
-  //   return this.seasonTopicProblemService.addProblemToSeasonTopic(
-  //     createSeasonTopicProblemInput,
-  //   )
-  // }
-
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(SeasonTopicProblemAbilities.create)
   @Mutation(() => Int, {
@@ -45,34 +31,6 @@ export class SeasonTopicProblemResolver {
     }
     return problemIds.length
   }
-
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(SeasonTopicProblemAbilities.read)
-  // @Query(() => SeasonTopicProblem, { description: descriptions.seasonTopicProblem })
-  // async seasonTopicProblem(
-  //   @Args('seasonTopicProblemId') seasonTopicProblemId: SeasonTopicProblemId,
-  // ): Promise<SeasonTopicProblem> {
-  //   return this.seasonTopicProblemService.seasonTopicProblem(seasonTopicProblemId)
-  // }
-  //
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(SeasonTopicProblemAbilities.read)
-  // @Query(() => PaginationSeasonTopicProblem, { description: descriptions.seasonTopicProblems })
-  // async seasonTopicProblems(
-  //   @Args('seasonTopicId') seasonTopicId: SeasonTopicId,
-  //   @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
-  // ): Promise<PaginationSeasonTopicProblem> {
-  //   return this.seasonTopicProblemService.seasonTopicProblems(seasonTopicId, paginationInput)
-  // }
-
-  // @UseGuards(JwtAuthGuard, PoliciesGuard)
-  // @CheckPolicies(SeasonTopicProblemAbilities.delete)
-  // @Mutation(() => SeasonTopicProblem, { description: descriptions.removeSeasonTopicProblem })
-  // async removeSeasonTopicProblem(
-  //   @Args('seasonTopicProblemId') seasonTopicProblemId: SeasonTopicProblemId,
-  // ) {
-  //   return this.seasonTopicProblemService.remove(seasonTopicProblemId)
-  // }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @CheckPolicies(SeasonTopicProblemAbilities.delete)

@@ -2,7 +2,6 @@ import { Field, GraphQLISODateTime, ObjectType, registerEnumType } from '@nestjs
 import { RoleEnum, StatusEnum } from '@prisma/client'
 import { Group } from '../../group/entities/group.entity'
 import { UserProfile } from '../../user-profile/entities/user-profile.entity'
-import { GroupHead } from '../../group-head/entities/group-head.entity'
 
 @ObjectType()
 export class User {
@@ -29,14 +28,11 @@ export class User {
   })
   groupId?: string
 
-  // @Field(() => Group, {
-  //   nullable: true,
-  //   description: 'If the user is a head, the group he is a head to',
-  // })
-  // headToGroup?: Group
-
-  @Field(() => [GroupHead])
-  headToGroups?: GroupHead[]
+  @Field(() => [Group], {
+    nullable: true,
+    description: 'If the user is a head, the group he is a head to',
+  })
+  headToGroups?: Group[]
 
   // @Field({ nullable: true, description: 'Id of the userprofile for the user ' })
   // userProfilesId?: string

@@ -6,8 +6,7 @@ import { UpdateUserGroupSeasonTopicProblemInput } from './dto/update-user-group-
 
 @Injectable()
 export class UserGroupSeasonTopicProblemRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(
     data: Prisma.UserGroupSeasonTopicProblemCreateInput,

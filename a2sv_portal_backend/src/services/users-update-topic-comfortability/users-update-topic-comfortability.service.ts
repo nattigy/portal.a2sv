@@ -15,10 +15,12 @@ export class UsersUpdateTopicComfortabilityService {
   ) {}
 
   async updateUserTopicComfortability({
-    id,
+    userId,
+    groupId,
+    seasonId,
+    topicId,
     ...updates
   }: UpdateUserGroupSeasonTopicInput): Promise<UserGroupSeasonTopic> {
-    const { userId, groupId, seasonId, topicId } = id
     /**
      1. Find user with userId and throw NotFoundException if doesn't exist
      check if user is in the same group as groupId provided if not throw "user not in the group" Error
@@ -63,7 +65,10 @@ export class UsersUpdateTopicComfortabilityService {
         userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },
       },
       data: {
-        id,
+        userId,
+        groupId,
+        seasonId,
+        topicId,
         comfortLevel: updates.comfortLevel
           ? updates.comfortLevel
           : userGSTP

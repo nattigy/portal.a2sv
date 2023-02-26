@@ -1,18 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { PaginationInput } from '../../common/page/pagination.input'
-import { PrismaService } from '../../prisma/prisma.service'
 import { UpdateContestInput } from './dto/update-contest.input'
 import { Contest } from './entities/contest.entity'
 import { FilterContestInput } from './dto/filter-contest.input'
 import { ContestRepository } from './contest.repository'
 import { PaginationContest } from 'src/common/page/pagination-info'
+import { CreateContestInput } from './dto/create-contest.input'
 
 @Injectable()
 export class ContestService {
-  constructor(
-    private readonly prismaService: PrismaService,
-    private readonly contestRepository: ContestRepository,
-  ) {
+  constructor(private readonly contestRepository: ContestRepository) {}
+
+  async createContest(createContestInput: CreateContestInput) {
+    return this.contestRepository.create(createContestInput)
   }
 
   async contests(
@@ -42,29 +42,15 @@ export class ContestService {
     return foundContest
   }
 
-  async update({
-                 contestId,
-                 problems,
-                 ...updateContest
-               }: UpdateContestInput): Promise<Contest> {
-    const foundContest = await this.prismaService.contest.findUnique({
-      where: { id: contestId },
-    })
+  async update({ contestId, ...updateContest }: UpdateContestInput): Promise<Contest> {
+    const foundContest = await this.contest(contestId)
 
     if (!foundContest)
       throw new NotFoundException(`Contest with id ${contestId} does not exist!`)
 
     return this.contestRepository.update({
       where: { id: contestId },
-      data: {
-        ...updateContest,
-        contestProblems: {
-          createMany: {
-            skipDuplicates: true,
-            data: problems.map(p => ({ problemId: p })),
-          },
-        },
-      },
+      data: updateContest,
     })
   }
 

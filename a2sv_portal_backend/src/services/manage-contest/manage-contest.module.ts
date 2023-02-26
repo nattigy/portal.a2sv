@@ -4,7 +4,7 @@ import { ManageContestResolver } from './manage-contest.resolver'
 import { ContestModule } from '../../app/contest/contest.module'
 
 @Module({
-  imports:[ContestModule],
+  imports: [ContestModule],
   providers: [ManageContestService, ManageContestResolver],
 })
 export class ManageContestModule {}

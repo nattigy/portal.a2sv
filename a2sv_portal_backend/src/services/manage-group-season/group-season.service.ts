@@ -1,5 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { CreateGroupSeasonInput, GroupSeasonId } from '../../app/group-season/dto/create-group-season.input'
+import {
+  CreateGroupSeasonInput,
+  GroupSeasonId,
+} from '../../app/group-season/dto/create-group-season.input'
 import { GroupSeasonRepository } from '../../app/group-season/group-season.repository'
 import { PrismaService } from '../../prisma/prisma.service'
 import { GroupSeason } from '../../app/group-season/entities/group-season.entity'
@@ -17,16 +20,15 @@ export class GroupSeasonService {
   constructor(
     private readonly groupSeasonRepository: GroupSeasonRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async addGroupToASeason({
-                            seasonId,
-                            groupId,
-                          }: CreateGroupSeasonInput): Promise<GroupSeason> {
+    seasonId,
+    groupId,
+  }: CreateGroupSeasonInput): Promise<GroupSeason> {
     const group = await this.prismaService.group.findUnique({
       where: { id: groupId },
-      include: { groupHeads: { include: { user: true } } },
+      // include: { groupHeads: { include: { user: true } } },
     })
     const season = await this.prismaService.season.findUnique({ where: { id: seasonId } })
     const groupSeasons = await this.prismaService.groupSeason.findMany({
@@ -41,11 +43,11 @@ export class GroupSeasonService {
     if (!season.isActive) {
       throw new Error('Season not active!')
     }
-    if (!group.groupHeads) {
-      throw new Error(
-        'Group does not have an HoE, please assign head of education for the group first!',
-      )
-    }
+    // if (!group.groupHeads) {
+    //   throw new Error(
+    //     'Group does not have an HoE, please assign head of education for the group first!',
+    //   )
+    // }
     if (groupSeasons.length > 0) {
       throw new Error(
         'Group has other active seasons, please deactivate all seasons before requesting a new one!',
@@ -119,10 +121,10 @@ export class GroupSeasonService {
   }
 
   async updateGroupSeasonJoinRequest({
-                                       seasonId,
-                                       groupId,
-                                       joinRequest,
-                                     }: UpdateGroupSeasonJoinRequestInput) {
+    seasonId,
+    groupId,
+    joinRequest,
+  }: UpdateGroupSeasonJoinRequestInput) {
     const groupSeason = await this.prismaService.groupSeason.findUnique({
       where: { groupId_seasonId: { groupId, seasonId } },
       include: { season: true },

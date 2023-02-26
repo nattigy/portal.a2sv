@@ -18,8 +18,8 @@ export class UserGroupSeason {
   @Field(() => User)
   user: User
 
-  @Field(() => Int)
-  rank: number
+  // @Field(() => Int)
+  // rank: number
 
   @Field(() => Int)
   totalSubmissions: number

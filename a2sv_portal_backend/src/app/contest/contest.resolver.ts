@@ -12,8 +12,7 @@ import { UpdateContestInput } from './dto/update-contest.input'
 
 @Resolver(() => Contest)
 export class ContestResolver {
-  constructor(private readonly contestService: ContestService) {
-  }
+  constructor(private readonly contestService: ContestService) {}
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(ContestAbilities.read)

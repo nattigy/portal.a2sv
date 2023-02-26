@@ -1,18 +1,15 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../../prisma/prisma.service'
 import { CreateSeasonTopicInput, SeasonTopicId } from './dto/create-season-topic.input'
 import { FilterSeasonTopicInput } from './dto/filter-season-topic.input'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { PaginationSeasonTopic } from '../../common/page/pagination-info'
 import { SeasonTopicRepository } from './season-topic.repository'
 import { SeasonTopic } from './entities/season-topic.entity'
+import { UpdateSeasonTopicInput } from './dto/update-season-topic.input'
 
 @Injectable()
 export class SeasonTopicService {
-  constructor(
-    private readonly prismaService: PrismaService,
-    private readonly seasonTopicRepository: SeasonTopicRepository,
-  ) {}
+  constructor(private readonly seasonTopicRepository: SeasonTopicRepository) {}
 
   async addTopicsToASeason({
     seasonId,
@@ -47,6 +44,15 @@ export class SeasonTopicService {
       items: seasonTopics,
       pageInfo: { take, skip, count },
     }
+  }
+
+  async upsert({ seasonId, topicId }: UpdateSeasonTopicInput) {
+    return this.seasonTopicRepository.upsert({
+      where: {
+        seasonId_topicId: { seasonId, topicId },
+      },
+      data: {},
+    })
   }
 
   async removeSeasonTopic({ seasonId, topicId }: SeasonTopicId) {

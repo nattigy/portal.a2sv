@@ -9,10 +9,13 @@ export class ManageContestService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly contestRepository: ContestRepository,
-  ) {
-  }
+  ) {}
 
-  async createContest({ problems, groups, ...contestInput }: CreateContestInput): Promise<Contest> {
+  async createContest({
+    problems,
+    groups,
+    ...contestInput
+  }: CreateContestInput): Promise<Contest> {
     const contest = await this.contestRepository.create({
       ...contestInput,
       contestProblems: {
@@ -31,25 +34,30 @@ export class ManageContestService {
         groupId: g.groupId,
         contestId: contest.id,
         seasonId: g.seasonId,
-        // startTime: contestInput.startTime,
-        // endTime: contestInput.endTime,
+        startTime: contestInput.startTime,
+        endTime: contestInput.endTime,
       })),
     })
     return contest
   }
 
   async addProblemsToContest(contestId: string, problemIds: string[]): Promise<number> {
-    return (await this.prismaService.contestProblem.createMany({
-      skipDuplicates: true,
-      data: problemIds.map(p => ({
-        contestId, problemId: p,
-      })),
-    })).count
+    return (
+      await this.prismaService.contestProblem.createMany({
+        skipDuplicates: true,
+        data: problemIds.map(p => ({
+          contestId,
+          problemId: p,
+        })),
+      })
+    ).count
   }
 
   async removeProblemsToContest(contestId: string, problemIds: string[]): Promise<number> {
-    return (await this.prismaService.contestProblem.deleteMany({
-      where: { contestId, problemId: { in: problemIds } },
-    })).count
+    return (
+      await this.prismaService.contestProblem.deleteMany({
+        where: { contestId, problemId: { in: problemIds } },
+      })
+    ).count
   }
 }

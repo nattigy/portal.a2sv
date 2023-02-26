@@ -3,10 +3,10 @@ import { UserProfileRepository } from './user-profile.repository'
 import { UserProfileService } from './user-profile.service'
 import { UserProfileResolver } from './user-profile.resolver'
 import { StorageModule } from 'src/storage/storage.module'
-import { UserModule } from '../user/user.module'
 
 @Module({
+  imports: [StorageModule],
   providers: [UserProfileRepository, UserProfileResolver, UserProfileService],
-  imports: [StorageModule, UserModule],
+  exports: [UserProfileService],
 })
 export class UserProfileModule {}

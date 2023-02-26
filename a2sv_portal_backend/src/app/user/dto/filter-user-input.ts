@@ -7,9 +7,6 @@ export class FilterUserInput {
   @Field({ nullable: true })
   id?: string
 
-  // @Field(() => StringFilter, { nullable: true })
-  // name?: StringFilter
-
   @Field(() => RoleEnum, { nullable: true })
   role?: RoleEnum
 
@@ -22,11 +19,8 @@ export class FilterUserInput {
   @Field({ nullable: true })
   groupId?: string
 
-  @Field({ nullable: true })
-  userProfilesId?: string
-
   @Field(() => DateTimeFilter, { nullable: true })
-  createdAt?: Date
+  createdAt?: DateTimeFilter
 }
 
 @InputType()

@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { PaginationTopic } from '../../common/page/pagination-info'
 import { PaginationInput } from '../../common/page/pagination.input'
-import { PrismaService } from '../../prisma/prisma.service'
 import { CreateTopicInput } from './dto/create-topic.input'
 import { UpdateTopicInput } from './dto/update-topic.input'
 import { FilterTopicInput } from './dto/filter-topic-input'
@@ -11,10 +10,7 @@ import { Prisma } from '@prisma/client'
 
 @Injectable()
 export class TopicService {
-  constructor(
-    private readonly prismaService: PrismaService,
-    private readonly topicRepository: TopicRepository,
-  ) {}
+  constructor(private readonly topicRepository: TopicRepository) {}
 
   async create({ name, description }: CreateTopicInput): Promise<Topic> {
     // TODO: check if topic with this name already exists and if it does return

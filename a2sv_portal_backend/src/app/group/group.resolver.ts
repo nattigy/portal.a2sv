@@ -5,7 +5,7 @@ import { CreateGroupInput } from './dto/create-group.input'
 import { FilterGroupInput } from './dto/filter-group.input'
 import { UpdateGroupInput } from './dto/update-group.input'
 import { Group } from './entities/group.entity'
-import { GroupsService } from './groups.service'
+import { GroupService } from './group.service'
 import descriptions from './group.doc'
 import { GroupAbilities } from '../../casl/handler/group-abilities.handler'
 import { CheckPolicies } from '../../casl/policy/policy.decorator'
@@ -13,8 +13,8 @@ import { BadRequestException, UseGuards } from '@nestjs/common'
 import { PoliciesGuard } from '../../casl/policy/policy.guard'
 
 @Resolver(() => Group)
-export class GroupsResolver {
-  constructor(private readonly groupsService: GroupsService) {}
+export class GroupResolver {
+  constructor(private readonly groupsService: GroupService) {}
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupAbilities.create)

@@ -3,6 +3,6 @@ import { GroupSeasonContestRepository } from './group-season-contest.repository'
 
 @Module({
   providers: [GroupSeasonContestRepository],
-  exports:[GroupSeasonContestRepository]
+  exports: [GroupSeasonContestRepository],
 })
 export class GroupSeasonContestModule {}

@@ -26,12 +26,12 @@ export class UserGroupSeasonRepository {
         contest: {
           include: {
             contestProblems: { include: { problem: { include: { tags: true } } } },
-          }
+          },
         },
         userGroupSeasonContestProblems: {
           include: {
             contestProblem: { include: { problem: { include: { tags: true } } } },
-          }
+          },
         },
       },
     },
@@ -42,7 +42,37 @@ export class UserGroupSeasonRepository {
   async create(data: Prisma.UserGroupSeasonCreateInput): Promise<UserGroupSeason> {
     return this.prismaService.userGroupSeason.create({
       data,
-      include: this.include,
+      include: {
+        user: {
+          include: {
+            userProfile: { include: { user: true } },
+          },
+        },
+        userGroupSeasonTopics: {
+          include: {
+            topic: true,
+            userGroupSeasonTopicProblems: {
+              include: {
+                problem: { include: { tags: true } },
+              },
+            },
+          },
+        },
+        userGroupSeasonContests: {
+          include: {
+            contest: {
+              include: {
+                contestProblems: { include: { problem: { include: { tags: true } } } },
+              },
+            },
+            userGroupSeasonContestProblems: {
+              include: {
+                contestProblem: { include: { problem: { include: { tags: true } } } },
+              },
+            },
+          },
+        },
+      },
     })
   }
 

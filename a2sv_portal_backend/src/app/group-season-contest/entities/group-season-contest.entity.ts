@@ -23,8 +23,8 @@ export class GroupSeasonContest {
   @Field(() => Contest)
   contest: Contest
 
-  // @Field(() => [GroupSeasonContestProblem])
-  // groupSeasonContestProblems: GroupSeasonContestProblem[]
+  @Field(() => [GroupSeasonContestProblem])
+  groupSeasonContestProblems: GroupSeasonContestProblem[]
 
   // @Field(() => [UserGroupSeasonContest])
   // userGroupSeasonContests: UserGroupSeasonContest[]

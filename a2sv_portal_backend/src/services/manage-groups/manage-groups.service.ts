@@ -1,21 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { PaginationGroup } from '../../common/page/pagination-info'
-import { PaginationInput } from '../../common/page/pagination.input'
-import { CreateGroupInput } from './dto/create-group.input'
-import { FilterGroupInput } from './dto/filter-group.input'
-import { UpdateGroupInput } from './dto/update-group.input'
-import { Group } from './entities/group.entity'
-import { GroupRepository } from './group.repository'
+import { CreateGroupInput } from '../../app/group/dto/create-group.input'
+import { Group } from '../../app/group/entities/group.entity'
 import { Prisma } from '@prisma/client'
+import { GroupService } from '../../app/group/group.service'
+import { UpdateGroupInput } from '../../app/group/dto/update-group.input'
 import { PrismaService } from '../../prisma/prisma.service'
 
 @Injectable()
-export class GroupsService {
+export class ManageGroupsService {
   constructor(
-    private readonly groupRepository: GroupRepository,
+    private readonly groupService: GroupService,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async createGroup({ headId, ...createGroupInput }: CreateGroupInput): Promise<Group> {
     /** if headId is in the create input check if the user with the headId exists
@@ -24,7 +20,7 @@ export class GroupsService {
      */
     const createData: Prisma.GroupCreateInput = { ...createGroupInput }
     // TODO: if group is found in that name throw name has already been used error!
-    const group = await this.groupRepository.create({
+    const group = await this.groupService.createGroup({
       ...createData,
     })
     if (headId) {
@@ -37,37 +33,13 @@ export class GroupsService {
       // if (foundUser.headToGroup) {
       //   throw new Error(`User with id ${headId} is already assigned to another group!`)
       // }
-      await this.prismaService.groupHead.upsert({
-        where: { groupId_headId: { groupId: group.id, headId: foundUser.id } },
-        create: { groupId: group.id, headId: foundUser.id },
-        update: {},
-      })
+      // await this.prismaService.groupHead.upsert({
+      //   where: { groupId_headId: { groupId: group.id, headId: foundUser.id } },
+      //   create: { groupId: group.id, headId: foundUser.id },
+      //   update: {},
+      // })
     }
     return group
-  }
-
-  async group(groupId: string): Promise<Group> {
-    const group = await this.groupRepository.findOne({ id: groupId })
-    if (!group) {
-      throw new NotFoundException(`Group with id ${groupId} not found`)
-    }
-    return group
-  }
-
-  async groups(
-    filterGroupInput: FilterGroupInput,
-    { skip, take }: PaginationInput = { take: 50, skip: 0 },
-  ): Promise<PaginationGroup> {
-    const count = await this.groupRepository.count(filterGroupInput)
-    const groups = await this.groupRepository.findAll({
-      skip,
-      take,
-      where: filterGroupInput,
-    })
-    return {
-      items: groups,
-      pageInfo: { skip, count, take },
-    }
   }
 
   async updateGroup({ groupId, headId, ...updates }: UpdateGroupInput): Promise<Group> {
@@ -95,32 +67,25 @@ export class GroupsService {
         await this.prismaService.groupSeasonHead.upsert({
           where: {
             groupId_seasonId_headId: {
-              groupId, seasonId, headId: foundUser.id,
+              groupId,
+              seasonId,
+              headId: foundUser.id,
             },
           },
           create: { groupId, seasonId, headId: foundUser.id },
           update: {},
         })
       }
-      await this.prismaService.groupHead.upsert({
-        where: { groupId_headId: { groupId: foundGroup.id, headId: foundUser.id } },
-        create: { groupId: foundGroup.id, headId: foundUser.id },
-        update: {},
-      })
+      // await this.prismaService.groupHead.upsert({
+      //   where: { groupId_headId: { groupId: foundGroup.id, headId: foundUser.id } },
+      //   create: { groupId: foundGroup.id, headId: foundUser.id },
+      //   update: {},
+      // })
     }
-    return this.groupRepository.update({
-      where: { id: groupId },
-      data: newUpdates,
+    return this.groupService.updateGroup({
+      groupId,
+      headId,
+      ...updates,
     })
-  }
-
-  async removeGroup(id: string): Promise<number> {
-    try {
-      await this.groupRepository.remove({ id })
-    } catch (e) {
-      console.log(`Fail to delete group with id ${id}`, ' : ', e)
-      throw new Error(`Fail to delete group with id ${id}`)
-    }
-    return 1
   }
 }

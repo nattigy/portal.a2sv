@@ -7,7 +7,12 @@ import { GroupSeasonContestProblemModule } from '../../app/group-season-contest-
 import { GroupSeasonModule } from '../../app/group-season/group-season.module'
 
 @Module({
-  imports: [ContestModule, GroupSeasonContestModule, GroupSeasonContestProblemModule, GroupSeasonModule],
+  imports: [
+    ContestModule,
+    GroupSeasonContestModule,
+    GroupSeasonContestProblemModule,
+    GroupSeasonModule,
+  ],
   providers: [ManageGroupSeasonContestResolver, ManageGroupSeasonContestService],
 })
 export class ManageGroupSeasonContestModule {}

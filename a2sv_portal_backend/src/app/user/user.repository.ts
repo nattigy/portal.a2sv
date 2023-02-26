@@ -5,16 +5,15 @@ import { User } from './entities/user.entity'
 
 @Injectable()
 export class UserRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.UserCreateInput): Promise<User> {
     return this.prismaService.user.create({
       data,
       include: {
         group: true,
+        headToGroups: true,
         userProfile: { include: { user: true } },
-        headToGroups: { include: {group: true} }
       },
     })
   }
@@ -37,8 +36,8 @@ export class UserRepository {
       orderBy,
       include: {
         group: true,
+        headToGroups: true,
         userProfile: { include: { user: true } },
-        headToGroups: { include: {group: true} }
       },
     })
   }
@@ -48,8 +47,8 @@ export class UserRepository {
       where,
       include: {
         group: true,
+        headToGroups: true,
         userProfile: { include: { user: true } },
-        headToGroups: { include: {group: true} }
       },
     })
   }
@@ -64,8 +63,8 @@ export class UserRepository {
       where,
       include: {
         group: true,
+        headToGroups: true,
         userProfile: { include: { user: true } },
-        headToGroups: { include: {group: true} }
       },
     })
   }

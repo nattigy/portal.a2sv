@@ -6,5 +6,6 @@ import { ProblemService } from './problem.service'
 
 @Module({
   providers: [ProblemRepository, ProblemResolver, ProblemService, TagService],
+  exports: [ProblemService],
 })
 export class ProblemModule {}

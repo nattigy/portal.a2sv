@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
-import { ComfortLevelEnum, Prisma } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 import { UserGroupSeasonTopic } from './entities/user-group-season-topic.entity'
 import { UpdateUserGroupSeasonTopicInput } from './dto/update-user-group-season-topic.input'
 
@@ -71,7 +71,7 @@ export class UserGroupSeasonTopicRepository {
     // data: Prisma.UserGroupSeasonTopicUpdateInput
   }): Promise<UserGroupSeasonTopic> {
     const { where, data } = params
-    const {comfortLevel} = data
+    const { comfortLevel } = data
     return this.prismaService.userGroupSeasonTopic.upsert({
       where,
       create: {

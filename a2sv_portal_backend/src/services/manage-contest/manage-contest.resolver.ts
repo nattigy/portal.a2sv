@@ -9,8 +9,7 @@ import { CreateContestInput } from '../../app/contest/dto/create-contest.input'
 
 @Resolver()
 export class ManageContestResolver {
-  constructor(private readonly manageContestService: ManageContestService) {
-  }
+  constructor(private readonly manageContestService: ManageContestService) {}
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(ContestAbilities.create)

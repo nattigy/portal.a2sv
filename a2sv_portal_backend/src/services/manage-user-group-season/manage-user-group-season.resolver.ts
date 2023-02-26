@@ -8,19 +8,17 @@ import { FilterUserGroupSeasonInput } from '../../app/user-group-season/dto/filt
 import { PaginationInput } from '../../common/page/pagination.input'
 import { UserGroupSeasonTopic } from '../../app/user-group-season-topic/entities/user-group-season-topic.entity'
 import { UserGroupSeasonTopicId } from '../../app/user-group-season-topic/dto/create-user-group-season-topic.input'
-import { PaginationUserGroupSeasonContest, PaginationUserGroupSeasonTopic } from '../../common/page/pagination-info'
+import {
+  PaginationUserGroupSeasonContest,
+  PaginationUserGroupSeasonTopic,
+} from '../../common/page/pagination-info'
 import { FilterUserGroupSeasonTopicInput } from '../../app/user-group-season-topic/dto/filter-user-group-season-topic-input'
 import { UserGroupSeasonTopicProblem } from '../../app/user-group-season-topic-problem/entities/user-group-season-topic-problem.entity'
 import { UserGroupSeasonTopicProblemId } from '../../app/user-group-season-topic-problem/dto/user-group-season-topic-problem-id.input'
 import { UserGroupSeasonContest } from '../../app/user-group-season-contest/entities/user-group-season-contest.entity'
-import {
-  UserGroupSeasonContestId
-} from '../../app/user-group-season-contest/dto/create-user-group-season-contest.input'
+import { UserGroupSeasonContestId } from '../../app/user-group-season-contest/dto/create-user-group-season-contest.input'
 import { UserGroupSeasonContestService } from './user-group-season-contest.service'
-import { UserGroupSeasonContestProblemService } from './user-group-season-contest-problem.service'
-import {
-  FilterUserGroupSeasonContestInput
-} from '../../app/user-group-season-contest/dto/filter-user-group-season-contest.input'
+import { FilterUserGroupSeasonContestInput } from '../../app/user-group-season-contest/dto/filter-user-group-season-contest.input'
 
 @Resolver()
 export class ManageUserGroupSeasonResolver {
@@ -29,8 +27,8 @@ export class ManageUserGroupSeasonResolver {
     private readonly userGroupSeasonTopicService: UserGroupSeasonTopicService,
     private readonly seasonTopicUserProblemService: UserGroupSeasonTopicProblemService,
     private readonly userGroupSeasonContestService: UserGroupSeasonContestService,
-    // private readonly userGroupSeasonContestProblemService: UserGroupSeasonContestProblemService,
-  ) {}
+  ) // private readonly userGroupSeasonContestProblemService: UserGroupSeasonContestProblemService,
+  {}
 
   @Query(() => UserGroupSeason)
   async userGroupSeason(
@@ -117,10 +115,14 @@ export class ManageUserGroupSeasonResolver {
 
   @Query(() => PaginationUserGroupSeasonContest)
   async userGroupSeasonContests(
-    @Args('filterUserGroupSeasonContestInput') filterUserGroupSeasonContestInput: FilterUserGroupSeasonContestInput,
+    @Args('filterUserGroupSeasonContestInput')
+    filterUserGroupSeasonContestInput: FilterUserGroupSeasonContestInput,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<PaginationUserGroupSeasonContest> {
-    return this.userGroupSeasonContestService.userGroupSeasonContests(filterUserGroupSeasonContestInput, paginationInput)
+    return this.userGroupSeasonContestService.userGroupSeasonContests(
+      filterUserGroupSeasonContestInput,
+      paginationInput,
+    )
   }
 
   // // @Mutation(() => Int)

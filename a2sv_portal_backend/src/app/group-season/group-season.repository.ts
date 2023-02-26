@@ -30,23 +30,22 @@ export class GroupSeasonRepository {
             contestProblems: { include: { problem: { include: { tags: true } } } },
           },
         },
-        // groupSeasonContestProblems: {
-        //   include: {
-        //     userGroupSeasonContestProblems: {
-        //       include: {
-        //         contestProblem: { include: { problem: { include: { tags: true } } } },
-        //       },
-        //     },
-        //     contestProblem: { include: { problem: { include: { tags: true } } } },
-        //   },
-        // },
+        groupSeasonContestProblems: {
+          include: {
+            userGroupSeasonContestProblems: {
+              include: {
+                contestProblem: { include: { problem: { include: { tags: true } } } },
+              },
+            },
+            contestProblem: { include: { problem: { include: { tags: true } } } },
+          },
+        },
       },
     },
     groupSeasonHeads: { include: { user: true } },
   }
 
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.GroupSeasonCreateInput): Promise<GroupSeason> {
     return this.prismaService.groupSeason.create({
@@ -76,16 +75,16 @@ export class GroupSeasonRepository {
                 contestProblems: { include: { problem: { include: { tags: true } } } },
               },
             },
-            // groupSeasonContestProblems: {
-            //   include: {
-            //     userGroupSeasonContestProblems: {
-            //       include: {
-            //         contestProblem: { include: { problem: { include: { tags: true } } } },
-            //       },
-            //     },
-            //     contestProblem: { include: { problem: { include: { tags: true } } } },
-            //   },
-            // },
+            groupSeasonContestProblems: {
+              include: {
+                userGroupSeasonContestProblems: {
+                  include: {
+                    contestProblem: { include: { problem: { include: { tags: true } } } },
+                  },
+                },
+                contestProblem: { include: { problem: { include: { tags: true } } } },
+              },
+            },
           },
         },
         groupSeasonHeads: { include: { user: true } },

@@ -1,6 +1,4 @@
 import { Field, GraphQLISODateTime, ObjectType } from '@nestjs/graphql'
-import { User } from '../../user/entities/user.entity'
-import { GroupSeason } from '../../group-season/entities/group-season.entity'
 
 @ObjectType()
 export class GroupSeasonHead {
