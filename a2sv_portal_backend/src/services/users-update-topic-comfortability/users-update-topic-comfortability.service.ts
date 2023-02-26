@@ -63,6 +63,7 @@ export class UsersUpdateTopicComfortabilityService {
         userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },
       },
       data: {
+        id,
         comfortLevel: updates.comfortLevel
           ? updates.comfortLevel
           : userGSTP

@@ -23,11 +23,11 @@ export class GroupSeasonContestProblemRepository {
     return this.prismaService.groupSeasonContestProblem.create({
       data,
       include: {
-        userGroupSeasonContestProblems: {
-          include: {
-            contestProblem: { include: { problem: { include: { tags: true } } } },
-          },
-        },
+        // userGroupSeasonContestProblems: {
+        //   include: {
+        //     contestProblem: { include: { problem: { include: { tags: true } } } },
+        //   },
+        // },
         contestProblem: { include: { problem: { include: { tags: true } } } },
       },
     })

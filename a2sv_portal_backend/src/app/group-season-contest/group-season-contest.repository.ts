@@ -30,16 +30,16 @@ export class GroupSeasonContestRepository {
         contest: {
           include: { contestProblems: { include: { problem: { include: { tags: true } } } } },
         },
-        groupSeasonContestProblems: {
-          include: {
-            userGroupSeasonContestProblems: {
-              include: {
-                contestProblem: { include: { problem: { include: { tags: true } } } },
-              },
-            },
-            contestProblem: { include: { problem: { include: { tags: true } } } },
-          },
-        },
+        // groupSeasonContestProblems: {
+        //   include: {
+        //     userGroupSeasonContestProblems: {
+        //       include: {
+        //         contestProblem: { include: { problem: { include: { tags: true } } } },
+        //       },
+        //     },
+        //     contestProblem: { include: { problem: { include: { tags: true } } } },
+        //   },
+        // },
       },
     })
   }

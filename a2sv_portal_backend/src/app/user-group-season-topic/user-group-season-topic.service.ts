@@ -21,9 +21,7 @@ export class UserGroupSeasonTopicService {
       where: {
         userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },
       },
-      data: {
-        comfortLevel: updates.comfortLevel,
-      },
+      data: { id, ...updates },
     })
   }
 

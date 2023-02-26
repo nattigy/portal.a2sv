@@ -32,6 +32,9 @@ import { ManageContestModule } from './services/manage-contest/manage-contest.mo
 import {
   ManageGroupSeasonContestModule
 } from './services/manage-group-season-contest/manage-group-season-contest.module'
+import {
+  UserUpdateContestProblemModule
+} from './services/user-update-contest-problem-status/user-update-contest-problem.module'
 
 @Module({
   imports: [
@@ -97,7 +100,7 @@ import {
     ManageUserGroupSeasonModule,
     ManageContestModule,
     ManageGroupSeasonContestModule,
-    // UserUpdateContestProblemModule,
+    UserUpdateContestProblemModule,
     // ContestStatsModule,
     // ContestLeaderboardModule,
   ],

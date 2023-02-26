@@ -31,5 +31,12 @@ import { GroupSeasonTopicProblemModule } from '../../app/group-season-topic-prob
     UserGroupSeasonTopicService,
     UserGroupSeasonTopicProblemService,
   ],
+  exports: [
+    UserGroupSeasonService,
+    UserGroupSeasonContestService,
+    UserGroupSeasonContestProblemService,
+    UserGroupSeasonTopicService,
+    UserGroupSeasonTopicProblemService,
+  ]
 })
 export class ManageUserGroupSeasonModule {}

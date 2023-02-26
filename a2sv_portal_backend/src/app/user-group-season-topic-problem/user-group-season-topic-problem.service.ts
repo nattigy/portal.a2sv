@@ -74,7 +74,7 @@ export class UserGroupSeasonTopicProblemService {
           userId,
         },
       },
-      data: updates,
+      data: { id, ...updates },
     })
   }
 

@@ -30,16 +30,16 @@ export class GroupSeasonRepository {
             contestProblems: { include: { problem: { include: { tags: true } } } },
           },
         },
-        groupSeasonContestProblems: {
-          include: {
-            userGroupSeasonContestProblems: {
-              include: {
-                contestProblem: { include: { problem: { include: { tags: true } } } },
-              },
-            },
-            contestProblem: { include: { problem: { include: { tags: true } } } },
-          },
-        },
+        // groupSeasonContestProblems: {
+        //   include: {
+        //     userGroupSeasonContestProblems: {
+        //       include: {
+        //         contestProblem: { include: { problem: { include: { tags: true } } } },
+        //       },
+        //     },
+        //     contestProblem: { include: { problem: { include: { tags: true } } } },
+        //   },
+        // },
       },
     },
     groupSeasonHeads: { include: { user: true } },
@@ -76,16 +76,16 @@ export class GroupSeasonRepository {
                 contestProblems: { include: { problem: { include: { tags: true } } } },
               },
             },
-            groupSeasonContestProblems: {
-              include: {
-                userGroupSeasonContestProblems: {
-                  include: {
-                    contestProblem: { include: { problem: { include: { tags: true } } } },
-                  },
-                },
-                contestProblem: { include: { problem: { include: { tags: true } } } },
-              },
-            },
+            // groupSeasonContestProblems: {
+            //   include: {
+            //     userGroupSeasonContestProblems: {
+            //       include: {
+            //         contestProblem: { include: { problem: { include: { tags: true } } } },
+            //       },
+            //     },
+            //     contestProblem: { include: { problem: { include: { tags: true } } } },
+            //   },
+            // },
           },
         },
         groupSeasonHeads: { include: { user: true } },

@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
-import { Prisma, UserTopicProblemStatusEnum } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 import { UserGroupSeasonTopicProblem } from './entities/user-group-season-topic-problem.entity'
+import { UpdateUserGroupSeasonTopicProblemInput } from './dto/update-user-group-season-topic-problem.input'
 
 @Injectable()
 export class UserGroupSeasonTopicProblemRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(
     data: Prisma.UserGroupSeasonTopicProblemCreateInput,
@@ -67,12 +69,17 @@ export class UserGroupSeasonTopicProblemRepository {
 
   async upsert(params: {
     where: Prisma.UserGroupSeasonTopicProblemWhereUniqueInput
-    data: Prisma.UserGroupSeasonTopicProblemUpdateInput
+    data: UpdateUserGroupSeasonTopicProblemInput
   }): Promise<UserGroupSeasonTopicProblem> {
     const { where, data } = params
+    const { solutionLink, numberOfAttempts, numberOfMinutes, status } = data
     return this.prismaService.userGroupSeasonTopicProblem.upsert({
       where,
       create: {
+        solutionLink,
+        numberOfAttempts,
+        numberOfMinutes,
+        status,
         userGroupSeasonTopic: {
           connect: {
             userId_groupId_seasonId_topicId: {
@@ -96,12 +103,13 @@ export class UserGroupSeasonTopicProblemRepository {
         problem: {
           connect: { id: where.userId_groupId_seasonId_topicId_problemId.problemId },
         },
-        solutionLink: data.solutionLink as string,
-        numberOfAttempts: data.numberOfAttempts as number,
-        numberOfMinutes: data.numberOfMinutes as number,
-        status: data.status as UserTopicProblemStatusEnum,
       },
-      update: data,
+      update: {
+        solutionLink,
+        numberOfAttempts,
+        numberOfMinutes,
+        status,
+      },
       include: {
         problem: { include: { tags: true } },
       },
