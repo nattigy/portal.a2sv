@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const GET_ALL_GROUP_CONTESTS_QUERY = gql`
   query GroupContests($filterGroupContestInput: FilterGroupContestInput) {
-    groupContests(filterGroupContestInput: $filterGroupContestInput) {
+    groupContests(filterContestInput: $filterContestInput) {
       items {
         contestAttendance
         contest {
@@ -106,7 +106,7 @@ export const GET_SINGLE_STUDENT_CONTEST_DETAIL_QUERY = gql`
 `;
 
 export const GET_ALL_CONTESTS = gql`
-  query Items {
+  query Contests {
     contests {
       items {
         updatedAt

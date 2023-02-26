@@ -7,7 +7,10 @@ import router from "next/router";
 import Button from "../common/Button";
 import ContestInfoItem from "../newcontest/ContestInfoItem";
 import QuestionsItem from "../newcontest/QuestionsItem";
-import { CREATE_CONTEST, EDIT_CONTEST } from "../../lib/apollo/Mutations/contestMutations";
+import {
+  CREATE_CONTEST,
+  EDIT_CONTEST,
+} from "../../lib/apollo/Mutations/contestMutations";
 import { Contest } from "../../types/contest";
 import { ProblemType } from "../../types/problems";
 
@@ -52,36 +55,45 @@ const ContestForm = ({
     );
   };
 
-  const [addNewContest,{}] = useMutation(CREATE_CONTEST);
-  const [editContest,{}] = useMutation(EDIT_CONTEST);
+  const [addNewContest, {}] = useMutation(CREATE_CONTEST);
+  const [editContest, {}] = useMutation(EDIT_CONTEST);
 
-  const handleAddNewContest = async (values: ContestInfoValues)=>{
+  const handleAddNewContest = async (values: ContestInfoValues) => {
     values.questions = selectedQuestions;
     await addNewContest({
       variables: {
-        name: values.name,
-        div: values.div,
-        link: values.link,
-        startTime: values.startTime,
-        endTime: values.endTime,
-        problems: values.questions.map((item: any) => {
-          return {
-            problemId: item.id,
-          };
-        }),
+        createContestInput: {
+          name: values.name,
+          div: values.div,
+          link: values.link,
+          startTime: values.startTime,
+          endTime: values.endTime,
+          problems: values.questions.map((item: ProblemType) => {
+            return {
+              problemId: item.id,
+              platform: item.platform,
+              difficulty: item.difficulty,
+              title: item.title,
+              link: item.link,
+              tags: item.tags.map((tag: any) => {
+                return {
+                  name: tag.name,
+                };
+              }),
+            };
+          }),
+        },
       },
       refetchQueries: "active",
       notifyOnNetworkStatusChange: true,
       onCompleted: (data) => {
         router.back();
       },
-
     });
-  }
-  const handleEditContest = async (values: ContestInfoValues)=>{
+  };
+  const handleEditContest = async (values: ContestInfoValues) => {
     values.questions = selectedQuestions;
-
-  }
+  };
 
   const FORM_VALIDATION = yup.object().shape({
     name: yup
@@ -112,9 +124,8 @@ const ContestForm = ({
         initialValues={INITIAL_VALUES}
         validationSchema={FORM_VALIDATION}
         onSubmit={async (values, actions) => {
-          if(isEditing){
-
-          }else{
+          if (isEditing) {
+          } else {
             await handleAddNewContest(values);
           }
         }}
@@ -130,7 +141,7 @@ const ContestForm = ({
                 <div className="py-2">
                   <Button
                     isLoading={formik.isSubmitting}
-                    text= {isEditing ? "Save Changes" : "Create New"}
+                    text={isEditing ? "Save Changes" : "Create New"}
                     onClick={formik.submitForm}
                     classname="bg-primary text-white rounded-md p-4 float-right"
                   />

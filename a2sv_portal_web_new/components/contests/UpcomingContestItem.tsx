@@ -1,4 +1,5 @@
 import { useMutation } from "@apollo/client";
+import { format } from "date-fns";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { getSVGIcon } from "../../helpers/getSVGPath";
@@ -63,7 +64,7 @@ const UpcomingContestItem = ({ contest }: Props) => {
               images[Math.floor(Math.random() * images.length)]
             })`,
           }}
-          className="flex flex-col h-48 justify-between rounded-md bg-cover bg-no-repeat"
+          className="flex flex-col h-48 justify-between rounded-md bg-cover bg-no-repeat relative"
         >
           <WithPermission
             allowedRoles={[
@@ -71,7 +72,7 @@ const UpcomingContestItem = ({ contest }: Props) => {
               GraphqlUserRole.HEAD_OF_EDUCATION,
             ]}
           >
-            <div className="relative pr-3">
+            <div className="relative pt-2 pr-2">
               <MenuItem
                 menuItems={[
                   {
@@ -100,14 +101,14 @@ const UpcomingContestItem = ({ contest }: Props) => {
             </div>
           </WithPermission>
 
-          <div className="self-end p-2">
+          <div className="absolute top-2 left-2 self-start p-2">
             <div className="p-1 px-2 rounded-md bg-white text-[#5956E9] text-sm">
-              Div {contest.div}
+              {contest.div}
             </div>
           </div>
           <div className="w-full text-white bg-[#00000042] p-3">
             <h1 className="font-semibold text-md">{contest.name}</h1>
-            <h1 className="font-normal text-sm">{contest.date}</h1>
+            <h1 className="font-normal text-sm">{format(new Date(contest.startTime), "MMM, d, u h:mm aa")}</h1>
           </div>
         </div>
       </CustomLink>
