@@ -219,8 +219,8 @@ export class StudentDataAnalyticsService {
     const date = new Date()
     const startdate = startDate
       ? new Date(startDate)
-      : new Date(`${date.getFullYear() - 1}-${date.getMonth()}-${date.getDate()}`)
-
+      : new Date(`${date.getFullYear() - 1}}`)
+    
     const userdailystat = await this.prismaService.userGroupSeasonDataAnalytics.findMany({
       where: {
         userGroupSeason: {
