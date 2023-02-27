@@ -46,7 +46,8 @@ const RepositoryTopicItem = (props: Props) => {
       )}
       {isDeleteModalOpen && (
         <DeletePopupModal
-          description="This will delete the topic from topic repository."
+          title="You are about to delete this topic"
+          description={`This action will delete ${props.topic.name} from topic repository`}
           errorMessage={(error as ApolloError)?.message}
           isLoading={loading}
           onClose={() => {
@@ -64,13 +65,12 @@ const RepositoryTopicItem = (props: Props) => {
               },
             });
           }}
-          title="Delete Topic"
         />
       )}
       <CustomLink href={href}>
         <div className="mb-8">
           <div className="h-12 relative">
-          <TopicItem {...props} />
+            <TopicItem {...props} />
             <div className="absolute top-2 right-2">
               <MenuItem
                 color="black"
@@ -90,6 +90,7 @@ const RepositoryTopicItem = (props: Props) => {
                       handleDeleteModalOpen();
                     },
                     icon: getSVGIcon("delete"),
+                    className: "text-red-500 group-hover:text-white",
                   },
                 ]}
               />

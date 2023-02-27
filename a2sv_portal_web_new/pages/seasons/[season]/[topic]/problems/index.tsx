@@ -45,7 +45,9 @@ const IndexPage = () => {
           ) : error ? (
             <p>Something went wrong</p>
           ) : resources?.length === 0 ? (
-            <EmptyState />
+            <div className="flex p-2 items-center justify-center">
+              <h1 className="font-medium">There are no resources yet!</h1>
+            </div>
           ) : (
             <Reorder.Group values={resources ? resources : []} onReorder={setResources}>
               {resources?.map((resource, index) => (

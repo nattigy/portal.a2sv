@@ -30,7 +30,7 @@ const DeletePopupModal = (props: Props) => {
             <div className="flex flex-col items-center gap-y-1 px-3">
               <h1 className="font-bold text-lg">{props.title}</h1>
               <h1 className="font-medium text-md text-[#838383]">
-                {props.description} Are you sure?
+                {props.description}. Are you sure?
               </h1>
             </div>
             <div className="w-full flex flex-col">

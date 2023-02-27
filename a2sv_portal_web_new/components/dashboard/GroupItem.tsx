@@ -27,9 +27,10 @@ export const StudentAvatar: React.FC<{ url: string }> = ({
     <img
       className="w-8 h-8 rounded-full object-cover border-solid border-white border-2"
       src={
-        url
-          ? url
-          : "https://images.unsplash.com/photo-1491349174775-aaafddd81942?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
+        // url
+        //   ? url
+        //   : 
+          "https://images.unsplash.com/photo-1491349174775-aaafddd81942?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
       }
       // src="https://images.unsplash.com/photo-1491349174775-aaafddd81942?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
       alt=""
@@ -117,6 +118,7 @@ const GroupItem = ({ groupProps, color }: Props) => {
                         handleDeleteModalOpen();
                       },
                       icon: getSVGIcon("delete"),
+                      className: "text-red-500 group-hover:text-white",
                     },
                   ]}
                 />

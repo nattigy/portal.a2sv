@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ProblemType } from "../../../types/problems";
 import { LoaderSmall } from "../../common/Loaders";
 import ProblemsItem from "./ProblemsItem";
@@ -8,6 +8,8 @@ type Props = {
 };
 
 const ProblemsList = ({ problems }: Props) => {
+  const [expanded, setExpanded] = useState<false | number>(false);
+
   return problems.length === 0 ? (
     <div className="w-full flex h-full items-center justify-center min-w-full min-h-full">
       <LoaderSmall />
@@ -26,8 +28,10 @@ const ProblemsList = ({ problems }: Props) => {
         return (
           <ProblemsItem
             key={index}
-            problem = {problem}
-           
+            problem={problem}
+            index={index}
+            expanded={expanded}
+            setExpanded={setExpanded}
           />
         );
       })}

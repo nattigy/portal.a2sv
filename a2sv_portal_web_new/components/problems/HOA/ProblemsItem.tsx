@@ -1,4 +1,5 @@
 import { ApolloError, useMutation } from "@apollo/client";
+import clsx from "clsx";
 import { format } from "date-fns";
 import React, { useState } from "react";
 import { HiOutlineTrash } from "react-icons/hi";
@@ -10,11 +11,15 @@ import Tag from "../../common/Tag";
 import DeletePopupModal from "../../modals/DeletePopupModal";
 import ProblemModal from "../../modals/ProblemModal";
 import { DifficultyChips } from "../DifficultyChips";
+
 type Props = {
+  index: number;
   problem: ProblemType;
+  expanded: false | number;
+  setExpanded: React.Dispatch<React.SetStateAction<number | false>>;
 };
 
-const ProblemsItem = ({ problem }: Props) => {
+const ProblemsItem = ({ index, problem, expanded, setExpanded }: Props) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -30,6 +35,8 @@ const ProblemsItem = ({ problem }: Props) => {
     setIsDeleteModalOpen(true);
   };
 
+  const isOpen = index === expanded;
+
   return (
     <>
       {isEditModalOpen && (
@@ -41,10 +48,10 @@ const ProblemsItem = ({ problem }: Props) => {
       )}
       {isDeleteModalOpen && (
         <DeletePopupModal
-          title="Delete Problem"
+          title="You are about to delete this problem"
           errorMessage={errorMessage}
           isLoading={isLoading}
-          description="This will delete the problem from problem repository"
+          description={`This action will delete ${problem.title} from problem repository`}
           onClose={() => setIsDeleteModalOpen(false)}
           onDelete={async () => {
             setIsLoading(true);
@@ -61,7 +68,6 @@ const ProblemsItem = ({ problem }: Props) => {
               onError: (error) => {
                 setErrorMessage((error as ApolloError).message);
                 setIsLoading(false);
-
               },
             });
           }}
@@ -70,7 +76,10 @@ const ProblemsItem = ({ problem }: Props) => {
 
       <div className="bg-white flex justify-center items-center p-2">
         <div className="flex flex-col justify-center w-full px-2">
-          <button className="group focus:outline-none">
+          <button
+            onClick={() => setExpanded(isOpen ? false : index)}
+            className="group focus:outline-none"
+          >
             <div className="flex items-center justify-between h-12 px-3 font-semibold">
               <div className="w-full grid grid-cols-4">
                 <span className="text-left text-sm truncate">
@@ -90,7 +99,7 @@ const ProblemsItem = ({ problem }: Props) => {
                 </span>
               </div>
               <svg
-                className="h-4 w-4"
+                className={clsx("h-8 w-8 duration-200", isOpen ? "rotate-180" : "")}
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -102,7 +111,12 @@ const ProblemsItem = ({ problem }: Props) => {
                 />
               </svg>
             </div>
-            <div className="max-h-0 overflow-hidden duration-300 group-focus:max-h-fit group-focus:mx-4 group-focus:p-6 border-[#a2a2a2]">
+            <div
+              className={clsx(
+                "max-h-0 overflow-hidden duration-300  border-[#a2a2a2]",
+                isOpen ? "max-h-fit p-4 px-10 shadow-md" : ""
+              )}
+            >
               <div className="bg-white flex w-full">
                 <div className="w-1/2 flex flex-col items-start justify-start gap-y-2">
                   <h1 className="text-sm font-semibold">Tags</h1>
