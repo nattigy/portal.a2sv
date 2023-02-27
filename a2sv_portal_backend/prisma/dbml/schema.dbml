@@ -21,12 +21,24 @@ Table Group {
   name String [unique, not null]
   country String
   school String
-  headId String [unique]
-  head User
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   users User [not null]
   groupSeasons GroupSeason [not null]
+  groupHeads GroupHead [not null]
+}
+
+Table GroupHead {
+  groupId String [not null]
+  userId String [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  group Group [not null]
+  user User [not null]
+
+  indexes {
+    (groupId, userId) [pk]
+  }
 }
 
 Table Contest {
@@ -79,11 +91,11 @@ Table User {
   groupId String
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
-  headToGroup Group
   group Group
   userProfile UserProfile
   headToGroupSeasons GroupSeason [not null]
   userGroupSeasons UserGroupSeason [not null]
+  groupHeads GroupHead [not null]
 }
 
 Table SeasonTopic {
@@ -514,9 +526,11 @@ Enum ResourceTypeEnum {
   DOC
 }
 
-Ref: Group.headId - User.id
+Ref: GroupHead.groupId > Group.id [delete: Cascade]
 
-Ref: User.groupId - Group.id
+Ref: GroupHead.userId > User.id [delete: Cascade]
+
+Ref: User.groupId > Group.id
 
 Ref: SeasonTopic.seasonId > Season.id [delete: Cascade]
 
