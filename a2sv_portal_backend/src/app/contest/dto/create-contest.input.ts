@@ -1,4 +1,6 @@
 import { Field, GraphQLISODateTime, InputType } from '@nestjs/graphql'
+import { CreateProblemInput } from '../../problem/dto/create-problem.input'
+import { UpdateProblemInput } from '../../problem/dto/update-problem.input'
 
 @InputType()
 export class CreateContestInput {
@@ -11,11 +13,11 @@ export class CreateContestInput {
   @Field({ nullable: true })
   div?: string
 
-  @Field(() => GraphQLISODateTime)
-  startTime: Date
-
-  @Field(() => GraphQLISODateTime)
-  endTime: Date
+  // @Field(() => GraphQLISODateTime)
+  // startTime: Date
+  //
+  // @Field(() => GraphQLISODateTime)
+  // endTime: Date
 
   @Field(() => GraphQLISODateTime)
   date: Date
@@ -26,8 +28,8 @@ export class CreateContestInput {
   @Field(() => [String], { defaultValue: [] })
   groups: string[]
 
-  @Field(() => [String], { defaultValue: [] })
-  problems: string[]
+  @Field(() => [UpdateProblemInput], { defaultValue: [] })
+  problems: UpdateProblemInput[]
 
   // @Field(() => [UpdateProblemInput], {defaultValue: []})
   // problems: UpdateProblemInput[]

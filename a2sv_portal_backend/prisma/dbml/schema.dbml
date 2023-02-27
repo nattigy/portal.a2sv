@@ -45,8 +45,6 @@ Table Contest {
   name String [not null]
   link String [not null]
   div String
-  startTime DateTime [not null]
-  endTime DateTime [not null]
   date DateTime [not null]
   duration String [not null]
   createdAt DateTime [default: `now()`]
@@ -284,7 +282,6 @@ Table UserGroupSeason {
   userGroupSeasonTopics UserGroupSeasonTopic [not null]
   userGroupSeasonContests UserGroupSeasonContest [not null]
   userGroupSeasonDataAnalytics UserGroupSeasonDataAnalytics [not null]
-  userGroupSeasonRanks UserGroupSeasonRanks [not null]
 
   indexes {
     (userId, groupId, seasonId) [pk]
@@ -300,25 +297,6 @@ Table UserGroupSeasonDataAnalytics {
   month Int [not null]
   week Int [not null]
   year Int [not null]
-  userGroupSeason UserGroupSeason [not null]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-
-  indexes {
-    (userId, groupId, seasonId, createdAt) [pk]
-  }
-}
-
-Table UserGroupSeasonRanks {
-  userId String [not null]
-  groupId String [not null]
-  seasonId String [not null]
-  dailyGroupRank Int [not null, default: 0]
-  dailySeasonRank Int [not null, default: 0]
-  weeklyGroupRank Int [not null, default: 0]
-  weeklySeasonRank Int [not null, default: 0]
-  monthlyGroupRank Int [not null, default: 0]
-  monthlySeasonRank Int [not null, default: 0]
   userGroupSeason UserGroupSeason [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
@@ -445,6 +423,7 @@ Table UserProfile {
   bio String [not null]
   country String [not null]
   city String [not null]
+  div String
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   user User [not null]
@@ -600,8 +579,6 @@ Ref: UserGroupSeason.userId > User.id [delete: Cascade]
 Ref: UserGroupSeason.(groupId, seasonId) > GroupSeason.(groupId, seasonId) [delete: Cascade]
 
 Ref: UserGroupSeasonDataAnalytics.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
-
-Ref: UserGroupSeasonRanks.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
 
 Ref: UserGroupSeasonTopic.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
 

@@ -53,8 +53,6 @@ model Contest {
   name                    String
   link                    String
   div                     String?
-  startTime               DateTime
-  endTime                 DateTime
   date                    DateTime
   duration                String
   createdAt               DateTime?                @default(now())
@@ -107,7 +105,6 @@ model User {
   userGroupSeasons UserGroupSeason[]
 }
 
-//
 // model GroupHead {
 //   groupId   String
 //   headId    String
@@ -164,6 +161,7 @@ model SeasonTopicResource {
 model ContestProblem {
   contestId                      String
   problemId                      String
+  // problem stat goes here
   createdAt                      DateTime?                       @default(now())
   updatedAt                      DateTime?                       @updatedAt
   contest                        Contest                         @relation(fields: [contestId], references: [id], onDelete: Cascade)
@@ -296,7 +294,7 @@ model UserGroupSeason {
   userGroupSeasonTopics        UserGroupSeasonTopic[]
   userGroupSeasonContests      UserGroupSeasonContest[]
   userGroupSeasonDataAnalytics UserGroupSeasonDataAnalytics[]
-  userGroupSeasonRanks         UserGroupSeasonRanks[]
+  // userGroupSeasonRanks         UserGroupSeasonRanks[]
 
   @@id([userId, groupId, seasonId])
 }
@@ -318,22 +316,22 @@ model UserGroupSeasonDataAnalytics {
   @@id([userId, groupId, seasonId, createdAt])
 }
 
-model UserGroupSeasonRanks {
-  userId            String
-  groupId           String
-  seasonId          String
-  dailyGroupRank    Int             @default(0)
-  dailySeasonRank   Int             @default(0)
-  weeklyGroupRank   Int             @default(0)
-  weeklySeasonRank  Int             @default(0)
-  monthlyGroupRank  Int             @default(0)
-  monthlySeasonRank Int             @default(0)
-  userGroupSeason   UserGroupSeason @relation(fields: [userId, groupId, seasonId], references: [userId, groupId, seasonId], onDelete: Cascade)
-  createdAt         DateTime        @default(now()) @db.Date
-  updatedAt         DateTime        @updatedAt @db.Date
-
-  @@id([userId, groupId, seasonId, createdAt])
-}
+// model UserGroupSeasonRanks {
+//   userId            String
+//   groupId           String
+//   seasonId          String
+//   dailyGroupRank    Int             @default(0)
+//   dailySeasonRank   Int             @default(0)
+//   weeklyGroupRank   Int             @default(0)
+//   weeklySeasonRank  Int             @default(0)
+//   monthlyGroupRank  Int             @default(0)
+//   monthlySeasonRank Int             @default(0)
+//   userGroupSeason   UserGroupSeason @relation(fields: [userId, groupId, seasonId], references: [userId, groupId, seasonId], onDelete: Cascade)
+//   createdAt         DateTime        @default(now()) @db.Date
+//   updatedAt         DateTime        @updatedAt @db.Date
+//
+//   @@id([userId, groupId, seasonId, createdAt])
+// }
 
 model UserGroupSeasonTopic {
   userId                       String
@@ -445,6 +443,7 @@ model UserProfile {
   bio                    String
   country                String
   city                   String
+  div                    String?
   // userProfileAddress     UserProfileAddress?
   createdAt              DateTime?                  @default(now())
   updatedAt              DateTime?                  @updatedAt
