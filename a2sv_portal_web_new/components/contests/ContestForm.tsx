@@ -93,6 +93,37 @@ const ContestForm = ({
   };
   const handleEditContest = async (values: ContestInfoValues) => {
     values.questions = selectedQuestions;
+    await editContest({
+      variables: {
+        updateContestInput: {
+          startTime: values.startTime,
+          name: values.name,
+          link: values.link,
+          endTime: values.endTime,
+          div: values.div,
+          contestId: router.query.contestId,
+          problems: values.questions.map((item: ProblemType) => {
+            return {
+              problemId: item.id,
+              platform: item.platform,
+              difficulty: item.difficulty,
+              title: item.title,
+              link: item.link,
+              tags: item.tags.map((tag: any) => {
+                return {
+                  name: tag.name,
+                };
+              }),
+            };
+          }),
+        },
+      },
+      refetchQueries: "active",
+      notifyOnNetworkStatusChange: true,
+      onCompleted: (data) => {
+        router.back();
+      },
+    });
   };
 
   const FORM_VALIDATION = yup.object().shape({
@@ -125,6 +156,7 @@ const ContestForm = ({
         validationSchema={FORM_VALIDATION}
         onSubmit={async (values, actions) => {
           if (isEditing) {
+            await handleEditContest(values);
           } else {
             await handleAddNewContest(values);
           }

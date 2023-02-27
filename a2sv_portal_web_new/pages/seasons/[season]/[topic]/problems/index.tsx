@@ -1,8 +1,7 @@
 import { Reorder } from "framer-motion";
 import { useRouter } from "next/router";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiPlus } from "react-icons/bi";
-import { FaPlus } from "react-icons/fa";
 import BaseLayout from "../../../../../components/common/BaseLayout";
 import EmptyState from "../../../../../components/common/EmptyState";
 import { LoaderSmall } from "../../../../../components/common/Loaders";

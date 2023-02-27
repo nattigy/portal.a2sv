@@ -24,19 +24,18 @@ const IndexPage = () => {
     }
   }, [router]);
 
-
-
   const { data, error, loading } = useGetContestDetails(
     router.query.contestId?.toString() || ""
   );
 
   useEffect(() => {
     setSelectedQuestions(data?.contest?.problems);
-    setSelectedQuestionsId(new Set<string>(data?.contest?.problems.map((problem :ProblemType)=>problem.id)));
-
-  }, [data])
-  
-
+    setSelectedQuestionsId(
+      new Set<string>(
+        data?.contest?.problems.map((problem: ProblemType) => problem.id)
+      )
+    );
+  }, [data]);
 
   const Sidebar: React.FC = () => {
     return (
@@ -58,6 +57,7 @@ const IndexPage = () => {
         <p>Something went wrong</p>
       ) : (
         <ContestForm
+          isEditing={true}
           contest={data.contest}
           setSelectedQuestions={setSelectedQuestions}
           setSelectedQuestionsId={setSelectedQuestionsId}
