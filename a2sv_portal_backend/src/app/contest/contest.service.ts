@@ -11,8 +11,8 @@ import { CreateContestInput } from './dto/create-contest.input'
 export class ContestService {
   constructor(private readonly contestRepository: ContestRepository) {}
 
-  async createContest(createContestInput: CreateContestInput) {
-    return this.contestRepository.create(createContestInput)
+  async createContest({ problems, groups, ...create }: CreateContestInput) {
+    return this.contestRepository.create(create)
   }
 
   async contests(

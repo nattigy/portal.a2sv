@@ -1,5 +1,5 @@
 import { Args, Int, Mutation, Resolver } from '@nestjs/graphql'
-import { ManageContestService } from './manage-contest.service'
+import { ManageContestsService } from './manage-contests.service'
 import { BadRequestException, UseGuards } from '@nestjs/common'
 import { PoliciesGuard } from '../../casl/policy/policy.guard'
 import { CheckPolicies } from '../../casl/policy/policy.decorator'
@@ -8,8 +8,8 @@ import { Contest } from '../../app/contest/entities/contest.entity'
 import { CreateContestInput } from '../../app/contest/dto/create-contest.input'
 
 @Resolver()
-export class ManageContestResolver {
-  constructor(private readonly manageContestService: ManageContestService) {}
+export class ManageContestsResolver {
+  constructor(private readonly manageContestService: ManageContestsService) {}
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(ContestAbilities.create)
@@ -43,12 +43,12 @@ export class ManageContestResolver {
   @UseGuards(PoliciesGuard)
   @CheckPolicies(ContestAbilities.create)
   @Mutation(() => Int)
-  async removeProblemsToContest(
+  async removeProblemsFromContest(
     @Args('contestId') contestId: string,
     @Args('problemIds', { type: () => [String] }) problemIds: string[],
   ): Promise<number> {
     try {
-      return this.manageContestService.removeProblemsToContest(contestId, problemIds)
+      return this.manageContestService.removeProblemsFromContest(contestId, problemIds)
     } catch (e) {
       console.error('Error: ', e)
       throw new BadRequestException('Failed to create contest!')

@@ -15,11 +15,11 @@ export class Contest {
   @Field({ nullable: true })
   div?: string
 
-  @Field(() => GraphQLISODateTime)
-  startTime: Date
-
-  @Field(() => GraphQLISODateTime)
-  endTime: Date
+  // @Field(() => GraphQLISODateTime)
+  // startTime: Date
+  //
+  // @Field(() => GraphQLISODateTime)
+  // endTime: Date
 
   @Field(() => GraphQLISODateTime)
   date: Date

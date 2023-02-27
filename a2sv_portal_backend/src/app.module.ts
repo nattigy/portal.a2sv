@@ -31,7 +31,7 @@ import { ManageGroupsModule } from './services/manage-groups/manage-groups.modul
 import { ManageSeasonsModule } from './services/manage-seasons/manage-seasons.module'
 import { ManageSeasonTopicsModule } from './services/manage-season-topic/manage-season-topics.module'
 import { SeasonTopicResourceModule } from './app/season-topic-resource/season-topic-resource.module'
-import { ManageContestModule } from './services/manage-contest/manage-contest.module'
+import { ManageContestsModule } from './services/manage-contests/manage-contests.module'
 import { ManageGroupSeasonContestModule } from './services/manage-group-season-contest/manage-group-season-contest.module'
 import { UserUpdateContestProblemModule } from './services/user-update-contest-problem-status/user-update-contest-problem.module'
 
@@ -100,7 +100,7 @@ import { UserUpdateContestProblemModule } from './services/user-update-contest-p
     StudentDataAnalyticsModule,
     ManageGroupSeasonModule,
     ManageUserGroupSeasonModule,
-    ManageContestModule,
+    ManageContestsModule,
     ManageGroupSeasonContestModule,
     UserUpdateContestProblemModule,
     // ContestStatsModule,
