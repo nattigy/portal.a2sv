@@ -9,6 +9,7 @@ import { PaginationInput } from 'src/common/page/pagination.input'
 import { UpdateUserProfileInput } from './dto/update-user-profile.input'
 import { User } from '../user/entities/user.entity'
 import { StorageService } from 'src/storage/storage.service'
+import { StatusEnum } from '@prisma/client'
 
 @Injectable()
 export class UserProfileService {
@@ -23,13 +24,18 @@ export class UserProfileService {
       const url = await this.storageService.save(createUserProfileInput.photoUrl, user.id)
       createUserProfileInput = { ...createUserProfileInput, photoUrl: url }
     }
-    return this.userProfileRepository.create({
+    const profile = await this.userProfileRepository.create({
       ...createUserProfileInput,
       email: user.email,
       user: {
         connect: { id: user.id },
       },
     })
+    await this.prismaService.user.update({
+      where: { id: user.id },
+      data: { status: StatusEnum.ACTIVE }
+    })
+    return profile
   }
 
   async userProfiles(

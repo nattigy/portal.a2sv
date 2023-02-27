@@ -93,7 +93,7 @@ model User {
   role             RoleEnum
   email            String            @unique
   password         String
-  status           StatusEnum
+  status           StatusEnum        @default(INACTIVE)
   verified         Boolean?          @default(false)
   groupId          String?
   createdAt        DateTime?         @default(now())

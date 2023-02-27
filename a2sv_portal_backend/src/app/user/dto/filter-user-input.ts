@@ -13,7 +13,7 @@ export class FilterUserInput {
   @Field({ nullable: true })
   email?: string
 
-  @Field(() => StatusEnum, { nullable: true })
+  @Field(() => StatusEnum, { nullable: true, defaultValue: StatusEnum.ACTIVE })
   status?: StatusEnum
 
   @Field({ nullable: true })
