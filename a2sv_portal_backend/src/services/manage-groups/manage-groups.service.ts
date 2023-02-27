@@ -5,13 +5,16 @@ import { Prisma } from '@prisma/client'
 import { GroupService } from '../../app/group/group.service'
 import { UpdateGroupInput } from '../../app/group/dto/update-group.input'
 import { PrismaService } from '../../prisma/prisma.service'
+import { GroupRepository } from '../../app/group/group.repository'
 
 @Injectable()
 export class ManageGroupsService {
   constructor(
     private readonly groupService: GroupService,
+    private readonly groupRepository: GroupRepository,
     private readonly prismaService: PrismaService,
-  ) {}
+  ) {
+  }
 
   async createGroup({ headId, ...createGroupInput }: CreateGroupInput): Promise<Group> {
     /** if headId is in the create input check if the user with the headId exists
@@ -30,14 +33,10 @@ export class ManageGroupsService {
       if (!foundUser) {
         throw new NotFoundException(`User with id ${headId} does not exist!`)
       }
-      // if (foundUser.headToGroup) {
-      //   throw new Error(`User with id ${headId} is already assigned to another group!`)
-      // }
-      // await this.prismaService.groupHead.upsert({
-      //   where: { groupId_headId: { groupId: group.id, headId: foundUser.id } },
-      //   create: { groupId: group.id, headId: foundUser.id },
-      //   update: {},
-      // })
+      await this.groupRepository.update({
+        where: { id: group.id },
+        data: { head: { connect: { id: headId } } },
+      })
     }
     return group
   }
@@ -76,11 +75,10 @@ export class ManageGroupsService {
           update: {},
         })
       }
-      // await this.prismaService.groupHead.upsert({
-      //   where: { groupId_headId: { groupId: foundGroup.id, headId: foundUser.id } },
-      //   create: { groupId: foundGroup.id, headId: foundUser.id },
-      //   update: {},
-      // })
+      await this.groupRepository.update({
+        where: { id: groupId },
+        data: { head: { connect: { id: headId } } },
+      })
     }
     return this.groupService.updateGroup({
       groupId,

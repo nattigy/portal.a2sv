@@ -30,7 +30,7 @@ export class UserService {
     return this.userRepository.create({
       email,
       password: hash,
-      status: StatusEnum.ACTIVE,
+      // status: StatusEnum.INACTIVE,
       role: RoleEnum.STUDENT,
     })
   }

@@ -85,7 +85,7 @@ Table User {
   role RoleEnum [not null]
   email String [unique, not null]
   password String [not null]
-  status StatusEnum [not null]
+  status StatusEnum [not null, default: 'INACTIVE']
   verified Boolean [default: false]
   groupId String
   createdAt DateTime [default: `now()`]
