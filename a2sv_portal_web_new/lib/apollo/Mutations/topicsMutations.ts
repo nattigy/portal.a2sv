@@ -42,21 +42,20 @@ export const EDIT_TOPIC = gql`
 `;
 
 export const REMOVE_SEASON_TOPIC = gql`
-  mutation RemoveSeasonTopic($seasonId: String!, $topicId: String!) {
-    removeSeasonTopic(seasonId: $seasonId, topicId: $topicId) {
-      seasonId
+  mutation RemoveSeasonTopic($seasonTopicId: SeasonTopicId!) {
+    removeSeasonTopic(seasonTopicId: $seasonTopicId) {
+      topicId
     }
   }
 `;
 
-
 export const REMOVE_GROUP_SEASON_TOPIC = gql`
   mutation RemoveGroupSeasonTopics(
-    $groupSeasonId: GroupSeasonId!, 
+    $groupSeasonId: GroupSeasonId!
     $problemIds: [String!]!
   ) {
     removeGroupSeasonTopics(
-      groupSeasonId: $groupSeasonId, 
+      groupSeasonId: $groupSeasonId
       problemIds: $problemIds
     )
   }

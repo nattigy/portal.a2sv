@@ -70,7 +70,7 @@ const SeasonItem = ({ seasonProps }: Props) => {
       {isDeleteModalOpen && (
         <DeletePopupModal
           title="Delete Season"
-          description="This will delete this season"
+          description={`This will delete ${seasonProps.name} permanently.`}
           errorMessage={errorMessage}
           isLoading={loading}
           onClose={() => setIsDeleteModalOpen(false)}

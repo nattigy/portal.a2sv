@@ -15,6 +15,7 @@ import {
 import { Season, SeasonType } from "../../types/season";
 import FormDropdown from "../common/FormDropdown";
 import { FaChevronDown } from "react-icons/fa";
+import clsx from "clsx";
 
 interface FormValues {
   name: string;
@@ -37,13 +38,13 @@ const SeasonModal = ({ isEditing, season, onClose, groupId }: Props) => {
   const initialValues: FormValues = {
     type: season?.seasonType || "",
     name: season?.name || "",
-    startDate: season?.startDate.toString() || "",
-    endDate: season?.endDate.toString() || "",
+    startDate: season?.startDate?.toString() || "",
+    endDate: season?.endDate?.toString() || "",
   };
   const FORM_VALIDATION = yup.object().shape({
     name: yup.string().required("Required"),
-    startDate: yup.string().required("Required"),
-    endDate: yup.string().required("Required"),
+    startDate: yup.date().required("Required"),
+    endDate: yup.date().required("Required"),
     type: yup.string().required("Required"),
   });
 
@@ -108,13 +109,11 @@ const SeasonModal = ({ isEditing, season, onClose, groupId }: Props) => {
               >
                 <div className="w-full flex flex-col">
                   <div className="my-3 w-full flex justify-between items-center">
-                    {isEditing ? (
-                      <h2 className="font-semibold text-lg">{season?.name}</h2>
-                    ) : (
+               
                       <h2 className="font-semibold text-lg">
-                        Create New Season
+                        {isEditing?"Edit Season":"Create New Season"}
                       </h2>
-                    )}
+                  
                     <div className="cursor-pointer" onClick={() => onClose()}>
                       <svg
                         className="font-bold text-gray-600"
@@ -211,7 +210,12 @@ const SeasonModal = ({ isEditing, season, onClose, groupId }: Props) => {
                           <div className="flex items-center my-2 relative">
                             <DateView
                               autoComplete="off"
-                              className="w-full text-xs placeholder-[#767676] placeholder:text-xs rounded-md focus:outline-none border py-3 px-4"
+                              className={clsx(
+                                "w-full text-xs placeholder-[#767676] placeholder:text-xs rounded-md focus:outline-none border py-3 px-4",
+                                errors.startDate
+                                  ? "border-red-500"
+                                  : "border-[#DCDCDC]"
+                              )}
                               name="start"
                               maxDate={
                                 values["endDate"]
@@ -236,6 +240,13 @@ const SeasonModal = ({ isEditing, season, onClose, groupId }: Props) => {
                               <BiCalendar size={18} />
                             </div>
                           </div>
+                          {errors.startDate && (
+                            <div className="bg-red-400/20 w-full mt-2 p-2 px-4 rounded-md">
+                              <p className="w-full text-xs text-red-400">
+                                {errors.startDate}
+                              </p>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className="w-1/2 flex flex-col items-center">
@@ -246,7 +257,12 @@ const SeasonModal = ({ isEditing, season, onClose, groupId }: Props) => {
                           <div className="flex items-center my-2 relative">
                             <DateView
                               autoComplete="off"
-                              className="w-full text-xs placeholder-[#767676] rounded-md focus:outline-none border py-3 px-4"
+                              className={clsx(
+                                "w-full text-xs placeholder-[#767676] placeholder:text-xs rounded-md focus:outline-none border py-3 px-4",
+                                errors.endDate
+                                  ? "border-red-500"
+                                  : "border-[#DCDCDC]"
+                              )}
                               name="end"
                               minDate={
                                 values["startDate"]
@@ -269,6 +285,13 @@ const SeasonModal = ({ isEditing, season, onClose, groupId }: Props) => {
                               <BiCalendar size={18} />
                             </div>
                           </div>
+                          {errors.endDate && (
+                            <div className="bg-red-400/20 w-full mt-2 p-2 px-4 rounded-md">
+                              <p className="w-full text-xs text-red-400">
+                                {errors.endDate}
+                              </p>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>

@@ -71,7 +71,7 @@ const GroupItem = ({ groupProps, color }: Props) => {
           title="You are about to delete this Group"
           errorMessage={errorMessage}
           isLoading={loading}
-          description={`This action will delete ${groupProps.name} permanently`}
+          description={`This action will delete ${groupProps.name} permanently.`}
           onClose={() => setIsDeleteModalOpen(false)}
           onDelete={async () => {
             await deleteGroup({

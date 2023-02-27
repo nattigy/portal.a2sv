@@ -126,11 +126,11 @@ const ProblemsPage = (props: ProblemsPageProps) => {
         <ProblemModal
           isEditing={false}
           {...props}
-          addProblemToSeasonTopic={authUser.role == GraphqlUserRole.HEAD_OF_EDUCATION}
+          addProblemToSeasonTopic={authUser.role == GraphqlUserRole.HEAD_OF_EDUCATION || authUser.role == GraphqlUserRole.HEAD_OF_ACADEMY}
           onClose={() => setIsAddNewProblemModalOpen(false)}
         />
       )}
-      {isDeleteModalOpen && (
+      {/* {isDeleteModalOpen && (
         <DeletePopupModal
           title="Delete Topic"
           errorMessage={(removeTopicError as ApolloError)?.message || ""}
@@ -149,7 +149,7 @@ const ProblemsPage = (props: ProblemsPageProps) => {
             });
           }}
         />
-      )}
+      )} */}
       <div className="h-full font-semibold text-[#565656]">
         <div className="w-full font-semibold text-xl text-[#565656]">
           <div className="w-full flex items-center justify-between relative">
@@ -185,7 +185,7 @@ const ProblemsPage = (props: ProblemsPageProps) => {
                   classname="bg-primary text-white text-xs"
                 />
               )}
-              {(authUser as any).role === GraphqlUserRole.HEAD_OF_ACADEMY && (
+              {/* {(authUser as any).role === GraphqlUserRole.HEAD_OF_ACADEMY && (
                 <MenuItem
                   color="#000000"
                   menuItems={[
@@ -199,7 +199,7 @@ const ProblemsPage = (props: ProblemsPageProps) => {
                     },
                   ]}
                 />
-              )}
+              )} */}
             </div>
           </div>
         </div>

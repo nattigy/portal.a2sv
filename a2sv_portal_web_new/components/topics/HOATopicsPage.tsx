@@ -46,7 +46,7 @@ const HOATopicsPage = () => {
           classname="bg-primary text-white text-xs"
         />
       </div>
-      <div className="w-full flex flex-col gap-y-4">
+      <div className="w-full flex flex-col gap-y-4 pt-6">
         {loading ? (
           <div className="h-full w-full flex justify-center items-center">
             <LoaderSmall />

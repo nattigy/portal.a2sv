@@ -50,7 +50,7 @@ const StudentToicsPage = () => {
                 href={{
                   pathname: `${slugify(
                     router.query.season?.toString() || ""
-                  )}/topics/${slugify(item.topic.name)}/problems`,
+                  )}/${slugify(item.topic.name)}/problems`,
                   query: {
                     seasonId: router.query.seasonId,
                     topicId: item.topic.id,
