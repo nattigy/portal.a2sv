@@ -1,4 +1,4 @@
-import { JoinRequestEnum, PrismaClient, RoleEnum } from '@prisma/client'
+import { JoinRequestEnum, PrismaClient, RoleEnum, UserContestProblemStatusEnum } from '@prisma/client'
 import { env } from 'process'
 import groupsData from './seeds/groupsData'
 import problemData from './seeds/problemData'
@@ -98,7 +98,7 @@ async function main() {
     console.log('added problems to contests')
 
     let users = await prisma.user.findMany({})
-    let groups = await prisma.group.findMany({})
+    let groups = await prisma.group.findMany()
     for (const user of users) {
       if (user.role === RoleEnum.STUDENT) {
         await prisma.user.update({
@@ -126,15 +126,17 @@ async function main() {
     const g31 = await prisma.group.findFirst({ where: { name: 'Group-31' } })
     const emre = await prisma.user.findFirst({ where: { email: 'emre@a2sv.org' } })
     const sura = await prisma.user.findFirst({ where: { email: 'surafel@a2sv.org' } })
-    await prisma.group.update({
-      where: { id: g12.id },
-      data: { headId: emre.id },
-    })
-    await prisma.group.update({
-      where: { id: g31.id },
-      data: { headId: sura.id },
-    })
-    console.log('assign heads to a group')
+    // await prisma.groupHead.upsert({
+    //   where: { groupId_headId: { groupId: g12.id, headId: emre.id } },
+    //   create: { groupId: g12.id, headId: emre.id },
+    //   update: {},
+    // })
+    // await prisma.groupHead.upsert({
+    //   where: { groupId_headId: { groupId: g31.id, headId: sura.id } },
+    //   create: { groupId: g31.id, headId: sura.id },
+    //   update: {},
+    // })
+    // console.log('assign heads to a group')
 
     const g12Season = await prisma.season.findFirst({})
     const g31Season = await prisma.season.findFirst({})
@@ -149,17 +151,31 @@ async function main() {
       data: { isActive: true },
     })
 
-    groups = await prisma.group.findMany({})
-    for (const season1 of seasons) {
-      await prisma.groupSeason.createMany({
-        data: groups.filter(g => g.headId !== null).map(g => ({
-          groupId: g.id,
-          seasonId: season1.id,
-          headId: g.headId,
-          startDate: '2022-12-30T12:22:34.313Z',
-        })),
-      })
-    }
+    // groups = await prisma.group.findMany({ include: { groupHeads: true } })
+    // for (const season1 of seasons) {
+    //   await prisma.groupSeason.createMany({
+    //     data: groups.filter(g => g.groupHeads.length > 0).map(g => ({
+    //       groupId: g.id,
+    //       seasonId: season1.id,
+    //       startDate: '2022-12-30T12:22:34.313Z',
+    //     })),
+    //   })
+    // }
+
+    await prisma.groupSeasonHead.create({
+      data: {
+        groupId: g12.id,
+        seasonId: g12Season.id,
+        headId: emre.id,
+      },
+    })
+    await prisma.groupSeasonHead.create({
+      data: {
+        groupId: g31.id,
+        seasonId: g31Season.id,
+        headId: sura.id,
+      },
+    })
 
     await prisma.groupSeason.update({
       where: {
@@ -186,6 +202,209 @@ async function main() {
       },
     })
     console.log('added seasons to a group')
+
+    await prisma.groupSeasonContest.createMany({
+      skipDuplicates: true,
+      data: contests.map(c => ({
+        groupId: g12.id,
+        seasonId: g12Season.id,
+        contestId: c.id,
+      })),
+    })
+
+    await prisma.groupSeasonContest.createMany({
+      skipDuplicates: true,
+      data: contests.map(c => ({
+        groupId: g31.id,
+        seasonId: g31Season.id,
+        contestId: c.id,
+      })),
+    })
+    console.log('Added contests to a groupSeasons')
+
+    const userContests = await prisma.user.findMany({
+      include: {
+        group: {
+          include: {
+            groupSeasons: {
+              include: {
+                groupSeasonContests: {
+                  include: { contest: { include: { contestProblems: true } } },
+                },
+              },
+            },
+          },
+        },
+      },
+    })
+    // for (const userContest of userContests) {
+    //   // console.log(userContest.group.groupSeasons.filter(g=>g.groupSeasonContests.length>0)[0].groupSeasonContests)
+    //   for (const groupSeason of userContest.group.groupSeasons) {
+    //     await prisma.userGroupSeason.create({
+    //       data: {
+    //         groupSeason: {
+    //           connect: {
+    //             groupId_seasonId: {
+    //               groupId: groupSeason.groupId,
+    //               seasonId: groupSeason.seasonId,
+    //             }
+    //           }
+    //         },
+    //         user: { connect: {id: userContest.id} }
+    //       }
+    //     })
+    //     for (const groupSeasonContest of groupSeason.groupSeasonContests) {
+    //       await prisma.userGroupSeasonContest.create({
+    //         data: {
+    //           groupSeasonContest:{
+    //             connect:{
+    //               groupId_seasonId_contestId:{
+    //                 groupId: groupSeasonContest.groupId,
+    //                 seasonId: groupSeasonContest.seasonId,
+    //                 contestId: groupSeasonContest.contestId
+    //               }
+    //             }
+    //           },
+    //           userGroupSeason:{
+    //             connect:{
+    //               userId_groupId_seasonId:{
+    //                 userId: userContest.id,
+    //                 groupId: groupSeasonContest.groupId,
+    //                 seasonId: groupSeasonContest.seasonId,
+    //               }
+    //             }
+    //           },
+    //           contest:{ connect:{ id:groupSeasonContest.contestId } }
+    //           // userId: userContest.id,
+    //           // groupId: groupSeasonContest.groupId,
+    //           // seasonId: groupSeasonContest.seasonId,
+    //           // contestId: groupSeasonContest.contestId
+    //         }
+    //       })
+    //       for (const contestProblem of groupSeasonContest.contest.contestProblems) {
+    //         await prisma.userGroupSeasonContestProblem.create({
+    //           data: {
+    //             userGroupSeasonContest:{
+    //               connectOrCreate:{
+    //                 where: {
+    //                   userId_groupId_seasonId_contestId: {
+    //                     groupId: groupSeasonContest.groupId,
+    //                     seasonId: groupSeasonContest.contestId,
+    //                     contestId: groupSeasonContest.contestId,
+    //                     userId: userContest.id,
+    //                   }
+    //                 },
+    //                 create: {
+    //                   groupSeasonContest: {
+    //                     connectOrCreate: {
+    //                       where:{
+    //                         groupId_seasonId_contestId:{
+    //                           groupId: groupSeasonContest.groupId,
+    //                           seasonId: groupSeasonContest.contestId,
+    //                           contestId: groupSeasonContest.contestId,
+    //                         }
+    //                       },
+    //                       create:{
+    //                         groupId: groupSeasonContest.groupId,
+    //                         seasonId: groupSeasonContest.contestId,
+    //                         contestId: groupSeasonContest.contestId,
+    //                       }
+    //                     },
+    //                   },
+    //                   userGroupSeason: {
+    //                     connectOrCreate: {
+    //                       where:{
+    //                         userId_groupId_seasonId:{
+    //                           groupId: groupSeasonContest.groupId,
+    //                           seasonId: groupSeasonContest.contestId,
+    //                           userId: userContest.id,
+    //                         }
+    //                       },
+    //                       create:{
+    //                         groupId: groupSeasonContest.groupId,
+    //                         seasonId: groupSeasonContest.contestId,
+    //                         userId: userContest.id,
+    //                       }
+    //                     },
+    //                   },
+    //                   contest: {
+    //                     connect: {
+    //                       id: groupSeasonContest.contestId,
+    //                     }
+    //                   }
+    //                   // groupId: groupSeasonContest.groupId,
+    //                   // seasonId: groupSeasonContest.contestId,
+    //                   // contestId: groupSeasonContest.contestId,
+    //                   // userId: userContest.id,
+    //                 }
+    //               }
+    //             },
+    //             contestProblem: {
+    //               connect: {
+    //                 contestId_problemId: {
+    //                   contestId: groupSeasonContest.contestId,
+    //                   problemId: contestProblem.problemId,
+    //                 }
+    //               }
+    //             },
+    //             // groupSeasonContestProblem: {
+    //             //   connectOrCreate: {
+    //             //     where: {
+    //             //       groupId_seasonId_contestId_problemId:{
+    //             //         groupId: groupSeasonContest.groupId,
+    //             //         seasonId: groupSeasonContest.contestId,
+    //             //         contestId: groupSeasonContest.contestId,
+    //             //         problemId: contestProblem.problemId,
+    //             //       }
+    //             //     },
+    //             //     create: {
+    //             //       groupSeasonContest: {
+    //             //         connect: {
+    //             //           groupId_seasonId_contestId: {
+    //             //             groupId: groupSeasonContest.groupId,
+    //             //             seasonId: groupSeasonContest.contestId,
+    //             //             contestId: groupSeasonContest.contestId,
+    //             //           }
+    //             //         }
+    //             //       },
+    //             //       contestProblem: {
+    //             //         connect: {
+    //             //            contestId_problemId:{
+    //             //              contestId: groupSeasonContest.contestId,
+    //             //              problemId: contestProblem.problemId,
+    //             //            }
+    //             //         }
+    //             //       }
+    //             //     }
+    //             //   }
+    //             // },
+    //             // groupId: userContest.groupId,
+    //             // seasonId: groupSeasonContest.contestId,
+    //             // contestId: groupSeasonContest.contestId,
+    //             // problemId: contestProblem.problemId,
+    //             // userId: userContest.id,
+    //             numberOfAttempts:5,
+    //             numberOfMinutes: 20,
+    //             status: UserContestProblemStatusEnum.SOLVED_IN_CONTEST
+    //           }
+    //         })
+    //       }
+    //       // await prisma.userGroupSeasonContestProblem.createMany({
+    //       //   skipDuplicates: true,
+    //       //   data: groupSeasonContest.contest.contestProblems.map(p => ({
+    //       //     groupId: userContest.groupId,
+    //       //     seasonId: groupSeasonContest.contestId,
+    //       //     contestId: groupSeasonContest.contestId,
+    //       //     problemId: p.problemId,
+    //       //     userId: userContest.id,
+    //       //     numberOfAttempts:5,
+    //       //     numberOfMinutes: 20,
+    //       //     status: UserContestProblemStatusEnum.SOLVED_IN_CONTEST
+    //       //   }))
+    //       // })
+    //     }
+    //   }
+    // }
 
     const topics = await prisma.topic.findMany({})
     for (const season of seasons) {
@@ -244,7 +463,7 @@ async function main() {
     users = await prisma.user.findMany({})
     for (const user of users) {
       const userGroup = await prisma.group.findUnique({
-        where: { id: user.groupId},
+        where: { id: user.groupId },
       })
       const userSeason = await prisma.groupSeason.findFirst({
         where: {
@@ -276,6 +495,24 @@ async function main() {
 
     const endYear = new Date('2023-1-31')
     const analyticsList = []
+    const userGroupSeasons = await prisma.user.findMany({
+      include: {
+        group: {
+          include: { groupSeasons: { take: 1, where: { isActive: true } } },
+        },
+      },
+    })
+
+    interface obj {
+      seasonId: string
+    }
+
+    const userSeasonMapping: { ['key']?: obj } = {}
+    for (const userGroupSeason of userGroupSeasons) {
+      userSeasonMapping[userGroupSeason.id] = {
+        seasonId: userGroupSeason.group.groupSeasons[0].seasonId,
+      }
+    }
     // eslint-disable-next-line no-unmodified-loop-condition
     for (let d = new Date('2022-1-2'); d <= endYear; d.setDate(d.getDate() + 1)) {
       const currentDate = new Date(d) as any
@@ -285,19 +522,10 @@ async function main() {
       const days = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24))
       const weeknubmer = Math.ceil(days / 7)
       for (const user of users) {
-        const userGroup = await prisma.group.findUnique({
-          where: { id: user.groupId},
-        })
-        const userSeason = await prisma.groupSeason.findFirst({
-          where: {
-            isActive: true,
-            groupId: userGroup.id,
-          },
-        })
         analyticsList.push({
           userId: user.id,
-          seasonId: userSeason.seasonId,
-          groupId: userGroup.id,
+          seasonId: userSeasonMapping[user.id].seasonId,
+          groupId: user.groupId,
           createdAt: new Date(d),
           solvedCount: Math.floor(Math.random() * 10),
           wrongCount: Math.floor(Math.random() * 10) + 1,

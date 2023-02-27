@@ -18,7 +18,7 @@ export class SeasonTopic {
   @Field(() => Topic)
   topic: Topic
 
-  @Field(() => [SeasonTopicResource], { nullable: true })
+  @Field(() => [SeasonTopicResource])
   seasonTopicResources: SeasonTopicResource[]
 
   @Field(() => [SeasonTopicProblem])

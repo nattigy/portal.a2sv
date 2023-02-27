@@ -7,7 +7,6 @@ import { UserGroupSeasonContestRepository } from '../../app/user-group-season-co
 import { FilterUserGroupSeasonContestInput } from '../../app/user-group-season-contest/dto/filter-user-group-season-contest.input'
 import { UserGroupSeasonContest } from '../../app/user-group-season-contest/entities/user-group-season-contest.entity'
 import { UpdateUserGroupSeasonContestInput } from '../../app/user-group-season-contest/dto/update-user-group-season-contest.input'
-import { UpdateUserGroupSeasonContestProblemInput } from '../../app/user-group-season-contest-problem/dto/update-user-group-season-contest-problem.input'
 import { UserGroupSeasonContestProblemService } from './user-group-season-contest-problem.service'
 
 @Injectable()
@@ -50,6 +49,14 @@ export class UserGroupSeasonContestService {
       items: UserGroupSeasonContests,
       pageInfo: { skip, take, count },
     }
+  }
+
+  async upsert(updateUserGroupSeasonContestInput: UpdateUserGroupSeasonContestInput) {
+    const { userId, groupId, seasonId, contestId } = updateUserGroupSeasonContestInput
+    return this.userGroupSeasonContestRepository.upsert({
+      where: { userId_groupId_seasonId_contestId: { userId, groupId, seasonId, contestId } },
+      data: updateUserGroupSeasonContestInput,
+    })
   }
 
   // async updateUserGroupSeasonContest({

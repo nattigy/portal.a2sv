@@ -1,4 +1,4 @@
-import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
+import { Field, GraphQLISODateTime, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { SeasonTypeEnum } from '@prisma/client'
 
 @ObjectType()
@@ -9,13 +9,13 @@ export class Season {
   @Field({ description: `Season Name` })
   name: string
 
-  @Field({ description: `Season Duration` })
-  duration: string
-
   @Field(() => SeasonTypeEnum, {
     description: `Type of the season is it Camp or Education or Project`,
   })
   seasonType: SeasonTypeEnum
+
+  @Field({ description: `Season Duration` })
+  duration: string
 
   @Field({
     nullable: true,
@@ -23,16 +23,19 @@ export class Season {
   })
   isActive?: boolean
 
-  @Field(() => Date, { description: `The start date of the season` })
+  @Field(() => GraphQLISODateTime, { description: `The start date of the season` })
   startDate: Date
 
-  @Field(() => Date, { nullable: true, description: `The end date of the season` })
+  @Field(() => GraphQLISODateTime, {
+    nullable: true,
+    description: `The end date of the season`,
+  })
   endDate?: Date
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   updatedAt?: Date
 }
 

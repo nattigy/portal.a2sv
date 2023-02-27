@@ -41,8 +41,10 @@ export class StudentDataAnalyticsService {
       const seasonId = activeSeason.seasonId
       await this.prismaService.userGroupSeasonDataAnalytics.upsert({
         where: {
-          userId_createdAt: {
+          userId_groupId_seasonId_createdAt: {
             userId: user.id,
+            groupId: user.groupId,
+            seasonId,
             createdAt: new Date(),
           },
         },
@@ -78,8 +80,10 @@ export class StudentDataAnalyticsService {
     })
     return this.prismaService.userGroupSeasonDataAnalytics.upsert({
       where: {
-        userId_createdAt: {
+        userId_groupId_seasonId_createdAt: {
           userId,
+          groupId,
+          seasonId,
           createdAt,
         },
       },

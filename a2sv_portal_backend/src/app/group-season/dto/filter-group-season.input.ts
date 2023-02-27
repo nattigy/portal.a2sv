@@ -13,8 +13,8 @@ export class FilterGroupSeasonInput {
   @Field({ nullable: true })
   isActive?: boolean
 
-  @Field({ nullable: true })
-  headId?: string
+  // @Field({ nullable: true })
+  // headId?: string
 
   @Field(() => JoinRequestEnum, { nullable: true })
   joinRequest?: JoinRequestEnum

@@ -22,7 +22,6 @@ export class SeasonRepository {
     orderBy?: Prisma.SeasonOrderByWithRelationInput
   }): Promise<Season[]> {
     const { skip, take, where, orderBy } = params
-
     return this.prismaService.season.findMany({
       skip,
       take,

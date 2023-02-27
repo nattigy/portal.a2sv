@@ -6,7 +6,6 @@ import { GroupSeason } from './entities/group-season.entity'
 @Injectable()
 export class GroupSeasonRepository {
   include = {
-    head: true,
     group: true,
     season: true,
     groupSeasonTopics: {
@@ -43,6 +42,7 @@ export class GroupSeasonRepository {
         },
       },
     },
+    groupSeasonHeads: { include: { user: true } },
   }
 
   constructor(private readonly prismaService: PrismaService) {}
@@ -50,7 +50,45 @@ export class GroupSeasonRepository {
   async create(data: Prisma.GroupSeasonCreateInput): Promise<GroupSeason> {
     return this.prismaService.groupSeason.create({
       data,
-      include: this.include
+      include: {
+        group: true,
+        season: true,
+        groupSeasonTopics: {
+          include: {
+            topic: true,
+            groupSeasonTopicProblems: {
+              include: {
+                userGroupSeasonTopicProblems: {
+                  include: {
+                    problem: { include: { tags: true } },
+                  },
+                },
+                problem: { include: { tags: true } },
+              },
+            },
+          },
+        },
+        groupSeasonContests: {
+          include: {
+            contest: {
+              include: {
+                contestProblems: { include: { problem: { include: { tags: true } } } },
+              },
+            },
+            groupSeasonContestProblems: {
+              include: {
+                userGroupSeasonContestProblems: {
+                  include: {
+                    contestProblem: { include: { problem: { include: { tags: true } } } },
+                  },
+                },
+                contestProblem: { include: { problem: { include: { tags: true } } } },
+              },
+            },
+          },
+        },
+        groupSeasonHeads: { include: { user: true } },
+      },
     })
   }
 
@@ -76,13 +114,6 @@ export class GroupSeasonRepository {
 
   async findOne(where: Prisma.GroupSeasonWhereUniqueInput): Promise<GroupSeason> {
     return this.prismaService.groupSeason.findUnique({
-      where,
-      include: this.include,
-    })
-  }
-
-  async findFirst(where: Prisma.GroupSeasonWhereInput): Promise<GroupSeason> {
-    return await this.prismaService.groupSeason.findFirst({
       where,
       include: this.include,
     })

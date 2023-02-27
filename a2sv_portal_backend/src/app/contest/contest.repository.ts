@@ -5,12 +5,9 @@ import { Contest } from './entities/contest.entity'
 
 @Injectable()
 export class ContestRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
-  async create(
-    data: Prisma.ContestCreateInput,
-  ): Promise<Contest> {
+  async create(data: Prisma.ContestCreateInput): Promise<Contest> {
     return this.prismaService.contest.create({
       data,
       include: { contestProblems: { include: { problem: { include: { tags: true } } } } },

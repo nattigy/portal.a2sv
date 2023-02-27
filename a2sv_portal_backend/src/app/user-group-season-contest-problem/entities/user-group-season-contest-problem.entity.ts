@@ -7,7 +7,6 @@ import {
   registerEnumType,
 } from '@nestjs/graphql'
 import { UserContestProblemStatusEnum } from '@prisma/client'
-import { Problem } from '../../problem/entities/problem.entity'
 import { ContestProblem } from '../../contest-problem/entities/contest-problem.entity'
 
 @ObjectType()

@@ -1,6 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql'
 import { UserContestProblemStatusEnum } from '@prisma/client'
-import { Problem } from 'src/app/problem/entities/problem.entity'
 
 @InputType()
 export class CreateUserGroupSeasonContestProblemInput {
@@ -16,8 +15,8 @@ export class CreateUserGroupSeasonContestProblemInput {
   @Field()
   groupId: string
 
-  @Field(() => Problem)
-  problem: Problem
+  // @Field(() => Problem)
+  // problem: Problem
 
   @Field(() => UserContestProblemStatusEnum)
   status: UserContestProblemStatusEnum

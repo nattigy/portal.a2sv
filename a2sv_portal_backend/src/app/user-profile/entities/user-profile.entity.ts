@@ -4,8 +4,8 @@ import { User } from '../../user/entities/user.entity'
 
 @ObjectType()
 export class UserProfile {
-  @Field()
-  id: string
+  // @Field()
+  // id: string
 
   @Field()
   userId: string

@@ -8,18 +8,27 @@ import { FilterUserGroupSeasonInput } from '../../app/user-group-season/dto/filt
 import { PaginationInput } from '../../common/page/pagination.input'
 import { UserGroupSeasonTopic } from '../../app/user-group-season-topic/entities/user-group-season-topic.entity'
 import { UserGroupSeasonTopicId } from '../../app/user-group-season-topic/dto/create-user-group-season-topic.input'
-import { PaginationUserGroupSeasonTopic } from '../../common/page/pagination-info'
+import {
+  PaginationUserGroupSeasonContest,
+  PaginationUserGroupSeasonTopic,
+} from '../../common/page/pagination-info'
 import { FilterUserGroupSeasonTopicInput } from '../../app/user-group-season-topic/dto/filter-user-group-season-topic-input'
 import { UserGroupSeasonTopicProblem } from '../../app/user-group-season-topic-problem/entities/user-group-season-topic-problem.entity'
 import { UserGroupSeasonTopicProblemId } from '../../app/user-group-season-topic-problem/dto/user-group-season-topic-problem-id.input'
+import { UserGroupSeasonContest } from '../../app/user-group-season-contest/entities/user-group-season-contest.entity'
+import { UserGroupSeasonContestId } from '../../app/user-group-season-contest/dto/create-user-group-season-contest.input'
+import { UserGroupSeasonContestService } from './user-group-season-contest.service'
+import { FilterUserGroupSeasonContestInput } from '../../app/user-group-season-contest/dto/filter-user-group-season-contest.input'
 
 @Resolver()
 export class ManageUserGroupSeasonResolver {
   constructor(
     private readonly userGroupSeasonService: UserGroupSeasonService,
     private readonly userGroupSeasonTopicService: UserGroupSeasonTopicService,
-    private readonly seasonTopicUserProblemService: UserGroupSeasonTopicProblemService, // private readonly userGroupSeasonContestService: UserGroupSeasonContestService, // private readonly userGroupSeasonContestProblemService: UserGroupSeasonContestProblemService,
-  ) {}
+    private readonly seasonTopicUserProblemService: UserGroupSeasonTopicProblemService,
+    private readonly userGroupSeasonContestService: UserGroupSeasonContestService,
+  ) // private readonly userGroupSeasonContestProblemService: UserGroupSeasonContestProblemService,
+  {}
 
   @Query(() => UserGroupSeason)
   async userGroupSeason(
@@ -97,37 +106,25 @@ export class ManageUserGroupSeasonResolver {
   //   )
   // }
 
-  // @Query(() => UserGroupSeasonContest)
-  // async userGroupSeasonContest(
-  //   @Args('userGroupSeasonContestId') userGroupSeasonContestId: UserGroupSeasonContestId,
-  // ): Promise<UserGroupSeasonContest> {
-  //   return this.userGroupSeasonContestService.userGroupSeasonContest(userGroupSeasonContestId)
-  // }
+  @Query(() => UserGroupSeasonContest)
+  async userGroupSeasonContest(
+    @Args('userGroupSeasonContestId') userGroupSeasonContestId: UserGroupSeasonContestId,
+  ): Promise<UserGroupSeasonContest> {
+    return this.userGroupSeasonContestService.userGroupSeasonContest(userGroupSeasonContestId)
+  }
 
-  // @Query(() => PaginationUserGroupSeasonContest)
-  // async userGroupSeasonContests(
-  //   @Args('filterUserGroupSeasonContestInput') filterUserGroupSeasonContestInput: FilterUserGroupSeasonContestInput,
-  //   @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
-  // ): Promise<PaginationUserGroupSeasonContest> {
-  //   return this.userGroupSeasonContestService.userGroupSeasonContests(filterUserGroupSeasonContestInput, paginationInput)
-  // }
-  //
-  // @Mutation(() => UserGroupSeasonContest)
-  // async updateUserGroupSeasonContest(
-  //   @Args('updateUserGroupSeasonContestInput')
-  //     updateUserContestInput: UpdateUserGroupSeasonContestInput,
-  // ): Promise<UserGroupSeasonContest> {
-  //   return this.userGroupSeasonContestService.updateUserGroupSeasonContest(updateUserContestInput)
-  // }
-  //
-  // @Mutation(() => UserGroupSeasonContestProblem)
-  // async updateUserContestProblem(
-  //   @Args('updateUserGroupSeasonContestProblemInput')
-  //     updateUserContestProblemInput: UpdateUserGroupSeasonContestProblemInput,
-  // ) {
-  //   return this.userGroupSeasonContestService.updateUserContestProblem(updateUserContestProblemInput)
-  // }
-  //
+  @Query(() => PaginationUserGroupSeasonContest)
+  async userGroupSeasonContests(
+    @Args('filterUserGroupSeasonContestInput')
+    filterUserGroupSeasonContestInput: FilterUserGroupSeasonContestInput,
+    @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
+  ): Promise<PaginationUserGroupSeasonContest> {
+    return this.userGroupSeasonContestService.userGroupSeasonContests(
+      filterUserGroupSeasonContestInput,
+      paginationInput,
+    )
+  }
+
   // // @Mutation(() => Int)
   // // async removeUserGroupSeasonContest(
   // //   @Args('userGroupSeasonContestId') userGroupSeasonContestId: UserGroupSeasonContestId,

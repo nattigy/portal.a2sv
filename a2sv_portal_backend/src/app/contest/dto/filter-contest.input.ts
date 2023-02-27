@@ -16,10 +16,13 @@ export class FilterContestInput {
   div?: string
 
   @Field(() => DateTimeFilter, { nullable: true })
-  startTime?: Date
+  startTime?: DateTimeFilter
 
   @Field(() => DateTimeFilter, { nullable: true })
-  endTime?: Date
+  endTime?: DateTimeFilter
+
+  @Field(() => DateTimeFilter)
+  date: DateTimeFilter
 
   @Field(() => DateTimeFilter, { nullable: true })
   createdAt?: DateTimeFilter

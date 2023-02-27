@@ -7,13 +7,24 @@ Table Season {
   name String [not null]
   seasonType SeasonTypeEnum [not null, default: 'IN_ACTIVE']
   duration String [not null]
+  isActive Boolean [not null, default: false]
   startDate DateTime [not null]
   endDate DateTime
-  isActive Boolean [not null, default: false]
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
-  groupSeasons GroupSeason [not null]
+  seasonStats SeasonStats
   seasonTopics SeasonTopic [not null]
+  groupSeasons GroupSeason [not null]
+}
+
+Table SeasonStats {
+  seasonId String [pk]
+  numberOfProblemsSolved Int [not null, default: 0]
+  season Season [not null]
+
+  indexes {
+    (seasonId) [pk]
+  }
 }
 
 Table Group {
@@ -21,6 +32,8 @@ Table Group {
   name String [unique, not null]
   country String
   school String
+  headId String [unique]
+  head User
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   users User [not null]
@@ -48,11 +61,13 @@ Table Contest {
   div String
   startTime DateTime [not null]
   endTime DateTime [not null]
+  date DateTime [not null]
+  duration String [not null]
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
-  GroupSeasonContest GroupSeasonContest [not null]
-  UserGroupSeasonContest UserGroupSeasonContest [not null]
   contestProblems ContestProblem [not null]
+  groupSeasonContests GroupSeasonContest [not null]
+  userGroupSeasonContests UserGroupSeasonContest [not null]
 }
 
 Table Topic {
@@ -62,8 +77,8 @@ Table Topic {
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   seasonTopics SeasonTopic [not null]
-  GroupSeasonTopic GroupSeasonTopic [not null]
-  UserGroupSeasonTopic UserGroupSeasonTopic [not null]
+  groupSeasonTopics GroupSeasonTopic [not null]
+  userGroupSeasonTopics UserGroupSeasonTopic [not null]
 }
 
 Table Problem {
@@ -76,9 +91,9 @@ Table Problem {
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   seasonTopicProblems SeasonTopicProblem [not null]
-  GroupSeasonTopicProblem GroupSeasonTopicProblem [not null]
-  UserGroupSeasonTopicProblem UserGroupSeasonTopicProblem [not null]
-  ContestProblem ContestProblem [not null]
+  groupSeasonTopicProblems GroupSeasonTopicProblem [not null]
+  userGroupSeasonTopicProblems UserGroupSeasonTopicProblem [not null]
+  contestProblems ContestProblem [not null]
 }
 
 Table User {
@@ -91,9 +106,10 @@ Table User {
   groupId String
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
+  headToGroup Group
   group Group
   userProfile UserProfile
-  headToGroupSeasons GroupSeason [not null]
+  groupSeasonHeads GroupSeasonHead [not null]
   userGroupSeasons UserGroupSeason [not null]
   groupHeads GroupHead [not null]
 }
@@ -106,11 +122,26 @@ Table SeasonTopic {
   season Season [not null]
   topic Topic [not null]
   seasonTopicProblems SeasonTopicProblem [not null]
-  groupSeasonTopics GroupSeasonTopic [not null]
   seasonTopicResources SeasonTopicResource [not null]
+  groupSeasonTopics GroupSeasonTopic [not null]
 
   indexes {
     (seasonId, topicId) [pk]
+  }
+}
+
+Table SeasonTopicProblem {
+  seasonId String [not null]
+  topicId String [not null]
+  problemId String [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  seasonTopic SeasonTopic [not null]
+  problem Problem [not null]
+  groupSeasonTopicProblems GroupSeasonTopicProblem [not null]
+
+  indexes {
+    (seasonId, topicId, problemId) [pk]
   }
 }
 
@@ -138,27 +169,11 @@ Table ContestProblem {
   updatedAt DateTime
   contest Contest [not null]
   problem Problem [not null]
-  groupSeasonTopicProblems GroupSeasonTopicProblem [not null]
-  GroupSeasonContestProblem GroupSeasonContestProblem [not null]
-  UserGroupSeasonContestProblem UserGroupSeasonContestProblem [not null]
+  groupSeasonContestProblems GroupSeasonContestProblem [not null]
+  userGroupSeasonContestProblems UserGroupSeasonContestProblem [not null]
 
   indexes {
     (contestId, problemId) [pk]
-  }
-}
-
-Table SeasonTopicProblem {
-  seasonId String [not null]
-  topicId String [not null]
-  problemId String [not null]
-  createdAt DateTime [default: `now()`]
-  updatedAt DateTime
-  seasonTopic SeasonTopic [not null]
-  problem Problem [not null]
-  groupSeasonTopicProblems GroupSeasonTopicProblem [not null]
-
-  indexes {
-    (seasonId, topicId, problemId) [pk]
   }
 }
 
@@ -166,21 +181,34 @@ Table GroupSeason {
   groupId String [not null]
   seasonId String [not null]
   isActive Boolean [not null, default: false]
-  headId String [not null]
   joinRequest JoinRequestEnum [not null, default: 'REQUESTED']
   startDate DateTime [not null]
   endDate DateTime
   group Group [not null]
   season Season [not null]
-  head User
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
+  groupSeasonHeads GroupSeasonHead [not null]
   groupSeasonTopics GroupSeasonTopic [not null]
   userGroupSeasons UserGroupSeason [not null]
   groupSeasonContests GroupSeasonContest [not null]
 
   indexes {
     (groupId, seasonId) [pk]
+  }
+}
+
+Table GroupSeasonHead {
+  groupId String [not null]
+  seasonId String [not null]
+  headId String [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  groupSeason GroupSeason [not null]
+  user User [not null]
+
+  indexes {
+    (groupId, seasonId, headId) [pk]
   }
 }
 
@@ -214,9 +242,6 @@ Table GroupSeasonTopicProblem {
   seasonTopicProblem SeasonTopicProblem [not null]
   problem Problem [not null]
   userGroupSeasonTopicProblems UserGroupSeasonTopicProblem [not null]
-  ContestProblem ContestProblem
-  contestProblemContestId String
-  contestProblemProblemId String
 
   indexes {
     (groupId, seasonId, topicId, problemId) [pk]
@@ -227,8 +252,6 @@ Table GroupSeasonContest {
   groupId String [not null]
   seasonId String [not null]
   contestId String [not null]
-  startTime DateTime [not null]
-  endTime DateTime [not null]
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
   groupSeason GroupSeason [not null]
@@ -261,7 +284,6 @@ Table UserGroupSeason {
   userId String [not null]
   groupId String [not null]
   seasonId String [not null]
-  rank Int [default: 0]
   totalSubmissions Int [default: 0]
   totalAcceptedSubmissions Int [default: 0]
   acceptanceRate Float [default: 0]
@@ -276,7 +298,8 @@ Table UserGroupSeason {
   updatedAt DateTime
   userGroupSeasonTopics UserGroupSeasonTopic [not null]
   userGroupSeasonContests UserGroupSeasonContest [not null]
-  userGroupSeasonDailyAnalytics UserGroupSeasonDataAnalytics [not null]
+  userGroupSeasonDataAnalytics UserGroupSeasonDataAnalytics [not null]
+  userGroupSeasonRanks UserGroupSeasonRanks [not null]
 
   indexes {
     (userId, groupId, seasonId) [pk]
@@ -297,7 +320,26 @@ Table UserGroupSeasonDataAnalytics {
   updatedAt DateTime [not null]
 
   indexes {
-    (userId, createdAt) [pk]
+    (userId, groupId, seasonId, createdAt) [pk]
+  }
+}
+
+Table UserGroupSeasonRanks {
+  userId String [not null]
+  groupId String [not null]
+  seasonId String [not null]
+  dailyGroupRank Int [not null, default: 0]
+  dailySeasonRank Int [not null, default: 0]
+  weeklyGroupRank Int [not null, default: 0]
+  weeklySeasonRank Int [not null, default: 0]
+  monthlyGroupRank Int [not null, default: 0]
+  monthlySeasonRank Int [not null, default: 0]
+  userGroupSeason UserGroupSeason [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+
+  indexes {
+    (userId, groupId, seasonId, createdAt) [pk]
   }
 }
 
@@ -387,8 +429,7 @@ Table UserGroupSeasonContestProblem {
 }
 
 Table UserProfile {
-  id String [pk]
-  userId String [unique, not null]
+  userId String [pk]
   firstName String [not null]
   middleName String [not null]
   lastName String [not null]
@@ -526,9 +567,7 @@ Enum ResourceTypeEnum {
   DOC
 }
 
-Ref: GroupHead.groupId > Group.id [delete: Cascade]
-
-Ref: GroupHead.userId > User.id [delete: Cascade]
+Ref: Group.headId - User.id
 
 Ref: User.groupId > Group.id
 
@@ -536,21 +575,23 @@ Ref: SeasonTopic.seasonId > Season.id [delete: Cascade]
 
 Ref: SeasonTopic.topicId > Topic.id [delete: Cascade]
 
+Ref: SeasonTopicProblem.(seasonId, topicId) > SeasonTopic.(seasonId, topicId) [delete: Cascade]
+
+Ref: SeasonTopicProblem.problemId > Problem.id [delete: Cascade]
+
 Ref: SeasonTopicResource.(seasonId, topicId) > SeasonTopic.(seasonId, topicId) [delete: Cascade]
 
 Ref: ContestProblem.contestId > Contest.id [delete: Cascade]
 
 Ref: ContestProblem.problemId > Problem.id [delete: Cascade]
 
-Ref: SeasonTopicProblem.(seasonId, topicId) > SeasonTopic.(seasonId, topicId) [delete: Cascade]
-
-Ref: SeasonTopicProblem.problemId > Problem.id [delete: Cascade]
-
 Ref: GroupSeason.groupId > Group.id [delete: Cascade]
 
 Ref: GroupSeason.seasonId > Season.id [delete: Cascade]
 
-Ref: GroupSeason.headId > User.id
+Ref: GroupSeasonHead.(groupId, seasonId) > GroupSeason.(groupId, seasonId) [delete: Cascade]
+
+Ref: GroupSeasonHead.headId > User.id [delete: Cascade]
 
 Ref: GroupSeasonTopic.(groupId, seasonId) > GroupSeason.(groupId, seasonId) [delete: Cascade]
 
@@ -563,8 +604,6 @@ Ref: GroupSeasonTopicProblem.(groupId, seasonId, topicId) > GroupSeasonTopic.(gr
 Ref: GroupSeasonTopicProblem.(seasonId, topicId, problemId) > SeasonTopicProblem.(seasonId, topicId, problemId) [delete: Cascade]
 
 Ref: GroupSeasonTopicProblem.problemId > Problem.id [delete: Cascade]
-
-Ref: GroupSeasonTopicProblem.(contestProblemContestId, contestProblemProblemId) > ContestProblem.(contestId, problemId)
 
 Ref: GroupSeasonContest.(groupId, seasonId) > GroupSeason.(groupId, seasonId) [delete: Cascade]
 
@@ -579,6 +618,8 @@ Ref: UserGroupSeason.userId > User.id [delete: Cascade]
 Ref: UserGroupSeason.(groupId, seasonId) > GroupSeason.(groupId, seasonId) [delete: Cascade]
 
 Ref: UserGroupSeasonDataAnalytics.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
+
+Ref: UserGroupSeasonRanks.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
 
 Ref: UserGroupSeasonTopic.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
 

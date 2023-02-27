@@ -6,22 +6,22 @@ import { CreateGroupInput } from '../dto/create-group.input'
 import { UpdateGroupInput } from '../dto/update-group.input'
 import { Group } from '../entities/group.entity'
 import { GroupRepository } from '../group.repository'
-import { GroupsService } from '../groups.service'
+import { GroupService } from '../group.service'
 import { groupStub } from './stubs/group.stub'
 
 import { GroupRepositoryMock } from './__mocks__/group-repository.mock'
 
 describe('GroupService', () => {
-  let service: GroupsService
+  let service: GroupService
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [GroupsService, GroupRepository],
+      providers: [GroupService, GroupRepository],
     })
       .overrideProvider(GroupRepository)
       .useValue(GroupRepositoryMock)
       .compile()
 
-    service = module.get<GroupsService>(GroupsService)
+    service = module.get<GroupService>(GroupService)
   })
 
   it('should be defined', () => {

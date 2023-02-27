@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common'
-import { PaginationInput } from 'src/common/page/pagination.input'
 import { UserGroupSeasonId } from '../../app/user-group-season/dto/create-group-user-season.input'
 import { FilterUserGroupSeasonInput } from '../../app/user-group-season/dto/filter-user-group-season-input'
 import { UserGroupSeasonRepository } from '../../app/user-group-season/user-group-season.repository'
 import { UserGroupSeasonTopicService } from './user-group-season-topic.service'
 import { PrismaService } from '../../prisma/prisma.service'
-import { UserGroupSeason } from 'src/app/user-group-season/entities/user-group-season.entity'
 import { ProblemDifficultyTypeEnum, UserTopicProblemStatusEnum } from '@prisma/client'
+import { PaginationInput } from '../../common/page/pagination.input'
+import { UserGroupSeason } from '../../app/user-group-season/entities/user-group-season.entity'
 
 @Injectable()
 export class UserGroupSeasonService {
@@ -36,7 +36,7 @@ export class UserGroupSeasonService {
         seasonId,
         userId,
         user,
-        rank: 0,
+        // rank: 0,
         totalSubmissions: 0,
         totalAcceptedSubmissions: 0,
         acceptanceRate: 0,
@@ -81,10 +81,12 @@ export class UserGroupSeasonService {
         seasonId,
         userId,
         user,
-        rank: 0,
+        // rank: 0,
         totalSubmissions,
         totalAcceptedSubmissions,
-        acceptanceRate: totalSubmissions ? (totalAcceptedSubmissions / totalSubmissions) * 100 : 0,
+        acceptanceRate: totalSubmissions
+          ? (totalAcceptedSubmissions / totalSubmissions) * 100
+          : 0,
         averageContestRating: 0,
         totalContestsAttended: 0,
         easyCount,
@@ -120,7 +122,7 @@ export class UserGroupSeasonService {
             userId: user.id,
             groupId: user.groupId,
             seasonId: userSeason.seasonId,
-            rank: 0,
+            // rank: 0,
             totalSubmissions: 0,
             totalAcceptedSubmissions: 0,
             acceptanceRate: 0,
@@ -178,10 +180,11 @@ export class UserGroupSeasonService {
             .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.HARD),
         1,
       ).length
-      const acceptanceRate =
-        uTopics.length ? (uTopics.map(t => t.comfortabilityPercentage).reduce((a, b) => a + b, 0) /
-          uTopics.length) *
-        100 : 0
+      const acceptanceRate = uTopics.length
+        ? (uTopics.map(t => t.comfortabilityPercentage).reduce((a, b) => a + b, 0) /
+            uTopics.length) *
+          100
+        : 0
       statMap[statMapKey] = {
         ...statMap[statMapKey],
         totalSubmissions,

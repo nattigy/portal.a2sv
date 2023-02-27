@@ -1,40 +1,37 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { ManageGroupSeasonContestService } from './manage-group-season-contest.service'
 import { GroupSeasonContest } from '../../app/group-season-contest/entities/group-season-contest.entity'
 import {
   CreateGroupSeasonContestInput,
   GroupSeasonContestId,
 } from '../../app/group-season-contest/dto/create-group-season-contest.input'
-import { GroupSeasonId } from '../../app/group-season/dto/create-group-season.input'
 import { PaginationInput } from '../../common/page/pagination.input'
-import {
-  GroupSeasonContestProblem,
-} from '../../app/group-season-contest-problem/entities/group-season-contest-problem.entity'
+import { FilterGroupSeasonContestInput } from '../../app/group-season-contest/dto/filter-group-season-contest.input'
 
 @Resolver()
 export class ManageGroupSeasonContestResolver {
   constructor(
     private readonly manageGroupSeasonContestService: ManageGroupSeasonContestService,
-  ) {
-  }
+  ) {}
 
   @Mutation(() => GroupSeasonContest)
   async addContestToAGroupSeason(
     @Args('createGroupSeasonContestInput')
-      createGroupSeasonContestInput: CreateGroupSeasonContestInput,
+    createGroupSeasonContestInput: CreateGroupSeasonContestInput,
   ) {
     return this.manageGroupSeasonContestService.addContestToAGroupSeason(
       createGroupSeasonContestInput,
     )
   }
 
-  @Query(() => GroupSeasonContest)
+  @Query(() => [GroupSeasonContest])
   async groupSeasonContests(
-    @Args('filter') { groupId, seasonId }: GroupSeasonId,
+    @Args('filterGroupSeasonContestInput')
+    filterGroupSeasonContestInput: FilterGroupSeasonContestInput,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<GroupSeasonContest[]> {
     return this.manageGroupSeasonContestService.groupSeasonContests(
-      { groupId, seasonId },
+      filterGroupSeasonContestInput,
       paginationInput,
     )
   }
@@ -53,13 +50,13 @@ export class ManageGroupSeasonContestResolver {
     return this.manageGroupSeasonContestService.removeGroupSeasonContest(groupSeasonContestId)
   }
 
-  @Mutation(() => Int)
-  async addProblemsToContest(
-    @Args('contestId') contestId: string,
-    @Args('problemIds', { type: () => [String] }) problemIds: string[],
-  ) {
-    return this.manageGroupSeasonContestService.addProblemsToContest(contestId, problemIds)
-  }
+  // @Mutation(() => Int)
+  // async addProblemsToContest(
+  //   @Args('contestId') contestId: string,
+  //   @Args('problemIds', { type: () => [String] }) problemIds: string[],
+  // ) {
+  //   return this.manageGroupSeasonContestService.addProblemsToContest(contestId, problemIds)
+  // }
 
   // @Mutation(() => GroupSeasonContestProblem)
   // removeGroupSeasonContestProblem(@Args('id', { type: () => Int }) id: number) {

@@ -17,6 +17,9 @@ export class FilterSeasonInput {
   seasonType?: SeasonTypeEnum
 
   @Field({ nullable: true })
+  duration?: string
+
+  @Field({ nullable: true })
   isActive?: boolean
 
   @Field(() => DateTimeFilter, { nullable: true })

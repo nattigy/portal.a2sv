@@ -9,7 +9,6 @@ import { PaginationInput } from 'src/common/page/pagination.input'
 import { UpdateUserProfileInput } from './dto/update-user-profile.input'
 import { User } from '../user/entities/user.entity'
 import { StorageService } from 'src/storage/storage.service'
-import { UserService } from '../user/user.service'
 
 @Injectable()
 export class UserProfileService {
@@ -17,7 +16,6 @@ export class UserProfileService {
     private readonly prismaService: PrismaService,
     private readonly userProfileRepository: UserProfileRepository,
     private storageService: StorageService,
-    private userService: UserService,
   ) {}
 
   async createUserProfile(createUserProfileInput: CreateUserProfileInput, user: User) {
@@ -54,16 +52,12 @@ export class UserProfileService {
 
     return {
       items: userProfiles,
-      pageInfo: {
-        skip,
-        take,
-        count,
-      },
+      pageInfo: { skip, take, count },
     }
   }
 
-  async userProfile(profileId: string, userId?: string): Promise<UserProfile> {
-    return await this.userProfileRepository.findOne({ id: profileId, userId})
+  async userProfile(userId?: string): Promise<UserProfile> {
+    return this.userProfileRepository.findOne({ userId })
 
     // if (profile.photoUrl) {
     //   profile = { ...profile, photoUrl: await this.storageService.get(profile.photoUrl) }
@@ -75,8 +69,7 @@ export class UserProfileService {
   async updateUserProfile({ userId, ...updates }: UpdateUserProfileInput) {
     if (updates.photoUrl) {
       // Delete previous image file from GCS
-      const user = await this.userService.user({ id: userId })
-      const profile = await this.userProfile(user.userProfile?.id)
+      const profile = await this.userProfile(userId)
 
       if (profile.photoUrl) {
         await this.storageService.delete(profile.photoUrl)
@@ -86,24 +79,22 @@ export class UserProfileService {
       updates = { ...updates, photoUrl: url }
     }
     return this.userProfileRepository.update({
-      where: {
-        userId,
-      },
+      where: { userId },
       data: updates,
     })
   }
 
-  async remove(id: string) {
+  async remove(userId: string) {
     try {
       // Delete image file from GCS
-      const profile = await this.userProfile(id)
+      const profile = await this.userProfile(userId)
       if (profile?.photoUrl) {
         await this.storageService.delete(profile.photoUrl)
       }
-      await this.userProfileRepository.remove({ id })
+      await this.userProfileRepository.remove({ userId })
     } catch (e) {
-      console.log(`Fail to delete user profile with id ${id}`, ' : ', e)
-      throw new Error(`Fail to delete user profile with id ${id}`)
+      console.log(`Fail to delete user profile with id ${userId}`, ' : ', e)
+      throw new Error(`Fail to delete user profile with id ${userId}`)
     }
     return 1
   }

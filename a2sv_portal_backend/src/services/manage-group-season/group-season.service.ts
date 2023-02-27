@@ -26,7 +26,10 @@ export class GroupSeasonService {
     seasonId,
     groupId,
   }: CreateGroupSeasonInput): Promise<GroupSeason> {
-    const group = await this.prismaService.group.findUnique({ where: { id: groupId } })
+    const group = await this.prismaService.group.findUnique({
+      where: { id: groupId },
+      // include: { groupHeads: { include: { user: true } } },
+    })
     const season = await this.prismaService.season.findUnique({ where: { id: seasonId } })
     const groupSeasons = await this.prismaService.groupSeason.findMany({
       where: { groupId, isActive: true },
@@ -40,25 +43,36 @@ export class GroupSeasonService {
     if (!season.isActive) {
       throw new Error('Season not active!')
     }
-    if (!group.headId) {
-      throw new Error(
-        'Group does not have an HoE, please assign head of education for the group first!',
-      )
-    }
+    // if (!group.groupHeads) {
+    //   throw new Error(
+    //     'Group does not have an HoE, please assign head of education for the group first!',
+    //   )
+    // }
     if (groupSeasons.length > 0) {
       throw new Error(
         'Group has other active seasons, please deactivate all seasons before requesting a new one!',
       )
     }
-    return this.groupSeasonRepository.create({
+    const groupSeason = await this.groupSeasonRepository.create({
       isActive: false,
       joinRequest: JoinRequestEnum.REQUESTED,
       startDate: season.startDate,
       endDate: season.endDate,
-      head: { connect: { id: group.headId } },
       season: { connect: { id: seasonId } },
       group: { connect: { id: groupId } },
     })
+    // await this.prismaService.groupSeasonHead.upsert({
+    //   where: {
+    //     groupId_seasonId_headId: {
+    //       groupId: group.id, seasonId, headId,
+    //     }
+    //   },
+    //   create: {
+    //     groupId: group.id, seasonId, headId
+    //   },
+    //   update: {}
+    // })
+    return groupSeason
   }
 
   async groupSeason({ seasonId, groupId }: GroupSeasonId) {
@@ -126,7 +140,7 @@ export class GroupSeasonService {
       where: { groupId_seasonId: { seasonId, groupId } },
       data: {
         joinRequest,
-        isActive: joinRequest == JoinRequestEnum.REJECTED ? false : groupSeason.isActive,
+        isActive: joinRequest === JoinRequestEnum.REJECTED ? false : groupSeason.isActive,
       },
     })
   }
