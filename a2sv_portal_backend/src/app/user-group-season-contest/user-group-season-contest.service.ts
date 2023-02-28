@@ -2,27 +2,26 @@ import { Injectable } from '@nestjs/common'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { PrismaService } from '../../prisma/prisma.service'
 import { PaginationUserGroupSeasonContest } from '../../common/page/pagination-info'
-import { UserGroupSeasonContestId } from '../../app/user-group-season-contest/dto/create-user-group-season-contest.input'
-import { UserGroupSeasonContestRepository } from '../../app/user-group-season-contest/user-group-season-contest.repository'
-import { FilterUserGroupSeasonContestInput } from '../../app/user-group-season-contest/dto/filter-user-group-season-contest.input'
-import { UserGroupSeasonContest } from '../../app/user-group-season-contest/entities/user-group-season-contest.entity'
-import { UpdateUserGroupSeasonContestInput } from '../../app/user-group-season-contest/dto/update-user-group-season-contest.input'
-import { UserGroupSeasonContestProblemService } from './user-group-season-contest-problem.service'
+import { UserGroupSeasonContestRepository } from './user-group-season-contest.repository'
+import { UserGroupSeasonContestId } from './dto/create-user-group-season-contest.input'
+import { UserGroupSeasonContest } from './entities/user-group-season-contest.entity'
+import { FilterUserGroupSeasonContestInput } from './dto/filter-user-group-season-contest.input'
+import { UpdateUserGroupSeasonContestInput } from './dto/update-user-group-season-contest.input'
 
 @Injectable()
 export class UserGroupSeasonContestService {
   constructor(
     private readonly userGroupSeasonContestRepository: UserGroupSeasonContestRepository,
-    private readonly userGroupSeasonContestProblemService: UserGroupSeasonContestProblemService,
     private readonly prismaService: PrismaService,
-  ) {}
+  ) {
+  }
 
   async userGroupSeasonContest({
-    userId,
-    seasonId,
-    contestId,
-    groupId,
-  }: UserGroupSeasonContestId): Promise<UserGroupSeasonContest> {
+                                 userId,
+                                 seasonId,
+                                 contestId,
+                                 groupId,
+                               }: UserGroupSeasonContestId): Promise<UserGroupSeasonContest> {
     const userGroupSeasonContest = await this.userGroupSeasonContestRepository.findOne({
       userId_groupId_seasonId_contestId: { userId, groupId, seasonId, contestId },
     })
@@ -104,11 +103,11 @@ export class UserGroupSeasonContestService {
   // }
 
   async removeUserGroupSeasonContest({
-    userId,
-    seasonId,
-    contestId,
-    groupId,
-  }: UserGroupSeasonContestId): Promise<number> {
+                                       userId,
+                                       seasonId,
+                                       contestId,
+                                       groupId,
+                                     }: UserGroupSeasonContestId): Promise<number> {
     try {
       await this.userGroupSeasonContestRepository.remove({
         userId_groupId_seasonId_contestId: {

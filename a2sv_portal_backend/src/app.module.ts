@@ -21,7 +21,7 @@ import { StorageModule } from './storage/storage.module'
 import { UsersUpdateTopicComfortabilityModule } from './services/users-update-topic-comfortability/users-update-topic-comfortability.module'
 import { UsersUpdateProblemStatusModule } from './services/users-update-topic-problem-status/users-update-problem-status.module'
 import { StudentDataAnalyticsModule } from './app/user-group-season-analytics/student-data-analytics.module'
-import { ManageGroupSeasonModule } from './services/manage-group-season/manage-group-season.module'
+import { ManageGroupSeasonModule } from './services/manage-group-seasons/manage-group-season.module'
 import { ManageUserGroupSeasonModule } from './services/manage-user-group-season/manage-user-group-season.module'
 import { UserModule } from './app/user/user.module'
 import { GroupModule } from './app/group/group.module'
@@ -100,9 +100,9 @@ import { UserUpdateContestProblemModule } from './services/user-update-contest-p
     StudentDataAnalyticsModule,
     ManageGroupSeasonModule,
     ManageUserGroupSeasonModule,
-    ManageContestsModule,
-    ManageGroupSeasonContestModule,
-    UserUpdateContestProblemModule,
+    // ManageContestsModule,
+    // ManageGroupSeasonContestModule,
+    // UserUpdateContestProblemModule,
     // ContestStatsModule,
     // ContestLeaderboardModule,
   ],
