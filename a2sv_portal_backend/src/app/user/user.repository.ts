@@ -2,19 +2,23 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
 import { User } from './entities/user.entity'
+import { UserProfileIncludeObject } from '../user-profile/user-profile.repository'
+
+export const UserIncludeObject = {
+  group: true,
+  headToGroups: true,
+  userProfile: { include: UserProfileIncludeObject },
+}
 
 @Injectable()
 export class UserRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(data: Prisma.UserCreateInput): Promise<User> {
     return this.prismaService.user.create({
       data,
-      include: {
-        group: true,
-        headToGroups: true,
-        userProfile: { include: { user: true } },
-      },
+      include: UserIncludeObject,
     })
   }
 
@@ -34,22 +38,14 @@ export class UserRepository {
       take,
       where,
       orderBy,
-      include: {
-        group: true,
-        headToGroups: true,
-        userProfile: { include: { user: true } },
-      },
+      include: UserIncludeObject,
     })
   }
 
   async findOne(where: Prisma.UserWhereUniqueInput): Promise<User> {
     return this.prismaService.user.findUnique({
       where,
-      include: {
-        group: true,
-        headToGroups: true,
-        userProfile: { include: { user: true } },
-      },
+      include: UserIncludeObject,
     })
   }
 
@@ -61,11 +57,7 @@ export class UserRepository {
     return this.prismaService.user.update({
       data,
       where,
-      include: {
-        group: true,
-        headToGroups: true,
-        userProfile: { include: { user: true } },
-      },
+      include: UserIncludeObject,
     })
   }
 

@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
 import { Contest } from './entities/contest.entity'
+import { ContestProblemsIncludeObject } from '../contest-problem/contest-problem.repository'
+
+export const ContestIncludeObject = ContestProblemsIncludeObject
 
 @Injectable()
 export class ContestRepository {
@@ -10,7 +13,7 @@ export class ContestRepository {
   async create(data: Prisma.ContestCreateInput): Promise<Contest> {
     return this.prismaService.contest.create({
       data,
-      include: { contestProblems: { include: { problem: { include: { tags: true } } } } },
+      include: ContestIncludeObject,
     })
   }
 
@@ -25,20 +28,19 @@ export class ContestRepository {
     orderBy?: Prisma.ContestOrderByWithRelationInput
   }): Promise<Contest[]> {
     const { skip, take, where, orderBy } = params
-
     return this.prismaService.contest.findMany({
       skip,
       take,
       orderBy,
       where,
-      include: { contestProblems: { include: { problem: { include: { tags: true } } } } },
+      include: ContestIncludeObject,
     })
   }
 
   async findOne(where: Prisma.ContestWhereUniqueInput): Promise<Contest> {
     return this.prismaService.contest.findUnique({
       where,
-      include: { contestProblems: { include: { problem: { include: { tags: true } } } } },
+      include: ContestIncludeObject,
     })
   }
 
@@ -50,7 +52,7 @@ export class ContestRepository {
     return this.prismaService.contest.update({
       data,
       where,
-      include: { contestProblems: { include: { problem: { include: { tags: true } } } } },
+      include: ContestIncludeObject,
     })
   }
 

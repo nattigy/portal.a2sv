@@ -3,14 +3,17 @@ import { PrismaService } from '../../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
 import { Problem } from './entities/problem.entity'
 
+export const ProblemIncludeObject = { tags: true }
+
 @Injectable()
 export class ProblemRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(data: Prisma.ProblemCreateInput): Promise<Problem> {
     return this.prismaService.problem.create({
       data,
-      include: { tags: true },
+      include: ProblemIncludeObject,
     })
   }
 
@@ -30,7 +33,7 @@ export class ProblemRepository {
       take,
       where,
       orderBy,
-      include: { tags: true },
+      include: ProblemIncludeObject,
     })
   }
 
@@ -46,7 +49,7 @@ export class ProblemRepository {
     return this.prismaService.problem.update({
       data,
       where,
-      include: { tags: true },
+      include: ProblemIncludeObject,
     })
   }
 

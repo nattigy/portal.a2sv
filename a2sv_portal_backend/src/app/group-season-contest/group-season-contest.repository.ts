@@ -2,42 +2,63 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
 import { GroupSeasonContest } from './entities/group-season-contest.entity'
+import {
+  ContestProblemIncludeObject,
+  ContestProblemsIncludeObject,
+} from '../contest-problem/contest-problem.repository'
+
+export const GroupSeasonContestIncludeObject = {
+  contest: {
+    include: ContestProblemsIncludeObject,
+  },
+  groupSeasonContestProblems: {
+    include: {
+      userGroupSeasonContestProblems: {
+        include: ContestProblemIncludeObject,
+      },
+      ...ContestProblemIncludeObject,
+    },
+  },
+  userGroupSeasonContests: {
+    include: {
+      contest: {
+        include: ContestProblemsIncludeObject,
+      },
+      userGroupSeasonContestProblems: {
+        include: ContestProblemIncludeObject,
+      },
+    },
+  },
+}
 
 @Injectable()
 export class GroupSeasonContestRepository {
-  include = {
-    contest: {
-      include: { contestProblems: { include: { problem: { include: { tags: true } } } } },
-    },
-    groupSeasonContestProblems: {
-      include: {
-        userGroupSeasonContestProblems: {
-          include: {
-            contestProblem: { include: { problem: { include: { tags: true } } } },
-          },
-        },
-        contestProblem: { include: { problem: { include: { tags: true } } } },
-      },
-    },
+  constructor(private readonly prismaService: PrismaService) {
   }
-
-  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.GroupSeasonContestCreateInput): Promise<GroupSeasonContest> {
     return this.prismaService.groupSeasonContest.create({
       data,
       include: {
         contest: {
-          include: { contestProblems: { include: { problem: { include: { tags: true } } } } },
+          include: ContestProblemsIncludeObject,
         },
         groupSeasonContestProblems: {
           include: {
             userGroupSeasonContestProblems: {
-              include: {
-                contestProblem: { include: { problem: { include: { tags: true } } } },
-              },
+              include: ContestProblemIncludeObject,
             },
-            contestProblem: { include: { problem: { include: { tags: true } } } },
+            ...ContestProblemIncludeObject,
+          },
+        },
+        userGroupSeasonContests: {
+          include: {
+            contest: {
+              include: ContestProblemsIncludeObject,
+            },
+            userGroupSeasonContestProblems: {
+              include: ContestProblemIncludeObject,
+            },
           },
         },
       },
@@ -56,7 +77,7 @@ export class GroupSeasonContestRepository {
       take,
       where,
       orderBy,
-      include: this.include,
+      include: GroupSeasonContestIncludeObject,
     })
   }
 
@@ -65,7 +86,7 @@ export class GroupSeasonContestRepository {
   ): Promise<GroupSeasonContest> {
     return this.prismaService.groupSeasonContest.findUnique({
       where,
-      include: this.include,
+      include: GroupSeasonContestIncludeObject,
     })
   }
 
@@ -77,7 +98,7 @@ export class GroupSeasonContestRepository {
     return this.prismaService.groupSeasonContest.update({
       data,
       where,
-      include: this.include,
+      include: GroupSeasonContestIncludeObject,
     })
   }
 
@@ -98,11 +119,9 @@ export class GroupSeasonContestRepository {
           },
         },
         contest: { connect: { id: where.groupId_seasonId_contestId.contestId } },
-        // startTime: data.startTime as Date,
-        // endTime: data.endTime as Date,
       },
       update: data,
-      include: this.include,
+      include: GroupSeasonContestIncludeObject,
     })
   }
 

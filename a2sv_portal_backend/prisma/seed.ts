@@ -209,6 +209,9 @@ async function main() {
         contestId: c.id,
       })),
     })
+    // fetch groupSeasonContests for g12, include contestProblems
+    // for each groupSeasonContests and for each contestProblems under the curr groupSeason
+    // create groupSeasonContestProblem, don't pass ids, rather use connect with groupSeasonContest and contestProblem
 
     await prisma.groupSeasonContest.createMany({
       skipDuplicates: true,
@@ -219,6 +222,9 @@ async function main() {
       })),
     })
     console.log('Added contests to a groupSeasons')
+    // fetch groupSeasonContests for g31, include contestProblems
+    // for each groupSeasonContests and for each contestProblems under the curr groupSeason
+    // create groupSeasonContestProblem, don't pass ids, rather use connect with groupSeasonContest and contestProblem
 
     const topics = await prisma.topic.findMany({})
     for (const season of seasons) {
