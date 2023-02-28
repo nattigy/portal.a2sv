@@ -43,6 +43,7 @@ export class GroupSeasonRepository {
       },
     },
     groupSeasonHeads: { include: { user: true } },
+    userGroupSeasons:{ include: { user: true } }
   }
 
   constructor(private readonly prismaService: PrismaService) {}
@@ -88,6 +89,7 @@ export class GroupSeasonRepository {
           },
         },
         groupSeasonHeads: { include: { user: true } },
+        userGroupSeasons:{ include: { user: true } }
       },
     })
   }
@@ -101,7 +103,7 @@ export class GroupSeasonRepository {
     take?: number
     where?: Prisma.GroupSeasonWhereInput
     orderBy?: Prisma.GroupSeasonOrderByWithRelationInput
-  }): Promise<GroupSeason[]> {
+  }) {
     const { skip, take, where, orderBy } = params
     return this.prismaService.groupSeason.findMany({
       skip,
@@ -112,7 +114,7 @@ export class GroupSeasonRepository {
     })
   }
 
-  async findOne(where: Prisma.GroupSeasonWhereUniqueInput): Promise<GroupSeason> {
+  async findOne(where: Prisma.GroupSeasonWhereUniqueInput) {
     return this.prismaService.groupSeason.findUnique({
       where,
       include: this.include,

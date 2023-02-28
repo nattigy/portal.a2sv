@@ -1,14 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import {
-  CreateGroupSeasonInput,
-  GroupSeasonId,
-} from '../../app/group-season/dto/create-group-season.input'
+import { CreateGroupSeasonInput, GroupSeasonId } from '../../app/group-season/dto/create-group-season.input'
 import { GroupSeasonRepository } from '../../app/group-season/group-season.repository'
 import { PrismaService } from '../../prisma/prisma.service'
 import { GroupSeason } from '../../app/group-season/entities/group-season.entity'
 import { PaginationInput } from '../../common/page/pagination.input'
 import { FilterGroupSeasonInput } from '../../app/group-season/dto/filter-group-season.input'
-import { JoinRequestEnum } from '@prisma/client'
+import { JoinRequestEnum, ProblemDifficultyTypeEnum, UserTopicProblemStatusEnum } from '@prisma/client'
 import {
   UpdateGroupSeasonInput,
   UpdateGroupSeasonJoinRequestInput,
@@ -20,15 +17,15 @@ export class GroupSeasonService {
   constructor(
     private readonly groupSeasonRepository: GroupSeasonRepository,
     private readonly prismaService: PrismaService,
-  ) {}
+  ) {
+  }
 
   async addGroupToASeason({
-    seasonId,
-    groupId,
-  }: CreateGroupSeasonInput): Promise<GroupSeason> {
+                            seasonId,
+                            groupId,
+                          }: CreateGroupSeasonInput): Promise<GroupSeason> {
     const group = await this.prismaService.group.findUnique({
       where: { id: groupId },
-      // include: { groupHeads: { include: { user: true } } },
     })
     const season = await this.prismaService.season.findUnique({ where: { id: seasonId } })
     const groupSeasons = await this.prismaService.groupSeason.findMany({
@@ -43,43 +40,58 @@ export class GroupSeasonService {
     if (!season.isActive) {
       throw new Error('Season not active!')
     }
-    // if (!group.groupHeads) {
-    //   throw new Error(
-    //     'Group does not have an HoE, please assign head of education for the group first!',
-    //   )
-    // }
+    if (!group.headId) {
+      throw new NotFoundException(`Group please assign group head first!`)
+    }
     if (groupSeasons.length > 0) {
       throw new Error(
         'Group has other active seasons, please deactivate all seasons before requesting a new one!',
       )
     }
-    const groupSeason = await this.groupSeasonRepository.create({
+    return this.groupSeasonRepository.create({
       isActive: false,
       joinRequest: JoinRequestEnum.REQUESTED,
       startDate: season.startDate,
       endDate: season.endDate,
       season: { connect: { id: seasonId } },
       group: { connect: { id: groupId } },
+      groupSeasonHeads: {
+        connect: {
+          groupId_seasonId_headId: {
+            groupId, seasonId, headId: group.headId,
+          },
+        },
+      },
     })
-    // await this.prismaService.groupSeasonHead.upsert({
-    //   where: {
-    //     groupId_seasonId_headId: {
-    //       groupId: group.id, seasonId, headId,
-    //     }
-    //   },
-    //   create: {
-    //     groupId: group.id, seasonId, headId
-    //   },
-    //   update: {}
-    // })
-    return groupSeason
   }
 
   async groupSeason({ seasonId, groupId }: GroupSeasonId) {
     // TODO: generate state here
-    return this.groupSeasonRepository.findOne({
+    const gs = await this.groupSeasonRepository.findOne({
       groupId_seasonId: { seasonId, groupId },
     })
+    const calc = this.calculateGroupSeasonStat(gs)
+    return { ...gs, ...calc }
+  }
+
+  calculateGroupSeasonStat(gs) {
+    // user topic problems
+    const utp = gs.groupSeasonTopics.map(t => t.groupSeasonTopicProblems)
+      .flat(1).map(t => t.userGroupSeasonTopicProblems).flat(1)
+    const utpSolved = utp.filter(t => t.status === UserTopicProblemStatusEnum.SOLVED)
+    gs.numberOfStudents = gs.userGroupSeasons.length
+    const totalSubmissions = utp.map(t => t.numberOfAttempts).reduce((a, b) => a + b, 0)
+    const totalAcceptedSubmissions = utpSolved.length
+    gs.totalSubmissions = totalSubmissions
+    // gs.totalAcceptedSubmissions = 100
+    gs.totalAcceptedSubmissions = totalAcceptedSubmissions
+    gs.acceptanceRate = totalSubmissions ? (totalAcceptedSubmissions / totalSubmissions) * 100 : 0
+    gs.easyCount = utpSolved.filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.EASY).length
+    gs.mediumCount = utpSolved.filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.MEDIUM).length
+    gs.hardCount = utpSolved.filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.HARD).length
+    // gs.averageContestRating = gs.
+    // gs.totalContestsAttended = gs.
+    return gs
   }
 
   async groupsSeasons(
@@ -91,6 +103,10 @@ export class GroupSeasonService {
     const groupSeasons = await this.groupSeasonRepository.findAll({
       where: filterGroupSeasonInput,
     })
+    for (let i = 0; i < groupSeasons.length; i++) {
+      const calc = this.calculateGroupSeasonStat(groupSeasons[i])
+      groupSeasons[i] = { ...groupSeasons[i], ...calc }
+    }
     return {
       items: groupSeasons,
       pageInfo: { skip, count, take },
@@ -121,10 +137,10 @@ export class GroupSeasonService {
   }
 
   async updateGroupSeasonJoinRequest({
-    seasonId,
-    groupId,
-    joinRequest,
-  }: UpdateGroupSeasonJoinRequestInput) {
+                                       seasonId,
+                                       groupId,
+                                       joinRequest,
+                                     }: UpdateGroupSeasonJoinRequestInput) {
     const groupSeason = await this.prismaService.groupSeason.findUnique({
       where: { groupId_seasonId: { groupId, seasonId } },
       include: { season: true },
