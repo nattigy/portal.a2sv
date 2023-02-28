@@ -28,6 +28,7 @@ import { GroupModule } from './app/group/group.module'
 import { SeasonModule } from './app/season/season.module'
 import { ContestModule } from './app/contest/contest.module'
 import { SeasonTopicResourceModule } from './app/season-topic-resource/season-topic-resource.module'
+import { ContestLeaderBoardModule } from './app/contest-leader-board/contest-leader-board.module';
 
 @Module({
   imports: [
@@ -91,6 +92,7 @@ import { SeasonTopicResourceModule } from './app/season-topic-resource/season-to
     StudentDataAnalyticsModule,
     ManageGroupSeasonModule,
     ManageUserGroupSeasonModule,
+    ContestLeaderBoardModule,
     // ManageGroupSeasonContestModule,
     // UserUpdateContestProblemModule,
     // ContestStatsModule,
