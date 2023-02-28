@@ -10,14 +10,14 @@ import { ManageUserGroupSeasonModule } from '../manage-user-group-season/manage-
 
 @Module({
   imports: [
-    UserGroupSeasonContestProblemModule,
-    UserGroupSeasonModule,
     UserGroupSeasonContestModule,
-    ManageUserGroupSeasonModule
+    UserGroupSeasonContestProblemModule,
+    // UserGroupSeasonModule,
+    // ManageUserGroupSeasonModule
   ],
   providers: [
-    UserUpdateContestProblemResolver,
-    UserUpdateContestProblemService
+    // UserUpdateContestProblemResolver,
+    // UserUpdateContestProblemService
   ],
 })
 export class UserUpdateContestProblemModule {

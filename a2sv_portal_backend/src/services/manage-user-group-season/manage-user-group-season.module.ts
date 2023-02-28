@@ -9,6 +9,7 @@ import { UserGroupSeasonTopicService } from './user-group-season-topic.service'
 import { UserGroupSeasonTopicModule } from '../../app/user-group-season-topic/user-group-season-topic.module'
 import { GroupSeasonTopicModule } from '../../app/group-season-topic/group-season-topic.module'
 import { ManageUserGroupSeasonService } from './user-group-season.service'
+import { ManageUserGroupSeasonResolver } from './manage-user-group-season.resolver'
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ManageUserGroupSeasonService } from './user-group-season.service'
     GroupSeasonTopicProblemModule,
   ],
   providers: [
+    ManageUserGroupSeasonResolver,
     ManageUserGroupSeasonService,
     UserGroupSeasonTopicService,
     UserGroupSeasonTopicProblemService,

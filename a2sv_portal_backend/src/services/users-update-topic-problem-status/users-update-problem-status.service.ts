@@ -7,7 +7,6 @@ import {
   UpdateUserGroupSeasonTopicProblemInput,
 } from '../../app/user-group-season-topic-problem/dto/update-user-group-season-topic-problem.input'
 import { UserGroupSeasonTopicService } from '../../app/user-group-season-topic/user-group-season-topic.service'
-import { ComfortLevelEnum } from '@prisma/client'
 import { UserGroupSeasonService } from '../../app/user-group-season/user-group-season.service'
 import { StudentDataAnalyticsService } from '../../app/user-group-season-analytics/student-data-analytics.service'
 
@@ -79,32 +78,28 @@ export class UsersUpdateProblemStatusService {
     if (foundUser.groupId !== groupId) throw new Error('User is not in this group!')
 
     const foundGroupSeasonTopic = await this.prismaService.groupSeasonTopic.findUnique({
-      where: {
-        groupId_seasonId_topicId: { groupId, seasonId, topicId },
-      },
+      where: { groupId_seasonId_topicId: { groupId, seasonId, topicId } },
       include: { groupSeason: true },
     })
     if (!foundGroupSeasonTopic) throw new Error('Topic is not added to your group yet!')
     if (!foundGroupSeasonTopic.groupSeason.isActive)
       throw new Error('This group\'s season is not active!')
 
-    const userGSTP = await this.prismaService.userGroupSeasonTopic.findUnique({
-      where: {
-        userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },
-      },
-    })
+    // const userGSTP = await this.prismaService.userGroupSeasonTopic.findUnique({
+    //   where: { userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId }},
+    // })
     await this.userGroupSeasonService.upsert({
       userId,
       groupId,
       seasonId,
     })
-    await this.userGroupSeasonTopicService.updateUserTopicComfortability({
-      userId,
-      groupId,
-      seasonId,
-      topicId,
-      comfortLevel: userGSTP ? userGSTP.comfortLevel : ComfortLevelEnum.UNCOMFORTABLE,
-    })
+    // await this.userGroupSeasonTopicService.updateUserTopicComfortability({
+    //   userId,
+    //   groupId,
+    //   seasonId,
+    //   topicId,
+    //   comfortLevel: userGSTP ? userGSTP.comfortLevel : ComfortLevelEnum.UNCOMFORTABLE,
+    // })
 
     /** ======== Generating or creating daily stat info ======= //
      1. fetch old problem status

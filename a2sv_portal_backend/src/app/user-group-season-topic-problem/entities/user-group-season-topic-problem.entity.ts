@@ -26,19 +26,11 @@ export class UserGroupSeasonTopicProblem {
   @Field()
   problemId: string
 
-  // @Field({ defaultValue: false })
-  // solved: boolean
-
-  @Field(() => UserTopicProblemStatusEnum, {
-    defaultValue: UserTopicProblemStatusEnum.NOT_SOLVED,
-  })
+  @Field(() => UserTopicProblemStatusEnum)
   status: UserTopicProblemStatusEnum
 
-  @Field(() => Int, { defaultValue: 0 })
+  @Field(() => Int)
   numberOfAttempts: number
-
-  // @Field({ defaultValue: false })
-  // needHelp: boolean
 
   @Field({ nullable: true })
   solutionLink?: string
