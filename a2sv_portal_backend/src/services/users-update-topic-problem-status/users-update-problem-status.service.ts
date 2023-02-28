@@ -94,7 +94,10 @@ export class UsersUpdateProblemStatusService {
       seasonId,
     })
     await this.userGroupSeasonTopicService.updateUserTopicComfortability({
-      id: { userId, groupId, seasonId, topicId },
+      userId,
+      groupId,
+      seasonId,
+      topicId,
       comfortLevel: userGSTP ? userGSTP.comfortLevel : ComfortLevelEnum.UNCOMFORTABLE,
     })
 

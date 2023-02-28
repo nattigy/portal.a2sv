@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql'
+import { Field, GraphQLISODateTime, ObjectType } from '@nestjs/graphql'
 import { User } from '../../user/entities/user.entity'
 
 @ObjectType()
@@ -24,15 +24,15 @@ export class Group {
   })
   head?: User
 
-  // @Field(() => Int)
-  // usersCount: number
+  // @Field(() => [GroupHead], {nullable: true})
+  // groupHeads?: GroupHead[]
 
   @Field(() => [User], { nullable: true, description: 'Users that belong to that group' })
   users?: User[]
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   updatedAt?: Date
 }

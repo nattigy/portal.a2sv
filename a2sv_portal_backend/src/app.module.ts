@@ -19,7 +19,7 @@ import { join } from 'path'
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter'
 import { StorageModule } from './storage/storage.module'
 import { UsersUpdateTopicComfortabilityModule } from './services/users-update-topic-comfortability/users-update-topic-comfortability.module'
-import { UsersUpdateProblemStatusModule } from './services/users-update-problem-status/users-update-problem-status.module'
+import { UsersUpdateProblemStatusModule } from './services/users-update-topic-problem-status/users-update-problem-status.module'
 import { StudentDataAnalyticsModule } from './app/user-group-season-analytics/student-data-analytics.module'
 import { ManageGroupSeasonModule } from './services/manage-group-season/manage-group-season.module'
 import { ManageUserGroupSeasonModule } from './services/manage-user-group-season/manage-user-group-season.module'
@@ -27,8 +27,13 @@ import { UserModule } from './app/user/user.module'
 import { GroupModule } from './app/group/group.module'
 import { SeasonModule } from './app/season/season.module'
 import { ContestModule } from './app/contest/contest.module'
+import { ManageGroupsModule } from './services/manage-groups/manage-groups.module'
+import { ManageSeasonsModule } from './services/manage-seasons/manage-seasons.module'
+import { ManageSeasonTopicsModule } from './services/manage-season-topic/manage-season-topics.module'
 import { SeasonTopicResourceModule } from './app/season-topic-resource/season-topic-resource.module'
-import { ContestLeaderBoardModule } from './app/contest-leader-board/contest-leader-board.module';
+import { ManageContestsModule } from './services/manage-contests/manage-contests.module'
+import { ManageGroupSeasonContestModule } from './services/manage-group-season-contest/manage-group-season-contest.module'
+import { UserUpdateContestProblemModule } from './services/user-update-contest-problem-status/user-update-contest-problem.module'
 
 @Module({
   imports: [
@@ -88,13 +93,16 @@ import { ContestLeaderBoardModule } from './app/contest-leader-board/contest-lea
     PrismaModule,
     UsersUpdateProblemStatusModule,
     StorageModule,
+    ManageGroupsModule,
+    ManageSeasonsModule,
+    ManageSeasonTopicsModule,
     UsersUpdateTopicComfortabilityModule,
     StudentDataAnalyticsModule,
     ManageGroupSeasonModule,
     ManageUserGroupSeasonModule,
-    ContestLeaderBoardModule,
-    // ManageGroupSeasonContestModule,
-    // UserUpdateContestProblemModule,
+    ManageContestsModule,
+    ManageGroupSeasonContestModule,
+    UserUpdateContestProblemModule,
     // ContestStatsModule,
     // ContestLeaderboardModule,
   ],

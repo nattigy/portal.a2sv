@@ -14,11 +14,11 @@ export class GroupSeasonContest {
   contestId: string
 
   // TODO: add all necessary fields from contest
-  @Field(() => GraphQLISODateTime)
-  startTime: Date
-
-  @Field(() => GraphQLISODateTime)
-  endTime: Date
+  // @Field(() => GraphQLISODateTime)
+  // startTime: Date
+  //
+  // @Field(() => GraphQLISODateTime)
+  // endTime: Date
 
   @Field(() => Contest)
   contest: Contest

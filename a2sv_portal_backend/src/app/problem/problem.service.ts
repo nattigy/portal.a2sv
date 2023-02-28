@@ -78,7 +78,7 @@ export class ProblemService {
 
   async updateProblem({
     tags,
-    id,
+    problemId,
     ...updateInput
   }: UpdateProblemInput): Promise<Problem> {
     // check if problem with this Id exists and if it doesn't return
@@ -88,12 +88,10 @@ export class ProblemService {
     // and if the link is new link, check if there exists a problem with that
     // link and throw "problem with this link already exists" error
 
-    const foundProblem = await this.prismaService.problem.findUnique({
-      where: { id },
-    })
+    const foundProblem = await this.problem(problemId)
 
     if (!foundProblem)
-      throw new NotFoundException(`Problem with id ${id} does not exist!`)
+      throw new NotFoundException(`Problem with id ${problemId} does not exist!`)
 
     if (updateInput.link) {
       const foundProblemByLink = await this.prismaService.problem.findUnique({
@@ -105,7 +103,7 @@ export class ProblemService {
     }
 
     return this.problemRepository.update({
-      where: { id },
+      where: { id: problemId },
       data: {
         ...updateInput,
         tags: {

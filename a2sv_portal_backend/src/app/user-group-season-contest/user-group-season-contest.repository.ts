@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
 import { UserGroupSeasonContest } from './entities/user-group-season-contest.entity'
+import { UpdateUserGroupSeasonContestInput } from './dto/update-user-group-season-contest.input'
 
 @Injectable()
 export class UserGroupSeasonContestRepository {
@@ -9,12 +10,12 @@ export class UserGroupSeasonContestRepository {
     contest: {
       include: {
         contestProblems: { include: { problem: { include: { tags: true } } } },
-      }
+      },
     },
     userGroupSeasonContestProblems: {
       include: {
         contestProblem: { include: { problem: { include: { tags: true } } } },
-      }
+      },
     },
   }
 
@@ -29,12 +30,12 @@ export class UserGroupSeasonContestRepository {
         contest: {
           include: {
             contestProblems: { include: { problem: { include: { tags: true } } } },
-          }
+          },
         },
         userGroupSeasonContestProblems: {
           include: {
             contestProblem: { include: { problem: { include: { tags: true } } } },
-          }
+          },
         },
       },
     })
@@ -77,6 +78,38 @@ export class UserGroupSeasonContestRepository {
     return this.prismaService.userGroupSeasonContest.update({
       data,
       where,
+      include: this.include,
+    })
+  }
+
+  async upsert(params: {
+    where: Prisma.UserGroupSeasonContestWhereUniqueInput
+    data: UpdateUserGroupSeasonContestInput
+  }): Promise<UserGroupSeasonContest> {
+    const { where, data } = params
+    const { contestAttended, problemsSolved, timeSpent, wrongSubmissions } = data
+    const { groupId, seasonId, contestId, userId } = where.userId_groupId_seasonId_contestId
+    return this.prismaService.userGroupSeasonContest.upsert({
+      where,
+      create: {
+        contest: { connect: { id: contestId } },
+        userGroupSeason: {
+          connect: { userId_groupId_seasonId: { seasonId, groupId, userId } },
+        },
+        groupSeasonContest: {
+          connect: { groupId_seasonId_contestId: { groupId, contestId, seasonId } },
+        },
+        wrongSubmissions,
+        contestAttended,
+        problemsSolved,
+        timeSpent,
+      },
+      update: {
+        wrongSubmissions,
+        contestAttended,
+        problemsSolved,
+        timeSpent,
+      },
       include: this.include,
     })
   }

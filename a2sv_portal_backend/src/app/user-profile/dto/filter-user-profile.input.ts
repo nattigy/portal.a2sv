@@ -1,11 +1,11 @@
-import { Field, InputType, Int } from '@nestjs/graphql'
+import { Field, GraphQLISODateTime, InputType, Int } from '@nestjs/graphql'
 import { CurrentEducationStatusEnum, CurrentWorkStatusEnum } from '@prisma/client'
 import { StringFilter } from 'src/common/filter-types/string-filter'
 
 @InputType()
 export class FilterUserProfileInput {
-  @Field({ nullable: true })
-  id?: string
+  // @Field({ nullable: true })
+  // id?: string
 
   @Field({ nullable: true })
   userId?: string
@@ -22,7 +22,7 @@ export class FilterUserProfileInput {
   @Field({ nullable: true })
   countryCode?: string
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   birthDate?: Date
 
   @Field(() => CurrentWorkStatusEnum, { nullable: true })

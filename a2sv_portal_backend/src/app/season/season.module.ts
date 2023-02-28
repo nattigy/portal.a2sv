@@ -5,5 +5,6 @@ import { SeasonRepository } from './season.repository'
 
 @Module({
   providers: [SeasonRepository, SeasonService, SeasonResolver],
+  exports: [SeasonService],
 })
 export class SeasonModule {}

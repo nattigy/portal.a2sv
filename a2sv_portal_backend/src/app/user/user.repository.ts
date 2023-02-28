@@ -12,8 +12,8 @@ export class UserRepository {
       data,
       include: {
         group: true,
+        headToGroups: true,
         userProfile: { include: { user: true } },
-        headToGroup: true,
       },
     })
   }
@@ -36,8 +36,8 @@ export class UserRepository {
       orderBy,
       include: {
         group: true,
+        headToGroups: true,
         userProfile: { include: { user: true } },
-        headToGroup: true,
       },
     })
   }
@@ -47,8 +47,8 @@ export class UserRepository {
       where,
       include: {
         group: true,
+        headToGroups: true,
         userProfile: { include: { user: true } },
-        headToGroup: true,
       },
     })
   }
@@ -63,8 +63,8 @@ export class UserRepository {
       where,
       include: {
         group: true,
+        headToGroups: true,
         userProfile: { include: { user: true } },
-        headToGroup: true,
       },
     })
   }

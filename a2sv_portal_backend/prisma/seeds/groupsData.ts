@@ -36,16 +36,6 @@ export const groupsData = [
   },
   {
     'country': 'Ethiopia',
-    'name': 'Group-44',
-    'school': 'AAIT University',
-  },
-  {
-    'country': 'Ethiopia',
-    'name': 'Group-45',
-    'school': 'AAIT University',
-  },
-  {
-    'country': 'Ethiopia',
     'name': 'Group-46',
     'school': 'AASTU University',
   },

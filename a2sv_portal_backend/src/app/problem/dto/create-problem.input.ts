@@ -16,6 +16,6 @@ export class CreateProblemInput {
   @Field(() => ProblemDifficultyTypeEnum, { description: 'Difficulty of the question' })
   difficulty: ProblemDifficultyTypeEnum
 
-  @Field(() => [CreateTagInput])
+  @Field(() => [CreateTagInput], {defaultValue: []})
   tags: CreateTagInput[]
 }

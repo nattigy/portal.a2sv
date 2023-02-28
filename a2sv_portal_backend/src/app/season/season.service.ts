@@ -1,7 +1,6 @@
 import { Injectable, UseGuards } from '@nestjs/common'
 import { PoliciesGuard } from '../../casl/policy/policy.guard'
 import { PaginationInput } from '../../common/page/pagination.input'
-import { PrismaService } from '../../prisma/prisma.service'
 import { CreateSeasonInput } from './dto/create-season.input'
 import { UpdateSeasonInput } from './dto/update-season.input'
 import { Season } from './entities/season.entity'
@@ -13,10 +12,7 @@ import { NotFoundException } from '@nestjs/common/exceptions'
 @UseGuards(PoliciesGuard)
 @Injectable()
 export class SeasonService {
-  constructor(
-    private readonly prismaService: PrismaService,
-    private readonly seasonRepository: SeasonRepository,
-  ) {}
+  constructor(private readonly seasonRepository: SeasonRepository) {}
 
   async createSeason(seasonInput: CreateSeasonInput): Promise<Season> {
     return this.seasonRepository.create(seasonInput)
@@ -47,19 +43,6 @@ export class SeasonService {
   }
 
   async updateSeason({ seasonId, ...updates }: UpdateSeasonInput) {
-    // check if season with this Id exists and if it doesn't return
-    // "season with this Id doesn't" exists error
-    const season = await this.seasonRepository.findOne({ id: seasonId })
-    if (!season) {
-      throw new NotFoundException(`Season with id ${seasonId} not found.`)
-    }
-
-    if (updates.isActive === false) {
-      await this.prismaService.groupSeason.updateMany({
-        where: { seasonId },
-        data: { isActive: false },
-      })
-    }
     return this.seasonRepository.update({
       where: { id: seasonId },
       data: updates,
@@ -68,7 +51,7 @@ export class SeasonService {
 
   async removeSeason(id: string): Promise<number> {
     try {
-      await this.prismaService.season.delete({ where: { id } })
+      await this.seasonRepository.remove({ id })
     } catch (e) {
       console.log(`Fail to delete season with id ${id}`, ' : ', e)
       throw new Error(`Fail to delete season with id ${id}`)

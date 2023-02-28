@@ -56,6 +56,7 @@ export class UserGroupSeasonTopicProblemService {
         numberOfMinutes: 0.0,
         solutionLink: '',
         problem: groupSeasonTopicProblem.problem,
+        createdAt: groupSeasonTopicProblem.createdAt
       }
     }
     return userGroupSeasonTopicProblem
@@ -111,6 +112,7 @@ export class UserGroupSeasonTopicProblemService {
               numberOfMinutes: 0.0,
               solutionLink: '',
               problem: groupSeasonTopicProblem.problem,
+              createdAt: groupSeasonTopicProblem.createdAt
             })
         }
       }
@@ -121,37 +123,3 @@ export class UserGroupSeasonTopicProblemService {
     }
   }
 }
-
-// TODO: Add user analytics here
-// let number_wrong_sub: number
-// if (updates.solved) {
-//   await this.prismaService.userAnalytics.update({
-//     where: {
-//       userId_createdAt: {
-//         userId,
-//         createdAt: new Date(),
-//       },
-//     },
-//     data: {
-//       solvedCount: {
-//         increment: 1,
-//       },
-//     },
-//   })
-// } else if (updates.solved == false) {
-//   number_wrong_sub = updates.attempts > 0 ? updates.attempts : 1
-//   await this.prismaService.userAnalytics.update({
-//     where: {
-//       userId_createdAt: {
-//         userId,
-//         createdAt: new Date(),
-//       },
-//     },
-//     data: {
-//       wrongCount: {
-//         increment: number_wrong_sub,
-//       },
-//     },
-//   })
-// }
-// console.log('===status ==updated')

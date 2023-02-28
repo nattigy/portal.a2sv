@@ -5,10 +5,10 @@ import { CreateSeasonTopicInput } from './create-season-topic.input'
 
 @InputType()
 export class UpdateSeasonTopicInput extends PartialType(CreateSeasonTopicInput) {
-  @Field(() => String, { description: 'seasonId represents the season id' })
+  @Field({ description: 'seasonId represents the season id' })
   seasonId: string
 
-  @Field(() => String, {
+  @Field({
     description: 'topic id represents the topic id to add to the season',
   })
   topicId: string

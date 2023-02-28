@@ -9,9 +9,8 @@ import {
 } from '../../app/group-season-contest/dto/create-group-season-contest.input'
 import { FilterGroupSeasonContestInput } from '../../app/group-season-contest/dto/filter-group-season-contest.input'
 import { PaginationInput } from '../../common/page/pagination.input'
-import {
-  GroupSeasonContestProblemRepository,
-} from '../../app/group-season-contest-problem/group-season-contest-problem.repository'
+import { GroupSeasonContestProblemRepository } from '../../app/group-season-contest-problem/group-season-contest-problem.repository'
+import { GroupSeasonContest } from '../../app/group-season-contest/entities/group-season-contest.entity'
 
 @Injectable()
 export class ManageGroupSeasonContestService {
@@ -23,14 +22,13 @@ export class ManageGroupSeasonContestService {
     private readonly groupSeasonRepository: GroupSeasonRepository,
     private readonly prismaService: PrismaService,
     private readonly contestRepository: ContestRepository,
-  ) {
-  }
+  ) {}
 
   async addContestToAGroupSeason({
-                                   groupId,
-                                   seasonId,
-                                   contestId,
-                                 }: CreateGroupSeasonContestInput) {
+    groupId,
+    seasonId,
+    contestId,
+  }: CreateGroupSeasonContestInput) {
     const groupSeason = await this.groupSeasonRepository.findOne({
       groupId_seasonId: {
         groupId,
@@ -47,8 +45,8 @@ export class ManageGroupSeasonContestService {
     const contest = await this.contestRepository.findOne({
       id: contestId,
     })
-    const contestProblems = contest.contestProblems
-    const groupSeasonContest = await this.groupSeasonContestRepository.upsert({
+    // const contestProblems = contest.contestProblems
+    return this.groupSeasonContestRepository.upsert({
       where: {
         groupId_seasonId_contestId: {
           contestId,
@@ -57,52 +55,52 @@ export class ManageGroupSeasonContestService {
         },
       },
       data: {
-        startTime: contest.startTime,
-        endTime: contest.endTime,
+        // startTime: contest.startTime,
+        // endTime: contest.endTime,
       },
     })
-    /** upsert groupSeasonContestProblem with all problems found in the contest */
-    for (const problem of contestProblems) {
-      const { contestId, problemId } = problem
-      await this.groupSeasonContestProblemRepository.upsert({
-        where: {
-          groupId_seasonId_contestId_problemId: {
-            groupId, seasonId, contestId, problemId,
-          },
-        },
-        data: {},
-      })
-    }
-    return groupSeasonContest
+    // /** upsert groupSeasonContestProblem with all problems found in the contest */
+    // for (const problem of contestProblems) {
+    //   const { contestId, problemId } = problem
+    //   await this.groupSeasonContestProblemRepository.upsert({
+    //     where: {
+    //       groupId_seasonId_contestId_problemId: {
+    //         groupId, seasonId, contestId, problemId,
+    //       },
+    //     },
+    //     data: {},
+    //   })
+    // }
+    // return groupSeasonContest
   }
 
-  async addProblemsToContest(contestId: string, problemIds: string[]) {
-    /**
-     * Find groupSeasonContests first
-     * connect the problems to all groupSeasonContests
-     * */
-    const groupSeasonContests = await this.groupSeasonContestRepository.findAll({
-      where: { contestId },
-    })
-
-    await this.prismaService.groupSeasonContestProblem.createMany({
-      skipDuplicates: true,
-      data: groupSeasonContests.map(g => ({
-        groupId: g.groupId,
-        seasonId: g.seasonId,
-        contestId,
-      })).map(id => problemIds.map(p => ({ ...id, problemId: p }))).flat(1),
-    })
-
-    return problemIds.length
-  }
+  // async addProblemsToContest(contestId: string, problemIds: string[]) {
+  //   /**
+  //    * Find groupSeasonContests first
+  //    * connect the problems to all groupSeasonContests
+  //    * */
+  //   const groupSeasonContests = await this.groupSeasonContestRepository.findAll({
+  //     where: { contestId },
+  //   })
+  //
+  //   await this.prismaService.groupSeasonContestProblem.createMany({
+  //     skipDuplicates: true,
+  //     data: groupSeasonContests.map(g => ({
+  //       groupId: g.groupId,
+  //       seasonId: g.seasonId,
+  //       contestId,
+  //     })).map(id => problemIds.map(p => ({ ...id, problemId: p }))).flat(1),
+  //   })
+  //
+  //   return problemIds.length
+  // }
 
   // TODO: addNewProblems and remove to groupSeasonContest (additional endpoints)
 
   async groupSeasonContests(
     filterGroupSeasonContest: FilterGroupSeasonContestInput,
     { skip, take }: PaginationInput = { take: 50, skip: 0 },
-  ) {
+  ): Promise<GroupSeasonContest[]> {
     return this.groupSeasonContestRepository.findAll({
       skip,
       take,
@@ -110,7 +108,11 @@ export class ManageGroupSeasonContestService {
     })
   }
 
-  async groupSeasonContest({ groupId, seasonId, contestId }: GroupSeasonContestId) {
+  async groupSeasonContest({
+    groupId,
+    seasonId,
+    contestId,
+  }: GroupSeasonContestId): Promise<GroupSeasonContest> {
     return this.groupSeasonContestRepository.findOne({
       groupId_seasonId_contestId: { groupId, seasonId, contestId },
     })

@@ -14,8 +14,7 @@ export class GroupSeasonContestProblemRepository {
     contestProblem: { include: { problem: { include: { tags: true } } } },
   }
 
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(
     data: Prisma.GroupSeasonContestProblemCreateInput,
@@ -83,7 +82,9 @@ export class GroupSeasonContestProblemRepository {
       | Prisma.GroupSeasonContestProblemUncheckedUpdateInput
   }): Promise<GroupSeasonContestProblem> {
     const { where, data } = params
-    const {groupId_seasonId_contestId_problemId: {seasonId, problemId, groupId, contestId}} = where
+    const {
+      groupId_seasonId_contestId_problemId: { seasonId, problemId, groupId, contestId },
+    } = where
     return this.prismaService.groupSeasonContestProblem.upsert({
       where,
       create: {
@@ -99,7 +100,8 @@ export class GroupSeasonContestProblemRepository {
         contestProblem: {
           connect: {
             contestId_problemId: {
-              contestId, problemId,
+              contestId,
+              problemId,
             },
           },
         },

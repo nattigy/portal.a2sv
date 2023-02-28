@@ -3,23 +3,23 @@ import { PaginationGroup } from 'src/common/page/pagination-info'
 import { CreateGroupInput } from '../dto/create-group.input'
 import { UpdateGroupInput } from '../dto/update-group.input'
 import { Group } from '../entities/group.entity'
-import { GroupsResolver } from '../groups.resolver'
-import { GroupsService } from '../groups.service'
+import { GroupResolver } from '../group.resolver'
+import { GroupService } from '../group.service'
 import { groupStub } from './stubs/group.stub'
 import { GroupServiceMock } from './__mocks__/group-service.mock'
 
 describe('GroupResolver', () => {
-  let resolver: GroupsResolver
+  let resolver: GroupResolver
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [GroupsService, GroupsResolver],
+      providers: [GroupService, GroupResolver],
     })
-      .overrideProvider(GroupsService)
+      .overrideProvider(GroupService)
       .useValue(GroupServiceMock)
       .compile()
 
-    resolver = module.get<GroupsResolver>(GroupsResolver)
+    resolver = module.get<GroupResolver>(GroupResolver)
   })
 
   it('should be defined', () => {

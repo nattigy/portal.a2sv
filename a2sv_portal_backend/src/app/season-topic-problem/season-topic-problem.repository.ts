@@ -68,7 +68,7 @@ export class SeasonTopicProblemRepository {
     data: Prisma.SeasonTopicProblemUpdateInput
   }): Promise<SeasonTopicProblem> {
     const { where, data } = params
-    await this.prismaService.seasonTopicProblem.upsert({
+    return this.prismaService.seasonTopicProblem.upsert({
       where,
       create: {
         seasonTopic: {
@@ -82,10 +82,6 @@ export class SeasonTopicProblemRepository {
         problem: { connect: { id: where.seasonId_topicId_problemId.problemId } },
       },
       update: {},
-    })
-    return this.prismaService.seasonTopicProblem.update({
-      data,
-      where,
       include: {
         problem: { include: { tags: true } },
       },

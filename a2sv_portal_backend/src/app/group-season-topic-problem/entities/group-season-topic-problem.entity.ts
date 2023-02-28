@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql'
+import { Field, GraphQLISODateTime, ObjectType } from '@nestjs/graphql'
 import { Problem } from '../../problem/entities/problem.entity'
 import { UserGroupSeasonTopicProblem } from '../../user-group-season-topic-problem/entities/user-group-season-topic-problem.entity'
 
@@ -21,4 +21,10 @@ export class GroupSeasonTopicProblem {
 
   @Field(() => [UserGroupSeasonTopicProblem])
   userGroupSeasonTopicProblems: UserGroupSeasonTopicProblem[]
+
+  @Field(() => GraphQLISODateTime, { nullable: true })
+  createdAt?: Date
+
+  @Field(() => GraphQLISODateTime, { nullable: true })
+  updatedAt?: Date
 }

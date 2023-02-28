@@ -15,11 +15,17 @@ export class Contest {
   @Field({ nullable: true })
   div?: string
 
-  @Field(() => GraphQLISODateTime)
-  startTime: Date
+  // @Field(() => GraphQLISODateTime)
+  // startTime: Date
+  //
+  // @Field(() => GraphQLISODateTime)
+  // endTime: Date
 
   @Field(() => GraphQLISODateTime)
-  endTime: Date
+  date: Date
+
+  @Field()
+  duration: string
 
   @Field(() => [ContestProblem])
   contestProblems: ContestProblem[]

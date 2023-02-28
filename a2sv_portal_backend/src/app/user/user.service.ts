@@ -15,8 +15,7 @@ export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async createUser(createUserInput: CreateUserInput): Promise<User> {
     const { email, password } = createUserInput
@@ -31,7 +30,7 @@ export class UserService {
     return this.userRepository.create({
       email,
       password: hash,
-      status: StatusEnum.ACTIVE,
+      // status: StatusEnum.INACTIVE,
       role: RoleEnum.STUDENT,
     })
   }
@@ -87,14 +86,12 @@ export class UserService {
      If Email is about to be updated check if the email exists and
      return "That email is already registered" Error.
      */
-    const foundUser = await this.prismaService.user.findUnique({ where: { id: userId } })
+    const foundUser = await this.user({ id: userId })
 
     if (!foundUser) throw new NotFoundException(`User with id ${userId} does not exist!`)
 
     if (updates.email) {
-      const foundUserByEmail = await this.prismaService.user.findUnique({
-        where: { email: updates.email },
-      })
+      const foundUserByEmail = await this.user({ email: updates.email })
 
       if (foundUserByEmail && foundUserByEmail.email !== foundUser.email)
         throw new NotAcceptableException('Email is already in use!')

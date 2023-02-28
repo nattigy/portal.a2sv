@@ -1,4 +1,11 @@
-import { Field, Float, Int, ObjectType, registerEnumType } from '@nestjs/graphql'
+import {
+  Field,
+  Float,
+  GraphQLISODateTime,
+  Int,
+  ObjectType,
+  registerEnumType,
+} from '@nestjs/graphql'
 import { ComfortLevelEnum } from '@prisma/client'
 import { UserGroupSeasonTopicProblem } from '../../user-group-season-topic-problem/entities/user-group-season-topic-problem.entity'
 import { Topic } from '../../topic/entities/topic.entity'
@@ -35,10 +42,10 @@ export class UserGroupSeasonTopic {
   @Field(() => [UserGroupSeasonTopicProblem])
   userGroupSeasonTopicProblems: UserGroupSeasonTopicProblem[]
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date
 
-  @Field(() => Date, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   updatedAt?: Date
 }
 

@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
-import { ComfortLevelEnum, Prisma } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 import { UserGroupSeasonTopic } from './entities/user-group-season-topic.entity'
+import { UpdateUserGroupSeasonTopicInput } from './dto/update-user-group-season-topic.input'
 
 @Injectable()
 export class UserGroupSeasonTopicRepository {
@@ -66,14 +67,16 @@ export class UserGroupSeasonTopicRepository {
 
   async upsert(params: {
     where: Prisma.UserGroupSeasonTopicWhereUniqueInput
-    data: Prisma.UserGroupSeasonTopicUpdateInput
+    data: UpdateUserGroupSeasonTopicInput
+    // data: Prisma.UserGroupSeasonTopicUpdateInput
   }): Promise<UserGroupSeasonTopic> {
     const { where, data } = params
+    const { comfortLevel } = data
     return this.prismaService.userGroupSeasonTopic.upsert({
       where,
       create: {
-        comfortLevel:
-          data.comfortLevel === ComfortLevelEnum.COMFORTABLE ? 'COMFORTABLE' : 'UNCOMFORTABLE',
+        comfortLevel,
+        // comfortLevel: data.comfortLevel === ComfortLevelEnum.COMFORTABLE ? 'COMFORTABLE' : 'UNCOMFORTABLE',
         userGroupSeason: {
           connect: {
             userId_groupId_seasonId: {
@@ -96,7 +99,7 @@ export class UserGroupSeasonTopicRepository {
           connect: { id: where.userId_groupId_seasonId_topicId.topicId },
         },
       },
-      update: data,
+      update: { comfortLevel },
       include: {
         topic: true,
         userGroupSeasonTopicProblems: {
