@@ -23,7 +23,7 @@ RUN npm install
 #Run gemerate tables
 RUN npx prisma generate
 
-
+RUN npm prisma db seed
 
 # Creates a "dist" folder with the production build
 RUN npm run build
