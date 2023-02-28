@@ -11,6 +11,7 @@ import { UserGroupSeasonTopicId } from '../../app/user-group-season-topic/dto/cr
 import {
   PaginationUserGroupSeasonContest,
   PaginationUserGroupSeasonTopic,
+  PaginationUserGroupSeasonTopicProblem,
 } from '../../common/page/pagination-info'
 import { FilterUserGroupSeasonTopicInput } from '../../app/user-group-season-topic/dto/filter-user-group-season-topic-input'
 import { UserGroupSeasonTopicProblem } from '../../app/user-group-season-topic-problem/entities/user-group-season-topic-problem.entity'
@@ -19,6 +20,9 @@ import { UserGroupSeasonContest } from '../../app/user-group-season-contest/enti
 import { UserGroupSeasonContestId } from '../../app/user-group-season-contest/dto/create-user-group-season-contest.input'
 import { UserGroupSeasonContestService } from './user-group-season-contest.service'
 import { FilterUserGroupSeasonContestInput } from '../../app/user-group-season-contest/dto/filter-user-group-season-contest.input'
+import {
+  FilterUserGroupSeasonTopicProblemInput
+} from '../../app/user-group-season-topic-problem/dto/filter-user-group-season-topic-problem.input'
 
 @Resolver()
 export class ManageUserGroupSeasonResolver {
@@ -85,17 +89,17 @@ export class ManageUserGroupSeasonResolver {
     )
   }
 
-  // @Query(() => PaginationUserGroupSeasonTopicProblem)
-  // async userGroupSeasonTopicProblems(
-  //   @Args('filterUserGroupSeasonTopicProblemInput')
-  //   filterUserGroupSeasonTopicProblemInput: FilterUserGroupSeasonTopicProblemInput,
-  //   @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInput,
-  // ): Promise<PaginationUserGroupSeasonTopicProblem> {
-  //   return this.seasonTopicUserProblemService.userGroupSeasonTopicProblems(
-  //     filterUserGroupSeasonTopicProblemInput,
-  //     pageInfoInput,
-  //   )
-  // }
+  @Query(() => PaginationUserGroupSeasonTopicProblem)
+  async userGroupSeasonTopicProblems(
+    @Args('filterUserGroupSeasonTopicProblemInput')
+    filterUserGroupSeasonTopicProblemInput: FilterUserGroupSeasonTopicProblemInput,
+    @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInput,
+  ): Promise<PaginationUserGroupSeasonTopicProblem> {
+    return this.seasonTopicUserProblemService.userGroupSeasonTopicProblems(
+      filterUserGroupSeasonTopicProblemInput,
+      pageInfoInput,
+    )
+  }
 
   // @Mutation(() => Int)
   // async removeUserGroupSeasonTopicProblem(
