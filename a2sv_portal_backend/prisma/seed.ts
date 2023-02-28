@@ -1,4 +1,9 @@
-import { JoinRequestEnum, PrismaClient, RoleEnum, UserContestProblemStatusEnum } from '@prisma/client'
+import {
+  JoinRequestEnum,
+  PrismaClient,
+  RoleEnum,
+  UserContestProblemStatusEnum,
+} from '@prisma/client'
 import { env } from 'process'
 import groupsData from './seeds/groupsData'
 import problemData from './seeds/problemData'
@@ -7,7 +12,7 @@ import tagData from './seeds/tagData'
 import topicData from './seeds/topicData'
 import userData from './seeds/userData'
 import contestData from './seeds/contestData'
-
+import { GroupSeasonContestIncludeObject } from '../src/app/group-season-contest/group-season-contest.repository'
 const prisma = new PrismaClient()
 
 async function main() {
@@ -91,7 +96,8 @@ async function main() {
     for (const contest of contests) {
       await prisma.contestProblem.createMany({
         skipDuplicates: true,
-        data: problems.splice(Math.floor(Math.random() * problems.length), 3)
+        data: problems
+          .splice(Math.floor(Math.random() * problems.length), 3)
           .map(p => ({ problemId: p.id, contestId: contest.id })),
       })
     }
@@ -128,11 +134,11 @@ async function main() {
     const sura = await prisma.user.findFirst({ where: { email: 'surafel@a2sv.org' } })
     await prisma.group.update({
       where: { id: g12.id },
-      data: { headId: emre.id }
+      data: { headId: emre.id },
     })
     await prisma.group.update({
       where: { id: g31.id },
-      data: { headId: sura.id }
+      data: { headId: sura.id },
     })
     console.log('assign heads to a group')
 
@@ -152,11 +158,13 @@ async function main() {
     groups = await prisma.group.findMany({ include: { head: true } })
     for (const season1 of seasons) {
       await prisma.groupSeason.createMany({
-        data: groups.filter(g => g.headId !== null).map(g => ({
-          groupId: g.id,
-          seasonId: season1.id,
-          startDate: '2022-12-30T12:22:34.313Z',
-        })),
+        data: groups
+          .filter(g => g.headId !== null)
+          .map(g => ({
+            groupId: g.id,
+            seasonId: season1.id,
+            startDate: '2022-12-30T12:22:34.313Z',
+          })),
       })
     }
 
@@ -209,7 +217,45 @@ async function main() {
         contestId: c.id,
       })),
     })
-
+    const  connectGroupSeasonContestWithContestProblem = async (id:string) => {
+      // fetch groupSeasonContests for g12, include contestProblems
+    const grpSeaCntstG = await prisma.groupSeasonContest.findMany({
+      where: {groupId : id},
+      include: GroupSeasonContestIncludeObject,
+    })
+    // for each groupSeasonContests and for each contestProblems under the curr groupSeason
+    for (const grpSeasonCntst of grpSeaCntstG){
+      for ( const prblm of grpSeasonCntst.contest.contestProblems) {
+        await prisma.groupSeasonContestProblem.create({
+          data: {
+            contestProblem: {
+              connect: {
+                contestId_problemId: {
+                  contestId : prblm.contestId,
+                  problemId : prblm.problemId
+                }
+              }
+            },
+            groupSeasonContest: {
+              connect:{
+                groupId_seasonId_contestId:{
+                  contestId: grpSeasonCntst.contestId,
+                  seasonId : grpSeasonCntst.seasonId,
+                  groupId: grpSeasonCntst.groupId
+                }
+              }
+            }
+          },
+        })
+    }
+    }
+    }
+    console.log('connect GroupSeasonContestProblem with contestProblem and GroupSeasonContest for g12')
+    connectGroupSeasonContestWithContestProblem(g12.id)
+    console.log('connect GroupSeasonContestProblem with contestProblem and GroupSeasonContest for g31')
+    connectGroupSeasonContestWithContestProblem(g31.id)
+    // create groupSeasonContestProblem, don't pass ids, rather use connect with groupSeasonContest and contestProblem
+    
     await prisma.groupSeasonContest.createMany({
       skipDuplicates: true,
       data: contests.map(c => ({
@@ -219,6 +265,9 @@ async function main() {
       })),
     })
     console.log('Added contests to a groupSeasons')
+    // fetch groupSeasonContests for g31, include contestProblems
+    // for each groupSeasonContests and for each contestProblems under the curr groupSeason
+    // create groupSeasonContestProblem, don't pass ids, rather use connect with groupSeasonContest and contestProblem
 
     const topics = await prisma.topic.findMany({})
     for (const season of seasons) {
@@ -363,3 +412,4 @@ async function main() {
 }
 
 main()
+

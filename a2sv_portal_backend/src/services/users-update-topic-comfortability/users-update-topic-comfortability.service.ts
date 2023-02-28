@@ -56,10 +56,10 @@ export class UsersUpdateTopicComfortabilityService {
     const userGSTP = await this.userGroupSeasonTopicRepository.findOne({
       userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },
     })
-    await this.userGroupSeasonRepository.upsert({
-      where: { userId_groupId_seasonId: { userId, groupId, seasonId } },
-      data: {},
-    })
+    // await this.userGroupSeasonRepository.upsert({
+    //   where: { userId_groupId_seasonId: { userId, groupId, seasonId } },
+    //   data: {},
+    // })
     return this.userGroupSeasonTopicRepository.upsert({
       where: {
         userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },

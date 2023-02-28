@@ -27,8 +27,8 @@ export class UserGroupSeasonTopic {
   @Field(() => Topic)
   topic: Topic
 
-  @Field(() => ComfortLevelEnum, { defaultValue: ComfortLevelEnum.UNCOMFORTABLE })
-  comfortLevel: ComfortLevelEnum = ComfortLevelEnum.UNCOMFORTABLE
+  @Field(() => ComfortLevelEnum)
+  comfortLevel: ComfortLevelEnum
 
   @Field(() => Int)
   totalSubmissions: number

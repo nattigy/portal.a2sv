@@ -11,15 +11,15 @@ export class UserUpdateContestProblemResolver {
     private readonly userUpdateContestProblemService: UserUpdateContestProblemService,
   ) {}
 
-  @Mutation(() => UserGroupSeasonContest)
-  async updateUserContestStatus(
-    @Args('updateUserGroupSeasonContestInput')
-    updateUserGroupSeasonContestInput: UpdateUserGroupSeasonContestInput,
-  ): Promise<UserGroupSeasonContest> {
-    return this.userUpdateContestProblemService.userUpdateContestStatus(
-      updateUserGroupSeasonContestInput,
-    )
-  }
+  // @Mutation(() => UserGroupSeasonContest)
+  // async updateUserContestStatus(
+  //   @Args('updateUserGroupSeasonContestInput')
+  //   updateUserGroupSeasonContestInput: UpdateUserGroupSeasonContestInput,
+  // ): Promise<UserGroupSeasonContest> {
+  //   return this.userUpdateContestProblemService.userUpdateContestStatus(
+  //     updateUserGroupSeasonContestInput,
+  //   )
+  // }
 
   @Mutation(() => UserGroupSeasonContestProblem)
   async updateUserContestProblemStatus(

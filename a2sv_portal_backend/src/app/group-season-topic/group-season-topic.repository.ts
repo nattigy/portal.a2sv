@@ -2,29 +2,26 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
 import { GroupSeasonTopic } from './entities/group-season-topic.entity'
+import {
+  GroupSeasonTopicProblemIncludeObject,
+} from '../group-season-topic-problem/group-season-topic-problem.repository'
+
+export const GroupSeasonTopicIncludeObject = {
+  topic: true,
+  groupSeasonTopicProblems: {
+    include: GroupSeasonTopicProblemIncludeObject,
+  },
+}
 
 @Injectable()
 export class GroupSeasonTopicRepository {
-  include = {
-    topic: true,
-    groupSeasonTopicProblems: {
-      include: {
-        userGroupSeasonTopicProblems: {
-          include: {
-            problem: { include: { tags: true } },
-          },
-        },
-        problem: { include: { tags: true } },
-      },
-    },
+  constructor(private readonly prismaService: PrismaService) {
   }
-
-  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.GroupSeasonTopicCreateInput): Promise<GroupSeasonTopic> {
     return this.prismaService.groupSeasonTopic.create({
       data,
-      include: this.include,
+      include: GroupSeasonTopicIncludeObject,
     })
   }
 
@@ -40,14 +37,14 @@ export class GroupSeasonTopicRepository {
       take,
       where,
       orderBy,
-      include: this.include,
+      include: GroupSeasonTopicIncludeObject,
     })
   }
 
   async findOne(where: Prisma.GroupSeasonTopicWhereUniqueInput): Promise<GroupSeasonTopic> {
     return this.prismaService.groupSeasonTopic.findUnique({
       where,
-      include: this.include,
+      include: GroupSeasonTopicIncludeObject,
     })
   }
 
@@ -59,7 +56,7 @@ export class GroupSeasonTopicRepository {
     return this.prismaService.groupSeasonTopic.update({
       data,
       where,
-      include: this.include,
+      include: GroupSeasonTopicIncludeObject,
     })
   }
 
@@ -90,7 +87,7 @@ export class GroupSeasonTopicRepository {
         topic: { connect: { id: where.groupId_seasonId_topicId.topicId } },
       },
       update: {},
-      include: this.include,
+      include: GroupSeasonTopicIncludeObject,
     })
   }
 

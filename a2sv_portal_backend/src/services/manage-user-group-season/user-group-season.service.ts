@@ -9,7 +9,7 @@ import { PaginationInput } from '../../common/page/pagination.input'
 import { UserGroupSeason } from '../../app/user-group-season/entities/user-group-season.entity'
 
 @Injectable()
-export class UserGroupSeasonService {
+export class ManageUserGroupSeasonService {
   constructor(
     private readonly userGroupSeasonRepository: UserGroupSeasonRepository,
     private readonly userGroupSeasonTopicService: UserGroupSeasonTopicService,

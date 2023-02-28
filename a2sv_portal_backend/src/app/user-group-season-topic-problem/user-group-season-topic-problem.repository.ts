@@ -80,8 +80,16 @@ export class UserGroupSeasonTopicProblemRepository {
         numberOfMinutes,
         status,
         userGroupSeasonTopic: {
-          connect: {
-            userId_groupId_seasonId_topicId: {
+          connectOrCreate: {
+            where: {
+              userId_groupId_seasonId_topicId: {
+                seasonId: where.userId_groupId_seasonId_topicId_problemId.seasonId,
+                topicId: where.userId_groupId_seasonId_topicId_problemId.topicId,
+                groupId: where.userId_groupId_seasonId_topicId_problemId.groupId,
+                userId: where.userId_groupId_seasonId_topicId_problemId.userId,
+              }
+            },
+            create: {
               seasonId: where.userId_groupId_seasonId_topicId_problemId.seasonId,
               topicId: where.userId_groupId_seasonId_topicId_problemId.topicId,
               groupId: where.userId_groupId_seasonId_topicId_problemId.groupId,

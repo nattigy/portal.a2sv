@@ -4,7 +4,9 @@ import {
   GroupSeasonTopicProblemId,
 } from '../../app/group-season-topic-problem/dto/create-group-season-topic-problem.input'
 import { PrismaService } from '../../prisma/prisma.service'
-import { GroupSeasonTopicProblemRepository } from '../../app/group-season-topic-problem/group-season-topic-problem.repository'
+import {
+  GroupSeasonTopicProblemRepository,
+} from '../../app/group-season-topic-problem/group-season-topic-problem.repository'
 import { SeasonTopicProblemRepository } from '../../app/season-topic-problem/season-topic-problem.repository'
 import { SeasonTopicRepository } from '../../app/season-topic/season-topic.repository'
 
@@ -15,14 +17,15 @@ export class GroupSeasonTopicProblemService {
     private readonly seasonTopicProblemRepository: SeasonTopicProblemRepository,
     private readonly seasonTopicRepository: SeasonTopicRepository,
     private readonly prismaService: PrismaService,
-  ) {}
+  ) {
+  }
 
   async addProblemToGroupSeasonTopic({
-    groupId,
-    seasonId,
-    topicId,
-    problemId,
-  }: CreateGroupSeasonTopicProblemInput) {
+                                       groupId,
+                                       seasonId,
+                                       topicId,
+                                       problemId,
+                                     }: CreateGroupSeasonTopicProblemInput) {
     // search for groupSeasonTopic first and if not found throw not found exception
     // if the groupSeasonTopic is found and the groupSeason is not active throw groupSeason not active
     // check if the problem exists and if it doesn't exist throw problem not found Error
@@ -94,11 +97,11 @@ export class GroupSeasonTopicProblemService {
   }
 
   async groupSeasonTopicProblem({
-    groupId,
-    seasonId,
-    topicId,
-    problemId,
-  }: GroupSeasonTopicProblemId) {
+                                  groupId,
+                                  seasonId,
+                                  topicId,
+                                  problemId,
+                                }: GroupSeasonTopicProblemId) {
     const gSTP = await this.groupSeasonTopicProblemRepository.findOne({
       groupId_seasonId_topicId_problemId: {
         problemId,
@@ -126,11 +129,11 @@ export class GroupSeasonTopicProblemService {
   // }
 
   async removeGroupSeasonTopicProblem({
-    groupId,
-    seasonId,
-    topicId,
-    problemId,
-  }: GroupSeasonTopicProblemId) {
+                                        groupId,
+                                        seasonId,
+                                        topicId,
+                                        problemId,
+                                      }: GroupSeasonTopicProblemId) {
     await this.groupSeasonTopicProblem({ groupId, seasonId, problemId, topicId })
     return this.groupSeasonTopicProblemRepository.remove({
       groupId_seasonId_topicId_problemId: { problemId, topicId, seasonId, groupId },

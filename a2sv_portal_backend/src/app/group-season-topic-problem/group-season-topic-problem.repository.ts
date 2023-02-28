@@ -2,18 +2,19 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
 import { GroupSeasonTopicProblem } from './entities/group-season-topic-problem.entity'
+import { ProblemIncludeObject } from '../problem/problem.repository'
+
+export const GroupSeasonTopicProblemIncludeObject = {
+  userGroupSeasonTopicProblems: {
+    include: {
+      problem: { include: ProblemIncludeObject },
+    },
+  },
+  problem: { include: ProblemIncludeObject },
+}
 
 @Injectable()
 export class GroupSeasonTopicProblemRepository {
-  include = {
-    userGroupSeasonTopicProblems: {
-      include: {
-        problem: { include: { tags: true } },
-      },
-    },
-    problem: { include: { tags: true } },
-  }
-
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(
@@ -21,7 +22,7 @@ export class GroupSeasonTopicProblemRepository {
   ): Promise<GroupSeasonTopicProblem> {
     return this.prismaService.groupSeasonTopicProblem.create({
       data,
-      include: this.include,
+      include: GroupSeasonTopicProblemIncludeObject,
     })
   }
 
@@ -41,7 +42,7 @@ export class GroupSeasonTopicProblemRepository {
       take,
       where,
       orderBy,
-      include: this.include,
+      include: GroupSeasonTopicProblemIncludeObject,
     })
   }
 
@@ -50,7 +51,7 @@ export class GroupSeasonTopicProblemRepository {
   ): Promise<GroupSeasonTopicProblem> {
     return this.prismaService.groupSeasonTopicProblem.findUnique({
       where,
-      include: this.include,
+      include: GroupSeasonTopicProblemIncludeObject,
     })
   }
 
@@ -62,7 +63,7 @@ export class GroupSeasonTopicProblemRepository {
     return this.prismaService.groupSeasonTopicProblem.update({
       data,
       where,
-      include: this.include,
+      include: GroupSeasonTopicProblemIncludeObject,
     })
   }
 
@@ -95,7 +96,7 @@ export class GroupSeasonTopicProblemRepository {
         problem: { connect: { id: where.groupId_seasonId_topicId_problemId.problemId } },
       },
       update: {},
-      include: this.include,
+      include: GroupSeasonTopicProblemIncludeObject,
     })
   }
 

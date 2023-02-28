@@ -3,14 +3,17 @@ import { PrismaService } from '../../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
 import { UserProfile } from './entities/user-profile.entity'
 
+export const UserProfileIncludeObject = { user: true }
+
 @Injectable()
 export class UserProfileRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(data: Prisma.UserProfileCreateInput): Promise<UserProfile> {
     return this.prismaService.userProfile.create({
       data,
-      include: { user: true },
+      include: UserProfileIncludeObject,
     })
   }
 
@@ -30,14 +33,14 @@ export class UserProfileRepository {
       take,
       where,
       orderBy,
-      include: { user: true },
+      include: UserProfileIncludeObject,
     })
   }
 
   async findOne(where: Prisma.UserProfileWhereUniqueInput): Promise<UserProfile> {
     return this.prismaService.userProfile.findUnique({
       where,
-      include: { user: true },
+      include: UserProfileIncludeObject,
     })
   }
 
@@ -49,7 +52,7 @@ export class UserProfileRepository {
     return this.prismaService.userProfile.update({
       data,
       where,
-      include: { user: true },
+      include: UserProfileIncludeObject,
     })
   }
 

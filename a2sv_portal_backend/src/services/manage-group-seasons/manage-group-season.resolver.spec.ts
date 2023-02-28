@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { ManageGroupSeasonResolver } from './manage-group-season.resolver'
-import { ManageGroupSeasonService } from './manage-group-season.service'
+import { ManageGroupSeasonService } from './manage-group-seasons.service'
 
 describe('ManageGroupSeasonResolver', () => {
   let resolver: ManageGroupSeasonResolver

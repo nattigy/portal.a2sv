@@ -78,12 +78,19 @@ export class UserGroupSeasonTopicRepository {
         comfortLevel,
         // comfortLevel: data.comfortLevel === ComfortLevelEnum.COMFORTABLE ? 'COMFORTABLE' : 'UNCOMFORTABLE',
         userGroupSeason: {
-          connect: {
-            userId_groupId_seasonId: {
+          connectOrCreate: {
+            where: {
+              userId_groupId_seasonId: {
+                userId: where.userId_groupId_seasonId_topicId.userId,
+                groupId: where.userId_groupId_seasonId_topicId.groupId,
+                seasonId: where.userId_groupId_seasonId_topicId.seasonId,
+              },
+            },
+            create: {
               userId: where.userId_groupId_seasonId_topicId.userId,
               groupId: where.userId_groupId_seasonId_topicId.groupId,
               seasonId: where.userId_groupId_seasonId_topicId.seasonId,
-            },
+            }
           },
         },
         groupSeasonTopic: {

@@ -2,24 +2,23 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
 import { Group } from './entities/group.entity'
+import { UserIncludeObject } from '../user/user.repository'
+
+export const GroupIncludeObject = {
+  users: {
+    include: UserIncludeObject,
+  },
+}
 
 @Injectable()
 export class GroupRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {
+  }
 
   async create(data: Prisma.GroupCreateInput): Promise<Group> {
     return this.prismaService.group.create({
       data,
-      include: {
-        users: {
-          include: {
-            userProfile: { include: { user: true } },
-          },
-        },
-        // groupHeads: {
-        //   include: { user: true },
-        // },
-      },
+      include: GroupIncludeObject,
     })
   }
 
@@ -39,32 +38,14 @@ export class GroupRepository {
       take,
       where,
       orderBy,
-      include: {
-        users: {
-          include: {
-            userProfile: { include: { user: true } },
-          },
-        },
-        // groupHeads: {
-        //   include: { user: true },
-        // },
-      },
+      include: GroupIncludeObject,
     })
   }
 
   async findOne(where: Prisma.GroupWhereUniqueInput): Promise<Group> {
     return this.prismaService.group.findUnique({
       where,
-      include: {
-        users: {
-          include: {
-            userProfile: { include: { user: true } },
-          },
-        },
-        // groupHeads: {
-        //   include: { user: true },
-        // },
-      },
+      include: GroupIncludeObject,
     })
   }
 
@@ -76,16 +57,7 @@ export class GroupRepository {
     return this.prismaService.group.update({
       data,
       where,
-      include: {
-        users: {
-          include: {
-            userProfile: { include: { user: true } },
-          },
-        },
-        // groupHeads: {
-        //   include: { user: true },
-        // },
-      },
+      include: GroupIncludeObject,
     })
   }
 
