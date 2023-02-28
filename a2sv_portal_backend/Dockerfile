@@ -19,8 +19,8 @@ COPY . .
 # Install app dependencies
 RUN npm install
 
-#Run gemerate tables
-#RUN npx prisma generate
+#Run geerate tables
+RUN npx prisma generate
 
 #RUN npx prisma db push
 
