@@ -3,9 +3,7 @@ import { FaLongArrowAltUp, FaLongArrowAltDown } from "react-icons/fa";
 import { MdContentPaste } from "react-icons/md";
 import { DifficultyChips } from "./DifficultyChips";
 import { getIcon } from "../../helpers/getReactIcon";
-import {
-  ProblemType,
-} from "../../types/problems";
+import { ProblemType } from "../../types/problems";
 import DeletePopupModal from "../modals/DeletePopupModal";
 import { ApolloError, useMutation, useReactiveVar } from "@apollo/client";
 import {
@@ -18,6 +16,7 @@ import Button from "../common/Button";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import clsx from "clsx";
 import { format } from "date-fns";
+import { BiTrash } from "react-icons/bi";
 
 export type PlatformInfo = {
   id: string;
@@ -50,6 +49,11 @@ const ProblemsTable = ({ problems, seasonId, topicId, group }: Props) => {
     removeGroupSeasonTopicProblems,
     { loading: removeLoading, error: removeError },
   ] = useMutation(REMOVE_PROBLEM_FROM_GROUP_SEASON_TOPIC);
+
+  const [
+    removeSeasonTopicProblems,
+    { loading: removeGroupLoading, error: removeGroupError },
+  ] = useMutation(REMOVE_SEASON_TOPIC_PROBLEM);
 
   const [selectedProblem, setSelectedProblem] = useState<Set<string>>(
     new Set([])
@@ -99,11 +103,11 @@ const ProblemsTable = ({ problems, seasonId, topicId, group }: Props) => {
           seasonId: seasonId,
           topicId: topicId,
         },
-        problemIds: [...selectedProblem]
+        problemIds: [...selectedProblem],
       },
       refetchQueries: "active",
       notifyOnNetworkStatusChange: true,
-    })
+    });
   };
 
   const handleRemoveGroupSeasonTopicProblems = async () => {
@@ -114,11 +118,25 @@ const ProblemsTable = ({ problems, seasonId, topicId, group }: Props) => {
           seasonId: seasonId,
           topicId: topicId,
         },
-        problemIds: [...selectedProblem]
+        problemIds: [...selectedProblem],
       },
       refetchQueries: "active",
       notifyOnNetworkStatusChange: true,
-    })
+    });
+  };
+
+  const handleRemoveSeasonTopicProblems = async () => {
+    await removeSeasonTopicProblems({
+      variables: {
+        seasonTopicId: {
+          seasonId: seasonId,
+          topicId: topicId,
+        },
+        problemIds: [...selectedProblem],
+      },
+      refetchQueries: "active",
+      notifyOnNetworkStatusChange: true,
+    });
   };
 
   return (
@@ -151,10 +169,16 @@ const ProblemsTable = ({ problems, seasonId, topicId, group }: Props) => {
       <div className="overflow-x-auto relative bg-white border-blue-100 shadow-md sm:rounded-lg border p-4 ">
         <div className="flex justify-between mx-3 my-2 font-semibold text-md text-[#565656]">
           <h2>Problem Set</h2>
-          {(authUser as any).role !== GraphqlUserRole.STUDENT && (
+          {(authUser as any).role === GraphqlUserRole.HEAD_OF_EDUCATION && (
             <Button
-              onClick={group ? handleRemoveGroupSeasonTopicProblems : handleAddGroupSeasonTopicProblems}
-              text={group ? "Remove Problem from Group" : "Add Problem to Group"}
+              onClick={
+                group
+                  ? handleRemoveGroupSeasonTopicProblems
+                  : handleAddGroupSeasonTopicProblems
+              }
+              text={
+                group ? "Remove Problem from Group" : "Add Problem to Group"
+              }
               classname={clsx(
                 "bg-primary text-white text-xs",
                 selectedProblemsCount === 0 ? "hidden" : ""
@@ -162,24 +186,37 @@ const ProblemsTable = ({ problems, seasonId, topicId, group }: Props) => {
               isLoading={group ? removeLoading : addLoading}
             />
           )}
+          {(authUser as any).role === GraphqlUserRole.HEAD_OF_ACADEMY && (
+            <Button
+              onClick={handleRemoveSeasonTopicProblems}
+              text="Remove Problem"
+              classname={clsx(
+                "bg-primary text-white text-xs",
+                selectedProblemsCount === 0 ? "hidden" : ""
+              )}
+              isLoading={removeGroupLoading}
+            />
+          )}
         </div>
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-[#979797] bg-white ">
             <tr>
-              <th scope="col" className="p-4">
-                <div className="flex items-center">
-                  <input
-                    id="checkbox-all-search"
-                    checked={checkedAll}
-                    onChange={() => handleAllProblemCheck()}
-                    type="checkbox"
-                    className="w-4 h-4 text-blue-600 bg-white rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-white"
-                  />
-                  <label htmlFor="checkbox-all-search" className="sr-only">
-                    checkbox
-                  </label>
-                </div>
-              </th>
+              {(authUser as any).role !== GraphqlUserRole.STUDENT && (
+                <th scope="col" className="p-4">
+                  <div className="flex items-center">
+                    <input
+                      id="checkbox-all-search"
+                      checked={checkedAll}
+                      onChange={() => handleAllProblemCheck()}
+                      type="checkbox"
+                      className="w-4 h-4 text-blue-600 bg-white rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-white"
+                    />
+                    <label htmlFor="checkbox-all-search" className="sr-only">
+                      checkbox
+                    </label>
+                  </div>
+                </th>
+              )}
               <th scope="col" className="py-3 px-6">
                 <div className="flex flex-row gap-x-1">
                   <div className="text-[#979797]">Title</div>
@@ -214,24 +251,26 @@ const ProblemsTable = ({ problems, seasonId, topicId, group }: Props) => {
                     className="bg-white text-[#565656] hover:bg-gray-50 dark:hover:bg-[#E2E2E2]"
                     key={problem.id}
                   >
-                    <td className="p-4 w-4">
-                      <div className="flex items-center">
-                        <input
-                          id="checkbox-table-search-1"
-                          name={`prob-${problem.id}`}
-                          checked={selectedProblem.has(problem.id)}
-                          onChange={() => handleProblemCheck(problem.id)}
-                          type="checkbox"
-                          className="w-4 h-4 text-blue-600 bg-gray-100 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700"
-                        />
-                        <label
-                          htmlFor="checkbox-table-search-1"
-                          className="sr-only"
-                        >
-                          checkbox
-                        </label>
-                      </div>
-                    </td>
+                    {(authUser as any).role !== GraphqlUserRole.STUDENT && (
+                      <td className="p-4 w-4">
+                        <div className="flex items-center">
+                          <input
+                            id="checkbox-table-search-1"
+                            name={`prob-${problem.id}`}
+                            checked={selectedProblem.has(problem.id)}
+                            onChange={() => handleProblemCheck(problem.id)}
+                            type="checkbox"
+                            className="w-4 h-4 text-blue-600 bg-gray-100 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700"
+                          />
+                          <label
+                            htmlFor="checkbox-table-search-1"
+                            className="sr-only"
+                          >
+                            checkbox
+                          </label>
+                        </div>
+                      </td>
+                    )}
                     <td scope="row" className="py-4 px-6 whitespace-nowrap ">
                       <a
                         className="text-primary"
@@ -254,7 +293,7 @@ const ProblemsTable = ({ problems, seasonId, topicId, group }: Props) => {
                       </div>
                     </td>
                     <td className="py-4 px-6">
-                      {format(new Date(problem?.createdAt||3), "MMM dd yyyy")}
+                      {format(new Date(problem?.createdAt || 3), "MMM dd yyyy")}
                     </td>
                   </tr>
                 );

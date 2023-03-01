@@ -43,12 +43,14 @@ export const ADD_PROBLEM_TO_SEASON_TOPIC = gql`
 `;
 
 export const REMOVE_SEASON_TOPIC_PROBLEM = gql`
-  mutation RemoveSeasonTopicProblem(
-    $seasonTopicProblemId: SeasonTopicProblemId!
+  mutation RemoveSeasonTopicProblems(
+    $problemIds: [String!]!, 
+    $seasonTopicId: SeasonTopicId!
   ) {
-    removeSeasonTopicProblem(seasonTopicProblemId: $seasonTopicProblemId) {
-      problemId
-    }
+    removeSeasonTopicProblems(
+      problemIds: $problemIds, 
+      seasonTopicId: $seasonTopicId
+    )
   }
 `;
 
