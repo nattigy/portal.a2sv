@@ -75,7 +75,9 @@ const UserItem = ({ id, email, userProfile, group, role }: UserProps) => {
           isLoading={loading}
           onClose={() => setIsDeleteModalOpen(false)}
           description={`This action will delete ${
-            userProfile ? userProfile.firstName + " " + userProfile.lastName : email
+            userProfile
+              ? userProfile.firstName + " " + userProfile.lastName
+              : email
           } permanently`}
           onDelete={async () => {
             await deleteUser({
@@ -94,15 +96,17 @@ const UserItem = ({ id, email, userProfile, group, role }: UserProps) => {
           }}
         />
       )}
-      <div className="min-h-[90px] cursor-pointer gap-x-2 bg-white border flex items-center justify-start px-2 rounded-md">
-        <img
-          className="object-cover w-16 h-16 rounded-full"
-          src="https://landingfoliocom.imgix.net/store/collection/clarity-dashboard/images/vertical-menu/2/avatar-male.png"
-          alt=""
-        />
+      <div className="min-h-[90px] relative cursor-pointer gap-x-2 bg-white border flex items-center justify-start px-2 rounded-md">
+        <div className="w-10 h-10 md:w-16 md:h-16">
+          <img
+            className="object-cover w-full h-full rounded-full"
+            src="https://landingfoliocom.imgix.net/store/collection/clarity-dashboard/images/vertical-menu/2/avatar-male.png"
+            alt=""
+          />
+        </div>
 
-        <div className="flex flex-col flex-1 h-[60px] justify-evenly">
-          <p className="text-[#565656] w-fit sm:w-36 md:w-44 lg:w-48 font-semibold text-xs truncate text-ellipsis">
+        <div className="flex flex-col h-11 lg:h-[60px] justify-evenly">
+          <p className="text-[#565656] w-24 sm:w-28 md:w-32 lg:w-36 xl:w-40 font-semibold text-xs truncate text-ellipsis capitalize">
             {userProfile
               ? userProfile.firstName + " " + userProfile.lastName
               : email}
@@ -117,8 +121,8 @@ const UserItem = ({ id, email, userProfile, group, role }: UserProps) => {
           </div>
         </div>
         <div className="flex justify-start items-start h-full py-2 ">
-          <div className="w-full  relative">
-            <div className="absolute bottom-1 right-2">
+          <div className="w-full">
+            <div className="absolute top-1 right-2">
               {authUser.role === GraphqlUserRole.HEAD_OF_ACADEMY && (
                 <MenuItem
                   color="black"

@@ -70,7 +70,7 @@ const SideNavigations = () => {
         </div>
 
         <div className="min-h-full flex flex-col flex-1 mt-6">
-          <div className="flex-1 h-full space-y-4">{<LeftSidebar />}</div>
+          <div className="flex-1 h-full space-y-4">{<LeftSidebar expanded />}</div>
 
           <div className="pb-4 flex flex-col gap-y-5 items-center justify-center">
             <button
