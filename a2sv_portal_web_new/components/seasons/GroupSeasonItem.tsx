@@ -9,12 +9,15 @@ import Link from "next/link";
 import DeletePopupModal from "../modals/DeletePopupModal";
 import SeasonModal from "../modals/SeasonModal";
 import { Season } from "../../types/season";
-import { ApolloError, useMutation } from "@apollo/client";
+import { ApolloError, useMutation, useReactiveVar } from "@apollo/client";
 import { REMOVE_SEASON } from "../../lib/apollo/Mutations/seasonsMutations";
 import WithPermission from "../../lib/Guard/WithPermission";
 import { GraphqlUserRole } from "../../types/user";
 import { getSVGIcon } from "../../helpers/getSVGPath";
 import { slugify } from "../../helpers/slugify";
+import { REMOVE_SEASON_FROM_GROUP } from "../../lib/apollo/Mutations/groupsMutations";
+import authenticatedVar, { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
+import auth from "../../pages/auth";
 
 type Props = {
   seasonProps: Season;
@@ -25,6 +28,7 @@ const GroupSeasonItem = ({ seasonProps }: Props) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const authUser = useReactiveVar(authenticatedUser) as AuthUser;
 
   const handleEditModalOpen = () => {
     setIsEditModalOpen(true);
@@ -41,6 +45,9 @@ const GroupSeasonItem = ({ seasonProps }: Props) => {
     "/images/season-item.svg",
     "/images/season-item.svg",
   ];
+  const [removeSeason, { loading, data, error,reset }] = useMutation(
+    REMOVE_SEASON_FROM_GROUP
+  );
 
   // const handleClick = (e: any) => {
   //   router.push({
@@ -67,12 +74,26 @@ const GroupSeasonItem = ({ seasonProps }: Props) => {
       )}
       {isDeleteModalOpen && (
         <DeletePopupModal
-          title="Delete Season"
-          description="This will delete this season"
-          errorMessage={errorMessage}
-          isLoading={false}
-          onClose={() => setIsDeleteModalOpen(false)}
-          onDelete={async () => {}}
+          title="Remove Season"
+          description={`This will remove ${seasonProps.name} from this group permanently`}
+          errorMessage={error?.message||""}
+          isLoading={loading}
+          onClose={() =>{
+            setIsDeleteModalOpen(false);
+            reset();
+          }}
+          onDelete={async () => {
+            await removeSeason({
+              variables: {
+                groupSeasonId: {
+                  seasonId: seasonProps.id,
+                  groupId: authUser.headToGroup.id,
+                },
+              },
+              notifyOnNetworkStatusChange:true,
+              refetchQueries:"active"
+            });
+          }}
         />
       )}
       <Link href={href}>

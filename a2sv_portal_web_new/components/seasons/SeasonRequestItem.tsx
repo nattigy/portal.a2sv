@@ -1,7 +1,8 @@
 import { useMutation } from "@apollo/client";
-import React from "react";
+import React, { useState } from "react";
 import { ACCEPT_OR_REJECT_SEASON_REQUEST } from "../../lib/apollo/Mutations/seasonsMutations";
 import { JoinRequest } from "../../types/season";
+import Button from "../common/Button";
 import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormRejectButton from "../common/FormRejectButton";
 
@@ -19,6 +20,7 @@ const SeasonRequestItem = ({ head, season, group }: SeasonRequestItemProps) => {
   const [acceptOrRejectRequest, { loading, data, error }] = useMutation(
     ACCEPT_OR_REJECT_SEASON_REQUEST
   );
+  const [isApproved, setIsApproved] = useState(false);
 
   const handleRequest = async (joinRequest: JoinRequest) => {
     await acceptOrRejectRequest({
@@ -56,22 +58,24 @@ const SeasonRequestItem = ({ head, season, group }: SeasonRequestItemProps) => {
             <span className="font-semibold"> {group.name}</span>
           </p>
           <div className="flex justify-between items-center">
-            <button
+            <Button
+              isLoading={loading && !isApproved}
               onClick={() => {
+                setIsApproved(false);
                 handleRequest(JoinRequest.REJECTED);
               }}
-              className="py-2 px-4 border bg-white bg-opacity-100 border-primary text-primary text-xs min-w-min  mt-4 font-semibold rounded-lg"
-            >
-              Decline
-            </button>
-            <button
+              text="Decline"
+              classname="py-2 px-4 border bg-white bg-opacity-100 border-primary text-primary text-xs min-w-min  mt-4 font-semibold rounded-lg"
+            />
+            <Button
+              isLoading={loading && isApproved}
+              text="Approve"
               onClick={() => {
+                setIsApproved(true);
                 handleRequest(JoinRequest.APPROVED);
               }}
-              className="py-2 px-4 border bg-primary bg-opacity-100 border-primary text-white text-xs min-w-min  mt-4 font-semibold rounded-lg"
-            >
-              Approve
-            </button>
+              classname="py-2 px-4 border bg-primary bg-opacity-100 border-primary text-white text-xs min-w-min  mt-4 font-semibold rounded-lg"
+            />
           </div>
         </div>
       </div>

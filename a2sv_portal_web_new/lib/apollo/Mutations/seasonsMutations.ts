@@ -42,10 +42,19 @@ export const MAKE_SEASON_REQUEST = gql`
 `;
 
 export const ADD_SEASON_TOPIC_RESOURCES = gql`
-  mutation AddResourcesToSeasonTopic($createSeasonTopicInput: CreateSeasonTopicInput!) {
+  mutation AddResourcesToSeasonTopic(
+    $createSeasonTopicInput: CreateSeasonTopicInput!
+  ) {
     addResourcesToSeasonTopic(createSeasonTopicInput: $createSeasonTopicInput) {
       seasonId
       topicId
+    }
+  }
+`;
+export const START_SEASON = gql`
+  mutation UpdateGroup($updateGroupSeasonInput: UpdateGroupSeasonInput!) {
+    updateGroupSeason(updateGroupSeasonInput: $updateGroupSeasonInput) {
+      isActive
     }
   }
 `;

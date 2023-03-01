@@ -52,7 +52,7 @@ const UserItem = ({ id, email, userProfile, group, role }: UserProps) => {
       )}
       {isDeleteModalOpen && (
         <DeletePopupModal
-          description={`This action will delete ${email}'s account permanently.`}
+          description={`This action will delete ${email}'s account permanently`}
           errorMessage={error?.message || ""}
           title="You are about to delete this user"
           isLoading={loading}

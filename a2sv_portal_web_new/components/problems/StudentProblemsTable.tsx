@@ -5,7 +5,7 @@ import { MdContentPaste } from "react-icons/md";
 import { getIcon } from "../../helpers/getReactIcon";
 import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 import { useGetUserGroupSeasonTopicProblems } from "../../lib/hooks/useProblems";
-import { UserProblem } from "../../types/problems";
+import { ProblemStatus, UserProblem } from "../../types/problems";
 import { LoaderSmall } from "../common/Loaders";
 import ProblemStatusModal from "../modals/ProblemStatusModal";
 import { DifficultyChips } from "./DifficultyChips";
@@ -94,6 +94,7 @@ const StudentProblemsTable = ({ seasonId, topicId }: Props) => {
               <p>Something went wrong</p>
             ) : (
               userProblems?.map((userProblem: UserProblem, index: number) => {
+                console.log(userProblem)
                 return (
                   <tr
                     className="bg-white text-[#565656] hover:bg-gray-50 dark:hover:bg-[#E2E2E2]"

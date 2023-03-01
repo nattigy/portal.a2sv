@@ -56,6 +56,14 @@ export const EDIT_GROUP = gql`
   }
 `;
 
+export const REMOVE_SEASON_FROM_GROUP = gql`
+  mutation RemoveGroupFromASeason($groupSeasonId: GroupSeasonId!) {
+  removeGroupFromASeason(groupSeasonId: $groupSeasonId) {
+    groupId
+  }
+}
+`;
+
 /*
 {
   "updateGroupInput": {

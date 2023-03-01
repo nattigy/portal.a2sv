@@ -3,7 +3,7 @@ export type ProblemType = {
   title: string;
   link: string;
   difficulty: ProblemDifficultyType;
-  status: QuestionStatus;
+  status: ProblemStatus;
   platform: string;
   tags: [
     {
@@ -16,18 +16,18 @@ export type ProblemType = {
 };
 export type UserProblem = {
   problem: ProblemType;
-  status: QuestionStatus;
+  status: ProblemStatus;
   numberOfAttempts: number;
   numberOfMinutes: number;
   solutionLink: string;
 };
 
-export enum ProblemStatus {
+export enum ProblemStatusValue {
   SOLVED = "Solved",
   NOT_SOLVED = "Not Solved",
   UNABLE_TO_SOLVE = "Unable to Solve",
 }
-export enum QuestionStatus {
+export enum ProblemStatus {
   SOLVED = "SOLVED",
   NOT_SOLVED = "NOT_SOLVED",
   UNABLE_TO_SOLVE = "UNABLE_TO_SOLVE",

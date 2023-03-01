@@ -6,11 +6,11 @@ import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormRejectButton from "../common/FormRejectButton";
 import { useMutation } from "@apollo/client";
 import { UPDATE_USER_PROBLEM_STATUS } from "../../lib/apollo/Mutations/problemsMutations";
-import { QuestionStatus, UserProblem } from "../../types";
+import { ProblemStatus, UserProblem } from "../../types";
 import FormRadio from "../common/FormRadio";
 
 interface FormValues {
-  status: QuestionStatus;
+  status: ProblemStatus;
   time_spent: number;
   // wrong_submissions: number;
   total_attempts: number;
@@ -31,7 +31,7 @@ const ProblemStatusModal = (props: Props) => {
   );
 
   const INITIAL_VALUES = {
-    status: props.userProblem.status || QuestionStatus.NOT_SOLVED,
+    status: props.userProblem.status || ProblemStatus.NOT_SOLVED,
     time_spent: props.userProblem.numberOfMinutes,
     total_attempts: props.userProblem.numberOfAttempts,
   } as FormValues;
@@ -81,7 +81,6 @@ const ProblemStatusModal = (props: Props) => {
                 <div className="w-full flex flex-col items-center">
                   <div className="my-3 w-full flex justify-between items-center">
                     <h2 className="font-bold">Problem Details</h2>
-                    {JSON.stringify(errors)}
                     <div
                       className="cursor-pointer"
                       onClick={() => props.onClose()}
@@ -126,27 +125,27 @@ const ProblemStatusModal = (props: Props) => {
                         className="accent-green-700 focus:accent-green-700"
                         id="solved"
                         name="status"
-                        value={QuestionStatus.SOLVED}
+                        value={ProblemStatus.SOLVED}
                         valueName="Solved"
                       />
                       <FormRadio
                         className="accent-yellow-700 focus:accent-yellow-700"
                         id="not-solved"
                         name="status"
-                        value={QuestionStatus.NOT_SOLVED}
+                        value={ProblemStatus.NOT_SOLVED}
                         valueName="Not Solved"
                       />
                       <FormRadio
                         className="accent-red-700 focus:accent-red-700"
                         id="unable-to-solve"
                         name="status"
-                        value={QuestionStatus.UNABLE_TO_SOLVE}
+                        value={ProblemStatus.UNABLE_TO_SOLVE}
                         valueName="Unable to Solve"
                       />
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
-                    <p className="text-sm font-semibold ">Time spent </p>
+                    <p className="text-sm font-semibold ">Time spent (in minutes)</p>
                     <Field
                       name="time_spent"
                       type="number"

@@ -2,7 +2,7 @@ import React from "react";
 import CustomLink from "../common/CustomLink";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { MdContentPaste } from "react-icons/md";
-import { ProblemDifficultyType, ProblemStatus } from "../../types/problems";
+import { ProblemDifficultyType, ProblemStatusValue } from "../../types/problems";
 import { DifficultyChips } from "../problems/DifficultyChips";
 
 export type ProblemSolvedProps = {};
@@ -11,7 +11,7 @@ export type ContestProblemsInfo = {
   id: number;
   name: string;
   difficulty: ProblemDifficultyType;
-  status: ProblemStatus;
+  status: ProblemStatusValue;
   time?: number;
 };
 
@@ -25,28 +25,28 @@ const ContestStatItem = () => {
       id: 1,
       name: "Min Cost Climbing Stairs",
       difficulty: ProblemDifficultyType.EASY,
-      status: ProblemStatus.SOLVED,
+      status: ProblemStatusValue.SOLVED,
       time: 23,
     },
     {
       id: 2,
       name: "Min Cost Falling Stairs",
       difficulty: ProblemDifficultyType.MEDIUM,
-      status: ProblemStatus.SOLVED,
+      status: ProblemStatusValue.SOLVED,
       time: 35,
     },
     {
       id: 3,
       name: "Min Cost Tripping Stairs",
       difficulty: ProblemDifficultyType.HARD,
-      status: ProblemStatus.SOLVED,
+      status: ProblemStatusValue.SOLVED,
       time: 42,
     },
     {
       id: 4,
       name: "Max Cost Tripping Stairs",
       difficulty: ProblemDifficultyType.HARD,
-      status: ProblemStatus.SOLVED,
+      status: ProblemStatusValue.SOLVED,
     },
   ];
 

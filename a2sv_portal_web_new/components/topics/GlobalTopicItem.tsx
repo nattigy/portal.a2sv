@@ -34,7 +34,7 @@ const GlobalTopicItem = (props: Props) => {
         <DeletePopupModal
           title="You are about to remove this topic"
           errorMessage={error?.message || ""}
-          description={`This action will remove ${props.topic.name} from ${props.season.name} permanently.`}
+          description={`This action will remove ${props.topic.name} from ${props.season.name} permanently`}
           isLoading={loading}
           onClose={() => {
             setIsDeleteModalOpen(false);

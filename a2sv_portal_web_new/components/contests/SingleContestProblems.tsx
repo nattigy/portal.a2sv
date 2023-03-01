@@ -1,22 +1,14 @@
 import React, { useState } from "react";
-import CustomLink from "../common/CustomLink";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { UserRoleType } from "../../types/user";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { MdContentPaste } from "react-icons/md";
-import { getIcon } from "../../helpers/getReactIcon";
-import { ProblemDifficultyType, ProblemStatus } from "../../types/problems";
 import { DifficultyChips } from "../problems/DifficultyChips";
 import clsx from "clsx";
 import ContestDetailModal from "../modals/ContestDetailModal";
 import {
-  ContestDetail,
   ContestProblem,
-  ContestProblemsInfo,
 } from "../../types/contest";
 import { authenticatedUser } from "../../lib/constants/authenticated";
 import { useReactiveVar } from "@apollo/client";
-import { getStatusColor, StatusChips } from "../problems/StatusChips";
+import { StatusChips } from "../problems/StatusChips";
 
 type Props = {
   contestProblems: ContestProblem[];

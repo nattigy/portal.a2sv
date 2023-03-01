@@ -34,17 +34,14 @@ const IndexPage = () => {
       loading: groupSeasonLoading,
       error: groupSeasonError,
     },
-  ] = useGetGroupSeasons(authUser?.headToGroup?.id || authUser?.groupId||"");
+  ] = useGetGroupSeasons(authUser?.headToGroup?.id || authUser?.groupId || "");
 
   useEffect(() => {
-      getGroupSeasons();
-    
+    getGroupSeasons();
   }, []);
 
   useEffect(() => {
-    if (
-      groupSeasonData?.groupSeasons?.items
-    ) {
+    if (groupSeasonData?.groupSeasons?.items) {
       setGroupSeasons(
         groupSeasonData.groupSeasons.items.map(
           (item: { season: SeasonType }) => item.season
@@ -78,69 +75,73 @@ const IndexPage = () => {
         <SeasonRequestModal onClose={() => setIsRequestModalOpen(false)} />
       )}
 
-<WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_ACADEMY,GraphqlUserRole.HEAD_OF_EDUCATION]}>
-
-      <div className="flex flex-col gap-y-4">
-        <div className="flex items-center justify-between rounded-md">
-          <h1 className="text-lg font-semibold">Global Seasons</h1>
-          <div className="flex gap-x-2">
-            <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_ACADEMY]}>
+      <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_ACADEMY]}>
+        <div className="flex flex-col gap-y-4">
+          <div className="flex items-center justify-between rounded-md">
+            <h1 className="text-lg font-semibold">Global Seasons</h1>
+            <div className="flex gap-x-2">
               <Button
                 onClick={handleNewSeasonModalOpen}
                 text="Create New"
                 classname="bg-primary text-white text-xs"
               />
-            </WithPermission>
-            <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION]}>
-              <Button
-                onClick={handleRequestSeasonModalOpen}
-                text="Request New Season"
-                classname="bg-primary text-white text-xs"
-              />
-            </WithPermission>
-          </div>
-        </div>
-        <div className="flex flex-col gap-y-4">
-          {error ? (
-            <div>Something went wrong</div>
-          ) : data?.seasons?.items.length === 0 ? (
-            <div className="h-full flex items-center">
-              <EmptyState />
             </div>
-          ) : loading ? (
-            <div className="w-full flex h-full items-center justify-center min-w-full min-h-full">
-              <LoaderSmall />
-            </div>
-          ) : (
-            <SeasonList seasons={data?.seasons?.items} />
-          )}
-        </div>
-      </div>
-      </WithPermission>
-
-      <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION,GraphqlUserRole.STUDENT]}>
-        <div className="flex flex-col gap-y-4">
-          <div className="flex items-center justify-between rounded-md">
-            <h1 className="text-lg font-semibold">Group Seasons</h1>
           </div>
           <div className="flex flex-col gap-y-4">
-            {groupSeasonError ? (
+            {error ? (
               <div>Something went wrong</div>
-            ) : groupSeasonData?.groupSeasons?.items?.length === 0 ? (
+            ) : data?.seasons?.items.length === 0 ? (
               <div className="h-full flex items-center">
                 <EmptyState />
               </div>
-            ) : groupSeasonLoading ? (
+            ) : loading ? (
               <div className="w-full flex h-full items-center justify-center min-w-full min-h-full">
                 <LoaderSmall />
               </div>
             ) : (
-              <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-6">
-              {groupSeasons.map((item: any, index: number) => (
-                <GroupSeasonItem key={index} seasonProps={item} />
-              ))}
-            </div>)
-              // <SeasonList seasons={groupSeasons} />
+              <SeasonList seasons={data?.seasons?.items} />
+            )}
+          </div>
+        </div>
+      </WithPermission>
+
+      <WithPermission
+        allowedRoles={[
+          GraphqlUserRole.HEAD_OF_EDUCATION,
+          GraphqlUserRole.STUDENT,
+        ]}
+      >
+        <div className="flex flex-col gap-y-4">
+          <div className="flex items-center justify-between rounded-md">
+            <h1 className="text-lg font-semibold">Group Seasons</h1>
+            <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_EDUCATION]}>
+            <Button
+              onClick={handleRequestSeasonModalOpen}
+              text="Request New Season"
+              classname="bg-primary text-white text-xs"
+            />
+          </WithPermission>
+          </div>
+
+          <div className="flex flex-col gap-y-4">
+            {
+              groupSeasonError ? (
+                <div>Something went wrong</div>
+              ) : groupSeasonData?.groupSeasons?.items?.length === 0 ? (
+                <div className="h-full flex items-center">
+                  <EmptyState />
+                </div>
+              ) : groupSeasonLoading ? (
+                <div className="w-full flex h-full items-center justify-center min-w-full min-h-full">
+                  <LoaderSmall />
+                </div>
+              ) : (
+                <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {groupSeasons.map((item: any, index: number) => (
+                    <GroupSeasonItem key={index} seasonProps={item} />
+                  ))}
+                </div>
+              )
             }
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { ProblemDifficultyType, ProblemStatus, ProblemType } from "./problems";
+import { ProblemDifficultyType, ProblemType } from "./problems";
 
 export type GroupContestDetail = {
     contestAttendance: number;
@@ -57,7 +57,7 @@ export type ContestProblemsInfo = {
     title: string;
     difficulty: ProblemDifficultyType;
     platform?: string;
-    status: ProblemStatus;
+    status: ContestStatus;
     time?: number;
     tried: number;
   };  
