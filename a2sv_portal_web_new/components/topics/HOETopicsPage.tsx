@@ -138,10 +138,10 @@ const HOETopicsPage = () => {
         <div className=" justify-between flex items-center mb-2 gap-x-5 ">
           <h1 className="text-lg font-semibold text-gray-700">Group Topics</h1>
         </div>
-        {addError && (
+        {removeError && (
           <div className="bg-[#E4646451] py-1 rounded-md">
             <span className="text-[#E46464] px-4 text-xs">
-              {addError.message}
+              {removeError.message}
             </span>
           </div>
         )}
@@ -160,11 +160,11 @@ const HOETopicsPage = () => {
       </div>
 
       <div className="w-full flex flex-col gap-y-4">
-        {loading ? (
+        {removeLoading ? (
           <div className="h-full w-full flex justify-center items-center">
             <LoaderSmall />
           </div>
-        ) : error ? (
+        ) : removeError ? (
           <p>Something went wrong</p>
         ) : seasonTopics?.length === 0 ? (
           <EmptyState />
@@ -212,7 +212,7 @@ const HOETopicsPage = () => {
       </div>
 
       <div className="w-full flex flex-col gap-y-4">
-        {loading ? (
+        {addLoading ? (
           <div className="h-full w-full flex justify-center items-center">
             <LoaderSmall />
           </div>
