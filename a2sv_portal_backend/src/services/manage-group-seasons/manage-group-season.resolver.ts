@@ -165,18 +165,6 @@ export class ManageGroupSeasonResolver {
   //     groupSeasonTopicProblemId,
   //   )
   // }
-
-  // @Query(() => [GroupSeasonTopicProblem])
-  // async groupSeasonTopicProblems(
-  //   @Args('groupSeasonTopicId') groupSeasonTopicId: GroupSeasonTopicId,
-  //   @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
-  // ): Promise<GroupSeasonTopicProblem[]> {
-  //   return this.groupSeasonTopicProblemService.groupSeasonTopicProblems(
-  //     groupSeasonTopicId,
-  //     paginationInput,
-  //   )
-  // }
-
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupSeasonTopicProblemAbilities.create)
   @Mutation(() => Int)
