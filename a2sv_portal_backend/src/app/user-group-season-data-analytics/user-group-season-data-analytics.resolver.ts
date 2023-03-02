@@ -1,13 +1,13 @@
 import { Args, Query, Resolver } from '@nestjs/graphql'
-import { StudentDataAnalyticsService } from './student-data-analytics.service'
+import { UserGroupSeasonDataAnalyticsService } from './user-group-season-data-analytics.service'
 import { UserGroupSeasonDataAnalytics } from './entities/user-group-season-data-analytics'
 import { StudentWeeklyAnalytic } from './entities/weekly-data-analytic-entity'
 import { StudentMonthlyAnalytic } from './entities/montly-data-analytic-entity'
 import { StudentYearlyAnalytic } from './entities/yearly-data-analytic-entity'
 
 @Resolver(() => UserGroupSeasonDataAnalytics)
-export class StudentDataAnalyticsResolver {
-  constructor(private readonly studentDataAnalyticsService: StudentDataAnalyticsService) {}
+export class UserGroupSeasonDataAnalyticsResolver {
+  constructor(private readonly studentDataAnalyticsService: UserGroupSeasonDataAnalyticsService) {}
 
   @Query(() => [UserGroupSeasonDataAnalytics])
   async studentDailyStat(

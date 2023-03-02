@@ -8,36 +8,26 @@ import { UserGroupSeasonTopicId } from './dto/create-user-group-season-topic.inp
 export class UserGroupSeasonTopicService {
   constructor(
     private readonly userGroupSeasonTopicRepository: UserGroupSeasonTopicRepository,
-  ) {}
+  ) {
+  }
 
-  async updateUserTopicComfortability({
-    groupId,
-    seasonId,
-    userId,
-    topicId,
-    ...updates
-  }: UpdateUserGroupSeasonTopicInput): Promise<UserGroupSeasonTopic> {
+  async updateUserGroupSeasonTopic({ id, ...updates }: UpdateUserGroupSeasonTopicInput): Promise<UserGroupSeasonTopic> {
     return this.userGroupSeasonTopicRepository.upsert({
       where: {
-        userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },
+        userId_groupId_seasonId_topicId: id,
       },
-      data: { groupId, seasonId, userId, topicId, ...updates },
+      data: { id, ...updates },
     })
   }
 
-  async removeUserGroupSeasonTopic({
-    userId,
-    groupId,
-    seasonId,
-    topicId,
-  }: UserGroupSeasonTopicId) {
+  async removeUserGroupSeasonTopic(userGroupSeasonTopicId: UserGroupSeasonTopicId) {
     try {
       await this.userGroupSeasonTopicRepository.remove({
-        userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },
+        userId_groupId_seasonId_topicId: userGroupSeasonTopicId,
       })
     } catch (e) {
-      console.log(`Fail to delete user topic with id ${userId}`, ' : ', e)
-      throw new Error(`Fail to delete user topic with id ${userId}`)
+      console.log(`Fail to delete user topic with id ${userGroupSeasonTopicId.userId}`, ' : ', e)
+      throw new Error(`Fail to delete user topic with id ${userGroupSeasonTopicId.userId}`)
     }
     return 1
   }

@@ -4,21 +4,21 @@ import { Prisma } from '@prisma/client'
 import { UserGroupSeasonContest } from './entities/user-group-season-contest.entity'
 import { UpdateUserGroupSeasonContestInput } from './dto/update-user-group-season-contest.input'
 
+export const UserGroupSeasonContestIncludeObject = {
+  contest: {
+    include: {
+      contestProblems: { include: { problem: { include: { tags: true } } } },
+    },
+  },
+  userGroupSeasonContestProblems: {
+    include: {
+      contestProblem: { include: { problem: { include: { tags: true } } } },
+    },
+  },
+}
+
 @Injectable()
 export class UserGroupSeasonContestRepository {
-  include = {
-    contest: {
-      include: {
-        contestProblems: { include: { problem: { include: { tags: true } } } },
-      },
-    },
-    userGroupSeasonContestProblems: {
-      include: {
-        contestProblem: { include: { problem: { include: { tags: true } } } },
-      },
-    },
-  }
-
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(
@@ -26,18 +26,7 @@ export class UserGroupSeasonContestRepository {
   ): Promise<UserGroupSeasonContest> {
     return this.prismaService.userGroupSeasonContest.create({
       data,
-      include: {
-        contest: {
-          include: {
-            contestProblems: { include: { problem: { include: { tags: true } } } },
-          },
-        },
-        userGroupSeasonContestProblems: {
-          include: {
-            contestProblem: { include: { problem: { include: { tags: true } } } },
-          },
-        },
-      },
+      include: UserGroupSeasonContestIncludeObject,
     })
   }
 
@@ -57,7 +46,7 @@ export class UserGroupSeasonContestRepository {
       take,
       where,
       orderBy,
-      include: this.include,
+      include: UserGroupSeasonContestIncludeObject,
     })
   }
 
@@ -66,7 +55,7 @@ export class UserGroupSeasonContestRepository {
   ): Promise<UserGroupSeasonContest> {
     return this.prismaService.userGroupSeasonContest.findUnique({
       where,
-      include: this.include,
+      include: UserGroupSeasonContestIncludeObject,
     })
   }
 
@@ -78,7 +67,7 @@ export class UserGroupSeasonContestRepository {
     return this.prismaService.userGroupSeasonContest.update({
       data,
       where,
-      include: this.include,
+      include: UserGroupSeasonContestIncludeObject,
     })
   }
 
@@ -110,7 +99,7 @@ export class UserGroupSeasonContestRepository {
         problemsSolved,
         timeSpent,
       },
-      include: this.include,
+      include: UserGroupSeasonContestIncludeObject,
     })
   }
 

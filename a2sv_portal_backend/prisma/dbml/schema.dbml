@@ -297,24 +297,6 @@ Table UserGroupSeason {
   }
 }
 
-Table UserGroupSeasonDataAnalytics {
-  userId String [not null]
-  groupId String [not null]
-  seasonId String [not null]
-  solvedCount Int [not null, default: 0]
-  wrongCount Int [not null, default: 0]
-  month Int [not null]
-  week Int [not null]
-  year Int [not null]
-  userGroupSeason UserGroupSeason [not null]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-
-  indexes {
-    (userId, groupId, seasonId, createdAt) [pk]
-  }
-}
-
 Table UserGroupSeasonTopic {
   userId String [not null]
   groupId String [not null]
@@ -355,6 +337,24 @@ Table UserGroupSeasonTopicProblem {
 
   indexes {
     (userId, groupId, seasonId, topicId, problemId) [pk]
+  }
+}
+
+Table UserGroupSeasonDataAnalytics {
+  userId String [not null]
+  groupId String [not null]
+  seasonId String [not null]
+  solvedCount Int [not null, default: 0]
+  wrongCount Int [not null, default: 0]
+  month Int [not null]
+  week Int [not null]
+  year Int [not null]
+  userGroupSeason UserGroupSeason [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+
+  indexes {
+    (userId, groupId, seasonId, createdAt) [pk]
   }
 }
 
@@ -587,8 +587,6 @@ Ref: UserGroupSeason.userId > User.id [delete: Cascade]
 
 Ref: UserGroupSeason.(groupId, seasonId) > GroupSeason.(groupId, seasonId) [delete: Cascade]
 
-Ref: UserGroupSeasonDataAnalytics.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
-
 Ref: UserGroupSeasonTopic.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
 
 Ref: UserGroupSeasonTopic.(groupId, seasonId, topicId) > GroupSeasonTopic.(groupId, seasonId, topicId) [delete: Cascade]
@@ -600,6 +598,8 @@ Ref: UserGroupSeasonTopicProblem.(userId, groupId, seasonId, topicId) > UserGrou
 Ref: UserGroupSeasonTopicProblem.(groupId, seasonId, topicId, problemId) > GroupSeasonTopicProblem.(groupId, seasonId, topicId, problemId) [delete: Cascade]
 
 Ref: UserGroupSeasonTopicProblem.problemId > Problem.id [delete: Cascade]
+
+Ref: UserGroupSeasonDataAnalytics.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
 
 Ref: UserGroupSeasonContest.(userId, groupId, seasonId) > UserGroupSeason.(userId, groupId, seasonId) [delete: Cascade]
 

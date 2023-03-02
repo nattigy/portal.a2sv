@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
 import {
   UserGroupSeasonTopicProblemService,
@@ -6,17 +6,16 @@ import {
 import {
   UpdateUserGroupSeasonTopicProblemInput,
 } from '../../app/user-group-season-topic-problem/dto/update-user-group-season-topic-problem.input'
-import { UserGroupSeasonTopicService } from '../../app/user-group-season-topic/user-group-season-topic.service'
 import { UserGroupSeasonService } from '../../app/user-group-season/user-group-season.service'
-import { StudentDataAnalyticsService } from '../../app/user-group-season-analytics/student-data-analytics.service'
+import { UserGroupSeasonDataAnalyticsService } from '../../app/user-group-season-data-analytics/user-group-season-data-analytics.service'
+import { UserTopicProblemStatusEnum } from '@prisma/client'
 
 @Injectable()
 export class UsersUpdateProblemStatusService {
   constructor(
     private readonly userGroupSeasonTopicProblemService: UserGroupSeasonTopicProblemService,
-    private readonly userGroupSeasonTopicService: UserGroupSeasonTopicService,
     private readonly userGroupSeasonService: UserGroupSeasonService,
-    private readonly studentDataAnalyticsService: StudentDataAnalyticsService,
+    private readonly studentDataAnalyticsService: UserGroupSeasonDataAnalyticsService,
     private readonly prismaService: PrismaService,
   ) {
   }
@@ -85,22 +84,6 @@ export class UsersUpdateProblemStatusService {
     if (!foundGroupSeasonTopic.groupSeason.isActive)
       throw new Error('This group\'s season is not active!')
 
-    // const userGSTP = await this.prismaService.userGroupSeasonTopic.findUnique({
-    //   where: { userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId }},
-    // })
-    await this.userGroupSeasonService.upsert({
-      userId,
-      groupId,
-      seasonId,
-    })
-    // await this.userGroupSeasonTopicService.updateUserTopicComfortability({
-    //   userId,
-    //   groupId,
-    //   seasonId,
-    //   topicId,
-    //   comfortLevel: userGSTP ? userGSTP.comfortLevel : ComfortLevelEnum.UNCOMFORTABLE,
-    // })
-
     /** ======== Generating or creating daily stat info ======= //
      1. fetch old problem status
      2. if it doesn't exist continue else
@@ -116,30 +99,32 @@ export class UsersUpdateProblemStatusService {
         topicId,
         problemId,
       })
+    if (oldStatus && oldStatus.status === UserTopicProblemStatusEnum.SOLVED &&
+      new Date(oldStatus.statusUpdatedAt).getDate() < new Date().getDate()) {
+      throw new NotAcceptableException('Problem already solved!')
+    }
     if (!oldStatus || oldStatus.status !== updates.status) {
       updateUserGroupSeasonTopicProblemInput.statusUpdatedAt = new Date()
     }
+    await this.userGroupSeasonService.upsert({
+      userId,
+      groupId,
+      seasonId,
+    })
     const updated = await this.userGroupSeasonTopicProblemService.updateUserProblemStatus(
       updateUserGroupSeasonTopicProblemInput,
     )
 
     /** update usersDailyStat **/
-    if (oldStatus) {
-      /** if the status was updated in previous times the update the stat on that date **/
+    /** update the stat on today's date if the new status is solved **/
+    if (updates.status === UserTopicProblemStatusEnum.SOLVED) {
       await this.studentDataAnalyticsService.upsert({
         userId,
         groupId,
         seasonId,
-        createdAt: oldStatus.statusUpdatedAt,
+        createdAt: updated.statusUpdatedAt,
       })
     }
-    /** update the stat on today's date **/
-    await this.studentDataAnalyticsService.upsert({
-      userId,
-      groupId,
-      seasonId,
-      createdAt: updated.statusUpdatedAt,
-    })
 
     return updated
   }

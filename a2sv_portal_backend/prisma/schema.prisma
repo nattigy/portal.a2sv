@@ -288,22 +288,6 @@ model UserGroupSeason {
   @@id([userId, groupId, seasonId])
 }
 
-model UserGroupSeasonDataAnalytics {
-  userId          String
-  groupId         String
-  seasonId        String
-  solvedCount     Int             @default(0)
-  wrongCount      Int             @default(0)
-  month           Int
-  week            Int
-  year            Int
-  userGroupSeason UserGroupSeason @relation(fields: [userId, groupId, seasonId], references: [userId, groupId, seasonId], onDelete: Cascade)
-  createdAt       DateTime        @default(now()) @db.Date
-  updatedAt       DateTime        @updatedAt @db.Date
-
-  @@id([userId, groupId, seasonId, createdAt])
-}
-
 // model UserGroupSeasonRanks {
 //   userId            String
 //   groupId           String
@@ -358,6 +342,22 @@ model UserGroupSeasonTopicProblem {
   problem                 Problem                    @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
   @@id([userId, groupId, seasonId, topicId, problemId])
+}
+
+model UserGroupSeasonDataAnalytics {
+  userId          String
+  groupId         String
+  seasonId        String
+  solvedCount     Int             @default(0)
+  wrongCount      Int             @default(0)
+  month           Int
+  week            Int
+  year            Int
+  userGroupSeason UserGroupSeason @relation(fields: [userId, groupId, seasonId], references: [userId, groupId, seasonId], onDelete: Cascade)
+  createdAt       DateTime        @default(now()) @db.Date
+  updatedAt       DateTime        @updatedAt @db.Date
+
+  @@id([userId, groupId, seasonId, createdAt])
 }
 
 model UserGroupSeasonContest {

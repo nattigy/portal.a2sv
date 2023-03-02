@@ -7,8 +7,9 @@ import { StudentWeeklyAnalytic } from './entities/weekly-data-analytic-entity'
 import { StudentYearlyAnalytic } from './entities/yearly-data-analytic-entity'
 
 @Injectable()
-export class StudentDataAnalyticsService {
-  constructor(private prismaService: PrismaService) {}
+export class UserGroupSeasonDataAnalyticsService {
+  constructor(private prismaService: PrismaService) {
+  }
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT, {
     name: 'Scheduler Populate user_data fields',
@@ -80,12 +81,7 @@ export class StudentDataAnalyticsService {
     })
     return this.prismaService.userGroupSeasonDataAnalytics.upsert({
       where: {
-        userId_groupId_seasonId_createdAt: {
-          userId,
-          groupId,
-          seasonId,
-          createdAt,
-        },
+        userId_groupId_seasonId_createdAt: { userId, groupId, seasonId, createdAt },
       },
       create: {
         userId,
@@ -95,9 +91,9 @@ export class StudentDataAnalyticsService {
           .length,
         wrongCount: userProblems
           .map(up =>
-            up.status === UserTopicProblemStatusEnum.SOLVED
+            up.numberOfAttempts > 0 ? up.status === UserTopicProblemStatusEnum.SOLVED
               ? up.numberOfAttempts - 1
-              : up.numberOfAttempts,
+              : up.numberOfAttempts : 1,
           )
           .reduce((a, b) => a + b, 0),
         month: new Date().getMonth(),
@@ -112,9 +108,9 @@ export class StudentDataAnalyticsService {
           .length,
         wrongCount: userProblems
           .map(up =>
-            up.status === UserTopicProblemStatusEnum.SOLVED
+            up.numberOfAttempts > 0 ? up.status === UserTopicProblemStatusEnum.SOLVED
               ? up.numberOfAttempts - 1
-              : up.numberOfAttempts,
+              : up.numberOfAttempts : 1,
           )
           .reduce((a, b) => a + b, 0),
       },

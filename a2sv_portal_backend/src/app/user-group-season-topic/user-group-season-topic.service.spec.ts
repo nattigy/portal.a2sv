@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { UserGroupSeasonTopicService } from '../../services/manage-user-group-season/user-group-season-topic.service'
+import { ManageUserGroupSeasonTopicsService } from '../../services/manage-user-group-seasons/manage-user-group-season-topics.service'
 
 describe('UserTopicService', () => {
-  let service: UserGroupSeasonTopicService
+  let service: ManageUserGroupSeasonTopicsService
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UserGroupSeasonTopicService],
+      providers: [ManageUserGroupSeasonTopicsService],
     }).compile()
 
-    service = module.get<UserGroupSeasonTopicService>(UserGroupSeasonTopicService)
+    service = module.get<ManageUserGroupSeasonTopicsService>(ManageUserGroupSeasonTopicsService)
   })
 
   it('should be defined', () => {
