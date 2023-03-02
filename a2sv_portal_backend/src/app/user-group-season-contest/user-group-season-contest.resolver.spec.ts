@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { UserGroupSeasonContestResolver } from '../../services/user-group-season-services/user-group-season-contest.resolver'
-import { UserGroupSeasonContestService } from '../../services/manage-user-group-season/user-group-season-contest.service'
+import { UserGroupSeasonContestService } from '../../services/manage-user-group-seasons/user-group-season-contest.service'
 
 describe('UserContestResolver', () => {
   let resolver: UserGroupSeasonContestResolver

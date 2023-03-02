@@ -18,9 +18,6 @@ export class UserGroupSeason {
   @Field(() => User)
   user: User
 
-  // @Field(() => Int)
-  // rank: number
-
   @Field(() => Int)
   totalSubmissions: number
 
@@ -45,10 +42,10 @@ export class UserGroupSeason {
   @Field(() => Int)
   totalContestsAttended: number
 
-  @Field(() => UserGroupSeasonTopic)
+  @Field(() => [UserGroupSeasonTopic])
   userGroupSeasonTopics: UserGroupSeasonTopic[]
 
-  @Field(() => UserGroupSeasonContest)
+  @Field(() => [UserGroupSeasonContest])
   userGroupSeasonContests: UserGroupSeasonContest[]
 
   @Field(() => GraphQLISODateTime, { nullable: true })

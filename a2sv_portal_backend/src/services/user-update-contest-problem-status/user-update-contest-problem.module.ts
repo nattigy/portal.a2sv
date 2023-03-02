@@ -6,14 +6,14 @@ import {
   UserGroupSeasonContestProblemModule,
 } from '../../app/user-group-season-contest-problem/user-group-season-contest-problem.module'
 import { UserGroupSeasonModule } from '../../app/user-group-season/user-group-season.module'
-import { ManageUserGroupSeasonModule } from '../manage-user-group-season/manage-user-group-season.module'
+import { ManageUserGroupSeasonsModule } from '../manage-user-group-seasons/manage-user-group-seasons.module'
 
 @Module({
   imports: [
     UserGroupSeasonContestModule,
     UserGroupSeasonContestProblemModule,
     // UserGroupSeasonModule,
-    // ManageUserGroupSeasonModule
+    // ManageUserGroupSeasonsModule
   ],
   providers: [
     // UserUpdateContestProblemResolver,

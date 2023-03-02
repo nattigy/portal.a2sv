@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { UserGroupSeasonTopicService } from './user-group-season-topic.service'
-import { UserGroupSeasonTopicProblemService } from './user-group-season-topic-problem.service'
+import { ManageUserGroupSeasonTopicsService } from './manage-user-group-season-topics.service'
+import { ManageUserGroupSeasonTopicProblemsService } from './manage-user-group-season-topic-problems.service'
 import { UserGroupSeason } from '../../app/user-group-season/entities/user-group-season.entity'
 import { UserGroupSeasonId } from '../../app/user-group-season/dto/create-group-user-season.input'
 import { FilterUserGroupSeasonInput } from '../../app/user-group-season/dto/filter-user-group-season-input'
@@ -23,14 +23,14 @@ import {
 import {
   FilterUserGroupSeasonTopicProblemInput,
 } from '../../app/user-group-season-topic-problem/dto/filter-user-group-season-topic-problem.input'
-import { ManageUserGroupSeasonService } from './user-group-season.service'
+import { ManageUserGroupSeasonsService } from './manage-user-group-seasons.service'
 
 @Resolver()
-export class ManageUserGroupSeasonResolver {
+export class ManageUserGroupSeasonsResolver {
   constructor(
-    private readonly userGroupSeasonService: ManageUserGroupSeasonService,
-    private readonly userGroupSeasonTopicService: UserGroupSeasonTopicService,
-    private readonly seasonTopicUserProblemService: UserGroupSeasonTopicProblemService,
+    private readonly userGroupSeasonService: ManageUserGroupSeasonsService,
+    private readonly userGroupSeasonTopicService: ManageUserGroupSeasonTopicsService,
+    private readonly seasonTopicUserProblemService: ManageUserGroupSeasonTopicProblemsService,
   ) {
   }
 
@@ -100,46 +100,4 @@ export class ManageUserGroupSeasonResolver {
       pageInfoInput,
     )
   }
-
-  // @Mutation(() => Int)
-  // async removeUserGroupSeasonTopicProblem(
-  //   @Args('seasonTopicProblemUserId') seasonTopicProblemUserId: UserGroupSeasonTopicProblemId,
-  // ) {
-  //   return this.seasonTopicUserProblemService.removeUserGroupSeasonTopicProblem(
-  //     seasonTopicProblemUserId,
-  //   )
-  // }
-
-  // // @Mutation(() => Int)
-  // // async removeUserGroupSeasonContest(
-  // //   @Args('userGroupSeasonContestId') userGroupSeasonContestId: UserGroupSeasonContestId,
-  // // ): Promise<number> {
-  // //   return this.userGroupSeasonContestService.removeUserGroupSeasonContest(userGroupSeasonContestId)
-  // // }
-  //
-  // @Query(() => UserGroupSeasonContestProblem)
-  // async userGroupSeasonContestProblem(
-  //   @Args('userGroupSeasonContestProblemId') userGroupSeasonContestProblemId: UserGroupSeasonContestProblemId,
-  // ) {
-  //   return this.userGroupSeasonContestProblemService.userGroupSeasonContestProblem(userGroupSeasonContestProblemId)
-  // }
-  //
-  // // @Query(() => PaginationUserGroupSeasonContestProblem)
-  // // async userGroupSeasonContestProblems(
-  // //   @Args('filterUserGroupSeasonContestProblemInput', { nullable: true})
-  // //   filterUserGroupSeasonContestProblemInput?: FilterUserGroupSeasonContestProblemInput,
-  // //   @Args('pageInfoInput', {  nullable: true }) pageInfoInput?: PaginationInput,
-  // // ) {
-  // //   return this.userGroupSeasonContestProblemService.userGroupSeasonContestProblems(filterUserGroupSeasonContestProblemInput, pageInfoInput)
-  // // }
-  //
-  // // @Mutation(() => Int)
-  // // async removeUserGroupSeasonContestProblem(
-  // //   @Args('userGroupSeasonContestProblemId')
-  // //   userGroupSeasonContestProblemId: UserGroupSeasonContestProblemId,
-  // // ) {
-  // //   return this.userGroupSeasonContestProblemService.removeUserGroupSeasonContestProblem(
-  // //     userGroupSeasonContestProblemId,
-  // //   )
-  // // }
 }

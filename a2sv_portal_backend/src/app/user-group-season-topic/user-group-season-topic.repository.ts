@@ -3,24 +3,26 @@ import { PrismaService } from '../../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
 import { UserGroupSeasonTopic } from './entities/user-group-season-topic.entity'
 import { UpdateUserGroupSeasonTopicInput } from './dto/update-user-group-season-topic.input'
+import {
+  UserGroupSeasonTopicProblemIncludeObject,
+} from '../user-group-season-topic-problem/user-group-season-topic-problem.repository'
+
+export const UserGroupSeasonTopicIncludeObject = {
+  topic: true,
+  userGroupSeasonTopicProblems: {
+    include: UserGroupSeasonTopicProblemIncludeObject,
+  },
+}
 
 @Injectable()
 export class UserGroupSeasonTopicRepository {
-  include = {
-    topic: true,
-    userGroupSeasonTopicProblems: {
-      include: {
-        problem: { include: { tags: true } },
-      },
-    },
+  constructor(private readonly prismaService: PrismaService) {
   }
-
-  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.UserGroupSeasonTopicCreateInput): Promise<UserGroupSeasonTopic> {
     return this.prismaService.userGroupSeasonTopic.create({
       data,
-      include: this.include,
+      include: UserGroupSeasonTopicIncludeObject,
     })
   }
 
@@ -40,7 +42,7 @@ export class UserGroupSeasonTopicRepository {
       take,
       where,
       orderBy,
-      include: this.include,
+      include: UserGroupSeasonTopicIncludeObject,
     })
   }
 
@@ -49,7 +51,7 @@ export class UserGroupSeasonTopicRepository {
   ): Promise<UserGroupSeasonTopic> {
     return this.prismaService.userGroupSeasonTopic.findUnique({
       where,
-      include: this.include,
+      include: UserGroupSeasonTopicIncludeObject,
     })
   }
 
@@ -61,60 +63,40 @@ export class UserGroupSeasonTopicRepository {
     return this.prismaService.userGroupSeasonTopic.update({
       data,
       where,
-      include: this.include,
+      include: UserGroupSeasonTopicIncludeObject,
     })
   }
 
   async upsert(params: {
     where: Prisma.UserGroupSeasonTopicWhereUniqueInput
     data: UpdateUserGroupSeasonTopicInput
-    // data: Prisma.UserGroupSeasonTopicUpdateInput
   }): Promise<UserGroupSeasonTopic> {
     const { where, data } = params
     const { comfortLevel } = data
+    const { userId, groupId, seasonId, topicId } = where.userId_groupId_seasonId_topicId
     return this.prismaService.userGroupSeasonTopic.upsert({
       where,
       create: {
         comfortLevel,
-        // comfortLevel: data.comfortLevel === ComfortLevelEnum.COMFORTABLE ? 'COMFORTABLE' : 'UNCOMFORTABLE',
         userGroupSeason: {
           connectOrCreate: {
             where: {
-              userId_groupId_seasonId: {
-                userId: where.userId_groupId_seasonId_topicId.userId,
-                groupId: where.userId_groupId_seasonId_topicId.groupId,
-                seasonId: where.userId_groupId_seasonId_topicId.seasonId,
-              },
+              userId_groupId_seasonId: { userId, groupId, seasonId },
             },
-            create: {
-              userId: where.userId_groupId_seasonId_topicId.userId,
-              groupId: where.userId_groupId_seasonId_topicId.groupId,
-              seasonId: where.userId_groupId_seasonId_topicId.seasonId,
-            }
+            create: { userId, groupId, seasonId },
           },
         },
         groupSeasonTopic: {
           connect: {
-            groupId_seasonId_topicId: {
-              groupId: where.userId_groupId_seasonId_topicId.groupId,
-              seasonId: where.userId_groupId_seasonId_topicId.seasonId,
-              topicId: where.userId_groupId_seasonId_topicId.topicId,
-            },
+            groupId_seasonId_topicId: { groupId, seasonId, topicId },
           },
         },
         topic: {
-          connect: { id: where.userId_groupId_seasonId_topicId.topicId },
+          connect: { id: topicId },
         },
       },
       update: { comfortLevel },
-      include: {
-        topic: true,
-        userGroupSeasonTopicProblems: {
-          include: {
-            problem: { include: { tags: true } },
-          },
-        },
-      },
+      include: UserGroupSeasonTopicIncludeObject,
     })
   }
 

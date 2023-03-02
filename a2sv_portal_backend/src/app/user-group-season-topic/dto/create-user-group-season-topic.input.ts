@@ -16,7 +16,7 @@ export class CreateUserGroupSeasonTopicInput {
   topicId: string
 
   @Field(() => ComfortLevelEnum, { defaultValue: ComfortLevelEnum.UNCOMFORTABLE })
-  comfortLevel: ComfortLevelEnum = ComfortLevelEnum.UNCOMFORTABLE
+  comfortLevel: ComfortLevelEnum
 }
 
 @InputType()

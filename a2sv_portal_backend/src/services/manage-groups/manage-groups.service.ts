@@ -49,7 +49,6 @@ export class ManageGroupsService {
       throw new NotFoundException(`Group with id ${groupId} not found`)
     }
 
-    const newUpdates: Prisma.GroupUpdateInput = { ...updates }
     if (headId) {
       const foundUser = await this.prismaService.user.findUnique({
         where: { id: headId },
