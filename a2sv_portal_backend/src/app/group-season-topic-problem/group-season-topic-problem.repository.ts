@@ -85,11 +85,34 @@ export class GroupSeasonTopicProblemRepository {
           },
         },
         seasonTopicProblem: {
-          connect: {
-            seasonId_topicId_problemId: {
-              seasonId: where.groupId_seasonId_topicId_problemId.seasonId,
-              topicId: where.groupId_seasonId_topicId_problemId.topicId,
-              problemId: where.groupId_seasonId_topicId_problemId.problemId,
+          connectOrCreate: {
+            where: {
+              seasonId_topicId_problemId: {
+                seasonId: where.groupId_seasonId_topicId_problemId.seasonId,
+                topicId: where.groupId_seasonId_topicId_problemId.topicId,
+                problemId: where.groupId_seasonId_topicId_problemId.problemId,
+              }
+            },
+            create: {
+              seasonTopic: {
+                connectOrCreate:{
+                  where: {
+                    seasonId_topicId: {
+                      seasonId: where.groupId_seasonId_topicId_problemId.seasonId,
+                      topicId: where.groupId_seasonId_topicId_problemId.topicId,
+                    }
+                  },
+                  create: {
+                    seasonId: where.groupId_seasonId_topicId_problemId.seasonId,
+                    topicId: where.groupId_seasonId_topicId_problemId.topicId,
+                  }
+                }
+              },
+              problem: {
+                connect: {
+                  id: where.groupId_seasonId_topicId_problemId.problemId,
+                }
+              }
             },
           },
         },

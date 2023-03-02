@@ -1,7 +1,7 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { GroupSeasonService } from './group-season.service'
-import { ManageGroupSeasonTopicService } from './group-season-topic.service'
-import { GroupSeasonTopicProblemService } from './group-season-topic-problem.service'
+import { ManageGroupSeasonsService } from './manage-group-seasons.service'
+import { ManageGroupSeasonTopicService } from './manage-group-season-topics.service'
+import { ManageGroupSeasonTopicProblemsService } from './manage-group-season-topic-problems.service'
 import { BadRequestException, UseGuards } from '@nestjs/common'
 import { PoliciesGuard } from '../../casl/policy/policy.guard'
 import { CheckPolicies } from '../../casl/policy/policy.decorator'
@@ -22,13 +22,19 @@ import { GroupSeasonTopicAbilities } from '../../casl/handler/group-season-topic
 import { GroupSeasonTopic } from '../../app/group-season-topic/entities/group-season-topic.entity'
 import { GroupSeasonTopicId } from '../../app/group-season-topic/dto/create-group-season-topic.input'
 import { GroupSeasonTopicProblemAbilities } from '../../casl/handler/group-season-topic-problem-abilities.handler'
+import {
+  GroupSeasonTopicProblem
+} from '../../app/group-season-topic-problem/entities/group-season-topic-problem.entity'
+import {
+  GroupSeasonTopicProblemId
+} from '../../app/group-season-topic-problem/dto/create-group-season-topic-problem.input'
 
 @Resolver()
-export class ManageGroupSeasonResolver {
+export class ManageGroupSeasonsResolver {
   constructor(
-    private readonly groupSeasonService: GroupSeasonService,
+    private readonly groupSeasonService: ManageGroupSeasonsService,
     private readonly groupSeasonTopicService: ManageGroupSeasonTopicService,
-    private readonly groupSeasonTopicProblemService: GroupSeasonTopicProblemService, // private readonly groupSeasonContestService: GroupSeasonContestService, // private readonly groupSeasonContestProblemService: GroupSeasonContestProblemService,
+    private readonly groupSeasonTopicProblemService: ManageGroupSeasonTopicProblemsService, // private readonly groupSeasonContestService: GroupSeasonContestService, // private readonly groupSeasonContestProblemService: GroupSeasonContestProblemService,
   ) {}
 
   @UseGuards(PoliciesGuard)
@@ -157,25 +163,25 @@ export class ManageGroupSeasonResolver {
   //   )
   // }
 
-  // @Query(() => GroupSeasonTopicProblem)
-  // async groupSeasonTopicProblem(
-  //   @Args('groupSeasonTopicProblemId') groupSeasonTopicProblemId: GroupSeasonTopicProblemId,
-  // ): Promise<GroupSeasonTopicProblem> {
-  //   return this.groupSeasonTopicProblemService.groupSeasonTopicProblem(
-  //     groupSeasonTopicProblemId,
-  //   )
-  // }
+  @Query(() => GroupSeasonTopicProblem)
+  async groupSeasonTopicProblem(
+    @Args('groupSeasonTopicProblemId') groupSeasonTopicProblemId: GroupSeasonTopicProblemId,
+  ): Promise<GroupSeasonTopicProblem> {
+    return this.groupSeasonTopicProblemService.groupSeasonTopicProblem(
+      groupSeasonTopicProblemId,
+    )
+  }
 
-  // @Query(() => [GroupSeasonTopicProblem])
-  // async groupSeasonTopicProblems(
-  //   @Args('groupSeasonTopicId') groupSeasonTopicId: GroupSeasonTopicId,
-  //   @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
-  // ): Promise<GroupSeasonTopicProblem[]> {
-  //   return this.groupSeasonTopicProblemService.groupSeasonTopicProblems(
-  //     groupSeasonTopicId,
-  //     paginationInput,
-  //   )
-  // }
+  @Query(() => [GroupSeasonTopicProblem])
+  async groupSeasonTopicProblems(
+    @Args('groupSeasonTopicId') groupSeasonTopicId: GroupSeasonTopicId,
+    @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
+  ): Promise<GroupSeasonTopicProblem[]> {
+    return this.groupSeasonTopicProblemService.groupSeasonTopicProblems(
+      groupSeasonTopicId,
+      paginationInput,
+    )
+  }
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupSeasonTopicProblemAbilities.create)
