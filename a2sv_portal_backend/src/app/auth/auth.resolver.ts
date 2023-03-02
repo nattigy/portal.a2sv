@@ -39,6 +39,7 @@ export class AuthResolver {
     }
   }
 
+  @Public()
   @Mutation(() => String)
   async resetPassword(@Args('resetToken') resetToken: string, @Args('password') pass: string) {
     try {
