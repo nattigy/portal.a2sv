@@ -20,9 +20,9 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { StorageModule } from './storage/storage.module'
 import { UsersUpdateTopicComfortabilityModule } from './services/users-update-topic-comfortability/users-update-topic-comfortability.module'
 import { UsersUpdateProblemStatusModule } from './services/users-update-topic-problem-status/users-update-problem-status.module'
-import { StudentDataAnalyticsModule } from './app/user-group-season-analytics/student-data-analytics.module'
+import { UserGroupSeasonDataAnalyticsModule } from './app/user-group-season-data-analytics/user-group-season-data-analytics.module'
 import { ManageGroupSeasonModule } from './services/manage-group-seasons/manage-group-season.module'
-import { ManageUserGroupSeasonModule } from './services/manage-user-group-season/manage-user-group-season.module'
+import { ManageUserGroupSeasonsModule } from './services/manage-user-group-seasons/manage-user-group-seasons.module'
 import { UserModule } from './app/user/user.module'
 import { GroupModule } from './app/group/group.module'
 import { SeasonModule } from './app/season/season.module'
@@ -97,9 +97,9 @@ import { UserUpdateContestProblemModule } from './services/user-update-contest-p
     ManageSeasonsModule,
     ManageSeasonTopicsModule,
     UsersUpdateTopicComfortabilityModule,
-    StudentDataAnalyticsModule,
+    UserGroupSeasonDataAnalyticsModule,
     ManageGroupSeasonModule,
-    ManageUserGroupSeasonModule,
+    ManageUserGroupSeasonsModule,
     ManageContestsModule,
     ManageGroupSeasonContestModule,
     UserUpdateContestProblemModule,

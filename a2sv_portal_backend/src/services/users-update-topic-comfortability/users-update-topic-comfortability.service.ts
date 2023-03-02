@@ -1,26 +1,23 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { UpdateUserGroupSeasonTopicInput } from '../../app/user-group-season-topic/dto/update-user-group-season-topic.input'
+import {
+  UpdateUserGroupSeasonTopicInput,
+} from '../../app/user-group-season-topic/dto/update-user-group-season-topic.input'
 import { UserGroupSeasonTopic } from '../../app/user-group-season-topic/entities/user-group-season-topic.entity'
-import { ComfortLevelEnum } from '@prisma/client'
 import { PrismaService } from '../../prisma/prisma.service'
-import { UserGroupSeasonTopicRepository } from '../../app/user-group-season-topic/user-group-season-topic.repository'
-import { UserGroupSeasonRepository } from '../../app/user-group-season/user-group-season.repository'
+import { UserGroupSeasonTopicService } from '../../app/user-group-season-topic/user-group-season-topic.service'
 
 @Injectable()
 export class UsersUpdateTopicComfortabilityService {
   constructor(
-    private readonly userGroupSeasonTopicRepository: UserGroupSeasonTopicRepository,
-    private readonly userGroupSeasonRepository: UserGroupSeasonRepository,
+    private readonly userGroupSeasonTopicService: UserGroupSeasonTopicService,
     private readonly prismaService: PrismaService,
-  ) {}
+  ) {
+  }
 
   async updateUserTopicComfortability({
-    userId,
-    groupId,
-    seasonId,
-    topicId,
-    ...updates
-  }: UpdateUserGroupSeasonTopicInput): Promise<UserGroupSeasonTopic> {
+                                        id,
+                                        ...updates
+                                      }: UpdateUserGroupSeasonTopicInput): Promise<UserGroupSeasonTopic> {
     /**
      1. Find user with userId and throw NotFoundException if doesn't exist
      check if user is in the same group as groupId provided if not throw "user not in the group" Error
@@ -30,6 +27,7 @@ export class UsersUpdateTopicComfortabilityService {
      4. Upsert UserGroupSeason search for group and throw notFoundException if not found,
      search for season and throw notFoundException if not found,
      **/
+    const { userId, topicId, groupId, seasonId } = id
     const group = await this.prismaService.group.findUnique({ where: { id: groupId } })
     const season = await this.prismaService.season.findUnique({ where: { id: seasonId } })
     if (!season) {
@@ -51,30 +49,10 @@ export class UsersUpdateTopicComfortabilityService {
     })
     if (!foundGroupSeasonTopic) throw new Error('Topic is not added to your group yet!')
     if (!foundGroupSeasonTopic.groupSeason.isActive)
-      throw new Error("This group's season is not active!")
+      throw new Error('This group\'s season is not active!')
 
-    const userGSTP = await this.userGroupSeasonTopicRepository.findOne({
-      userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },
-    })
-    // await this.userGroupSeasonRepository.upsert({
-    //   where: { userId_groupId_seasonId: { userId, groupId, seasonId } },
-    //   data: {},
-    // })
-    return this.userGroupSeasonTopicRepository.upsert({
-      where: {
-        userId_groupId_seasonId_topicId: { userId, groupId, seasonId, topicId },
-      },
-      data: {
-        userId,
-        groupId,
-        seasonId,
-        topicId,
-        comfortLevel: updates.comfortLevel
-          ? updates.comfortLevel
-          : userGSTP
-          ? userGSTP.comfortLevel
-          : ComfortLevelEnum.UNCOMFORTABLE,
-      },
+    return this.userGroupSeasonTopicService.updateUserGroupSeasonTopic({
+      comfortLevel: updates.comfortLevel, id,
     })
   }
 }

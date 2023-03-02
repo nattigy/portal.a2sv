@@ -1,19 +1,12 @@
-import { Field, InputType, PartialType } from '@nestjs/graphql'
-import { CreateUserGroupSeasonTopicInput } from './create-user-group-season-topic.input'
+import { Field, InputType } from '@nestjs/graphql'
+import { UserGroupSeasonTopicId } from './create-user-group-season-topic.input'
+import { ComfortLevelEnum } from '@prisma/client'
 
 @InputType()
-export class UpdateUserGroupSeasonTopicInput extends PartialType(
-  CreateUserGroupSeasonTopicInput,
-) {
-  @Field()
-  userId: string
+export class UpdateUserGroupSeasonTopicInput {
+  @Field(() => UserGroupSeasonTopicId)
+  id: UserGroupSeasonTopicId
 
-  @Field()
-  groupId: string
-
-  @Field()
-  seasonId: string
-
-  @Field()
-  topicId: string
+  @Field(() => ComfortLevelEnum)
+  comfortLevel: ComfortLevelEnum
 }

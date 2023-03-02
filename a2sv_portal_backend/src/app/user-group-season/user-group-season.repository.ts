@@ -2,77 +2,30 @@ import { Injectable } from '@nestjs/common'
 import { Prisma } from '@prisma/client'
 import { UserGroupSeason } from './entities/user-group-season.entity'
 import { PrismaService } from '../../prisma/prisma.service'
+import { UserGroupSeasonTopicIncludeObject } from '../user-group-season-topic/user-group-season-topic.repository'
+import { UserGroupSeasonContestIncludeObject } from '../user-group-season-contest/user-group-season-contest.repository'
+import { UserIncludeObject } from '../user/user.repository'
+
+export const UserGroupSeasonIncludeObject = {
+  user: {
+    include: UserIncludeObject,
+  },
+  userGroupSeasonTopics: {
+    include: UserGroupSeasonTopicIncludeObject,
+  },
+  userGroupSeasonContests: {
+    include: UserGroupSeasonContestIncludeObject,
+  },
+}
 
 @Injectable()
 export class UserGroupSeasonRepository {
-  include = {
-    user: {
-      include: {
-        userProfile: { include: { user: true } },
-      },
-    },
-    userGroupSeasonTopics: {
-      include: {
-        topic: true,
-        userGroupSeasonTopicProblems: {
-          include: {
-            problem: { include: { tags: true } },
-          },
-        },
-      },
-    },
-    userGroupSeasonContests: {
-      include: {
-        contest: {
-          include: {
-            contestProblems: { include: { problem: { include: { tags: true } } } },
-          },
-        },
-        userGroupSeasonContestProblems: {
-          include: {
-            contestProblem: { include: { problem: { include: { tags: true } } } },
-          },
-        },
-      },
-    },
-  }
-
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.UserGroupSeasonCreateInput): Promise<UserGroupSeason> {
     return this.prismaService.userGroupSeason.create({
       data,
-      include: {
-        user: {
-          include: {
-            userProfile: { include: { user: true } },
-          },
-        },
-        userGroupSeasonTopics: {
-          include: {
-            topic: true,
-            userGroupSeasonTopicProblems: {
-              include: {
-                problem: { include: { tags: true } },
-              },
-            },
-          },
-        },
-        userGroupSeasonContests: {
-          include: {
-            contest: {
-              include: {
-                contestProblems: { include: { problem: { include: { tags: true } } } },
-              },
-            },
-            userGroupSeasonContestProblems: {
-              include: {
-                contestProblem: { include: { problem: { include: { tags: true } } } },
-              },
-            },
-          },
-        },
-      },
+      include: UserGroupSeasonIncludeObject,
     })
   }
 
@@ -92,14 +45,14 @@ export class UserGroupSeasonRepository {
       take,
       where,
       orderBy,
-      include: this.include,
+      include: UserGroupSeasonIncludeObject,
     })
   }
 
   async findOne(where: Prisma.UserGroupSeasonWhereUniqueInput): Promise<UserGroupSeason> {
     return this.prismaService.userGroupSeason.findUnique({
       where,
-      include: this.include,
+      include: UserGroupSeasonIncludeObject,
     })
   }
 
@@ -111,7 +64,7 @@ export class UserGroupSeasonRepository {
     return this.prismaService.userGroupSeason.update({
       data,
       where,
-      include: this.include,
+      include: UserGroupSeasonIncludeObject,
     })
   }
 
@@ -136,7 +89,7 @@ export class UserGroupSeasonRepository {
         },
       },
       update: data,
-      include: this.include,
+      include: UserGroupSeasonIncludeObject,
     })
   }
 

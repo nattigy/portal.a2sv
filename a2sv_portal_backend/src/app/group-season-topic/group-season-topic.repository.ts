@@ -25,6 +25,10 @@ export class GroupSeasonTopicRepository {
     })
   }
 
+  async count(where?: Prisma.GroupSeasonTopicWhereInput): Promise<number> {
+    return this.prismaService.groupSeasonTopic.count({ where })
+  }
+
   async findAll(params: {
     skip?: number
     take?: number
