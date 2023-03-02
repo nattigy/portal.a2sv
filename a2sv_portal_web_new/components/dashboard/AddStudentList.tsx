@@ -3,6 +3,7 @@ import AddStudentListItem, { StudentsInfo } from "./AddStudentListItem";
 import SearchField from "../common/SearchField";
 import { ApolloError, useMutation } from "@apollo/client";
 import { ADD_STUDENTS_TO_GROUP } from "../../lib/apollo/Mutations/groupsMutations";
+import { searchItems } from "../../helpers/searchItems";
 
 export type UserProps = {
   id?: number;
@@ -14,10 +15,11 @@ type Props = {
 };
 
 const AddStudentList = (props: Props) => {
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchStudents, setSearchStudents] = useState<Array<any>>(
     props.students
   );
-  const [searchQuery, setSearchQuery] = useState("");
+
   const [selectedStudent, setSelectedStudent] = useState<Set<number>>(
     new Set([])
   );
@@ -27,10 +29,6 @@ const AddStudentList = (props: Props) => {
   );
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
-  useEffect(() => {
-    setSearchStudents(props.students);
-  }, [props.students]);
 
   const handleStudentCheck = (id: number) => {
     if (selectedStudent.has(id)) {
@@ -42,19 +40,18 @@ const AddStudentList = (props: Props) => {
   };
 
   useEffect(() => {
-    let searchedData = props.students;
-    searchedData = props.students?.filter((student) => {
-      return student.email
-        .toLowerCase()
-        .includes(searchQuery.trim().toLowerCase());
-    });
-    setSearchStudents(searchedData);
-  }, [searchQuery]);
+    setSearchStudents(props.students);
+  }, [props.students]);
 
   const handleSearchQueryChange = (text: string) => {
     setSearchQuery(text);
   };
 
+  useEffect(() => {
+    const searchedData = searchItems(props.students, searchQuery, "email");
+    setSearchStudents(searchedData);
+  }, [props.students, searchQuery]);
+  
   const handleAddStudents = async () => {
     setIsLoading(true);
     const updateValue = [...selectedStudent].map((id: any) => {

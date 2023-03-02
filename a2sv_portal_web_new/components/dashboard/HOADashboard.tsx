@@ -9,6 +9,8 @@ import Button from "../common/Button";
 import GroupModal from "../modals/GroupModal";
 import WithPermission from "../../lib/Guard/WithPermission";
 import { GraphqlUserRole } from "../../types/user";
+import usePaginatedAllGroups from "../../lib/hooks/usePaginatedAllGroups";
+import { searchItems } from "../../helpers/searchItems";
 
 type Props = {};
 
@@ -22,6 +24,44 @@ const HOADashboard = (props: Props) => {
   const handleModalOpen = () => {
     setIsModalOpen(true);
   };
+
+  const { data, loading, error, refetch } = usePaginatedAllGroups();
+
+  let [groups, setGroups] = useState([]);
+  useEffect(() => {
+    if (data && data.groups.items) {
+      const datas = data.groups.items.map((item: any) => {
+        return {
+          id: item.id,
+          name: item.name,
+          country: item.country,
+          school: item.school,
+          head: item.head,
+          createdAt: item.createdAt,
+          students: item.users,
+          totalStudentsCount: item.pageInfo?.count,
+        };
+      });
+      setGroups(datas);
+    }
+  }, [data, refetch]);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchGroups, setSearchGroups] = useState<Array<any>>(groups);
+
+  useEffect(() => {
+    setSearchGroups(groups);
+  }, [groups]);
+
+  const handleSearchQueryChange = (text: string) => {
+    setSearchQuery(text);
+  };
+
+  useEffect(() => {
+    const searchedData = searchItems(groups, searchQuery, "name");
+    setSearchGroups(searchedData);
+  }, [groups, searchQuery]);
+
   return (
     <BaseLayout>
       {isModalOpen && (
@@ -36,7 +76,7 @@ const HOADashboard = (props: Props) => {
               Here‘s the list of all groups{" "}
             </p>
           </div>
-          <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_ACADEMY]} >
+          <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_ACADEMY]}>
             <Button
               icon={<BsPlus color="#ffffff" size={18} />}
               onClick={handleModalOpen}
@@ -49,13 +89,13 @@ const HOADashboard = (props: Props) => {
         <div className="grid grid-cols-12 gap-y-5 w-full">
           <div className="col-span-9 flex flex-row justify-between">
             <SearchField
-              onChange={() => { }}
+              onChange={handleSearchQueryChange}
               placeholder="Search a group"
               id="group-search"
             />
           </div>
           <div className="w-full col-span-12">
-            <GroupItemList />
+            <GroupItemList groups={searchGroups} loading={loading} error={error} />
           </div>
           {/* <div className="hidden lg:block col-span-3 w-full h-full ">
             <div className="flex flex-col items-center p-4 justify-center gap-y-2">

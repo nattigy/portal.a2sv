@@ -24,6 +24,16 @@ const BaseLayout = ({ sidebar, children }: LayoutProps) => {
 
   const apolloClient = useApollo({});
 
+  const [fullName, setFullName] = useState("");
+
+  useEffect(() => {
+    console.log(authUser.userProfile)
+    if (authUser.userProfile) {
+      const { firstName, lastName } = authUser.userProfile;
+      setFullName(`${firstName} ${lastName}`);
+    }
+  }, [authUser]);
+
   useEffect(() => {
     setActivePath(router.pathname);
   }, [router.pathname]);
@@ -131,12 +141,15 @@ const BaseLayout = ({ sidebar, children }: LayoutProps) => {
       <div
         className={clsx(
           "min-h-full flex flex-col bg-white relative ease-in-out duration-200 p-4 pt-8",
-          expanded ? "w-72" : "w-20"
+          expanded ? "w-52 md:w-72 " : "w-20"
         )}
         onMouseEnter={() => setExpanded(true)}
         onMouseLeave={() => setExpanded(false)}
       >
-        <div className="flex gap-x-4 items-center justify-center">
+        <div
+          onClick={() => router.push("/dashboard")}
+          className="flex gap-x-4 items-center justify-center cursor-pointer"
+        >
           <div className="border flex items-center justify-center w-12 h-11 rounded-xl bg-primary">
             <svg
               width="20"
@@ -179,7 +192,7 @@ const BaseLayout = ({ sidebar, children }: LayoutProps) => {
             <div
               onClick={goToProfile}
               className={clsx(
-                "w-full flex justify-start gap-x-4 items-center text-sm font-medium text-gray-700 transition-all duration-200 rounded-lg hover:bg-gray-100"
+                "w-full flex justify-start gap-x-4 items-center cursor-pointer text-sm font-medium text-gray-700 transition-all duration-200 rounded-lg hover:bg-gray-100"
               )}
             >
               <div className="w-9 h-9">
@@ -195,13 +208,13 @@ const BaseLayout = ({ sidebar, children }: LayoutProps) => {
                   !expanded && "hidden"
                 )}
               >
-                {authUser.email}
+                {fullName || authUser.email}
               </h1>
             </div>
             <div
               onClick={handleLogout}
               className={clsx(
-                "w-full flex justify-start gap-x-4 items-center text-sm font-medium text-gray-700 transition-all duration-200 rounded-lg hover:bg-gray-100"
+                "w-full flex justify-start gap-x-4 items-center cursor-pointer text-sm font-medium text-gray-700 transition-all duration-200 rounded-lg hover:bg-gray-100"
               )}
             >
               <div className="flex items-center w-9 h-9">

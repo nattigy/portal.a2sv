@@ -16,8 +16,11 @@ const SearchField = ({
 }: SearchFieldProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearch = (e: any) => {
-    setSearchQuery(e.target.value);
+    const query = e.target.value;
+    setSearchQuery(query);
+    onChange(query);
   };
+
   return (
     <div className="relative flex items-center mt-1">
       <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -41,9 +44,8 @@ const SearchField = ({
           "bg-white outline-none placeholder:font-light  text-xs rounded-full px-2 appearance-none dark:appearance-none dark:border-transparent border-transparent block w-80 pl-10 p-2.5  dark:bg-white  dark:placeholder-gray-400 dark:text-gray-700 ",
           className
         )}
-        onChange={(e: any) => onChange(e.target.value)}
-        // onChange={handleSearch}
-        // value={searchQuery}
+        onChange={handleSearch}
+        value={searchQuery}
         placeholder={placeholder}
       />
     </div>

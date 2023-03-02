@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { searchItems } from "../../../helpers/searchItems";
 import { useApollo } from "../../../lib/apollo/apolloClient";
 import { useGetAllTopics } from "../../../lib/hooks/useTopics";
 import { Topic } from "../../../types/topic";
 import Button from "../../common/Button";
 import EmptyState from "../../common/EmptyState";
 import { LoaderSmall } from "../../common/Loaders";
+import SearchField from "../../common/SearchField";
 import TopicModal from "../../modals/TopicModal";
 import RepositoryTopicItem from "../../topics/RepositoryTopicItem";
 
@@ -20,6 +22,23 @@ const AllTopicsPage = (props: Props) => {
       setTopicsData(data?.topics.items);
     }
   }, [refetch, data]);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchTopics, setSearchTopics] = useState<Array<any>>(topicsData);
+
+  useEffect(() => {
+    setSearchTopics(topicsData);
+  }, [topicsData]);
+
+  const handleSearchQueryChange = (text: string) => {
+    setSearchQuery(text);
+  };
+
+  useEffect(() => {
+    const searchedData = searchItems(topicsData, searchQuery, "name");
+    setSearchTopics(searchedData);
+  }, [topicsData, searchQuery]);
+
   return (
     <div>
       {isTopicModalOpen && (
@@ -38,7 +57,13 @@ const AllTopicsPage = (props: Props) => {
         <p>Something went wrong</p>
       ) : (
         <>
-          <div className="flex flex-col items-end pb-4">
+          <div className="flex justify-end gap-x-4 pb-4">
+            <SearchField
+              placeholder="Search Topic"
+              id="repo-topics"
+              onChange={handleSearchQueryChange}
+              className="rounded-md"
+            />
             <Button
               onClick={() => {
                 setIsTopicModalOpen(true);
@@ -47,10 +72,9 @@ const AllTopicsPage = (props: Props) => {
               classname="bg-primary text-white text-xs"
             />
           </div>
-
-          {topicsData?.length > 0 ? (
+          {searchTopics?.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 gap-x-12">
-              {topicsData.map((topic: Topic, idx: number) => (
+              {searchTopics.map((topic: Topic, idx: number) => (
                 <RepositoryTopicItem idx={idx} key={idx} topic={topic} />
               ))}
             </div>

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { searchItems } from "../../../helpers/searchItems";
 import { useApollo } from "../../../lib/apollo/apolloClient";
-import {useAllProblems} from "../../../lib/hooks/useProblems";
+import { useAllProblems } from "../../../lib/hooks/useProblems";
 import Button from "../../common/Button";
 import EmptyState from "../../common/EmptyState";
 import { LoaderSmall } from "../../common/Loaders";
+import SearchField from "../../common/SearchField";
 import ProblemModal from "../../modals/ProblemModal";
 import ProblemsList from "./ProblemsList";
 
@@ -21,6 +23,23 @@ const AllProblemsPage = (props: Props) => {
     }
   }, [refetch, data]);
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchProblems, setSearchProblems] =
+    useState<Array<any>>(problemsData);
+
+  useEffect(() => {
+    setSearchProblems(problemsData);
+  }, [problemsData]);
+
+  const handleSearchQueryChange = (text: string) => {
+    setSearchQuery(text);
+  };
+
+  useEffect(() => {
+    const searchedData = searchItems(problemsData, searchQuery, "title");
+    setSearchProblems(searchedData);
+  }, [problemsData, searchQuery]);
+
   return (
     <>
       {isProblemModalOpen && (
@@ -31,7 +50,13 @@ const AllProblemsPage = (props: Props) => {
           }}
         />
       )}
-      <div className="flex flex-col items-end pb-4">
+      <div className="flex justify-end gap-x-4 pb-4">
+        <SearchField
+          placeholder="Search Problem"
+          id="repo-problem"
+          onChange={handleSearchQueryChange}
+          className="rounded-md"
+        />
         <Button
           onClick={() => {
             setIsProblemModalOpen(true);
@@ -57,8 +82,8 @@ const AllProblemsPage = (props: Props) => {
           <p>Something went wrong</p>
         ) : (
           <>
-            {problemsData?.length > 0 ? (
-              <ProblemsList problems={problemsData} />
+            {searchProblems?.length > 0 ? (
+              <ProblemsList problems={searchProblems} />
             ) : (
               <EmptyState />
             )}
