@@ -25,7 +25,9 @@ const DivisionDropdownField = (props: DurationFieldProps) => {
               name={props.name}
               className={clsx(
                 props.className,
-                isError ? "border border-red-500" : "border border-[#D2D2D2]"
+                errorMessage
+                  ? "border border-red-500"
+                  : "border border-[#D2D2D2]"
               )}
             >
               <option className="w-full h-20" value="" selected disabled hidden>
@@ -73,6 +75,11 @@ const DivisionDropdownField = (props: DurationFieldProps) => {
               </svg>
             </div>
           </div>
+          {errorMessage && (
+            <div className="bg-red-400/20 w-full mt-2 p-2 px-4 rounded-md">
+              <p className="w-full text-xs text-red-400">{errorMessage}</p>
+            </div>
+          )}
 
           {/* <h1 className="text-xs font-light text-red-700">{errorMessage}</h1> */}
         </div>

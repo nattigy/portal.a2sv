@@ -38,6 +38,7 @@ const ContestInfoItem = ({ formik }: Props) => {
               placeholder="Select Division"
               name="div"
             />
+            
             <ContestTimeDateField
               className="w-full text-xs placeholder-[#767676] rounded-md focus:outline-none py-3 px-8"
               formik={formik}

@@ -42,10 +42,10 @@ const SeasonModal = ({ isEditing, season, onClose, groupId }: Props) => {
     endDate: season?.endDate?.toString() || "",
   };
   const FORM_VALIDATION = yup.object().shape({
-    name: yup.string().required("Required"),
-    startDate: yup.date().required("Required"),
-    endDate: yup.date().required("Required"),
-    type: yup.string().required("Required"),
+    name: yup.string().required("*Required"),
+    startDate: yup.date().required("*Required"),
+    endDate: yup.date().required("*Required"),
+    type: yup.string().required("*Required"),
   });
 
   return (

@@ -1,15 +1,12 @@
 import * as yup from "yup";
-import { Form, Formik, FormikProps } from "formik";
-import React, { useRef, useState } from "react";
+import { Form, Formik } from "formik";
+import React, {  useState } from "react";
 import { Resource } from "../../types/resource";
 import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormDropdown from "../common/FormDropdown";
 import FormField from "../common/FormField";
 import FormRejectButton from "../common/FormRejectButton";
-import HOEAutocomplete from "../users/HOEAutocomplete";
 import { getGoogleIcon } from "../../helpers/getGoogleIcon";
-import { MdChevronRight } from "react-icons/md";
-import { FiChevronDown } from "react-icons/fi";
 import { FaChevronDown } from "react-icons/fa";
 import { ADD_SEASON_TOPIC_RESOURCES } from "../../lib/apollo/Mutations/seasonsMutations";
 import { ApolloError, useMutation } from "@apollo/client";
@@ -45,9 +42,11 @@ const ResourceModal = ({ isEditing, resource, onClose }: Props) => {
   };
 
   const FORM_VALIDATION = yup.object().shape({
-    name: yup.string().required("Required").min(3).max(40),
-    type: yup.string().required("Required"),
-    link: yup.string().required("Required"),
+    name: yup.string().required("*Required").min(3).max(40),
+    type: yup.string().required("*Required"),
+    link: yup.string().required("*Required"),
+    description:yup.string().required("*Required"),
+
   });
 
   return (
@@ -140,9 +139,6 @@ const ResourceModal = ({ isEditing, resource, onClose }: Props) => {
                         touched={touched.name}
                         error={errors.name}
                       />
-                      <p className="w-full text-xs text-red-500">
-                        {errors.name}
-                      </p>
                     </div>
                   </div>
                 </div>
@@ -161,6 +157,7 @@ const ResourceModal = ({ isEditing, resource, onClose }: Props) => {
                         />
                       </div>
                       <FormDropdown
+                      error={errors.type}
                         name="type"
                         placeholder="Select Resource Type"
                         options={[
@@ -190,9 +187,6 @@ const ResourceModal = ({ isEditing, resource, onClose }: Props) => {
                         error={errors.description}
                         props={{ component: TextAreaInput }}
                       />
-                      <p className="w-full text-xs text-red-500">
-                        {errors.description}
-                      </p>
                     </div>
                   </div>
                 </div>
@@ -210,9 +204,6 @@ const ResourceModal = ({ isEditing, resource, onClose }: Props) => {
                         touched={touched.link}
                         error={errors.link}
                       />
-                      <p className="w-full text-xs text-red-500">
-                        {errors.link}
-                      </p>
                     </div>
                   </div>
                 </div>

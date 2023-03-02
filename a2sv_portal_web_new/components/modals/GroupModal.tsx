@@ -43,7 +43,6 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
   const [addNewGroup] = useMutation(CREATE_GROUP_MUTATION);
   const [editGroup] = useMutation(EDIT_GROUP);
 
-  console.log(group, "Group");
   const INITIAL_VALUES: FormValues = {
     name: group?.name || "",
     country: group?.country || "",
@@ -52,9 +51,9 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
   };
 
   const FORM_VALIDATION = yup.object().shape({
-    name: yup.string().required("Required").min(3).max(40),
-    country: yup.string().required("Required"),
-    school: yup.string().required("Required"),
+    name: yup.string().required("*Required").min(3,"Group name must be at least 4 characters").max(40,"Group name can not be more than 40 characters"),
+    country: yup.string().required("*Required"),
+    school: yup.string().required("*Required"),
   });
 
   const [selected, setSelected] = useState<null | any>();
@@ -177,13 +176,6 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
                         touched={touched.name}
                         error={errors.name}
                       />
-                      {errors.name && (
-                        <div className="bg-red-400/20 w-full p-2 px-4 rounded-md">
-                          <p className="w-full text-xs text-red-400">
-                            {errors.name}
-                          </p>
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>
@@ -233,13 +225,6 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
                         error={errors.school}
                         touched={touched.school}
                       />
-                      {errors.school && (
-                        <div className="bg-red-400/20 w-full p-2 px-4 rounded-md">
-                          <p className="w-full text-xs text-red-400">
-                            {errors.school}
-                          </p>
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>

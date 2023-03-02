@@ -72,10 +72,10 @@ const ProblemModal = (props: Props) => {
   let validationShape;
   if (existingProblem === null) {
     validationShape = yup.object().shape({
-      name: yup.string().required(),
-      platform: yup.string().required(),
-      difficulty: yup.string().required(),
-      link: yup.string().required(),
+      name: yup.string().required("*Required"),
+      platform: yup.string().required("*Required"),
+      difficulty: yup.string().required("*Required"),
+      link: yup.string().required("*Required"),
     });
   }
 
@@ -139,9 +139,9 @@ const ProblemModal = (props: Props) => {
       refetchQueries: "active",
       notifyOnNetworkStatusChange: true,
       onCompleted: async (data) => {
-        if(props.addProblemToSeasonTopic)
+        if (props.addProblemToSeasonTopic)
           handleAddProblemToSeasonTopic(data.createProblem.id);
-        else{
+        else {
           props.onClose();
         }
       },
@@ -183,7 +183,7 @@ const ProblemModal = (props: Props) => {
           validationSchema={FORM_VALIDATION}
           onSubmit={async (values, actions) => {
             if (props.isEditing) {
-             await handleEditProblem(values);
+              await handleEditProblem(values);
             } else if (existingProblem === null) {
               await handleCreateProblem(values);
             } else {
@@ -199,14 +199,13 @@ const ProblemModal = (props: Props) => {
                 className="flex flex-col gap-y-3 min-h-fit justify-between bg-white container mx-auto w-11/12 md:w-1/2 lg:w-2/5 xl:w-1/3 rounded-xl  px-10 py-5"
               >
                 <div className="w-full flex flex-col gap-y-2 items-center">
-
                   <div className="my-2 w-full flex justify-between items-center">
                     {props.isEditing ? (
                       <h2 className="font-semibold text-lg">Edit Problem</h2>
                     ) : (
                       <h2 className="font-semibold text-lg">Add New Problem</h2>
                     )}
-                    <CloseIcon onClose={() => props.onClose()}/>
+                    <CloseIcon onClose={() => props.onClose()} />
                   </div>
                   {/* {props.isEditing ? (
                     <p>You can replace the problem from the exisiting ones.</p>
@@ -232,7 +231,6 @@ const ProblemModal = (props: Props) => {
                     <div>
                       {existingProblem === null && (
                         <div className="w-full flex flex-col items-center">
-         
                           <div className="w-full">
                             <div className="flex flex-row gap-x-3 my-3">
                               <div className="flex flex-col w-3/5 justify-start gap-y-1">
@@ -264,7 +262,7 @@ const ProblemModal = (props: Props) => {
                                       name="platform"
                                       className={clsx(
                                         "w-full text-sm border bg-white rounded-md focus:outline-none py-3 pl-8 my-2",
-                                        touched.platform && errors.platform
+                                        errors.platform
                                           ? "border-red-500"
                                           : "border-[#DCDCDC]"
                                       )}
@@ -285,7 +283,15 @@ const ProblemModal = (props: Props) => {
                                         Codeforces
                                       </option>
                                     </Field>
+                                  
                                   </div>
+                                  {errors.platform && (
+                                      <div className="bg-red-400/20 w-full mt-2 p-2 px-4 rounded-md">
+                                        <p className="w-full text-xs text-red-400">
+                                          {errors.platform}
+                                        </p>
+                                      </div>
+                                    )}
                                 </div>
                               </div>
                             </div>

@@ -13,7 +13,8 @@ export type ContestDateFieldProps = {
   className: string;
 };
 
-const ContestTimeDateField = (props: ContestDateFieldProps) => {
+const 
+ContestTimeDateField = (props: ContestDateFieldProps) => {
   const isError =
     (props.formik.errors as any)[props.name] &&
     (props.formik.touched as any)[props.name];
@@ -27,7 +28,7 @@ const ContestTimeDateField = (props: ContestDateFieldProps) => {
               <DatePicker
                 className={clsx(
                   props.className,
-                  isError ? "border border-red-500" : "border border-[#D2D2D2]"
+                  errorMessage ? "border border-red-500" : "border border-[#D2D2D2]"
                 )}
                 name={props.name}
                 placeholderText={props.placeholder}
@@ -51,14 +52,14 @@ const ContestTimeDateField = (props: ContestDateFieldProps) => {
               <DatePicker
               className={clsx(
                 props.className,
-                isError ? "border border-red-500" : "border border-[#D2D2D2]"
+                errorMessage ? "border border-red-500" : "border border-[#D2D2D2]"
               )}
                 selected={ props.formik.values[props.name]
                   ? new Date(props.formik.values[props.name])
                   : null}
                 onChange={props.onChange}
                 showTimeSelect
-  
+                placeholderText={props.placeholder}
                 dateFormat="MMMM d, yyyy h:mm aa"
               />
             
@@ -67,7 +68,7 @@ const ContestTimeDateField = (props: ContestDateFieldProps) => {
               <DatePicker
                 className={clsx(
                   props.className,
-                  isError ? "border border-red-500" : "border border-[#D2D2D2]"
+                  errorMessage ? "border border-red-500" : "border border-[#D2D2D2]"
                 )}
                 name={props.name}
                 placeholderText={props.placeholder}
@@ -90,6 +91,11 @@ const ContestTimeDateField = (props: ContestDateFieldProps) => {
               ))} */}
           {/* </div> */}
           {/* <h1 className="text-xs font-light text-red-700">{errorMessage}</h1> */}
+          {errorMessage && (
+            <div className="bg-red-400/20 w-full mt-2 p-2 px-4 rounded-md">
+              <p className="w-full text-xs text-red-400">{errorMessage}</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

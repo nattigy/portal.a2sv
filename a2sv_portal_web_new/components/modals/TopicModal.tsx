@@ -41,8 +41,8 @@ const TopicModal = (props: Props) => {
   let validationShape;
   if (existingTopic === null) {
     validationShape = yup.object().shape({
-      topic_title: yup.string().required("Required"),
-      description: yup.string().required("Required"),
+      topic_title: yup.string().required("*Required"),
+      description: yup.string().required("*Required"),
     });
   }
   const FORM_VALIDATION = validationShape;

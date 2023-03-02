@@ -22,7 +22,7 @@ type Props = {
 const FORM_VALIDATION = yup.object().shape({
   email: yup
     .string()
-    .required("Email can't be empty")
+    .required("*Required")
     .email("Email should have the format user@example.com"),
 });
 
@@ -107,11 +107,6 @@ const NewUserModal = (props: Props) => {
                         error={errors['email']}
                         touched={touched['email']}
                       />
-                      {errors['email'] && (
-                        <p className="w-full text-xs text-red-500">
-                          {errors['email']}
-                        </p>
-                      )}
                     </div>
                     <div className="flex flex-col gap-y-4">
                     </div>

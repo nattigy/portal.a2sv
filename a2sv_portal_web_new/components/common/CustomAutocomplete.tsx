@@ -19,7 +19,7 @@ const CustomAutocomplete = (props: Props) => {
     <div className="w-full">
       <Combobox value={props.selectedValue} onChange={props.handleSelectValue}>
         <div className="relative m-1 z-40">
-          <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+          <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left border border-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
             <Combobox.Input
               placeholder={props.placeholder}
               className="w-full border-none focus:ring-0 focus:outline-none focus px-1 py-3 pl-3 pr-10 text-sm leading-5 text-gray-900 border"

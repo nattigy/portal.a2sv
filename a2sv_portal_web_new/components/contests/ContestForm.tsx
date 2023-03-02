@@ -129,23 +129,25 @@ const ContestForm = ({
   const FORM_VALIDATION = yup.object().shape({
     name: yup
       .string()
-      .required("Required")
+      .required("*Required")
       .min(3, "Too Short!")
       .max(40, "Too Long!"),
     link: yup
       .string()
-      .required("Required")
+      .required("*Required")
       .min(3, "Too Short!")
       .max(40, "Too Long!"),
-    div: yup.string().required("Required"),
+    div: yup.string().required("*Required"),
+    startTime:yup.date().required("*Required"),
+    endTime:yup.date().required("*Required"),
   });
 
   const INITIAL_VALUES = {
     name: contest?.name || "",
     link: contest?.link || "",
     div: contest?.div || "",
-    startTime: contest?.startTime || new Date(),
-    endTime: contest?.endTime || new Date(),
+    startTime: contest?.startTime || "",
+    endTime: contest?.endTime || "",
     questions: selectedQuestions,
   } as ContestInfoValues;
 
