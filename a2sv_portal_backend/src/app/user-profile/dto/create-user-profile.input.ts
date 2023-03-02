@@ -6,7 +6,7 @@ export class CreateUserProfileInput {
   @Field()
   firstName: string
 
-  @Field()
+  @Field({ defaultValue: '' })
   middleName: string = ''
 
   @Field()

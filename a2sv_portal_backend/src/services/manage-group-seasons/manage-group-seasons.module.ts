@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
-import { ManageGroupSeasonResolver } from './manage-group-season.resolver'
-import { GroupSeasonService } from './group-season.service'
-import { ManageGroupSeasonTopicService } from './group-season-topic.service'
-import { GroupSeasonTopicProblemService } from './group-season-topic-problem.service'
+import { ManageGroupSeasonsResolver } from './manage-group-seasons.resolver'
+import { ManageGroupSeasonsService } from './manage-group-seasons.service'
+import { ManageGroupSeasonTopicService } from './manage-group-season-topics.service'
+import { ManageGroupSeasonTopicProblemsService } from './manage-group-season-topic-problems.service'
 import { GroupSeasonModule } from '../../app/group-season/group-season.module'
 import { GroupSeasonTopicModule } from '../../app/group-season-topic/group-season-topic.module'
 import { GroupSeasonTopicProblemModule } from '../../app/group-season-topic-problem/group-season-topic-problem.module'
@@ -18,10 +18,10 @@ import { SeasonTopicProblemModule } from '../../app/season-topic-problem/season-
     GroupSeasonTopicProblemModule,
   ],
   providers: [
-    ManageGroupSeasonResolver,
-    GroupSeasonService,
+    ManageGroupSeasonsResolver,
+    ManageGroupSeasonsService,
     ManageGroupSeasonTopicService,
-    GroupSeasonTopicProblemService,
+    ManageGroupSeasonTopicProblemsService,
   ],
 })
-export class ManageGroupSeasonModule {}
+export class ManageGroupSeasonsModule {}

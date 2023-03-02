@@ -9,9 +9,11 @@ import {
 } from '../../app/group-season-topic-problem/group-season-topic-problem.repository'
 import { SeasonTopicProblemRepository } from '../../app/season-topic-problem/season-topic-problem.repository'
 import { SeasonTopicRepository } from '../../app/season-topic/season-topic.repository'
+import { PaginationInput } from '../../common/page/pagination.input'
+import { FilterGroupSeasonTopicProblemInput } from '../../app/group-season-topic-problem/dto/filter-group-season-topic'
 
 @Injectable()
-export class GroupSeasonTopicProblemService {
+export class ManageGroupSeasonTopicProblemsService {
   constructor(
     private readonly groupSeasonTopicProblemRepository: GroupSeasonTopicProblemRepository,
     private readonly seasonTopicProblemRepository: SeasonTopicProblemRepository,
@@ -26,10 +28,11 @@ export class GroupSeasonTopicProblemService {
                                        topicId,
                                        problemId,
                                      }: CreateGroupSeasonTopicProblemInput) {
-    // search for groupSeasonTopic first and if not found throw not found exception
-    // if the groupSeasonTopic is found and the groupSeason is not active throw groupSeason not active
-    // check if the problem exists and if it doesn't exist throw problem not found Error
-    // upsert seasonTopicProblem
+    /** search for groupSeasonTopic first and if not found throw not found exception
+     if the groupSeasonTopic is found and the groupSeason is not active throw groupSeason not active
+     check if the problem exists and if it doesn't exist throw problem not found Error
+     upsert seasonTopicProblem
+     **/
 
     const foundGroupSeasonTopic = await this.prismaService.groupSeasonTopic.findUnique({
       where: { groupId_seasonId_topicId: { groupId, seasonId, topicId } },
@@ -68,21 +71,6 @@ export class GroupSeasonTopicProblemService {
 
     if (!foundProblem)
       throw new NotFoundException(`Problem with id ${problemId} does not exist!`)
-    // upsert seasonTopic first and then seasonTopicProblem
-    // await this.seasonTopicRepository.upsert({
-    //   where: { seasonId_topicId: { seasonId, topicId } },
-    //   data: {},
-    // })
-    await this.seasonTopicProblemRepository.upsert({
-      where: {
-        seasonId_topicId_problemId: {
-          seasonId,
-          topicId,
-          problemId,
-        },
-      },
-      data: {},
-    })
     return this.groupSeasonTopicProblemRepository.upsert({
       where: {
         groupId_seasonId_topicId_problemId: {
@@ -96,19 +84,9 @@ export class GroupSeasonTopicProblemService {
     })
   }
 
-  async groupSeasonTopicProblem({
-                                  groupId,
-                                  seasonId,
-                                  topicId,
-                                  problemId,
-                                }: GroupSeasonTopicProblemId) {
+  async groupSeasonTopicProblem(groupSeasonTopicProblemId: GroupSeasonTopicProblemId) {
     const gSTP = await this.groupSeasonTopicProblemRepository.findOne({
-      groupId_seasonId_topicId_problemId: {
-        problemId,
-        topicId,
-        seasonId,
-        groupId,
-      },
+      groupId_seasonId_topicId_problemId: groupSeasonTopicProblemId,
     })
     if (!gSTP) {
       throw new NotFoundException('Problem not added to this group under this season!')
@@ -116,27 +94,20 @@ export class GroupSeasonTopicProblemService {
     return gSTP
   }
 
-  //
-  // async groupSeasonTopicProblems(
-  //   { groupId, seasonId, topicId, problemId }: FilterGroupSeasonTopicProblemInput,
-  //   { skip, take }: PaginationInput = { take: 50, skip: 0 },
-  // ) {
-  //   return this.groupSeasonTopicProblemRepository.findAll({
-  //     skip,
-  //     take,
-  //     where: { groupId, seasonId, topicId, problemId },
-  //   })
-  // }
+  async groupSeasonTopicProblems(
+    { groupId, seasonId, topicId, problemId }: FilterGroupSeasonTopicProblemInput,
+    { skip, take }: PaginationInput = { take: 50, skip: 0 },
+  ) {
+    return this.groupSeasonTopicProblemRepository.findAll({
+      skip,
+      take,
+      where: { groupId, seasonId, topicId, problemId },
+    })
+  }
 
-  async removeGroupSeasonTopicProblem({
-                                        groupId,
-                                        seasonId,
-                                        topicId,
-                                        problemId,
-                                      }: GroupSeasonTopicProblemId) {
-    await this.groupSeasonTopicProblem({ groupId, seasonId, problemId, topicId })
+  async removeGroupSeasonTopicProblem(groupSeasonTopicProblemId: GroupSeasonTopicProblemId) {
     return this.groupSeasonTopicProblemRepository.remove({
-      groupId_seasonId_topicId_problemId: { problemId, topicId, seasonId, groupId },
+      groupId_seasonId_topicId_problemId: groupSeasonTopicProblemId,
     })
   }
 }

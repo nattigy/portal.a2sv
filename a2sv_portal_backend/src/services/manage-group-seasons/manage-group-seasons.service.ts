@@ -13,7 +13,7 @@ import {
 import { PaginationGroupSeason } from '../../common/page/pagination-info'
 
 @Injectable()
-export class GroupSeasonService {
+export class ManageGroupSeasonsService {
   constructor(
     private readonly groupSeasonRepository: GroupSeasonRepository,
     private readonly prismaService: PrismaService,

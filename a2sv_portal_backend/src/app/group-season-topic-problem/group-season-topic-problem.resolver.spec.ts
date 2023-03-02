@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { GroupSeasonTopicProblemResolver } from '../../services/group-season-services/group-season-topic-problem.resolver'
-import { GroupSeasonTopicProblemService } from '../../services/manage-group-seasons/group-season-topic-problem.service'
+import { ManageGroupSeasonTopicProblemsService } from '../../services/manage-group-seasons/manage-group-season-topic-problems.service'
 
 describe('GroupSeasonTopicProblemResolver', () => {
   let resolver: GroupSeasonTopicProblemResolver
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [GroupSeasonTopicProblemResolver, GroupSeasonTopicProblemService],
+      providers: [GroupSeasonTopicProblemResolver, ManageGroupSeasonTopicProblemsService],
     }).compile()
 
     resolver = module.get<GroupSeasonTopicProblemResolver>(GroupSeasonTopicProblemResolver)
