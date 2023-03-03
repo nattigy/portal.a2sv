@@ -22,7 +22,7 @@ export const ASSIGN_USER_TO_GROUP = gql`
 export const CREATE_USER_PROFILE = gql`
   mutation CreateUserProfile($createUserProfileInput: CreateUserProfileInput!) {
     createUserProfile(createUserProfileInput: $createUserProfileInput) {
-      id
+      userId
     }
   }
 `;
@@ -30,7 +30,7 @@ export const CREATE_USER_PROFILE = gql`
 export const UPDATE_USER_PROFILE = gql`
   mutation UpdateUserProfile($updateUserProfileInput: UpdateUserProfileInput!) {
     updateUserProfile(updateUserProfileInput: $updateUserProfileInput) {
-      id
+      userId
     }
   }
 `;

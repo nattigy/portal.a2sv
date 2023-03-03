@@ -172,27 +172,41 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
           <h1 className="text-sm font-semibold">Country</h1>
           <div className="w-2/3">
             <FormDropdown
-              name="userProfileAddress.country"
+              name="country"
               options={COUNTRIES.map((country) => ({
                 name: country,
                 value: country,
               }))}
-              flag={getNationality(formik.values.userProfileAddress.country)}
+              flag={getNationality(formik.values.country)}
               placeholder="Country"
               icon={<FaChevronDown size={16} />}
               error={
-                (formik.errors as any)["userProfileAddress"]
-                  ? (formik.errors as any)["userProfileAddress"]["country"]
+                (formik.errors as any)["country"]
+                  ? (formik.errors as any)["country"]
                   : ""
               }
               touched={
-                (formik.touched as any)["userProfileAddress"]
-                  ? (formik.touched as any)["userProfileAddress"]["country"]
+                (formik.touched as any)["country"]
+                  ? (formik.touched as any)["country"]
                   : ""
               }
             />
           </div>
         </div>
+        <hr className="mx-2" />
+        <div className="w-full flex justify-between items-center p-2">
+          <h1 className="text-sm font-semibold">City</h1>
+          <div className="w-2/3">
+            <CustomFormField
+              id="city"
+              name="city"
+              placeholder="Enter City"
+              type="text"
+              formik={formik}
+            />
+          </div>
+        </div>
+
         <hr className="mx-2" />
 
         <div className="w-full flex justify-between items-center p-2">

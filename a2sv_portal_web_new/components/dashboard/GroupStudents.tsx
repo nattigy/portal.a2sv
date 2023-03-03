@@ -14,6 +14,7 @@ import { MdDelete } from "react-icons/md";
 import DeletePopupModal from "../modals/DeletePopupModal";
 import { REMOVE_STUDENTS_FROM_GROUP } from "../../lib/apollo/Mutations/groupsMutations";
 import { CustomTooltip } from "../common/CustomTooltip";
+import clsx from "clsx";
 
 type Props = {
   isAddStudentToGroupSidebarOpen: boolean;
@@ -42,14 +43,22 @@ const GroupStudents = (props: Props) => {
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-  const [removingStudentErrorMessage, setRemovingStudentErrorMessage] = useState("")
-  const authUser = useReactiveVar<AuthUser | any>(authenticatedUser);
-  const [removeStudentFromGroup, { data, loading: removingStudentFromGroup }] = useMutation(REMOVE_STUDENTS_FROM_GROUP)
-  const [selectedStudentsId, setSelectedStudentsId] = useState<Set<string>>(new Set([]))
+  const [removingStudentErrorMessage, setRemovingStudentErrorMessage] =
+    useState("");
+  const authUser = useReactiveVar<AuthUser | any>(
+    authenticatedUser
+  ) as AuthUser;
+  const [removeStudentFromGroup, { data, loading: removingStudentFromGroup }] =
+    useMutation(REMOVE_STUDENTS_FROM_GROUP);
+  const [selectedStudentsId, setSelectedStudentsId] = useState<Set<string>>(
+    new Set([])
+  );
 
-  const handleRemoveStudentFromGroup = async () => {
+  const handleRemoveStudentFromGroup = async (ids: string[]) => {
     await removeStudentFromGroup({
       variables: {
+        groupId: authUser.groupId,
+        studentIds: [...ids],
       },
       notifyOnNetworkStatusChange: true,
       refetchQueries: "active",
@@ -60,35 +69,48 @@ const GroupStudents = (props: Props) => {
         setRemovingStudentErrorMessage((error as ApolloError).message);
       },
     });
-  }
+  };
 
   return (
     <>
-      {
-        isDeleteModalOpen && (
-          <DeletePopupModal
-            onClose={() => setIsDeleteModalOpen(false)}
-            onDelete={handleRemoveStudentFromGroup}
-            isLoading={removingStudentFromGroup}
-            title="You are about to remove students from the Group"
-            description={`This action will remove students from the group`}
-            errorMessage={removingStudentErrorMessage} />
-        )
-      }
+      {isDeleteModalOpen && (
+        <DeletePopupModal
+          onClose={() => setIsDeleteModalOpen(false)}
+          onDelete={() => {
+            handleRemoveStudentFromGroup([...selectedStudentsId]);
+          }}
+          isLoading={removingStudentFromGroup}
+          title="You are about to remove students from the Group"
+          description={`This action will remove (${selectedStudentsId.size}) students from ${props.groupData?.name}`}
+          errorMessage={removingStudentErrorMessage}
+        />
+      )}
       <div className="h-full w-full font-semibold text-[#565656]">
         <div className="flex justify-between items-center">
           <p className="text-[rgb(103,103,103)] font-semibold text-lg">
-            {props.groupData?.group?.name}
+            {props.groupData?.name}
           </p>
 
           <div className="flex flex-row items-center justify-end my-6 font-semibold text-xl text-[#565656] gap-x-2">
-            <CustomTooltip show={selectedStudentsId.size < 1} message={selectedStudentsId.size < 1 ? "Please select at least one student" : ""}>
+            <CustomTooltip
+              show={selectedStudentsId.size < 1}
+              message={
+                selectedStudentsId.size < 1
+                  ? "Please select at least one student"
+                  : ""
+              }
+            >
               <Button
                 onClick={() => setIsDeleteModalOpen(true)}
                 disabled={selectedStudentsId.size < 1}
                 text="Remove Student"
                 icon={<MdDelete color="#ffffff" size={18} />}
-                classname="px-4 py-2 bg-red-400 rounded-lg text-center text-white font-medium text-sm"
+                classname={clsx(
+                  "px-4 py-2 rounded-lg text-center text-white font-medium text-sm",
+                  selectedStudentsId.size < 1
+                    ? "bg-red-400 opacity-40"
+                    : "bg-red-400"
+                )}
               />
             </CustomTooltip>
             {props.isAddStudentToGroupSidebarOpen ? (

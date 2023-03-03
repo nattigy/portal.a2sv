@@ -28,8 +28,8 @@ const DeletePopupModal = (props: Props) => {
               <BiTrash color="#D72B2B" size={36} />
             </div>
             <div className="flex flex-col items-center gap-y-1 px-3">
-              <h1 className="font-bold text-lg">{props.title}</h1>
-              <h1 className="font-medium text-md text-[#838383]">
+              <h1 className="font-bold text-center text-lg">{props.title}</h1>
+              <h1 className="font-medium text-center text-md text-[#838383]">
                 {props.description}. Are you sure?
               </h1>
             </div>

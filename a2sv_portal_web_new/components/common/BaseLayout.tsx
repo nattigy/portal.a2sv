@@ -27,7 +27,6 @@ const BaseLayout = ({ sidebar, children }: LayoutProps) => {
   const [fullName, setFullName] = useState("");
 
   useEffect(() => {
-    console.log(authUser.userProfile)
     if (authUser.userProfile) {
       const { firstName, lastName } = authUser.userProfile;
       setFullName(`${firstName} ${lastName}`);
