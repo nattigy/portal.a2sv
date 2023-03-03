@@ -20,13 +20,11 @@ export const GET_USER_PROFILE = gql`
   query User($uniqueUserInput: UniqueUserInput!) {
     user(uniqueUserInput: $uniqueUserInput) {
       userProfile {
-        userProfileAddress {
-          city
-          country
-        }
         bio
         birthDate
         codeforces
+        city
+        country
         createdAt
         currentEducationStatus
         currentWorkStatus
@@ -39,7 +37,6 @@ export const GET_USER_PROFILE = gql`
         github
         graduationYear
         hackerrank
-        id
         email
         instagram
         lastName

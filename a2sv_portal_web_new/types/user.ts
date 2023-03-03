@@ -13,16 +13,13 @@ export enum GraphqlUserRole {
   ASSISTANT = "ASSISTANT",
 }
 
-type userProfileAddressType = {
-  city: string;
-  country: string;
-};
-
 export type UserProfile = {
   bio: string;
   birthDate: Date;
-  countryCode: string;
+  city: string;  
   codeforces: string;
+  country: string;
+  countryCode: string;
   createdAt: Date;
   currentEducationStatus: string;
   currentWorkStatus: string;
@@ -30,17 +27,18 @@ export type UserProfile = {
   educationField: string;
   educationPlace: string;
   educationYear: string;
+  email: string;
   firstName: string;
   geekforgeeks: string;
   github: string;
   graduationYear: string;
   hackerrank: string;
-  id: string;
-  email: string;
   instagram: string;
+  id: string;
   lastName: string;
   leetcode: string;
   linkedin: string;
+  middleName: string;
   phone: string;
   photoUrl: string;
   resumeLink: string;
@@ -49,6 +47,5 @@ export type UserProfile = {
   twitter: string;
   updatedAt: string;
   userId: string;
-  userProfileAddress: userProfileAddressType;
   website: string;
 };

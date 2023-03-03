@@ -65,7 +65,7 @@ const ProfileDetails = ({ userProfile, user }: Props) => {
     fullname: `${userProfile?.firstName} ${userProfile?.lastName}`,
     phone: userProfile?.phone,
     email: user?.email,
-    country: userProfile?.userProfileAddress?.country,
+    country: userProfile?.country,
   };
 
   const workInfo: workInfoType = {

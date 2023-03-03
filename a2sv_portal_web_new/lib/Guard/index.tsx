@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { LoaderLarge } from "../../components/common/Loaders";
 import NetworkErrorToaster from "../../components/modals/NetworkErrorToaster";
+import { UserStatusType } from "../../types/profile";
 import authenticatedVar, {
   authenticatedUser,
   hasNetworkError,
@@ -85,23 +86,22 @@ const Guard = ({ client, children, excludedRoutes }: GuardProps) => {
   const { data: user, loading, refetch, error } = useGetMe();
   const router = useRouter();
   // const user = {getMe:mockUsers[1]};
-
   useEffect(() => {
     if (user) {
       authenticatedVar(true);
       authenticatedUser(user?.getMe);
+      if (user.status === UserStatusType.INACTIVE) {
+        router.replace("/profile/edit");
+      }
       if (router.pathname.includes("/auth")) {
         router.replace("/")
-      }
-      if (user?.userProfile === null) {
-        router.replace("/profile/edit");
       }
     } else {
       authenticatedVar(false);
       authenticatedUser({});
     }
   }, [refetch, user]);
-
+  
   if (loading) {
     return (
       <div className="min-h-screen min-w-full flex justify-center items-center">

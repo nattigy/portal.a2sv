@@ -17,6 +17,7 @@ import {
 import Router, { useRouter } from "next/router";
 import SecurityDetails from "./SecurityDetails";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import { UserStatusType } from "../../types/profile";
 
 type Props = {
   userProfile: UserProfile;
@@ -44,10 +45,8 @@ export interface ProfileFormValues {
   currentEducationStatus: string;
   countryCode: string;
   bio: string;
-  userProfileAddress: {
-    country: string;
-    city: string;
-  };
+  country: string;
+  city: string;
 }
 
 const handleValidate = (value?: string) => {
@@ -73,7 +72,9 @@ const FORM_VALIDATION = yup.object().shape({
     .string()
     .required("Required")
     .email("Email should have the format user@example.com"),
-  phone: (yup.string() as any).required("Required").validPhone("Invalid Phone Number"),
+  phone: (yup.string() as any)
+    .required("Required")
+    .validPhone("Invalid Phone Number"),
   linkedin: yup.string().required("Required"),
   dob: yup.date().required("Required").nullable().default(undefined),
 
@@ -96,16 +97,14 @@ const FORM_VALIDATION = yup.object().shape({
       "Must be at least 50 characters",
       (val) => (val?.length || 0) >= 50
     ),
-
-  userProfileAddress:yup.object().shape({
-    country:yup.string().required("Required")
-  })
+  city: yup.string().required("Required"),
+  country: yup.string().required("Required"),
 });
 
 const ProfileInfo = ({ userProfile }: Props) => {
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
   const router = useRouter();
-  const isProfileComplete = authUser.userProfile !== null;
+  const isProfileComplete = authUser.status === UserStatusType.ACTIVE;
 
   const [createUserProfile, { loading, error }] =
     useMutation(CREATE_USER_PROFILE);
@@ -116,6 +115,8 @@ const ProfileInfo = ({ userProfile }: Props) => {
   const INITIAL_VALUES: ProfileFormValues = {
     firstName: userProfile?.firstName || "",
     lastName: userProfile?.lastName || "",
+    city: userProfile?.city || "",
+    country: userProfile?.country || "",
     phone: userProfile?.phone || "",
     dob: userProfile?.birthDate || "",
     status: "",
@@ -135,10 +136,6 @@ const ProfileInfo = ({ userProfile }: Props) => {
     currentEducationStatus: userProfile?.currentEducationStatus || "",
     countryCode: userProfile?.countryCode || "+251",
     bio: userProfile?.bio || "",
-    userProfileAddress: {
-      country: userProfile?.userProfileAddress?.country || "",
-      city: userProfile?.userProfileAddress?.city || "Addis Ababa",
-    },
     photoUrl: "asfasfa",
   };
 
@@ -169,10 +166,8 @@ const ProfileInfo = ({ userProfile }: Props) => {
                     birthDate: values.dob,
                     currentWorkStatus: values.currentWorkStatus,
                     resumeLink: values.resumeLink,
-                    userProfileAddress: {
-                      city: values.userProfileAddress.country,
-                      country: values.userProfileAddress.country,
-                    },
+                    city: values.city,
+                    country: values.country,
                     currentEducationStatus: values.currentEducationStatus,
                     educationPlace: values.educationPlace,
                     bio: values.bio,
@@ -186,8 +181,7 @@ const ProfileInfo = ({ userProfile }: Props) => {
                     codeforces: values.codeforces,
                     github: values.github,
                     photoUrl: values.photoUrl,
-                    email:values.email
-                  
+                    email: values.email,
                   },
                 },
                 refetchQueries: "active",
@@ -204,10 +198,8 @@ const ProfileInfo = ({ userProfile }: Props) => {
                     birthDate: values.dob,
                     currentWorkStatus: values.currentWorkStatus,
                     resumeLink: values.resumeLink,
-                    userProfileAddress: {
-                      city: values.userProfileAddress.country,
-                      country: values.userProfileAddress.country,
-                    },
+                    city: values.city,
+                    country: values.country,
                     currentEducationStatus: values.currentEducationStatus,
                     educationPlace: values.educationPlace,
                     bio: values.bio,
@@ -221,8 +213,7 @@ const ProfileInfo = ({ userProfile }: Props) => {
                     hackerrank: values.hackerrank,
                     codeforces: values.codeforces,
                     github: values.github,
-                    email:values.email
-
+                    email: values.email,
                   },
                 },
                 refetchQueries: "active",

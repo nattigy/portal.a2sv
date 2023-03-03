@@ -1,26 +1,28 @@
 import { gql } from "@apollo/client";
 
 export const GET_ME_QUERY = gql`
-  query GetProfile {
+  query GetMe {
     getMe {
-      createdAt
+      id
       email
+      role
+      status
+      createdAt
+      updatedAt
+      groupId
       group {
         name
       }
-      groupId
-      headToGroup {
+      headToGroups {
         id
         name
       }
-      id
-      role
-      status
-      updatedAt
       userProfile {
         bio
         birthDate
+        city
         codeforces
+        country
         countryCode
         createdAt
         currentEducationStatus
@@ -35,7 +37,6 @@ export const GET_ME_QUERY = gql`
         github
         graduationYear
         hackerrank
-        id
         instagram
         lastName
         leetcode
@@ -49,10 +50,6 @@ export const GET_ME_QUERY = gql`
         twitter
         updatedAt
         userId
-        userProfileAddress {
-          city
-          country
-        }
         website
       }
     }
