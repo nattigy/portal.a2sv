@@ -20,7 +20,6 @@ env_variables:
   #email
   PORTAL_EMAIL: "riyad@a2sv.org"
 
-#  PROJECT_ID: "portal-backend-2"
   PROJECT_ID: "portal-backend-369707"
   STORAGE_MEDIA_BUCKET: "a2sv-portal-images"
   STORAGE_URL: "https://storage.googleapis.com"

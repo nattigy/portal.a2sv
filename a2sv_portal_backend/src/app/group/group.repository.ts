@@ -8,6 +8,11 @@ export const GroupIncludeObject = {
   users: {
     include: UserIncludeObject,
   },
+  head: {
+    include: {
+      userProfile: true
+    }
+  }
 }
 
 @Injectable()
@@ -18,7 +23,16 @@ export class GroupRepository {
   async create(data: Prisma.GroupCreateInput): Promise<Group> {
     return this.prismaService.group.create({
       data,
-      include: GroupIncludeObject,
+      include: {
+        users: {
+          include: UserIncludeObject,
+        },
+        head: {
+          include: {
+            userProfile: true
+          }
+        }
+      },
     })
   }
 

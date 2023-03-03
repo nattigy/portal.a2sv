@@ -1,4 +1,5 @@
 import { Field, GraphQLISODateTime, ObjectType } from '@nestjs/graphql'
+import { User } from '../../user/entities/user.entity'
 
 @ObjectType()
 export class GroupSeasonHead {
@@ -11,9 +12,9 @@ export class GroupSeasonHead {
   @Field({ description: 'Name of the group' })
   headId: string
 
-  // @Field(() => User, { nullable: true })
-  // users?: User
-  //
+  @Field(() => User, { nullable: true })
+  users?: User
+
   // @Field(() => GroupSeason, { nullable: true })
   // group?: GroupSeason
 
