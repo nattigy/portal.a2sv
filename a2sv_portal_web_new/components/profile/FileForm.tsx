@@ -27,7 +27,7 @@ const FileForm = (props: CustomInputProps) => {
 
   return (
     <div className="w-full flex justify-between items-center p-2">
-      <h1 className="text-sm font-semibold">{props.label}</h1>
+      <h1 className="text-sm font-semibold">{props.label}<span className="text-red-700">*</span></h1>
       {props.type === "photo" && (
         <div
           className={clsx(

@@ -11,6 +11,7 @@ type Props = {
     title:string;
     error?:string;
     touched?:boolean;
+    required?:boolean;
     imgPath?:string;
     icon?:ReactElement<IconType>;
 }
@@ -20,7 +21,7 @@ const CustomLinkField = (props: Props) => {
     <div className="flex gap-x">
     <div className="flex w-6/12 items-center gap-x-2 p-2">
       {props.imgPath?<img src={props.imgPath} className="w-8" alt="" />:props.icon}
-      <h1 className="text-sm">{props.title}</h1>
+      <h1 className={clsx("text-sm font-semibold", props.required ? "after:content-['*'] relative after:absolute after:-top-0 after:-right-2 after:text-red-700" : "")}>{props.title}</h1>
     </div>
     <div className="flex flex-col w-full">
     <div className="flex w-full relative ml-4">
@@ -31,10 +32,10 @@ const CustomLinkField = (props: Props) => {
         placeholder={`Enter your ${props.placeholder} account`}
         type="link"
         className={clsx(
-          "w-full text-xs placeholder-[#767676] rounded-md focus:outline-none py-3 px-8 my-2",
+          "w-full text-sm placeholder-[#767676] rounded-md focus:outline-none py-3 px-8 my-2",
           props.error && props.touched
             ? "border border-red-500"
-            : "border border-[#D2D2D2]"
+            : "border border-[#D2D2D2]",
         )}
       />
       <FiExternalLink className="absolute top-1/3 right-2" />

@@ -17,11 +17,16 @@ import { ProfileFormValues } from "./ProfileInfo";
 
 type Props = {
   formik: FormikProps<ProfileFormValues>;
-  changeTabIndex: React.Dispatch<React.SetStateAction<number>>;
+  nextStep: (values: ProfileFormValues) => void;
+  prevStep: (values: ProfileFormValues) => void;
 };
 
-const SocialMediaDetails = ({ formik, changeTabIndex }: Props) => {
-  const { errors, touched } = formik;
+const SocialMediaDetails = ({
+  formik,
+  prevStep,
+  nextStep,
+}: Props) => {
+  const { values, errors, touched } = formik;
 
   return (
     <div className="bg-white p-4">
@@ -35,18 +40,20 @@ const SocialMediaDetails = ({ formik, changeTabIndex }: Props) => {
         </div>
         <div className=" flex-1 flex flex-row justify-end gap-x-4 pr-4">
           <Button
+            disabled={Object.keys(formik.errors).some((key) =>
+              ["linkedin", "telegram", "insta", "twitter"].includes(key)
+            )}
             text="Back"
-            onClick={() => {
-              changeTabIndex((prevTabIndex) => prevTabIndex - 1);
-            }}
-            classname="bg-gray-100 text-primary px-5 text-sm h-10"
+            onClick={() => prevStep(values)}
+            classname="bg-gray-100 text-primary px-5 text-sm h-10 disabled:bg-gray-300/60"
           />
           <Button
             text="Next"
-            onClick={() => {
-              changeTabIndex((prevTabIndex) => prevTabIndex + 1);
-            }}
-            classname=" text-white bg-primary px-5 text-sm h-10 font-normal"
+            disabled={Object.keys(formik.errors).some((key) =>
+              ["linkedin", "telegram", "insta", "twitter"].includes(key)
+            )}
+            onClick={() => nextStep(values)}
+            classname=" text-white bg-primary px-5 text-sm h-10 font-normal disabled:bg-primary/60"
           />
         </div>
       </div>
@@ -58,6 +65,7 @@ const SocialMediaDetails = ({ formik, changeTabIndex }: Props) => {
           title="Instagram URL"
           touched={touched.insta}
           error={errors.insta}
+          required={true}
           icon={<SiInstagram size={24} color="blue" />}
         />
         <hr className="mx-2" />
@@ -67,6 +75,7 @@ const SocialMediaDetails = ({ formik, changeTabIndex }: Props) => {
           title="Twitter URL"
           touched={touched.twitter}
           error={errors.twitter}
+          required={true}
           icon={<SiTwitter size={24} color="blue" />}
         />
 
@@ -78,6 +87,7 @@ const SocialMediaDetails = ({ formik, changeTabIndex }: Props) => {
           title="Telegram URL"
           touched={touched.telegram}
           error={errors.telegram}
+          required={true}
           icon={<SiTelegram size={24} color="blue" />}
         />
 
@@ -88,6 +98,7 @@ const SocialMediaDetails = ({ formik, changeTabIndex }: Props) => {
           title="Linkedin URL"
           touched={touched.linkedin}
           error={errors.linkedin}
+          required={true}
           icon={<SiLinkedin size={24} color="blue" />}
         />
         <hr className="mx-2" />

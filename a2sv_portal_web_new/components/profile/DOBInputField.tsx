@@ -20,13 +20,16 @@ const DOBInputField = (props: DOBInputFieldProps) => {
   const errorMessage = (props.formik.errors as any)[props.name];
   return (
     <div className="w-full flex justify-between items-center p-2">
-      <h1 className="text-sm font-semibold">{props.label}</h1>
+      <h1 className="text-sm font-semibold">
+        {props.label}
+        <span className="text-red-700">*</span>
+      </h1>
       <div className="flex w-2/3 justify-between gap-x-3">
         <div className="w-full">
           <DateView
             className={clsx(
               props.className,
-              isError ? "border border-red-500" : "border border-[#D2D2D2]"
+              errorMessage ? "border border-red-500" : "border border-[#D2D2D2]"
             )}
             name={props.name}
             placeholderText={props.placeholder}
@@ -40,9 +43,12 @@ const DOBInputField = (props: DOBInputFieldProps) => {
             dateFormat="MMMM dd, yyyy"
             adjustDateOnChange
             showYearDropdown
-
           />
-          <h1 className="text-xs font-light text-red-700">{errorMessage}</h1>
+          {errorMessage && (
+            <div className="bg-red-400/20 w-full mt-2 p-2 px-4 rounded-md">
+              <p className="w-full text-xs text-red-400">{errorMessage}</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

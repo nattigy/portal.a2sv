@@ -1,5 +1,5 @@
 import { Field, Form, Formik, FormikProps } from "formik";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import FileForm from "./FileForm";
 import clsx from "clsx";
 import PhoneInputField from "./PhoneInputField";
@@ -15,10 +15,10 @@ import { COUNTRIES } from "../../helpers/constants";
 
 type Props = {
   formik: FormikProps<ProfileFormValues>;
-  changeTabIndex: React.Dispatch<React.SetStateAction<number>>;
+  nextStep: (values: ProfileFormValues) => void;
 };
 
-const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
+const PersonalDetails = ({ formik, nextStep }: Props) => {
   return (
     <div className="bg-white p-4">
       <div className="flex justify-between p-2">
@@ -30,11 +30,25 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
         </div>
         <div className="flex-1 flex flex-row justify-end gap-x-4 pr-4">
           <Button
+            disabled={Object.keys(formik.errors).some((key) =>
+              [
+                "firstName",
+                "lastName",
+                "email",
+                "phone",
+                "dob",
+                "resumeLink",
+                "educationPlace",
+                "currentWorkStatus",
+                "currentEducationStatus",
+                "bio",
+                "city",
+                "country",
+              ].includes(key)
+            )}
             text="Next"
-            onClick={() => {
-              changeTabIndex((prevTabIndex) => prevTabIndex + 1);
-            }}
-            classname="bg-primary text-white px-5 text-sm"
+            onClick={() => nextStep(formik.values)}
+            classname="bg-primary text-white px-5 text-sm disabled:bg-primary/60"
           />
         </div>
         {/* <div className="flex gap-4">
@@ -53,7 +67,9 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
       <hr className="ml-4" />
       <div className="flex flex-col gap-y-2 xl:w-1/2 lg:w-3/5 md:w-5/6 w-full">
         <div className="w-full flex justify-between items-center p-2">
-          <h1 className="text-sm font-semibold">Full Name</h1>
+          <h1 className="text-sm font-semibold after:content-['*'] relative after:absolute after:-top-0 after:-right-2 after:text-red-700">
+            Full Name
+          </h1>
 
           <div className="flex w-2/3 justify-between gap-x-3">
             <CustomFormField
@@ -75,7 +91,9 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
 
         <hr className="mx-2" />
         <div className="w-full flex justify-between items-center p-2">
-          <h1 className="text-sm font-semibold">Email Address</h1>
+          <h1 className="text-sm font-semibold">
+            Email Address<span className="text-red-700">*</span>
+          </h1>
 
           <div className="w-2/3">
             <CustomFormField
@@ -92,7 +110,7 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
         <hr className="mx-2" />
 
         <PhoneInputField
-          className="w-full text-xs placeholder-[#767676] rounded-md appearance-none focus:outline-none px-4 py-1"
+          className="w-full text-sm placeholder-[#767676] rounded-md appearance-none focus:outline-none px-4 py-1"
           name="phone"
           placeholder="Enter Phone Number"
           label="Phone Number"
@@ -102,7 +120,7 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
         />
         <hr className="mx-2" />
         <DOBInputField
-          className="w-full text-xs placeholder-[#767676] rounded-md focus:outline-none py-3 px-4 my-2"
+          className="w-full text-sm placeholder-[#767676] rounded-md focus:outline-none py-3 px-4 my-2"
           formik={formik}
           name="dob"
           label="DOB"
@@ -124,7 +142,7 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
           </div>
         </div>
         <hr className="mx-2" /> */}
-        <FileForm
+        {/* <FileForm
           inputProps={{
             id: "photo",
             name: "photo",
@@ -135,9 +153,11 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
           type="photo"
           label="Your Photo"
         />
-        <hr className="mx-2" />
+        <hr className="mx-2" /> */}
         <div className="w-full flex justify-between items-center p-2">
-          <h1 className="text-sm font-semibold">Work Status</h1>
+          <h1 className="text-sm font-semibold">
+            Work Status<span className="text-red-700">*</span>
+          </h1>
           <div className="w-2/3">
             <FormDropdown
               name="currentWorkStatus"
@@ -155,7 +175,9 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
 
         <hr className="mx-2" />
         <div className="w-full flex justify-between items-center p-2">
-          <h1 className="text-sm font-semibold">Resume Link</h1>
+          <h1 className="text-sm font-semibold">
+            Resume Link<span className="text-red-700">*</span>
+          </h1>
           <div className="w-2/3">
             <CustomFormField
               id="resumeLink"
@@ -169,7 +191,9 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
 
         <hr className="mx-2" />
         <div className="w-full flex justify-between items-center p-2">
-          <h1 className="text-sm font-semibold">Country</h1>
+          <h1 className="text-sm font-semibold">
+            Country<span className="text-red-700">*</span>
+          </h1>
           <div className="w-2/3">
             <FormDropdown
               name="country"
@@ -195,7 +219,9 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
         </div>
         <hr className="mx-2" />
         <div className="w-full flex justify-between items-center p-2">
-          <h1 className="text-sm font-semibold">City</h1>
+          <h1 className="text-sm font-semibold">
+            City<span className="text-red-700">*</span>
+          </h1>
           <div className="w-2/3">
             <CustomFormField
               id="city"
@@ -210,7 +236,9 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
         <hr className="mx-2" />
 
         <div className="w-full flex justify-between items-center p-2">
-          <h1 className="text-sm font-semibold">Education Status</h1>
+          <h1 className="text-sm font-semibold">
+            Education Status<span className="text-red-700">*</span>
+          </h1>
           <div className="w-2/3">
             <div>
               <FormDropdown
@@ -233,7 +261,9 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
 
         <hr className="mx-2" />
         <div className="w-full flex justify-between items-center p-2">
-          <h1 className="text-sm font-semibold">Education Institiue</h1>
+          <h1 className="text-sm font-semibold">
+            Education Institiue<span className="text-red-700">*</span>
+          </h1>
           <div className="w-2/3">
             <CustomFormField
               id="educationPlace"
@@ -246,23 +276,30 @@ const PersonalDetails = ({ formik, changeTabIndex }: Props) => {
         </div>
         <hr className="mx-2" />
         <div className="w-full flex justify-between items-start p-2">
-          <h1 className="text-sm font-semibold my-2">Your Bio</h1>
+          <h1 className="text-sm font-semibold my-2">
+            Your Bio<span className="text-red-700">*</span>
+          </h1>
           <div className="w-2/3">
             <Field
               as="textarea"
               id="bio"
               name="bio"
               rows={10}
+              placeholder="Enter Bio"
               className={clsx(
-                "w-full text-xs resize-none placeholder-[#767676] rounded-md focus:outline-none py-3 px-4 my-2",
-                (formik.errors as any)["bio"] && (formik.touched as any)["bio"]
-                  ? "border border-red-500"
-                  : "border border-[#D2D2D2]"
+                "w-full text-sm resize-none border placeholder-[#767676] rounded-md focus:outline-none py-3 px-4",
+                (formik.errors as any)["bio"]
+                  ? "border-red-500"
+                  : "border-[#D2D2D2]"
               )}
             ></Field>
-            {/* <h1 className="text-xs font-light text-red-700">
-              {(formik.errors as any)["bio"]}
-            </h1> */}
+            {formik.errors.bio && (
+              <div className="bg-red-400/20 w-full mt-2 p-2 px-4 rounded-md">
+                <p className="w-full text-xs text-red-400">
+                  {formik.errors.bio}
+                </p>
+              </div>
+            )}{" "}
           </div>
         </div>
       </div>
