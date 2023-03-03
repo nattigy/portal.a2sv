@@ -5,6 +5,7 @@ import { StatusEnum, UserTopicProblemStatusEnum } from '@prisma/client'
 import { UserGroupSeasonDailyAnalyticInput } from './dto/user-group-season-daily-analytic.input'
 import { StudentWeeklyAnalytic } from './entities/weekly-data-analytic-entity'
 import { StudentYearlyAnalytic } from './entities/yearly-data-analytic-entity'
+import { start } from 'repl'
 
 @Injectable()
 export class UserGroupSeasonDataAnalyticsService {
@@ -213,10 +214,13 @@ export class UserGroupSeasonDataAnalyticsService {
 
     const enddate = endDate ? new Date(endDate) : new Date()
     const date = new Date()
-    const startdate = startDate
-      ? new Date(startDate)
-      : new Date(`${date.getFullYear() - 1}}`)
+    if (!startDate){
+      startDate = new Date();
+      startDate.setFullYear(date.getFullYear()-1)
+    }
     
+    console.log(startDate)
+    console.log(enddate)
     const userdailystat = await this.prismaService.userGroupSeasonDataAnalytics.findMany({
       where: {
         userGroupSeason: {
@@ -225,13 +229,14 @@ export class UserGroupSeasonDataAnalyticsService {
         },
         createdAt: {
           lte: enddate,
-          gte: startdate,
+          gte: startDate,
         },
       },
       orderBy: {
         createdAt: 'asc',
       },
     })
+    console.log(userdailystat.length);
 
     return userdailystat
   }

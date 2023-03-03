@@ -16,7 +16,7 @@ env_variables:
   SOCKET_LABS_PASSWORD: "Zm5i8TNp3k9R6DxY"
 
   #email
-  PORTAL_EMAIL: "norepluy@a2sv.org"
+  PORTAL_EMAIL: "noreply@a2sv.org"
 
   PROJECT_ID: "portal-backend-369707"
   STORAGE_MEDIA_BUCKET: "a2sv-portal-images"
