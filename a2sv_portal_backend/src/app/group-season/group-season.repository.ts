@@ -6,7 +6,7 @@ import { GroupSeasonContestIncludeObject } from '../group-season-contest/group-s
 import { GroupSeasonTopicIncludeObject } from '../group-season-topic/group-season-topic.repository'
 
 export const GroupSeasonIncludeObject = {
-  group: true,
+  group: { include: { head: { include: { userProfile: true } } } },
   season: true,
   groupSeasonTopics: {
     include: GroupSeasonTopicIncludeObject,
