@@ -4,7 +4,7 @@ FROM node:16.16.0
 # Create app directory
 WORKDIR /app
 
-ENV PORT 3000
+ENV PORT 4000
 ENV HOST 0.0.0.0
 
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
@@ -32,7 +32,7 @@ RUN npx prisma generate
 # Creates a "dist" folder with the production build
 RUN npm run build
 
-EXPOSE 3000
+EXPOSE 4000
 
 # Start the server using the production build
 CMD [ "node", "dist/src/main.js" ]
