@@ -28,11 +28,11 @@ export class User {
   })
   groupId?: string
 
-  @Field(() => [Group], {
+  @Field(() => Group, {
     nullable: true,
     description: 'If the user is a head, the group he is a head to',
   })
-  headToGroups?: Group[]
+  headToGroup?: Group
 
   // @Field({ nullable: true, description: 'Id of the userprofile for the user ' })
   // userProfilesId?: string

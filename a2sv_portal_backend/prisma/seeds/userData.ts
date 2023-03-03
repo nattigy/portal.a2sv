@@ -50,7 +50,7 @@ export const userData = [
     'status': StatusEnum.INACTIVE,
   },
   {
-    'email': 'nathnael.y@a2sv.org',
+    'email': 'nathnael.akale@a2sv.org',
     'password': '$2b$10$meWlkGCFEHkP/serox2RGuOr3LQJBnPLweHt3ZmL0S0yBbSbg9Tnm',
     'role': RoleEnum.STUDENT,
     'status': StatusEnum.INACTIVE,
@@ -104,7 +104,7 @@ export const userData = [
     'status': StatusEnum.INACTIVE,
   },
   {
-    'email': 'natnael.awel@a2sv.org',
+    'email': 'natnael.hussein@a2sv.org',
     'password': '$2b$10$meWlkGCFEHkP/serox2RGuOr3LQJBnPLweHt3ZmL0S0yBbSbg9Tnm',
     'role': RoleEnum.STUDENT,
     'status': StatusEnum.INACTIVE,

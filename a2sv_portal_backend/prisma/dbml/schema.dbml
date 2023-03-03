@@ -32,7 +32,7 @@ Table Group {
   name String [unique, not null]
   country String
   school String
-  headId String
+  headId String [unique]
   head User
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
@@ -90,7 +90,7 @@ Table User {
   groupId String
   createdAt DateTime [default: `now()`]
   updatedAt DateTime
-  headToGroups Group [not null]
+  headToGroup Group
   group Group
   userProfile UserProfile
   groupSeasonHeads GroupSeasonHead [not null]
@@ -537,7 +537,7 @@ Enum ResourceTypeEnum {
 
 Ref: SeasonStats.seasonId - Season.id [delete: Cascade]
 
-Ref: Group.headId > User.id
+Ref: Group.headId - User.id
 
 Ref: User.groupId - Group.id
 
