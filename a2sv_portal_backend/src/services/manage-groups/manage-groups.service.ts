@@ -22,23 +22,22 @@ export class ManageGroupsService {
      to another group
      */
     const createData: Prisma.GroupCreateInput = { ...createGroupInput }
-    // TODO: if group is found in that name throw name has already been used error!
-    const group = await this.groupService.createGroup({
-      ...createData,
-    })
     if (headId) {
       const foundUser = await this.prismaService.user.findUnique({
         where: { id: headId },
+        include: { headToGroup: true },
       })
       if (!foundUser) {
         throw new NotFoundException(`User with id ${headId} does not exist!`)
       }
-      await this.groupRepository.update({
-        where: { id: group.id },
-        data: { head: { connect: { id: headId } } },
-      })
+      if (foundUser.headToGroup) {
+        throw new Error(`User with id ${headId} is already assigned to another group!`)
+      }
+      createData.head = { connect: { id: headId } }
     }
-    return group
+    return this.groupRepository.create({
+      ...createData,
+    })
   }
 
   async updateGroup({ groupId, headId, ...updates }: UpdateGroupInput): Promise<Group> {

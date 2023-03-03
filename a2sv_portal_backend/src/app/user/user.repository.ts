@@ -6,7 +6,7 @@ import { UserProfileIncludeObject } from '../user-profile/user-profile.repositor
 
 export const UserIncludeObject = {
   group: true,
-  headToGroups: true,
+  headToGroup: true,
   userProfile: { include: UserProfileIncludeObject },
 }
 
