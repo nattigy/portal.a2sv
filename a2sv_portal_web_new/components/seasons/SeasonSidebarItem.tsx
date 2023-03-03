@@ -11,9 +11,10 @@ type Props = {};
 
 const SeasonSidebarItem = (props: Props) => {
   const { data, loading, error } = useGetSeasonRequests();
-  console.log(data, "data");
+
   return (
-    <div className={clsx("h-full flex flex-col gap-y-2 justify-between")}>
+    <div className={clsx("h-full flex flex-col gap-y-2 justify-between overflow-auto")}>
+    
       <div className={clsx("flex flex-col gap-y-4 transition-all")}>
         {/* <CalendarItem/> */}
         <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_ACADEMY]}>

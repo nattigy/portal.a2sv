@@ -7,17 +7,21 @@ import FormAffirmativeButton from "../common/FormAffirmativeButton";
 import FormRejectButton from "../common/FormRejectButton";
 
 export type SeasonRequestItemProps = {
-  head: {
-    id: string;
-    email: string;
-    userProfile: { firstName: string; lastName: string };
-  };
   season: { id: string; name: string };
-  group: { id: string; name: string };
+  group: {
+    id: string;
+    name: string;
+    head: {
+      id: string;
+      email: string;
+      userProfile: { firstName: string; lastName: string };
+    };
+  };
 };
 
-const SeasonRequestItem = ({ head, season, group }: SeasonRequestItemProps) => {
-  const [acceptOrRejectRequest, { loading, data, error }] = useMutation(
+const SeasonRequestItem = ({ season, group }: SeasonRequestItemProps) => {
+  const { head } = group;
+  const [acceptOrRejectRequest, { loading, data, error, reset }] = useMutation(
     ACCEPT_OR_REJECT_SEASON_REQUEST
   );
   const [isApproved, setIsApproved] = useState(false);
@@ -33,6 +37,11 @@ const SeasonRequestItem = ({ head, season, group }: SeasonRequestItemProps) => {
       },
       refetchQueries: "active",
       notifyOnNetworkStatusChange: true,
+      onError(error, clientOptions) {
+        setTimeout(() => {
+          reset();
+        }, 2000);
+      },
     });
   };
 
@@ -49,9 +58,11 @@ const SeasonRequestItem = ({ head, season, group }: SeasonRequestItemProps) => {
         <div>
           <p className="text-xs">
             <span className="font-semibold">
-              {head.userProfile
-                ? head.userProfile.firstName + head.userProfile.lastName + " "
-                : head.email + " "}
+              {head?.userProfile
+                ? head?.userProfile?.firstName +
+                  head?.userProfile?.lastName +
+                  " "
+                : head?.email + " "}
             </span>
             requested to start
             <span className="font-semibold"> {season.name}</span> for
@@ -79,6 +90,11 @@ const SeasonRequestItem = ({ head, season, group }: SeasonRequestItemProps) => {
           </div>
         </div>
       </div>
+      {error && (
+        <div className="bg-red-400/20 w-full mt-2 p-2 px-4 rounded-md">
+          <p className="w-full text-xs text-red-400">{error.message}</p>
+        </div>
+      )}
     </div>
   );
 };

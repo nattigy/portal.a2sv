@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import AutoCompleteField from "../../components/users/HOEAutocomplete";
-import AutoCompleteSearch from "../../components/topics/TopicsAutocomplete";
 import BaseLayout from "../../components/common/BaseLayout";
 import Button from "../../components/common/Button";
 import SeasonList from "../../components/seasons/SeasonList";

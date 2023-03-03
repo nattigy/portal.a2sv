@@ -73,7 +73,7 @@ export const GET_ALL_USER_QUERY = gql`
         id
       }
       userProfile {
-        id
+        userId
         firstName
         lastName
       }
@@ -118,7 +118,7 @@ export const GET_USERS_BY_GROUP_ID_QUERY = gql`
         school
       }
       userProfile {
-        id
+        userId
         firstName
         lastName
       }

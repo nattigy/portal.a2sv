@@ -1,5 +1,5 @@
 import { makeVar } from "@apollo/client";
-import { GraphqlUserRole } from "../../types/user";
+import { GraphqlUserRole, UserProfile } from "../../types/user";
 
 const authenticatedVar = makeVar(true);
 export type AuthUser = {
@@ -18,7 +18,7 @@ export type AuthUser = {
     id: string;
     name: string;
   };
-  userProfile: any;
+  userProfile: UserProfile;
 };
 export const authenticatedUser: AuthUser | any = makeVar({});
 

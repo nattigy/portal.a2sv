@@ -27,9 +27,7 @@ const FORM_VALIDATION = yup.object().shape({
 });
 
 const NewUserModal = (props: Props) => {
-  const [addNewUser,{data,error,loading}] = useMutation(CREATE_USER_MUTATION);
-  const [errorMessage, setErrorMessage] = useState("");
-
+  const [addNewUser,{data,error,loading,reset}] = useMutation(CREATE_USER_MUTATION);
   const INITIAL_VALUES = {email:""} as FormValues;
 
   return (
@@ -46,10 +44,13 @@ const NewUserModal = (props: Props) => {
               refetchQueries: "active",
               notifyOnNetworkStatusChange: true,
               onCompleted: (data) => {
+                console.log(data)
                 props.onClose();
               },
-              onError: (error) => {
-                setErrorMessage((error as ApolloError).message);
+              onError(error, clientOptions) {
+                setTimeout(()=>{
+                  reset();
+                },2000)
               },
             });
             actions.resetForm();
@@ -111,10 +112,10 @@ const NewUserModal = (props: Props) => {
                     <div className="flex flex-col gap-y-4">
                     </div>
                   </div>
-                  {errorMessage && (
+                  {error?.message && (
                     <div className="bg-[#E4646451] py-1 rounded-md">
                       <span className="text-[#E46464] px-4 text-xs">
-                        {errorMessage}
+                        {error.message}
                       </span>
                     </div>
                   )}

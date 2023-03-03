@@ -94,7 +94,7 @@ const ProblemsTable = ({ problems, seasonId, topicId, group }: Props) => {
   const handleModalOpen = () => {
     setIsModalOpen(true);
   };
-
+  console.log( authUser.headToGroup?.id)
   const handleAddGroupSeasonTopicProblems = async () => {
     await addGroupSeasonTopicProblems({
       variables: {
@@ -114,7 +114,7 @@ const ProblemsTable = ({ problems, seasonId, topicId, group }: Props) => {
     await removeGroupSeasonTopicProblems({
       variables: {
         groupSeasonTopicId: {
-          groupId: authUser.groupId,
+          groupId: authUser.headToGroup?.id || authUser.groupId,
           seasonId: seasonId,
           topicId: topicId,
         },

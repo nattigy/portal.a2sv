@@ -10,14 +10,16 @@ import DeletePopupModal from "../modals/DeletePopupModal";
 import SeasonModal from "../modals/SeasonModal";
 import { Season } from "../../types/season";
 import { ApolloError, useMutation, useReactiveVar } from "@apollo/client";
-import { REMOVE_SEASON } from "../../lib/apollo/Mutations/seasonsMutations";
+import {
+  REMOVE_SEASON,
+  START_SEASON,
+} from "../../lib/apollo/Mutations/seasonsMutations";
 import WithPermission from "../../lib/Guard/WithPermission";
 import { GraphqlUserRole } from "../../types/user";
 import { getSVGIcon } from "../../helpers/getSVGPath";
 import { slugify } from "../../helpers/slugify";
 import { REMOVE_SEASON_FROM_GROUP } from "../../lib/apollo/Mutations/groupsMutations";
-import authenticatedVar, { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
-import auth from "../../pages/auth";
+import { authenticatedUser, AuthUser } from "../../lib/constants/authenticated";
 
 type Props = {
   seasonProps: Season;
@@ -29,6 +31,14 @@ const GroupSeasonItem = ({ seasonProps }: Props) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState("");
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
+  const [
+    startSeason,
+    {
+      data: startSeasonData,
+      loading: startSeasonLoading,
+      error: startSeasonError,
+    },
+  ] = useMutation(START_SEASON);
 
   const handleEditModalOpen = () => {
     setIsEditModalOpen(true);
@@ -39,13 +49,26 @@ const GroupSeasonItem = ({ seasonProps }: Props) => {
   const handleSeasonMenuOpen = () => {
     setIsSeasonMenuOpen(true);
   };
+  const handleStartSeason = async () => {
+    await startSeason({
+      variables: {
+        updateGroupSeasonInput: {
+          isActive: true,
+          seasonId: seasonProps.id,
+          groupId: authUser.headToGroup.id,
+        },
+      },
+      refetchQueries:"active",
+      notifyOnNetworkStatusChange:true
+    });
+  };
 
   var images = [
     "/images/season-item.svg",
     "/images/season-item.svg",
     "/images/season-item.svg",
   ];
-  const [removeSeason, { loading, data, error,reset }] = useMutation(
+  const [removeSeason, { loading, data, error, reset }] = useMutation(
     REMOVE_SEASON_FROM_GROUP
   );
 
@@ -76,9 +99,9 @@ const GroupSeasonItem = ({ seasonProps }: Props) => {
         <DeletePopupModal
           title="Remove Season"
           description={`This will remove ${seasonProps.name} from this group permanently`}
-          errorMessage={error?.message||""}
+          errorMessage={error?.message || ""}
           isLoading={loading}
-          onClose={() =>{
+          onClose={() => {
             setIsDeleteModalOpen(false);
             reset();
           }}
@@ -90,8 +113,8 @@ const GroupSeasonItem = ({ seasonProps }: Props) => {
                   groupId: authUser.headToGroup.id,
                 },
               },
-              notifyOnNetworkStatusChange:true,
-              refetchQueries:"active"
+              notifyOnNetworkStatusChange: true,
+              refetchQueries: "active",
             });
           }}
         />
@@ -115,6 +138,14 @@ const GroupSeasonItem = ({ seasonProps }: Props) => {
                         handleDeleteModalOpen();
                       },
                       icon: getSVGIcon("delete"),
+                    },
+                    {
+                      title: "Start Season",
+                      onClick: (e: any) => {
+                        e.stopPropagation();
+                        handleStartSeason();
+                      },
+                      icon: getSVGIcon("start_season"),
                     },
                   ]}
                 />

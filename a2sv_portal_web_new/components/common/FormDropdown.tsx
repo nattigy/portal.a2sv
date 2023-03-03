@@ -37,7 +37,7 @@ const FormDropdown = (props: Props) => {
           className={clsx(
             "bg-white w-full h-10 border rounded-md appearance-none caret-transparent text-sm ",
             props.error ? "border-red-500" : "",
-            props.flag ? "px-10" : "px-4"
+            props.flag||props.icon ? "px-10" : "px-4"
           )}
         >
           <option

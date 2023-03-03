@@ -8,8 +8,10 @@ import { LoaderSmall } from "../../../../../components/common/Loaders";
 import ResourceModal from "../../../../../components/modals/ResourceModal";
 import ProblemsPage from "../../../../../components/problems/ProblemsPage";
 import TopicResourcesItem from "../../../../../components/problems/TopicResourcesItem";
+import WithPermission from "../../../../../lib/Guard/WithPermission";
 import { useGetSeasonTopicResources } from "../../../../../lib/hooks/useResources";
 import { Resource } from "../../../../../types/resource";
+import { GraphqlUserRole } from "../../../../../types/user";
 
 const IndexPage = () => {
   const Sidebar: React.FC<{ sidebarProps: Array<Resource> }> = ({
@@ -63,7 +65,7 @@ const IndexPage = () => {
               ))}
             </Reorder.Group>
           )}
-
+          <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_ACADEMY,GraphqlUserRole.HEAD_OF_EDUCATION]}>
           <div
             onClick={handleModalOpen}
             className="flex gap-x-1 items-center justify-center bg-[#F6F6FC] border-2 border-dashed border-[#CDCDCD] rounded-md p-3 mt-2"
@@ -71,6 +73,7 @@ const IndexPage = () => {
             <BiPlus size={22} />
             <h1 className="font-medium text-md">Add More Resources</h1>
           </div>
+          </WithPermission>
         </div>
         <div>
           <img src="/icons/resources.svg" alt="" />

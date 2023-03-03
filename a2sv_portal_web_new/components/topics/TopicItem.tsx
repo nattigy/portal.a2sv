@@ -22,7 +22,7 @@ const TopicItem = (props: Props) => {
   
   
   return (
-      <div className="h-[72px] flex w-full rounded-r-lg gap-x-3 bg-white items-center cursor-pointer">
+      <div className="h-[72px] flex w-full rounded-r-lg gap-x-3 bg-white items-center cursor-pointer ripple shadow-sm">
         <div
           className={`w-1 h-full`}
           style={{

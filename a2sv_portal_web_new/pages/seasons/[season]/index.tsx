@@ -30,6 +30,7 @@ const IndexPage = () => {
   return (
     <BaseLayout sidebar={<Sidebar />}>
       <div className="h-full">
+        
         <WithPermission allowedRoles={[GraphqlUserRole.HEAD_OF_ACADEMY]}>
           <HOATopicsPage/>
         </WithPermission>

@@ -28,15 +28,16 @@ export const useFilteredUsers = (tabIndex: number) => {
       break;
   }
 
-  return useLazyQuery(GET_FILTERED_USERS, {
-    variables: {
-      filterUserInput: {
-        role,
+    return useLazyQuery(GET_FILTERED_USERS, {
+      variables: {
+        filterUserInput: {
+          role,
+        },
       },
-    },
-    errorPolicy: "all",
-    notifyOnNetworkStatusChange: true,
-  });
+      errorPolicy: "all",
+      notifyOnNetworkStatusChange: true,
+    });
+
 };
 
 export const useUsersByGroupId = (groupId: string) => {

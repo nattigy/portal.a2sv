@@ -38,18 +38,18 @@ export const GET_GROUP_SEASONS = gql`
 `;
 
 export const GET_SEASON_REQUESTS = gql`
-  query GroupSeasons($filterGroupSeasonInput: FilterGroupSeasonInput!) {
+  query Group($filterGroupSeasonInput: FilterGroupSeasonInput!) {
     groupSeasons(filterGroupSeasonInput: $filterGroupSeasonInput) {
       items {
-        head {
-          id
-          email
-          userProfile {
-            firstName
-            lastName
-          }
-        }
         group {
+          head {
+            id
+            email
+            userProfile {
+              lastName
+              firstName
+            }
+          }
           id
           name
         }

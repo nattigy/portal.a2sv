@@ -39,7 +39,7 @@ const UsersPage = (props: Props) => {
 
   useEffect(() => {
     if (data) {
-      console.log("data is ", data.users[0]);
+      console.log("data is ", data);
       setUsersData(data?.users.items);
       setFilteredUsersData(data?.users.items);
       setSelected(data?.users[0]?.items?.id);
