@@ -56,11 +56,14 @@ export class ManageGroupSeasonsService {
       season: { connect: { id: seasonId } },
       group: { connect: { id: groupId } },
       groupSeasonHeads: {
-        connect: {
-          groupId_seasonId_headId: {
-            groupId, seasonId, headId: group.headId,
+        connectOrCreate: {
+          where: {
+            groupId_seasonId_headId: {
+              groupId, seasonId, headId: group.headId,
+            },
           },
-        },
+          create: { user: { connect: { id: group.headId } } }
+        }
       },
     })
   }
