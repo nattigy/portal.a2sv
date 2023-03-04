@@ -118,18 +118,18 @@ const UsersPage = (props: Props) => {
   );
 };
 
-export async function getStaticProps() {
-  const apolloClient = initializeApollo({});
+// export async function getStaticProps() {
+//   const apolloClient = initializeApollo({});
 
-  await apolloClient.query({
-    query: GET_FILTERED_USERS,
-    errorPolicy: "all",
-    notifyOnNetworkStatusChange: true,
-  });
+//   await apolloClient.query({
+//     query: GET_FILTERED_USERS,
+//     errorPolicy: "all",
+//     notifyOnNetworkStatusChange: true,
+//   });
 
-  return addApolloState(apolloClient, {
-    props: {},
-  });
-}
+//   return addApolloState(apolloClient, {
+//     props: {},
+//   });
+// }
 
 export default UsersPage;

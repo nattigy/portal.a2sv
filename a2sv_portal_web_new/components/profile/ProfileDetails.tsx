@@ -42,36 +42,38 @@ const ProfileDetails = ({ userProfile, user }: Props) => {
     },
     {
       id: 4,
-      name: "Geeks for geeks",
+      name: "Geeksforgeeks",
       handle: userProfile?.geekforgeeks,
       icon: "/icons/geeksforgeeks.svg",
     },
   ];
 
   type basicInfoType = {
-    fullname: string;
+    name: string;
     phone: string;
     email: string;
     country: string;
+    city: string;
   };
 
   type workInfoType = {
-    educationInstitute: string;
-    educationStatus: string;
-    workStatus: string;
+    education_Institute: string;
+    education_Status: string;
+    work_Status: string;
   };
 
   const basicInfo: basicInfoType = {
-    fullname: `${userProfile?.firstName} ${userProfile?.lastName}`,
+    name: `${userProfile?.firstName} ${userProfile?.lastName}`,
     phone: userProfile?.phone,
     email: user?.email,
     country: userProfile?.country,
+    city: userProfile?.city,
   };
 
   const workInfo: workInfoType = {
-    educationInstitute: userProfile?.educationPlace,
-    educationStatus: userProfile?.currentEducationStatus,
-    workStatus: userProfile?.currentWorkStatus,
+    education_Institute: userProfile?.educationPlace,
+    education_Status: userProfile?.currentEducationStatus.toLowerCase(),
+    work_Status: userProfile?.currentWorkStatus.toLowerCase(),
   };
 
   return (
@@ -86,7 +88,7 @@ const ProfileDetails = ({ userProfile, user }: Props) => {
             />
 
             <p className="uppercase text-center p-4 text-xl">
-              {basicInfo.fullname}
+              {basicInfo.name}
             </p>
 
             <div className="grid grid-cols-4 w-full items-center ">
@@ -150,14 +152,13 @@ const ProfileDetails = ({ userProfile, user }: Props) => {
       <div
         className={`w-full lg:w-2/3 rounded-md border-b border-gray-200 bg-white px-4 py-5 sm:px-6`}
       >
-        <div className="p-6 uppercase text-xl">{basicInfo.fullname}</div>
+        <div className="p-6 pb-3 uppercase text-start text-xl">Bio</div>
         <div className="px-6 font-light">{userProfile?.bio}</div>
         <div className="flex items-center px-6 py-8">
-          <p className="mr-4">Personal Info</p>
           <div className="border border-gray text-sm text-center flex-1 h-0" />
         </div>
         <div>
-          <p className="uppercase p-6 text-xl text-[#979797]">Basic Info</p>
+          <p className="uppercase p-6 pt-3 text-xl">Basic Info</p>
           {Object.entries(basicInfo).map(
             (value: [string, string], index: number) => (
               <div className="flex px-6 py-2" key={value[0]}>
@@ -167,18 +168,26 @@ const ProfileDetails = ({ userProfile, user }: Props) => {
             )
           )}
         </div>
+        <div className="flex items-center px-6 py-8">
+          <div className="border border-gray text-sm text-center flex-1 h-0" />
+        </div>
+
         <div>
-          <p className="uppercase p-6 text-xl text-[#979797]">
-            Work and Education
-          </p>
+          <p className="uppercase p-6 text-xl">Work and Education</p>
           {Object.entries(workInfo).map(
             (value: [string, string], index: number) => (
               <div
                 className="flex flex-col md:flex-row px-6 py-2"
                 key={value[0]}
               >
-                <p className="capitalize mr-4 text-[#979797]">{value[0]}:</p>
-                <p>{value[1]}</p>
+                <p className="capitalize mr-4 text-[#979797]">
+                  {value[0]
+                    .split("_")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ")}
+                  :
+                </p>
+                <p className="capitalize">{value[1]}</p>
               </div>
             )
           )}

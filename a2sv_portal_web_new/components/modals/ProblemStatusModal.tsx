@@ -150,7 +150,7 @@ const ProblemStatusModal = (props: Props) => {
                       name="time_spent"
                       type="number"
                       min={0}
-                      placeholder="in minutes"
+                      placeholder="0"
                       className={clsx(
                         "border-2 w-24 rounded-md px-2 py-1 text-sm ",
                         touched.time_spent && errors.time_spent
@@ -180,7 +180,7 @@ const ProblemStatusModal = (props: Props) => {
                       name="total_attempts"
                       type="number"
                       min={0}
-                      placeholder="in minutes"
+                      placeholder="0"
                       className={clsx(
                         "border-2 w-24 rounded-md px-2 py-1 text-sm ",
                         touched.total_attempts && errors.total_attempts

@@ -11,7 +11,7 @@ export type FormInputProps = {
   formik: FormikProps<ProfileFormValues>;
   options?: Array<string>;
   setFile?: React.Dispatch<React.SetStateAction<File | undefined>>;
-  readOnly?:boolean;
+  readOnly?: boolean;
 };
 
 const CustomFormField: React.FC<FormInputProps> = (props: FormInputProps) => {
@@ -24,17 +24,21 @@ const CustomFormField: React.FC<FormInputProps> = (props: FormInputProps) => {
       {props.type === "text" && (
         <div>
           <Field
-            readOnly = {props.readOnly}
+            readOnly={props.readOnly}
             id={props.id}
             name={props.name}
             placeholder={props.placeholder}
             type="text"
             className={clsx(
-              "w-full text-xs placeholder-[#767676] rounded-md focus:outline-none py-3 px-4 my-2",
-              isError ? "border border-red-500" : "border border-[#D2D2D2]"
+              "w-full text-sm  placeholder-[#767676] rounded-md focus:outline-none py-3 px-4",
+              errorMessage ? "border border-red-500" : "border border-[#D2D2D2]"
             )}
           />
-          <h1 className="text-xs font-light text-red-700">{errorMessage}</h1>
+          {errorMessage && (
+            <div className="bg-red-400/20 w-full mt-2 p-2 px-4 rounded-md">
+              <p className="w-full text-xs text-red-400">{errorMessage}</p>
+            </div>
+          )}
         </div>
       )}
       {props.type === "file" && (
@@ -49,7 +53,6 @@ const CustomFormField: React.FC<FormInputProps> = (props: FormInputProps) => {
           className="hidden"
         />
       )}
-
     </div>
   );
 };

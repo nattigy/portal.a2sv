@@ -133,9 +133,10 @@ const StudentTable = (props: Props) => {
                         <img
                           className="w-7"
                           src={
-                            student.userProfile?.photoUrl
-                              ? student.userProfile?.photoUrl
-                              : "/images/group-students-profile.svg"
+                            // student.userProfile?.photoUrl
+                            //   ? student.userProfile?.photoUrl
+                              // : "/images/group-students-profile.svg"
+                              "/images/group-students-profile.svg"
                           }
                           alt=""
                         />

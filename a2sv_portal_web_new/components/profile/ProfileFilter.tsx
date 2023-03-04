@@ -1,5 +1,7 @@
+import { FormikProps } from "formik";
 import React from "react";
 import { FilterItem } from "../dashboard/DashboardFilter";
+import { ProfileFormValues } from "./ProfileInfo";
 
 const filterItems: Array<FilterItem> = [
   {
@@ -17,7 +19,8 @@ const filterItems: Array<FilterItem> = [
 ];
 
 type Props = {
-  handleTabChange: (idx: number) => void;
+  formik: FormikProps<ProfileFormValues>;
+  handleTabChange: (idx: number, values: ProfileFormValues) => void;
   handleModalOpen?: () => void;
   activeIndex: number;
 };
@@ -32,8 +35,8 @@ const ProfileFilter = (props: Props) => {
               style={{
                 color: props.activeIndex == index ? "#565656" : "#9F9F9F",
               }}
-              className="font-semibold text-xs"
-              onClick={() => props.handleTabChange(index)}
+              className="disabled:cursor-not-allowed font-semibold text-xs"
+              onClick={() => props.handleTabChange(index, props.formik.values)}
             >
               {item.title}
             </button>

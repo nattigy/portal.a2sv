@@ -10,11 +10,11 @@ import { ProfileFormValues } from "./ProfileInfo";
 
 type Props = {
   formik: FormikProps<ProfileFormValues>;
-  changeTabIndex: React.Dispatch<React.SetStateAction<number>>;
+  prevStep: (values: ProfileFormValues) => void;
 };
 
-const ProgrammingDetails = ({ formik, changeTabIndex }: Props) => {
-  const { isSubmitting, touched, errors } = formik;
+const ProgrammingDetails = ({ formik, prevStep }: Props) => {
+  const { values, isSubmitting, touched, errors } = formik;
 
   return (
     <div className="bg-white p-4">
@@ -28,16 +28,20 @@ const ProgrammingDetails = ({ formik, changeTabIndex }: Props) => {
         </div>
         <div className=" flex-1 flex flex-row justify-end gap-x-4 pr-4">
           <Button
+            disabled={Object.keys(formik.errors).some((key) =>
+              ["github", "leetcode", "codeforces", "hackerrank"].includes(key)
+            )}
             text="Back"
-            onClick={() => {
-              changeTabIndex((prevTabIndex) => prevTabIndex - 1);
-            }}
-            classname="bg-gray-100 text-primary px-5 text-sm h-10"
+            onClick={() => prevStep(values)}
+            classname="bg-gray-100 text-primary px-5 text-sm h-10 disabled:bg-gray-300/60"
           />
           <FormAffirmativeButton
+            disabled={Object.keys(formik.errors).some((key) =>
+              ["github", "leetcode", "codeforces", "hackerrank"].includes(key)
+            )}
             text="Submit"
             isLoading={formik.isSubmitting}
-            className="!px-5 !text-sm !py-0 !mt-0 !font-normal !h-10"
+            className="!px-5 !text-sm !py-0 !mt-0 !font-normal !h-10 disabled:bg-primary/60"
           />
         </div>
       </div>
@@ -49,13 +53,14 @@ const ProgrammingDetails = ({ formik, changeTabIndex }: Props) => {
           title="Leetcode URL"
           touched={touched.leetcode}
           error={errors.leetcode}
+          required={true}
           imgPath="/icons/leetcode.png"
         />
         <hr className="mx-2" />
         <CustomLinkField
           name="geeksforgeeks"
           placeholder="GeeksforGeeks"
-          title="GeeksforGeeks Url"
+          title="GeeksforGeeks URL"
           touched={touched.geeksforgeeks}
           error={errors.geeksforgeeks}
           imgPath="/icons/geeksforgeeks.png"
@@ -65,9 +70,10 @@ const ProgrammingDetails = ({ formik, changeTabIndex }: Props) => {
         <CustomLinkField
           name="hackerrank"
           placeholder="Hackerrank"
-          title="Hackerrank Url"
+          title="Hackerrank URL"
           touched={touched.hackerrank}
           error={errors.hackerrank}
+          required={true}
           imgPath="/icons/hackerrank.png"
         />
 
@@ -75,9 +81,10 @@ const ProgrammingDetails = ({ formik, changeTabIndex }: Props) => {
         <CustomLinkField
           name="codeforces"
           placeholder="Codeforces"
-          title="Codeforces Url"
+          title="Codeforces URL"
           touched={touched.codeforces}
           error={errors.codeforces}
+          required={true}
           imgPath="/icons/codeforces.png"
         />
 
@@ -85,12 +92,12 @@ const ProgrammingDetails = ({ formik, changeTabIndex }: Props) => {
         <CustomLinkField
           name="github"
           placeholder="Github"
-          title="Github Url"
+          title="Github URL"
           touched={touched.github}
           error={errors.github}
+          required={true}
           imgPath="/icons/github.png"
         />
-  
       </div>
     </div>
   );

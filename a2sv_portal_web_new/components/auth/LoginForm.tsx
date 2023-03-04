@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import CustomTextField from "../../components/auth/TextField";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { ApolloError, useMutation, useReactiveVar } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { SIGN_IN_MUTATION } from "../../lib/apollo/Mutations/authMutations";
 import authenticatedVar from "../../lib/constants/authenticated";
 
@@ -18,11 +17,7 @@ const INITIAL_VALUES = {
 } as FormValues;
 
 const LoginForm = () => {
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [signin, { data, loading }] = useMutation(SIGN_IN_MUTATION);
-  const router = useRouter();
-  const auth = useReactiveVar(authenticatedVar);
+  const [signin, { data, error, loading }] = useMutation(SIGN_IN_MUTATION);
 
   useEffect(() => {
     if (data) {
@@ -44,7 +39,6 @@ const LoginForm = () => {
         <Formik
           initialValues={INITIAL_VALUES}
           onSubmit={async (values: any) => {
-            setIsLoading(true);
             try {
               const {
                 data: {
@@ -57,8 +51,8 @@ const LoginForm = () => {
                 refetchQueries: "active",
                 notifyOnNetworkStatusChange: true,
                 onError: (error) => {
-                  setErrorMessage(error.message);
-                  setIsLoading(false);
+                  // setErrorMessage(error.message);
+                  // setIsLoading(false);
                 },
                 onCompleted: async ({ login }) => {
                   const { accessToken, userId } = login;
@@ -66,11 +60,10 @@ const LoginForm = () => {
               })) as any;
               localStorage.setItem("access-token", accessToken);
               localStorage.setItem("userId", userId);
-              setIsLoading(false);
               authenticatedVar(true);
               // router.push("/dashboard")
             } catch (error) {
-              setErrorMessage((error as ApolloError).message);
+              // setErrorMessage((error as ApolloError).message);
             }
           }}
         >
@@ -91,10 +84,10 @@ const LoginForm = () => {
                   type="password"
                   formik={formik}
                 />
-                {errorMessage && (
+                {error?.message && (
                   <div className="bg-[#E4646451] py-1 rounded-md">
                     <span className="text-[#E46464] px-4 text-xs">
-                      {errorMessage}
+                      {error.message}
                     </span>
                   </div>
                 )}
