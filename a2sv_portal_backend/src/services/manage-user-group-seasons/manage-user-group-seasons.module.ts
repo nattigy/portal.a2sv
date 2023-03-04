@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common'
 import { GroupSeasonTopicProblemModule } from '../../app/group-season-topic-problem/group-season-topic-problem.module'
-import {
-  UserGroupSeasonTopicProblemModule,
-} from '../../app/user-group-season-topic-problem/user-group-season-topic-problem.module'
+import { UserGroupSeasonTopicProblemModule } from '../../app/user-group-season-topic-problem/user-group-season-topic-problem.module'
 import { UserGroupSeasonModule } from '../../app/user-group-season/user-group-season.module'
 import { ManageUserGroupSeasonTopicProblemsService } from './manage-user-group-season-topic-problems.service'
 import { ManageUserGroupSeasonTopicsService } from './manage-user-group-season-topics.service'
@@ -33,5 +31,4 @@ import { GroupSeasonModule } from '../../app/group-season/group-season.module'
     ManageUserGroupSeasonTopicProblemsService,
   ],
 })
-export class ManageUserGroupSeasonsModule {
-}
+export class ManageUserGroupSeasonsModule {}

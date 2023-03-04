@@ -1,5 +1,4 @@
 import { Field, GraphQLISODateTime, InputType } from '@nestjs/graphql'
-import { CreateProblemInput } from '../../problem/dto/create-problem.input'
 import { UpdateProblemInput } from '../../problem/dto/update-problem.input'
 
 @InputType()

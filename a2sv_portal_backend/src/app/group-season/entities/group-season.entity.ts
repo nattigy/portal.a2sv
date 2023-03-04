@@ -1,4 +1,11 @@
-import { Field, Float, GraphQLISODateTime, Int, ObjectType, registerEnumType } from '@nestjs/graphql'
+import {
+  Field,
+  Float,
+  GraphQLISODateTime,
+  Int,
+  ObjectType,
+  registerEnumType,
+} from '@nestjs/graphql'
 import { Group } from '../../group/entities/group.entity'
 import { Season } from '../../season/entities/season.entity'
 import { JoinRequestEnum } from '@prisma/client'

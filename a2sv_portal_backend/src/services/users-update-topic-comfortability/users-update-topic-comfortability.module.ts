@@ -7,5 +7,4 @@ import { UserGroupSeasonTopicModule } from '../../app/user-group-season-topic/us
   imports: [UserGroupSeasonTopicModule],
   providers: [UsersUpdateTopicComfortabilityResolver, UsersUpdateTopicComfortabilityService],
 })
-export class UsersUpdateTopicComfortabilityModule {
-}
+export class UsersUpdateTopicComfortabilityModule {}

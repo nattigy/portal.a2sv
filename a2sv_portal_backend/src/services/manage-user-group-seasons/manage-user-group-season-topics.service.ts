@@ -3,9 +3,7 @@ import { UserGroupSeasonTopicId } from '../../app/user-group-season-topic/dto/cr
 import { PrismaService } from '../../prisma/prisma.service'
 import { UserGroupSeasonTopic } from '../../app/user-group-season-topic/entities/user-group-season-topic.entity'
 import { PaginationInput } from '../../common/page/pagination.input'
-import {
-  FilterUserGroupSeasonTopicInput,
-} from '../../app/user-group-season-topic/dto/filter-user-group-season-topic-input'
+import { FilterUserGroupSeasonTopicInput } from '../../app/user-group-season-topic/dto/filter-user-group-season-topic-input'
 import { PaginationUserGroupSeasonTopic } from '../../common/page/pagination-info'
 import { UserGroupSeasonTopicRepository } from '../../app/user-group-season-topic/user-group-season-topic.repository'
 import { ManageUserGroupSeasonTopicProblemsService } from './manage-user-group-season-topic-problems.service'
@@ -20,10 +18,11 @@ export class ManageUserGroupSeasonTopicsService {
     private readonly userGroupSeasonTopicRepository: UserGroupSeasonTopicRepository,
     private readonly groupSeasonTopicRepository: GroupSeasonTopicRepository,
     private readonly userGroupSeasonTopicProblemService: ManageUserGroupSeasonTopicProblemsService,
-  ) {
-  }
+  ) {}
 
-  async userGroupSeasonTopic(userGroupSeasonTopicId: UserGroupSeasonTopicId): Promise<UserGroupSeasonTopic> {
+  async userGroupSeasonTopic(
+    userGroupSeasonTopicId: UserGroupSeasonTopicId,
+  ): Promise<UserGroupSeasonTopic> {
     const { groupId, seasonId, topicId } = userGroupSeasonTopicId
     let userGroupSeasonTopic = await this.userGroupSeasonTopicRepository.findOne({
       userId_groupId_seasonId_topicId: userGroupSeasonTopicId,
@@ -45,8 +44,7 @@ export class ManageUserGroupSeasonTopicsService {
         topicId,
       },
     })
-    if (!groupSeasonTopic)
-      throw new NotFoundException('Topic not added on your group!')
+    if (!groupSeasonTopic) throw new NotFoundException('Topic not added on your group!')
     const topicStats = {
       totalSubmissions,
       totalAcceptedSubmissions,
@@ -118,7 +116,7 @@ export class ManageUserGroupSeasonTopicsService {
        * **/
       mappedUGSTs[
         `${userGroupSeasonTopic.userId}${userGroupSeasonTopic.groupId}${userGroupSeasonTopic.seasonId}${userGroupSeasonTopic.topicId}`
-        ] = {
+      ] = {
         ...userGroupSeasonTopic,
         userGroupSeasonTopicProblems: userGroupSeasonTopicProblems.items.filter(
           u =>
@@ -137,7 +135,7 @@ export class ManageUserGroupSeasonTopicsService {
         const check =
           mappedUGSTs[
             `${user.id}${groupSeasonTopic.groupId}${groupSeasonTopic.seasonId}${groupSeasonTopic.topicId}`
-            ]
+          ]
         if (check) {
           /** Currently we are not storing stat related info on the database for each user
            * So, on this step we have to make sure that, the stats are calculated

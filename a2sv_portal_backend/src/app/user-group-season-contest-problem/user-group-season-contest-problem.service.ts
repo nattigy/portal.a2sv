@@ -13,8 +13,7 @@ export class UserGroupSeasonContestProblemService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly userGroupSeasonContestProblemRepository: UserGroupSeasonContestProblemRepository,
-  ) {
-  }
+  ) {}
 
   async userGroupSeasonContestProblems(
     { groupId, ...filterUserGroupSeasonContestProblemInput }: FilterUserContestProblemInput,
@@ -76,13 +75,13 @@ export class UserGroupSeasonContestProblemService {
   // }
 
   async updateUserGroupSeasonContestProblem({
-                                              seasonId,
-                                              contestId,
-                                              groupId,
-                                              problemId,
-                                              userId,
-                                              ...updateUserGroupSeasonContestProblemInput
-                                            }: UpdateUserGroupSeasonContestProblemInput): Promise<UserGroupSeasonContestProblem> {
+    seasonId,
+    contestId,
+    groupId,
+    problemId,
+    userId,
+    ...updateUserGroupSeasonContestProblemInput
+  }: UpdateUserGroupSeasonContestProblemInput): Promise<UserGroupSeasonContestProblem> {
     return this.prismaService.userGroupSeasonContestProblem.upsert({
       where: {
         userId_groupId_seasonId_contestId_problemId: {
@@ -120,12 +119,12 @@ export class UserGroupSeasonContestProblemService {
   }
 
   async removeUserGroupContestProblem({
-                                        userId,
-                                        contestId,
-                                        problemId,
-                                        groupId,
-                                        seasonId,
-                                      }: UserGroupSeasonContestProblemId) {
+    userId,
+    contestId,
+    problemId,
+    groupId,
+    seasonId,
+  }: UserGroupSeasonContestProblemId) {
     try {
       await this.userGroupSeasonContestProblemRepository.remove({
         userId_groupId_seasonId_contestId_problemId: {

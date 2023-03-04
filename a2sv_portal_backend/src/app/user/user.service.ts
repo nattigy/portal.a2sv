@@ -1,5 +1,5 @@
 import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common'
-import { RoleEnum, StatusEnum } from '@prisma/client'
+import { RoleEnum } from '@prisma/client'
 import * as bcrypt from 'bcrypt'
 import { PaginationUser } from '../../common/page/pagination-info'
 import { PaginationInput } from '../../common/page/pagination.input'

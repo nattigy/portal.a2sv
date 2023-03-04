@@ -1,8 +1,8 @@
 import { Field, InputType, PartialType } from '@nestjs/graphql'
-import { CreateContestInput } from '../../contest/dto/create-contest.input'
+import { CreateTopicInput } from './create-topic.input'
 
 @InputType()
-export class UpdateTopicInput extends PartialType(CreateContestInput) {
+export class UpdateTopicInput extends PartialType(CreateTopicInput) {
   @Field()
   topicId: string
 }

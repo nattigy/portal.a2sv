@@ -11,18 +11,10 @@ import {
   PaginationUserGroupSeasonTopic,
   PaginationUserGroupSeasonTopicProblem,
 } from '../../common/page/pagination-info'
-import {
-  FilterUserGroupSeasonTopicInput,
-} from '../../app/user-group-season-topic/dto/filter-user-group-season-topic-input'
-import {
-  UserGroupSeasonTopicProblem,
-} from '../../app/user-group-season-topic-problem/entities/user-group-season-topic-problem.entity'
-import {
-  UserGroupSeasonTopicProblemId,
-} from '../../app/user-group-season-topic-problem/dto/user-group-season-topic-problem-id.input'
-import {
-  FilterUserGroupSeasonTopicProblemInput,
-} from '../../app/user-group-season-topic-problem/dto/filter-user-group-season-topic-problem.input'
+import { FilterUserGroupSeasonTopicInput } from '../../app/user-group-season-topic/dto/filter-user-group-season-topic-input'
+import { UserGroupSeasonTopicProblem } from '../../app/user-group-season-topic-problem/entities/user-group-season-topic-problem.entity'
+import { UserGroupSeasonTopicProblemId } from '../../app/user-group-season-topic-problem/dto/user-group-season-topic-problem-id.input'
+import { FilterUserGroupSeasonTopicProblemInput } from '../../app/user-group-season-topic-problem/dto/filter-user-group-season-topic-problem.input'
 import { ManageUserGroupSeasonsService } from './manage-user-group-seasons.service'
 
 @Resolver()
@@ -31,8 +23,7 @@ export class ManageUserGroupSeasonsResolver {
     private readonly userGroupSeasonService: ManageUserGroupSeasonsService,
     private readonly userGroupSeasonTopicService: ManageUserGroupSeasonTopicsService,
     private readonly seasonTopicUserProblemService: ManageUserGroupSeasonTopicProblemsService,
-  ) {
-  }
+  ) {}
 
   @Query(() => UserGroupSeason)
   async userGroupSeason(
@@ -69,9 +60,9 @@ export class ManageUserGroupSeasonsResolver {
   @Query(() => PaginationUserGroupSeasonTopic)
   async userGroupSeasonTopics(
     @Args('filterUserGroupSeasonTopicInput', { nullable: true })
-      filterUserGroupSeasonTopicInput?: FilterUserGroupSeasonTopicInput,
+    filterUserGroupSeasonTopicInput?: FilterUserGroupSeasonTopicInput,
     @Args('pageInfoInput', { nullable: true })
-      pageInfoInput?: PaginationInput,
+    pageInfoInput?: PaginationInput,
   ) {
     return this.userGroupSeasonTopicService.userGroupSeasonTopics(
       filterUserGroupSeasonTopicInput,
@@ -82,7 +73,7 @@ export class ManageUserGroupSeasonsResolver {
   @Query(() => UserGroupSeasonTopicProblem)
   async userGroupSeasonTopicProblem(
     @Args('userGroupSeasonTopicProblemId')
-      userGroupSeasonTopicProblemId: UserGroupSeasonTopicProblemId,
+    userGroupSeasonTopicProblemId: UserGroupSeasonTopicProblemId,
   ): Promise<UserGroupSeasonTopicProblem> {
     return this.seasonTopicUserProblemService.userGroupSeasonTopicProblem(
       userGroupSeasonTopicProblemId,
@@ -92,7 +83,7 @@ export class ManageUserGroupSeasonsResolver {
   @Query(() => PaginationUserGroupSeasonTopicProblem)
   async userGroupSeasonTopicProblems(
     @Args('filterUserGroupSeasonTopicProblemInput')
-      filterUserGroupSeasonTopicProblemInput: FilterUserGroupSeasonTopicProblemInput,
+    filterUserGroupSeasonTopicProblemInput: FilterUserGroupSeasonTopicProblemInput,
     @Args('pageInfoInput', { nullable: true }) pageInfoInput?: PaginationInput,
   ): Promise<PaginationUserGroupSeasonTopicProblem> {
     return this.seasonTopicUserProblemService.userGroupSeasonTopicProblems(

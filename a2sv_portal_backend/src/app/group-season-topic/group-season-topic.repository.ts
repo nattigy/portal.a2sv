@@ -2,9 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
 import { GroupSeasonTopic } from './entities/group-season-topic.entity'
-import {
-  GroupSeasonTopicProblemIncludeObject,
-} from '../group-season-topic-problem/group-season-topic-problem.repository'
+import { GroupSeasonTopicProblemIncludeObject } from '../group-season-topic-problem/group-season-topic-problem.repository'
 
 export const GroupSeasonTopicIncludeObject = {
   topic: true,
@@ -15,8 +13,7 @@ export const GroupSeasonTopicIncludeObject = {
 
 @Injectable()
 export class GroupSeasonTopicRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.GroupSeasonTopicCreateInput): Promise<GroupSeasonTopic> {
     return this.prismaService.groupSeasonTopic.create({

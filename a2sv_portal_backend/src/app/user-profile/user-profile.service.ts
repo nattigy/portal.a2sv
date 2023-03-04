@@ -33,7 +33,7 @@ export class UserProfileService {
     })
     await this.prismaService.user.update({
       where: { id: user.id },
-      data: { status: StatusEnum.ACTIVE }
+      data: { status: StatusEnum.ACTIVE },
     })
     return profile
   }

@@ -16,8 +16,7 @@ export class ManageUserGroupSeasonsService {
     private readonly groupSeasonRepository: GroupSeasonRepository,
     private readonly userGroupSeasonTopicService: ManageUserGroupSeasonTopicsService,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async userGroupSeason({ seasonId, groupId, userId }: UserGroupSeasonId) {
     /** generate user stat on a specific season **/
@@ -87,12 +86,13 @@ export class ManageUserGroupSeasonsService {
     const userGroupSeasons = await this.userGroupSeasonRepository.findAll({
       where: { userId, groupId, seasonId },
     })
-    const userGroupSeasonTopics =
-      await this.userGroupSeasonTopicService.userGroupSeasonTopics({
+    const userGroupSeasonTopics = await this.userGroupSeasonTopicService.userGroupSeasonTopics(
+      {
         userId,
         groupId,
         seasonId,
-      })
+      },
+    )
     const result: UserGroupSeason[] = []
     /** here we make sure that the data we are returning is unique, per user, group, season, and topic **/
     const mappedUGSs: { ['key']?: UserGroupSeason } = {}
@@ -104,7 +104,7 @@ export class ManageUserGroupSeasonsService {
        * **/
       mappedUGSs[
         `${userGroupSeason.userId}${userGroupSeason.groupId}${userGroupSeason.seasonId}`
-        ] = {
+      ] = {
         ...userGroupSeason,
         userGroupSeasonTopics: userGroupSeasonTopics.items.filter(
           u =>
@@ -128,7 +128,9 @@ export class ManageUserGroupSeasonsService {
             t.groupId === groupSeason.groupId &&
             t.seasonId === groupSeason.seasonId,
         )
-        const totalSubmissions = uTopics.map(t => t.totalSubmissions).reduce((a, b) => a + b, 0)
+        const totalSubmissions = uTopics
+          .map(t => t.totalSubmissions)
+          .reduce((a, b) => a + b, 0)
         const totalAcceptedSubmissions = uTopics
           .map(t => t.totalAcceptedSubmissions)
           .reduce((a, b) => a + b, 0)
@@ -153,7 +155,8 @@ export class ManageUserGroupSeasonsService {
               .filter(p => p.problem.difficulty === ProblemDifficultyTypeEnum.HARD),
           1,
         ).length
-        const acceptanceRate = totalSubmissions > 0 ? (totalAcceptedSubmissions / totalSubmissions) * 100 : 0
+        const acceptanceRate =
+          totalSubmissions > 0 ? (totalAcceptedSubmissions / totalSubmissions) * 100 : 0
         result.push({
           userId: user.id,
           groupId: groupSeason.groupId,

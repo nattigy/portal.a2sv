@@ -8,8 +8,7 @@ import { StudentYearlyAnalytic } from './entities/yearly-data-analytic-entity'
 
 @Injectable()
 export class UserGroupSeasonDataAnalyticsService {
-  constructor(private prismaService: PrismaService) {
-  }
+  constructor(private prismaService: PrismaService) {}
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT, {
     name: 'Scheduler Populate user_data fields',
@@ -91,9 +90,11 @@ export class UserGroupSeasonDataAnalyticsService {
           .length,
         wrongCount: userProblems
           .map(up =>
-            up.numberOfAttempts > 0 ? up.status === UserTopicProblemStatusEnum.SOLVED
-              ? up.numberOfAttempts - 1
-              : up.numberOfAttempts : 1,
+            up.numberOfAttempts > 0
+              ? up.status === UserTopicProblemStatusEnum.SOLVED
+                ? up.numberOfAttempts - 1
+                : up.numberOfAttempts
+              : 1,
           )
           .reduce((a, b) => a + b, 0),
         month: new Date().getMonth(),
@@ -108,9 +109,11 @@ export class UserGroupSeasonDataAnalyticsService {
           .length,
         wrongCount: userProblems
           .map(up =>
-            up.numberOfAttempts > 0 ? up.status === UserTopicProblemStatusEnum.SOLVED
-              ? up.numberOfAttempts - 1
-              : up.numberOfAttempts : 1,
+            up.numberOfAttempts > 0
+              ? up.status === UserTopicProblemStatusEnum.SOLVED
+                ? up.numberOfAttempts - 1
+                : up.numberOfAttempts
+              : 1,
           )
           .reduce((a, b) => a + b, 0),
       },

@@ -91,28 +91,28 @@ export class GroupSeasonTopicProblemRepository {
                 seasonId: where.groupId_seasonId_topicId_problemId.seasonId,
                 topicId: where.groupId_seasonId_topicId_problemId.topicId,
                 problemId: where.groupId_seasonId_topicId_problemId.problemId,
-              }
+              },
             },
             create: {
               seasonTopic: {
-                connectOrCreate:{
+                connectOrCreate: {
                   where: {
                     seasonId_topicId: {
                       seasonId: where.groupId_seasonId_topicId_problemId.seasonId,
                       topicId: where.groupId_seasonId_topicId_problemId.topicId,
-                    }
+                    },
                   },
                   create: {
                     seasonId: where.groupId_seasonId_topicId_problemId.seasonId,
                     topicId: where.groupId_seasonId_topicId_problemId.topicId,
-                  }
-                }
+                  },
+                },
               },
               problem: {
                 connect: {
                   id: where.groupId_seasonId_topicId_problemId.problemId,
-                }
-              }
+                },
+              },
             },
           },
         },

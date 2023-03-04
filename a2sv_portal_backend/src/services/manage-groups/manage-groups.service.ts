@@ -13,8 +13,7 @@ export class ManageGroupsService {
     private readonly groupService: GroupService,
     private readonly groupRepository: GroupRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async createGroup({ headId, ...createGroupInput }: CreateGroupInput): Promise<Group> {
     /** if headId is in the create input check if the user with the headId exists

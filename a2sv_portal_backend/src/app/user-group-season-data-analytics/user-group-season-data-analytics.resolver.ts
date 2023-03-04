@@ -7,7 +7,9 @@ import { StudentYearlyAnalytic } from './entities/yearly-data-analytic-entity'
 
 @Resolver(() => UserGroupSeasonDataAnalytics)
 export class UserGroupSeasonDataAnalyticsResolver {
-  constructor(private readonly studentDataAnalyticsService: UserGroupSeasonDataAnalyticsService) {}
+  constructor(
+    private readonly studentDataAnalyticsService: UserGroupSeasonDataAnalyticsService,
+  ) {}
 
   @Query(() => [UserGroupSeasonDataAnalytics])
   async studentDailyStat(

@@ -7,8 +7,7 @@ export const ProblemIncludeObject = { tags: true }
 
 @Injectable()
 export class ProblemRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.ProblemCreateInput): Promise<Problem> {
     return this.prismaService.problem.create({

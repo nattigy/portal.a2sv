@@ -1,14 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
-import {
-  UpdateUserGroupSeasonContestProblemInput,
-} from '../../app/user-group-season-contest-problem/dto/update-user-group-season-contest-problem.input'
-import {
-  UserGroupSeasonContestProblemService,
-} from '../../app/user-group-season-contest-problem/user-group-season-contest-problem.service'
-import {
-  UpdateUserGroupSeasonContestInput,
-} from '../../app/user-group-season-contest/dto/update-user-group-season-contest.input'
+import { UpdateUserGroupSeasonContestProblemInput } from '../../app/user-group-season-contest-problem/dto/update-user-group-season-contest-problem.input'
+import { UserGroupSeasonContestProblemService } from '../../app/user-group-season-contest-problem/user-group-season-contest-problem.service'
+import { UpdateUserGroupSeasonContestInput } from '../../app/user-group-season-contest/dto/update-user-group-season-contest.input'
 import { UserGroupSeasonService } from '../../app/user-group-season/user-group-season.service'
 import { UserGroupSeasonContestService } from '../../app/user-group-season-contest/user-group-season-contest.service'
 
@@ -19,8 +13,7 @@ export class UserUpdateContestProblemService {
     private readonly userGroupSeasonContestService: UserGroupSeasonContestService,
     private readonly userGroupSeasonService: UserGroupSeasonService,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async userUpdateContestStatus(
     updateUserGroupSeasonContestInput: UpdateUserGroupSeasonContestInput,

@@ -11,10 +11,7 @@ import { GroupSeasonId } from '../group-season/dto/create-group-season.input'
 
 @Resolver()
 export class GroupSeasonTopicResolver {
-  constructor(
-    private readonly groupSeasonTopicService: GroupSeasonTopicService,
-  ) {
-  }
+  constructor(private readonly groupSeasonTopicService: GroupSeasonTopicService) {}
 
   @UseGuards(PoliciesGuard)
   @CheckPolicies(GroupSeasonTopicAbilities.read)

@@ -8,10 +8,12 @@ import { UserGroupSeasonTopicId } from './dto/create-user-group-season-topic.inp
 export class UserGroupSeasonTopicService {
   constructor(
     private readonly userGroupSeasonTopicRepository: UserGroupSeasonTopicRepository,
-  ) {
-  }
+  ) {}
 
-  async updateUserGroupSeasonTopic({ id, ...updates }: UpdateUserGroupSeasonTopicInput): Promise<UserGroupSeasonTopic> {
+  async updateUserGroupSeasonTopic({
+    id,
+    ...updates
+  }: UpdateUserGroupSeasonTopicInput): Promise<UserGroupSeasonTopic> {
     return this.userGroupSeasonTopicRepository.upsert({
       where: {
         userId_groupId_seasonId_topicId: id,
@@ -26,7 +28,11 @@ export class UserGroupSeasonTopicService {
         userId_groupId_seasonId_topicId: userGroupSeasonTopicId,
       })
     } catch (e) {
-      console.log(`Fail to delete user topic with id ${userGroupSeasonTopicId.userId}`, ' : ', e)
+      console.log(
+        `Fail to delete user topic with id ${userGroupSeasonTopicId.userId}`,
+        ' : ',
+        e,
+      )
       throw new Error(`Fail to delete user topic with id ${userGroupSeasonTopicId.userId}`)
     }
     return 1

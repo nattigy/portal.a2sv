@@ -7,8 +7,7 @@ export const UserProfileIncludeObject = { user: true }
 
 @Injectable()
 export class UserProfileRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.UserProfileCreateInput): Promise<UserProfile> {
     return this.prismaService.userProfile.create({

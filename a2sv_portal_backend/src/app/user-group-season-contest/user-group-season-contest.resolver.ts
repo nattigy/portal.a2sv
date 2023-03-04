@@ -8,10 +8,7 @@ import { FilterUserGroupSeasonContestInput } from './dto/filter-user-group-seaso
 
 @Resolver()
 export class UserGroupSeasonContestResolver {
-  constructor(
-    private readonly userGroupSeasonContestService: UserGroupSeasonContestService,
-  ) {
-  }
+  constructor(private readonly userGroupSeasonContestService: UserGroupSeasonContestService) {}
 
   @Query(() => UserGroupSeasonContest)
   async userGroupSeasonContest(
@@ -23,7 +20,7 @@ export class UserGroupSeasonContestResolver {
   @Query(() => PaginationUserGroupSeasonContest)
   async userGroupSeasonContests(
     @Args('filterUserGroupSeasonContestInput')
-      filterUserGroupSeasonContestInput: FilterUserGroupSeasonContestInput,
+    filterUserGroupSeasonContestInput: FilterUserGroupSeasonContestInput,
     @Args('paginationInput', { nullable: true }) paginationInput?: PaginationInput,
   ): Promise<PaginationUserGroupSeasonContest> {
     return this.userGroupSeasonContestService.userGroupSeasonContests(

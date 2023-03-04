@@ -7,5 +7,4 @@ import { GroupSeasonTopicResolver } from './group-season-topic.resolver'
   providers: [GroupSeasonTopicResolver, GroupSeasonTopicRepository, GroupSeasonTopicService],
   exports: [GroupSeasonTopicRepository, GroupSeasonTopicService],
 })
-export class GroupSeasonTopicModule {
-}
+export class GroupSeasonTopicModule {}

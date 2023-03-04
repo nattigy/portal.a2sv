@@ -7,5 +7,4 @@ import { GroupService } from './group.service'
   providers: [GroupRepository, GroupResolver, GroupService],
   exports: [GroupService, GroupRepository],
 })
-export class GroupModule {
-}
+export class GroupModule {}

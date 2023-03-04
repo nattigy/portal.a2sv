@@ -10,8 +10,7 @@ export class ManageGroupSeasonTopicService {
     private readonly groupSeasonTopicService: GroupSeasonTopicService,
     private readonly seasonTopicRepository: SeasonTopicRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async addTopicToGroupSeason({ groupId, seasonId, topicId }: CreateGroupSeasonTopicInput) {
     // search for groupSeason if groupSeason not found throw groupSeason not found exception
@@ -52,7 +51,9 @@ export class ManageGroupSeasonTopicService {
     // })
 
     return this.groupSeasonTopicService.upsert({
-      groupId, seasonId, topicId,
+      groupId,
+      seasonId,
+      topicId,
     })
   }
 }

@@ -11,8 +11,7 @@ export const UserGroupSeasonTopicProblemIncludeObject = {
 
 @Injectable()
 export class UserGroupSeasonTopicProblemRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(
     data: Prisma.UserGroupSeasonTopicProblemCreateInput,
@@ -70,7 +69,8 @@ export class UserGroupSeasonTopicProblemRepository {
   }): Promise<UserGroupSeasonTopicProblem> {
     const { where, data } = params
     const { id, ...updates } = data
-    const { userId, groupId, seasonId, topicId, problemId } = where.userId_groupId_seasonId_topicId_problemId
+    const { userId, groupId, seasonId, topicId, problemId } =
+      where.userId_groupId_seasonId_topicId_problemId
     return this.prismaService.userGroupSeasonTopicProblem.upsert({
       where,
       create: {

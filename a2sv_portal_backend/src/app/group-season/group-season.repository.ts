@@ -20,8 +20,7 @@ export const GroupSeasonIncludeObject = {
 
 @Injectable()
 export class GroupSeasonRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.GroupSeasonCreateInput): Promise<GroupSeason> {
     return this.prismaService.groupSeason.create({

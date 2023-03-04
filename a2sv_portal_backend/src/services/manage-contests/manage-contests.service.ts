@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common'
 import { CreateContestInput } from '../../app/contest/dto/create-contest.input'
 import { Contest } from '../../app/contest/entities/contest.entity'
 import { PrismaService } from '../../prisma/prisma.service'
-import { ContestRepository } from '../../app/contest/contest.repository'
 import { ContestService } from '../../app/contest/contest.service'
 
 @Injectable()
@@ -14,14 +13,14 @@ export class ManageContestsService {
 
   async createContest(createContestInput: CreateContestInput): Promise<Contest> {
     const contest = await this.contestService.createContest(createContestInput)
-    const {groups, problems, ...create} = createContestInput
+    const { groups, problems, ...create } = createContestInput
     const groupSeasons = await this.prismaService.groupSeason.findMany({
       where: { groupId: { in: groups }, isActive: true },
     })
     for (const problem of problems) {
-      const {problemId, ...p} = problem
+      const { problemId, ...p } = problem
       await this.prismaService.contestProblem.upsert({
-        where: { contestId_problemId: { contestId: contest.id,problemId } },
+        where: { contestId_problemId: { contestId: contest.id, problemId } },
         create: {
           problem: {
             connectOrCreate: {
@@ -33,13 +32,13 @@ export class ManageContestsService {
                     where: { name: t.name },
                     create: { name: t.name },
                   })),
-                }
+                },
               },
             },
           },
-          contest: { connect:{ id: contest.id } }
+          contest: { connect: { id: contest.id } },
         },
-        update: {}
+        update: {},
       })
     }
     // for (const groupSeason of groupSeasons) {

@@ -1,11 +1,7 @@
 import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common'
 import { PrismaService } from '../../prisma/prisma.service'
-import {
-  UserGroupSeasonTopicProblemService,
-} from '../../app/user-group-season-topic-problem/user-group-season-topic-problem.service'
-import {
-  UpdateUserGroupSeasonTopicProblemInput,
-} from '../../app/user-group-season-topic-problem/dto/update-user-group-season-topic-problem.input'
+import { UserGroupSeasonTopicProblemService } from '../../app/user-group-season-topic-problem/user-group-season-topic-problem.service'
+import { UpdateUserGroupSeasonTopicProblemInput } from '../../app/user-group-season-topic-problem/dto/update-user-group-season-topic-problem.input'
 import { UserGroupSeasonService } from '../../app/user-group-season/user-group-season.service'
 import { UserGroupSeasonDataAnalyticsService } from '../../app/user-group-season-data-analytics/user-group-season-data-analytics.service'
 import { UserTopicProblemStatusEnum } from '@prisma/client'
@@ -17,8 +13,7 @@ export class UsersUpdateProblemStatusService {
     private readonly userGroupSeasonService: UserGroupSeasonService,
     private readonly studentDataAnalyticsService: UserGroupSeasonDataAnalyticsService,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async updateSeasonTopicProblemStatus(
     updateUserGroupSeasonTopicProblemInput: UpdateUserGroupSeasonTopicProblemInput,
@@ -82,7 +77,7 @@ export class UsersUpdateProblemStatusService {
     })
     if (!foundGroupSeasonTopic) throw new Error('Topic is not added to your group yet!')
     if (!foundGroupSeasonTopic.groupSeason.isActive)
-      throw new Error('This group\'s season is not active!')
+      throw new Error("This group's season is not active!")
 
     /** ======== Generating or creating daily stat info ======= //
      1. fetch old problem status
@@ -99,8 +94,11 @@ export class UsersUpdateProblemStatusService {
         topicId,
         problemId,
       })
-    if (oldStatus && oldStatus.status === UserTopicProblemStatusEnum.SOLVED &&
-      new Date(oldStatus.statusUpdatedAt).getDate() < new Date().getDate()) {
+    if (
+      oldStatus &&
+      oldStatus.status === UserTopicProblemStatusEnum.SOLVED &&
+      new Date(oldStatus.statusUpdatedAt).getDate() < new Date().getDate()
+    ) {
       throw new NotAcceptableException('Problem already solved!')
     }
     if (!oldStatus || oldStatus.status !== updates.status) {

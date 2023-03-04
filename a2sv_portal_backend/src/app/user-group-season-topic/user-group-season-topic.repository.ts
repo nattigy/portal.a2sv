@@ -3,9 +3,7 @@ import { PrismaService } from '../../prisma/prisma.service'
 import { Prisma } from '@prisma/client'
 import { UserGroupSeasonTopic } from './entities/user-group-season-topic.entity'
 import { UpdateUserGroupSeasonTopicInput } from './dto/update-user-group-season-topic.input'
-import {
-  UserGroupSeasonTopicProblemIncludeObject,
-} from '../user-group-season-topic-problem/user-group-season-topic-problem.repository'
+import { UserGroupSeasonTopicProblemIncludeObject } from '../user-group-season-topic-problem/user-group-season-topic-problem.repository'
 
 export const UserGroupSeasonTopicIncludeObject = {
   topic: true,
@@ -16,8 +14,7 @@ export const UserGroupSeasonTopicIncludeObject = {
 
 @Injectable()
 export class UserGroupSeasonTopicRepository {
-  constructor(private readonly prismaService: PrismaService) {
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(data: Prisma.UserGroupSeasonTopicCreateInput): Promise<UserGroupSeasonTopic> {
     return this.prismaService.userGroupSeasonTopic.create({

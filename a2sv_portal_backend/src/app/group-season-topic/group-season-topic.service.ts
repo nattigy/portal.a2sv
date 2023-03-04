@@ -11,8 +11,7 @@ export class GroupSeasonTopicService {
   constructor(
     private readonly groupSeasonTopicRepository: GroupSeasonTopicRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async groupSeasonTopic({ groupId, seasonId, topicId }: GroupSeasonTopicId) {
     const groupTopic = await this.groupSeasonTopicRepository.findOne({
@@ -25,8 +24,8 @@ export class GroupSeasonTopicService {
             .map(p => p.userGroupSeasonTopicProblems)
             .flat(1)
             .filter(up => up.status === UserTopicProblemStatusEnum.SOLVED).length /
-          groupTopic.numberOfProblems) *
-        100
+            groupTopic.numberOfProblems) *
+          100
         : 0.0
     return groupTopic
   }
@@ -48,8 +47,8 @@ export class GroupSeasonTopicService {
               .map(p => p.userGroupSeasonTopicProblems)
               .flat(1)
               .filter(up => up.status === UserTopicProblemStatusEnum.SOLVED).length /
-            groupTopic.numberOfProblems) *
-          100
+              groupTopic.numberOfProblems) *
+            100
           : 0.0
       return groupTopic
     })

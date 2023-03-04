@@ -4,9 +4,7 @@ import {
   GroupSeasonTopicProblemId,
 } from '../../app/group-season-topic-problem/dto/create-group-season-topic-problem.input'
 import { PrismaService } from '../../prisma/prisma.service'
-import {
-  GroupSeasonTopicProblemRepository,
-} from '../../app/group-season-topic-problem/group-season-topic-problem.repository'
+import { GroupSeasonTopicProblemRepository } from '../../app/group-season-topic-problem/group-season-topic-problem.repository'
 import { SeasonTopicProblemRepository } from '../../app/season-topic-problem/season-topic-problem.repository'
 import { SeasonTopicRepository } from '../../app/season-topic/season-topic.repository'
 import { PaginationInput } from '../../common/page/pagination.input'
@@ -19,15 +17,14 @@ export class ManageGroupSeasonTopicProblemsService {
     private readonly seasonTopicProblemRepository: SeasonTopicProblemRepository,
     private readonly seasonTopicRepository: SeasonTopicRepository,
     private readonly prismaService: PrismaService,
-  ) {
-  }
+  ) {}
 
   async addProblemToGroupSeasonTopic({
-                                       groupId,
-                                       seasonId,
-                                       topicId,
-                                       problemId,
-                                     }: CreateGroupSeasonTopicProblemInput) {
+    groupId,
+    seasonId,
+    topicId,
+    problemId,
+  }: CreateGroupSeasonTopicProblemInput) {
     /** search for groupSeasonTopic first and if not found throw not found exception
      if the groupSeasonTopic is found and the groupSeason is not active throw groupSeason not active
      check if the problem exists and if it doesn't exist throw problem not found Error

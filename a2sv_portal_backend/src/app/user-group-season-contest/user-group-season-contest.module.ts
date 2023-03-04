@@ -6,5 +6,4 @@ import { UserGroupSeasonContestService } from './user-group-season-contest.servi
   providers: [UserGroupSeasonContestRepository, UserGroupSeasonContestService],
   exports: [UserGroupSeasonContestRepository, UserGroupSeasonContestService],
 })
-export class UserGroupSeasonContestModule {
-}
+export class UserGroupSeasonContestModule {}

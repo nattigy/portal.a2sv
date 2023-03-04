@@ -19,15 +19,10 @@ import {
   UpdateGroupSeasonJoinRequestInput,
 } from '../../app/group-season/dto/update-group-season.input'
 import { GroupSeasonTopicAbilities } from '../../casl/handler/group-season-topic-abilities.handler'
-import { GroupSeasonTopic } from '../../app/group-season-topic/entities/group-season-topic.entity'
 import { GroupSeasonTopicId } from '../../app/group-season-topic/dto/create-group-season-topic.input'
 import { GroupSeasonTopicProblemAbilities } from '../../casl/handler/group-season-topic-problem-abilities.handler'
-import {
-  GroupSeasonTopicProblem
-} from '../../app/group-season-topic-problem/entities/group-season-topic-problem.entity'
-import {
-  GroupSeasonTopicProblemId
-} from '../../app/group-season-topic-problem/dto/create-group-season-topic-problem.input'
+import { GroupSeasonTopicProblem } from '../../app/group-season-topic-problem/entities/group-season-topic-problem.entity'
+import { GroupSeasonTopicProblemId } from '../../app/group-season-topic-problem/dto/create-group-season-topic-problem.input'
 
 @Resolver()
 export class ManageGroupSeasonsResolver {

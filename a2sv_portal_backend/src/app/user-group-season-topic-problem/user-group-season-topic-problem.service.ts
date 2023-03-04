@@ -9,18 +9,21 @@ import { FilterUserGroupSeasonTopicProblemInput } from './dto/filter-user-group-
 export class UserGroupSeasonTopicProblemService {
   constructor(
     private readonly userGroupSeasonTopicProblemRepository: UserGroupSeasonTopicProblemRepository,
-  ) {
-  }
+  ) {}
 
-  async userGroupSeasonTopicProblem(userGroupSeasonTopicProblemId: UserGroupSeasonTopicProblemId): Promise<UserGroupSeasonTopicProblem> {
+  async userGroupSeasonTopicProblem(
+    userGroupSeasonTopicProblemId: UserGroupSeasonTopicProblemId,
+  ): Promise<UserGroupSeasonTopicProblem> {
     return this.userGroupSeasonTopicProblemRepository.findOne({
       userId_groupId_seasonId_topicId_problemId: userGroupSeasonTopicProblemId,
     })
   }
 
-  async userGroupSeasonTopicProblems(filterUserGroupSeasonTopicProblemInput: FilterUserGroupSeasonTopicProblemInput): Promise<UserGroupSeasonTopicProblem[]> {
+  async userGroupSeasonTopicProblems(
+    filterUserGroupSeasonTopicProblemInput: FilterUserGroupSeasonTopicProblemInput,
+  ): Promise<UserGroupSeasonTopicProblem[]> {
     return this.userGroupSeasonTopicProblemRepository.findAll({
-      where: filterUserGroupSeasonTopicProblemInput
+      where: filterUserGroupSeasonTopicProblemInput,
     })
   }
 
@@ -34,14 +37,22 @@ export class UserGroupSeasonTopicProblemService {
     })
   }
 
-  async removeUserGroupSeasonTopicProblem(userGroupSeasonTopicProblemId: UserGroupSeasonTopicProblemId) {
+  async removeUserGroupSeasonTopicProblem(
+    userGroupSeasonTopicProblemId: UserGroupSeasonTopicProblemId,
+  ) {
     try {
       await this.userGroupSeasonTopicProblemRepository.remove({
         userId_groupId_seasonId_topicId_problemId: userGroupSeasonTopicProblemId,
       })
     } catch (e) {
-      console.log(`Fail to delete season topic user problem with id ${userGroupSeasonTopicProblemId.seasonId}`, ' : ', e)
-      throw new Error(`Fail to delete season topic user problem with id ${userGroupSeasonTopicProblemId.seasonId}`)
+      console.log(
+        `Fail to delete season topic user problem with id ${userGroupSeasonTopicProblemId.seasonId}`,
+        ' : ',
+        e,
+      )
+      throw new Error(
+        `Fail to delete season topic user problem with id ${userGroupSeasonTopicProblemId.seasonId}`,
+      )
     }
     return 1
   }
