@@ -19,7 +19,7 @@ const SeasonRequestModal = ({ onClose }: Props) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeSeasonId, setActiveSeasonId] = useState<string>("");
+  const [activeSeason, setActiveSeason] = useState<Season>();
 
   const authUser = useReactiveVar(authenticatedUser) as AuthUser;
 
@@ -39,8 +39,8 @@ const SeasonRequestModal = ({ onClose }: Props) => {
     "/images/season-item.svg",
   ];
 
-  const handleConfirmModalOpen = (seasonId: string) => {
-    setActiveSeasonId(seasonId);
+  const handleConfirmModalOpen = (season: Season) => {
+    setActiveSeason(season);
     setIsConfirmModalOpen(true);
   };
 
@@ -82,7 +82,7 @@ const SeasonRequestModal = ({ onClose }: Props) => {
           {isConfirmModalOpen && (
             <SeasonRequestConfirmationModal
               groupId={authUser.headToGroup.id || ""}
-              seasonId={activeSeasonId}
+              season={activeSeason}
               onClose={() => setIsConfirmModalOpen(false)}
             />
           )}
@@ -140,10 +140,10 @@ const SeasonRequestModal = ({ onClose }: Props) => {
                 </div>
               ) : (
                 <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                  {filteredSeasons.map((season: any, index: number) => (
+                  {filteredSeasons.map((season: Season, index: number) => (
                     <div
                       key={index}
-                      onClick={() => handleConfirmModalOpen(season.id)}
+                      onClick={() => handleConfirmModalOpen(season)}
                       className="cursor-pointer"
                     >
                       <div className="h-36 relative">

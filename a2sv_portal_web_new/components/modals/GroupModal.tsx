@@ -185,7 +185,7 @@ const GroupModal = ({ isEditing, group, onClose }: Props) => {
                       <FormDropdown
                         name="country"
                         placeholder="Select Country"
-                        flag={getNationality(values.country)}
+                        img={getNationality(values.country)}
                         options={COUNTRIES.map((country) => ({
                           name: country,
                           value: country,

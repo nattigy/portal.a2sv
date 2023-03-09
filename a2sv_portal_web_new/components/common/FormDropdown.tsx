@@ -14,16 +14,16 @@ type Props = {
   error?: string;
   icon?: any;
   touched?: boolean;
-  flag?: string;
+  img?: string;
   options: optionsProp[];
 };
 
 const FormDropdown = (props: Props) => {
   return (
     <div className="relative rounded-full w-full flex flex-col flex-shrink-0 justify-center items-start outline-none focus:outline-none text-[#949494]">
-      {props.flag && (
+      {props.img && (
         <div className="absolute left-2 z-10">
-          <img src={props.flag} className="w-6 rounded-full" alt="" />
+          <img src={props.img} className="w-6 rounded-full" alt="" />
         </div>
       )}
       <div className="flex flex-col items-center w-full relative">
@@ -37,7 +37,7 @@ const FormDropdown = (props: Props) => {
           className={clsx(
             "bg-white w-full h-10 border rounded-md appearance-none caret-transparent text-sm ",
             props.error ? "border-red-500" : "",
-            props.flag||props.icon ? "px-10" : "px-4"
+            props.img ? "px-10" : "px-4"
           )}
         >
           <option
