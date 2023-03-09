@@ -201,7 +201,7 @@ const PersonalDetails = ({ formik, nextStep }: Props) => {
                 name: country,
                 value: country,
               }))}
-              flag={getNationality(formik.values.country)}
+              img={getNationality(formik.values.country)}
               placeholder="Country"
               icon={<FaChevronDown size={16} />}
               error={

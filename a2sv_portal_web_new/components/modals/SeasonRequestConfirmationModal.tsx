@@ -1,17 +1,18 @@
 import { ApolloError, useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { MAKE_SEASON_REQUEST } from "../../lib/apollo/Mutations/seasonsMutations";
+import { Season } from "../../types/season";
 import Button from "../common/Button";
 
 type Props = {
-  seasonId: string;
+  season?: Season;
   groupId: string;
   onClose: () => void;
 };
 
 const SeasonRequestConfirmationModal = ({
   onClose,
-  seasonId,
+  season,
   groupId,
 }: Props) => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -26,7 +27,7 @@ const SeasonRequestConfirmationModal = ({
       variables: {
         addGroupToASeasonInput: {
           groupId: groupId,
-          seasonId: seasonId,
+          seasonId: season?.id,
         },
       },
       refetchQueries: "active",
@@ -57,7 +58,7 @@ const SeasonRequestConfirmationModal = ({
             </div>
             <div className="w-full flex flex-col">
               <h1 className="font-semibold text-center text-md text-[#A6A6A6] pb-4">
-                You’re about to send a request to start “Camp Season Group 3”
+                You’re about to send a request to start “{season?.name}”
               </h1>
               <div className="flex justify-end gap-x-2">
                 <Button

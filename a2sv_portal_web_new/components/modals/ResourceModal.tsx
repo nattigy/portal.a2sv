@@ -149,15 +149,9 @@ const ResourceModal = ({ isEditing, resource, onClose }: Props) => {
 
                   <div className="flex flex-col justify-start">
                     <div className="flex items-center my-2 relative">
-                      <div className="absolute left-2 z-10">
-                        <img
-                          src={getGoogleIcon(values.type)}
-                          className="w-6"
-                          alt=""
-                        />
-                      </div>
                       <FormDropdown
                       error={errors.type}
+                      img={getGoogleIcon(values.type)}
                         name="type"
                         placeholder="Select Resource Type"
                         options={[
