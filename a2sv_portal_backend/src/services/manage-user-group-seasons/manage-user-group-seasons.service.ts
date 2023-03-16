@@ -79,29 +79,26 @@ export class ManageUserGroupSeasonsService {
     { seasonId, userId, groupId }: FilterUserGroupSeasonInput,
     { take, skip }: PaginationInput = { take: 50, skip: 0 },
   ) {
-    /// TODO generate multiple stat here
     const users = await this.prismaService.user.findMany({
       where: { id: userId, groupId },
     })
     const userGroupSeasons = await this.userGroupSeasonRepository.findAll({
       where: { userId, groupId, seasonId },
     })
-    const userGroupSeasonTopics = await this.userGroupSeasonTopicService.userGroupSeasonTopics(
-      {
+    const userGroupSeasonTopics = await this.userGroupSeasonTopicService.userGroupSeasonTopics({
         userId,
         groupId,
         seasonId,
-      },
-    )
+      })
     const result: UserGroupSeason[] = []
     /** here we make sure that the data we are returning is unique, per user, group, season, and topic **/
     const mappedUGSs: { ['key']?: UserGroupSeason } = {}
     for (const userGroupSeason of userGroupSeasons) {
-      /** add the list of problems for each unique UserGroupSeasonTopic **/
-      /** on this step we only add data that already exists on the database **/
-      /** Data only exists on the database if a student fills their status whether it, topic comfortability,
-       * or problem solved status.
-       * **/
+      /** add the list of problems for each unique UserGroupSeasonTopic
+       * on this step we only add data that already exists on the database
+       * Data only exists on the database if a student fills their status whether it,
+       * topic comfortability, or problem solved status.
+       **/
       mappedUGSs[
         `${userGroupSeason.userId}${userGroupSeason.groupId}${userGroupSeason.seasonId}`
       ] = {
