@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { Context } from '@nestjs/graphql'
 import { JwtService } from '@nestjs/jwt'
-import * as bcrypt from 'bcrypt'
+import * as bcrypt from 'bcryptjs'
 import { UserService } from '../user/user.service'
 import { AuthResponse } from './dto/auth-response.dto'
 import { PrismaService } from 'src/prisma/prisma.service'

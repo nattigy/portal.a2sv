@@ -18,7 +18,7 @@ Table Season {
 }
 
 Table SeasonStats {
-  seasonId String [pk]
+  seasonId String [pk, unique]
   numberOfProblemsSolved Int [not null, default: 0]
   season Season [not null]
 
@@ -401,7 +401,7 @@ Table UserGroupSeasonContestProblem {
 }
 
 Table UserProfile {
-  userId String [pk]
+  userId String [pk, unique]
   firstName String [not null]
   middleName String [not null]
   lastName String [not null]
@@ -466,6 +466,11 @@ Table Tag {
   id String [pk]
   name String [unique, not null]
   problems Problem [not null]
+}
+
+Table ProblemToTag {
+  tagsId String [ref: > Tag.id]
+  problemsId String [ref: > Problem.id]
 }
 
 Enum StatusEnum {

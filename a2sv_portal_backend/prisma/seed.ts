@@ -356,7 +356,7 @@ async function main() {
     }
     console.log('Add user group season relation for all users')
 
-    const endYear = new Date('2023-1-31')
+    const endYear = new Date()
     const analyticsList = []
     const userGroupSeasons = await prisma.user.findMany({
       include: {
@@ -377,7 +377,7 @@ async function main() {
       }
     }
     // eslint-disable-next-line no-unmodified-loop-condition
-    for (let d = new Date('2022-1-2'); d <= endYear; d.setDate(d.getDate() + 1)) {
+    for (let d = new Date('2022-1-1'); d <= endYear; d.setDate(d.getDate() + 1)) {
       const currentDate = new Date(d) as any
       currentDate.setHours(0, 0, 0, 0)
       const currentYear = currentDate.getFullYear()
