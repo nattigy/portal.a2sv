@@ -50,11 +50,14 @@
     "cookie-parser": "^1.4.6",
     "graphql": "^16.6.0",
     "moment-timezone": "^0.5.40",
+    "nestjs-socket.io-client": "^1.0.6",
+    "nodemailer": "^6.9.0",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.0",
+    "socket.io-client": "^4.5.4"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
@@ -62,6 +65,7 @@
   "devDependencies": {
     "@nestjs/schematics": "^9.0.4",
     "@nestjs/testing": "^9.3.1",
+    "@types/nodemailer": "^6.4.7",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/cron": "^2.0.0",
