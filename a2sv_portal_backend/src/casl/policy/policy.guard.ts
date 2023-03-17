@@ -2,7 +2,7 @@ import { Ability } from '@casl/ability'
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { GqlExecutionContext } from '@nestjs/graphql'
-import { Action } from '../../auth/action.enum'
+import { Action } from '../../app/auth/action.enum'
 import { CaslAbilityFactory, Subjects } from '../casl-ability.factory'
 import { PolicyHandler } from './policy-handler.type'
 import { CHECK_POLICIES_KEY } from './policy.decorator'
@@ -27,7 +27,7 @@ export class PoliciesGuard implements CanActivate {
   }
 
   private execPolicyHandler(handler: PolicyHandler, ability: Ability<[Action, Subjects]>) {
-    if (typeof handler == 'function') {
+    if (typeof handler === 'function') {
       return handler(ability)
     }
     return handler.handle(ability)

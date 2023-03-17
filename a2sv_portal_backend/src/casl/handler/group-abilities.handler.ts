@@ -1,5 +1,5 @@
-import { Action } from '../../auth/action.enum'
-import { Group } from '../../group/entities/group.entity'
+import { Action } from '../../app/auth/action.enum'
+import { Group } from '../../app/group/entities/group.entity'
 import { AppAbility } from '../casl-ability.factory'
 
 export class GroupAbilities {

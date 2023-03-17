@@ -9,15 +9,16 @@ export const tagData = [
     name: 'TREE',
   },
   {
-    name: "STRING"
+    name: 'STRING',
   },
   {
-    name: "DYNAMIC PROGRAMMING"
+    name: 'DYNAMIC PROGRAMMING',
   },
   {
-    name: "GREEDY"
-  },{
-    name: "TWO POINTERS"
-  }
+    name: 'GREEDY',
+  },
+  {
+    name: 'TWO POINTERS',
+  },
 ]
 export default tagData

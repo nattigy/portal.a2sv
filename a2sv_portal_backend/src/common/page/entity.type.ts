@@ -1,40 +1,38 @@
 import { createUnionType } from '@nestjs/graphql'
-import { Contest } from '../../contest/entities/contest.entity'
-import { GroupContest } from '../../group-contest/entities/group-contest.entity'
-import { Group } from '../../group/entities/group.entity'
-import { Problem } from '../../problem/entities/problem.entity'
-import { SeasonTopicUserProblem } from '../../season-topic-user-problem/entities/season-topic-user-problem.entity'
-import { SeasonTopicProblem } from '../../season-topic-problem/entities/season-topic-problem.entity'
-import { SeasonTopic } from '../../season-topic/entities/season-topic.entity'
-import { Season } from '../../season/entities/season.entity'
-import { Topic } from '../../topic/entities/topic.entity'
-import { UserContestProblem } from '../../user-contest-problem/entities/user-contest-problem.entity'
-import { UserContest } from '../../user-contest/entities/user-contest.entity'
-import { UserTopic } from '../../user-topic/entities/user-topic.entity'
-import { User } from '../../user/entities/user.entity'
+import { Contest } from '../../app/contest/entities/contest.entity'
+import { Group } from '../../app/group/entities/group.entity'
+import { Problem } from '../../app/problem/entities/problem.entity'
+import { UserGroupSeasonTopicProblem } from '../../app/user-group-season-topic-problem/entities/user-group-season-topic-problem.entity'
+import { SeasonTopicProblem } from '../../app/season-topic-problem/entities/season-topic-problem.entity'
+import { SeasonTopic } from '../../app/season-topic/entities/season-topic.entity'
+import { Season } from '../../app/season/entities/season.entity'
+import { Topic } from '../../app/topic/entities/topic.entity'
+import { UserGroupSeasonContestProblem } from '../../app/user-group-season-contest-problem/entities/user-group-season-contest-problem.entity'
+import { UserGroupSeasonContest } from '../../app/user-group-season-contest/entities/user-group-season-contest.entity'
+import { UserGroupSeasonTopic } from '../../app/user-group-season-topic/entities/user-group-season-topic.entity'
+import { User } from '../../app/user/entities/user.entity'
 
 export const Entity = createUnionType({
   name: 'Entity',
   types: () => [
     Contest,
-    UserContest,
-    UserContestProblem,
-    GroupContest,
+    UserGroupSeasonContest,
+    UserGroupSeasonContestProblem,
     User,
     Group,
     Topic,
     Season,
     Problem,
-    UserTopic,
+    UserGroupSeasonTopic,
     SeasonTopic,
     SeasonTopicProblem,
-    SeasonTopicUserProblem,
+    UserGroupSeasonTopicProblem,
   ],
   resolveType(value) {
     if (value.email != undefined) {
       return User
     } else if (value.attempts != undefined && value.contestId == undefined) {
-      return SeasonTopicUserProblem
+      return UserGroupSeasonTopicProblem
     } else if (
       value.seasonId != undefined &&
       value.topicId != undefined &&
@@ -54,7 +52,7 @@ export const Entity = createUnionType({
       value.topicId != undefined &&
       value.comfortLevel != undefined
     ) {
-      return UserTopic
+      return UserGroupSeasonTopic
     } else if (value.title != undefined && value.difficulty != undefined) {
       return Problem
     } else if (value.seasonType != undefined) {
@@ -73,7 +71,7 @@ export const Entity = createUnionType({
     } else if (value.country != undefined && value.name != undefined) {
       return Group
     } else if (value.contestAttended != undefined) {
-      return UserContest
+      return UserGroupSeasonContest
     } else {
       return null
     }

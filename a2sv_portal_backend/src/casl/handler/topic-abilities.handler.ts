@@ -1,5 +1,5 @@
-import { Action } from '../../auth/action.enum'
-import { Topic } from '../../topic/entities/topic.entity'
+import { Action } from '../../app/auth/action.enum'
+import { Topic } from '../../app/topic/entities/topic.entity'
 import { AppAbility } from '../casl-ability.factory'
 
 export class TopicAbilities {

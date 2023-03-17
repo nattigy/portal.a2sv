@@ -1,8 +1,10 @@
+import { ProblemDifficultyTypeEnum } from '@prisma/client'
+
 const problemData = [
   {
     title: 'Two Sum',
     link: 'https://leetcode.com/problems/two-sum/',
-    difficulty: 'EASY',
+    difficulty: ProblemDifficultyTypeEnum.EASY,
     platform: 'LEETCODE',
     tags: [
       {
@@ -13,8 +15,8 @@ const problemData = [
   {
     title: 'Reverse Integer',
     link: 'https://leetcode.com/problems/reverse-integer/',
-    difficulty: 'MEDIUM',
-    platform: 'LEETCODE',
+    difficulty: ProblemDifficultyTypeEnum.MEDIUM,
+    platform: 'GeeksForGeeks',
     tags: [
       {
         name: 'ARRAY',
@@ -24,7 +26,7 @@ const problemData = [
   {
     title: 'Valid Soduku',
     link: 'https://leetcode.com/problems/valid-sudoku/',
-    difficulty: 'HARD',
+    difficulty: ProblemDifficultyTypeEnum.HARD,
     platform: 'LEETCODE',
     tags: [
       {
@@ -32,5 +34,38 @@ const problemData = [
       },
     ],
   },
+  {
+    title: 'Adding elements',
+    link: 'https://leetcode.com/problems/adding-elements/',
+    difficulty: ProblemDifficultyTypeEnum.EASY,
+    platform: 'LEETCODE',
+    tags: [
+      {
+        name: 'Number',
+      },
+    ],
+  },
+  {
+    title: 'Guess a number',
+    link: 'https://leetcode.com/problems/guess-number/',
+    difficulty: ProblemDifficultyTypeEnum.MEDIUM,
+    platform: 'LEETCODE',
+    tags: [
+      {
+        name: 'BFS',
+      },
+    ],
+  },
+  {
+    title: 'Sort values',
+    link: 'https://leetcode.com/problems/sort-values/',
+    difficulty: ProblemDifficultyTypeEnum.HARD,
+    platform: 'GeeksForGeeks',
+    tags: [
+      {
+        name: 'Sorting',
+      },
+    ],
+  }
 ]
 export default problemData

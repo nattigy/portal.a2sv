@@ -3,33 +3,54 @@ import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { GraphQLISODateTime, GraphQLModule } from '@nestjs/graphql'
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core'
-import { join } from 'path'
 import { AppResolver } from './app.resolver'
 import { AppService } from './app.service'
-import { AuthModule } from './auth/auth.module'
+import { AuthModule } from './app/auth/auth.module'
 import { CaslModule } from './casl/casl.module'
-import { ContestModule } from './contest/contest.module'
-import { GroupContestModule } from './group-contest/group-contest.module'
-import { GroupsModule } from './group/groups.module'
-import { ProblemModule } from './problem/problem.module'
-import { RolesModule } from './roles/roles.module'
-import { SeasonTopicUserProblemModule } from './season-topic-user-problem/season-topic-user-problem.module'
-import { SeasonTopicProblemModule } from './season-topic-problem/season-topic-problem.module'
-import { SeasonTopicModule } from './season-topic/season-topic.module'
-import { SeasonModule } from './season/season.module'
-import { TagModule } from './tag/tag.module'
-import { TopicModule } from './topic/topic.module'
-import { UserContestProblemModule } from './user-contest-problem/user-contest-problem.module'
-import { UserContestModule } from './user-contest/user-contest.module'
-import { UserProfileModule } from './user-profile/user-profile.module'
-import { UserTopicModule } from './user-topic/user-topic.module'
-import { UserModule } from './user/user.module'
+import { ProblemModule } from './app/problem/problem.module'
+import { TagModule } from './app/tag/tag.module'
+import { TopicModule } from './app/topic/topic.module'
+import { UserProfileModule } from './app/user-profile/user-profile.module'
 import { PrismaModule } from './prisma/prisma.module'
-import { DataAnalyticsModule } from './data-analytics/data-analytics.module'
 import { ScheduleModule } from '@nestjs/schedule'
+import { MailModule } from './mail/mail.module'
+import { MailerModule } from '@nestjs-modules/mailer'
+import { join } from 'path'
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter'
+import { StorageModule } from './storage/storage.module'
+import { UsersUpdateTopicComfortabilityModule } from './services/users-update-topic-comfortability/users-update-topic-comfortability.module'
+import { UsersUpdateProblemStatusModule } from './services/users-update-topic-problem-status/users-update-problem-status.module'
+import { UserGroupSeasonDataAnalyticsModule } from './app/user-group-season-data-analytics/user-group-season-data-analytics.module'
+import { ManageGroupSeasonsModule } from './services/manage-group-seasons/manage-group-seasons.module'
+import { ManageUserGroupSeasonsModule } from './services/manage-user-group-seasons/manage-user-group-seasons.module'
+import { UserModule } from './app/user/user.module'
+import { GroupModule } from './app/group/group.module'
+import { SeasonModule } from './app/season/season.module'
+import { ContestModule } from './app/contest/contest.module'
+import { ManageGroupsModule } from './services/manage-groups/manage-groups.module'
+import { ManageSeasonsModule } from './services/manage-seasons/manage-seasons.module'
+import { ManageSeasonTopicsModule } from './services/manage-season-topics/manage-season-topics.module'
+import { SeasonTopicResourceModule } from './app/season-topic-resource/season-topic-resource.module'
+import { ManageContestsModule } from './services/manage-contests/manage-contests.module'
+import { ManageGroupSeasonContestModule } from './services/manage-group-season-contest/manage-group-season-contest.module'
+import { UserUpdateContestProblemModule } from './services/user-update-contest-problem-status/user-update-contest-problem.module'
 
 @Module({
   imports: [
+    MailerModule.forRoot({
+      transport: {
+        host: 'smtp.socketlabs.com',
+        secure: false,
+        auth: {
+          user: process.env.SOCKET_LABS_USER_NAME,
+          pass: process.env.SOCKET_LABS_PASSWORD,
+        },
+      },
+      template: {
+        dir: join(__dirname, '../mail/template'),
+        adapter: new HandlebarsAdapter(),
+      },
+    }),
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -42,39 +63,48 @@ import { ScheduleModule } from '@nestjs/schedule'
         res,
       }),
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
       playground: false,
+
+      debug: true,
+      introspection: true,
+      autoSchemaFile: true,
+
       plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],
       subscriptions: {
         'graphql-ws': true,
         'subscriptions-transport-ws': true,
       },
-      introspection: true,
       resolvers: { DateTime: GraphQLISODateTime },
     }),
+    MailModule,
     AuthModule,
     PrismaModule,
     CaslModule,
-    GroupsModule,
-    RolesModule,
-    UserModule,
-    SeasonModule,
     TagModule,
+    ContestModule,
+    SeasonTopicResourceModule,
     ProblemModule,
     TopicModule,
+    UserModule,
+    SeasonModule,
+    GroupModule,
     UserProfileModule,
-    UserTopicModule,
-    SeasonTopicModule,
-    SeasonTopicProblemModule,
-    SeasonTopicUserProblemModule,
-    ContestModule,
-    UserContestModule,
-    UserContestProblemModule,
-    GroupContestModule,
     PrismaModule,
-    CaslModule,
-    DataAnalyticsModule,
+    UsersUpdateProblemStatusModule,
+    StorageModule,
+    ManageGroupsModule,
+    ManageSeasonsModule,
+    ManageSeasonTopicsModule,
+    UsersUpdateTopicComfortabilityModule,
+    UserGroupSeasonDataAnalyticsModule,
+    ManageGroupSeasonsModule,
+    ManageUserGroupSeasonsModule,
+    ManageContestsModule,
+    ManageGroupSeasonContestModule,
+    UserUpdateContestProblemModule,
+    // ContestStatsModule,
+    // ContestLeaderboardModule,
   ],
   providers: [AppService, AppResolver],
 })

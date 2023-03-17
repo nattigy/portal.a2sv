@@ -1,20 +1,19 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
-import { GroupContest } from '../../group-contest/entities/group-contest.entity'
-import { GroupStatResponse } from '../../group/dto/group-stat-response'
-// import { Entity } from './entity.type'
-import { UserContest } from '../../user-contest/entities/user-contest.entity'
-import { User } from '../../user/entities/user.entity'
-import { Season } from '../../season/entities/season.entity'
-import { Topic } from '../../topic/entities/topic.entity'
-import { Contest } from '../../contest/entities/contest.entity'
-import { Problem } from '../../problem/entities/problem.entity'
-import { Group } from '../../group/entities/group.entity'
-import { SeasonTopic } from '../../season-topic/entities/season-topic.entity'
-import { SeasonTopicProblem } from '../../season-topic-problem/entities/season-topic-problem.entity'
-import { SeasonTopicUserProblem } from '../../season-topic-user-problem/entities/season-topic-user-problem.entity'
-import { UserContestProblem } from '../../user-contest-problem/entities/user-contest-problem.entity'
-import { UserProfile } from '../../user-profile/entities/user-profile.entity'
-import { UserTopic } from '../../user-topic/entities/user-topic.entity'
+import { UserGroupSeasonContest } from '../../app/user-group-season-contest/entities/user-group-season-contest.entity'
+import { User } from '../../app/user/entities/user.entity'
+import { Season } from '../../app/season/entities/season.entity'
+import { Topic } from '../../app/topic/entities/topic.entity'
+import { Contest } from '../../app/contest/entities/contest.entity'
+import { Problem } from '../../app/problem/entities/problem.entity'
+import { Group } from '../../app/group/entities/group.entity'
+import { SeasonTopic } from '../../app/season-topic/entities/season-topic.entity'
+import { SeasonTopicProblem } from '../../app/season-topic-problem/entities/season-topic-problem.entity'
+import { UserGroupSeasonTopicProblem } from '../../app/user-group-season-topic-problem/entities/user-group-season-topic-problem.entity'
+import { UserGroupSeasonContestProblem } from '../../app/user-group-season-contest-problem/entities/user-group-season-contest-problem.entity'
+import { UserProfile } from '../../app/user-profile/entities/user-profile.entity'
+import { UserGroupSeasonTopic } from '../../app/user-group-season-topic/entities/user-group-season-topic.entity'
+import { GroupSeason } from '../../app/group-season/entities/group-season.entity'
+import { GroupSeasonContest } from '../../app/group-season-contest/entities/group-season-contest.entity'
 
 @ObjectType()
 export class PaginationInfo {
@@ -29,18 +28,9 @@ export class PaginationInfo {
 }
 
 @ObjectType()
-export class PaginationGroupContests {
-  @Field(() => [GroupContest])
-  items: GroupContest[]
-
-  @Field(() => PaginationInfo)
-  pageInfo: PaginationInfo
-}
-
-@ObjectType()
-export class PaginationUserContests {
-  @Field(() => [UserContest])
-  items: UserContest[]
+export class PaginationUserGroupSeasonContests {
+  @Field(() => [UserGroupSeasonContest])
+  items: UserGroupSeasonContest[]
 
   @Field(() => PaginationInfo)
   pageInfo: PaginationInfo
@@ -56,9 +46,9 @@ export class PaginationUser {
 }
 
 @ObjectType()
-export class PaginationUserTopic {
-  @Field(() => [UserTopic])
-  items: UserTopic[]
+export class PaginationUserGroupSeasonTopic {
+  @Field(() => [UserGroupSeasonTopic])
+  items: UserGroupSeasonTopic[]
 
   @Field(() => PaginationInfo)
   pageInfo: PaginationInfo
@@ -101,9 +91,9 @@ export class PaginationSeasonTopicProblem {
 }
 
 @ObjectType()
-export class PaginationSeasonTopicProblemUser {
-  @Field(() => [SeasonTopicUserProblem])
-  items: SeasonTopicUserProblem[]
+export class PaginationUserGroupSeasonTopicProblem {
+  @Field(() => [UserGroupSeasonTopicProblem])
+  items: UserGroupSeasonTopicProblem[]
 
   @Field(() => PaginationInfo)
   pageInfo: PaginationInfo
@@ -128,18 +118,18 @@ export class PaginationContest {
 }
 
 @ObjectType()
-export class PaginationUserContest {
-  @Field(() => [UserContest])
-  items: UserContest[]
+export class PaginationUserGroupSeasonContest {
+  @Field(() => [UserGroupSeasonContest])
+  items: UserGroupSeasonContest[]
 
   @Field(() => PaginationInfo)
   pageInfo: PaginationInfo
 }
 
 @ObjectType()
-export class PaginationUserContestProblem {
-  @Field(() => [UserContestProblem])
-  items: UserContestProblem[]
+export class PaginationUserGroupSeasonContestProblem {
+  @Field(() => [UserGroupSeasonContestProblem])
+  items: UserGroupSeasonContestProblem[]
 
   @Field(() => PaginationInfo)
   pageInfo: PaginationInfo
@@ -164,22 +154,31 @@ export class PaginationGroup {
 }
 
 @ObjectType()
-export class PaginationGroupContest {
-  @Field(() => [GroupContest])
-  items: GroupContest[]
+export class PaginationGroupSeason {
+  @Field(() => [GroupSeason])
+  items: GroupSeason[]
 
   @Field(() => PaginationInfo)
   pageInfo: PaginationInfo
 }
 
 @ObjectType()
-export class GroupStatResponsePage<T> {
-  @Field(() => [GroupStatResponse])
-  items: T[]
+export class PaginationGroupSeasonContest {
+  @Field(() => [GroupSeasonContest])
+  items: GroupSeasonContest[]
 
   @Field(() => PaginationInfo)
   pageInfo: PaginationInfo
 }
+
+// @ObjectType()
+// export class GroupStatResponsePage<T> {
+//   @Field(() => [GroupStatResponse])
+//   items: T[]
+//
+//   @Field(() => PaginationInfo)
+//   pageInfo: PaginationInfo
+// }
 
 // @ObjectType()
 // export class PaginationOutput<T> {
